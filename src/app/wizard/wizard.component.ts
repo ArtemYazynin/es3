@@ -22,7 +22,15 @@ export class WizardComponent implements OnInit {
     "firstname": "",
     "middlename": "",
     "snils": "",
-
+    "series": "",
+    "number":"",
+    "issued":"",
+    "dateIssue":"",
+    "dateExpired":"",
+    "issueDepartmentCode":"",
+    "actRecordNumber":"",
+    "actRecordDate":"",
+    "actRecordPlace":""
   };
   // Объект с сообщениями ошибок
   private fioValidationObj: object = {
@@ -37,6 +45,37 @@ export class WizardComponent implements OnInit {
     "snils": {
         "required": "Обязательное поле.",
         "pattern": "Значение должно состоять из целых чисел вида 123-456-789 00"
+    },
+    "series":{
+      "required": "Обязательное поле."
+    },
+    "number":{
+      "required": "Обязательное поле."
+    },
+
+    "issued":{
+      "required": "Обязательное поле."
+    },
+    "dateIssue":{
+      "required": "Обязательное поле."
+    },
+    "dateExpired":{
+      "required": "Обязательное поле."
+    },
+    "issueDepartmentCode":{
+      "required": "Обязательное поле.",
+      "pattern": "Формат 000-000"
+    },
+    "actRecordNumber":{
+      "required": "Обязательное поле.",
+      "maxlength": "Максимальная длина 6 цифр.",
+      "pattern": "Формат 6 цифр"
+    },
+    "actRecordDate":{
+      "required": "Обязательное поле."
+    },
+    "actRecordPlace":{
+      "required": "Обязательное поле."
     }
   };
   constructor(private fb: FormBuilder) { }
@@ -47,7 +86,6 @@ export class WizardComponent implements OnInit {
   }
   private buildForm() {
     let regExpStr: string="^[А-яЁё]+([ -]{1}[А-яЁё]+)*[ ]*$";
-    let snilsPattern: string = "^\\d{3}-\\d{3}-\\d{3}\\s\\d{2}$";
     this.applicantForm = this.fb.group({
       "lastname": [
         this.applicant.representative.lastname,
@@ -84,7 +122,7 @@ export class WizardComponent implements OnInit {
         [
           Validators.required, 
           Validators.maxLength(28),
-          Validators.pattern(snilsPattern)
+          Validators.pattern("^\\d{3}-\\d{3}-\\d{3}\\s\\d{2}$")
         ]
       ],
       "identityCardType": [
@@ -93,17 +131,72 @@ export class WizardComponent implements OnInit {
           Validators.required
         ]
       ],
-      series: ["", Validators.required],
-      number: ["", Validators.required],
-      issued: ["", Validators.required],
-      dateIssue: ["", Validators.required],
-      dateExpired: ["", Validators.required],
-      actRecordNumber: ["", Validators.required],
-      name: ["", Validators.required],
-      issueDepartmentCode: ["", Validators.required],
+      "name": [
+        this.applicant.representative.IdentityCard.name,
+        [
+          Validators.required,
+          Validators.maxLength(400)
+        ]
+      ],
+      "series": [
+        this.applicant.representative.IdentityCard.series, 
+        [
+          Validators.required
+        ]
+      ],
+      "number": [
+        this.applicant.representative.IdentityCard.number, 
+        [
+          Validators.required
+        ]
+      ],
+      "issued": [
+        this.applicant.representative.IdentityCard.issued,
+        [
+          Validators.required,
+          Validators.maxLength(400)
+        ]
+      ],
+      "dateIssue": [
+        this.applicant.representative.IdentityCard.dateIssue, 
+        [
+          Validators.required
+        ]
+      ],
+      "dateExpired": [
+        this.applicant.representative.IdentityCard.dateExpired, 
+        [
+          
+        ]
+      ],
+      "issueDepartmentCode": [
+        this.applicant.representative.IdentityCard.issueDepartmentCode, 
+        [
+          Validators.required,
+          Validators.pattern("^\\d{3}-\\d{3}$")
+        ]
+      ],
+      "actRecordNumber": [
+        this.applicant.representative.IdentityCard.actRecordNumber, 
+        [
+          Validators.required,
+          Validators.maxLength(6),
+          Validators.pattern("^\\d{1,6}$")
+        ]
+      ],
+      "actRecordDate": [
+        this.applicant.representative.IdentityCard.actRecordDate, 
+        [
+          Validators.required
+        ]
+      ],
+      "actRecordPlace": [
+        this.applicant.representative.IdentityCard.actRecordPlace, 
+        [
+          Validators.required
+        ]
+      ],
       isChecked: [""],
-      actRecordDate: ["", Validators.required],
-      actRecordPlace: ["", Validators.required],
       checkSum: ["", Validators.required],
       citizenship: ["", Validators.required],
       relationType: ["", Validators.required],
