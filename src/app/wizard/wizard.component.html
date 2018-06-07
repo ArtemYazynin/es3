@@ -24,7 +24,7 @@
                     {{ formErrors.firstname }}
                   </div>
                 </div>
-                <div class="form-group" *ngIf="applicantForm.get('hasMiddlename').value">
+                <div class="form-group" *ngIf="!applicantForm.get('noMiddlename').value">
                   <label for="middlename">Отчество</label>
                   <input id="middlename" type="text" class="form-control" formControlName="middlename">
                   <div *ngIf="formErrors.middlename" class="alert alert-danger">
@@ -36,7 +36,7 @@
                   <div class="controls">
                     <div class="checkbox">
                       <label>
-                        <input type="checkbox" id="hasMiddlename" name="hasMiddlename" formControlName="hasMiddlename">Есть отчество
+                        <input type="checkbox" id="noMiddlename" name="hasMiddlenoMiddlenamename" formControlName="noMiddlename">Нет отчества
                       </label>
                     </div>
                   </div>

@@ -1,7 +1,7 @@
 import { Representative } from "./representative";
 
 export class Applicant {
-    public hasMiddlename: boolean;
+    public noMiddlename: boolean;
     public snils: string;
     public familyRelationship: string;
     public representative: Representative;
@@ -9,7 +9,7 @@ export class Applicant {
 
     constructor(){
         this.representative = new Representative();
-        this.hasMiddlename = false;
+        this.noMiddlename = false;
         this.agree = false;
     }
 }

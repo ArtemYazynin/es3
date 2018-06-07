@@ -16,7 +16,7 @@ import { Subscription } from 'rxjs/Subscription';
   styleUrls: ['./wizard.component.css']
 })
 export class WizardComponent implements OnInit {
-  private hasMiddlenameSubscription: Subscription;
+  private noMiddlenameSubscription: Subscription;
   private fioRegExp: string = "^[А-яЁё]+([ -]{1}[А-яЁё]+)*[ ]*$";
 
   applicantForm: FormGroup;
@@ -57,7 +57,7 @@ export class WizardComponent implements OnInit {
   identityCardComponent: IdentityCardComponent;
 
   private subscribeToMiddlename(): void {
-    let toggleMiddlenameValidators = hasMiddlename => {
+    let toggleMiddlenameValidators = noMiddlename => {
       const middlename = this.applicantForm.get('middlename');
         /** Массив валидаторов */
         const middlenameValidators: ValidatorFn[] = [
@@ -67,20 +67,19 @@ export class WizardComponent implements OnInit {
         ];
 
         /** если есть отчество, добавляет валидаторы, если нет, очищает */
-        if (hasMiddlename) {
-          middlename.setValidators(middlenameValidators);
-        } else {
-          middlename.clearValidators();
+        middlename.clearValidators();
+        if (!noMiddlename) {
+          middlename.setValidators(middlenameValidators);     
         }
         /** Обновляем состояние контрола */
         middlename.updateValueAndValidity();
     }
-    this.hasMiddlenameSubscription = this.applicantForm.get('hasMiddlename')
+    this.noMiddlenameSubscription = this.applicantForm.get('noMiddlename')
       .valueChanges
       .subscribe(value => toggleMiddlenameValidators(value));
   }
   ngOnDestroy() {
-    this.hasMiddlenameSubscription.unsubscribe();
+    this.noMiddlenameSubscription.unsubscribe();
   }
 
   isValid = {
@@ -98,6 +97,7 @@ export class WizardComponent implements OnInit {
     /** begin временно, удалить в будущем */
     this.applicant.representative.lastname = "ластнейм";
     this.applicant.representative.firstname = "фёстнейм";
+    this.applicant.representative.middlename = "миддлнейм";
     this.applicant.representative.citizenship = this.countries[1].id.toString();
     this.applicant.snils = "222-222-222 43";
     /** end */
@@ -123,10 +123,14 @@ export class WizardComponent implements OnInit {
         ]
       ],
       "middlename": [
-        this.applicant.representative.middlename, []
+        this.applicant.representative.middlename, [
+          Validators.required,
+          Validators.maxLength(50),
+          Validators.pattern(this.fioRegExp)
+        ]
       ],
-      "hasMiddlename": [
-        this.applicant.hasMiddlename, []
+      "noMiddlename": [
+        this.applicant.noMiddlename, []
       ],
       "snils": [
         this.applicant.snils,
