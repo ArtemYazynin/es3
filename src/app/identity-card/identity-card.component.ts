@@ -47,6 +47,7 @@ export class IdentityCardComponent implements OnInit {
     "actRecordNumber":{
       "required": "Обязательное поле.",
       "maxlength": "Максимальная длина 6 цифр.",
+      "minlength": "Минимальная длина 6 цифр.",
       "pattern": "Формат 6 цифр"
     },
     "actRecordDate":{
@@ -59,6 +60,17 @@ export class IdentityCardComponent implements OnInit {
   constructor(private fb: FormBuilder) { }
 
   ngOnInit() {
+    this.identityCard.actRecordDate = new Date();
+    this.identityCard.actRecordNumber = "222222";
+    this.identityCard.actRecordPlace = "ddvdv";
+    this.identityCard.dateExpired = new Date();
+    this.identityCard.dateIssue = new Date();
+    this.identityCard.issued = "dvdvd";
+    this.identityCard.issueDepartmentCode ="000-000";
+    this.identityCard.name = "vdvdvdv";
+    this.identityCard.number = "dvdvdvdv";
+    this.identityCard.series = "ascascsac";
+
     this.identityCard.identityCardType = IdentityCardType["Паспорт РФ"];
     this.buildForm();
   }
@@ -121,6 +133,7 @@ export class IdentityCardComponent implements OnInit {
         [
           Validators.required,
           Validators.maxLength(6),
+          Validators.minLength(6),
           Validators.pattern("^\\d{1,6}$")
         ]
       ],
@@ -136,11 +149,6 @@ export class IdentityCardComponent implements OnInit {
           Validators.required
         ]
       ],
-      isChecked: [""],
-      checkSum: ["", Validators.required],
-      citizenship: ["", Validators.required],
-      relationType: ["", Validators.required],
-      agree: ["", Validators.required]
     });
     this.identityCardForm.valueChanges
             .subscribe(data => this.onValueChange(data));

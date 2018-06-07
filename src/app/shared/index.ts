@@ -1,7 +1,13 @@
 export * from "./guid";
 
-export * from "./countries";
+//enums
 export * from "./identityCardType";
+//
+
+//json
+export * from "./countries";
+export * from "./relation-types";
+//
 
 export * from "./identityCard";
 export * from "./client";
