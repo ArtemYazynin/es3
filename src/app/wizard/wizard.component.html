@@ -4,13 +4,12 @@
       <h5>Заявитель</h5>
     </div>
     <div class="widget-content">
-      
+      <form [formGroup]="applicantForm" (ngSubmit)="onSubmit(applicantForm)">
       <div class="row">
         <div class="col-md-6">
           <div class="widget-box">
               <div class="widget-content">
                 <h4>ФИО</h4>
-                <form [formGroup]="applicantForm" (ngSubmit)="onSubmit(applicantForm)">
                   <div class="form-group">
                     <label for="lastname">Фамилия</label>
                     <input id="lastname" type="text" class="form-control" formControlName="lastname">
@@ -51,13 +50,14 @@
                     </div>
                   </div>
                   <div>
-                    <span>applicant.representative.lastname: {{applicantForm.value.lastname}}</span><br>
-                    <span>applicant.representative.firstname: {{applicantForm.value.firstname}}</span><br>
-                    <span>applicant.representative.middlename: {{applicantForm.value.middlename}}</span><br>
+                    <span>applicant.representative.lastname: <b>{{applicantForm.value.lastname}}</b></span><br>
+                    <span>applicant.representative.firstname: <b>{{applicantForm.value.firstname}}</b></span><br>
+                    <span>applicant.representative.middlename: <b>{{applicantForm.value.middlename}}</b></span><br>
                     <span>applicant.hasMiddlename: {{applicantForm.value.hasMiddlename}}</span><br>
                     <span>applicant.snils: {{applicantForm.value.snils}}</span><br>
+                    <span>applicant.citizenship: {{applicantForm.value.citizenship}}</span><br>
                   </div>
-              </form>                 
+                           
               </div>
             </div>
         </div>
@@ -66,8 +66,23 @@
         </div>
       </div>
       <div class="row">
-
+        <div class="col-md-12">
+          <div class="widget-box">
+            <div class="widget-content">
+                <div class="form-group">
+                    <label for="citizenship">Гражданство <b style="color: red;">*</b></label>
+                    <select id="citizenship" class="form-control" formControlName="citizenship">
+                      <option value="" selected>Не выбрано</option>
+                      <option *ngFor="let item of countries" [value]="item.id">
+                        {{item.name}}
+                      </option>
+                    </select>
+                  </div>
+            </div>
+          </div>
+        </div>
       </div>
+    </form>
     </div>
  </div>  
 </div>

@@ -3,7 +3,8 @@ import { FormControl, FormGroup, Validators, FormBuilder } from "@angular/forms"
 import {
   Applicant,
   IdentityCardType,
-  IdentityCard
+  IdentityCard,
+  Countries
 } from "../shared/index";
 
 @Component({
@@ -14,13 +15,14 @@ import {
 export class WizardComponent implements OnInit {
   applicantForm: FormGroup;
   applicant: Applicant = new Applicant();
-  
+  countries = Countries;
   // Объект с ошибками, которые будут выведены в пользовательском интерфейсе
   formErrors = {
     "lastname": "",
     "firstname": "",
     "middlename": "",
-    "snils": ""
+    "snils": "",
+    "citizenship":""
   };
   // Объект с сообщениями ошибок
   private fioValidationObj: object = {
@@ -35,12 +37,16 @@ export class WizardComponent implements OnInit {
     "snils": {
         "required": "Обязательное поле.",
         "pattern": "Значение должно состоять из целых чисел вида 123-456-789 00"
+    },
+    "citizenship":{
+      "required": "Обязательное поле.",
     }
   };
   constructor(private fb: FormBuilder) { }
 
   ngOnInit() {
     this.applicant.representative.IdentityCard.identityCardType = IdentityCardType["Паспорт РФ"];
+    this.applicant.representative.citizenship = "";
     this.buildForm();
   }
   private buildForm() {
@@ -84,9 +90,14 @@ export class WizardComponent implements OnInit {
           Validators.pattern("^\\d{3}-\\d{3}-\\d{3}\\s\\d{2}$")
         ]
       ],
+      "citizenship": [
+        this.applicant.representative.citizenship, 
+        [
+          Validators.required
+        ]
+      ],
       isChecked: [""],
-      checkSum: ["", Validators.required],
-      citizenship: ["", Validators.required],
+      checkSum: ["", Validators.required],     
       relationType: ["", Validators.required],
       agree: ["", Validators.required]
     });
