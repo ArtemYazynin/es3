@@ -9,6 +9,7 @@ import { AppComponent } from './app.component';
 import { WizardComponent } from './wizard/wizard.component';
 import { EnumToArrayPipe } from './shared/enum-to-array-pipe';
 import { IdentityCardTypeFriendlyNamePipe } from './shared/identity-card-type-friendly-name.pipe';
+import { IdentityCardComponent } from './identity-card/identity-card.component';
 
 
 @NgModule({
@@ -16,7 +17,8 @@ import { IdentityCardTypeFriendlyNamePipe } from './shared/identity-card-type-fr
     AppComponent,
     WizardComponent,
     EnumToArrayPipe,
-    IdentityCardTypeFriendlyNamePipe
+    IdentityCardTypeFriendlyNamePipe,
+    IdentityCardComponent
   ],
   imports: [
     BrowserModule,

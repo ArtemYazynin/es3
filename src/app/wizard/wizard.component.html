@@ -4,161 +4,70 @@
       <h5>Заявитель</h5>
     </div>
     <div class="widget-content">
-      <form [formGroup]="applicantForm" (ngSubmit)="onSubmit(applicantForm)">
+      
       <div class="row">
         <div class="col-md-6">
           <div class="widget-box">
               <div class="widget-content">
                 <h4>ФИО</h4>
-                <div class="form-group">
-                  <label for="lastname">Фамилия</label>
-                  <input id="lastname" type="text" class="form-control" formControlName="lastname">
-                  <div *ngIf="formErrors.lastname" class="alert alert-danger">
-                    {{ formErrors.lastname }}
-                  </div>
-                </div>
-                <div class="form-group">
-                  <label for="firstname">Имя</label>
-                  <input id="firstname" type="text" class="form-control" formControlName="firstname">
-                  <div *ngIf="formErrors.firstname" class="alert alert-danger">
-                    {{ formErrors.firstname }}
-                  </div>
-                </div>
-                <div class="form-group" *ngIf="applicantForm.get('hasMiddlename').value">
-                  <label for="middlename">Отчество</label>
-                  <input id="middlename" type="text" class="form-control" formControlName="middlename">
-                  <div *ngIf="formErrors.middlename" class="alert alert-danger">
-                    {{ formErrors.middlename }}
-                  </div>
-                </div>
-                <div class="form-group">
-                  <label class="control-label"></label>
-                  <div class="controls">
-                    <div class="checkbox">
-                      <label>
-                        <input type="checkbox" id="hasMiddlename" name="hasMiddlename" formControlName="hasMiddlename">Есть отчество
-                      </label>
+                <form [formGroup]="applicantForm" (ngSubmit)="onSubmit(applicantForm)">
+                  <div class="form-group">
+                    <label for="lastname">Фамилия</label>
+                    <input id="lastname" type="text" class="form-control" formControlName="lastname">
+                    <div *ngIf="formErrors.lastname" class="alert alert-danger">
+                      {{ formErrors.lastname }}
                     </div>
                   </div>
-                </div>
-                <div class="form-group">
-                  <label for="snils">СНИЛС</label>
-                  <input type="text" id="snils" class="form-control" formControlName="snils" 
-                      placeholder="___-___-___ __">
-                  <div *ngIf="formErrors.snils" class="alert alert-danger">
-                    {{ formErrors.snils }}
+                  <div class="form-group">
+                    <label for="firstname">Имя</label>
+                    <input id="firstname" type="text" class="form-control" formControlName="firstname">
+                    <div *ngIf="formErrors.firstname" class="alert alert-danger">
+                      {{ formErrors.firstname }}
+                    </div>
                   </div>
-                </div>
-                <div>
-                  <span>applicant.representative.lastname: {{applicantForm.value.lastname}}</span><br>
-                  <span>applicant.representative.firstname: {{applicantForm.value.firstname}}</span><br>
-                  <span>applicant.representative.middlename: {{applicantForm.value.middlename}}</span><br>
-                  <span>applicant.hasMiddlename: {{applicantForm.value.hasMiddlename}}</span><br>
-                  <span>applicant.snils: {{applicantForm.value.snils}}</span><br>
-                </div>                 
+                  <div class="form-group" *ngIf="applicantForm.get('hasMiddlename').value">
+                    <label for="middlename">Отчество</label>
+                    <input id="middlename" type="text" class="form-control" formControlName="middlename">
+                    <div *ngIf="formErrors.middlename" class="alert alert-danger">
+                      {{ formErrors.middlename }}
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label class="control-label"></label>
+                    <div class="controls">
+                      <div class="checkbox">
+                        <label>
+                          <input type="checkbox" id="hasMiddlename" name="hasMiddlename" formControlName="hasMiddlename">Есть отчество
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label for="snils">СНИЛС</label>
+                    <input type="text" id="snils" class="form-control" formControlName="snils" 
+                        placeholder="___-___-___ __">
+                    <div *ngIf="formErrors.snils" class="alert alert-danger">
+                      {{ formErrors.snils }}
+                    </div>
+                  </div>
+                  <div>
+                    <span>applicant.representative.lastname: {{applicantForm.value.lastname}}</span><br>
+                    <span>applicant.representative.firstname: {{applicantForm.value.firstname}}</span><br>
+                    <span>applicant.representative.middlename: {{applicantForm.value.middlename}}</span><br>
+                    <span>applicant.hasMiddlename: {{applicantForm.value.hasMiddlename}}</span><br>
+                    <span>applicant.snils: {{applicantForm.value.snils}}</span><br>
+                  </div>
+              </form>                 
               </div>
             </div>
         </div>
         <div class="col-md-6">
-          <div class="widget-box">
-            <div class="widget-content">
-              <h4>Удостоверение личности</h4>
-              <div class="form-group">
-                <label for="identityCardType">Тип документа</label>
-                <select id="identityCardType" class="form-control" formControlName="identityCardType">
-                  <option *ngFor="let item of identityCardTypeEnum.values() | enumToArray" [value]="item.id">
-                    {{item.name}}
-                  </option>
-                </select>
-              </div>
-              <div class="form-group">
-                  <label for="name">Название</label>
-                  <input type="text" id="name" class="form-control" formControlName="name">
-                  <div *ngIf="formErrors.name" class="alert alert-danger">
-                      {{ formErrors.name }}
-                  </div>
-                </div>
-              <div class="form-group">
-                <label for="series">Серия</label>
-                <input type="text" id="series" class="form-control" formControlName="series">
-                <div *ngIf="formErrors.series" class="alert alert-danger">
-                    {{ formErrors.series }}
-                  </div>
-              </div>
-              <div class="form-group">
-                  <label for="number">Номер</label>
-                  <input type="text" id="number" class="form-control" formControlName="number">
-                  <div *ngIf="formErrors.number" class="alert alert-danger">
-                      {{ formErrors.number }}
-                  </div>
-              </div>
-              <div class="form-group">
-                  <label for="issued">Выдан</label>
-                  <input type="text" id="issued" class="form-control" formControlName="issued">
-                  <div *ngIf="formErrors.issued" class="alert alert-danger">
-                      {{ formErrors.issued }}
-                  </div>
-              </div>
-              <div class="form-group">
-                  <label for="dateIssue">Дата выдачи</label>
-                  <input type="date" id="dateIssue" class="form-control" formControlName="dateIssue">
-                  <div *ngIf="formErrors.dateIssue" class="alert alert-danger">
-                      {{ formErrors.dateIssue }}
-                  </div>
-              </div>
-              <div class="form-group">
-                  <label for="dateExpired">Действительно до</label>
-                  <input type="date" id="dateExpired" class="form-control" formControlName="dateExpired">
-                  <div *ngIf="formErrors.dateExpired" class="alert alert-danger">
-                      {{ formErrors.dateExpired }}
-                  </div>
-              </div>
-              <div class="form-group">
-                  <label for="issueDepartmentCode">Код подразделения</label>
-                  <input type="text" id="issueDepartmentCode" class="form-control" formControlName="issueDepartmentCode">
-                  <div *ngIf="formErrors.issueDepartmentCode" class="alert alert-danger">
-                      {{ formErrors.issueDepartmentCode }}
-                  </div>
-              </div>
-              <div class="form-group">
-                  <label for="actRecordNumber">Номер актовой записи</label>
-                  <input type="text" id="actRecordNumber" class="form-control" formControlName="actRecordNumber">
-                  <div *ngIf="formErrors.actRecordNumber" class="alert alert-danger">
-                      {{ formErrors.actRecordNumber }}
-                  </div>
-              </div>
-              <div class="form-group">
-                  <label for="actRecordDate">Дата создания актовой записи</label>
-                  <input type="date" id="actRecordDate" class="form-control" formControlName="actRecordDate">
-                  <div *ngIf="formErrors.actRecordDate" class="alert alert-danger">
-                      {{ formErrors.actRecordDate }}
-                  </div>
-              </div>
-              <div class="form-group">
-                  <label for="actRecordPlace">Место гос регистрации (отдел ЗАГС)</label>
-                  <input type="text" id="actRecordPlace" class="form-control" formControlName="actRecordPlace">
-                  <div *ngIf="formErrors.actRecordPlace" class="alert alert-danger">
-                      {{ formErrors.actRecordPlace }}
-                  </div>
-              </div>
-              <div>
-                <span>applicant.representative.IdentityCard.identityCardType: {{applicantForm.value.identityCardType}}</span><br>
-                <span>applicant.representative.IdentityCard.name: {{applicantForm.value.name}}</span><br>
-                <span>applicant.representative.IdentityCard.series: {{applicantForm.value.series}}</span><br>
-                <span>applicant.representative.IdentityCard.number: {{applicantForm.value.number}}</span><br>
-                <span>applicant.representative.IdentityCard.issued: {{applicantForm.value.issued}}</span><br>
-                <span>applicant.representative.IdentityCard.dateIssue: {{applicantForm.value.dateIssue}}</span><br>
-                <span>applicant.representative.IdentityCard.dateExpired: {{applicantForm.value.dateExpired}}</span><br>
-                <span>applicant.representative.IdentityCard.issueDepartmentCode: {{applicantForm.value.issueDepartmentCode}}</span><br>
-                <span>applicant.representative.IdentityCard.actRecordNumber: {{applicantForm.value.actRecordNumber}}</span><br>
-                <span>applicant.representative.IdentityCard.actRecordDate: {{applicantForm.value.actRecordDate}}</span><br>
-                <span>applicant.representative.IdentityCard.actRecordPlace: {{applicantForm.value.actRecordPlace}}</span><br>
-              </div>
-            </div>
-          </div>
+          <identity-card></identity-card>
         </div>
       </div>
-    </form>
+      <div class="row">
+
+      </div>
     </div>
  </div>  
 </div>
