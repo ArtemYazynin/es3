@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ConfirmationDocument } from '../shared/index';
+import { FormService } from '../shared/form.service';
 
 @Component({
   selector: 'app-confirmation-document',
@@ -13,7 +14,7 @@ export class ConfirmationDocumentComponent implements OnInit {
   formErrors = ConfirmationDocument.formErrorsTemplate;
   validationMessages = ConfirmationDocument.validationMessages;
 
-  constructor(private fb: FormBuilder) { }
+  constructor(private fb: FormBuilder, private formService:FormService) { }
 
   ngOnInit() {
     this.buildForm();
@@ -49,21 +50,7 @@ export class ConfirmationDocumentComponent implements OnInit {
     this.onValueChange();
   }
   private onValueChange(data?: any) {
-    if (!this.confirmationDocumentForm) return;
-    let form = this.confirmationDocumentForm;
-    
-    for (let field in this.formErrors) {
-        this.formErrors[field] = "";
-        // form.get - получение элемента управления
-        let control = form.get(field);
-
-        if (control && control.dirty && !control.valid) {
-            let message = this.validationMessages[field];
-            for (let key in control.errors) {
-                this.formErrors[field] += message[key] + " ";
-            }
-        }
-    }
+    this.formService.onValueChange(this.confirmationDocumentForm, this.formErrors, this.validationMessages);
   }
 
 }

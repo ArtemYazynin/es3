@@ -171,21 +171,7 @@ export class WizardComponent implements OnInit {
   }
 
   onValueChange(data?: any) {
-    if (!this.applicantForm) return;
-    let form = this.applicantForm;
-
-    for (let field in this.formErrors) {
-      this.formErrors[field] = "";
-      // form.get - получение элемента управления
-      let control = form.get(field);
-
-      if (control && control.dirty && !control.valid) {
-        let message = this.validationMessages[field];
-        for (let key in control.errors) {
-          this.formErrors[field] += message[key] + " ";
-        }
-      }
-    }
+    this.formService.onValueChange(this.applicantForm, this.formErrors, this.validationMessages);
   }
 
   onSubmit() {
