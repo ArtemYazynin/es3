@@ -2,6 +2,23 @@
   <form [formGroup]="applicantForm" (ngSubmit)="onSubmit(applicantForm)">
     <div class="widget-box">
       <div class="widget-title">
+        <h5>Тип заявителя</h5>
+      </div>
+      <div class="widget-content">
+        <div class="form-group">
+          <label class="control-label"></label>
+          <div class="controls">
+            <div class="radio" *ngFor="let item of applicantTypes">
+              <label>
+                <input type="radio" name="applicantType" [value]="item.id" formControlName="applicantType"> {{item.name}}
+              </label>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="widget-box">
+      <div class="widget-title">
         <h5>Заявитель</h5>
       </div>
       <div class="widget-content">
@@ -49,10 +66,12 @@
                   </div>
                 </div>
                 <div>
-                  <span><b>{{applicantForm.value | json}}</b></span>
+                  <span>
+                    <b>{{applicantForm.value | json}}</b>
+                  </span>
                   <span>applicantForm.status:
-                      <b>{{applicantForm.status | json}}</b>
-                    </span>
+                    <b>{{applicantForm.status | json}}</b>
+                  </span>
                 </div>
 
               </div>
@@ -81,6 +100,12 @@
             </div>
           </div>
         </div>
+        <div class="row" *ngIf="applicantForm.get('citizenship').value">
+          <div class="col-md-12">
+            <app-confirmation-document></app-confirmation-document>
+          </div>
+        </div>
+
         <div class="row">
           <div class="col-md-12">
             <div class="widget-box">
@@ -120,7 +145,8 @@
               </div>
             </div>
             <div class="form-actions" style="text-align: center;">
-              <button class="btn btn-primary" [disabled]="!isValid.applicantStep(applicantForm, identityCardComponent?.identityCardForm)">Далее</button>
+              <button class="btn btn-primary" 
+                [disabled]="!isValid.applicantStep(applicantForm, identityCardComponent?.identityCardForm, confirmationDocumentComponent?.confirmationDocumentForm)">Далее</button>
             </div>
           </div>
         </div>

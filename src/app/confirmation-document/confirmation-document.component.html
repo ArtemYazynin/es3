@@ -1,0 +1,49 @@
+<div class="widget-box">
+  <div class="widget-title">
+    <h5>Документ, подтверждающий право пребывания заявителя на территории РФ</h5>
+  </div>
+  <div class="widget-content">
+    <form [formGroup]="confirmationDocumentForm" >
+      <div class="form-group">
+        <label class="control-label">Название документа
+          <b style="color: red;">*</b>
+        </label>
+        <input type="text" class="form-control" id="name" formControlName="name">
+        <div *ngIf="formErrors.name" class="alert alert-danger">
+            {{ formErrors.name }}
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="control-label">Номер документа
+          <b style="color: red;">*</b>
+        </label>
+        <input type="text" class="form-control" id="number" formControlName="number">
+        <div *ngIf="formErrors.number" class="alert alert-danger">
+            {{ formErrors.number }}
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="control-label">Дата выдачи
+          <b style="color: red;">*</b>
+        </label>
+        <input type="text" class="form-control" id="dateIssue" formControlName="dateIssue">
+        <div *ngIf="formErrors.dateIssue" class="alert alert-danger">
+            {{ formErrors.dateIssue }}
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="control-label">Действителен до
+          <b style="color: red;">*</b>
+        </label>
+        <input type="text" class="form-control" id="dateExpired" formControlName="dateExpired">
+      </div>
+      <div>
+          <span>
+              <b>{{confirmationDocumentForm.value | json}}</b>
+          </span>
+          <br>
+      </div>
+    </form>
+
+  </div>
+</div>

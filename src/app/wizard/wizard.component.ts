@@ -1,14 +1,19 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
+import { MatRadioModule } from '@angular/material/radio';
 import { FormControl, FormGroup, Validators, FormBuilder, ValidatorFn } from "@angular/forms";
 import {
   Applicant,
   IdentityCardType,
   IdentityCard,
   Countries,
-  RelationTypes
+  RelationTypes,
+  ApplicantType
 } from "../shared/index";
 import { IdentityCardComponent } from '../identity-card/identity-card.component';
 import { Subscription } from 'rxjs/Subscription';
+import { ConfirmationDocumentComponent } from '../confirmation-document/confirmation-document.component';
+import { isNullOrUndefined } from 'util';
+import { isEmpty } from 'rxjs/operator/isEmpty';
 
 @Component({
   selector: 'app-wizard',
@@ -23,6 +28,20 @@ export class WizardComponent implements OnInit {
   applicant: Applicant = new Applicant();
   countries = Countries;
   relationTypes = RelationTypes;
+  applicantTypeEnum = ApplicantType;
+
+
+  applicantTypes = (() => {
+    let result: Array<any> = [];
+    let groupOfId = ApplicantType.values();
+    groupOfId.forEach(key => {
+      result.push({
+        id: key,
+        name: ApplicantType[key]
+      });
+    });
+    return result;
+  })()
 
   // Объект с ошибками, которые будут выведены в пользовательском интерфейсе
   formErrors = {
@@ -56,23 +75,26 @@ export class WizardComponent implements OnInit {
   @ViewChild(IdentityCardComponent)
   identityCardComponent: IdentityCardComponent;
 
+  @ViewChild(ConfirmationDocumentComponent)
+  confirmationDocumentComponent: ConfirmationDocumentComponent
+
   private subscribeToMiddlename(): void {
     let toggleMiddlenameValidators = noMiddlename => {
       const middlename = this.applicantForm.get('middlename');
-        /** Массив валидаторов */
-        const middlenameValidators: ValidatorFn[] = [
-          Validators.required,
-          Validators.maxLength(50),
-          Validators.pattern(this.fioRegExp)
-        ];
+      /** Массив валидаторов */
+      const middlenameValidators: ValidatorFn[] = [
+        Validators.required,
+        Validators.maxLength(50),
+        Validators.pattern(this.fioRegExp)
+      ];
 
-        /** если есть отчество, добавляет валидаторы, если нет, очищает */
-        middlename.clearValidators();
-        if (!noMiddlename) {
-          middlename.setValidators(middlenameValidators);     
-        }
-        /** Обновляем состояние контрола */
-        middlename.updateValueAndValidity();
+      /** если есть отчество, добавляет валидаторы, если нет, очищает */
+      middlename.clearValidators();
+      if (!noMiddlename) {
+        middlename.setValidators(middlenameValidators);
+      }
+      /** Обновляем состояние контрола */
+      middlename.updateValueAndValidity();
     }
     this.noMiddlenameSubscription = this.applicantForm.get('noMiddlename')
       .valueChanges
@@ -83,8 +105,15 @@ export class WizardComponent implements OnInit {
   }
 
   isValid = {
-    applicantStep(appForm, identityCardForm) {
-      return appForm.valid && identityCardForm ? identityCardForm.valid : false;
+    applicantStep(appForm, identityCardForm, countryStateDocument) {
+      var isValidCountryStateDocument = (() => {
+        if (isNullOrUndefined(appForm.value.citizenship) || appForm.value.citizenship === "") return false;
+        if (parseInt(appForm.value.citizenship) === Countries.find(x => x.name === "Россия").id) return true;
+        if (!countryStateDocument) return false;
+        return countryStateDocument.valid;
+      })();
+      var isValidIdentityCardForm = identityCardForm ? identityCardForm.valid : false;
+      return appForm.valid && isValidIdentityCardForm && isValidCountryStateDocument;
     }
   }
   constructor(private fb: FormBuilder) { }
@@ -98,7 +127,6 @@ export class WizardComponent implements OnInit {
     this.applicant.representative.lastname = "ластнейм";
     this.applicant.representative.firstname = "фёстнейм";
     this.applicant.representative.middlename = "миддлнейм";
-    this.applicant.representative.citizenship = this.countries[1].id.toString();
     this.applicant.snils = "222-222-222 43";
     /** end */
     this.buildForm();
@@ -153,6 +181,10 @@ export class WizardComponent implements OnInit {
       "agree": [
         this.applicant.agree,
         [Validators.requiredTrue]
+      ],
+      "applicantType": [
+        this.applicant.applicantType,
+        []
       ]
     });
     this.applicantForm.valueChanges

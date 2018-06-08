@@ -7,7 +7,9 @@ export const routes: Routes = [
         redirectTo: "",
         pathMatch: "full"
     },
-    { path: "wizard", component: WizardComponent },
+    { path: "wizard/preschool", component: WizardComponent },
+    { path: "wizard/school", component: WizardComponent },
+    { path: "wizard/healthCamp", component: WizardComponent },
     // { path: "products/edit/:id", component: ProductCreateEditComponent},
     // { path: "products/create", component: ProductCreateEditComponent},
     // { path: "products/delete/:id", component: ProductDeleteComponent}
