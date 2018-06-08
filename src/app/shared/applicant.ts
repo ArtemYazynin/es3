@@ -4,7 +4,6 @@ import { ConfirmationDocument } from "./confirmation-document";
 
 export class Applicant {
     public noMiddlename: boolean;
-    public snils: string;
     public familyRelationship: string;
     public representative: Representative;
     public agree: boolean;

@@ -7,13 +7,16 @@ import {
   IdentityCard,
   Countries,
   RelationTypes,
-  ApplicantType
+  ApplicantType,
+  Person,
+  Representative
 } from "../shared/index";
 import { IdentityCardComponent } from '../identity-card/identity-card.component';
 import { Subscription } from 'rxjs/Subscription';
 import { ConfirmationDocumentComponent } from '../confirmation-document/confirmation-document.component';
 import { isNullOrUndefined } from 'util';
 import { isEmpty } from 'rxjs/operator/isEmpty';
+import { FormService } from '../shared/form.service';
 
 @Component({
   selector: 'app-wizard',
@@ -43,34 +46,8 @@ export class WizardComponent implements OnInit {
     return result;
   })()
 
-  // Объект с ошибками, которые будут выведены в пользовательском интерфейсе
-  formErrors = {
-    "lastname": "",
-    "firstname": "",
-    "middlename": "",
-    "snils": "",
-    "citizenship": ""
-  };
-  // Объект с сообщениями ошибок
-  validationMessages = (() => {
-    let fioValidationObj: object = {
-      "required": "Обязательное поле.",
-      "maxlength": "Значение не должно быть больше 50 символов.",
-      "pattern": "Имя может состоять только из букв русского алфавита, пробела и дефиса"
-    }
-    return {
-      "lastname": fioValidationObj,
-      "firstname": fioValidationObj,
-      "middlename": fioValidationObj,
-      "snils": {
-        "required": "Обязательное поле.",
-        "pattern": "Значение должно состоять из целых чисел вида 123-456-789 00"
-      },
-      "citizenship": {
-        "required": "Обязательное поле.",
-      }
-    }
-  })();
+  formErrors = Representative.getFormErrorsTemplate();
+  validationMessages = Representative.getvalidationMessages();
 
   @ViewChild(IdentityCardComponent)
   identityCardComponent: IdentityCardComponent;
@@ -116,7 +93,7 @@ export class WizardComponent implements OnInit {
       return appForm.valid && isValidIdentityCardForm && isValidCountryStateDocument;
     }
   }
-  constructor(private fb: FormBuilder) { }
+  constructor(private fb: FormBuilder, private formService: FormService) { }
 
   ngOnInit() {
     this.applicant.representative.IdentityCard.identityCardType = IdentityCardType["Паспорт РФ"];
@@ -127,7 +104,7 @@ export class WizardComponent implements OnInit {
     this.applicant.representative.lastname = "ластнейм";
     this.applicant.representative.firstname = "фёстнейм";
     this.applicant.representative.middlename = "миддлнейм";
-    this.applicant.snils = "222-222-222 43";
+    this.applicant.representative.snils = "222-222-222 43";
     /** end */
     this.buildForm();
     this.subscribeToMiddlename();
@@ -161,7 +138,7 @@ export class WizardComponent implements OnInit {
         this.applicant.noMiddlename, []
       ],
       "snils": [
-        this.applicant.snils,
+        this.applicant.representative.snils,
         [
           Validators.required,
           Validators.maxLength(28),

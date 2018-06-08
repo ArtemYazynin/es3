@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators, FormBuilder } from "@angular/forms";
 import { IdentityCard, IdentityCardType } from '../shared';
+import { FormService } from '../shared/form.service';
 
 @Component({
   selector: 'identity-card',
@@ -11,53 +12,11 @@ export class IdentityCardComponent implements OnInit {
   identityCardForm: FormGroup;
   identityCard: IdentityCard = new IdentityCard();
   identityCardTypeEnum = IdentityCardType;
-  // Объект с ошибками, которые будут выведены в пользовательском интерфейсе
-  formErrors = {
-    "series": "",
-    "number":"",
-    "issued":"",
-    "dateIssue":"",
-    "dateExpired":"",
-    "issueDepartmentCode":"",
-    "actRecordNumber":"",
-    "actRecordDate":"",
-    "actRecordPlace":""
-  };
-  validationMessages = {
-    "series":{
-      "required": "Обязательное поле."
-    },
-    "number":{
-      "required": "Обязательное поле."
-    },
 
-    "issued":{
-      "required": "Обязательное поле."
-    },
-    "dateIssue":{
-      "required": "Обязательное поле."
-    },
-    "dateExpired":{
-      "required": "Обязательное поле."
-    },
-    "issueDepartmentCode":{
-      "required": "Обязательное поле.",
-      "pattern": "Формат 000-000"
-    },
-    "actRecordNumber":{
-      "required": "Обязательное поле.",
-      "maxlength": "Максимальная длина 6 цифр.",
-      "minlength": "Минимальная длина 6 цифр.",
-      "pattern": "Формат 6 цифр"
-    },
-    "actRecordDate":{
-      "required": "Обязательное поле."
-    },
-    "actRecordPlace":{
-      "required": "Обязательное поле."
-    }
-  };
-  constructor(private fb: FormBuilder) { }
+  formErrors = IdentityCard.getFormErrorsTemplate();
+  validationMessages = IdentityCard.getValidationMessages();
+  
+  constructor(private fb: FormBuilder, private formService: FormService) {  }
 
   ngOnInit() {
     this.identityCard.actRecordDate = new Date();

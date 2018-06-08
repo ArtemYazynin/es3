@@ -10,24 +10,8 @@ import { ConfirmationDocument } from '../shared/index';
 export class ConfirmationDocumentComponent implements OnInit {
   confirmationDocumentForm: FormGroup;
   confirmationDocument: ConfirmationDocument = new ConfirmationDocument();
-  formErrors = {
-    "name": "",
-    "number": "",
-    "dateIssue": ""
-  }
-  validationMessages = {
-    "name": {
-      "required": "Обязательное поле.",
-      "maxlength": "Максимальная длина 250 символов.",
-    },
-    "number": {
-      "required": "Обязательное поле.",
-      "maxlength": "Максимальная длина 250 символов.",
-    },
-    "dateIssue": {
-      "required": "Обязательное поле.  Введите дату в формате ДД.ММ.ГГГГ.",
-    }
-  }
+  formErrors = ConfirmationDocument.formErrorsTemplate;
+  validationMessages = ConfirmationDocument.validationMessages;
 
   constructor(private fb: FormBuilder) { }
 
@@ -81,5 +65,5 @@ export class ConfirmationDocumentComponent implements OnInit {
         }
     }
   }
-  
+
 }

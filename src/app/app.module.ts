@@ -11,6 +11,7 @@ import { EnumToArrayPipe } from './shared/enum-to-array-pipe';
 import { IdentityCardTypeFriendlyNamePipe } from './shared/identity-card-type-friendly-name.pipe';
 import { IdentityCardComponent } from './identity-card/identity-card.component';
 import { ConfirmationDocumentComponent } from './confirmation-document/confirmation-document.component';
+import { FormService } from './shared/form.service';
 
 
 @NgModule({
@@ -29,7 +30,7 @@ import { ConfirmationDocumentComponent } from './confirmation-document/confirmat
     ReactiveFormsModule,
     RouterModule.forRoot(routes)
   ],
-  providers: [],
+  providers: [FormService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
