@@ -1,7 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {
-  ApplicantType, FormService
-} from "../../shared/index";
+import { ApplicantType, FormService } from "../../shared/index";
 import { WizardStorageService } from '../../shared/wizard-storage.service';
 import { Router, ActivatedRoute } from '@angular/router';
 
@@ -25,14 +23,15 @@ export class ApplicantTypeStepComponent implements OnInit {
     return result;
   })();
 
-  constructor(private storageService: WizardStorageService, 
-              private router: Router,
-              private activatedRoute: ActivatedRoute,) { }
+  constructor(private storageService: WizardStorageService,
+    private router: Router,
+    private activatedRoute: ActivatedRoute) { }
 
   ngOnInit() {
+
   }
-  public goToParentStep(){
+  public goToParentStep() {
     this.storageService.applicantType = this.applicantType;
-    this.router.navigate(["../parentStep"],{ relativeTo: this.activatedRoute });
+    this.router.navigate(["../parentStep"], { relativeTo: this.activatedRoute });
   }
 }

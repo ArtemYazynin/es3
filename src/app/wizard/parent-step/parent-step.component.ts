@@ -4,18 +4,18 @@ import { FormControl, FormGroup, Validators, FormBuilder, ValidatorFn } from "@a
 import { Subscription } from 'rxjs/Subscription';
 import { isNullOrUndefined } from 'util';
 import {
-  Applicant,
   IdentityCardType,
   IdentityCard,
   Countries,
   RelationTypes,
-  ApplicantType,
   Person,
   Parent,
   FormService
 } from "../../shared/index";
 import { IdentityCardComponent } from '../../identity-card/identity-card.component';
 import { ConfirmationDocumentComponent } from '../../confirmation-document/confirmation-document.component';
+import { WizardStorageService } from '../../shared/wizard-storage.service';
+import { Router, ActivatedRoute, Params } from '@angular/router';
 
 @Component({
   moduleId: module.id,
@@ -24,18 +24,17 @@ import { ConfirmationDocumentComponent } from '../../confirmation-document/confi
   styleUrls: ['./parent-step.component.css']
 })
 export class ParentStepComponent implements OnInit {
-
+  private inquiryType: string;
   private noMiddlenameSubscription: Subscription;
   private fioRegExp: string = "^[А-яЁё]+([ -]{1}[А-яЁё]+)*[ ]*$";
 
   parentForm: FormGroup;
-  applicant: Applicant = new Applicant();
+  parent: Parent = new Parent();
   countries = Countries;
   relationTypes = RelationTypes;
-  applicantTypeEnum = ApplicantType;
-  
+
   isValid = {
-    applicantStep(appForm, identityCardForm, countryStateDocument) {
+    parentStep(appForm, identityCardForm, countryStateDocument) {
       var isValidCountryStateDocument = (() => {
         if (isNullOrUndefined(appForm.value.citizenship) || appForm.value.citizenship === "") return false;
         if (parseInt(appForm.value.citizenship) === Countries.find(x => x.name === "Россия").id) return true;
@@ -51,14 +50,14 @@ export class ParentStepComponent implements OnInit {
       countryStateDocument: () => {
         return this.parentForm.value.citizenship && parseInt(this.parentForm.value.citizenship) !== Countries.find(x => x.name === "Россия").id;
       },
-      representChildrenInterestsDocument: () => { 
-        let relationType = this.relationTypes.find(x=>x.id === this.parentForm.value.relationType);
+      representChildrenInterestsDocument: () => {
+        let relationType = this.relationTypes.find(x => x.id === this.parentForm.value.relationType);
         return parseInt(relationType.ConfirmationDocument) === 1;
       },
     }
   };
-  formErrors = Parent.getFormErrorsTemplate();
-  validationMessages = Parent.getvalidationMessages();
+  formErrors = Object.assign({}, Person.getFormErrorsTemplate(), Parent.getFormErrorsTemplate());
+  validationMessages = Object.assign({}, Person.getvalidationMessages(), Parent.getvalidationMessages());
 
   @ViewChild(IdentityCardComponent)
   identityCardComponent: IdentityCardComponent;
@@ -91,29 +90,37 @@ export class ParentStepComponent implements OnInit {
   ngOnDestroy() {
     this.noMiddlenameSubscription.unsubscribe();
   }
-  constructor(private fb: FormBuilder, private formService: FormService) { }
+  constructor(private fb: FormBuilder,
+    private formService: FormService,
+    private storageService: WizardStorageService,
+    private router: Router,
+    private activatedRoute: ActivatedRoute) { }
 
   ngOnInit() {
-    this.applicant.parent.IdentityCard.identityCardType = IdentityCardType["Паспорт РФ"];
-    this.applicant.parent.citizenship = "";
-    this.applicant.parent.relationType = this.relationTypes[0].id;
+    this.activatedRoute.params.forEach((params: Params) => {
+      if (params["type"]) {
+        this.inquiryType = params["type"];
+      }
+    });
+
+    this.parent.IdentityCard.identityCardType = IdentityCardType["Паспорт РФ"];
+    this.parent.citizenship = "";
+    this.parent.relationType = this.relationTypes[0].id;
 
     /** begin временно, удалить в будущем */
-    this.applicant.parent.lastname = "ластнейм";
-    this.applicant.parent.firstname = "фёстнейм";
-    this.applicant.parent.middlename = "миддлнейм";
-    this.applicant.parent.snils = "222-222-222 43";
+    this.parent.person.lastname = "ластнейм";
+    this.parent.person.firstname = "фёстнейм";
+    this.parent.person.middlename = "миддлнейм";
+    this.parent.person.snils = "222-222-222 43";
     /** end */
     this.buildForm();
     this.subscribeToMiddlename();
   }
 
-
-
   private buildForm() {
     this.parentForm = this.fb.group({
       "lastname": [
-        this.applicant.parent.lastname,
+        this.parent.person.lastname,
         [
           Validators.required,
           Validators.maxLength(50),
@@ -121,7 +128,7 @@ export class ParentStepComponent implements OnInit {
         ]
       ],
       "firstname": [
-        this.applicant.parent.firstname,
+        this.parent.person.firstname,
         [
           Validators.required,
           Validators.maxLength(50),
@@ -129,17 +136,17 @@ export class ParentStepComponent implements OnInit {
         ]
       ],
       "middlename": [
-        this.applicant.parent.middlename, [
+        this.parent.person.middlename, [
           Validators.required,
           Validators.maxLength(50),
           Validators.pattern(this.fioRegExp)
         ]
       ],
       "noMiddlename": [
-        this.applicant.noMiddlename, []
+        this.parent.person.noMiddlename, []
       ],
       "snils": [
-        this.applicant.parent.snils,
+        this.parent.person.snils,
         [
           Validators.required,
           Validators.maxLength(28),
@@ -147,17 +154,17 @@ export class ParentStepComponent implements OnInit {
         ]
       ],
       "citizenship": [
-        this.applicant.parent.citizenship,
+        this.parent.citizenship,
         [
           Validators.required
         ]
       ],
       "relationType": [
-        this.applicant.parent.relationType,
+        this.parent.relationType,
         []
       ],
       "agree": [
-        this.applicant.agree,
+        this.parent.agree,
         [Validators.requiredTrue]
       ]
     });

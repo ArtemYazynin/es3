@@ -2,36 +2,27 @@ import { IdentityCard } from "./identityCard";
 import { Person } from "./person";
 
 
-export class Parent extends Person {
+export class Parent {
     public IdentityCard: IdentityCard;
     public citizenship: string;
     public relationType: string;
-
+    public agree: boolean;
+    public person: Person;
     constructor() {
-        super();
         this.IdentityCard = new IdentityCard();
+        this.person = new Person();
+        this.agree = false;
     }
 
     static getFormErrorsTemplate() {
         return {
-            lastname: "",
-            firstname: "",
-            middlename: "",
             snils: "",
             citizenship: ""
         };
     }
 
     static getvalidationMessages() {
-        let fioValidationObj = {
-            required: "Обязательное поле.",
-            maxlength: "Значение не должно быть больше 50 символов.",
-            pattern: "Имя может состоять только из букв русского алфавита, пробела и дефиса"
-        }
         return {
-            lastname: fioValidationObj,
-            firstname: fioValidationObj,
-            middlename: fioValidationObj,
             citizenship: {
                 "required": "Обязательное поле.",
             },
