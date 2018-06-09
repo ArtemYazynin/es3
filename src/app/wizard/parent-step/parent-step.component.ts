@@ -1,6 +1,8 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatRadioModule } from '@angular/material/radio';
 import { FormControl, FormGroup, Validators, FormBuilder, ValidatorFn } from "@angular/forms";
+import { Subscription } from 'rxjs/Subscription';
+import { isNullOrUndefined } from 'util';
 import {
   Applicant,
   IdentityCardType,
@@ -9,45 +11,54 @@ import {
   RelationTypes,
   ApplicantType,
   Person,
-  Representative
-} from "../shared/index";
-import { IdentityCardComponent } from '../identity-card/identity-card.component';
-import { Subscription } from 'rxjs/Subscription';
-import { ConfirmationDocumentComponent } from '../confirmation-document/confirmation-document.component';
-import { isNullOrUndefined } from 'util';
-import { isEmpty } from 'rxjs/operator/isEmpty';
-import { FormService } from '../shared/form.service';
+  Parent,
+  FormService
+} from "../../shared/index";
+import { IdentityCardComponent } from '../../identity-card/identity-card.component';
+import { ConfirmationDocumentComponent } from '../../confirmation-document/confirmation-document.component';
 
 @Component({
-  selector: 'app-wizard',
-  templateUrl: './wizard.component.html',
-  styleUrls: ['./wizard.component.css']
+  moduleId: module.id,
+  selector: 'app-parent-step',
+  templateUrl: './parent-step.component.html',
+  styleUrls: ['./parent-step.component.css']
 })
-export class WizardComponent implements OnInit {
+export class ParentStepComponent implements OnInit {
+
   private noMiddlenameSubscription: Subscription;
   private fioRegExp: string = "^[А-яЁё]+([ -]{1}[А-яЁё]+)*[ ]*$";
 
-  applicantForm: FormGroup;
+  parentForm: FormGroup;
   applicant: Applicant = new Applicant();
   countries = Countries;
   relationTypes = RelationTypes;
   applicantTypeEnum = ApplicantType;
-
-
-  applicantTypes = (() => {
-    let result: Array<any> = [];
-    let groupOfId = ApplicantType.values();
-    groupOfId.forEach(key => {
-      result.push({
-        id: key,
-        name: ApplicantType[key]
-      });
-    });
-    return result;
-  })()
-
-  formErrors = Representative.getFormErrorsTemplate();
-  validationMessages = Representative.getvalidationMessages();
+  
+  isValid = {
+    applicantStep(appForm, identityCardForm, countryStateDocument) {
+      var isValidCountryStateDocument = (() => {
+        if (isNullOrUndefined(appForm.value.citizenship) || appForm.value.citizenship === "") return false;
+        if (parseInt(appForm.value.citizenship) === Countries.find(x => x.name === "Россия").id) return true;
+        if (!countryStateDocument) return false;
+        return countryStateDocument.valid;
+      })();
+      var isValidIdentityCardForm = identityCardForm ? identityCardForm.valid : false;
+      return appForm.valid && isValidIdentityCardForm && isValidCountryStateDocument;
+    }
+  };
+  isAvailable = {
+    parent: {
+      countryStateDocument: () => {
+        return this.parentForm.value.citizenship && parseInt(this.parentForm.value.citizenship) !== Countries.find(x => x.name === "Россия").id;
+      },
+      representChildrenInterestsDocument: () => { 
+        let relationType = this.relationTypes.find(x=>x.id === this.parentForm.value.relationType);
+        return parseInt(relationType.ConfirmationDocument) === 1;
+      },
+    }
+  };
+  formErrors = Parent.getFormErrorsTemplate();
+  validationMessages = Parent.getvalidationMessages();
 
   @ViewChild(IdentityCardComponent)
   identityCardComponent: IdentityCardComponent;
@@ -57,7 +68,7 @@ export class WizardComponent implements OnInit {
 
   private subscribeToMiddlename(): void {
     let toggleMiddlenameValidators = noMiddlename => {
-      const middlename = this.applicantForm.get('middlename');
+      const middlename = this.parentForm.get('middlename');
       /** Массив валидаторов */
       const middlenameValidators: ValidatorFn[] = [
         Validators.required,
@@ -73,46 +84,36 @@ export class WizardComponent implements OnInit {
       /** Обновляем состояние контрола */
       middlename.updateValueAndValidity();
     }
-    this.noMiddlenameSubscription = this.applicantForm.get('noMiddlename')
+    this.noMiddlenameSubscription = this.parentForm.get('noMiddlename')
       .valueChanges
       .subscribe(value => toggleMiddlenameValidators(value));
   }
   ngOnDestroy() {
     this.noMiddlenameSubscription.unsubscribe();
   }
-
-  isValid = {
-    applicantStep(appForm, identityCardForm, countryStateDocument) {
-      var isValidCountryStateDocument = (() => {
-        if (isNullOrUndefined(appForm.value.citizenship) || appForm.value.citizenship === "") return false;
-        if (parseInt(appForm.value.citizenship) === Countries.find(x => x.name === "Россия").id) return true;
-        if (!countryStateDocument) return false;
-        return countryStateDocument.valid;
-      })();
-      var isValidIdentityCardForm = identityCardForm ? identityCardForm.valid : false;
-      return appForm.valid && isValidIdentityCardForm && isValidCountryStateDocument;
-    }
-  }
   constructor(private fb: FormBuilder, private formService: FormService) { }
 
   ngOnInit() {
-    this.applicant.representative.IdentityCard.identityCardType = IdentityCardType["Паспорт РФ"];
-    this.applicant.representative.citizenship = "";
-    this.applicant.representative.relationType = this.relationTypes[0].id;
+    this.applicant.parent.IdentityCard.identityCardType = IdentityCardType["Паспорт РФ"];
+    this.applicant.parent.citizenship = "";
+    this.applicant.parent.relationType = this.relationTypes[0].id;
 
     /** begin временно, удалить в будущем */
-    this.applicant.representative.lastname = "ластнейм";
-    this.applicant.representative.firstname = "фёстнейм";
-    this.applicant.representative.middlename = "миддлнейм";
-    this.applicant.representative.snils = "222-222-222 43";
+    this.applicant.parent.lastname = "ластнейм";
+    this.applicant.parent.firstname = "фёстнейм";
+    this.applicant.parent.middlename = "миддлнейм";
+    this.applicant.parent.snils = "222-222-222 43";
     /** end */
     this.buildForm();
     this.subscribeToMiddlename();
   }
+
+
+
   private buildForm() {
-    this.applicantForm = this.fb.group({
+    this.parentForm = this.fb.group({
       "lastname": [
-        this.applicant.representative.lastname,
+        this.applicant.parent.lastname,
         [
           Validators.required,
           Validators.maxLength(50),
@@ -120,7 +121,7 @@ export class WizardComponent implements OnInit {
         ]
       ],
       "firstname": [
-        this.applicant.representative.firstname,
+        this.applicant.parent.firstname,
         [
           Validators.required,
           Validators.maxLength(50),
@@ -128,7 +129,7 @@ export class WizardComponent implements OnInit {
         ]
       ],
       "middlename": [
-        this.applicant.representative.middlename, [
+        this.applicant.parent.middlename, [
           Validators.required,
           Validators.maxLength(50),
           Validators.pattern(this.fioRegExp)
@@ -138,7 +139,7 @@ export class WizardComponent implements OnInit {
         this.applicant.noMiddlename, []
       ],
       "snils": [
-        this.applicant.representative.snils,
+        this.applicant.parent.snils,
         [
           Validators.required,
           Validators.maxLength(28),
@@ -146,35 +147,32 @@ export class WizardComponent implements OnInit {
         ]
       ],
       "citizenship": [
-        this.applicant.representative.citizenship,
+        this.applicant.parent.citizenship,
         [
           Validators.required
         ]
       ],
       "relationType": [
-        this.applicant.representative.relationType,
+        this.applicant.parent.relationType,
         []
       ],
       "agree": [
         this.applicant.agree,
         [Validators.requiredTrue]
-      ],
-      "applicantType": [
-        this.applicant.applicantType,
-        []
       ]
     });
-    this.applicantForm.valueChanges
+    this.parentForm.valueChanges
       .subscribe(data => this.onValueChange(data));
 
     this.onValueChange();
   }
 
-  onValueChange(data?: any) {
-    this.formService.onValueChange(this.applicantForm, this.formErrors, this.validationMessages);
+  private onValueChange(data?: any) {
+    this.formService.onValueChange(this.parentForm, this.formErrors, this.validationMessages);
   }
 
   onSubmit() {
     alert("go to the next step");
   }
+
 }

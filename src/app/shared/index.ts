@@ -13,4 +13,5 @@ export * from "./client";
 export * from "./applicant";
 export * from "./confirmation-document";
 export * from "./person";
-export * from "./representative";
+export * from "./parent";
+export * from "./form.service";

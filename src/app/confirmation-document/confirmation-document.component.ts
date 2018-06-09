@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ConfirmationDocument } from '../shared/index';
 import { FormService } from '../shared/form.service';
+import { WizardStorageService } from '../shared/wizard-storage.service';
 
 @Component({
   selector: 'app-confirmation-document',
@@ -14,7 +15,12 @@ export class ConfirmationDocumentComponent implements OnInit {
   formErrors = ConfirmationDocument.formErrorsTemplate;
   validationMessages = ConfirmationDocument.validationMessages;
 
-  constructor(private fb: FormBuilder, private formService:FormService) { }
+  @Input()
+  title:string = "";
+
+  constructor(private fb: FormBuilder, 
+              private formService:FormService,
+              private storageService: WizardStorageService) { }
 
   ngOnInit() {
     this.buildForm();

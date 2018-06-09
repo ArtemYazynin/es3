@@ -1,15 +1,15 @@
 import { Routes } from "@angular/router";
 import { AppComponent } from './app.component';
-import {WizardComponent} from "./wizard/wizard.component";
+import { ApplicantTypeStepComponent } from "./wizard/applicant-type-step/applicant-type-step.component";
+import { ParentStepComponent } from "./wizard/parent-step/parent-step.component";
 export const routes: Routes = [
     {
         path: "",
         redirectTo: "",
         pathMatch: "full"
     },
-    { path: "wizard/preschool", component: WizardComponent },
-    { path: "wizard/school", component: WizardComponent },
-    { path: "wizard/healthCamp", component: WizardComponent },
+    { path: "wizard/:type/applicantTypeStep", component: ApplicantTypeStepComponent },
+    { path: "wizard/:type/parentStep", component: ParentStepComponent }
     // { path: "products/edit/:id", component: ProductCreateEditComponent},
     // { path: "products/create", component: ProductCreateEditComponent},
     // { path: "products/delete/:id", component: ProductDeleteComponent}
