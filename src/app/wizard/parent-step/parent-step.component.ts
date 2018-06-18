@@ -1,21 +1,24 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { MatRadioModule } from '@angular/material/radio';
 import { FormControl, FormGroup, Validators, FormBuilder, ValidatorFn } from "@angular/forms";
-import { Subscription } from 'rxjs/Subscription';
+import { Subscription } from 'rxjs/_esm5';
+import { forkJoin } from 'rxjs';
 import { isNullOrUndefined } from 'util';
 import {
   IdentityCardType,
   IdentityCard,
-  Countries,
-  RelationTypes,
   Person,
   Parent,
-  FormService
+  FormService,
+  CitizenshipService,
+  RelationTypeService
 } from "../../shared/index";
 import { IdentityCardComponent } from '../../identity-card/identity-card.component';
 import { ConfirmationDocumentComponent } from '../../confirmation-document/confirmation-document.component';
 import { WizardStorageService } from '../../shared/wizard-storage.service';
 import { Router, ActivatedRoute, Params } from '@angular/router';
+import { Http } from '@angular/http';
+import { Country } from '../../shared/citizenships/country';
+import { RelationType } from '../../shared/relationTypes/relation-type';
 
 @Component({
   moduleId: module.id,
@@ -30,32 +33,28 @@ export class ParentStepComponent implements OnInit {
 
   parentForm: FormGroup;
   parent: Parent = new Parent();
-  countries = Countries;
-  relationTypes = RelationTypes;
+  relationTypes: Array<RelationType> = [];
+  countries: Array<Country> = [];
 
-  isValid = {
-    parentStep(appForm, identityCardForm, countryStateDocument) {
-      var isValidCountryStateDocument = (() => {
-        if (isNullOrUndefined(appForm.value.citizenship) || appForm.value.citizenship === "") return false;
-        if (parseInt(appForm.value.citizenship) === Countries.find(x => x.name === "Россия").id) return true;
-        if (!countryStateDocument) return false;
-        return countryStateDocument.valid;
-      })();
-      var isValidIdentityCardForm = identityCardForm ? identityCardForm.valid : false;
-      return appForm.valid && isValidIdentityCardForm && isValidCountryStateDocument;
-    }
-  };
+  isValid(appForm: FormGroup, identityCardForm: FormGroup, countryStateDocument): boolean {
+    var isValidCountryStateDocument = (() => {
+      if (isNullOrUndefined(appForm.value.citizenship) || appForm.value.citizenship === "") return false;
+      if (parseInt(appForm.value.citizenship) === this.countries.find(x => x.name === "Россия").id) return true;
+      if (!countryStateDocument) return false;
+      return countryStateDocument.valid;
+    })();
+    var isValidIdentityCardForm = identityCardForm ? identityCardForm.valid : false;
+    return appForm.valid && isValidIdentityCardForm && isValidCountryStateDocument;
+  }
   isAvailable = {
-    parent: {
-      countryStateDocument: () => {
-        return this.parentForm.value.citizenship && parseInt(this.parentForm.value.citizenship) !== Countries.find(x => x.name === "Россия").id;
-      },
-      representChildrenInterestsDocument: () => {
-        let relationType = this.relationTypes.find(x => x.id === this.parentForm.value.relationType);
-        return parseInt(relationType.ConfirmationDocument) === 1;
-      },
-    }
-  };
+    countryStateDocument: () => {
+      return this.parentForm.value.citizenship && parseInt(this.parentForm.value.citizenship) !== this.countries.find(x => x.name === "Россия").id;
+    },
+    representChildrenInterestsDocument: () => {
+      let relationType = this.relationTypes.find(x => x.id === this.parentForm.value.relationType);
+      return relationType ? relationType.confirmationDocument : false;
+    },
+  }
   formErrors = Object.assign({}, Person.getFormErrorsTemplate(), Parent.getFormErrorsTemplate());
   validationMessages = Object.assign({}, Person.getvalidationMessages(), Parent.getvalidationMessages());
 
@@ -91,12 +90,25 @@ export class ParentStepComponent implements OnInit {
     this.noMiddlenameSubscription.unsubscribe();
   }
   constructor(private fb: FormBuilder,
+    private http: Http,
     private formService: FormService,
     private storageService: WizardStorageService,
+    private citizenshipService: CitizenshipService,
+    private relationTypeService: RelationTypeService,
     private router: Router,
     private activatedRoute: ActivatedRoute) { }
 
   ngOnInit() {
+    forkJoin([this.citizenshipService.getCountries(), this.relationTypeService.get()]).subscribe(results => {
+      this.countries = results[0];
+
+      this.relationTypes = results[1];
+      this.parent.relationType = this.relationTypes[1].id;
+
+      this.buildForm();
+      this.subscribeToMiddlename();
+    });
+
     this.activatedRoute.params.forEach((params: Params) => {
       if (params["type"]) {
         this.inquiryType = params["type"];
@@ -105,7 +117,7 @@ export class ParentStepComponent implements OnInit {
 
     this.parent.IdentityCard.identityCardType = IdentityCardType["Паспорт РФ"];
     this.parent.citizenship = "";
-    this.parent.relationType = this.relationTypes[0].id;
+
 
     /** begin временно, удалить в будущем */
     this.parent.person.lastname = "ластнейм";
@@ -113,8 +125,7 @@ export class ParentStepComponent implements OnInit {
     this.parent.person.middlename = "миддлнейм";
     this.parent.person.snils = "222-222-222 43";
     /** end */
-    this.buildForm();
-    this.subscribeToMiddlename();
+
   }
 
   private buildForm() {
@@ -177,8 +188,16 @@ export class ParentStepComponent implements OnInit {
   private onValueChange(data?: any) {
     this.formService.onValueChange(this.parentForm, this.formErrors, this.validationMessages);
   }
-
+  itemArray: any;
   onSubmit() {
+    this.http.get("app/countries").subscribe(
+      result => {
+        this.itemArray = result.json()
+      },
+      error => {
+        console.log(error.statusText)
+      }
+    );
     alert("go to the next step");
   }
 

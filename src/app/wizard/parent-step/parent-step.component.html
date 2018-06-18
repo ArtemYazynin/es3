@@ -83,7 +83,7 @@
               </div>
             </div>
           </div>
-          <div class="row" *ngIf="isAvailable.parent.countryStateDocument()">
+          <div class="row" *ngIf="isAvailable.countryStateDocument()">
             <div class="col-md-12">
               <app-confirmation-document title="Документ, подтверждающий право пребывания законного представителя на территории РФ">
               </app-confirmation-document>
@@ -106,7 +106,7 @@
               </div>
             </div>
           </div>
-          <div class="row" *ngIf="isAvailable.parent.representChildrenInterestsDocument()">
+          <div class="row" *ngIf="isAvailable.representChildrenInterestsDocument()">
               <div class="col-md-12">
                 <app-confirmation-document title="Документ, подтверждающий право законного представителя представлять интересы ребенка"></app-confirmation-document>
               </div>
@@ -134,7 +134,7 @@
               </div>
               <div class="form-actions" style="text-align: center;">
                 <button class="btn btn-primary" 
-                  [disabled]="!isValid.parentStep(parentForm, identityCardComponent?.identityCardForm, confirmationDocumentComponent?.confirmationDocumentForm)">Далее</button>
+                  [disabled]="!isValid(parentForm, identityCardComponent?.identityCardForm, confirmationDocumentComponent?.confirmationDocumentForm)">Далее</button>
               </div>
             </div>
           </div>

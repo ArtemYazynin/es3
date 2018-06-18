@@ -5,7 +5,7 @@ export * from "./applicant-type.enum";
 
 //json
 export * from "./countries";
-export * from "./relation-types";
+export * from "./relationTypes/relation-type";
 //
 
 export * from "./identityCard";
@@ -14,3 +14,5 @@ export * from "./confirmation-document";
 export * from "./person";
 export * from "./parent";
 export * from "./form.service";
+export * from "./citizenships/citizenship.service";
+export * from "./relationTypes/relation-type.service";
