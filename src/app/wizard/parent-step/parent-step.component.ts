@@ -10,7 +10,9 @@ import {
   Parent,
   FormService,
   CitizenshipService,
-  RelationTypeService
+  RelationTypeService,
+  ApplicantType,
+  ConfirmationDocument
 } from "../../shared/index";
 import { IdentityCardComponent } from '../../identity-card/identity-card.component';
 import { ConfirmationDocumentComponent } from '../../confirmation-document/confirmation-document.component';
@@ -32,7 +34,6 @@ export class ParentStepComponent implements OnInit {
   private fioRegExp: string = "^[А-яЁё]+([ -]{1}[А-яЁё]+)*[ ]*$";
 
   parentForm: FormGroup;
-  parent: Parent = new Parent();
   relationTypes: Array<RelationType> = [];
   countries: Array<Country> = [];
 
@@ -99,39 +100,26 @@ export class ParentStepComponent implements OnInit {
     private activatedRoute: ActivatedRoute) { }
 
   ngOnInit() {
-    forkJoin([this.citizenshipService.getCountries(), this.relationTypeService.get()]).subscribe(results => {
-      this.countries = results[0];
+    forkJoin([this.citizenshipService.getCountries(), this.relationTypeService.get()])
+      .subscribe(results => {
+        this.countries = results[0];
+        this.relationTypes = results[1];
 
-      this.relationTypes = results[1];
-      this.parent.relationType = this.relationTypes[1].id;
-
-      this.buildForm();
-      this.subscribeToMiddlename();
-    });
+        this.buildForm();
+        this.subscribeToMiddlename();
+      });
 
     this.activatedRoute.params.forEach((params: Params) => {
       if (params["type"]) {
         this.inquiryType = params["type"];
       }
     });
-
-    this.parent.IdentityCard.identityCardType = IdentityCardType["Паспорт РФ"];
-    this.parent.citizenship = "";
-
-
-    /** begin временно, удалить в будущем */
-    this.parent.person.lastname = "ластнейм";
-    this.parent.person.firstname = "фёстнейм";
-    this.parent.person.middlename = "миддлнейм";
-    this.parent.person.snils = "222-222-222 43";
-    /** end */
-
   }
 
   private buildForm() {
     this.parentForm = this.fb.group({
       "lastname": [
-        this.parent.person.lastname,
+        "ластнейм",
         [
           Validators.required,
           Validators.maxLength(50),
@@ -139,7 +127,7 @@ export class ParentStepComponent implements OnInit {
         ]
       ],
       "firstname": [
-        this.parent.person.firstname,
+        "фёстнейм",
         [
           Validators.required,
           Validators.maxLength(50),
@@ -147,17 +135,18 @@ export class ParentStepComponent implements OnInit {
         ]
       ],
       "middlename": [
-        this.parent.person.middlename, [
+        "миддлнейм", [
           Validators.required,
           Validators.maxLength(50),
           Validators.pattern(this.fioRegExp)
         ]
       ],
       "noMiddlename": [
-        this.parent.person.noMiddlename, []
+        false,
+        []
       ],
       "snils": [
-        this.parent.person.snils,
+        "222-222-222 43",
         [
           Validators.required,
           Validators.maxLength(28),
@@ -165,17 +154,17 @@ export class ParentStepComponent implements OnInit {
         ]
       ],
       "citizenship": [
-        this.parent.citizenship,
+        "",
         [
           Validators.required
         ]
       ],
       "relationType": [
-        this.parent.relationType,
+        this.relationTypes[0].id,
         []
       ],
       "agree": [
-        this.parent.agree,
+        false,
         [Validators.requiredTrue]
       ]
     });
@@ -188,17 +177,38 @@ export class ParentStepComponent implements OnInit {
   private onValueChange(data?: any) {
     this.formService.onValueChange(this.parentForm, this.formErrors, this.validationMessages);
   }
-  itemArray: any;
-  onSubmit() {
-    this.http.get("app/countries").subscribe(
-      result => {
-        this.itemArray = result.json()
-      },
-      error => {
-        console.log(error.statusText)
-      }
-    );
-    alert("go to the next step");
-  }
 
+  goTo = {
+    back: () => {
+      this.router.navigate(["../applicantTypeStep"], { relativeTo: this.activatedRoute });
+    },
+    next: () => {
+      if (!this.parentForm.valid || !this.identityCardComponent.identityCardForm.valid) return;
+
+      this.storageService.parent = (() => {
+        let result = <Parent>this.parentForm.value;
+        result.IdentityCard = <IdentityCard>this.identityCardComponent.identityCardForm.value;
+        if (this.isAvailable.countryStateDocument()) {
+          result.countryStateDocument = <ConfirmationDocument>this.confirmationDocumentComponent.confirmationDocumentForm.value;
+        }
+        if (this.isAvailable.representChildrenInterestsDocument()) {
+          result.representChildrenInterestsDocument = <ConfirmationDocument>this.confirmationDocumentComponent.confirmationDocumentForm.value;
+        }
+        return result;
+      })();
+      let segment: string = (() => {
+        switch (this.storageService.request.applicantType) {
+          case ApplicantType["Родитель/Опекун"]:
+            return "childrenStep";
+          case ApplicantType["Лицо, подающее заявление о приёме самого себя"]:
+            return "contactsStep";
+          case ApplicantType["Лицо, действующее от имени законного представителя"]:
+            return "applicantStep";
+          default:
+            break;
+        }
+      })();
+      this.router.navigate(["../${segment}"], { relativeTo: this.activatedRoute });
+    }
+  }
 }

@@ -19,76 +19,62 @@ export class IdentityCardComponent implements OnInit {
   constructor(private fb: FormBuilder, private formService: FormService) {  }
 
   ngOnInit() {
-    this.identityCard.actRecordDate = new Date();
-    this.identityCard.actRecordNumber = "222222";
-    this.identityCard.actRecordPlace = "ddvdv";
-    this.identityCard.dateExpired = new Date();
-    this.identityCard.dateIssue = new Date();
-    this.identityCard.issued = "dvdvd";
-    this.identityCard.issueDepartmentCode ="000-000";
-    this.identityCard.name = "vdvdvdv";
-    this.identityCard.number = "dvdvdvdv";
-    this.identityCard.series = "ascascsac";
-
-    this.identityCard.identityCardType = IdentityCardType["Паспорт РФ"];
     this.buildForm();
   }
 
   private buildForm() {
     this.identityCardForm = this.fb.group({
       "identityCardType": [
-        this.identityCard.identityCardType, 
+        IdentityCardType["Паспорт РФ"], 
         [
           Validators.required
         ]
       ],
       "name": [
-        this.identityCard.name,
+        "некий другой документ",
         [
           Validators.required,
           Validators.maxLength(400)
         ]
       ],
       "series": [
-        this.identityCard.series, 
+        "1234", 
         [
           Validators.required
         ]
       ],
       "number": [
-        this.identityCard.number, 
+        "123456", 
         [
           Validators.required
         ]
       ],
       "issued": [
-        this.identityCard.issued,
+        "dvdvd",
         [
           Validators.required,
           Validators.maxLength(400)
         ]
       ],
       "dateIssue": [
-        this.identityCard.dateIssue, 
+        new Date(), 
         [
           Validators.required
         ]
       ],
       "dateExpired": [
-        this.identityCard.dateExpired, 
-        [
-          
-        ]
+        new Date(), 
+        [ ]
       ],
       "issueDepartmentCode": [
-        this.identityCard.issueDepartmentCode, 
+        "000-000", 
         [
           Validators.required,
           Validators.pattern("^\\d{3}-\\d{3}$")
         ]
       ],
       "actRecordNumber": [
-        this.identityCard.actRecordNumber, 
+        "222222", 
         [
           Validators.required,
           Validators.maxLength(6),
@@ -97,13 +83,13 @@ export class IdentityCardComponent implements OnInit {
         ]
       ],
       "actRecordDate": [
-        this.identityCard.actRecordDate, 
+        new Date(), 
         [
           Validators.required
         ]
       ],
       "actRecordPlace": [
-        this.identityCard.actRecordPlace, 
+        "ddvdv", 
         [
           Validators.required
         ]

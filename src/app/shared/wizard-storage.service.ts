@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { ApplicantType } from '.';
+import { ApplicantType, Parent } from '.';
 
 @Injectable()
 export class WizardStorageService {
@@ -11,5 +11,8 @@ export class WizardStorageService {
   }
   set applicantType(value:ApplicantType){
     this._request["applicantType"] = value;
+  }
+  set parent(value:Parent){
+    this.request["parent"] = value;
   }
 }

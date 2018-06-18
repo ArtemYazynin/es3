@@ -11,7 +11,6 @@ import { WizardStorageService } from '../shared/wizard-storage.service';
 })
 export class ConfirmationDocumentComponent implements OnInit {
   confirmationDocumentForm: FormGroup;
-  confirmationDocument: ConfirmationDocument = new ConfirmationDocument();
   formErrors = ConfirmationDocument.formErrorsTemplate;
   validationMessages = ConfirmationDocument.validationMessages;
 
@@ -29,25 +28,26 @@ export class ConfirmationDocumentComponent implements OnInit {
   private buildForm(): any {
     this.confirmationDocumentForm = this.fb.group({
       "name":[
-        this.confirmationDocument.name,
+        "",
         [
           Validators.required, Validators.maxLength(250)
         ]
       ],
       "number":[
-        this.confirmationDocument.name,
+        "",
         [
           Validators.required, Validators.maxLength(250)
         ]
       ],
       "dateIssue": [
-        this.confirmationDocument.dateIssue,
+        new Date(),
         [
           Validators.required
         ]
       ],
       "dateExpired": [
-        this.confirmationDocument.dateExpired, []
+        new Date(), 
+        []
       ]
     });
     this.confirmationDocumentForm.valueChanges

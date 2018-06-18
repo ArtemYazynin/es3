@@ -1,5 +1,7 @@
 import { IdentityCard } from "./identityCard";
 import { Person } from "./person";
+import { ConfirmationDocument } from "./confirmation-document";
+
 
 
 export class Parent {
@@ -8,6 +10,9 @@ export class Parent {
     public relationType: string;
     public agree: boolean;
     public person: Person;
+    public countryStateDocument: ConfirmationDocument
+    public representChildrenInterestsDocument: ConfirmationDocument;
+    
     constructor() {
         this.IdentityCard = new IdentityCard();
         this.person = new Person();

@@ -1,5 +1,5 @@
 <div class="container col-md-12" *ngIf="parentForm">
-    <form [formGroup]="parentForm" (ngSubmit)="onSubmit(parentForm)">
+    <form [formGroup]="parentForm" (ngSubmit)="goTo.next()">
       <div class="widget-box">
         <div class="widget-title">
           <h5>Законный представитель</h5>
@@ -133,7 +133,8 @@
                 </div>
               </div>
               <div class="form-actions" style="text-align: center;">
-                <button class="btn btn-primary" 
+                <button type="button"  class="btn btn-inverse" (click)="goTo.back()">Назад</button>
+                <button type="submit" class="btn btn-primary" 
                   [disabled]="!isValid(parentForm, identityCardComponent?.identityCardForm, confirmationDocumentComponent?.confirmationDocumentForm)">Далее</button>
               </div>
             </div>
