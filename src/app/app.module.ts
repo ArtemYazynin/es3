@@ -9,7 +9,7 @@ import { routes } from './app.routes';
 import { AppComponent } from './app.component';
 import { EnumToArrayPipe } from './shared/enum-to-array-pipe';
 import { IdentityCardTypeFriendlyNamePipe } from './shared/identity-card-type-friendly-name.pipe';
-import { IdentityCardComponent } from './identity-card/identity-card.component';
+import { IdentityCardComponent } from './person/identity-card/identity-card.component';
 import { ConfirmationDocumentComponent } from './confirmation-document/confirmation-document.component';
 import { FormService } from './shared/form.service';
 import { WizardStorageService } from './shared/wizard-storage.service';
@@ -23,8 +23,7 @@ import { InMemHeroService } from './in-memory-server';
 import { CitizenshipService } from './shared/citizenships/citizenship.service';
 import { RelationTypeService } from './shared/relationTypes/relation-type.service';
 import { HttpInterceptor } from './shared/http-interceptor';
-import { ApplicantComponent } from './wizard/applicant/applicant.component';
-import { FullNameComponent } from './full-name/full-name.component';
+import { FullNameComponent } from './person/full-name/full-name.component';
  
 
 
@@ -37,7 +36,6 @@ import { FullNameComponent } from './full-name/full-name.component';
     ConfirmationDocumentComponent,
     ApplicantTypeStepComponent,
     ParentStepComponent,
-    ApplicantComponent,
     FullNameComponent
   ],
   imports: [

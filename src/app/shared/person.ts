@@ -4,8 +4,12 @@ export class Person {
     public middlename: string;
     public snils: string;
     public noMiddlename: boolean;
+    public birthDate: Date;
+    public birthPlace:string;
+    public gender: number;
     constructor() {
         this.noMiddlename = false;
+        this.gender = 1;
     }
 
     static getFormErrorsTemplate() {
@@ -13,6 +17,9 @@ export class Person {
             lastname: "",
             firstname: "",
             middlename: "",
+            snils: "",
+            birthDate:"",
+            birthPlace:"",
         };
     }
     static getvalidationMessages() {
@@ -24,7 +31,13 @@ export class Person {
         return {
             lastname: fioValidationObj,
             firstname: fioValidationObj,
-            middlename: fioValidationObj
+            middlename: fioValidationObj,
+            snils: {
+                "required": "Обязательное поле.",
+                "pattern": "Значение должно состоять из целых чисел вида 123-456-789 00"
+            },
+            birthDate:{ "required": "Обязательное поле." },
+            birthPlace:{ "required": "Обязательное поле." },
         }
     }
 }

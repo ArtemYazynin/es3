@@ -14,14 +14,14 @@ import {
   ApplicantType,
   ConfirmationDocument
 } from "../../shared/index";
-import { IdentityCardComponent } from '../../identity-card/identity-card.component';
+import { IdentityCardComponent } from '../../person/identity-card/identity-card.component';
 import { ConfirmationDocumentComponent } from '../../confirmation-document/confirmation-document.component';
 import { WizardStorageService } from '../../shared/wizard-storage.service';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { Http } from '@angular/http';
 import { Country } from '../../shared/citizenships/country';
 import { RelationType } from '../../shared/relationTypes/relation-type';
-import { FullNameComponent } from '../../full-name/full-name.component';
+import { FullNameComponent } from '../../person/full-name/full-name.component';
 
 @Component({
   moduleId: module.id,
@@ -77,20 +77,24 @@ export class ParentStepComponent implements OnInit {
       let relationType = this.relationTypes.find(x => x.id === this.parentForm.value.relationType);
       return relationType ? relationType.confirmationDocument : false;
     },
+    relationType: false,
+    childApplicantInfo: false
   }
-  formErrors = Parent.getFormErrorsTemplate();
-  validationMessages = Parent.getvalidationMessages();
+  formErrors = Object.assign({}, Person.getFormErrorsTemplate(), Parent.getFormErrorsTemplate());
+  validationMessages = Object.assign({}, Person.getvalidationMessages(), Parent.getvalidationMessages());
 
   constructor(private fb: FormBuilder,
     private http: Http,
     private formService: FormService,
-    private storageService: WizardStorageService,
+    public storageService: WizardStorageService,
     private citizenshipService: CitizenshipService,
     private relationTypeService: RelationTypeService,
     private router: Router,
     private activatedRoute: ActivatedRoute) { }
 
   ngOnInit() {
+    this.isAvailable.relationType = this.storageService.request.applicantType === ApplicantType["Родитель/Опекун"];
+    this.isAvailable.childApplicantInfo = this.storageService.request.applicantType === ApplicantType["Лицо, подающее заявление о приёме самого себя"];
     forkJoin([this.citizenshipService.getCountries(), this.relationTypeService.get()])
       .subscribe(results => {
         this.countries = results[0];
@@ -125,6 +129,18 @@ export class ParentStepComponent implements OnInit {
       "relationType": [
         this.relationTypes[0].id,
         []
+      ],
+      "gender": [
+        1,
+        []
+      ],
+      "birthDate":[
+        "",
+        [ Validators.required]
+      ],
+      "birthPlace":[
+        "",
+        [ Validators.required]
       ],
       "agree": [
         false,

@@ -21,7 +21,6 @@ export class Parent {
 
     static getFormErrorsTemplate() {
         return {
-            snils: "",
             citizenship: ""
         };
     }
@@ -30,11 +29,7 @@ export class Parent {
         return {
             citizenship: {
                 "required": "Обязательное поле.",
-            },
-            snils: {
-                "required": "Обязательное поле.",
-                "pattern": "Значение должно состоять из целых чисел вида 123-456-789 00"
-            }
+            }           
         }
     }
 }

@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators, FormBuilder } from "@angular/forms";
-import { IdentityCard, IdentityCardType } from '../shared';
-import { FormService } from '../shared/form.service';
+import { IdentityCard, IdentityCardType, FormService } from '../../shared/index';
 
 @Component({
   selector: 'identity-card',
@@ -26,9 +25,7 @@ export class IdentityCardComponent implements OnInit {
     this.identityCardForm = this.fb.group({
       "identityCardType": [
         IdentityCardType["Паспорт РФ"], 
-        [
-          Validators.required
-        ]
+        [ Validators.required ]
       ],
       "name": [
         "некий другой документ",
