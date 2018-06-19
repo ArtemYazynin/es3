@@ -23,6 +23,8 @@ import { InMemHeroService } from './in-memory-server';
 import { CitizenshipService } from './shared/citizenships/citizenship.service';
 import { RelationTypeService } from './shared/relationTypes/relation-type.service';
 import { HttpInterceptor } from './shared/http-interceptor';
+import { ApplicantComponent } from './wizard/applicant/applicant.component';
+import { FullNameComponent } from './full-name/full-name.component';
  
 
 
@@ -34,7 +36,9 @@ import { HttpInterceptor } from './shared/http-interceptor';
     IdentityCardComponent,
     ConfirmationDocumentComponent,
     ApplicantTypeStepComponent,
-    ParentStepComponent
+    ParentStepComponent,
+    ApplicantComponent,
+    FullNameComponent
   ],
   imports: [
     BrowserModule,

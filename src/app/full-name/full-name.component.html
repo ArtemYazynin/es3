@@ -1,0 +1,47 @@
+<div class="widget-box">
+  <div class="widget-content">
+    <form [formGroup]="fullnameForm" novalidate>
+      <h4>ФИО</h4>
+      <div class="form-group">
+        <label for="lastname">Фамилия</label>
+        <input id="lastname" type="text" class="form-control" formControlName="lastname">
+        <div *ngIf="formErrors.lastname" class="alert alert-danger">
+          {{ formErrors.lastname }}
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="firstname">Имя</label>
+        <input id="firstname" type="text" class="form-control" formControlName="firstname">
+        <div *ngIf="formErrors.firstname" class="alert alert-danger">
+          {{ formErrors.firstname }}
+        </div>
+      </div>
+      <div class="form-group" *ngIf="!fullnameForm.get('noMiddlename').value">
+        <label for="middlename">Отчество</label>
+        <input id="middlename" type="text" class="form-control" formControlName="middlename">
+        <div *ngIf="formErrors.middlename" class="alert alert-danger">
+          {{ formErrors.middlename }}
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="control-label"></label>
+        <div class="controls">
+          <div class="checkbox">
+            <label>
+              <input type="checkbox" id="noMiddlename" name="hasMiddlenoMiddlenamename" formControlName="noMiddlename">Нет отчества
+            </label>
+          </div>
+        </div>
+      </div>
+      <div>
+          <span>
+            <b>{{fullnameForm.value | json}}</b>
+          </span>
+          <span>fullnameForm.status:
+            <b>{{fullnameForm.status | json}}</b>
+          </span>
+        </div>
+    </form>
+    <ng-content></ng-content>
+  </div>
+</div>

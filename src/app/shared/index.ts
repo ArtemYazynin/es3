@@ -1,7 +1,6 @@
 //enums
 export * from "./identityCardType";
 export * from "./applicant-type.enum";
-export * from "./inquiry-type.enum";
 //
 
 //json

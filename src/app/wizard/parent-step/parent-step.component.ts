@@ -21,6 +21,7 @@ import { Router, ActivatedRoute, Params } from '@angular/router';
 import { Http } from '@angular/http';
 import { Country } from '../../shared/citizenships/country';
 import { RelationType } from '../../shared/relationTypes/relation-type';
+import { FullNameComponent } from '../../full-name/full-name.component';
 
 @Component({
   moduleId: module.id,
@@ -29,23 +30,44 @@ import { RelationType } from '../../shared/relationTypes/relation-type';
   styleUrls: ['./parent-step.component.css']
 })
 export class ParentStepComponent implements OnInit {
+  @ViewChild(IdentityCardComponent)
+  identityCardComponent: IdentityCardComponent;
+
+  @ViewChild(ConfirmationDocumentComponent)
+  confirmationDocumentComponent: ConfirmationDocumentComponent
+
+  @ViewChild(FullNameComponent)
+  fullnameComponent: FullNameComponent
+
   private inquiryType: string;
-  private noMiddlenameSubscription: Subscription;
   private fioRegExp: string = "^[А-яЁё]+([ -]{1}[А-яЁё]+)*[ ]*$";
 
   parentForm: FormGroup;
   relationTypes: Array<RelationType> = [];
   countries: Array<Country> = [];
 
-  isValid(appForm: FormGroup, identityCardForm: FormGroup, countryStateDocument): boolean {
-    var isValidCountryStateDocument = (() => {
-      if (isNullOrUndefined(appForm.value.citizenship) || appForm.value.citizenship === "") return false;
-      if (parseInt(appForm.value.citizenship) === this.countries.find(x => x.name === "Россия").id) return true;
-      if (!countryStateDocument) return false;
-      return countryStateDocument.valid;
-    })();
-    var isValidIdentityCardForm = identityCardForm ? identityCardForm.valid : false;
-    return appForm.valid && isValidIdentityCardForm && isValidCountryStateDocument;
+  isValid(): boolean {
+    let isValid = {
+      parentForm: this.parentForm && this.parentForm.valid || false,
+      identityCardForm: this.identityCardComponent 
+                     && this.identityCardComponent.identityCardForm 
+                     && this.identityCardComponent.identityCardForm.valid 
+                     || false,
+      fullnameForm: this.fullnameComponent && this.fullnameComponent.fullnameForm && this.fullnameComponent.fullnameForm.valid || false,
+      countryStateForm: (() => {
+        if (!this.parentForm || !this.parentForm.valid) return false;
+        if (isNullOrUndefined(this.parentForm.value.citizenship) || this.parentForm.value.citizenship === "") return false;
+        if (parseInt(this.parentForm.value.citizenship) === this.countries.find(x => x.name === "Россия").id) return true;
+        return this.confirmationDocumentComponent 
+                && this.confirmationDocumentComponent.confirmationDocumentForm 
+                && this.confirmationDocumentComponent.confirmationDocumentForm.valid
+                || false;
+      })()
+    }
+    return isValid.parentForm
+        && isValid.fullnameForm
+        && isValid.identityCardForm
+        && isValid.countryStateForm;
   }
   isAvailable = {
     countryStateDocument: () => {
@@ -56,40 +78,9 @@ export class ParentStepComponent implements OnInit {
       return relationType ? relationType.confirmationDocument : false;
     },
   }
-  formErrors = Object.assign({}, Person.getFormErrorsTemplate(), Parent.getFormErrorsTemplate());
-  validationMessages = Object.assign({}, Person.getvalidationMessages(), Parent.getvalidationMessages());
+  formErrors = Parent.getFormErrorsTemplate();
+  validationMessages = Parent.getvalidationMessages();
 
-  @ViewChild(IdentityCardComponent)
-  identityCardComponent: IdentityCardComponent;
-
-  @ViewChild(ConfirmationDocumentComponent)
-  confirmationDocumentComponent: ConfirmationDocumentComponent
-
-  private subscribeToMiddlename(): void {
-    let toggleMiddlenameValidators = noMiddlename => {
-      const middlename = this.parentForm.get('middlename');
-      /** Массив валидаторов */
-      const middlenameValidators: ValidatorFn[] = [
-        Validators.required,
-        Validators.maxLength(50),
-        Validators.pattern(this.fioRegExp)
-      ];
-
-      /** если есть отчество, добавляет валидаторы, если нет, очищает */
-      middlename.clearValidators();
-      if (!noMiddlename) {
-        middlename.setValidators(middlenameValidators);
-      }
-      /** Обновляем состояние контрола */
-      middlename.updateValueAndValidity();
-    }
-    this.noMiddlenameSubscription = this.parentForm.get('noMiddlename')
-      .valueChanges
-      .subscribe(value => toggleMiddlenameValidators(value));
-  }
-  ngOnDestroy() {
-    this.noMiddlenameSubscription.unsubscribe();
-  }
   constructor(private fb: FormBuilder,
     private http: Http,
     private formService: FormService,
@@ -106,7 +97,6 @@ export class ParentStepComponent implements OnInit {
         this.relationTypes = results[1];
 
         this.buildForm();
-        this.subscribeToMiddlename();
       });
 
     this.activatedRoute.params.forEach((params: Params) => {
@@ -118,33 +108,6 @@ export class ParentStepComponent implements OnInit {
 
   private buildForm() {
     this.parentForm = this.fb.group({
-      "lastname": [
-        "ластнейм",
-        [
-          Validators.required,
-          Validators.maxLength(50),
-          Validators.pattern(this.fioRegExp)
-        ]
-      ],
-      "firstname": [
-        "фёстнейм",
-        [
-          Validators.required,
-          Validators.maxLength(50),
-          Validators.pattern(this.fioRegExp)
-        ]
-      ],
-      "middlename": [
-        "миддлнейм", [
-          Validators.required,
-          Validators.maxLength(50),
-          Validators.pattern(this.fioRegExp)
-        ]
-      ],
-      "noMiddlename": [
-        false,
-        []
-      ],
       "snils": [
         "222-222-222 43",
         [
@@ -169,12 +132,8 @@ export class ParentStepComponent implements OnInit {
       ]
     });
     this.parentForm.valueChanges
-      .subscribe(data => this.onValueChange(data));
+      .subscribe(data => this.formService.onValueChange(this.parentForm, this.formErrors, this.validationMessages));
 
-    this.onValueChange();
-  }
-
-  private onValueChange(data?: any) {
     this.formService.onValueChange(this.parentForm, this.formErrors, this.validationMessages);
   }
 
