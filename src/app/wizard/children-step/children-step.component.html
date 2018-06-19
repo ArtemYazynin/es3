@@ -1,0 +1,75 @@
+<ul class="nav nav-tabs">
+
+</ul>
+<div class="container col-md-12" *ngIf="childForm">
+    <form [formGroup]="childForm" (ngSubmit)="goTo.next()" novalidate>
+      <div class="widget-box">
+        <div class="widget-title">
+          <h5>Ребёнок/Дети</h5>
+        </div>
+        <div class="widget-content">
+          <div class="row">
+            <div class="col-md-6">
+              <full-name>
+                <div class="form-group">
+                  <label for="snils">СНИЛС</label>
+                  <input type="text" id="snils" class="form-control" formControlName="snils" placeholder="___-___-___ __">
+                  <div *ngIf="formErrors.snils" class="alert alert-danger">
+                    {{ formErrors.snils }}
+                  </div>
+                </div>
+              </full-name>
+              <div>
+                <span>
+                  <b>{{childForm.value | json}}</b>
+                </span>
+                <span>childForm.status:
+                  <b>{{childForm.status | json}}</b>
+                </span>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <identity-card></identity-card>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-12">
+              <div class="widget-box">
+                <div class="widget-content">
+                  <div class="form-group">
+                    <label for="citizenship">Гражданство
+                      <b style="color: red;">*</b>
+                    </label>
+                    <select id="citizenship" class="form-control" formControlName="citizenship">
+                      <option value="" selected>Не выбрано</option>
+                      <option *ngFor="let item of countries" [value]="item.id">
+                        {{item.name}}
+                      </option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-12">
+              <birth-info>
+              </birth-info>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="widget-box">
+        <div class="widget-content">
+          <div class="row">
+            <div class="col-md-12">
+              <div class="form-actions" style="text-align: center;">
+                <button type="button" class="btn btn-inverse" (click)="goTo.back()">Назад</button>
+                <button type="submit" class="btn btn-primary" [disabled]="!isValid()">Далее</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>

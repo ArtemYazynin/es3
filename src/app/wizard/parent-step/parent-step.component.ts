@@ -3,7 +3,6 @@ import { FormControl, FormGroup, Validators, FormBuilder, ValidatorFn } from "@a
 import { Subscription } from 'rxjs/_esm5';
 import { forkJoin } from 'rxjs';
 import { isNullOrUndefined } from 'util';
-import { Http } from '@angular/http';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import {
   IdentityCardType,
@@ -44,7 +43,6 @@ export class ParentStepComponent implements OnInit {
   birthInfoComponent: BirthInfoComponent
 
   private inquiryType: string;
-  private fioRegExp: string = "^[А-яЁё]+([ -]{1}[А-яЁё]+)*[ ]*$";
 
   parentForm: FormGroup;
   relationTypes: Array<RelationType> = [];
@@ -95,9 +93,8 @@ export class ParentStepComponent implements OnInit {
   validationMessages = Object.assign({}, Person.getvalidationMessages(), Parent.getvalidationMessages());
 
   constructor(private fb: FormBuilder,
-    private http: Http,
     private formService: FormService,
-    public storageService: WizardStorageService,
+    private storageService: WizardStorageService,
     private citizenshipService: CitizenshipService,
     private relationTypeService: RelationTypeService,
     private router: Router,

@@ -78,10 +78,6 @@ export class ApplicantStepComponent implements OnInit {
         [
           Validators.required
         ]
-      ],
-      "agree": [
-        false,
-        [Validators.requiredTrue]
       ]
     });
     this.applicantForm.valueChanges

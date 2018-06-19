@@ -26,6 +26,7 @@ import { HttpInterceptor } from './shared/http-interceptor';
 import { FullNameComponent } from './person/full-name/full-name.component';
 import { BirthInfoComponent } from './person/birth-info/birth-info.component';
 import { ApplicantStepComponent } from './wizard/applicant-step/applicant-step.component';
+import { ChildrenStepComponent } from './wizard/children-step/children-step.component';
  
 
 
@@ -40,7 +41,8 @@ import { ApplicantStepComponent } from './wizard/applicant-step/applicant-step.c
     ParentStepComponent,
     FullNameComponent,
     BirthInfoComponent,
-    ApplicantStepComponent
+    ApplicantStepComponent,
+    ChildrenStepComponent
   ],
   imports: [
     BrowserModule,
