@@ -9,6 +9,7 @@ export * from "./relationTypes/relation-type";
 //
 
 export * from "./entity";
+export * from "./citizenships/country";
 export * from "./identityCard";
 export * from "./client";
 export * from "./confirmation-document";

@@ -3,6 +3,8 @@ import { FormControl, FormGroup, Validators, FormBuilder, ValidatorFn } from "@a
 import { Subscription } from 'rxjs/_esm5';
 import { forkJoin } from 'rxjs';
 import { isNullOrUndefined } from 'util';
+import { Http } from '@angular/http';
+import { Router, ActivatedRoute, Params } from '@angular/router';
 import {
   IdentityCardType,
   IdentityCard,
@@ -12,15 +14,13 @@ import {
   CitizenshipService,
   RelationTypeService,
   ApplicantType,
-  ConfirmationDocument
+  ConfirmationDocument,
+  RelationType,
+  Country,
+  WizardStorageService
 } from "../../shared/index";
 import { IdentityCardComponent } from '../../person/identity-card/identity-card.component';
 import { ConfirmationDocumentComponent } from '../../confirmation-document/confirmation-document.component';
-import { WizardStorageService } from '../../shared/wizard-storage.service';
-import { Router, ActivatedRoute, Params } from '@angular/router';
-import { Http } from '@angular/http';
-import { Country } from '../../shared/citizenships/country';
-import { RelationType } from '../../shared/relationTypes/relation-type';
 import { FullNameComponent } from '../../person/full-name/full-name.component';
 import { BirthInfoComponent } from '../../person/birth-info/birth-info.component';
 
@@ -41,7 +41,7 @@ export class ParentStepComponent implements OnInit {
   fullnameComponent: FullNameComponent
 
   @ViewChild(BirthInfoComponent)
-  birthInfoComponent:BirthInfoComponent
+  birthInfoComponent: BirthInfoComponent
 
   private inquiryType: string;
   private fioRegExp: string = "^[А-яЁё]+([ -]{1}[А-яЁё]+)*[ ]*$";
@@ -53,27 +53,32 @@ export class ParentStepComponent implements OnInit {
   isValid(): boolean {
     let isValid = {
       parentForm: this.parentForm && this.parentForm.valid || false,
-      identityCardForm: this.identityCardComponent 
-                     && this.identityCardComponent.identityCardForm 
-                     && this.identityCardComponent.identityCardForm.valid 
-                     || false,
+      identityCardForm: this.identityCardComponent
+        && this.identityCardComponent.identityCardForm
+        && this.identityCardComponent.identityCardForm.valid
+        || false,
       fullnameForm: this.fullnameComponent && this.fullnameComponent.fullnameForm && this.fullnameComponent.fullnameForm.valid || false,
-      birthInfoForm: this.birthInfoComponent && this.birthInfoComponent.birthInfoForm && this.birthInfoComponent.birthInfoForm.valid || false,
+      birthInfoForm: (()=>{
+        if (this.storageService.request.applicantType !== ApplicantType["Лицо, подающее заявление о приёме самого себя"]) {
+          return true;
+        }
+        return this.birthInfoComponent && this.birthInfoComponent.birthInfoForm && this.birthInfoComponent.birthInfoForm.valid || false;
+      })(),
       countryStateForm: (() => {
         if (!this.parentForm || !this.parentForm.valid) return false;
         if (isNullOrUndefined(this.parentForm.value.citizenship) || this.parentForm.value.citizenship === "") return false;
         if (parseInt(this.parentForm.value.citizenship) === this.countries.find(x => x.name === "Россия").id) return true;
-        return this.confirmationDocumentComponent 
-                && this.confirmationDocumentComponent.confirmationDocumentForm 
-                && this.confirmationDocumentComponent.confirmationDocumentForm.valid
-                || false;
+        return this.confirmationDocumentComponent
+          && this.confirmationDocumentComponent.confirmationDocumentForm
+          && this.confirmationDocumentComponent.confirmationDocumentForm.valid
+          || false;
       })()
     }
     return isValid.parentForm
-        && isValid.fullnameForm
-        && isValid.identityCardForm
-        && isValid.birthInfoForm
-        && isValid.countryStateForm;
+      && isValid.fullnameForm
+      && isValid.identityCardForm
+      && isValid.birthInfoForm
+      && isValid.countryStateForm;
   }
   isAvailable = {
     countryStateDocument: () => {
@@ -99,7 +104,7 @@ export class ParentStepComponent implements OnInit {
     private activatedRoute: ActivatedRoute) { }
 
   ngOnInit() {
-    this.isAvailable.relationType = this.storageService.request.applicantType === ApplicantType["Родитель/Опекун"];
+    this.isAvailable.relationType = this.storageService.request.applicantType !== ApplicantType["Лицо, подающее заявление о приёме самого себя"];
     this.isAvailable.childApplicantInfo = this.storageService.request.applicantType === ApplicantType["Лицо, подающее заявление о приёме самого себя"];
     forkJoin([this.citizenshipService.getCountries(), this.relationTypeService.get()])
       .subscribe(results => {
@@ -177,7 +182,7 @@ export class ParentStepComponent implements OnInit {
             break;
         }
       })();
-      this.router.navigate(["../${segment}"], { relativeTo: this.activatedRoute });
+      this.router.navigate(["../"+segment], { relativeTo: this.activatedRoute });
     }
   }
 }

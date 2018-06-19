@@ -9,9 +9,9 @@ import { Person, FormService } from '../../shared/index';
 })
 export class BirthInfoComponent implements OnInit {
 
-  constructor(private fb:FormBuilder,private formService:FormService) { }
+  constructor(private fb: FormBuilder, private formService: FormService) { }
 
-  birthInfoForm:FormGroup
+  birthInfoForm: FormGroup
   formErrors = Person.getFormErrorsTemplate();
   validationMessages = Person.getvalidationMessages();
 
@@ -24,13 +24,13 @@ export class BirthInfoComponent implements OnInit {
         1,
         []
       ],
-      "birthDate":[
+      "birthDate": [
         "",
-        [ Validators.required]
+        [Validators.required]
       ],
-      "birthPlace":[
+      "birthPlace": [
         "",
-        [ Validators.required]
+        [Validators.required]
       ]
     });
     this.birthInfoForm.valueChanges

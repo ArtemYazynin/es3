@@ -25,6 +25,7 @@ import { RelationTypeService } from './shared/relationTypes/relation-type.servic
 import { HttpInterceptor } from './shared/http-interceptor';
 import { FullNameComponent } from './person/full-name/full-name.component';
 import { BirthInfoComponent } from './person/birth-info/birth-info.component';
+import { ApplicantStepComponent } from './wizard/applicant-step/applicant-step.component';
  
 
 
@@ -38,7 +39,8 @@ import { BirthInfoComponent } from './person/birth-info/birth-info.component';
     ApplicantTypeStepComponent,
     ParentStepComponent,
     FullNameComponent,
-    BirthInfoComponent
+    BirthInfoComponent,
+    ApplicantStepComponent
   ],
   imports: [
     BrowserModule,
