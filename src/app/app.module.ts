@@ -24,6 +24,7 @@ import { CitizenshipService } from './shared/citizenships/citizenship.service';
 import { RelationTypeService } from './shared/relationTypes/relation-type.service';
 import { HttpInterceptor } from './shared/http-interceptor';
 import { FullNameComponent } from './person/full-name/full-name.component';
+import { BirthInfoComponent } from './person/birth-info/birth-info.component';
  
 
 
@@ -36,7 +37,8 @@ import { FullNameComponent } from './person/full-name/full-name.component';
     ConfirmationDocumentComponent,
     ApplicantTypeStepComponent,
     ParentStepComponent,
-    FullNameComponent
+    FullNameComponent,
+    BirthInfoComponent
   ],
   imports: [
     BrowserModule,

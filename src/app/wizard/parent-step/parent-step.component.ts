@@ -22,6 +22,7 @@ import { Http } from '@angular/http';
 import { Country } from '../../shared/citizenships/country';
 import { RelationType } from '../../shared/relationTypes/relation-type';
 import { FullNameComponent } from '../../person/full-name/full-name.component';
+import { BirthInfoComponent } from '../../person/birth-info/birth-info.component';
 
 @Component({
   moduleId: module.id,
@@ -39,6 +40,9 @@ export class ParentStepComponent implements OnInit {
   @ViewChild(FullNameComponent)
   fullnameComponent: FullNameComponent
 
+  @ViewChild(BirthInfoComponent)
+  birthInfoComponent:BirthInfoComponent
+
   private inquiryType: string;
   private fioRegExp: string = "^[А-яЁё]+([ -]{1}[А-яЁё]+)*[ ]*$";
 
@@ -54,6 +58,7 @@ export class ParentStepComponent implements OnInit {
                      && this.identityCardComponent.identityCardForm.valid 
                      || false,
       fullnameForm: this.fullnameComponent && this.fullnameComponent.fullnameForm && this.fullnameComponent.fullnameForm.valid || false,
+      birthInfoForm: this.birthInfoComponent && this.birthInfoComponent.birthInfoForm && this.birthInfoComponent.birthInfoForm.valid || false,
       countryStateForm: (() => {
         if (!this.parentForm || !this.parentForm.valid) return false;
         if (isNullOrUndefined(this.parentForm.value.citizenship) || this.parentForm.value.citizenship === "") return false;
@@ -67,6 +72,7 @@ export class ParentStepComponent implements OnInit {
     return isValid.parentForm
         && isValid.fullnameForm
         && isValid.identityCardForm
+        && isValid.birthInfoForm
         && isValid.countryStateForm;
   }
   isAvailable = {
@@ -129,18 +135,6 @@ export class ParentStepComponent implements OnInit {
       "relationType": [
         this.relationTypes[0].id,
         []
-      ],
-      "gender": [
-        1,
-        []
-      ],
-      "birthDate":[
-        "",
-        [ Validators.required]
-      ],
-      "birthPlace":[
-        "",
-        [ Validators.required]
       ],
       "agree": [
         false,

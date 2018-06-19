@@ -1,0 +1,31 @@
+<form [formGroup]="birthInfoForm">
+  <div class="form-group">
+    <label for="gender">Пол</label>
+    <select id="gender" class="form-control" formControlName="gender">
+      <option value="1">Мужской</option>
+      <option value="2">Женский</option>
+    </select>
+  </div>
+  <div class="form-group">
+    <label for="birthDate">Дата рождения</label>
+    <input type="date" id="birthDate" class="form-control" formControlName="birthDate">
+    <div *ngIf="formErrors.birthDate" class="alert alert-danger">
+      {{ formErrors.birthDate }}
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="birthPlace">Место рождения</label>
+    <input type="text" id="birthPlace" class="form-control" formControlName="birthPlace">
+    <div *ngIf="formErrors.birthPlace" class="alert alert-danger">
+      {{ formErrors.birthPlace }}
+    </div>
+  </div>
+  <div>
+    <span>
+      <b>{{birthInfoForm.value | json}}</b>
+    </span>
+    <span>birthInfoForm.status:
+      <b>{{birthInfoForm.status | json}}</b>
+    </span>
+  </div>
+</form>
