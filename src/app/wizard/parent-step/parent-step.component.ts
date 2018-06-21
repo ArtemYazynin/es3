@@ -16,7 +16,9 @@ import {
   ConfirmationDocument,
   RelationType,
   Country,
-  WizardStorageService
+  WizardStorageService,
+  Entity,
+  IdentityCardService
 } from "../../shared/index";
 import { IdentityCardComponent } from '../../person/identity-card/identity-card.component';
 import { ConfirmationDocumentComponent } from '../../confirmation-document/confirmation-document.component';
@@ -43,9 +45,29 @@ export class ParentStepComponent implements OnInit {
   birthInfoComponent: BirthInfoComponent
 
   private inquiryType: string;
-
   parentForm: FormGroup;
   relationTypes: Array<RelationType> = [];
+  groupOfIdentityCardTypeId:Array<number> = [
+    IdentityCardType["Паспорт РФ"], 
+    IdentityCardType["Другой документ, удостоверяющий личность"],
+    IdentityCardType["Свидетельство о рождении РФ"],
+    IdentityCardType["Загранпаспорт гражданина РФ"],
+    IdentityCardType["Удостоверение офицера"],
+    IdentityCardType["Военный билет"],
+    IdentityCardType["Временное удостоверение, выданное взамен военного билета"],
+    IdentityCardType["Временное удостоверение личности гражданина РФ"],
+    IdentityCardType["Иностранный паспорт"],
+    IdentityCardType["Удостоверение личности лица без гражданства в РФ"],
+    IdentityCardType["Удостоверение личности отдельных категорий лиц, находящихся на территории РФ,подавших заявление о признании гражданами РФ или о приеме в гражданство РФ"],
+    IdentityCardType["Удостоверение беженца"],
+    IdentityCardType["Удостоверение личности лица, ходатайствующего о признании беженцем на территории РФ"],
+    IdentityCardType["Удостоверение личности лица, получившего временное убежище на территории РФ"],
+    IdentityCardType["Вид на жительство"],
+    IdentityCardType["Разрешение на временное проживание в РФ"],
+    IdentityCardType["Свидетельство о рассмотрении ходатайства о признании лица беженцем на территории РФ по существу"],
+    IdentityCardType["Свидетельство о предоставлении временного убежища на территории Российской Федерации"],
+    IdentityCardType["Свидетельство о рождении, выданное уполномоченным органом иностранного государства"]
+  ];
   countries: Array<Country> = [];
 
   isValid(): boolean {
@@ -56,7 +78,7 @@ export class ParentStepComponent implements OnInit {
         && this.identityCardComponent.identityCardForm.valid
         || false,
       fullnameForm: this.fullnameComponent && this.fullnameComponent.fullnameForm && this.fullnameComponent.fullnameForm.valid || false,
-      birthInfoForm: (()=>{
+      birthInfoForm: (() => {
         if (this.storageService.request.applicantType !== ApplicantType["Лицо, подающее заявление о приёме самого себя"]) {
           return true;
         }
@@ -98,7 +120,8 @@ export class ParentStepComponent implements OnInit {
     private citizenshipService: CitizenshipService,
     private relationTypeService: RelationTypeService,
     private router: Router,
-    private activatedRoute: ActivatedRoute) { }
+    private activatedRoute: ActivatedRoute,
+    private identityCardService:IdentityCardService) { }
 
   ngOnInit() {
     this.isAvailable.relationType = this.storageService.request.applicantType !== ApplicantType["Лицо, подающее заявление о приёме самого себя"];
@@ -179,7 +202,7 @@ export class ParentStepComponent implements OnInit {
             break;
         }
       })();
-      this.router.navigate(["../"+segment], { relativeTo: this.activatedRoute });
+      this.router.navigate(["../" + segment], { relativeTo: this.activatedRoute });
     }
   }
 }

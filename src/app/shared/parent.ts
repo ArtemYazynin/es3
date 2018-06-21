@@ -1,4 +1,4 @@
-import { IdentityCard } from "./identityCard";
+import { IdentityCard } from "./identityCards/identityCard";
 import { Person } from "./person";
 import { ConfirmationDocument } from "./confirmation-document";
 

@@ -7,26 +7,21 @@ import { HttpModule } from "@angular/http";
 
 import { routes } from './app.routes';
 import { AppComponent } from './app.component';
-import { EnumToArrayPipe } from './shared/enum-to-array-pipe';
-import { IdentityCardTypeFriendlyNamePipe } from './shared/identity-card-type-friendly-name.pipe';
 import { IdentityCardComponent } from './person/identity-card/identity-card.component';
 import { ConfirmationDocumentComponent } from './confirmation-document/confirmation-document.component';
-import { FormService } from './shared/form.service';
-import { WizardStorageService } from './shared/wizard-storage.service';
 import { ApplicantTypeStepComponent } from './wizard/applicant-type-step/applicant-type-step.component';
 import { ParentStepComponent } from './wizard/parent-step/parent-step.component';
 
 import { HttpClientModule } from '@angular/common/http';
  
 import { InMemoryWebApiModule } from 'angular-in-memory-web-api';
-import { InMemHeroService } from './in-memory-server';
-import { CitizenshipService } from './shared/citizenships/citizenship.service';
-import { RelationTypeService } from './shared/relationTypes/relation-type.service';
+import { InMemoryService } from './in-memory-server';
 import { HttpInterceptor } from './shared/http-interceptor';
 import { FullNameComponent } from './person/full-name/full-name.component';
 import { BirthInfoComponent } from './person/birth-info/birth-info.component';
 import { ApplicantStepComponent } from './wizard/applicant-step/applicant-step.component';
 import { ChildrenStepComponent } from './wizard/children-step/children-step.component';
+import { EnumToArrayPipe, IdentityCardTypeFriendlyNamePipe, FormService, WizardStorageService, CitizenshipService, RelationTypeService, IdentityCardService } from './shared/index';
  
 
 
@@ -51,9 +46,9 @@ import { ChildrenStepComponent } from './wizard/children-step/children-step.comp
     RouterModule.forRoot(routes),
     HttpModule,
   HttpClientModule,
-  InMemoryWebApiModule.forRoot(InMemHeroService),
+  InMemoryWebApiModule.forRoot(InMemoryService),
   ],
-  providers: [HttpInterceptor,FormService, WizardStorageService, CitizenshipService,RelationTypeService],
+  providers: [HttpInterceptor,FormService, WizardStorageService, CitizenshipService,RelationTypeService,IdentityCardService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

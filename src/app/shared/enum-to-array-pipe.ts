@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { IdentityCardType } from './identityCardType';
+import { IdentityCardType } from './identityCards/identityCardType';
 import { ApplicantType } from './applicant-type.enum';
 
 @Pipe({

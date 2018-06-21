@@ -5,75 +5,75 @@
             <div class="form-group">
                 <label for="identityCardType">Тип документа</label>
                 <select id="identityCardType" class="form-control" formControlName="identityCardType">
-                    <option *ngFor="let item of identityCardTypeEnum.values() | enumToArray:identityCardTypeEnum" [value]="item.id">
+                    <option *ngFor="let item of types" [value]="item.id">
                         {{item.name}}
                     </option>
                 </select>
             </div>
-            <div class="form-group">
+            <div class="form-group" *ngIf="isAvailable.name">
                 <label for="name">Название</label>
                 <input type="text" id="name" class="form-control" formControlName="name">
                 <div *ngIf="formErrors.name" class="alert alert-danger">
                     {{ formErrors.name }}
                 </div>
             </div>
-            <div class="form-group">
+            <div class="form-group" *ngIf="isAvailable.series">
                 <label for="series">Серия</label>
                 <input type="text" id="series" class="form-control" formControlName="series">
                 <div *ngIf="formErrors.series" class="alert alert-danger">
                     {{ formErrors.series }}
                 </div>
             </div>
-            <div class="form-group">
+            <div class="form-group" *ngIf="isAvailable.number">
                 <label for="number">Номер</label>
                 <input type="text" id="number" class="form-control" formControlName="number">
                 <div *ngIf="formErrors.number" class="alert alert-danger">
                     {{ formErrors.number }}
                 </div>
             </div>
-            <div class="form-group">
+            <div class="form-group" *ngIf="isAvailable.issued">
                 <label for="issued">Выдан</label>
                 <input type="text" id="issued" class="form-control" formControlName="issued">
                 <div *ngIf="formErrors.issued" class="alert alert-danger">
                     {{ formErrors.issued }}
                 </div>
             </div>
-            <div class="form-group">
+            <div class="form-group" *ngIf="isAvailable.dateIssue">
                 <label for="dateIssue">Дата выдачи</label>
                 <input type="date" id="dateIssue" class="form-control" formControlName="dateIssue">
                 <div *ngIf="formErrors.dateIssue" class="alert alert-danger">
                     {{ formErrors.dateIssue }}
                 </div>
             </div>
-            <div class="form-group">
+            <div class="form-group" *ngIf="isAvailable.dateExpired">
                 <label for="dateExpired">Действительно до</label>
                 <input type="date" id="dateExpired" class="form-control" formControlName="dateExpired">
                 <div *ngIf="formErrors.dateExpired" class="alert alert-danger">
                     {{ formErrors.dateExpired }}
                 </div>
             </div>
-            <div class="form-group">
+            <div class="form-group" *ngIf="isAvailable.issueDepartmentCode">
                 <label for="issueDepartmentCode">Код подразделения</label>
                 <input type="text" id="issueDepartmentCode" class="form-control" formControlName="issueDepartmentCode">
                 <div *ngIf="formErrors.issueDepartmentCode" class="alert alert-danger">
                     {{ formErrors.issueDepartmentCode }}
                 </div>
             </div>
-            <div class="form-group">
+            <div class="form-group" *ngIf="isAvailable.actRecordNumber">
                 <label for="actRecordNumber">Номер актовой записи</label>
                 <input type="text" id="actRecordNumber" class="form-control" formControlName="actRecordNumber">
                 <div *ngIf="formErrors.actRecordNumber" class="alert alert-danger">
                     {{ formErrors.actRecordNumber }}
                 </div>
             </div>
-            <div class="form-group">
+            <div class="form-group" *ngIf="isAvailable.actRecordDate">
                 <label for="actRecordDate">Дата создания актовой записи</label>
                 <input type="date" id="actRecordDate" class="form-control" formControlName="actRecordDate">
                 <div *ngIf="formErrors.actRecordDate" class="alert alert-danger">
                     {{ formErrors.actRecordDate }}
                 </div>
             </div>
-            <div class="form-group">
+            <div class="form-group" *ngIf="isAvailable.actRecordPlace">
                 <label for="actRecordPlace">Место гос регистрации (отдел ЗАГС)</label>
                 <input type="text" id="actRecordPlace" class="form-control" formControlName="actRecordPlace">
                 <div *ngIf="formErrors.actRecordPlace" class="alert alert-danger">
@@ -83,7 +83,10 @@
             <div>
                 <span>
                     <b>{{identityCardForm.value | json}}</b>
-                </span>
+                </span><br>
+                <span>identityCardForm.status:
+                    <b>{{identityCardForm.status | json}}</b>
+                  </span>
                 <br>
             </div>
         </form>

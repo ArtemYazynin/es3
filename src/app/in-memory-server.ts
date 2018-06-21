@@ -1,8 +1,8 @@
 import { InMemoryDbService } from 'angular-in-memory-web-api';
-import { Countries } from './shared/countries';
-import { RelationType } from './shared/relationTypes/relation-type';
+import { RelationType, Countries, IdentityCardType, IdentityCard } from './shared/index';
+import { EnumToArrayPipe } from './shared/enum-to-array-pipe';
 
-export class InMemHeroService implements InMemoryDbService {
+export class InMemoryService implements InMemoryDbService {
   createDb() {
     let heroes = [
       { id: 1, name: 'Windstorm' },
@@ -10,6 +10,7 @@ export class InMemHeroService implements InMemoryDbService {
       { id: 3, name: 'Magneta' },
       { id: 4, name: 'Tornado' }
     ];
+    let identityCardTypes = new EnumToArrayPipe().transform(IdentityCardType.values(), IdentityCardType);
     let relationTypes =  [
         new RelationType("26B732C2-580D-4FCC-8034-A88F01009735","Отец",false),
         new RelationType("4575BF75-EF7C-4A82-B8F5-A88F01009735","Мать",false),
@@ -19,7 +20,8 @@ export class InMemHeroService implements InMemoryDbService {
     return {
         heroes:heroes,
         countries: Countries,
-        relationTypes: relationTypes
+        relationTypes: relationTypes,
+        identityCardTypes:identityCardTypes
     };
   }
 }
