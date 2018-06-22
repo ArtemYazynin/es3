@@ -71,8 +71,10 @@ export class IdentityCardComponent implements OnInit {
       });
   }
 
+ 
+
   subscribeToIdentityCardType(): void {
-    let changeHandler = new IdentityCardChangeHandler(this.identityCardForm, this.isAvailable);
+    let changeHandler = new IdentityCardChangeHandler(this.identityCardForm, this.isAvailable, this.validationMessages);
     this.identityCardTypeSubscription = this.identityCardForm.get("identityCardType")
       .valueChanges
       .subscribe(type => {

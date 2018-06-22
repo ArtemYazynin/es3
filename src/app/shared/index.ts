@@ -23,5 +23,7 @@ export * from "./identityCards/identity-card.service";
 
 
 export * from "./enum-to-array-pipe";
+export * from "./identityCards/identityCardChangeHandlers/identity-card-change-template";
+export * from "./identityCards/identityCardChangeHandlers/change-to-undefined";
 export * from "./identityCards/identity-card-type-friendly-name.pipe";
 export * from "./identityCards/identity-card-change-handler";
