@@ -17,8 +17,8 @@ export class ChangeToRfPassport extends IdentityCardChangeTemplate{
         this.updateValidators("issueDepartmentCode", [Validators.required, Validators.pattern("^\\d{3}-\\d{3}$")]);
     }
     setValidationMessages() {
-        this.validationMessages["series"].pattern = "Поле должно содержать число из 4 цифр.";
-        this.validationMessages["number"].pattern = "Поле должно содержать число из 6 цифр.";
+        this.validationMessages["series"].pattern = this.validationMessage.requiredNumberOfDigits(4);
+        this.validationMessages["number"].pattern = this.validationMessage.requiredNumberOfDigits(6);
     }
 
 }

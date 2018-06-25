@@ -1,5 +1,3 @@
-import { isNumber } from "util";
-
 export enum IdentityCardType{
     //
     // Summary:

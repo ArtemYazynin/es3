@@ -1,8 +1,13 @@
 import { IdentityCard } from "../identityCard";
-import { FormGroup, ValidatorFn, Validators } from "@angular/forms";
+import { FormGroup, ValidatorFn, Validators, FormControl, AbstractControl } from "@angular/forms";
+import { IValidationMessage } from "./IValidationMessage";
+import { ValidationMessage } from "./ValidationMessage";
+
 
 export abstract class IdentityCardChangeTemplate {
     protected fieldSet:any;
+    protected validationMessage: IValidationMessage = new ValidationMessage();
+
     protected constructor(private identityCardForm: FormGroup, protected isAvailable: any){
         this.fieldSet = {
             base: () => {
@@ -38,8 +43,52 @@ export abstract class IdentityCardChangeTemplate {
         return Validators.pattern("^[А-ЯЁ]{" + occurrence + "}$");
     }
 
+    protected customValidators = (() => {
+        let getErrorIfDateIssueInvalid = (dateIssue: AbstractControl, dateExpired: AbstractControl) => {
+            if (!dateIssue.value || !dateExpired.value) return null;
+            if (dateIssue.value > dateExpired.value) {
+                return { dateIssueMoreDateExpired: dateIssue.value };
+            }
+        }
+        let getErrorIfDateExpiredInvalid = (dateExpired: AbstractControl, dateIssue: AbstractControl) => {
+            if (!dateExpired.value || !dateIssue.value) return null;
+            if (dateExpired.value < dateIssue.value) {
+                return { dateExpiredLessDateIssue: dateExpired.value };
+            }
+        }
+        return {
+            dateIssue: (control: FormControl) => {
+                let dateExpired = this.identityCardForm.get("dateExpired");
+                let error = getErrorIfDateIssueInvalid(control, dateExpired);
+                if (error) return error;
+
+                let actualDateExpiredError = getErrorIfDateExpiredInvalid(dateExpired, control);
+
+                if (dateExpired.errors && dateExpired.errors["dateExpiredLessDateIssue"] && !actualDateExpiredError) {
+                    delete dateExpired.errors["dateExpiredLessDateIssue"];
+                    dateExpired.updateValueAndValidity();
+                }
+
+                return null;
+            },
+            dateExpired: (control: FormControl) => {
+                let dateIssue = this.identityCardForm.get("dateIssue");
+                let error = getErrorIfDateExpiredInvalid(control, dateIssue);
+                if (error) return error;
+
+                let actualDateIssueError = getErrorIfDateIssueInvalid(dateIssue, control);
+                if (dateIssue.errors && dateIssue.errors["dateIssueMoreDateExpired"] && !actualDateIssueError) {
+                    delete dateIssue.errors["dateIssueMoreDateExpired"];
+                    dateIssue.updateValueAndValidity();
+                }
+
+                return null;
+            }
+        }
+    })()
+
     Do():void{
-        this.clearValidators();
+        this.prepareForm();
         this.hideFormControls();
 
         this.showFormControls();
@@ -47,11 +96,13 @@ export abstract class IdentityCardChangeTemplate {
         this.setValidationMessages();
     }
 
-    private clearValidators() {
+    private prepareForm() {    
         let fields = IdentityCard.getFields();
         for (let index = 0, len = fields.length; index < len; index++) {
             let control = this.identityCardForm.get(fields[index]);
             control.clearValidators();
+            control.setValue("");
+            control.markAsPristine();
             control.updateValueAndValidity();
         }
     }

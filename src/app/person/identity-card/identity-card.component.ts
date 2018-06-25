@@ -54,16 +54,16 @@ export class IdentityCardComponent implements OnInit {
   private buildForm() {
     this.identityCardForm = this.fb.group({
       "identityCardType": ["", []],
-      "name": ["некий другой документ", []],
-      "series": ["1234", []],
-      "number": ["123456", []],
-      "issued": ["dvdvd", []],
-      "dateIssue": [new Date(), []],
-      "dateExpired": [new Date(), []],
-      "issueDepartmentCode": ["000-000", []],
-      "actRecordNumber": ["222222", []],
-      "actRecordDate": [new Date(), []],
-      "actRecordPlace": ["ddvdv", []],
+      "name": ["", []],
+      "series": ["", []],
+      "number": ["", []],
+      "issued": ["", []],
+      "dateIssue": ["", []],
+      "dateExpired": ["", []],
+      "issueDepartmentCode": ["", []],
+      "actRecordNumber": ["", []],
+      "actRecordDate": ["", []],
+      "actRecordPlace": ["", []],
     });
     this.identityCardForm.valueChanges
       .subscribe(data => {
