@@ -46,14 +46,14 @@ export abstract class IdentityCardChangeTemplate {
     protected customValidators = (() => {
         let getErrorIfDateIssueInvalid = (dateIssue: AbstractControl, dateExpired: AbstractControl) => {
             if (!dateIssue.value || !dateExpired.value) return null;
-            if (dateIssue.value > dateExpired.value) {
-                return { dateIssueMoreDateExpired: dateIssue.value };
+            if (dateIssue.value.jsdate > dateExpired.value.jsdate) {
+                return { dateIssueMoreDateExpired: dateIssue.value.jsdate };
             }
         }
         let getErrorIfDateExpiredInvalid = (dateExpired: AbstractControl, dateIssue: AbstractControl) => {
             if (!dateExpired.value || !dateIssue.value) return null;
-            if (dateExpired.value < dateIssue.value) {
-                return { dateExpiredLessDateIssue: dateExpired.value };
+            if (dateExpired.value.jsdate < dateIssue.value.jsdate) {
+                return { dateExpiredLessDateIssue: dateExpired.value.jsdate };
             }
         }
         return {

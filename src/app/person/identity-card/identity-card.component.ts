@@ -1,7 +1,8 @@
-import { Component, OnInit, Input } from '@angular/core';
-import { FormGroup, FormBuilder } from "@angular/forms";
+import { IMyDpOptions } from 'mydatepicker';
 import { IdentityCard, IdentityCardType, FormService, Entity, IdentityCardService, IdentityCardChangeHandler } from '../../shared/index';
 import { Subscription } from 'rxjs/internal/Subscription';
+import { FormGroup, FormBuilder } from '@angular/forms';
+import { Component, OnInit, Input } from '@angular/core';
 
 @Component({
   selector: 'identity-card',
@@ -14,6 +15,12 @@ export class IdentityCardComponent implements OnInit {
 
   private identityCardTypeSubscription: Subscription;
   types: Array<Entity<number>> = [];
+  public myDatePickerOptions: IMyDpOptions = {
+    // other options...
+    dateFormat: 'dd.mm.yyyy',
+    editableDateField :false,
+    openSelectorOnInputClick:true
+  };
   identityCardForm: FormGroup;
   identityCard: IdentityCard = new IdentityCard();
 
@@ -71,7 +78,7 @@ export class IdentityCardComponent implements OnInit {
       });
   }
 
- 
+
 
   subscribeToIdentityCardType(): void {
     let changeHandler = new IdentityCardChangeHandler(this.identityCardForm, this.isAvailable, this.validationMessages);

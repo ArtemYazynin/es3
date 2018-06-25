@@ -22,7 +22,7 @@ import { BirthInfoComponent } from './person/birth-info/birth-info.component';
 import { ApplicantStepComponent } from './wizard/applicant-step/applicant-step.component';
 import { ChildrenStepComponent } from './wizard/children-step/children-step.component';
 import { EnumToArrayPipe, IdentityCardTypeFriendlyNamePipe, FormService, WizardStorageService, CitizenshipService, RelationTypeService, IdentityCardService } from './shared/index';
- 
+import { MyDatePickerModule } from 'mydatepicker';
 
 
 @NgModule({
@@ -41,6 +41,7 @@ import { EnumToArrayPipe, IdentityCardTypeFriendlyNamePipe, FormService, WizardS
   ],
   imports: [
     BrowserModule,
+    MyDatePickerModule,
     FormsModule,
     ReactiveFormsModule,
     RouterModule.forRoot(routes),
