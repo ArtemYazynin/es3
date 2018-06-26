@@ -15,6 +15,7 @@ export class IdentityCardComponent implements OnInit {
 
   private identityCardTypeSubscription: Subscription;
   types: Array<Entity<number>> = [];
+  mask = { issueDepartmentCodeMask: [/\d/,/\d/,/\d/,"-",/\d/,/\d/,/\d/] };
   myDatePickerOptions = (() => {
     let def = {
       dateFormat: 'dd.mm.yyyy',
@@ -97,9 +98,6 @@ export class IdentityCardComponent implements OnInit {
         this.formService.onValueChange(this.identityCardForm, this.formErrors, this.validationMessages);
       });
   }
-
-
-
   subscribeToIdentityCardType(): void {
     let changeHandler = new IdentityCardChangeHandler(this.identityCardForm, this.isAvailable, this.validationMessages);
     this.identityCardTypeSubscription = this.identityCardForm.get("identityCardType")

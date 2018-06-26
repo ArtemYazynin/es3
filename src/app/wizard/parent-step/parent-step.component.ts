@@ -69,7 +69,7 @@ export class ParentStepComponent implements OnInit {
     IdentityCardType["Свидетельство о рождении, выданное уполномоченным органом иностранного государства"]
   ];
   countries: Array<Country> = [];
-
+  snilsMask = [/\d/,/\d/,/\d/, "-", /\d/,/\d/,/\d/, "-", /\d/,/\d/,/\d/, " ",/\d/,/\d/];
   isValid(): boolean {
     let isValid = {
       parentForm: this.parentForm && this.parentForm.valid || false,

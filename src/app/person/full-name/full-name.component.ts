@@ -17,7 +17,7 @@ export class FullNameComponent implements OnInit {
   validationMessages = Person.getvalidationMessages();
   private fioRegExp: string = "^[А-яЁё]+([ -]{1}[А-яЁё]+)*[ ]*$";
   private noMiddlenameSubscription: Subscription;
-  
+
   ngOnInit() {
     this.buildForm();
     this.subscribeToMiddlename();

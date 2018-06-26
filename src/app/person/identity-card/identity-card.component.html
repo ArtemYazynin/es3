@@ -54,7 +54,7 @@
             </div>
             <div class="form-group" *ngIf="isAvailable.issueDepartmentCode">
                 <label for="issueDepartmentCode">Код подразделения</label>
-                <input type="text" id="issueDepartmentCode" class="form-control" formControlName="issueDepartmentCode">
+                <input type="text" id="issueDepartmentCode" class="form-control" formControlName="issueDepartmentCode" [textMask]="{mask: mask.issueDepartmentCodeMask}">
                 <div *ngIf="formErrors.issueDepartmentCode" class="alert alert-danger">
                     {{ formErrors.issueDepartmentCode }}
                 </div>

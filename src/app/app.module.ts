@@ -23,7 +23,8 @@ import { ApplicantStepComponent } from './wizard/applicant-step/applicant-step.c
 import { ChildrenStepComponent } from './wizard/children-step/children-step.component';
 import { EnumToArrayPipe, IdentityCardTypeFriendlyNamePipe, FormService, WizardStorageService, CitizenshipService, RelationTypeService, IdentityCardService } from './shared/index';
 import { MyDatePickerModule } from 'mydatepicker';
-
+import { TextMaskModule } from 'angular2-text-mask';
+import { CitizenshipComponent } from './person/citizenship/citizenship.component';
 
 @NgModule({
   declarations: [
@@ -37,11 +38,13 @@ import { MyDatePickerModule } from 'mydatepicker';
     FullNameComponent,
     BirthInfoComponent,
     ApplicantStepComponent,
-    ChildrenStepComponent
+    ChildrenStepComponent,
+    CitizenshipComponent
   ],
   imports: [
     BrowserModule,
     MyDatePickerModule,
+    TextMaskModule,
     FormsModule,
     ReactiveFormsModule,
     RouterModule.forRoot(routes),

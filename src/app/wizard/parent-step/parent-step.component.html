@@ -10,7 +10,7 @@
             <full-name>
               <div class="form-group">
                 <label for="snils">СНИЛС</label>
-                <input type="text" id="snils" class="form-control" formControlName="snils" placeholder="___-___-___ __">
+                <input type="text" id="snils" class="form-control" formControlName="snils" placeholder="___-___-___ __" [textMask]="{mask: snilsMask}">
                 <div *ngIf="formErrors.snils" class="alert alert-danger">
                   {{ formErrors.snils }}
                 </div>
