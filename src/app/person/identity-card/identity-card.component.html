@@ -40,14 +40,14 @@
             </div>
             <div class="form-group" *ngIf="isAvailable.dateIssue">
                 <label for="dateIssue">Дата выдачи</label>
-                <my-date-picker name="dateIssue" id="dateIssue" [options]="myDatePickerOptions" formControlName="dateIssue"></my-date-picker>
+                <my-date-picker name="dateIssue" id="dateIssue" [options]="myDatePickerOptions.dateIssue" formControlName="dateIssue"></my-date-picker>
                 <div *ngIf="formErrors.dateIssue" class="alert alert-danger">
                     {{ formErrors.dateIssue }}
                 </div>
             </div>
             <div class="form-group" *ngIf="isAvailable.dateExpired">
                 <label for="dateExpired">Действительно до</label>
-                <my-date-picker name="dateExpired" id="dateExpired" [options]="myDatePickerOptions" formControlName="dateExpired"></my-date-picker>
+                <my-date-picker name="dateExpired" id="dateExpired" [options]="myDatePickerOptions.dateExpired" formControlName="dateExpired"></my-date-picker>
                 <div *ngIf="formErrors.dateExpired" class="alert alert-danger">
                     {{ formErrors.dateExpired }}
                 </div>
