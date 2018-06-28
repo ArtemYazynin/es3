@@ -37,12 +37,8 @@
                   <label for="citizenship">Гражданство
                     <b style="color: red;">*</b>
                   </label>
-                  <select id="citizenship" class="form-control" formControlName="citizenship">
-                    <option value="" selected>Не выбрано</option>
-                    <option *ngFor="let item of countries" [value]="item.id">
-                      {{item.name}}
-                    </option>
-                  </select>
+                  <app-citizenship-select [countries]="countries"> 
+                  </app-citizenship-select>                 
                 </div>
               </div>
             </div>

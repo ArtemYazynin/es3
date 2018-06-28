@@ -1,6 +1,5 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { FormControl, FormGroup, Validators, FormBuilder, ValidatorFn } from "@angular/forms";
-import { Subscription } from 'rxjs/_esm5';
+import { Component, OnInit, ViewChild, ViewChildren, QueryList, ChangeDetectorRef, ViewContainerRef, ComponentRef, ComponentFactory, ComponentFactoryResolver, AfterViewInit, ContentChildren, forwardRef } from '@angular/core';
+import { FormGroup, Validators, FormBuilder } from "@angular/forms";
 import { forkJoin } from 'rxjs';
 import { isNullOrUndefined } from 'util';
 import { Router, ActivatedRoute, Params } from '@angular/router';
@@ -17,13 +16,14 @@ import {
   RelationType,
   Country,
   WizardStorageService,
-  Entity,
-  IdentityCardService
+  IdentityCardService,
+  Entity
 } from "../../shared/index";
 import { IdentityCardComponent } from '../../person/identity-card/identity-card.component';
 import { ConfirmationDocumentComponent } from '../../confirmation-document/confirmation-document.component';
 import { FullNameComponent } from '../../person/full-name/full-name.component';
 import { BirthInfoComponent } from '../../person/birth-info/birth-info.component';
+import { CitizenshipSelectComponent } from '../../person/citizenship-select/citizenship-select.component';
 
 @Component({
   moduleId: module.id,
@@ -32,23 +32,19 @@ import { BirthInfoComponent } from '../../person/birth-info/birth-info.component
   styleUrls: ['./parent-step.component.css']
 })
 export class ParentStepComponent implements OnInit {
-  @ViewChild(IdentityCardComponent)
-  identityCardComponent: IdentityCardComponent;
+  citships: Array<Entity<string>> = [];
 
-  @ViewChild(ConfirmationDocumentComponent)
-  confirmationDocumentComponent: ConfirmationDocumentComponent
-
-  @ViewChild(FullNameComponent)
-  fullnameComponent: FullNameComponent
-
-  @ViewChild(BirthInfoComponent)
-  birthInfoComponent: BirthInfoComponent
+  @ViewChild(IdentityCardComponent) identityCardComponent;
+  @ViewChild(ConfirmationDocumentComponent) confirmationDocumentComponent;
+  @ViewChild(FullNameComponent) fullnameComponent;
+  @ViewChild(BirthInfoComponent) birthInfoComponent;
+  @ViewChild(CitizenshipSelectComponent) citizenshipSelectComponent;
 
   private inquiryType: string;
   parentForm: FormGroup;
   relationTypes: Array<RelationType> = [];
-  groupOfIdentityCardTypeId:Array<number> = [
-    IdentityCardType["Паспорт РФ"], 
+  groupOfIdentityCardTypeId: Array<number> = [
+    IdentityCardType["Паспорт РФ"],
     IdentityCardType["Другой документ, удостоверяющий личность"],
     IdentityCardType["Свидетельство о рождении РФ"],
     IdentityCardType["Загранпаспорт гражданина РФ"],
@@ -69,7 +65,22 @@ export class ParentStepComponent implements OnInit {
     IdentityCardType["Свидетельство о рождении, выданное уполномоченным органом иностранного государства"]
   ];
   countries: Array<Country> = [];
-  snilsMask = [/\d/,/\d/,/\d/, "-", /\d/,/\d/,/\d/, "-", /\d/,/\d/,/\d/, " ",/\d/,/\d/];
+  snilsMask = [/\d/, /\d/, /\d/, "-", /\d/, /\d/, /\d/, "-", /\d/, /\d/, /\d/, " ", /\d/, /\d/];
+  private isValidAllCitizenships(addCondition?: (item: string) => {}): boolean {
+   //if (this.citizenshipSelectComponent.citizenships.length === 0) return false;
+    return false;
+    // if (this.citizenshipSelectComponents.length === 0) return false;
+    // let citizenships = <Array<CitizenshipSelectComponent>>this.citizenshipSelectComponents["_results"];
+    // let result = true;
+    // for (let index = 0, len = citizenships.length; index < len; index++) {
+    //   let addConditionResult = addCondition ? addCondition(citizenships[index].citizenship) : true;
+    //   if (isNullOrUndefined(citizenships[index].citizenship) || citizenships[index].citizenship === "" || addConditionResult) {
+    //     result = false;
+    //     break;
+    //   }
+    // }
+    // return result;
+  }
   isValid(): boolean {
     let isValid = {
       parentForm: this.parentForm && this.parentForm.valid || false,
@@ -86,9 +97,8 @@ export class ParentStepComponent implements OnInit {
       })(),
       countryStateForm: (() => {
         if (!this.parentForm || !this.parentForm.valid) return false;
-        if (isNullOrUndefined(this.parentForm.value.citizenship) || this.parentForm.value.citizenship === "") return false;
-        if (parseInt(this.parentForm.value.citizenship) === this.countries.find(x => x.name === "Россия").id) return true;
-        return this.confirmationDocumentComponent
+        let citizenshipsIsValid: boolean = this.isValidAllCitizenships();
+        return citizenshipsIsValid && this.confirmationDocumentComponent
           && this.confirmationDocumentComponent.confirmationDocumentForm
           && this.confirmationDocumentComponent.confirmationDocumentForm.valid
           || false;
@@ -102,7 +112,10 @@ export class ParentStepComponent implements OnInit {
   }
   isAvailable = {
     countryStateDocument: () => {
-      return this.parentForm.value.citizenship && parseInt(this.parentForm.value.citizenship) !== this.countries.find(x => x.name === "Россия").id;
+      let visible = this.isValidAllCitizenships(citizenship => {
+        return parseInt(citizenship) === this.countries.find(x => x.name === "Россия").id;
+      });
+      return visible;
     },
     representChildrenInterestsDocument: () => {
       let relationType = this.relationTypes.find(x => x.id === this.parentForm.value.relationType);
@@ -121,11 +134,12 @@ export class ParentStepComponent implements OnInit {
     private relationTypeService: RelationTypeService,
     private router: Router,
     private activatedRoute: ActivatedRoute,
-    private identityCardService:IdentityCardService) { }
+    private identityCardService: IdentityCardService) { }
 
   ngOnInit() {
     this.isAvailable.relationType = this.storageService.request.applicantType !== ApplicantType["Лицо, подающее заявление о приёме самого себя"];
     this.isAvailable.childApplicantInfo = this.storageService.request.applicantType === ApplicantType["Лицо, подающее заявление о приёме самого себя"];
+
     forkJoin([this.citizenshipService.getCountries(), this.relationTypeService.get()])
       .subscribe(results => {
         this.countries = results[0];
@@ -149,12 +163,6 @@ export class ParentStepComponent implements OnInit {
           Validators.required,
           Validators.maxLength(28),
           Validators.pattern("^\\d{3}-\\d{3}-\\d{3}\\s\\d{2}$")
-        ]
-      ],
-      "citizenship": [
-        "",
-        [
-          Validators.required
         ]
       ],
       "relationType": [

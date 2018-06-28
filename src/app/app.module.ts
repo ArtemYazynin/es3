@@ -24,7 +24,8 @@ import { ChildrenStepComponent } from './wizard/children-step/children-step.comp
 import { EnumToArrayPipe, IdentityCardTypeFriendlyNamePipe, FormService, WizardStorageService, CitizenshipService, RelationTypeService, IdentityCardService } from './shared/index';
 import { MyDatePickerModule } from 'mydatepicker';
 import { TextMaskModule } from 'angular2-text-mask';
-import { CitizenshipComponent } from './person/citizenship/citizenship.component';
+import { CitizenshipSelectComponent } from './person/citizenship-select/citizenship-select.component';
+import {NgSelectModule} from '@ng-select/ng-select';
 
 @NgModule({
   declarations: [
@@ -39,12 +40,13 @@ import { CitizenshipComponent } from './person/citizenship/citizenship.component
     BirthInfoComponent,
     ApplicantStepComponent,
     ChildrenStepComponent,
-    CitizenshipComponent
+    CitizenshipSelectComponent
   ],
   imports: [
     BrowserModule,
     MyDatePickerModule,
     TextMaskModule,
+    NgSelectModule,
     FormsModule,
     ReactiveFormsModule,
     RouterModule.forRoot(routes),
@@ -53,6 +55,7 @@ import { CitizenshipComponent } from './person/citizenship/citizenship.component
   InMemoryWebApiModule.forRoot(InMemoryService),
   ],
   providers: [HttpInterceptor,FormService, WizardStorageService, CitizenshipService,RelationTypeService,IdentityCardService],
+  entryComponents: [ CitizenshipSelectComponent ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

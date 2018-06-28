@@ -1,0 +1,23 @@
+<div>
+  <div style="display: inline-block; width: 40%; margin-right: 10px;">
+    <ng-select class="citizenship-select" [(ngModel)]="citizenship" (change)="onChange($event)">
+      <ng-option value="" selected>Не выбрано</ng-option>
+      <ng-option *ngFor="let item of countries" [value]="item.id">
+        {{item.name}}
+      </ng-option>
+    </ng-select>
+  </div>
+  <div style="display: inline-block;" *ngIf="!dynamic">
+    <button class="btn btn-primary" [disabled]="!citizenship" (click)="add()">
+      <i class="fas fa-plus"></i>
+    </button>
+  </div>
+  <div style="display: inline-block;" *ngIf="dynamic">
+    <button class="btn btn-danger" (click)="remove()">
+      <i class="fas fa-minus"></i>
+    </button>
+  </div>
+</div>
+
+<ng-template #viewContainer *ngIf="!dynamic">
+</ng-template>
