@@ -1,6 +1,6 @@
 <div>
   <div style="display: inline-block; width: 40%; margin-right: 10px;">
-    <ng-select class="citizenship-select" [(ngModel)]="citizenship" (change)="onChange($event)">
+    <ng-select class="citizenship-select" [(ngModel)]="citizenship" (change)="onChange($event)" [clearable]="false" [multiple]="true">
       <ng-option value="" selected>Не выбрано</ng-option>
       <ng-option *ngFor="let item of countries" [value]="item.id">
         {{item.name}}
@@ -18,6 +18,10 @@
     </button>
   </div>
 </div>
-
+<div *ngIf="!dynamic">
+  <ul>
+    <li *ngFor="let item of citizenships">{{item.name}}</li>
+  </ul>
+</div>
 <ng-template #viewContainer *ngIf="!dynamic">
 </ng-template>

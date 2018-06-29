@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, ComponentFactoryResolver, ViewChild, ViewContainerRef, ComponentRef, ComponentFactory, OnDestroy } from '@angular/core';
+import { Component, OnInit, Input, ComponentFactoryResolver, ViewChild, ViewContainerRef, ComponentRef, ComponentFactory, OnDestroy, OnChanges } from '@angular/core';
 import { Country, CitizenshipService, Entity } from '../../shared/index';
 import { isNullOrUndefined } from 'util';
 
@@ -17,7 +17,6 @@ export class CitizenshipSelectComponent implements OnInit, OnDestroy {
 
   id: string;
   dynamic: boolean = false;
-
   citizenship: string = "";
   componentRef: ComponentRef<CitizenshipSelectComponent>;
 
@@ -54,30 +53,34 @@ export class CitizenshipSelectComponent implements OnInit, OnDestroy {
     if (this.countries.length === 0)
       this.citizenshipService.getCountries().subscribe(result => { this.countries = result; });
   }
+  private writeLog() {
+    console.log("...")
+    this.citizenships.forEach(x => console.log(x));
+  }
   onChange(newValue) {
     const withoutCitizenships = newValue === 0;
     if (isNullOrUndefined(newValue) || newValue === "") {
       this.citizenships.splice(this.citizenships.findIndex(x => x.id == this.id), 1);
+      this.citizenship = "";
+      this.writeLog();
       return;
     }
     if (withoutCitizenships) {
       this.components.forEach(x => this.viewContainer.remove(this.viewContainer.indexOf(x)));
       this.components = [];
       this.citizenships = [];
-
       this.citizenships.push(new Entity(this.id, newValue));
-
-      console.log("")
-      this.citizenships.forEach(x => console.log(x));
+      this.writeLog();
       return;
     }
 
     if (this.citizenships.find(x => x.name == newValue)) {
-      console.log("")
-      this.citizenships.forEach(x => console.log(x));
+      this.citizenship = "";
+      let index = this.citizenships.findIndex(x => x.id == this.id);
+      if (index != -1) this.citizenships.splice(index, 1);
+      this.writeLog();
       return;
     }
-
 
     let found: boolean = false;
     this.citizenships.forEach(val => {
@@ -89,7 +92,6 @@ export class CitizenshipSelectComponent implements OnInit, OnDestroy {
     if (!found) {
       this.citizenships.push(new Entity(this.id, newValue));
     }
-    console.log("")
-    this.citizenships.forEach(x => console.log(x));
+    this.writeLog();
   }
 }
