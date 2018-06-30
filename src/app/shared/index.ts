@@ -20,6 +20,7 @@ export * from "./citizenships/citizenship.service";
 export * from "./relationTypes/relation-type.service";
 export * from "./wizard-storage.service";
 export * from "./identityCards/identity-card.service";
+export * from "./wizard/parent-step.service";
 
 
 export * from "./enum-to-array-pipe";

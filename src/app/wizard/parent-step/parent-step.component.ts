@@ -17,7 +17,8 @@ import {
   Country,
   WizardStorageService,
   IdentityCardService,
-  Entity
+  Entity,
+  ParentStepService
 } from "../../shared/index";
 import { IdentityCardComponent } from '../../person/identity-card/identity-card.component';
 import { ConfirmationDocumentComponent } from '../../confirmation-document/confirmation-document.component';
@@ -116,8 +117,8 @@ export class ParentStepComponent implements OnInit {
     relationType: false,
     childApplicantInfo: false
   }
-  formErrors = Object.assign({}, Person.getFormErrorsTemplate(), Parent.getFormErrorsTemplate());
-  validationMessages = Object.assign({}, Person.getvalidationMessages(), Parent.getvalidationMessages());
+  formErrors = this.parentStepService.getFormErrors();
+  validationMessages = this.parentStepService.getValidationMessages();
 
   constructor(private fb: FormBuilder,
     private formService: FormService,
@@ -126,7 +127,8 @@ export class ParentStepComponent implements OnInit {
     private relationTypeService: RelationTypeService,
     private router: Router,
     private activatedRoute: ActivatedRoute,
-    private identityCardService: IdentityCardService) { }
+    private identityCardService: IdentityCardService,
+    private parentStepService: ParentStepService) { }
 
   ngOnInit() {
     this.isAvailable.relationType = this.storageService.request.applicantType !== ApplicantType["Лицо, подающее заявление о приёме самого себя"];
