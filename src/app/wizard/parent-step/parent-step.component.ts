@@ -66,19 +66,6 @@ export class ParentStepComponent implements OnInit {
   ];
   countries: Array<Country> = [];
   snilsMask = [/\d/, /\d/, /\d/, "-", /\d/, /\d/, /\d/, "-", /\d/, /\d/, /\d/, " ", /\d/, /\d/];
-  private isValidAllCitizenships(): boolean {
-    if (!this.citizenshipSelectComponent || this.citizenshipSelectComponent.citizenships.length === 0)
-      return false;
-    let isValid = true;
-    for (let index = 0, len = this.citizenshipSelectComponent.citizenships.length; index < len; index++) {
-      const item = this.citizenshipSelectComponent.citizenships[index];
-      if (isNullOrUndefined(item.name) || item.name === "") {
-        isValid = false;
-        break;
-      }
-    }
-    return isValid;
-  }
   isValid(): boolean {
     let isValid = {
       parentForm: this.parentForm && this.parentForm.valid || false,
@@ -98,9 +85,9 @@ export class ParentStepComponent implements OnInit {
         if (this.confirmationDocumentComponent
           && this.confirmationDocumentComponent.confirmationDocumentForm
           || false) {
-          return this.isValidAllCitizenships() && this.confirmationDocumentComponent.confirmationDocumentForm.valid;
+          return this.citizenshipSelectComponent.citizenships.length > 0 && this.confirmationDocumentComponent.confirmationDocumentForm.valid;
         } else {
-          return this.isValidAllCitizenships();
+          return this.citizenshipSelectComponent.citizenships.length > 0;
         }
       })()
     }
@@ -112,20 +99,15 @@ export class ParentStepComponent implements OnInit {
   }
   isAvailable = {
     countryStateDocument: () => {
-      let foreignCitizenshipExists = ((context) => {
-        let result = false;
-        if (!this.citizenshipSelectComponent || this.citizenshipSelectComponent.citizenships.length === 0)
-          return result;
-        for (let index = 0, len = context.citizenshipSelectComponent.citizenships.length; index < len; index++) {
-          const item = context.citizenshipSelectComponent.citizenships[index];
-          if (parseInt(item.name) !== context.countries.find(x => x.name === "Россия").id) {
-            result = true;
-            break;
-          }
-        }
-        return result;
-      })(this);
-      return this.isValidAllCitizenships() && foreignCitizenshipExists;
+      if (!this.citizenshipSelectComponent) return false;
+      let codeOfRussia = this.countries.find(x => x.name === "Россия").id;
+      let foreignCitizenshipsExists = (() => {
+        let result = this.citizenshipSelectComponent.citizenships.findIndex(x => {
+          return x != codeOfRussia;
+        });
+        return result == -1 ? false : true;;
+      })();
+      return foreignCitizenshipsExists;
     },
     representChildrenInterestsDocument: () => {
       let relationType = this.relationTypes.find(x => x.id === this.parentForm.value.relationType);
