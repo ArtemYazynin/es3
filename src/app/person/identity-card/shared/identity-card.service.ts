@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { Entity } from '../entity';
-import { HttpInterceptor } from '../http-interceptor';
+import { Entity } from '../../../shared/entity';
+import { HttpInterceptor } from '../../../shared/http-interceptor';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 

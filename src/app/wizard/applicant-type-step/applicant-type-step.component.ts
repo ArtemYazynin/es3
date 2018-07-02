@@ -9,7 +9,7 @@ import { Router, ActivatedRoute, Params } from '@angular/router';
 })
 export class ApplicantTypeStepComponent implements OnInit {
   inquiryType: string;
-  applicantType: ApplicantType = ApplicantType["Родитель/Опекун"];
+  applicantType: ApplicantType = ApplicantType["Законный представитель ребенка"];
   applicantTypes:Array<Entity<number>> = [];
   
 
@@ -26,7 +26,7 @@ export class ApplicantTypeStepComponent implements OnInit {
           let groupOfId = ApplicantType.values();
           for (let index = 0, len = groupOfId.length; index < len; index++) {
             let _id = parseInt(groupOfId[index]);
-            if (_id === ApplicantType["Лицо, подающее заявление о приёме самого себя"] && this.inquiryType === "preschool") {
+            if (_id === ApplicantType["Ребенок-заявитель"] && this.inquiryType === "preschool") {
               continue;
             }
             result.push({

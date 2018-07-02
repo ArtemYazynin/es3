@@ -1,4 +1,4 @@
-import { IdentityCard } from "./identityCards/identityCard";
+import { IdentityCard } from "../person/identity-card/shared/identityCard";
 import { Person } from "./person";
 
 export class Client extends Person{  

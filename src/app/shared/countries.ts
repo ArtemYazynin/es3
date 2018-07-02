@@ -22,10 +22,6 @@ export const Countries = [
     {
         "id": 31,
         "name": "Азербайджан"
-
-
-
-
     },
     {
         "id": 8,

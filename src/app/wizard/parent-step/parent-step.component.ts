@@ -76,7 +76,7 @@ export class ParentStepComponent implements OnInit {
         || false,
       fullnameForm: this.fullnameComponent && this.fullnameComponent.fullnameForm && this.fullnameComponent.fullnameForm.valid || false,
       birthInfoForm: (() => {
-        if (this.storageService.request.applicantType !== ApplicantType["Лицо, подающее заявление о приёме самого себя"]) {
+        if (this.storageService.request.applicantType !== ApplicantType["Ребенок-заявитель"]) {
           return true;
         }
         return this.birthInfoComponent && this.birthInfoComponent.birthInfoForm && this.birthInfoComponent.birthInfoForm.valid || false;
@@ -131,8 +131,8 @@ export class ParentStepComponent implements OnInit {
     private parentStepService: ParentStepService) { }
 
   ngOnInit() {
-    this.isAvailable.relationType = this.storageService.request.applicantType !== ApplicantType["Лицо, подающее заявление о приёме самого себя"];
-    this.isAvailable.childApplicantInfo = this.storageService.request.applicantType === ApplicantType["Лицо, подающее заявление о приёме самого себя"];
+    this.isAvailable.relationType = this.storageService.request.applicantType !== ApplicantType["Ребенок-заявитель"];
+    this.isAvailable.childApplicantInfo = this.storageService.request.applicantType === ApplicantType["Ребенок-заявитель"];
 
     forkJoin([this.citizenshipService.getCountries(), this.relationTypeService.get()])
       .subscribe(results => {
@@ -194,11 +194,11 @@ export class ParentStepComponent implements OnInit {
       })();
       let segment: string = (() => {
         switch (this.storageService.request.applicantType) {
-          case ApplicantType["Родитель/Опекун"]:
+          case ApplicantType["Законный представитель ребенка"]:
             return "childrenStep";
-          case ApplicantType["Лицо, подающее заявление о приёме самого себя"]:
+          case ApplicantType["Ребенок-заявитель"]:
             return "contactsStep";
-          case ApplicantType["Лицо, действующее от имени законного представителя"]:
+          case ApplicantType["Доверенное лицо законного представителя ребенка"]:
             return "applicantStep";
           default:
             break;

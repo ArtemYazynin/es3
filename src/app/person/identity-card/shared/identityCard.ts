@@ -1,5 +1,5 @@
 import { IdentityCardType } from "./identityCardType";
-import { Client } from "../client"
+import { Client } from "../../../shared/client"
 
 export class IdentityCard {
     public identityCardType: IdentityCardType;

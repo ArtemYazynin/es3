@@ -1,5 +1,5 @@
 //enums
-export * from "./identityCards/identityCardType";
+export * from "../person/identity-card/shared/identityCardType";
 export * from "./applicant-type.enum";
 //
 
@@ -10,7 +10,7 @@ export * from "./relationTypes/relation-type";
 
 export * from "./entity";
 export * from "./citizenships/country";
-export * from "./identityCards/identityCard";
+export * from "../person/identity-card/shared/identityCard";
 export * from "./client";
 export * from "./confirmation-document";
 export * from "./person";
@@ -19,12 +19,10 @@ export * from "./form.service";
 export * from "./citizenships/citizenship.service";
 export * from "./relationTypes/relation-type.service";
 export * from "./wizard-storage.service";
-export * from "./identityCards/identity-card.service";
-export * from "./wizard/parent-step.service";
+export * from "../person/identity-card/shared/identity-card.service";
+export * from "../wizard/parent-step/shared/parent-step.service";
 
 
 export * from "./enum-to-array-pipe";
-export * from "./identityCards/identityCardChangeHandlers/identity-card-change-template";
-export * from "./identityCards/identityCardChangeHandlers/change-to-undefined";
-export * from "./identityCards/identity-card-type-friendly-name.pipe";
-export * from "./identityCards/identity-card-change-handler";
+export * from "../person/identity-card/shared/identity-card-type-friendly-name.pipe";
+export * from "../person/identity-card/shared/identity-card-change-handler";

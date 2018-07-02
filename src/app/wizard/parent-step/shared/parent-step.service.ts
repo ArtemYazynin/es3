@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { Person } from '../person';
-import { Parent } from '../parent';
+import { Person } from '../../../shared/person';
+import { Parent } from '../../../shared/parent';
 
 @Injectable({
   providedIn: 'root'
