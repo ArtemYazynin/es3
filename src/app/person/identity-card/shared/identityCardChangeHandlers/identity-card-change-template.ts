@@ -5,10 +5,10 @@ import { ValidationMessage } from "./ValidationMessage";
 
 
 export abstract class IdentityCardChangeTemplate {
-    protected fieldSet:any;
+    protected fieldSet: any;
     protected validationMessage: IValidationMessage = new ValidationMessage();
 
-    protected constructor(private identityCardForm: FormGroup, protected isAvailable: any){
+    protected constructor(private identityCardForm: FormGroup, protected isAvailable: any) {
         this.fieldSet = {
             base: () => {
                 this.isAvailable.number = true;
@@ -30,16 +30,16 @@ export abstract class IdentityCardChangeTemplate {
         };
     }
 
-    protected updateValidators(controlName: string, validators: Array<ValidatorFn>):void{
+    protected updateValidators(controlName: string, validators: Array<ValidatorFn>): void {
         const control = this.identityCardForm.get(controlName);
         control.clearValidators();
         control.setValidators(validators);
         control.updateValueAndValidity();
     };
-    protected getSimpleNumberValidator(occurrence: number){
+    protected getSimpleNumberValidator(occurrence: number) {
         return Validators.pattern("^\\d{" + occurrence + "}$");
     }
-    protected getSimpleCyrilicValidator(occurrence: number){
+    protected getSimpleCyrilicValidator(occurrence: number) {
         return Validators.pattern("^[А-ЯЁ]{" + occurrence + "}$");
     }
 
@@ -87,7 +87,7 @@ export abstract class IdentityCardChangeTemplate {
         }
     })()
 
-    Do():void{
+    Do(): void {
         this.prepareForm();
         this.hideFormControls();
 
@@ -96,7 +96,7 @@ export abstract class IdentityCardChangeTemplate {
         this.setValidationMessages();
     }
 
-    private prepareForm() {    
+    private prepareForm() {
         let fields = IdentityCard.getFields();
         for (let index = 0, len = fields.length; index < len; index++) {
             let control = this.identityCardForm.get(fields[index]);
@@ -107,7 +107,7 @@ export abstract class IdentityCardChangeTemplate {
         }
     }
 
-    private hideFormControls(){
+    private hideFormControls() {
         this.isAvailable.reset();
     }
 

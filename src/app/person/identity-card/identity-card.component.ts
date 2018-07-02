@@ -15,7 +15,10 @@ export class IdentityCardComponent implements OnInit {
 
   private identityCardTypeSubscription: Subscription;
   types: Array<Entity<number>> = [];
-  mask = { issueDepartmentCodeMask: [/\d/,/\d/,/\d/,"-",/\d/,/\d/,/\d/] };
+  mask = { 
+    issueDepartmentCodeMask: [/\d/,/\d/,/\d/,"-",/\d/,/\d/,/\d/],
+    temporaryResidenceNumber: [/\d/,/\d/,/\d/,/\d/,"-",/\d/,/\d/,/\d/,/\d/]
+  };
   myDatePickerOptions = (() => {
     let def = {
       dateFormat: 'dd.mm.yyyy',

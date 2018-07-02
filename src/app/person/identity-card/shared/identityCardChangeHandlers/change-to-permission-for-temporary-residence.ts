@@ -4,6 +4,7 @@ import { Validators, FormGroup, ValidatorFn } from "@angular/forms";
 export class ChangeToPermissionForTemporaryResidence extends IdentityCardChangeTemplate {
     showFormControls() {
         this.fieldSet.baseWithDateExpired();
+        this.isAvailable.maskOfNumber = true;
     }
     setValidators() {
         this.updateValidators("number", [Validators.required, Validators.pattern("^\\d{4}-\\d{4}$")]);
