@@ -19,32 +19,7 @@ export class IdentityCardComponent implements OnInit {
     issueDepartmentCodeMask: [/\d/,/\d/,/\d/,"-",/\d/,/\d/,/\d/],
     temporaryResidenceNumber: [/\d/,/\d/,/\d/,/\d/,"-",/\d/,/\d/,/\d/,/\d/]
   };
-  myDatePickerOptions = (() => {
-    let def = {
-      dateFormat: 'dd.mm.yyyy',
-      editableDateField: false,
-      openSelectorOnInputClick: true
-    }
-    let currentDate = new Date();
-    let _dateIssue: IMyDpOptions = {
-      disableSince: {
-        year: currentDate.getFullYear(),
-        month: currentDate.getMonth() + 1,
-        day: currentDate.getDate() + 1,
-      }
-    }
-    let _dateExpired: IMyDpOptions = {
-      disableUntil: {
-        year: currentDate.getFullYear(),
-        month: currentDate.getMonth() + 1,
-        day: currentDate.getDate() - 1,
-      }
-    }
-    return {
-      dateIssue: Object.assign({}, def, _dateIssue),
-      dateExpired: Object.assign({}, def, _dateExpired)
-    }
-  })();
+  myDatePickerOptions = this.formService.getDatepickerOptions();
   identityCardForm: FormGroup;
   identityCard: IdentityCard = new IdentityCard();
 

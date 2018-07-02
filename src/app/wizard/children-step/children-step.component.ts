@@ -3,7 +3,8 @@ import { IdentityCardComponent } from '../../person/identity-card/identity-card.
 import { FullNameComponent } from '../../person/full-name/full-name.component';
 import { BirthInfoComponent } from '../../person/birth-info/birth-info.component';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
-import { FormService, Parent, Person, WizardStorageService, ApplicantType, CitizenshipService, Country } from '../../shared/index';
+import { FormService, Parent, Person, WizardStorageService, ApplicantType, CitizenshipService, Country, IdentityCardType } from '../../shared/index';
+import { CitizenshipSelectComponent } from '../../person/citizenship-select/citizenship-select.component';
 
 @Component({
   selector: 'app-children-step',
@@ -11,16 +12,17 @@ import { FormService, Parent, Person, WizardStorageService, ApplicantType, Citiz
   styleUrls: ['./children-step.component.css']
 })
 export class ChildrenStepComponent implements OnInit {
-
-  @ViewChild(IdentityCardComponent)
-  identityCardComponent: IdentityCardComponent;
-
-  @ViewChild(FullNameComponent)
-  fullnameComponent: FullNameComponent
-
-  @ViewChild(BirthInfoComponent)
-  birthInfoComponent: BirthInfoComponent
-
+  @ViewChild(IdentityCardComponent) identityCardComponent: IdentityCardComponent;
+  @ViewChild(FullNameComponent) fullnameComponent: FullNameComponent;
+  @ViewChild(BirthInfoComponent) birthInfoComponent: BirthInfoComponent;
+  @ViewChild(CitizenshipSelectComponent) citizenshipSelectComponent: CitizenshipSelectComponent;
+  
+  groupOfIdentityCardTypeId: Array<number> = [
+    IdentityCardType["Паспорт РФ"],
+    IdentityCardType["Свидетельство о рождении РФ"],
+    IdentityCardType["Свидетельство о рождении, выданное уполномоченным органом иностранного государства"],
+    IdentityCardType["Иностранный паспорт"]
+  ];
   constructor(private fb: FormBuilder, private formService: FormService, private storageService: WizardStorageService, private citizenshipService: CitizenshipService) { }
 
   countries: Array<Country> = [];

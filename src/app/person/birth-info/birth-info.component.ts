@@ -14,6 +14,9 @@ export class BirthInfoComponent implements OnInit {
   birthInfoForm: FormGroup
   formErrors = Person.getFormErrorsTemplate();
   validationMessages = Person.getvalidationMessages();
+  myDatePickerOptions = {
+    birthDate: this.formService.getDatepickerOptions().dateIssue
+  }
 
   ngOnInit() {
     this.buildForm();

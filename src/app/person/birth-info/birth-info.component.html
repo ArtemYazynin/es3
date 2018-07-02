@@ -8,7 +8,8 @@
   </div>
   <div class="form-group">
     <label for="birthDate">Дата рождения</label>
-    <input type="date" id="birthDate" class="form-control" formControlName="birthDate">
+    <!-- <input type="date" id="birthDate" class="form-control" formControlName="birthDate"> -->
+    <my-date-picker name="birthDate" id="birthDate" [options]="myDatePickerOptions.birthDate" formControlName="birthDate"></my-date-picker>
     <div *ngIf="formErrors.birthDate" class="alert alert-danger">
       {{ formErrors.birthDate }}
     </div>
