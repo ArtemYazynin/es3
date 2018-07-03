@@ -2,8 +2,8 @@ import { Http, Request, RequestOptions, RequestOptionsArgs, Response, XHRBackend
 import { Injectable } from "@angular/core"
 
 // operators
-import { Observable,throwError } from "rxjs";
-import { map, catchError } from "rxjs/operators";
+import { Observable } from "rxjs";
+import { catchError } from "rxjs/operators";
 
 @Injectable()
 export class HttpInterceptor extends Http {

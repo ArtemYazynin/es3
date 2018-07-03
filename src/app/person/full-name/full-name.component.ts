@@ -27,7 +27,7 @@ export class FullNameComponent implements OnInit {
   private buildForm() {
     this.fullnameForm = this.fb.group({
       "lastname": [
-        "ластнейм",
+        "",
         [
           Validators.required,
           Validators.maxLength(50),
@@ -35,7 +35,7 @@ export class FullNameComponent implements OnInit {
         ]
       ],
       "firstname": [
-        "фёстнейм",
+        "",
         [
           Validators.required,
           Validators.maxLength(50),
@@ -43,7 +43,7 @@ export class FullNameComponent implements OnInit {
         ]
       ],
       "middlename": [
-        "миддлнейм", [
+        "", [
           Validators.required,
           Validators.maxLength(50),
           Validators.pattern(this.fioRegExp)

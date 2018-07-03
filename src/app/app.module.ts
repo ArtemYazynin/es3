@@ -21,11 +21,12 @@ import { FullNameComponent } from './person/full-name/full-name.component';
 import { BirthInfoComponent } from './person/birth-info/birth-info.component';
 import { ApplicantStepComponent } from './wizard/applicant-step/applicant-step.component';
 import { ChildrenStepComponent } from './wizard/children-step/children-step.component';
-import { EnumToArrayPipe, IdentityCardTypeFriendlyNamePipe, FormService, WizardStorageService, CitizenshipService, RelationTypeService, IdentityCardService, ParentStepService } from './shared/index';
+import { EnumToArrayPipe, IdentityCardTypeFriendlyNamePipe, FormService, WizardStorageService, CitizenshipService, RelationTypeService, IdentityCardService, ParentStepService, SpecHealthService } from './shared/index';
 import { MyDatePickerModule } from 'mydatepicker';
 import { TextMaskModule } from 'angular2-text-mask';
 import { CitizenshipSelectComponent } from './person/citizenship-select/citizenship-select.component';
 import {NgSelectModule} from '@ng-select/ng-select';
+import { ChildComponent } from './wizard/children-step/child/child.component';
 
 @NgModule({
   declarations: [
@@ -40,7 +41,8 @@ import {NgSelectModule} from '@ng-select/ng-select';
     BirthInfoComponent,
     ApplicantStepComponent,
     ChildrenStepComponent,
-    CitizenshipSelectComponent
+    CitizenshipSelectComponent,
+    ChildComponent
   ],
   imports: [
     BrowserModule,
@@ -61,9 +63,10 @@ import {NgSelectModule} from '@ng-select/ng-select';
     CitizenshipService,
     RelationTypeService,
     IdentityCardService,
-    ParentStepService
+    ParentStepService,
+    SpecHealthService
   ],
-  entryComponents: [ CitizenshipSelectComponent ],
+  entryComponents: [ ChildComponent ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

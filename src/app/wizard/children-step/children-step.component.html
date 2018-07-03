@@ -1,71 +1,46 @@
-<ul class="nav nav-tabs">
-
-</ul>
-<div class="container col-md-12" *ngIf="childForm">
-    <form [formGroup]="childForm" (ngSubmit)="goTo.next()" novalidate>
+<div class="container col-md-12">
+  <div class="widget-box">
+    <div class="widget-title">
+      <h5>Ребенок/Дети</h5>
+    </div>
+    <div class="widget-content" >
       <div class="widget-box">
         <div class="widget-title">
-          <h5>Ребенок/Дети</h5>
+          <ul class="nav nav-tabs">
+            <li *ngFor="let component of components; let first = first">
+              <a (click)="navBarManager.select(component)" [class.child-active]="component.instance.show">
+                {{navBarManager.getTitle(component)}}
+                <i class="fas fa-trash-alt" (click)="navBarManager.remove(component)" *ngIf="!first"></i>
+              </a>
+            </li>
+            <li>
+              <a (click)="navBarManager.add()">
+                <i class="fas fa-plus"></i>
+              </a>
+            </li>
+          </ul>
         </div>
-        <div class="widget-content">
-          <div class="row">
-            <div class="col-md-6">
-              <full-name>
-                <div class="form-group">
-                  <label for="snils">СНИЛС</label>
-                  <input type="text" id="snils" class="form-control" formControlName="snils" placeholder="___-___-___ __">
-                  <div *ngIf="formErrors.snils" class="alert alert-danger">
-                    {{ formErrors.snils }}
-                  </div>
-                </div>
-              </full-name>
-              <div>
-                <span>
-                  <b>{{childForm.value | json}}</b>
-                </span>
-                <span>childForm.status:
-                  <b>{{childForm.status | json}}</b>
-                </span>
-              </div>
-            </div>
-            <div class="col-md-6">
-              <identity-card [ids]="groupOfIdentityCardTypeId"></identity-card>
-            </div>
-          </div>
-          <div class="row">
-              <div class="col-md-12">
-                <div class="widget-box">
-                  <div class="widget-content">
-                    <div class="form-group">
-                      <label for="citizenship">Гражданство
-                        <b style="color: red;">*</b>
-                      </label>
-                      <app-citizenship-select>
-                      </app-citizenship-select>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          <div class="row">
-            <div class="col-md-12">
-              <birth-info>
-              </birth-info>
-            </div>
-          </div>
+        <ng-template #childContainer>
+          </ng-template>
+      </div>
+      <div class="row" *ngIf="isAvailable.specHealthDocument()">
+        <div class="col-md-12">
+          <app-confirmation-document title="Документ, подтверждающий потребность в группе с ОВЗ">
+          </app-confirmation-document>
         </div>
       </div>
-      <div class="widget-box">
-        <div class="widget-content">
-          <div class="row">
-            <div class="col-md-12">
-              <div class="form-actions" style="text-align: center;">
-                <button type="button" class="btn btn-inverse" (click)="goTo.back()">Назад</button>
-                <button type="submit" class="btn btn-primary" [disabled]="!isValid()">Далее</button>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </form>
+    </div>
   </div>
+  <div class="widget-box">
+    <div class="widget-content">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="form-actions" style="text-align: center;">
+            <button type="button" class="btn btn-inverse" (click)="goTo.back()">Назад</button>
+            <button type="submit" class="btn btn-primary" [disabled]="!isValid()">Далее</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -33,6 +33,12 @@ export class ConfirmationDocumentComponent implements OnInit {
           Validators.required, Validators.maxLength(250)
         ]
       ],
+      "series":[
+        "",
+        [
+          Validators.maxLength(250)
+        ]
+      ],
       "number":[
         "",
         [
