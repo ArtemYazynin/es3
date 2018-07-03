@@ -16,7 +16,7 @@ export class ConfirmationDocumentComponent implements OnInit {
 
   @Input()
   title:string = "";
-
+  myDatePickerOptions = this.formService.getDatepickerOptions();
   constructor(private fb: FormBuilder, 
               private formService:FormService,
               private storageService: WizardStorageService) { }

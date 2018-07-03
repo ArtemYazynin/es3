@@ -1,12 +1,10 @@
-import { Component, OnInit, ViewChild, ViewChildren, QueryList, ChangeDetectorRef, ViewContainerRef, ComponentRef, ComponentFactory, ComponentFactoryResolver, AfterViewInit, ContentChildren, forwardRef } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormGroup, Validators, FormBuilder } from "@angular/forms";
 import { forkJoin } from 'rxjs';
-import { isNullOrUndefined } from 'util';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import {
   IdentityCardType,
   IdentityCard,
-  Person,
   Parent,
   FormService,
   CitizenshipService,
@@ -16,7 +14,6 @@ import {
   RelationType,
   Country,
   WizardStorageService,
-  IdentityCardService,
   Entity,
   ParentStepService
 } from "../../shared/index";
@@ -41,7 +38,6 @@ export class ParentStepComponent implements OnInit {
   @ViewChild(BirthInfoComponent) birthInfoComponent: BirthInfoComponent;
   @ViewChild(CitizenshipSelectComponent) citizenshipSelectComponent: CitizenshipSelectComponent;
 
-  private inquiryType: string;
   parentForm: FormGroup;
   relationTypes: Array<RelationType> = [];
   groupOfIdentityCardTypeId: Array<number> = [
@@ -66,7 +62,7 @@ export class ParentStepComponent implements OnInit {
     IdentityCardType["Свидетельство о рождении, выданное уполномоченным органом иностранного государства"]
   ];
   countries: Array<Country> = [];
-  snilsMask = [/\d/, /\d/, /\d/, "-", /\d/, /\d/, /\d/, "-", /\d/, /\d/, /\d/, " ", /\d/, /\d/];
+  inquiryType: string;
   isValid(): boolean {
     let isValid = {
       parentForm: this.parentForm && this.parentForm.valid || false,
@@ -127,7 +123,6 @@ export class ParentStepComponent implements OnInit {
     private relationTypeService: RelationTypeService,
     private router: Router,
     private activatedRoute: ActivatedRoute,
-    private identityCardService: IdentityCardService,
     private parentStepService: ParentStepService) { }
 
   ngOnInit() {
@@ -151,14 +146,6 @@ export class ParentStepComponent implements OnInit {
 
   private buildForm() {
     this.parentForm = this.fb.group({
-      "snils": [
-        "222-222-222 43",
-        [
-          Validators.required,
-          Validators.maxLength(28),
-          Validators.pattern("^\\d{3}-\\d{3}-\\d{3}\\s\\d{2}$")
-        ]
-      ],
       "relationType": [
         this.relationTypes[0].id,
         []
@@ -169,7 +156,7 @@ export class ParentStepComponent implements OnInit {
       ]
     });
     this.parentForm.valueChanges
-      .subscribe(data => this.formService.onValueChange(this.parentForm, this.formErrors, this.validationMessages));
+      .subscribe(() => this.formService.onValueChange(this.parentForm, this.formErrors, this.validationMessages));
 
     this.formService.onValueChange(this.parentForm, this.formErrors, this.validationMessages);
   }

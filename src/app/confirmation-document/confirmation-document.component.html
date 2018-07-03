@@ -3,55 +3,56 @@
     <h5>{{title}}</h5>
   </div>
   <div class="widget-content">
-    <form [formGroup]="confirmationDocumentForm" >
+    <form [formGroup]="confirmationDocumentForm">
       <div class="form-group">
         <label class="control-label">Название документа
           <b style="color: red;">*</b>
         </label>
         <input type="text" class="form-control" id="name" formControlName="name">
         <div *ngIf="formErrors.name" class="alert alert-danger">
-            {{ formErrors.name }}
+          {{ formErrors.name }}
         </div>
       </div>
       <div class="form-group">
-          <label class="control-label">Серия документа</label>
-          <input type="text" class="form-control" id="series" formControlName="series">
-          <div *ngIf="formErrors.series" class="alert alert-danger">
-              {{ formErrors.series }}
-          </div>
+        <label class="control-label">Серия документа</label>
+        <input type="text" class="form-control" id="series" formControlName="series">
+        <div *ngIf="formErrors.series" class="alert alert-danger">
+          {{ formErrors.series }}
         </div>
+      </div>
       <div class="form-group">
         <label class="control-label">Номер документа
           <b style="color: red;">*</b>
         </label>
         <input type="text" class="form-control" id="number" formControlName="number">
         <div *ngIf="formErrors.number" class="alert alert-danger">
-            {{ formErrors.number }}
+          {{ formErrors.number }}
         </div>
       </div>
       <div class="form-group">
         <label class="control-label">Дата выдачи
           <b style="color: red;">*</b>
         </label>
-        <input type="text" class="form-control" id="dateIssue" formControlName="dateIssue">
+        <my-date-picker name="dateIssue" id="dateIssue" [options]="myDatePickerOptions.dateIssue" formControlName="dateIssue"></my-date-picker>
         <div *ngIf="formErrors.dateIssue" class="alert alert-danger">
-            {{ formErrors.dateIssue }}
+          {{ formErrors.dateIssue }}
         </div>
       </div>
       <div class="form-group">
         <label class="control-label">Действителен до
           <b style="color: red;">*</b>
         </label>
-        <input type="text" class="form-control" id="dateExpired" formControlName="dateExpired">
+        <my-date-picker name="dateExpired" id="dateExpired" [options]="myDatePickerOptions.dateExpired" formControlName="dateExpired"></my-date-picker>
       </div>
       <div>
-          <span>
-              <b>{{confirmationDocumentForm.value | json}}</b>
-          </span><br>
-          <span>confirmationDocumentForm.status:
-              <b>{{confirmationDocumentForm.status | json}}</b>
-            </span>
-          <br>
+        <span>
+          <b>{{confirmationDocumentForm.value | json}}</b>
+        </span>
+        <br>
+        <span>confirmationDocumentForm.status:
+          <b>{{confirmationDocumentForm.status | json}}</b>
+        </span>
+        <br>
       </div>
     </form>
 

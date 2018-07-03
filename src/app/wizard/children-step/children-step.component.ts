@@ -1,7 +1,9 @@
 import { Component, OnInit, ViewChild, ViewContainerRef, ComponentRef, ComponentFactory, ComponentFactoryResolver, ChangeDetectorRef, Input, AfterViewInit } from '@angular/core';
-import { FormGroup } from '@angular/forms';
-import { SpecHealth } from '../../shared/index';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { SpecHealth, SpecHealthService, FormService, Person, Parent, Country, CitizenshipService } from '../../shared/index';
 import { ChildComponent } from './child/child.component';
+import { BirthInfoComponent } from '../../person/birth-info/birth-info.component';
+import { CitizenshipSelectComponent } from '../../person/citizenship-select/citizenship-select.component';
 
 @Component({
   selector: 'app-children-step',
@@ -9,15 +11,21 @@ import { ChildComponent } from './child/child.component';
   styleUrls: ['./children-step.component.css']
 })
 export class ChildrenStepComponent implements OnInit, AfterViewInit {
-
-  //@ViewChildren(ChildComponent) childComponents: QueryList<ChildComponent>;
   @ViewChild("childContainer", { read: ViewContainerRef }) viewContainer;
+  @ViewChild(BirthInfoComponent) birthInfoComponent: BirthInfoComponent;
+  @ViewChild(CitizenshipSelectComponent) citizenshipSelectComponent: CitizenshipSelectComponent;
   componentRef: ComponentRef<ChildComponent>;
   components: Array<ComponentRef<ChildComponent>> = [];
   specHealths: Array<SpecHealth> = [];
+  countries: Array<Country> = [];
 
-  children: Array<any> = [];
-  constructor(private resolver: ComponentFactoryResolver, private cd: ChangeDetectorRef) { }
+  childrenForm: FormGroup;
+  formErrors = Object.assign({}, Person.getFormErrorsTemplate(), Parent.getFormErrorsTemplate());
+  validationMessages = Object.assign({}, Person.getvalidationMessages(), Parent.getvalidationMessages());
+
+  constructor(private resolver: ComponentFactoryResolver, private cd: ChangeDetectorRef,
+    private formService: FormService, private fb: FormBuilder, private specHealthService: SpecHealthService,
+    private citizenshipService: CitizenshipService) { }
 
   isValid(): boolean {
     return false;
@@ -34,10 +42,7 @@ export class ChildrenStepComponent implements OnInit, AfterViewInit {
   }
   isAvailable = {
     specHealthDocument: () => {
-      return false;
-      // if (!this.childrenForm) return false;
-      // let control = this.childrenForm.get("specHealth");
-      // return control.value != 101;
+      return this.childrenForm && this.childrenForm.value["specHealth"] != 101 || false;
     }
   }
   navBarManager = ((context) => {
@@ -61,33 +66,23 @@ export class ChildrenStepComponent implements OnInit, AfterViewInit {
         ? component.instance.fullnameComponent.fullnameForm.value["firstname"]
         : "Ребёнок";
     }
-    // let remove = (component: ComponentRef<ChildComponent>) => {
-    //   let removingComponent = this.components.find(x => x.instance.id == component.instance.id);
-    //   let view = this.viewContainer.indexOf(removingComponent);
-    //   this.viewContainer.remove(view);
 
-    //   let index = this.components.findIndex(x => x.instance.id == component.instance.id);
-    //   if (index == -1) return;
-    //   this.components.splice(index, 1);
-    //   select(this.components[this.components.length-1]);//set active last child;
-    // }
-
-    let remove = (()=>{
-      let removeView = (component: ComponentRef<ChildComponent>)=>{
+    let remove = (() => {
+      let removeView = (component: ComponentRef<ChildComponent>) => {
         let removingComponent = this.components.find(x => x.instance.id == component.instance.id);
         let view = this.viewContainer.indexOf(removingComponent);
         this.viewContainer.remove(view);
       }
-      let removeComponent = (component: ComponentRef<ChildComponent>)=>{
+      let removeComponent = (component: ComponentRef<ChildComponent>) => {
         let index = this.components.findIndex(x => x.instance.id == component.instance.id);
         if (index == -1) return;
         this.components.splice(index, 1);
       }
-      let setActiveChild = ()=>{
-        select(this.components[this.components.length-1]);
+      let setActiveChild = () => {
+        select(this.components[this.components.length - 1]);
       }
-      return (component: ComponentRef<ChildComponent>)=>{
-        removeView(component);  
+      return (component: ComponentRef<ChildComponent>) => {
+        removeView(component);
         removeComponent(component);
         setActiveChild();
       }
@@ -100,7 +95,27 @@ export class ChildrenStepComponent implements OnInit, AfterViewInit {
     };
   })(this);
   ngOnInit() {
+    this.citizenshipService.getCountries().subscribe(result => { this.countries = result; });
+    this.specHealthService.get().subscribe(result => { this.specHealths = result; });
     this.navBarManager.add();
+
+    this.buildForm();
+  }
+  private buildForm() {
+    this.childrenForm = this.fb.group({
+      "citizenship": [
+        "",
+        [
+          Validators.required
+        ]
+      ],
+      "specHealth": [
+        101,
+        []
+      ]
+    });
+    this.childrenForm.valueChanges.subscribe(data => this.formService.onValueChange(this.childrenForm, this.formErrors, this.validationMessages));
+    this.formService.onValueChange(this.childrenForm, this.formErrors, this.validationMessages);
   }
 
   ngAfterViewInit() {

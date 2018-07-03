@@ -27,6 +27,7 @@ import { TextMaskModule } from 'angular2-text-mask';
 import { CitizenshipSelectComponent } from './person/citizenship-select/citizenship-select.component';
 import {NgSelectModule} from '@ng-select/ng-select';
 import { ChildComponent } from './wizard/children-step/child/child.component';
+import { SnilsComponent } from './person/snils/snils.component';
 
 @NgModule({
   declarations: [
@@ -42,7 +43,8 @@ import { ChildComponent } from './wizard/children-step/child/child.component';
     ApplicantStepComponent,
     ChildrenStepComponent,
     CitizenshipSelectComponent,
-    ChildComponent
+    ChildComponent,
+    SnilsComponent
   ],
   imports: [
     BrowserModule,

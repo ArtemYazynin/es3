@@ -17,7 +17,6 @@ export class Person {
             lastname: "",
             firstname: "",
             middlename: "",
-            snils: "",
             birthDate:"",
             birthPlace:"",
         };
@@ -32,10 +31,6 @@ export class Person {
             lastname: fioValidationObj,
             firstname: fioValidationObj,
             middlename: fioValidationObj,
-            snils: {
-                "required": "Обязательное поле.",
-                "pattern": "Значение должно состоять из целых чисел вида 123-456-789 00"
-            },
             birthDate:{ "required": "Обязательное поле." },
             birthPlace:{ "required": "Обязательное поле." },
         }
