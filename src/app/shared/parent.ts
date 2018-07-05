@@ -14,8 +14,6 @@ export class Parent {
     public representChildrenInterestsDocument: ConfirmationDocument;
     
     constructor() {
-        this.IdentityCard = new IdentityCard();
-        this.person = new Person();
         this.agree = false;
     }
 
