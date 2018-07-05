@@ -5,6 +5,13 @@ export class ConfirmationDocument {
   public dateIssue: Date;
   public dateExpired: Date
 
+  constructor(name: string, series: string, number: string, dateIssue: Date, dateExpired: Date) {
+    this.name = name;
+    this.series = series;
+    this.number = number;
+    this.dateIssue = dateIssue;
+    this.dateExpired = dateExpired;
+  }
   static formErrorsTemplate = {
     "name": "",
     "series": "",

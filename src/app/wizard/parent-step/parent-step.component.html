@@ -23,21 +23,8 @@
             <identity-card [ids]="groupOfIdentityCardTypeId"></identity-card>
           </div>
         </div>
-        <div class="row">
-          <div class="col-md-12">
-            <div class="widget-box">
-              <div class="widget-content">
-                <div class="form-group">
-                  <label for="citizenship">Гражданство
-                    <b style="color: red;">*</b>
-                  </label>
-                  <app-citizenship-select>
-                  </app-citizenship-select>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+        <app-citizenship-select>
+        </app-citizenship-select>
         <div class="row" *ngIf="isAvailable.childApplicantInfo">
           <div class="col-md-12">
             <birth-info>

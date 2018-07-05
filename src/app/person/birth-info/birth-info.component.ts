@@ -32,7 +32,7 @@ export class BirthInfoComponent implements OnInit {
         [Validators.required]
       ],
       "birthPlace": [
-        "",
+        "г. Мары, респ. Туркменистан",
         [Validators.required]
       ]
     });

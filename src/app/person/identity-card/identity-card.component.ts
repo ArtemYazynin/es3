@@ -21,7 +21,6 @@ export class IdentityCardComponent implements OnInit {
   };
   myDatePickerOptions = this.formService.getDatepickerOptions();
   identityCardForm: FormGroup;
-  identityCard: IdentityCard = new IdentityCard();
 
   formErrors = IdentityCard.getFormErrorsTemplate();
   validationMessages = IdentityCard.getValidationMessages();

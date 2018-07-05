@@ -1,22 +1,37 @@
 import { IdentityCardType } from "./identityCardType";
 import { Client } from "../../../shared/client"
+import { FormGroup } from "@angular/forms";
 
 export class IdentityCard {
-    public identityCardType: IdentityCardType;
-    public client: Client;
+    identityCardType: IdentityCardType;
+    client: Client;
 
-    public series: string;
-    public number: string;
-    public issued: string;
-    public dateIssue: Date;
-    public dateExpired: Date;
-    public actRecordNumber: string;
-    public name: string;
-    public issueDepartmentCode: string;
-    public isChecked: boolean;
-    public actRecordDate: Date;
-    public actRecordPlace: string;
-    public checkSum: string;
+    series: string;
+    number: string;
+    issued: string;
+    dateIssue: Date;
+    dateExpired: Date;
+    actRecordNumber: string;
+    name: string;
+    issueDepartmentCode: string;
+    isChecked: boolean;
+    actRecordDate: Date;
+    actRecordPlace: string;
+    checkSum: string;
+
+    constructor(fg: FormGroup){
+        this.identityCardType = fg.value["identityCardType"]; 
+        this.series = fg.value["series"]; 
+        this.number = fg.value["number"]; 
+        this.issued = fg.value["issued"]; 
+        this.dateIssue = fg.value["dateIssue"]; 
+        this.dateExpired = fg.value["dateExpired"]; 
+        this.actRecordNumber = fg.value["actRecordNumber"]; 
+        this.name = fg.value["name"]; 
+        this.issueDepartmentCode = fg.value["issueDepartmentCode"]; 
+        this.actRecordDate = fg.value["actRecordDate"]; 
+        this.actRecordPlace = fg.value["actRecordPlace"]; 
+    }
 
     static getFields(){
         return [

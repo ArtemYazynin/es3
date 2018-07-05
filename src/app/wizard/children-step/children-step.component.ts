@@ -1,9 +1,10 @@
-import { Component, OnInit, ViewChild, ViewContainerRef, ComponentRef, ComponentFactory, ComponentFactoryResolver, ChangeDetectorRef, Input, AfterViewInit } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { SpecHealth, SpecHealthService, FormService, Person, Parent, Country, CitizenshipService } from '../../shared/index';
+import { Component, OnInit, ViewChild, ViewContainerRef, ComponentRef, ComponentFactory, ComponentFactoryResolver, ChangeDetectorRef, AfterViewInit } from '@angular/core';
+import { Country, CitizenshipService, Child, ConfirmationDocument, WizardStorageService, IdentityCard, Person } from '../../shared/index';
 import { ChildComponent } from './child/child.component';
 import { BirthInfoComponent } from '../../person/birth-info/birth-info.component';
 import { CitizenshipSelectComponent } from '../../person/citizenship-select/citizenship-select.component';
+import { SpecHealthComponent } from '../../shared/spec-health/spec-health.component';
+import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-children-step',
@@ -14,36 +15,56 @@ export class ChildrenStepComponent implements OnInit, AfterViewInit {
   @ViewChild("childContainer", { read: ViewContainerRef }) viewContainer;
   @ViewChild(BirthInfoComponent) birthInfoComponent: BirthInfoComponent;
   @ViewChild(CitizenshipSelectComponent) citizenshipSelectComponent: CitizenshipSelectComponent;
+  @ViewChild(SpecHealthComponent) specHealthComponent: SpecHealthComponent;
   componentRef: ComponentRef<ChildComponent>;
   components: Array<ComponentRef<ChildComponent>> = [];
-  specHealths: Array<SpecHealth> = [];
   countries: Array<Country> = [];
 
-  childrenForm: FormGroup;
-  formErrors = Object.assign({}, Person.getFormErrorsTemplate(), Parent.getFormErrorsTemplate());
-  validationMessages = Object.assign({}, Person.getvalidationMessages(), Parent.getvalidationMessages());
-
-  constructor(private resolver: ComponentFactoryResolver, private cd: ChangeDetectorRef,
-    private formService: FormService, private fb: FormBuilder, private specHealthService: SpecHealthService,
-    private citizenshipService: CitizenshipService) { }
+  constructor(private activatedRoute: ActivatedRoute, private router: Router, private resolver: ComponentFactoryResolver, private storageService: WizardStorageService,
+    private cd: ChangeDetectorRef, private citizenshipService: CitizenshipService) { }
 
   isValid(): boolean {
-    return false;
-    // let isValid = {
-    //   childrenForm: this.childrenForm && this.childrenForm.valid || false,
-    //   identityCardForm: this.identityCardComponent
-    //     && this.identityCardComponent.identityCardForm
-    //     && this.identityCardComponent.identityCardForm.valid
-    //     || false,
-    //   fullnameForm: this.fullnameComponent && this.fullnameComponent.fullnameForm && this.fullnameComponent.fullnameForm.valid || false,
-    //   birthInfoForm: this.birthInfoComponent && this.birthInfoComponent.birthInfoForm && this.birthInfoComponent.birthInfoForm.valid || false,
-    // }
-    // return isValid.childrenForm && isValid.fullnameForm && isValid.identityCardForm && isValid.birthInfoForm;
-  }
-  isAvailable = {
-    specHealthDocument: () => {
-      return this.childrenForm && this.childrenForm.value["specHealth"] != 101 || false;
+    let isValid = {
+      children: (): boolean => {
+        let result = true;
+        for (let index = 0, len = this.components.length; index < len; index++) {
+          const component = this.components[index];
+          if (!component.instance.fullnameComponent
+            || !component.instance.fullnameComponent.fullnameForm
+            || !component.instance.fullnameComponent.fullnameForm.valid) {
+            result = false;
+            break;
+          }
+          if (!component.instance.identityCardComponent
+            || !component.instance.identityCardComponent.identityCardForm
+            || !component.instance.identityCardComponent.identityCardForm.valid) {
+            result = false;
+            break;
+          }
+        }
+        return result;
+      },
+      birthInfo: (): boolean => {
+        return this.birthInfoComponent && this.birthInfoComponent.birthInfoForm && this.birthInfoComponent.birthInfoForm.valid || false;
+      },
+      citizenships: (): boolean => {
+        return this.citizenshipSelectComponent && this.citizenshipSelectComponent.citizenships.length > 0 || false;
+      },
+      specHealthDocument: () => {
+        if (this.specHealthComponent && this.specHealthComponent.specHealth == 101 || false) {
+          return true;
+        } else if (this.specHealthComponent
+          && this.specHealthComponent.confirmationDocumentComponent
+          && this.specHealthComponent.confirmationDocumentComponent.confirmationDocumentForm
+          && this.specHealthComponent.confirmationDocumentComponent.confirmationDocumentForm.valid
+          || false) {
+          return true;
+        } else {
+          return false;
+        }
+      }
     }
+    return isValid.children() && isValid.birthInfo() && isValid.citizenships() && isValid.specHealthDocument();
   }
   navBarManager = ((context) => {
     let hideChildren = () => {
@@ -94,28 +115,51 @@ export class ChildrenStepComponent implements OnInit, AfterViewInit {
       getTitle: getTitle
     };
   })(this);
+  goTo = (() => {
+    let getPerson = (component: ComponentRef<ChildComponent>): Person => {
+      const personForm = component.instance.fullnameComponent.fullnameForm;
+      const birthInfoForm = this.birthInfoComponent.birthInfoForm;
+      return new Person(personForm.value["lastname"],
+        personForm.value["firstname"],
+        personForm.value["middlename"],
+        component.instance.snilsComponent.snils, personForm.value["noMiddlename"],
+        birthInfoForm.value["birthDate"].jsdate,
+        birthInfoForm.value["birthPlace"],
+        birthInfoForm.value["gender"]);
+    }
+    return {
+      back: () => {
+        this.router.navigate(["/"]);
+      },
+      next: () => {
+        if (!this.isValid()) return;
+        let children: Array<Child> = [];
+        this.components.forEach(x => {
+          const specHealthDocument = this.specHealthComponent.specHealth == 101
+          ? null
+          : ((context) => {
+            const form = context.specHealthComponent.confirmationDocumentComponent.confirmationDocumentForm;
+            return new ConfirmationDocument(form.value["name"], form.value["series"], form.value["number"],
+              form.value["dateIssue"].jsdate, form.value["dateExpired"].jsdate)
+          })(this);
+          const person = getPerson(x);
+          const identityCard = new IdentityCard(x.instance.identityCardComponent.identityCardForm);
+          let child = new Child(person.lastname, person.firstname, person.middlename, person.snils, person.noMiddlename, person.birthDate, person.birthPlace,
+            person.gender, this.citizenshipSelectComponent.citizenships, this.specHealthComponent.specHealth,
+            specHealthDocument,
+            identityCard);
+          children.push(child);
+        });
+        this.storageService.children = children;
+        this.router.navigate(["../currentEducationPlaceStep"], { relativeTo: this.activatedRoute });
+      }
+    }
+  })();
+
+
   ngOnInit() {
     this.citizenshipService.getCountries().subscribe(result => { this.countries = result; });
-    this.specHealthService.get().subscribe(result => { this.specHealths = result; });
     this.navBarManager.add();
-
-    this.buildForm();
-  }
-  private buildForm() {
-    this.childrenForm = this.fb.group({
-      "citizenship": [
-        "",
-        [
-          Validators.required
-        ]
-      ],
-      "specHealth": [
-        101,
-        []
-      ]
-    });
-    this.childrenForm.valueChanges.subscribe(data => this.formService.onValueChange(this.childrenForm, this.formErrors, this.validationMessages));
-    this.formService.onValueChange(this.childrenForm, this.formErrors, this.validationMessages);
   }
 
   ngAfterViewInit() {

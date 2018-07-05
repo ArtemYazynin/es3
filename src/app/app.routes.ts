@@ -4,6 +4,7 @@ import { ApplicantTypeStepComponent } from "./wizard/applicant-type-step/applica
 import { ParentStepComponent } from "./wizard/parent-step/parent-step.component";
 import { ApplicantStepComponent } from "./wizard/applicant-step/applicant-step.component";
 import { ChildrenStepComponent } from "./wizard/children-step/children-step.component";
+import { CurrenEducationPlaceStepComponent } from "./wizard/curren-education-place-step/curren-education-place-step.component";
 export const routes: Routes = [
     {
         path: "",
@@ -13,7 +14,8 @@ export const routes: Routes = [
     { path: "wizard/:type/applicantTypeStep", component: ApplicantTypeStepComponent },
     { path: "wizard/:type/parentStep", component: ParentStepComponent },
     { path: "wizard/:type/applicantStep", component:ApplicantStepComponent },
-    { path: "wizard/:type/childrenStep", component: ChildrenStepComponent }
+    { path: "wizard/:type/childrenStep", component: ChildrenStepComponent },
+    { path: "wizard/:type/currentEducationPlaceStep", component: CurrenEducationPlaceStepComponent }
     // { path: "products/edit/:id", component: ProductCreateEditComponent},
     // { path: "products/create", component: ProductCreateEditComponent},
     // { path: "products/delete/:id", component: ProductDeleteComponent}

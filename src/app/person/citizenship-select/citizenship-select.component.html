@@ -1,10 +1,23 @@
-<div>
-  <div style="display: inline-block; width: 40%; margin-right: 10px;">
-    <ng-select class="citizenship-select" [(ngModel)]="citizenships" (change)="onChange($event)" [clearable]="false" [multiple]="true"
-      placeholder="Не выбрано">
-      <ng-option *ngFor="let item of countries" [value]="item.id">
-        {{item.name}}
-      </ng-option>
-    </ng-select>
+<div class="row">
+  <div class="col-md-12">
+    <div class="widget-box">
+      <div class="widget-content">
+        <div class="form-group">
+          <label for="citizenship">Гражданство
+            <b style="color: red;">*</b>
+          </label>
+          <div>
+            <div style="display: inline-block; width: 40%; margin-right: 10px;">
+              <ng-select class="citizenship-select" [(ngModel)]="citizenships" (change)="onChange($event)" [clearable]="false" [multiple]="true"
+                placeholder="Не выбрано">
+                <ng-option *ngFor="let item of countries" [value]="item.id">
+                  {{item.name}}
+                </ng-option>
+              </ng-select>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </div>

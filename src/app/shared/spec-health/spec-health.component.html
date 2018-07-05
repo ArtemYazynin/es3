@@ -1,0 +1,23 @@
+<div class="row">
+  <div class="col-md-12">
+    <div class="widget-box">
+      <div class="widget-content">
+        <div class="form-group">
+          <label for="citizenship">Наличие ОВЗ</label>
+          <div>
+            <div style="display: inline-block; width: 40%; margin-right: 10px;">
+              <ng-select class="citizenship-select" [clearable]="false" [items]="specHealths" bindLabel="name" bindValue="code" [(ngModel)]="specHealth">
+              </ng-select>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="row" *ngIf="isAvailable.specHealthDocument()">
+  <div class="col-md-12">
+    <app-confirmation-document title="Документ, подтверждающий потребность в группе с ОВЗ">
+    </app-confirmation-document>
+  </div>
+</div>

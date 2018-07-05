@@ -13,7 +13,6 @@ export class ChildComponent implements OnInit {
   @ViewChild(IdentityCardComponent) identityCardComponent: IdentityCardComponent;
   @ViewChild(FullNameComponent) fullnameComponent: FullNameComponent;
   @ViewChild(SnilsComponent) snilsComponent: SnilsComponent;
-
   constructor() { }
 
   groupOfIdentityCardTypeId: Array<number> = [

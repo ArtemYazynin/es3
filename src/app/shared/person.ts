@@ -1,15 +1,23 @@
 export class Person {
-    public lastname: string;
-    public firstname: string;
-    public middlename: string;
-    public snils: string;
-    public noMiddlename: boolean;
-    public birthDate: Date;
-    public birthPlace:string;
-    public gender: number;
-    constructor() {
-        this.noMiddlename = false;
-        this.gender = 1;
+    lastname: string;
+    firstname: string;
+    middlename: string;
+    snils: string;
+    noMiddlename: boolean = false;
+
+    birthDate: Date;
+    birthPlace: string;
+    gender: number = 1;
+
+    constructor(lastname: string,firstname: string,middlename: string,snils: string,noMiddlename: boolean,birthDate: Date,birthPlace: string,gender: number){
+        this.lastname = lastname;
+        this.firstname = firstname;
+        this.middlename = middlename;
+        this.snils = snils;
+        this.noMiddlename = noMiddlename;
+        this.birthDate = birthDate;
+        this.birthPlace = birthPlace;
+        this.gender = gender;
     }
 
     static getFormErrorsTemplate() {
@@ -17,8 +25,8 @@ export class Person {
             lastname: "",
             firstname: "",
             middlename: "",
-            birthDate:"",
-            birthPlace:"",
+            birthDate: "",
+            birthPlace: "",
         };
     }
     static getvalidationMessages() {
@@ -31,8 +39,8 @@ export class Person {
             lastname: fioValidationObj,
             firstname: fioValidationObj,
             middlename: fioValidationObj,
-            birthDate:{ "required": "Обязательное поле." },
-            birthPlace:{ "required": "Обязательное поле." },
+            birthDate: { "required": "Обязательное поле." },
+            birthPlace: { "required": "Обязательное поле." },
         }
     }
 }

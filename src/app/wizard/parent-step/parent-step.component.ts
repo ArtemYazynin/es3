@@ -95,17 +95,7 @@ export class ParentStepComponent implements OnInit {
       && isValid.countryStateForm;
   }
   isAvailable = {
-    countryStateDocument: () => {
-      if (!this.citizenshipSelectComponent) return false;
-      let codeOfRussia = this.countries.find(x => x.name === "Россия").id;
-      let foreignCitizenshipsExists = (() => {
-        let result = this.citizenshipSelectComponent.citizenships.findIndex(x => {
-          return x != codeOfRussia;
-        });
-        return result == -1 ? false : true;;
-      })();
-      return foreignCitizenshipsExists;
-    },
+    countryStateDocument: () => this.citizenshipService.hasForeignCitizenship(this.citizenshipSelectComponent,this.countries),
     representChildrenInterestsDocument: () => {
       let relationType = this.relationTypes.find(x => x.id === this.parentForm.value.relationType);
       return relationType ? relationType.confirmationDocument : false;

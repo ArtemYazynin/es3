@@ -13,7 +13,7 @@ import { ApplicantTypeStepComponent } from './wizard/applicant-type-step/applica
 import { ParentStepComponent } from './wizard/parent-step/parent-step.component';
 
 import { HttpClientModule } from '@angular/common/http';
- 
+
 import { InMemoryWebApiModule } from 'angular-in-memory-web-api';
 import { InMemoryService } from './in-memory-server';
 import { HttpInterceptor } from './shared/http-interceptor';
@@ -21,13 +21,15 @@ import { FullNameComponent } from './person/full-name/full-name.component';
 import { BirthInfoComponent } from './person/birth-info/birth-info.component';
 import { ApplicantStepComponent } from './wizard/applicant-step/applicant-step.component';
 import { ChildrenStepComponent } from './wizard/children-step/children-step.component';
-import { EnumToArrayPipe, IdentityCardTypeFriendlyNamePipe, FormService, WizardStorageService, CitizenshipService, RelationTypeService, IdentityCardService, ParentStepService, SpecHealthService } from './shared/index';
+import { EnumToArrayPipe, IdentityCardTypeFriendlyNamePipe, FormService, WizardStorageService, CitizenshipService, RelationTypeService, IdentityCardService, ParentStepService, SpecHealthService, AreaService, InstitutionService } from './shared/index';
 import { MyDatePickerModule } from 'mydatepicker';
 import { TextMaskModule } from 'angular2-text-mask';
 import { CitizenshipSelectComponent } from './person/citizenship-select/citizenship-select.component';
-import {NgSelectModule} from '@ng-select/ng-select';
+import { NgSelectModule } from '@ng-select/ng-select';
 import { ChildComponent } from './wizard/children-step/child/child.component';
 import { SnilsComponent } from './person/snils/snils.component';
+import { SpecHealthComponent } from './shared/spec-health/spec-health.component';
+import { CurrenEducationPlaceStepComponent } from './wizard/curren-education-place-step/curren-education-place-step.component';
 
 @NgModule({
   declarations: [
@@ -44,7 +46,9 @@ import { SnilsComponent } from './person/snils/snils.component';
     ChildrenStepComponent,
     CitizenshipSelectComponent,
     ChildComponent,
-    SnilsComponent
+    SnilsComponent,
+    SpecHealthComponent,
+    CurrenEducationPlaceStepComponent
   ],
   imports: [
     BrowserModule,
@@ -55,20 +59,22 @@ import { SnilsComponent } from './person/snils/snils.component';
     ReactiveFormsModule,
     RouterModule.forRoot(routes),
     HttpModule,
-  HttpClientModule,
-  InMemoryWebApiModule.forRoot(InMemoryService),
+    HttpClientModule,
+    InMemoryWebApiModule.forRoot(InMemoryService),
   ],
   providers: [
     HttpInterceptor,
-    FormService, 
-    WizardStorageService, 
+    FormService,
+    WizardStorageService,
     CitizenshipService,
     RelationTypeService,
     IdentityCardService,
     ParentStepService,
-    SpecHealthService
+    SpecHealthService,
+    AreaService,
+    InstitutionService
   ],
-  entryComponents: [ ChildComponent ],
+  entryComponents: [ChildComponent],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

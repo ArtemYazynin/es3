@@ -1,6 +1,5 @@
-import { Component, OnInit, Input, ComponentFactoryResolver, ViewChild, ViewContainerRef, ComponentRef, ComponentFactory, OnDestroy, OnChanges } from '@angular/core';
-import { Country, CitizenshipService, Entity } from '../../shared/index';
-import { isNullOrUndefined } from 'util';
+import { Component, OnInit } from '@angular/core';
+import { Country, CitizenshipService } from '../../shared/index';
 
 @Component({
   selector: 'app-citizenship-select',
@@ -11,7 +10,7 @@ export class CitizenshipSelectComponent implements OnInit {
   countries: Array<Country> = [];
   citizenships: Array<number> = [];
 
-  constructor(private citizenshipService: CitizenshipService, private resolver: ComponentFactoryResolver) { }
+  constructor(private citizenshipService: CitizenshipService) { }
 
   ngOnInit() {
     this.citizenshipService.getCountries().subscribe(result => { this.countries = result; });
@@ -23,7 +22,6 @@ export class CitizenshipSelectComponent implements OnInit {
         this.citizenships = [withoutCitizenships];
         break;
       }
-
     }
   }
 }
