@@ -2,7 +2,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ConfirmationDocument } from '../shared/index';
 import { FormService } from '../shared/form.service';
-import { WizardStorageService } from '../shared/wizard-storage.service';
+import { WizardStorageService } from '../wizard/shared/wizard-storage.service';
 
 @Component({
   selector: 'app-confirmation-document',

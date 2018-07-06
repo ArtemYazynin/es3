@@ -14,6 +14,7 @@ export * from "./relationTypes/relation-type";
 //
 
 export * from "./entity";
+export * from "../wizard/shared/current-education-place";
 export * from "./group";
 export * from "./institution";
 export * from "../area/shared/area";
@@ -30,9 +31,9 @@ export * from "./form.service";
 export * from "./institution.service";
 export * from "./citizenships/citizenship.service";
 export * from "./relationTypes/relation-type.service";
-export * from "./wizard-storage.service";
+export * from "../wizard/shared/wizard-storage.service";
 export * from "../person/identity-card/shared/identity-card.service";
-export * from "../wizard/parent-step/shared/parent-step.service";
+export * from "../wizard/shared/parent-step.service";
 export * from "../shared/spec-health.service";
 export * from "../shared/group.service";
 export * from "../wizard/shared/current-education-place-step.service";

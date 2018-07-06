@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Params, ActivatedRoute, Router } from '@angular/router';
-import { AreaService, Area, AreaType, Entity, InstitutionService, FormService, Institution, Group, GroupService, inquiryType, CurrentEducationPlaceStepService } from '../../shared/index';
-import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
+import { AreaService, Area, AreaType, Entity, InstitutionService, FormService, Institution, Group, GroupService, inquiryType, CurrentEducationPlaceStepService, WizardStorageService, CurrentEducationPlace } from '../../shared/index';
+import { FormGroup, Validators, FormControl } from '@angular/forms';
 import { MatCheckboxChange } from '@angular/material/checkbox/typings/checkbox';
 
 @Component({
@@ -22,9 +22,9 @@ export class CurrentEducationPlaceStepComponent implements OnInit {
   validationMessages = this.service.getValidationMessages();
   constructor(private activatedRoute: ActivatedRoute, private areaService: AreaService, private institutionService: InstitutionService,
     private formService: FormService, private router: Router, private groupService: GroupService,
-    private service: CurrentEducationPlaceStepService) { }
+    private service: CurrentEducationPlaceStepService, private storageService: WizardStorageService) { }
   isValid() {
-    return true;
+    return this.currentPlaceForm && this.currentPlaceForm.valid || false;
   }
 
   onChange = ((global) => {
@@ -43,7 +43,7 @@ export class CurrentEducationPlaceStepComponent implements OnInit {
         global.currentPlaceForm.patchValue({ group: "" });
       }
     }
-    
+
     let addOrRemoveControl = (checked: boolean) => {
       let add = () => {
         let control = new FormControl("");
@@ -101,6 +101,15 @@ export class CurrentEducationPlaceStepComponent implements OnInit {
     this.init.inquiryType();
     this.init.institutionTypes();
     this.init.currentMunicipality();
+    if (this.storageService.request.currentEducationPlace) {
+      this.currentPlaceForm.patchValue({ municipality: this.storageService.request.currentEducationPlace.municipality });
+      for (const key in this.storageService.request.currentEducationPlace) {
+        if (this.storageService.request.currentEducationPlace.hasOwnProperty(key)) {
+          const value = this.storageService.request.currentEducationPlace[key];
+          this.currentPlaceForm.patchValue({ key: value });
+        }
+      }
+    }
   }
   private buildForm() {
     this.currentPlaceForm = this.service.getFormGroup();
@@ -140,15 +149,17 @@ export class CurrentEducationPlaceStepComponent implements OnInit {
     },
     institutionTypes: () => {
       this.institutionService.getTypes().subscribe(result => {
+        const preschoolType = 1;
+        const schoolType = 2;
         switch (this.inquiryType) {
           case inquiryType.preschool:
-            this.institutionsTypes.push(result.find(x => x.id == 1));
+            this.institutionsTypes.push(result.find(x => x.id == preschoolType));
             break;
           case inquiryType.school:
-            this.institutionsTypes.push(result.find(x => x.id == 2));
+            this.institutionsTypes.push(result.find(x => x.id == schoolType));
             break;
           case inquiryType.healthCamp:
-            this.institutionsTypes.push(result.find(x => x.id == 1 || x.id == 2));
+            this.institutionsTypes.push(result.find(x => x.id == preschoolType || x.id == schoolType));
             break;
           default:
             break;
@@ -164,10 +175,12 @@ export class CurrentEducationPlaceStepComponent implements OnInit {
   goTo = (() => {
     return {
       back: () => {
-        this.router.navigate(["/"]);
+        this.router.navigate(["../childrenStep"], { relativeTo: this.activatedRoute });
       },
       next: () => {
-
+        this.storageService.currentEducationPlace = new CurrentEducationPlace(this.currentPlaceForm.value["municipality"],
+          this.currentPlaceForm.value["institutionType"], this.currentPlaceForm.value["institution"],
+          this.currentPlaceForm.value["group"], this.currentPlaceForm.value["isOther"], this.currentPlaceForm.value["other"])
       }
     }
   })();
