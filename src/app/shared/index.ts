@@ -1,3 +1,7 @@
+//const
+export * from "./inquiry-type";
+
+
 //enums
 export * from "../person/identity-card/shared/identityCardType";
 export * from "./applicant-type.enum";
@@ -10,6 +14,7 @@ export * from "./relationTypes/relation-type";
 //
 
 export * from "./entity";
+export * from "./group";
 export * from "./institution";
 export * from "../area/shared/area";
 export * from "./child";
@@ -29,6 +34,7 @@ export * from "./wizard-storage.service";
 export * from "../person/identity-card/shared/identity-card.service";
 export * from "../wizard/parent-step/shared/parent-step.service";
 export * from "../shared/spec-health.service";
+export * from "../shared/group.service";
 
 export * from "./enum-to-array-pipe";
 export * from "../person/identity-card/shared/identity-card-type-friendly-name.pipe";

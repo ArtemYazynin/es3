@@ -12,13 +12,14 @@ export class InstitutionService {
 
   constructor(private http: HttpInterceptor) { }
 
-  getTypes():Observable<Array<Entity<number>>>{
+  getTypes(): Observable<Array<Entity<number>>> {
     return this.http.get("app/institutionsTypes").pipe(map(result => {
       return <Array<Entity<number>>>result.json();
     }));
   }
-  getInstitutions(type:number):Observable<Array<Institution>>{
-    return this.http.get("app/institutions?institutionType="+type).pipe(map(result => {
+  getInstitutions(type: number): Observable<Array<Institution>> {
+    if ((typeof type) == "string") return new Observable<Array<Institution>>();
+    return this.http.get("app/institutions?institutionType=" + type).pipe(map(result => {
       return <Array<Institution>>result.json();
     }));
   }

@@ -60,7 +60,16 @@ export class InMemoryService implements InMemoryDbService {
       { id: "FF271F42-4095-481B-872C-A54801581328", name: "Структурное подразделение ГБОУ СОШ с. Пестравка", institutionType: 2, },
       { id: "DA1F4C68-090C-4ADF-855B-A54801581417", name: "Первомайский филиал ГБОУ СОШ им. Н.С.Доровского с. Подбельск", institutionType: 2 },
       { id: "55BC4673-3909-40F6-9410-A548015814A1", name: "Мочалеевский филиал ГБОУ СОШ с. Подбельск", institutionType: 2 },
-    ]
+    ];
+    let groups = [
+      { id: "5258E28E-64F1-4F1F-810F-A548002D9A3A", name: "4Б ясельная", groupType: 1, institutionId: institutions[0].id},
+      { id: "98DD47A7-9C84-4E5C-AA1F-A548002DBDE6", name: "А старшая", groupType: 1, institutionId: institutions[0].id },
+      { id: "46B734F0-EFB5-47D1-B981-A548002DBDE8", name: "В смеш.дошкольная", groupType: 1, institutionId: institutions[1].id },
+
+      { id: "C592FB7F-B853-4781-99C5-A59800C352FF", name: "1 _коррекционный", groupType: 2, institutionId: institutions[3].id },
+      { id: "A537C916-C95A-4DE8-A257-A59800C3D4FA", name: "_только для воспитанников СП школы №75", groupType: 2,institutionId: institutions[3].id },
+      { id: "314BB1DF-0FCC-433D-ABB7-A59800C594DA", name: "_только для воспитанников СП школы №86", groupType: 2,institutionId: institutions[5].id },
+    ];
     return {
       heroes: heroes,
       countries: Countries,
@@ -70,7 +79,8 @@ export class InMemoryService implements InMemoryDbService {
       municipalities: municipalities,
       institutionsTypes: institutionsTypes,
       currentMunicipality: currentMunicipality,
-      institutions: institutions
+      institutions: institutions,
+      groups:groups
     };
   }
 }

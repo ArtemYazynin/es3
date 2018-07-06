@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ApplicantType, FormService, WizardStorageService, Entity } from "../../shared/index";
+import { ApplicantType, inquiryType, WizardStorageService, Entity } from "../../shared/index";
 import { Router, ActivatedRoute, Params } from '@angular/router';
 
 @Component({
@@ -26,7 +26,7 @@ export class ApplicantTypeStepComponent implements OnInit {
           let groupOfId = ApplicantType.values();
           for (let index = 0, len = groupOfId.length; index < len; index++) {
             let _id = parseInt(groupOfId[index]);
-            if (_id === ApplicantType["Ребенок-заявитель"] && this.inquiryType === "preschool") {
+            if (_id === ApplicantType["Ребенок-заявитель"] && this.inquiryType === inquiryType.preschool) {
               continue;
             }
             result.push({
