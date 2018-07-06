@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { CurrenEducationPlaceStepComponent } from './curren-education-place-step.component';
+import { CurrentEducationPlaceStepComponent } from './current-education-place-step.component';
 
 describe('CurrenEducationPlaceStepComponent', () => {
-  let component: CurrenEducationPlaceStepComponent;
-  let fixture: ComponentFixture<CurrenEducationPlaceStepComponent>;
+  let component: CurrentEducationPlaceStepComponent;
+  let fixture: ComponentFixture<CurrentEducationPlaceStepComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ CurrenEducationPlaceStepComponent ]
+      declarations: [ CurrentEducationPlaceStepComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(CurrenEducationPlaceStepComponent);
+    fixture = TestBed.createComponent(CurrentEducationPlaceStepComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

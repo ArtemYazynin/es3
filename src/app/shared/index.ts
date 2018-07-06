@@ -35,6 +35,7 @@ export * from "../person/identity-card/shared/identity-card.service";
 export * from "../wizard/parent-step/shared/parent-step.service";
 export * from "../shared/spec-health.service";
 export * from "../shared/group.service";
+export * from "../wizard/shared/current-education-place-step.service";
 
 export * from "./enum-to-array-pipe";
 export * from "../person/identity-card/shared/identity-card-type-friendly-name.pipe";

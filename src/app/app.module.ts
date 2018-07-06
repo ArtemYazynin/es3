@@ -30,7 +30,7 @@ import { NgSelectModule } from '@ng-select/ng-select';
 import { ChildComponent } from './wizard/children-step/child/child.component';
 import { SnilsComponent } from './person/snils/snils.component';
 import { SpecHealthComponent } from './shared/spec-health/spec-health.component';
-import { CurrenEducationPlaceStepComponent } from './wizard/curren-education-place-step/curren-education-place-step.component';
+import { CurrentEducationPlaceStepComponent } from './wizard/current-education-place-step/current-education-place-step.component';
 
 
 import { A11yModule } from '@angular/cdk/a11y';
@@ -81,6 +81,7 @@ import {
   MatTooltipModule,
   MatTreeModule,
 } from '@angular/material';
+import { CurrentEducationPlaceStepService } from './wizard/shared/current-education-place-step.service';
 @NgModule({
   exports: [
     // CDK
@@ -153,7 +154,7 @@ export class MaterialModule { }
     ChildComponent,
     SnilsComponent,
     SpecHealthComponent,
-    CurrenEducationPlaceStepComponent
+    CurrentEducationPlaceStepComponent
   ],
   imports: [
     BrowserModule,
@@ -180,7 +181,8 @@ export class MaterialModule { }
     SpecHealthService,
     AreaService,
     InstitutionService,
-    GroupService
+    GroupService,
+    CurrentEducationPlaceStepService
   ],
   entryComponents: [ChildComponent],
   bootstrap: [AppComponent]
