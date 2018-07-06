@@ -14,6 +14,8 @@
                   {{item.name}}
                 </ng-option>
               </ng-select>
+
+
             </div>
             <div class="form-group" *ngIf="institutionsTypes && institutionsTypes.length > 0">
               <label for="institutionType">Тип образовательной организации</label>
@@ -25,13 +27,13 @@
               </ng-select>
             </div>
             <div class="form-group" *ngIf="institutions && institutions.length > 0">
-                <label for="institution">Тип образовательной организации</label>
-                <ng-select formControlName="institution" (change)="onChange.institution($event)" [clearable]="false" required>
-                  <ng-option value="" selected>Не выбрано</ng-option>
-                  <ng-option *ngFor="let item of institutions" [value]="item.id">
-                    {{item.name}}
-                  </ng-option>
-                </ng-select>
+              <label for="institution">Тип образовательной организации</label>
+              <ng-select formControlName="institution" (change)="onChange.institution($event)" [clearable]="false" required>
+                <ng-option value="" selected>Не выбрано</ng-option>
+                <ng-option *ngFor="let item of institutions" [value]="item.id">
+                  {{item.name}}
+                </ng-option>
+              </ng-select>
             </div>
             <div>
               <span>

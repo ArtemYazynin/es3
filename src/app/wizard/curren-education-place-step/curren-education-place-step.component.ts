@@ -118,6 +118,9 @@ export class CurrenEducationPlaceStepComponent implements OnInit {
   onSubmit() {
 
   }
+  displayFn(user?: Area): string | undefined {
+    return user ? user.name : undefined;
+  }
   goTo = (() => {
     return {
       back: () => {
