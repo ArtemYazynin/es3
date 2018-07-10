@@ -24,7 +24,7 @@ export class CurrentEducationPlaceStepService {
       ],
       "group": [
         "",
-        []
+        [Validators.required]
       ],
       "isOther": [
         false,

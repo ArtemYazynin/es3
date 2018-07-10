@@ -21,32 +21,6 @@ export class FormService {
       }
     }
   }
+  
 
-  getDatepickerOptions(): { default: any, dateIssue: any, dateExpired: any } {
-    let currentDate = new Date();
-    let def = {
-      dateFormat: 'dd.mm.yyyy',
-      editableDateField: false,
-      openSelectorOnInputClick: true
-    }
-    let dateIssue: IMyDpOptions = {
-      disableSince: {
-        year: currentDate.getFullYear(),
-        month: currentDate.getMonth() + 1,
-        day: currentDate.getDate() + 1,
-      }
-    }
-    let dateExpired: IMyDpOptions = {
-      disableUntil: {
-        year: currentDate.getFullYear(),
-        month: currentDate.getMonth() + 1,
-        day: currentDate.getDate() - 1,
-      }
-    }
-    return {
-      default: def,
-      dateIssue: Object.assign({}, def, dateIssue),
-      dateExpired: Object.assign({}, def, dateExpired),
-    }
-  }
 }

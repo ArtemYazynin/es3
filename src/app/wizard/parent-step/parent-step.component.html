@@ -10,14 +10,6 @@
             <full-name>
               <app-snils></app-snils>
             </full-name>
-            <div>
-              <span>
-                <b>{{parentForm.value | json}}</b>
-              </span>
-              <span>parentForm.status:
-                <b>{{parentForm.status | json}}</b>
-              </span>
-            </div>
           </div>
           <div class="col-md-6">
             <identity-card [ids]="groupOfIdentityCardTypeId"></identity-card>
@@ -43,16 +35,23 @@
             <div class="widget-box">
               <div class="widget-content">
                 <div class="form-group">
-                  <label for="relationType">Родственная связь</label>
-                  <select id="relationType" class="form-control" formControlName="relationType">
-                    <option *ngFor="let item of relationTypes" [value]="item.id">
-                      {{item.name}}
-                    </option>
-                  </select>
+                  <mat-form-field class="full-width">
+                    <mat-select formControlName="relationType" placeholder="Родственная связь">
+                      <mat-option *ngFor="let item of relationTypes" [value]="item.id">{{item.name}}</mat-option>
+                    </mat-select>
+                  </mat-form-field>
                 </div>
               </div>
             </div>
           </div>
+        </div>
+        <div class="row">
+          <span>
+            <b>{{parentForm.value | json}}</b>
+          </span>
+          <span>parentForm.status:
+            <b>{{parentForm.status | json}}</b>
+          </span>
         </div>
         <div class="row" *ngIf="isAvailable.representChildrenInterestsDocument()">
           <div class="col-md-12">
@@ -69,11 +68,8 @@
               <label class="control-label"></label>
               <div class="controls">
                 <div class="checkbox">
-                  <label>
-                    <input type="checkbox" id="agree" name="agree" formControlName="agree">
-                    <b style="color: red;">*</b>
-                    Заявителем дано согласие на обработку персональных данных
-                  </label>
+                  <mat-checkbox formControlName="agree">Заявителем дано согласие на обработку персональных данных</mat-checkbox>
+                  <b style="color: red;">*</b>
                   <a title="Печать согласия на обработку персональных данных">
                     <i class="fas fa-print"></i>
                   </a>
@@ -82,7 +78,7 @@
             </div>
             <div class="form-actions" style="text-align: center;">
               <button type="button" class="btn btn-inverse" (click)="goTo.back()">Назад</button>
-              <button type="submit" class="btn btn-primary" [disabled]="!isValid()">Далее</button>
+              <button type="submit" class="btn btn-primary" (click)="goTo.next()" [disabled]="!isValid()">Далее</button>
             </div>
           </div>
         </div>

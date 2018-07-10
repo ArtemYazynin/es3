@@ -10,8 +10,8 @@ import { Router, ActivatedRoute, Params } from '@angular/router';
 export class ApplicantTypeStepComponent implements OnInit {
   inquiryType: string;
   applicantType: ApplicantType = ApplicantType["Законный представитель ребенка"];
-  applicantTypes:Array<Entity<number>> = [];
-  
+  applicantTypes: Array<Entity<number>> = [];
+
 
   constructor(private storageService: WizardStorageService,
     private router: Router,
@@ -34,15 +34,24 @@ export class ApplicantTypeStepComponent implements OnInit {
               name: ApplicantType[groupOfId[index]]
             });
           }
-    
+
           return result;
         })();
       }
     });
-    
+
   }
-  public goToParentStep() {
-    this.storageService.applicantType = this.applicantType;
-    this.router.navigate(["../parentStep"], { relativeTo: this.activatedRoute });
+  goTo = {
+    back: () => {
+      this.router.navigate(["../currentEducationPlaceStep"], { relativeTo: this.activatedRoute });
+    },
+    next: () => {
+      this.storageService.applicantType = this.applicantType;
+      if (this.applicantType == ApplicantType["Доверенное лицо законного представителя ребенка"] || ApplicantType["Ребенок-заявитель"]) {
+        this.router.navigate(["../applicantStep"], { relativeTo: this.activatedRoute });
+      } else {
+        this.router.navigate(["../parentStep"], { relativeTo: this.activatedRoute });
+      }
+    }
   }
 }

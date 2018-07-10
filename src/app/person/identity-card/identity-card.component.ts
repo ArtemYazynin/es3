@@ -18,7 +18,6 @@ export class IdentityCardComponent implements OnInit {
     issueDepartmentCodeMask: [/\d/,/\d/,/\d/,"-",/\d/,/\d/,/\d/],
     temporaryResidenceNumber: [/\d/,/\d/,/\d/,/\d/,"-",/\d/,/\d/,/\d/,/\d/]
   };
-  myDatePickerOptions = this.formService.getDatepickerOptions();
   currentDate = new Date();
   identityCardForm: FormGroup;
 

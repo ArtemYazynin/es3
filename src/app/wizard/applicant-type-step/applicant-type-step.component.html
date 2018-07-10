@@ -5,17 +5,15 @@
     </div>
     <div class="widget-content">
       <div class="form-group">
-        <label class="control-label"></label>
-        <div class="controls">
-          <div class="radio" *ngFor="let item of applicantTypes">
-            <label>
-              <input type="radio" name="applicantType" [value]="item.id" [(ngModel)]="applicantType"> {{item.name}}
-            </label>
-          </div>
-        </div>
+          <mat-radio-group class="radio-group" [(ngModel)]="applicantType">
+              <mat-radio-button class="radio-button" *ngFor="let type of applicantTypes" [value]="type.id">
+                {{type.name}}
+              </mat-radio-button>
+            </mat-radio-group>
       </div>
       <div class="form-actions" style="text-align: center;">
-          <button class="btn btn-primary" (click)="goToParentStep()">Далее</button>
+          <button type="button" class="btn btn-inverse" (click)="goTo.back()">Назад</button>
+          <button class="btn btn-primary" (click)="goTo.next()">Далее</button>
         </div>
     </div>
   </div>

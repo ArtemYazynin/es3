@@ -153,7 +153,11 @@ export class ParentStepComponent implements OnInit {
 
   goTo = {
     back: () => {
-      this.router.navigate(["../applicantTypeStep"], { relativeTo: this.activatedRoute });
+      if (this.storageService.request.applicantType == ApplicantType["Доверенное лицо законного представителя ребенка"]) {
+        this.router.navigate(["../applicantStep"], { relativeTo: this.activatedRoute });
+      }else{
+        this.router.navigate(["../applicantTypeStep"], { relativeTo: this.activatedRoute });
+      }
     },
     next: () => {
       if (!this.parentForm.valid || !this.identityCardComponent.identityCardForm.valid) return;
@@ -169,19 +173,7 @@ export class ParentStepComponent implements OnInit {
         }
         return result;
       })();
-      let segment: string = (() => {
-        switch (this.storageService.request.applicantType) {
-          case ApplicantType["Законный представитель ребенка"]:
-            return "childrenStep";
-          case ApplicantType["Ребенок-заявитель"]:
-            return "contactsStep";
-          case ApplicantType["Доверенное лицо законного представителя ребенка"]:
-            return "applicantStep";
-          default:
-            break;
-        }
-      })();
-      this.router.navigate(["../" + segment], { relativeTo: this.activatedRoute });
+      this.router.navigate(["../contactInfoStep"], { relativeTo: this.activatedRoute });
     }
   }
 }

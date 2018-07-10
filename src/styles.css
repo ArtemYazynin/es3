@@ -1,6 +1,18 @@
 
 @import "~@ng-select/ng-select/themes/default.theme.css";
 @import "~@angular/material/prebuilt-themes/indigo-pink.css";
+
+.full-width{
+    width: -webkit-fill-available;
+}
+.radio-group {
+    display: inline-flex;
+    flex-direction: column;
+  }
+  
+.radio-button {
+    margin: 5px;
+}
 /* You can add global styles to this file, and also import other style files */
 /* Widgets */
 .widget-box {

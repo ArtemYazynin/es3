@@ -10,16 +10,16 @@ import { WizardStorageService } from '../wizard/shared/wizard-storage.service';
   styleUrls: ['./confirmation-document.component.css']
 })
 export class ConfirmationDocumentComponent implements OnInit {
+  currentDate = new Date();
   confirmationDocumentForm: FormGroup;
   formErrors = ConfirmationDocument.formErrorsTemplate;
   validationMessages = ConfirmationDocument.validationMessages;
 
   @Input()
-  title:string = "";
-  myDatePickerOptions = this.formService.getDatepickerOptions();
-  constructor(private fb: FormBuilder, 
-              private formService:FormService,
-              private storageService: WizardStorageService) { }
+  title: string = "";
+  constructor(private fb: FormBuilder,
+    private formService: FormService,
+    private storageService: WizardStorageService) { }
 
   ngOnInit() {
     this.buildForm();
@@ -27,37 +27,14 @@ export class ConfirmationDocumentComponent implements OnInit {
 
   private buildForm(): any {
     this.confirmationDocumentForm = this.fb.group({
-      "name":[
-        "",
-        [
-          Validators.required, Validators.maxLength(250)
-        ]
-      ],
-      "series":[
-        "",
-        [
-          Validators.maxLength(250)
-        ]
-      ],
-      "number":[
-        "",
-        [
-          Validators.required, Validators.maxLength(250)
-        ]
-      ],
-      "dateIssue": [
-        new Date(),
-        [
-          Validators.required
-        ]
-      ],
-      "dateExpired": [
-        new Date(), 
-        []
-      ]
+      "name": ["", [Validators.required, Validators.maxLength(250)]],
+      "series": ["", [Validators.maxLength(250)]],
+      "number": ["", [Validators.required, Validators.maxLength(250)]],
+      "dateIssue": ["", [Validators.required]],
+      "dateExpired": ["", []]
     });
     this.confirmationDocumentForm.valueChanges
-            .subscribe(data => this.onValueChange(data));
+      .subscribe(data => this.onValueChange(data));
 
     this.onValueChange();
   }

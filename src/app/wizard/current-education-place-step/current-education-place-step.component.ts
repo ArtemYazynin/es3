@@ -1,8 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { Params, ActivatedRoute, Router } from '@angular/router';
-import { AreaService, Area, AreaType, Entity, InstitutionService, FormService, Institution, Group, GroupService, inquiryType, CurrentEducationPlaceStepService, WizardStorageService, CurrentEducationPlace } from '../../shared/index';
+import { AreaService, Area, AreaType, Entity, InstitutionService, FormService, Institution, Group, GroupService, inquiryType, CurrentEducationPlaceStepService, WizardStorageService, CurrentEducationPlace, CommonService } from '../../shared/index';
 import { FormGroup, Validators, FormControl } from '@angular/forms';
 import { MatCheckboxChange } from '@angular/material/checkbox/typings/checkbox';
+import { Observable } from 'rxjs/internal/Observable';
+import { startWith } from 'rxjs/internal/operators/startWith';
+import { map } from 'rxjs/operators';
+import { MatSelectChange, MatAutocompleteSelectedEvent } from '@angular/material';
 
 @Component({
   selector: 'app-curren-education-place-step',
@@ -11,9 +15,14 @@ import { MatCheckboxChange } from '@angular/material/checkbox/typings/checkbox';
 })
 export class CurrentEducationPlaceStepComponent implements OnInit {
   private currentMunicipality: Area;
-  municipalities: Array<Area> = [];
+  private municipalities: Array<Area> = [];
+  filteredMunicipalities: Observable<Array<Area>>;
+
   institutionsTypes: Array<Entity<number>> = [];
-  institutions: Array<Institution> = [];
+
+  private institutions: Array<Institution> = [];
+  filteredInstitutions: Observable<Array<Institution>>;
+
   groups: Array<Group> = [];
 
   currentPlaceForm: FormGroup;
@@ -22,7 +31,9 @@ export class CurrentEducationPlaceStepComponent implements OnInit {
   validationMessages = this.service.getValidationMessages();
   constructor(private activatedRoute: ActivatedRoute, private areaService: AreaService, private institutionService: InstitutionService,
     private formService: FormService, private router: Router, private groupService: GroupService,
-    private service: CurrentEducationPlaceStepService, private storageService: WizardStorageService) { }
+    private service: CurrentEducationPlaceStepService, private storageService: WizardStorageService,
+    private commonService: CommonService) { }
+
   isValid() {
     return this.currentPlaceForm && this.currentPlaceForm.valid || false;
   }
@@ -36,6 +47,7 @@ export class CurrentEducationPlaceStepComponent implements OnInit {
       },
       institutions: () => {
         global.institutions = [];
+        global.filteredInstitutions = undefined;
         global.currentPlaceForm.patchValue({ institution: "" });
       },
       groups: () => {
@@ -67,25 +79,23 @@ export class CurrentEducationPlaceStepComponent implements OnInit {
       }
     }
     return {
-      municipality: () => {
+      municipality: (change: MatSelectChange) => {
         reset.institutionsTypes();
         reset.institutions();
         reset.groups();
 
         global.init.institutionTypes();
       },
-      institutionType: (val: number) => {
+      institutionType: (change: MatSelectChange) => {
         reset.institutions();
         reset.groups();
+        global.init.institutions(change.value);
 
-        global.institutionService.getInstitutions(val).subscribe(result => {
-          global.institutions = result;
-        });
       },
-      institution: (val: string) => {
+      institution: (change: MatAutocompleteSelectedEvent) => {
         reset.groups();
 
-        global.groupService.getGroup(val).subscribe(groups => {
+        global.groupService.getGroup((<Institution>change.option.value).id).subscribe(groups => {
           global.groups = groups;
         });
       },
@@ -100,15 +110,7 @@ export class CurrentEducationPlaceStepComponent implements OnInit {
     this.buildForm();
     this.init.inquiryType();
     this.init.institutionTypes();
-    this.init.currentMunicipality();
-    //if (this.storageService.request.currentEducationPlace) {
-    // for (const key in this.storageService.request.currentEducationPlace) {
-    //   if (this.storageService.request.currentEducationPlace.hasOwnProperty(key)) {
-    //     const value = this.storageService.request.currentEducationPlace[key];
-    //     this.currentPlaceForm.patchValue({ key: value });
-    //   }
-    // }
-    //}
+    this.init.municipalities();
   }
   private buildForm() {
     this.currentPlaceForm = this.service.getFormGroup();
@@ -123,11 +125,20 @@ export class CurrentEducationPlaceStepComponent implements OnInit {
         }
       });
     },
-    currentMunicipality: () => {
+    municipalities: () => {
       let municipalities = () => {
         this.areaService.getAreas(AreaType["Муниципалитет"]).subscribe(result => {
           this.municipalities = result;
-          this.currentPlaceForm.patchValue({ municipality: this.municipalities.find(x => x.id == this.currentMunicipality.id).id });
+          this.filteredMunicipalities = this.currentPlaceForm.controls.municipality.valueChanges.pipe(
+            startWith<string | Area>(''),
+            map((value: Area) => {
+              return typeof value === 'string' ? value : value.name;
+            }),
+            map((name: string) => {
+              return name ? this.commonService.autoCompliteFilter(this.municipalities, name) : this.municipalities.slice();
+            })
+          );
+          this.currentPlaceForm.patchValue({ municipality: this.municipalities.find(x => x.id == this.currentMunicipality.id) }, { emitEvent: true });
         })
       }
       this.areaService.getCurrentMunicipality().subscribe(result => {
@@ -144,7 +155,7 @@ export class CurrentEducationPlaceStepComponent implements OnInit {
           default:
             break;
         }
-      })
+      });
     },
     institutionTypes: () => {
       this.institutionService.getTypes().subscribe(result => {
@@ -163,12 +174,29 @@ export class CurrentEducationPlaceStepComponent implements OnInit {
           default:
             break;
         }
-      })
+      });
+    },
+    institutions: (institutionType?: number) => {
+      this.institutionService.getInstitutions(institutionType).subscribe(result => {
+        this.institutions = result;
+        this.filteredInstitutions = this.currentPlaceForm.controls.institution.valueChanges.pipe(
+          startWith<string | Institution>(''),
+          map((value: Institution) => {
+            return typeof value === 'string' ? value : value.name;
+          }),
+          map((name: string) => {
+            return name ? this.commonService.autoCompliteFilter(this.institutions, name) : this.institutions.slice();
+          })
+        );
+      });
     }
   }
 
   onSubmit() {
 
+  }
+  displayFn(area?: Area): string | undefined {
+    return area ? area.name : undefined;
   }
 
   goTo = (() => {

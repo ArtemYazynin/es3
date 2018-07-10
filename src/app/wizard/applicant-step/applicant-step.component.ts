@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, ViewChildren, QueryList } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Person, Parent, FormService, CitizenshipService, Country } from '../../shared/index';
 import { ConfirmationDocumentComponent } from '../../confirmation-document/confirmation-document.component';
@@ -20,6 +20,9 @@ export class ApplicantStepComponent implements OnInit {
 
   @ViewChild(FullNameComponent)
   fullnameComponent: FullNameComponent
+
+  // @ViewChildren(ConfirmationDocumentComponent)
+  // confirmationDocuments: QueryList<ConfirmationDocumentComponent>
   
   constructor(private fb: FormBuilder, private formService: FormService, private citizenshipService: CitizenshipService) { }
 

@@ -17,9 +17,9 @@ export class InstitutionService {
       return <Array<Entity<number>>>result.json();
     }));
   }
-  getInstitutions(type: number): Observable<Array<Institution>> {
-    if ((typeof type) == "string") return new Observable<Array<Institution>>();
-    return this.http.get("app/institutions?institutionType=" + type).pipe(map(result => {
+  getInstitutions(type?: number): Observable<Array<Institution>> {
+    let url = type ? "app/institutions?institutionType=" + type : "app/institutions";
+    return this.http.get(url).pipe(map(result => {
       return <Array<Institution>>result.json();
     }));
   }

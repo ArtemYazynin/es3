@@ -22,7 +22,7 @@ import { FullNameComponent } from './person/full-name/full-name.component';
 import { BirthInfoComponent } from './person/birth-info/birth-info.component';
 import { ApplicantStepComponent } from './wizard/applicant-step/applicant-step.component';
 import { ChildrenStepComponent } from './wizard/children-step/children-step.component';
-import { EnumToArrayPipe, IdentityCardTypeFriendlyNamePipe, FormService, WizardStorageService, CitizenshipService, RelationTypeService, IdentityCardService, ParentStepService, SpecHealthService, AreaService, InstitutionService, GroupService } from './shared/index';
+import { EnumToArrayPipe, IdentityCardTypeFriendlyNamePipe, FormService, WizardStorageService, CitizenshipService, RelationTypeService, IdentityCardService, ParentStepService, SpecHealthService, AreaService, InstitutionService, GroupService, CommonService } from './shared/index';
 import { MyDatePickerModule } from 'mydatepicker';
 import { TextMaskModule } from 'angular2-text-mask';
 import { CitizenshipSelectComponent } from './person/citizenship-select/citizenship-select.component';
@@ -183,7 +183,8 @@ export class MaterialModule { }
     AreaService,
     InstitutionService,
     GroupService,
-    CurrentEducationPlaceStepService
+    CurrentEducationPlaceStepService,
+    CommonService
   ],
   entryComponents: [ChildComponent],
   bootstrap: [AppComponent]

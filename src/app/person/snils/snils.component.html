@@ -1,5 +1,5 @@
 <div class="form-group">
-  <mat-form-field>
+  <mat-form-field class="full-width">
     <input matInput placeholder="СНИЛС" [(ngModel)]="snils" [textMask]="{mask: snilsMask}" [pattern]="pattern" #snilsRef="ngModel">
   </mat-form-field>
   <div *ngIf="snilsRef.errors && (snilsRef.dirty || snilsRef.touched)" class="alert alert-danger">
