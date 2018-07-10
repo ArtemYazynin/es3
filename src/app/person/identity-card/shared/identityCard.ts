@@ -80,10 +80,14 @@ export class IdentityCard {
             },
             dateIssue: {
                 "required": "Обязательное поле.",
+                "matDatepickerParse": "Неправильный формат даты",
+                "matDatepickerMax": "Дата выдачи не может быть позже текущей даты",
                 "dateIssueMoreDateExpired":  dateErrorMsg
             },
             dateExpired: {
                 "required": "Обязательное поле.",
+                "matDatepickerParse": "Неправильный формат даты",
+                "matDatepickerMin": "Дата окончания действия документа не может быть раньше текущей даты",
                 "dateExpiredLessDateIssue":  dateErrorMsg
             },
             issueDepartmentCode: {
@@ -94,12 +98,6 @@ export class IdentityCard {
                 "required": "Обязательное поле.",
                 "maxlength": "Максимальная длина 6 цифр.",
                 "pattern": "Формат 6 цифр"
-            },
-            actRecordDate: {
-                "required": "Обязательное поле."
-            },
-            actRecordPlace: {
-                "required": "Обязательное поле."
             }
         }
     }

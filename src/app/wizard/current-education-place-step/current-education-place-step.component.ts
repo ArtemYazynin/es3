@@ -101,15 +101,14 @@ export class CurrentEducationPlaceStepComponent implements OnInit {
     this.init.inquiryType();
     this.init.institutionTypes();
     this.init.currentMunicipality();
-    if (this.storageService.request.currentEducationPlace) {
-      this.currentPlaceForm.patchValue({ municipality: this.storageService.request.currentEducationPlace.municipality });
-      for (const key in this.storageService.request.currentEducationPlace) {
-        if (this.storageService.request.currentEducationPlace.hasOwnProperty(key)) {
-          const value = this.storageService.request.currentEducationPlace[key];
-          this.currentPlaceForm.patchValue({ key: value });
-        }
-      }
-    }
+    //if (this.storageService.request.currentEducationPlace) {
+    // for (const key in this.storageService.request.currentEducationPlace) {
+    //   if (this.storageService.request.currentEducationPlace.hasOwnProperty(key)) {
+    //     const value = this.storageService.request.currentEducationPlace[key];
+    //     this.currentPlaceForm.patchValue({ key: value });
+    //   }
+    // }
+    //}
   }
   private buildForm() {
     this.currentPlaceForm = this.service.getFormGroup();
@@ -180,7 +179,8 @@ export class CurrentEducationPlaceStepComponent implements OnInit {
       next: () => {
         this.storageService.currentEducationPlace = new CurrentEducationPlace(this.currentPlaceForm.value["municipality"],
           this.currentPlaceForm.value["institutionType"], this.currentPlaceForm.value["institution"],
-          this.currentPlaceForm.value["group"], this.currentPlaceForm.value["isOther"], this.currentPlaceForm.value["other"])
+          this.currentPlaceForm.value["group"], this.currentPlaceForm.value["isOther"], this.currentPlaceForm.value["other"]);
+        this.router.navigate(["../applicantTypeStep"], { relativeTo: this.activatedRoute });
       }
     }
   })();

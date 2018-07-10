@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { SpecHealthService, ConfirmationDocument, SpecHealth } from '../index';
-import { ConfirmationDocumentComponent } from '../../confirmation-document/confirmation-document.component';
+import { SpecHealthService, SpecHealth } from '../shared/index';
+import { ConfirmationDocumentComponent } from '../confirmation-document/confirmation-document.component';
 
 @Component({
   selector: 'app-spec-health',

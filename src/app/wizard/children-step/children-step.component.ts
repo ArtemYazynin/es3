@@ -3,7 +3,7 @@ import { Country, CitizenshipService, Child, ConfirmationDocument, WizardStorage
 import { ChildComponent } from './child/child.component';
 import { BirthInfoComponent } from '../../person/birth-info/birth-info.component';
 import { CitizenshipSelectComponent } from '../../person/citizenship-select/citizenship-select.component';
-import { SpecHealthComponent } from '../../shared/spec-health/spec-health.component';
+import { SpecHealthComponent } from '../../spec-health/spec-health.component';
 import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({

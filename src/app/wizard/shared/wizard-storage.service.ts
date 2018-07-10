@@ -6,10 +6,11 @@ import { CurrentEducationPlace } from '../../shared';
 
 @Injectable()
 export class WizardStorageService {
-  private _request: { parent: Parent, children: Array<Child>, currentEducationPlace:CurrentEducationPlace } = {
+  private _request: { applicantType: ApplicantType,parent: Parent, children: Array<Child>, currentEducationPlace:CurrentEducationPlace } = {
     parent: undefined,
     currentEducationPlace:undefined,
-    children: []
+    children: [],
+    applicantType:undefined
   };
   constructor() { }
 

@@ -3,80 +3,98 @@
         <h4>Удостоверение личности</h4>
         <form [formGroup]="identityCardForm">
             <div class="form-group">
-                <label for="identityCardType">Тип документа</label>
-                <select id="identityCardType" class="form-control" formControlName="identityCardType">
-                    <option *ngFor="let item of types" [value]="item.id">
-                        {{item.name}}
-                    </option>
-                </select>
+                <mat-form-field style="width: -webkit-fill-available">
+                    <mat-select formControlName="identityCardType" placeholder="Тип документа">
+                        <mat-option *ngFor="let item of types" [value]="item.id">{{item.name}}</mat-option>
+                    </mat-select>
+                </mat-form-field>
             </div>
             <div class="form-group" *ngIf="isAvailable.name">
-                <label for="name">Название</label>
-                <input type="text" id="name" class="form-control" formControlName="name">
+                <mat-form-field>
+                    <input matInput formControlName="name" placeholder="Название">
+                </mat-form-field>
                 <div *ngIf="formErrors.name" class="alert alert-danger">
                     {{ formErrors.name }}
                 </div>
             </div>
             <div class="form-group" *ngIf="isAvailable.series">
-                <label for="series">Серия</label>
-                <input type="text" id="series" class="form-control" formControlName="series">
+                <mat-form-field>
+                    <input matInput formControlName="series" placeholder="Серия">
+                </mat-form-field>
                 <div *ngIf="formErrors.series" class="alert alert-danger">
                     {{ formErrors.series }}
                 </div>
             </div>
             <div class="form-group" *ngIf="isAvailable.number">
-                <label for="number">Номер</label>
-                <input type="text" id="number" class="form-control" formControlName="number" *ngIf="!isAvailable.maskOfNumber">
-                <input type="text" id="number" class="form-control" formControlName="number" *ngIf="isAvailable.maskOfNumber" [textMask]="{mask: mask.temporaryResidenceNumber}">
+                <mat-form-field>
+                    <input matInput formControlName="number" placeholder="Номер" *ngIf="!isAvailable.maskOfNumber">
+                    <input matInput formControlName="number" placeholder="Номер" *ngIf="isAvailable.maskOfNumber" [textMask]="{mask: mask.temporaryResidenceNumber}">
+                </mat-form-field>
                 <div *ngIf="formErrors.number" class="alert alert-danger">
                     {{ formErrors.number }}
                 </div>
             </div>
             <div class="form-group" *ngIf="isAvailable.issued">
-                <label for="issued">Выдан</label>
-                <input type="text" id="issued" class="form-control" formControlName="issued">
+                <mat-form-field>
+                    <input matInput formControlName="issued" placeholder="Выдан">
+                </mat-form-field>
                 <div *ngIf="formErrors.issued" class="alert alert-danger">
                     {{ formErrors.issued }}
                 </div>
             </div>
             <div class="form-group" *ngIf="isAvailable.dateIssue">
-                <label for="dateIssue">Дата выдачи</label>
-                <my-date-picker name="dateIssue" id="dateIssue" [options]="myDatePickerOptions.dateIssue" formControlName="dateIssue"></my-date-picker>
+                <mat-form-field>
+                    <input matInput [matDatepicker]="dateIssuePicker" placeholder="Дата выдачи" [max]="currentDate" formControlName="dateIssue" (click)="dateIssuePicker.open()">
+                    <mat-datepicker-toggle matSuffix [for]="dateIssuePicker"></mat-datepicker-toggle>
+                    <mat-datepicker disabled="false" #dateIssuePicker></mat-datepicker>
+                </mat-form-field>
                 <div *ngIf="formErrors.dateIssue" class="alert alert-danger">
                     {{ formErrors.dateIssue }}
                 </div>
             </div>
             <div class="form-group" *ngIf="isAvailable.dateExpired">
-                <label for="dateExpired">Действительно до</label>
-                <my-date-picker name="dateExpired" id="dateExpired" [options]="myDatePickerOptions.dateExpired" formControlName="dateExpired"></my-date-picker>
+                <mat-form-field>
+                    <input matInput [matDatepicker]="dateExpiredPicker" placeholder="Действительно до" [min]="currentDate" formControlName="dateExpired" (click)="dateExpiredPicker.open()">
+                    <mat-datepicker-toggle matSuffix [for]="dateExpiredPicker"></mat-datepicker-toggle>
+                    <mat-datepicker disabled="false" #dateExpiredPicker></mat-datepicker>
+                </mat-form-field>
                 <div *ngIf="formErrors.dateExpired" class="alert alert-danger">
                     {{ formErrors.dateExpired }}
                 </div>
             </div>
             <div class="form-group" *ngIf="isAvailable.issueDepartmentCode">
-                <label for="issueDepartmentCode">Код подразделения</label>
-                <input type="text" id="issueDepartmentCode" class="form-control" formControlName="issueDepartmentCode" [textMask]="{mask: mask.issueDepartmentCodeMask}">
+                <mat-form-field>
+                    <input matInput formControlName="issueDepartmentCode" placeholder="Код подразделения" [textMask]="{mask: mask.issueDepartmentCodeMask}">
+                </mat-form-field>
                 <div *ngIf="formErrors.issueDepartmentCode" class="alert alert-danger">
                     {{ formErrors.issueDepartmentCode }}
                 </div>
             </div>
             <div class="form-group" *ngIf="isAvailable.actRecordNumber">
-                <label for="actRecordNumber">Номер актовой записи</label>
-                <input type="text" id="actRecordNumber" class="form-control" formControlName="actRecordNumber">
+                <mat-form-field>
+                    <input matInput formControlName="actRecordNumber" placeholder="Номер актовой записи">
+                </mat-form-field>
                 <div *ngIf="formErrors.actRecordNumber" class="alert alert-danger">
                     {{ formErrors.actRecordNumber }}
                 </div>
             </div>
             <div class="form-group" *ngIf="isAvailable.actRecordDate">
-                <label for="actRecordDate">Дата создания актовой записи</label>
-                <input type="date" id="actRecordDate" class="form-control" formControlName="actRecordDate">
+                <!-- <label for="actRecordDate">Дата создания актовой записи</label>
+                <my-date-picker name="actRecordDate" id="actRecordDate" [options]="myDatePickerOptions.default" formControlName="actRecordDate"></my-date-picker> -->
+                <mat-form-field>
+                    <input matInput [matDatepicker]="actRecordDatePicker" placeholder="Дата создания актовой записи" formControlName="actRecordDate"
+                        (click)="actRecordDatePicker.open()">
+                    <mat-datepicker-toggle matSuffix [for]="actRecordDatePicker"></mat-datepicker-toggle>
+                    <mat-datepicker disabled="false" #actRecordDatePicker></mat-datepicker>
+                </mat-form-field>
                 <div *ngIf="formErrors.actRecordDate" class="alert alert-danger">
                     {{ formErrors.actRecordDate }}
                 </div>
             </div>
             <div class="form-group" *ngIf="isAvailable.actRecordPlace">
-                <label for="actRecordPlace">Место гос регистрации (отдел ЗАГС)</label>
-                <input type="text" id="actRecordPlace" class="form-control" formControlName="actRecordPlace">
+                <mat-form-field>
+                    <input matInput formControlName="actRecordPlace" placeholder="Место гос регистрации (отдел ЗАГС)">
+                </mat-form-field>
                 <div *ngIf="formErrors.actRecordPlace" class="alert alert-danger">
                     {{ formErrors.actRecordPlace }}
                 </div>

@@ -3,13 +3,11 @@
     <div class="widget-box">
       <div class="widget-content">
         <div class="form-group">
-          <label for="citizenship">Наличие ОВЗ</label>
-          <div>
-            <div style="display: inline-block; width: 40%; margin-right: 10px;">
-              <ng-select class="citizenship-select" [clearable]="false" [items]="specHealths" bindLabel="name" bindValue="code" [(ngModel)]="specHealth">
-              </ng-select>
-            </div>
-          </div>
+            <mat-form-field class="citizenship-select">
+                <mat-select [(ngModel)]="specHealth" placeholder="Наличие ОВЗ">
+                    <mat-option *ngFor="let item of specHealths" [value]="item.code">{{item.name}}</mat-option>
+                </mat-select>
+            </mat-form-field>
         </div>
       </div>
     </div>

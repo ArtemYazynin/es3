@@ -1,4 +1,3 @@
-import { IMyDpOptions } from 'mydatepicker';
 import { IdentityCard, IdentityCardType, FormService, Entity, IdentityCardService, IdentityCardChangeHandler } from '../../shared/index';
 import { Subscription } from 'rxjs/internal/Subscription';
 import { FormGroup, FormBuilder } from '@angular/forms';
@@ -20,6 +19,7 @@ export class IdentityCardComponent implements OnInit {
     temporaryResidenceNumber: [/\d/,/\d/,/\d/,/\d/,"-",/\d/,/\d/,/\d/,/\d/]
   };
   myDatePickerOptions = this.formService.getDatepickerOptions();
+  currentDate = new Date();
   identityCardForm: FormGroup;
 
   formErrors = IdentityCard.getFormErrorsTemplate();
@@ -71,9 +71,9 @@ export class IdentityCardComponent implements OnInit {
       "actRecordPlace": ["", []],
     });
     this.identityCardForm.valueChanges
-      .subscribe(data => {
-        this.formService.onValueChange(this.identityCardForm, this.formErrors, this.validationMessages);
-      });
+      .subscribe(() => {
+          this.formService.onValueChange(this.identityCardForm, this.formErrors, this.validationMessages);
+        });
   }
   subscribeToIdentityCardType(): void {
     let changeHandler = new IdentityCardChangeHandler(this.identityCardForm, this.isAvailable, this.validationMessages);

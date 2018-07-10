@@ -29,7 +29,7 @@ import { CitizenshipSelectComponent } from './person/citizenship-select/citizens
 import { NgSelectModule } from '@ng-select/ng-select';
 import { ChildComponent } from './wizard/children-step/child/child.component';
 import { SnilsComponent } from './person/snils/snils.component';
-import { SpecHealthComponent } from './shared/spec-health/spec-health.component';
+import { SpecHealthComponent } from './spec-health/spec-health.component';
 import { CurrentEducationPlaceStepComponent } from './wizard/current-education-place-step/current-education-place-step.component';
 
 
@@ -80,6 +80,7 @@ import {
   MatToolbarModule,
   MatTooltipModule,
   MatTreeModule,
+  DateAdapter,
 } from '@angular/material';
 import { CurrentEducationPlaceStepService } from './wizard/shared/current-education-place-step.service';
 @NgModule({
@@ -187,4 +188,8 @@ export class MaterialModule { }
   entryComponents: [ChildComponent],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule { 
+  constructor(dateAdapter:DateAdapter<Date>) {
+    dateAdapter.setLocale('ru-RU'); // DD/MM/YYYY
+	}
+}

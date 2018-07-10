@@ -1,22 +1,26 @@
 <form [formGroup]="birthInfoForm">
   <div class="form-group">
-    <label for="gender">Пол</label>
-    <select id="gender" class="form-control" formControlName="gender">
-      <option value="1">Мужской</option>
-      <option value="2">Женский</option>
-    </select>
+    <mat-form-field>
+      <mat-select formControlName="gender" placeholder="Пол">
+        <mat-option [value]="1">Мужской</mat-option>
+        <mat-option [value]="2">Женский</mat-option>
+      </mat-select>
+    </mat-form-field>
   </div>
   <div class="form-group">
-    <label for="birthDate">Дата рождения</label>
-    <!-- <input type="date" id="birthDate" class="form-control" formControlName="birthDate"> -->
-    <my-date-picker name="birthDate" id="birthDate" [options]="myDatePickerOptions.birthDate" formControlName="birthDate"></my-date-picker>
+    <mat-form-field (click)="picker.open()">
+      <input matInput [matDatepicker]="picker" placeholder="Дата рождения" [max]="currentDate" formControlName="birthDate">
+      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker disabled="false" #picker></mat-datepicker>
+    </mat-form-field>
     <div *ngIf="formErrors.birthDate" class="alert alert-danger">
       {{ formErrors.birthDate }}
     </div>
   </div>
   <div class="form-group">
-    <label for="birthPlace">Место рождения</label>
-    <input type="text" id="birthPlace" class="form-control" formControlName="birthPlace">
+      <mat-form-field>
+          <input matInput formControlName="birthPlace" placeholder="Место рождения">
+      </mat-form-field>
     <div *ngIf="formErrors.birthPlace" class="alert alert-danger">
       {{ formErrors.birthPlace }}
     </div>

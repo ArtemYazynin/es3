@@ -1,7 +1,7 @@
 <div class="form-group">
-  <label for="snils">СНИЛС</label>
-  <input type="text" id="snils" name="snils" [(ngModel)]="snils" class="form-control" placeholder="___-___-___ __" [textMask]="{mask: snilsMask}"
-    [pattern]="pattern" #snilsRef="ngModel">
+  <mat-form-field>
+    <input matInput placeholder="СНИЛС" [(ngModel)]="snils" [textMask]="{mask: snilsMask}" [pattern]="pattern" #snilsRef="ngModel">
+  </mat-form-field>
   <div *ngIf="snilsRef.errors && (snilsRef.dirty || snilsRef.touched)" class="alert alert-danger">
     <div [hidden]="!snilsRef.errors.pattern">
       Значение должно состоять из целых чисел вида 123-456-789 00
