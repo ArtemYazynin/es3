@@ -1,6 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { ConfirmationDocument } from '../shared/index';
+import { ConfirmationDocument, AttachmentTypePipe, AttachmentType } from '../shared/index';
 import { FormService } from '../shared/form.service';
 import { WizardStorageService } from '../wizard/shared/wizard-storage.service';
 
@@ -15,8 +15,9 @@ export class ConfirmationDocumentComponent implements OnInit {
   formErrors = ConfirmationDocument.formErrorsTemplate;
   validationMessages = ConfirmationDocument.validationMessages;
 
-  @Input()
-  title: string = "";
+  @Input() title: string = "";
+  @Input() type: AttachmentType;
+
   constructor(private fb: FormBuilder,
     private formService: FormService,
     private storageService: WizardStorageService) { }

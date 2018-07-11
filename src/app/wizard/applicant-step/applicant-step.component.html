@@ -2,7 +2,7 @@
   <form [formGroup]="applicantForm" (ngSubmit)="goTo.next()" novalidate>
     <div class="widget-box">
       <div class="widget-title">
-        <h5>Заявитель</h5>
+        <h5>Доверенное лицо законного представителя ребенка</h5>
       </div>
       <div class="widget-content">
         <div class="row">
@@ -50,13 +50,14 @@
         </div>
         <div class="row" *ngIf="isAvailable.countryStateDocument()">
           <div class="col-md-12">
-            <app-confirmation-document title="Документ, подтверждающий право пребывания заявителя на территории РФ">
+            <app-confirmation-document [type]="countryStateApplicant" title="Документ, подтверждающий право пребывания доверенного лица законного представителя на территории РФ">
             </app-confirmation-document>
           </div>
         </div>
         <div class="row">
           <div class="col-md-12">
-            <app-confirmation-document title="Документ, подтверждающий полномочие заявителя представлять интересы законного представителя"></app-confirmation-document>
+            
+            <app-confirmation-document [type]="applicantRepresentParent" title="Документ, подтверждающий полномочие доверенного лица представлять интересы законного представителя ребенка"></app-confirmation-document>
           </div>
         </div>
       </div>
@@ -67,7 +68,7 @@
           <div class="col-md-12">
             <div class="form-actions" style="text-align: center;">
               <button type="button" class="btn btn-inverse" (click)="goTo.back()">Назад</button>
-              <button type="submit" class="btn btn-primary" [disabled]="!isValid()">Далее</button>
+              <button type="submit" class="btn btn-primary" (click)="goTo.next()" [disabled]="!isValid()">Далее</button>
             </div>
           </div>
         </div>

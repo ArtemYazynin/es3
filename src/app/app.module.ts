@@ -83,6 +83,7 @@ import {
   DateAdapter,
 } from '@angular/material';
 import { CurrentEducationPlaceStepService } from './wizard/shared/current-education-place-step.service';
+import { AttachmentTypePipe } from './shared/attachment-type.pipe';
 @NgModule({
   exports: [
     // CDK
@@ -134,7 +135,8 @@ import { CurrentEducationPlaceStepService } from './wizard/shared/current-educat
     MatToolbarModule,
     MatTooltipModule,
     MatTreeModule,
-  ]
+  ],
+  declarations: [AttachmentTypePipe]
 })
 export class MaterialModule { }
 

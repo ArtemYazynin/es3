@@ -6,6 +6,7 @@ export * from "./inquiry-type";
 export * from "../person/identity-card/shared/identityCardType";
 export * from "./applicant-type.enum";
 export * from "../area/shared/area-type.enum";
+export * from "./attachment-type.enum"
 //
 
 //json
@@ -40,5 +41,6 @@ export * from "../shared/common.service";
 export * from "../wizard/shared/current-education-place-step.service";
 
 export * from "./enum-to-array-pipe";
+export * from "./attachment-type.pipe";
 export * from "../person/identity-card/shared/identity-card-type-friendly-name.pipe";
 export * from "../person/identity-card/shared/identity-card-change-handler";
