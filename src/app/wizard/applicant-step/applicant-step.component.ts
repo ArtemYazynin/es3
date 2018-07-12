@@ -50,16 +50,15 @@ export class ApplicantStepComponent implements OnInit {
         || false,
       fullnameForm: this.fullnameComponent && this.fullnameComponent.fullnameForm && this.fullnameComponent.fullnameForm.valid || false,
       countryStateDocument: (() => {
-        if (!this.confirmationDocuments) return false;
-        let component = this.confirmationDocuments.find(x => x.type == AttachmentType.ApplicantRepresentParent)
-        return component && component.confirmationDocumentForm &&component.confirmationDocumentForm.valid;
-      })(),
-      applicantRepresentDocumentForm: (() => {
         if (!this.confirmationDocuments || this.countries.length == 0) return false;
         if (parseInt(this.applicantForm.value.citizenship) === this.countries.find(x => x.name === "Россия").id)
           return true;
-        
-        let component = this.confirmationDocuments.find(x => x.type == AttachmentType.CountryStateApplicantDocument);
+        let component = this.confirmationDocuments.find(x => x.type == AttachmentType.CountryStateApplicantDocument)
+        return component && component.confirmationDocumentForm &&component.confirmationDocumentForm.valid;
+      })(),
+      applicantRepresentDocumentForm: (() => {
+        if (!this.confirmationDocuments) return false;
+        let component = this.confirmationDocuments.find(x => x.type == AttachmentType.ApplicantRepresentParent);
         return component && component.confirmationDocumentForm && component.confirmationDocumentForm.valid
       })()
     }

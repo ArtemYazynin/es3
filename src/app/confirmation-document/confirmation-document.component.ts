@@ -1,6 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { ConfirmationDocument, AttachmentTypePipe, AttachmentType } from '../shared/index';
+import { ConfirmationDocument, AttachmentType } from '../shared/index';
 import { FormService } from '../shared/form.service';
 import { WizardStorageService } from '../wizard/shared/wizard-storage.service';
 
