@@ -1,88 +1,63 @@
-<div class="container col-md-12" *ngIf="parentForm">
-  <form [formGroup]="parentForm" (ngSubmit)="goTo.next()" novalidate>
-    <div class="widget-box">
-      <div class="widget-title">
-        <h5>Законный представитель</h5>
+<div class="container col-md-12">
+  <div class="widget-box">
+    <div class="widget-title">
+      <h5>Законный представитель</h5>
+    </div>
+    <div class="widget-content">
+      <div class="row">
+        <div class="col-md-6">
+          <full-name>
+            <app-snils></app-snils>
+          </full-name>
+        </div>
+        <div class="col-md-6">
+          <identity-card [ids]="groupOfIdentityCardTypeId"></identity-card>
+        </div>
       </div>
-      <div class="widget-content">
-        <div class="row">
-          <div class="col-md-6">
-            <full-name>
-              <app-snils></app-snils>
-            </full-name>
-          </div>
-          <div class="col-md-6">
-            <identity-card [ids]="groupOfIdentityCardTypeId"></identity-card>
-          </div>
+      <app-citizenship-select>
+      </app-citizenship-select>
+      <div class="row" *ngIf="isAvailable.childApplicantInfo">
+        <div class="col-md-12">
+          <birth-info>
+          </birth-info>
         </div>
-        <app-citizenship-select>
-        </app-citizenship-select>
-        <div class="row" *ngIf="isAvailable.childApplicantInfo">
-          <div class="col-md-12">
-            <birth-info>
-            </birth-info>
-          </div>
+      </div>
+      <div class="row" *ngIf="isAvailable.countryStateDocument()">
+        <div class="col-md-12">
+          <app-confirmation-document [type]="attachmentTypes.CountryStateDocument" title="Документ, подтверждающий право пребывания законного представителя на территории РФ">
+          </app-confirmation-document>
         </div>
-        <div class="row" *ngIf="isAvailable.countryStateDocument()">
-          <div class="col-md-12">
-            <app-confirmation-document title="Документ, подтверждающий право пребывания законного представителя на территории РФ">
-            </app-confirmation-document>
-          </div>
+      </div>
+      <app-relation-type></app-relation-type>
+      <div class="row" *ngIf="isAvailable.representChildrenInterestsDocument()">
+        <div class="col-md-12">
+          <app-confirmation-document [type]="attachmentTypes.ParentRepresentChildren" title="Документ, подтверждающий право законного представителя представлять интересы ребенка"></app-confirmation-document>
         </div>
-
-        <div class="row" *ngIf="isAvailable.relationType">
-          <div class="col-md-12">
-            <div class="widget-box">
-              <div class="widget-content">
-                <div class="form-group">
-                  <mat-form-field class="full-width">
-                    <mat-select formControlName="relationType" placeholder="Родственная связь">
-                      <mat-option *ngFor="let item of relationTypes" [value]="item.id">{{item.name}}</mat-option>
-                    </mat-select>
-                  </mat-form-field>
-                </div>
+      </div>
+    </div>
+  </div>
+  <div class="widget-box">
+    <div class="widget-content">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="form-group">
+            <label class="control-label"></label>
+            <div class="controls">
+              <div class="checkbox">
+                <mat-checkbox [(ngModel)]="agree">Заявителем дано согласие на обработку персональных данных</mat-checkbox>
+                <b style="color: red;">*</b>
+                <a title="Печать согласия на обработку персональных данных">
+                  <i class="fas fa-print"></i>
+                </a>
               </div>
             </div>
           </div>
-        </div>
-        <div class="row">
-          <span>
-            <b>{{parentForm.value | json}}</b>
-          </span>
-          <span>parentForm.status:
-            <b>{{parentForm.status | json}}</b>
-          </span>
-        </div>
-        <div class="row" *ngIf="isAvailable.representChildrenInterestsDocument()">
-          <div class="col-md-12">
-            <app-confirmation-document title="Документ, подтверждающий право законного представителя представлять интересы ребенка"></app-confirmation-document>
+          <div class="form-actions" style="text-align: center;">
+            <button type="button" class="btn btn-inverse" (click)="goTo.back()">Назад</button>
+            <button type="submit" class="btn btn-primary" (click)="goTo.next()" [disabled]="!isValid()">Далее</button>
           </div>
         </div>
       </div>
     </div>
-    <div class="widget-box">
-      <div class="widget-content">
-        <div class="row">
-          <div class="col-md-12">
-            <div class="form-group">
-              <label class="control-label"></label>
-              <div class="controls">
-                <div class="checkbox">
-                  <mat-checkbox formControlName="agree">Заявителем дано согласие на обработку персональных данных</mat-checkbox>
-                  <b style="color: red;">*</b>
-                  <a title="Печать согласия на обработку персональных данных">
-                    <i class="fas fa-print"></i>
-                  </a>
-                </div>
-              </div>
-            </div>
-            <div class="form-actions" style="text-align: center;">
-              <button type="button" class="btn btn-inverse" (click)="goTo.back()">Назад</button>
-              <button type="submit" class="btn btn-primary" (click)="goTo.next()" [disabled]="!isValid()">Далее</button>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </form>
+  </div>
 </div>

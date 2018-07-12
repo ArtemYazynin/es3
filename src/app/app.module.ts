@@ -84,6 +84,7 @@ import {
 } from '@angular/material';
 import { CurrentEducationPlaceStepService } from './wizard/shared/current-education-place-step.service';
 import { AttachmentTypePipe } from './shared/attachment-type.pipe';
+import { RelationTypeComponent } from './relation-type/relation-type.component';
 @NgModule({
   exports: [
     // CDK
@@ -136,7 +137,7 @@ import { AttachmentTypePipe } from './shared/attachment-type.pipe';
     MatTooltipModule,
     MatTreeModule,
   ],
-  declarations: [AttachmentTypePipe]
+  declarations: []
 })
 export class MaterialModule { }
 
@@ -145,6 +146,7 @@ export class MaterialModule { }
     AppComponent,
     EnumToArrayPipe,
     IdentityCardTypeFriendlyNamePipe,
+    AttachmentTypePipe,
     IdentityCardComponent,
     ConfirmationDocumentComponent,
     ApplicantTypeStepComponent,
@@ -157,7 +159,8 @@ export class MaterialModule { }
     ChildComponent,
     SnilsComponent,
     SpecHealthComponent,
-    CurrentEducationPlaceStepComponent
+    CurrentEducationPlaceStepComponent,
+    RelationTypeComponent
   ],
   imports: [
     BrowserModule,

@@ -18,7 +18,7 @@ export enum AttachmentType {
     //
     // Summary:
     //     Копия документа, подтверждающего полномочие заявителя представлять интересы ребенка
-    GuardianDocument = 4,
+    ParentRepresentChildren = 4,
     //
     // Summary:
     //     Копия документа, подтверждающего потребность ребенка в группе с ОВЗ

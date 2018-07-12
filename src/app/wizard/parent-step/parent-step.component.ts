@@ -1,27 +1,20 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { FormGroup, Validators, FormBuilder } from "@angular/forms";
-import { forkJoin } from 'rxjs';
+import { Component, OnInit, ViewChild, ViewChildren, QueryList } from '@angular/core';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import {
   IdentityCardType,
-  IdentityCard,
-  Parent,
-  FormService,
   CitizenshipService,
-  RelationTypeService,
   ApplicantType,
-  ConfirmationDocument,
-  RelationType,
   Country,
   WizardStorageService,
   Entity,
-  ParentStepService
+  AttachmentType
 } from "../../shared/index";
 import { IdentityCardComponent } from '../../person/identity-card/identity-card.component';
 import { ConfirmationDocumentComponent } from '../../confirmation-document/confirmation-document.component';
 import { FullNameComponent } from '../../person/full-name/full-name.component';
 import { BirthInfoComponent } from '../../person/birth-info/birth-info.component';
 import { CitizenshipSelectComponent } from '../../person/citizenship-select/citizenship-select.component';
+import { RelationTypeComponent } from '../../relation-type/relation-type.component';
 
 @Component({
   moduleId: module.id,
@@ -30,16 +23,16 @@ import { CitizenshipSelectComponent } from '../../person/citizenship-select/citi
   styleUrls: ['./parent-step.component.css']
 })
 export class ParentStepComponent implements OnInit {
-  citships: Array<Entity<string>> = [];
-
   @ViewChild(IdentityCardComponent) identityCardComponent: IdentityCardComponent;
-  @ViewChild(ConfirmationDocumentComponent) confirmationDocumentComponent: ConfirmationDocumentComponent;
   @ViewChild(FullNameComponent) fullnameComponent: FullNameComponent;
   @ViewChild(BirthInfoComponent) birthInfoComponent: BirthInfoComponent;
   @ViewChild(CitizenshipSelectComponent) citizenshipSelectComponent: CitizenshipSelectComponent;
+  @ViewChild(RelationTypeComponent) relationTypeComponent: RelationTypeComponent;
+  @ViewChildren(ConfirmationDocumentComponent) confirmationDocuments: QueryList<ConfirmationDocumentComponent>
 
-  parentForm: FormGroup;
-  relationTypes: Array<RelationType> = [];
+  attachmentTypes = AttachmentType;
+  agree: boolean = false;
+  citships: Array<Entity<string>> = [];
   groupOfIdentityCardTypeId: Array<number> = [
     IdentityCardType["Паспорт РФ"],
     IdentityCardType["Другой документ, удостоверяющий личность"],
@@ -65,67 +58,66 @@ export class ParentStepComponent implements OnInit {
   inquiryType: string;
   isValid(): boolean {
     let isValid = {
-      parentForm: this.parentForm && this.parentForm.valid || false,
       identityCardForm: this.identityCardComponent
         && this.identityCardComponent.identityCardForm
         && this.identityCardComponent.identityCardForm.valid
         || false,
       fullnameForm: this.fullnameComponent && this.fullnameComponent.fullnameForm && this.fullnameComponent.fullnameForm.valid || false,
       birthInfoForm: (() => {
-        if (this.storageService.request.applicantType !== ApplicantType["Ребенок-заявитель"]) {
+        if (this.storageService.request.applicantType !== ApplicantType["Ребенок-заявитель"])
           return true;
-        }
         return this.birthInfoComponent && this.birthInfoComponent.birthInfoForm && this.birthInfoComponent.birthInfoForm.valid || false;
       })(),
       countryStateForm: (() => {
-        if (!this.parentForm || !this.parentForm.valid) return false;
-        if (this.confirmationDocumentComponent
-          && this.confirmationDocumentComponent.confirmationDocumentForm
-          || false) {
-          return this.citizenshipSelectComponent.citizenships.length > 0 && this.confirmationDocumentComponent.confirmationDocumentForm.valid;
-        } else {
-          return this.citizenshipSelectComponent.citizenships.length > 0;
-        }
+        if (!this.citizenshipSelectComponent || this.citizenshipSelectComponent.citizenships.length == 0) return false;
+        let hasForeignCitizenship = this.citizenshipService.hasForeignCitizenship(this.citizenshipSelectComponent, this.countries);
+        if (!hasForeignCitizenship) return true;
+
+        return (() => {
+          if (!this.confirmationDocuments) return false;
+          let component = this.confirmationDocuments.find(x => x.type == AttachmentType.CountryStateDocument);
+          return component && component.confirmationDocumentForm && component.confirmationDocumentForm.valid;
+        })();
+      })(),
+      relationType: (() => {
+        if (!this.relationTypeComponent || !this.relationTypeComponent.relationType) return false;
+        if (!this.relationTypeComponent.relationType.confirmationDocument) return true;
+
+        return (() => {
+          if (!this.confirmationDocuments) return false;
+          let component = this.confirmationDocuments.find(x => x.type == AttachmentType.ParentRepresentChildren);
+          return component && component.confirmationDocumentForm && component.confirmationDocumentForm.valid;
+        })()
       })()
     }
-    return isValid.parentForm
+    return this.agree
       && isValid.fullnameForm
       && isValid.identityCardForm
       && isValid.birthInfoForm
-      && isValid.countryStateForm;
+      && isValid.countryStateForm
+      && isValid.relationType;
   }
   isAvailable = {
-    countryStateDocument: () => this.citizenshipService.hasForeignCitizenship(this.citizenshipSelectComponent,this.countries),
+    countryStateDocument: () => this.citizenshipService.hasForeignCitizenship(this.citizenshipSelectComponent, this.countries),
     representChildrenInterestsDocument: () => {
-      let relationType = this.relationTypes.find(x => x.id === this.parentForm.value.relationType);
-      return relationType ? relationType.confirmationDocument : false;
+      return this.relationTypeComponent
+        && this.relationTypeComponent.relationType
+        && this.relationTypeComponent.relationType.confirmationDocument;
     },
-    relationType: false,
     childApplicantInfo: false
   }
-  formErrors = this.parentStepService.getFormErrors();
-  validationMessages = this.parentStepService.getValidationMessages();
 
-  constructor(private fb: FormBuilder,
-    private formService: FormService,
-    private storageService: WizardStorageService,
+  constructor(private storageService: WizardStorageService,
     private citizenshipService: CitizenshipService,
-    private relationTypeService: RelationTypeService,
     private router: Router,
-    private activatedRoute: ActivatedRoute,
-    private parentStepService: ParentStepService) { }
+    private activatedRoute: ActivatedRoute) { }
 
   ngOnInit() {
-    this.isAvailable.relationType = this.storageService.request.applicantType !== ApplicantType["Ребенок-заявитель"];
     this.isAvailable.childApplicantInfo = this.storageService.request.applicantType === ApplicantType["Ребенок-заявитель"];
 
-    forkJoin([this.citizenshipService.getCountries(), this.relationTypeService.get()])
-      .subscribe(results => {
-        this.countries = results[0];
-        this.relationTypes = results[1];
-
-        this.buildForm();
-      });
+    this.citizenshipService.getCountries().subscribe(result => {
+      this.countries = result;
+    });
 
     this.activatedRoute.params.forEach((params: Params) => {
       if (params["type"]) {
@@ -134,45 +126,16 @@ export class ParentStepComponent implements OnInit {
     });
   }
 
-  private buildForm() {
-    this.parentForm = this.fb.group({
-      "relationType": [
-        this.relationTypes[0].id,
-        []
-      ],
-      "agree": [
-        false,
-        [Validators.requiredTrue]
-      ]
-    });
-    this.parentForm.valueChanges
-      .subscribe(() => this.formService.onValueChange(this.parentForm, this.formErrors, this.validationMessages));
-
-    this.formService.onValueChange(this.parentForm, this.formErrors, this.validationMessages);
-  }
-
   goTo = {
     back: () => {
       if (this.storageService.request.applicantType == ApplicantType["Доверенное лицо законного представителя ребенка"]) {
         this.router.navigate(["../applicantStep"], { relativeTo: this.activatedRoute });
-      }else{
+      } else {
         this.router.navigate(["../applicantTypeStep"], { relativeTo: this.activatedRoute });
       }
     },
     next: () => {
-      if (!this.parentForm.valid || !this.identityCardComponent.identityCardForm.valid) return;
-
-      this.storageService.parent = (() => {
-        let result = <Parent>this.parentForm.value;
-        result.IdentityCard = <IdentityCard>this.identityCardComponent.identityCardForm.value;
-        if (this.isAvailable.countryStateDocument()) {
-          result.countryStateDocument = <ConfirmationDocument>this.confirmationDocumentComponent.confirmationDocumentForm.value;
-        }
-        if (this.isAvailable.representChildrenInterestsDocument()) {
-          result.representChildrenInterestsDocument = <ConfirmationDocument>this.confirmationDocumentComponent.confirmationDocumentForm.value;
-        }
-        return result;
-      })();
+      if (!this.agree || !this.identityCardComponent.identityCardForm.valid) return;
       this.router.navigate(["../contactInfoStep"], { relativeTo: this.activatedRoute });
     }
   }

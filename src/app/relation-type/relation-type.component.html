@@ -1,0 +1,17 @@
+<div class="row" *ngIf="isAvailable">
+  <div class="col-md-12">
+    <div class="widget-box">
+      <div class="widget-content">
+        <div class="form-group">
+          <mat-form-field class="full-width">
+            <mat-select [(ngModel)]="relationType" placeholder="Родственная связь">
+              <mat-option *ngFor="let item of relationTypes" [value]="item">{{item.name}}</mat-option>
+            </mat-select>
+          </mat-form-field>
+          <br>
+          <span>relationType: <b>{{relationType | json}}</b></span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

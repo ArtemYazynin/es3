@@ -19,7 +19,7 @@ export class CitizenshipService {
   }
 
   hasForeignCitizenship(citizenshipSelectComponent: CitizenshipSelectComponent, countries: Array<Country>) {
-    if (!citizenshipSelectComponent) return false;
+    if (!citizenshipSelectComponent || !countries || countries.length == 0) return false;
     let codeOfRussia = countries.find(x => x.name === "Россия").id;
     let foreignCitizenshipsExists = (() => {
       let result = citizenshipSelectComponent.citizenships.findIndex(x => {
