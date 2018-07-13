@@ -68,7 +68,7 @@ export class ApplicantStepComponent implements OnInit {
     },
     next: () => {
       if (this.storageService.request.applicantType == ApplicantType["Законный представитель ребенка"]) {
-        this.router.navigate(["../contactInfoStep"], { relativeTo: this.activatedRoute });
+        this.router.navigate(["../contactsStep"], { relativeTo: this.activatedRoute });
       } else {
         this.router.navigate(["../parentStep"], { relativeTo: this.activatedRoute });
       }

@@ -32,7 +32,7 @@ export class CurrentEducationPlaceStepService {
       ]
     });
   }
-  getFormErrors():any{
+  getFormErrors(): any {
     return {
       municipality: "",
       institutionType: "",
@@ -40,7 +40,7 @@ export class CurrentEducationPlaceStepService {
       other: ""
     };
   }
-  getValidationMessages():any{
+  getValidationMessages(): any {
     let required = { "required": "Обязательное поле." };
     return {
       municipality: required,

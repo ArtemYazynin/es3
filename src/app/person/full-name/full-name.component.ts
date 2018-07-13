@@ -20,7 +20,7 @@ export class FullNameComponent implements OnInit {
 
   ngOnInit() {
     this.buildForm();
-    this.subscribeToMiddlename();
+    this.subscribeOnMiddlename();
   }
 
 
@@ -63,7 +63,7 @@ export class FullNameComponent implements OnInit {
     this.formService.onValueChange(this.fullnameForm, this.formErrors, this.validationMessages);
   }
 
-  private subscribeToMiddlename(): void {
+  private subscribeOnMiddlename(): void {
     let toggleMiddlenameValidators = noMiddlename => {
       const middlename = this.fullnameForm.get('middlename');
       /** Массив валидаторов */

@@ -136,7 +136,7 @@ export class ParentStepComponent implements OnInit {
     },
     next: () => {
       if (!this.agree || !this.identityCardComponent.identityCardForm.valid) return;
-      this.router.navigate(["../contactInfoStep"], { relativeTo: this.activatedRoute });
+      this.router.navigate(["../contactsStep"], { relativeTo: this.activatedRoute });
     }
   }
 }
