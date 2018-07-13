@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, Validators, FormBuilder, ValidatorFn, FormControl } from '@angular/forms';
+import { FormGroup, Validators, FormBuilder, ValidatorFn } from '@angular/forms';
 import { FormService } from '../../shared/index';
-import { Router } from '@angular/router';
 import { MatCheckboxChange } from '@angular/material';
 
 
@@ -13,37 +12,38 @@ import { MatCheckboxChange } from '@angular/material';
 export class ContactsStepComponent implements OnInit {
 
   constructor(private formService: FormService, private fb: FormBuilder) { }
-
+  private emailValidators: ValidatorFn[] = [Validators.required,Validators.email];
   masks = {
     smsPhone: ["+", /\d/, "(", /\d/, /\d/, /\d/, ")", /\d/, /\d/, /\d/, "-", /\d/, /\d/, "-", /\d/, /\d/]
   }
 
+  
   onChange = (() => {
-    let updateValidators = (name: string, validators: ValidatorFn[]) => {
+    let updateValidators = (name: string, validators: ValidatorFn[])=>{
       if (!name || name == "" || !validators) return;
-
       let control = this.contactsForm.get(name);
       control.clearValidators();
-      if (validators.length > 0) {
-        control.setValidators(validators);
-      }
+      if (validators.length > 0) control.setValidators(validators);
       control.updateValueAndValidity();
     }
     return {
       byEmail: (change: MatCheckboxChange) => {
         if (change.checked) {
-          updateValidators("email", [Validators.required, Validators.email]);
+          updateValidators("email", this.emailValidators);
+          updateValidators("bySms", []);
         } else {
           updateValidators("email", []);
+          updateValidators("bySms", [Validators.requiredTrue]);
         }
       },
       bySms: (change: MatCheckboxChange) => {
         if (change.checked) {
           updateValidators("smsPhone", [Validators.required, Validators.pattern("^\\+\\d\\(\\d\\d\\d\\)\\d\\d\\d-\\d\\d-\\d\\d$")]);
+          updateValidators("byEmail", []);
         } else {
           updateValidators("smsPhone", []);
+          updateValidators("byEmail", [Validators.requiredTrue]);
         }
-
       }
     }
   })();
@@ -56,21 +56,21 @@ export class ContactsStepComponent implements OnInit {
     phones: "",
   };
   validationMessages = {
-    byEmail:{
+    byEmail: {
       "required": "Не выбран тип оповещения.",
     },
-    bySms:{
+    bySms: {
       "required": "Не выбран тип оповещения.",
     },
     email: {
       "required": "Обязательное поле.",
-      "email":"Введите адрес в формате mail@mail.ru" 
+      "email": "Введите адрес в формате mail@mail.ru"
     },
-    smsPhone:{
+    smsPhone: {
       "required": "Обязательное поле.",
       "pattern": "Введите номер в формате +9 999 999 99 99"
     },
-    phones:{
+    phones: {
       "pattern": "Введите телефон(ы) через запятую в формате 10 цифр без пробелов и иных символов.",
       "maxlength": "Максимальная длина - 250 символов."
     }
@@ -79,6 +79,10 @@ export class ContactsStepComponent implements OnInit {
   ngOnInit() {
     this.buildForm();
   }
+  isValid() {
+    return this.contactsForm && this.contactsForm.valid;
+  }
+
   private buildForm() {
     this.contactsForm = this.fb.group({
       "byEmail": [
@@ -91,7 +95,7 @@ export class ContactsStepComponent implements OnInit {
       ],
       "email": [
         "",
-        []
+        this.emailValidators
       ],
       "smsPhone": [
         "",
@@ -106,10 +110,8 @@ export class ContactsStepComponent implements OnInit {
       ]
     })
     this.contactsForm.valueChanges.subscribe(() => this.formService.onValueChange(this.contactsForm, this.formErrors, this.validationMessages, false));
-    this.formService.onValueChange(this.contactsForm, this.formErrors, this.validationMessages,false);
+    this.formService.onValueChange(this.contactsForm, this.formErrors, this.validationMessages, false);
   }
-  isValid(){
-    if (!this.contactsForm.value.byEmail || !this.contactsForm.value.bySms) return false;
-  }
+
 
 }
