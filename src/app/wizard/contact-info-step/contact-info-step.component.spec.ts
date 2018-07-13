@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ContactsStepComponent } from './contacts-step.component';
+import { ContactInfoStepComponent } from './contact-info-step.component';
 
-describe('ContactsStepComponent', () => {
-  let component: ContactsStepComponent;
-  let fixture: ComponentFixture<ContactsStepComponent>;
+describe('ContactInfoStepComponent', () => {
+  let component: ContactInfoStepComponent;
+  let fixture: ComponentFixture<ContactInfoStepComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ContactsStepComponent ]
+      declarations: [ ContactInfoStepComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(ContactsStepComponent);
+    fixture = TestBed.createComponent(ContactInfoStepComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

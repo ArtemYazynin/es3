@@ -1,48 +1,44 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, Validators, FormBuilder, ValidatorFn } from '@angular/forms';
-import { FormService } from '../../shared/index';
+import { FormService, WizardStorageService, ApplicantType, inquiryType } from '../../shared/index';
 import { MatCheckboxChange } from '@angular/material';
+import { Router, ActivatedRoute, Params } from '@angular/router';
 
 
 @Component({
-  selector: 'app-contacts-step',
-  templateUrl: './contacts-step.component.html',
-  styleUrls: ['./contacts-step.component.css']
+  selector: 'app-contact-info-step',
+  templateUrl: './contact-info-step.component.html',
+  styleUrls: ['./contact-info-step.component.css']
 })
-export class ContactsStepComponent implements OnInit {
+export class ContactInfoStepComponent implements OnInit {
 
-  constructor(private formService: FormService, private fb: FormBuilder) { }
+  constructor(private storageService:WizardStorageService,private formService: FormService, private fb: FormBuilder,
+    private router: Router, private activatedRoute: ActivatedRoute) { }
+    
   private emailValidators: ValidatorFn[] = [Validators.required,Validators.email];
+  private inquiryType: string;
   masks = {
     smsPhone: ["+", /\d/, "(", /\d/, /\d/, /\d/, ")", /\d/, /\d/, /\d/, "-", /\d/, /\d/, "-", /\d/, /\d/]
   }
 
-  
   onChange = (() => {
-    let updateValidators = (name: string, validators: ValidatorFn[])=>{
-      if (!name || name == "" || !validators) return;
-      let control = this.contactsForm.get(name);
-      control.clearValidators();
-      if (validators.length > 0) control.setValidators(validators);
-      control.updateValueAndValidity();
-    }
     return {
       byEmail: (change: MatCheckboxChange) => {
         if (change.checked) {
-          updateValidators("email", this.emailValidators);
-          updateValidators("bySms", []);
+          this.formService.updateValidators(this.contactsForm,"email", this.emailValidators);
+          this.formService.updateValidators(this.contactsForm,"bySms", []);
         } else {
-          updateValidators("email", []);
-          updateValidators("bySms", [Validators.requiredTrue]);
+          this.formService.updateValidators(this.contactsForm,"email", []);
+          this.formService.updateValidators(this.contactsForm,"bySms", [Validators.requiredTrue]);
         }
       },
       bySms: (change: MatCheckboxChange) => {
         if (change.checked) {
-          updateValidators("smsPhone", [Validators.required, Validators.pattern("^\\+\\d\\(\\d\\d\\d\\)\\d\\d\\d-\\d\\d-\\d\\d$")]);
-          updateValidators("byEmail", []);
+          this.formService.updateValidators(this.contactsForm,"smsPhone", [Validators.required, Validators.pattern("^\\+\\d\\(\\d\\d\\d\\)\\d\\d\\d-\\d\\d-\\d\\d$")]);
+          this.formService.updateValidators(this.contactsForm,"byEmail", []);
         } else {
-          updateValidators("smsPhone", []);
-          updateValidators("byEmail", [Validators.requiredTrue]);
+          this.formService.updateValidators(this.contactsForm,"smsPhone", []);
+          this.formService.updateValidators(this.contactsForm,"byEmail", [Validators.requiredTrue]);
         }
       }
     }
@@ -75,8 +71,22 @@ export class ContactsStepComponent implements OnInit {
       "maxlength": "Максимальная длина - 250 символов."
     }
   }
-
+  goTo = {
+    back:()=>{
+      this.router.navigate(["../parentStep"], { relativeTo: this.activatedRoute });
+    },
+    next:()=>{
+      if (this.inquiryType == inquiryType.healthCamp) {
+        this.router.navigate(["../jobInfoStep"], { relativeTo: this.activatedRoute });
+      }else{
+        
+      }
+    }
+  }
   ngOnInit() {
+    this.activatedRoute.params.forEach((params: Params) => {
+      if (params["type"])  this.inquiryType = params["type"];
+    });
     this.buildForm();
   }
   isValid() {
@@ -112,6 +122,4 @@ export class ContactsStepComponent implements OnInit {
     this.contactsForm.valueChanges.subscribe(() => this.formService.onValueChange(this.contactsForm, this.formErrors, this.validationMessages, false));
     this.formService.onValueChange(this.contactsForm, this.formErrors, this.validationMessages, false);
   }
-
-
 }

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { FormGroup, AbstractControl } from '@angular/forms';
+import { FormGroup, AbstractControl, ValidatorFn } from '@angular/forms';
 
 @Injectable()
 export class FormService {
@@ -26,5 +26,12 @@ export class FormService {
         }
       }
     }
+  }
+  updateValidators(form:FormGroup,name: string, validators: ValidatorFn[]){
+    if (!name || name == "" || !validators) return;
+    let control = form.get(name);
+    control.clearValidators();
+    if (validators.length > 0) control.setValidators(validators);
+    control.updateValueAndValidity();
   }
 }

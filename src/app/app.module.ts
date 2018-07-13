@@ -85,7 +85,7 @@ import {
 import { CurrentEducationPlaceStepService } from './wizard/shared/current-education-place-step.service';
 import { AttachmentTypePipe } from './shared/attachment-type.pipe';
 import { RelationTypeComponent } from './relation-type/relation-type.component';
-import { ContactsStepComponent } from './wizard/contacts-step/contacts-step.component';
+import { ContactInfoStepComponent } from './wizard/contact-info-step/contact-info-step.component';
 @NgModule({
   exports: [
     // CDK
@@ -162,7 +162,7 @@ export class MaterialModule { }
     SpecHealthComponent,
     CurrentEducationPlaceStepComponent,
     RelationTypeComponent,
-    ContactsStepComponent
+    ContactInfoStepComponent
   ],
   imports: [
     BrowserModule,
