@@ -18,6 +18,7 @@ export class PrivilegeService {
 
       return privilegeOrderId ? base + "?privilegeOrderId="+privilegeOrderId : base;
     })();
+    
     return this.http.get(url).pipe(map(result => {
       return <Array<Privilege>>result.json();
     }));

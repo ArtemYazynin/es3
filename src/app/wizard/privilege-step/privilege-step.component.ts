@@ -1,10 +1,10 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { Router, ActivatedRoute, Params } from '@angular/router';
-import { WizardStorageService, FormService, inquiryType, PrivilegeOrder, PrivilegeOrderService, Privilege, PrivilegeService, CommonService } from '../../shared/index';
+import { WizardStorageService, FormService, inquiryType, PrivilegeOrder, PrivilegeOrderService, Privilege, PrivilegeService, CommonService, AttachmentType, Child, ConfirmationDocument } from '../../shared/index';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { MatCheckboxChange, MatSelectChange } from '@angular/material';
 import { Subscription, Observable } from 'rxjs';
 import { startWith, map } from 'rxjs/operators';
+import { ConfirmationDocumentComponent } from '../../confirmation-document/confirmation-document.component';
 
 @Component({
   selector: 'app-privilege-step',
@@ -12,6 +12,7 @@ import { startWith, map } from 'rxjs/operators';
   styleUrls: ['./privilege-step.component.css']
 })
 export class PrivilegeStepComponent implements OnInit, OnDestroy {
+  @ViewChild(ConfirmationDocumentComponent) confirmationProofDocumentComponent: ConfirmationDocumentComponent;
 
   private inquiryType: string;
   privilegeForm: FormGroup;
@@ -45,34 +46,65 @@ export class PrivilegeStepComponent implements OnInit, OnDestroy {
     this.privilegeOrderSubscription.unsubscribe();
   }
   isValid() {
-    return false;
+    let check = (): boolean => {
+      return this.privilegeForm.controls.privilegeOrder.value
+        && this.privilegeForm.controls.privilege.value
+        && this.confirmationProofDocumentComponent.confirmationDocumentForm.valid;
+    }
+    return this.privilegeForm.controls.withoutPrivilege.value
+      ? true
+      : check();
   }
+  attachmentTypes = AttachmentType;
+  isVisible = (() => {
+    let privilegeOrder = () => {
+      return this.privilegeForm
+        && !this.privilegeForm.controls.withoutPrivilege.value;
+    }
+    let privilege = () => {
+      return privilegeOrder() && this.privilegeForm.controls.privilegeOrder.value
+    }
+    let privilegeProofDocument = () => {
+      return privilege() && this.privilegeForm.controls.privilege.value;
+    }
+    return {
+      privilegeOrder: privilegeOrder,
+      privilege: privilege,
+      privilegeProofDocument: privilegeProofDocument
+    }
+  })();
+  public displayFn = this.commonService.displayFn;
   private subscribeOnwithoutPrivilege() {
     this.withoutPrivilegeSubscription = this.privilegeForm.get("withoutPrivilege").valueChanges.subscribe(checked => {
-      let control = this.privilegeForm.get("privilegeOrder");
-      control.clearValidators();
+      this.privilegeForm.controls.privilegeOrder.clearValidators();
+      this.privilegeForm.controls.privilegeOrder.patchValue("");
+
+      this.privilegeForm.controls.privilege.clearValidators();
+      this.privilegeForm.controls.privilege.patchValue("");
       if (!checked) {
-        control.setValidators([Validators.required]);
+        this.privilegeForm.controls.privilegeOrder.setValidators([Validators.required]);
       }
-      control.updateValueAndValidity();
+      this.privilegeForm.controls.privilegeOrder.updateValueAndValidity();
+      this.privilegeForm.controls.privilege.updateValueAndValidity();
     });
   }
   private subscribeOnPrivilegeOrder() {
     this.privilegeOrderSubscription = this.privilegeForm.get("privilegeOrder").valueChanges.subscribe(val => {
-      let s = val;
       this.privilegeService.get(val).subscribe(result => {
         this.privileges = result;
-        let control = this.privilegeForm.get("privilege");
-        this.filteredPrivileges = control.valueChanges.pipe(
+        this.privilegeForm.controls.privilege.patchValue("");
+        this.filteredPrivileges = this.privilegeForm.controls.privilege.valueChanges.pipe(
           startWith<string | Privilege>(''),
           map((value: Privilege) => typeof value === 'string' ? value : value.name),
           map((name: string) => {
             return name ? this.commonService.autoCompliteFilter(this.privileges, name) : this.privileges.slice();
           })
         );
-        control.clearValidators();
-        control.setValidators([Validators.required]);
-        control.updateValueAndValidity();
+        this.privilegeForm.controls.privilege.clearValidators();
+        if (!this.privilegeForm.controls.withoutPrivilege.value) {
+          this.privilegeForm.controls.privilege.setValidators([Validators.required]);
+        }
+        this.privilegeForm.controls.privilege.updateValueAndValidity();
       });
 
     });
@@ -80,13 +112,17 @@ export class PrivilegeStepComponent implements OnInit, OnDestroy {
 
   goTo = {
     back: () => {
-      this.router.navigate(["../parentStep"], { relativeTo: this.activatedRoute });
-    },
-    next: () => {
       if (this.inquiryType == inquiryType.healthCamp) {
         this.router.navigate(["../jobInfoStep"], { relativeTo: this.activatedRoute });
+      }else{
+        this.router.navigate(["../contactInfoStep"], { relativeTo: this.activatedRoute });
+      }
+    },
+    next: () => {
+      if (this.inquiryType == inquiryType.profEducation) {
+        this.router.navigate(["../educDocumentInfoStep"], { relativeTo: this.activatedRoute });
       } else {
-
+        this.router.navigate(["../marksStep"], { relativeTo: this.activatedRoute });
       }
     }
   }
@@ -102,10 +138,6 @@ export class PrivilegeStepComponent implements OnInit, OnDestroy {
     privilege: {
       "required": "Обязательное поле."
     }
-    // phones: {
-    //   "pattern": "Введите телефон(ы) через запятую в формате 10 цифр без пробелов и иных символов.",
-    //   "maxlength": "Максимальная длина - 250 символов."
-    // }
   }
   private buildForm() {
     this.privilegeForm = this.fb.group({

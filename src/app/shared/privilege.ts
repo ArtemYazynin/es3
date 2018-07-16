@@ -2,9 +2,9 @@ import { Entity } from "./entity";
 import { PrivilegeOrder } from "./privilege-order";
 
 export class Privilege extends Entity<string> {
-    constructor(id:string, name:string, privilegeOrder:PrivilegeOrder){
+    constructor(id:string, name:string, privilegeOrder:string){
         super(id,name);
-        this.privilegeOrder = privilegeOrder;
+        this.privilegeOrderId = privilegeOrder;
     }
-    privilegeOrder:PrivilegeOrder;
+    privilegeOrderId:string;
 }

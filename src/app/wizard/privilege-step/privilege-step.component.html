@@ -11,7 +11,7 @@
             {{ formErrors.withoutPrivilege }}
           </div>
         </div>
-        <div class="form-group">
+        <div class="form-group" *ngIf="isVisible.privilegeOrder()">
           <mat-form-field class="full-width">
             <mat-select formControlName="privilegeOrder" placeholder="Приоритет льготной категории">
               <mat-option value="" selected>Не выбрано</mat-option>
@@ -22,7 +22,7 @@
             {{ formErrors.privilegeOrder }}
           </div>
         </div>
-        <div class="form-group" *ngIf="privilegeOrder">
+        <div class="form-group" *ngIf="isVisible.privilege()">
           <mat-form-field class="full-width">
             <input type="text" placeholder="Льготная категория" matInput formControlName="privilege" [matAutocomplete]="auto">
             <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
@@ -32,10 +32,13 @@
             </mat-autocomplete>
           </mat-form-field>
           <div *ngIf="formErrors.privilege" class="alert alert-danger">
-              {{ formErrors.privilege }}
-            </div>
+            {{ formErrors.privilege }}
+          </div>
         </div>
-        
+        <div class="form-group" [hidden]="!isVisible.privilegeProofDocument()">
+          <app-confirmation-document [type]="attachmentTypes.PrivilegeProofDocument" title="Документ, подтверждающий наличие льготной категории">
+          </app-confirmation-document>
+        </div>
         <div class="form-group">
           <span>
             <b>{{privilegeForm.value | json}}</b>

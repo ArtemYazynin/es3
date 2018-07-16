@@ -195,9 +195,7 @@ export class CurrentEducationPlaceStepComponent implements OnInit {
   onSubmit() {
 
   }
-  displayFn(area?: Area): string | undefined {
-    return area ? area.name : undefined;
-  }
+  displayFn= this.commonService.displayFn;
 
   goTo = (() => {
     return {

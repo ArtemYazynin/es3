@@ -12,4 +12,8 @@ export class CommonService {
     const filterValue = name.toLowerCase();
     return collection.filter(option => option.name.toLowerCase().includes(filterValue));
   }
+
+  displayFn(entity?: Entity<string>): string | undefined {
+    return entity ? entity.name : undefined;
+  }
 }
