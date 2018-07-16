@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { inquiryType } from '../../shared/index';
 import { Router, ActivatedRoute, Params } from '../../../../node_modules/@angular/router';
 import { DistributionParamsComponent } from '../../shared/distribution-params/distribution-params.component';
+import { StayModeComponent } from '../../shared/stay-mode/stay-mode.component';
 
 @Component({
   selector: 'app-inquiry-info-step',
@@ -10,7 +11,8 @@ import { DistributionParamsComponent } from '../../shared/distribution-params/di
 })
 export class InquiryInfoStepComponent implements OnInit {
   private inquiryType: string;
-  @ViewChild(DistributionParamsComponent) distributionParamsComponent:DistributionParamsComponent;
+  @ViewChild(DistributionParamsComponent) distributionParamsComponent: DistributionParamsComponent;
+  @ViewChild(StayModeComponent) stayModeComponent: StayModeComponent;
 
   constructor(private router: Router, private activatedRoute: ActivatedRoute) { }
 
@@ -20,8 +22,10 @@ export class InquiryInfoStepComponent implements OnInit {
     });
   }
   isValid() {
-    return this.distributionParamsComponent.inquiryInfoForm
+    let stayModeIsValid = this.stayModeComponent.stayModeForm && this.stayModeComponent.stayModeForm.valid;
+    let distributionParamsIsValid = this.distributionParamsComponent.inquiryInfoForm
       && this.distributionParamsComponent.inquiryInfoForm.valid;
+    return distributionParamsIsValid && stayModeIsValid;
   }
   goTo = {
     back: () => {

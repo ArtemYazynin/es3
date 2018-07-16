@@ -89,6 +89,7 @@ import { ContactInfoStepComponent } from './wizard/contact-info-step/contact-inf
 import { PrivilegeStepComponent } from './wizard/privilege-step/privilege-step.component';
 import { InquiryInfoStepComponent } from './wizard/inquiry-info-step/inquiry-info-step.component';
 import { DistributionParamsComponent } from './shared/distribution-params/distribution-params.component';
+import { StayModeComponent } from './shared/stay-mode/stay-mode.component';
 @NgModule({
   exports: [
     // CDK
@@ -168,7 +169,8 @@ export class MaterialModule { }
     ContactInfoStepComponent,
     PrivilegeStepComponent,
     InquiryInfoStepComponent,
-    DistributionParamsComponent
+    DistributionParamsComponent,
+    StayModeComponent
   ],
   imports: [
     BrowserModule,
