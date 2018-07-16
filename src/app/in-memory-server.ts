@@ -1,5 +1,5 @@
 import { InMemoryDbService } from 'angular-in-memory-web-api';
-import { RelationType, Countries, IdentityCardType, SpecHealth, Area, Entity, PrivilegeOrder, Privilege } from './shared/index';
+import { RelationType, Countries, IdentityCardType, SpecHealth, Area, Entity, PrivilegeOrder, Privilege, Specificity } from './shared/index';
 import { EnumToArrayPipe } from './shared/enum-to-array-pipe';
 
 export class InMemoryService implements InMemoryDbService {
@@ -82,6 +82,11 @@ export class InMemoryService implements InMemoryDbService {
       new Privilege("6FC5026E-A113-4BB8-B4D3-A548002D9489","Дети граждан Российской Федерации (сотрудники и военнослужащие), уволенных с федеральной противопожарной службы, вследствие увечья или иного повреждения здоровья, полученных в связи с выполнением служебных обязанностей и исключивших возможность дальнейшего прохождения указанной службы",privilegeOrders[1].id),
       new Privilege("00D70DBA-7199-4664-A12B-A5480156CA97","дети-инвалиды",privilegeOrders[1].id),
     ];
+    let specificities = [
+      new Specificity("FD80C74C-581E-450F-9374-A893011A7623", "специфичность группы №1"),
+      new Specificity("EE8DCE4E-4E9E-4D69-8723-A893011A762C", "специфичность группы №2"),
+      new Specificity("44C8880D-837E-47A1-BB6B-A893011A7631", "специфичность группы №3")
+    ];
     return {
       heroes: heroes,
       countries: Countries,
@@ -94,7 +99,8 @@ export class InMemoryService implements InMemoryDbService {
       institutions: institutions,
       groups:groups,
       privilegeOrders:privilegeOrders,
-      privileges:privileges
+      privileges:privileges,
+      specificities:specificities
     };
   }
 }

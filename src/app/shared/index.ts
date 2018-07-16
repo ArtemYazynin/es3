@@ -16,6 +16,7 @@ export * from "./relationTypes/relation-type";
 
 export * from "./entity";
 export * from "./privilege";
+export * from "./specificity";
 export * from "./privilege-order";
 export * from "../wizard/shared/current-education-place";
 export * from "./group";
@@ -41,6 +42,7 @@ export * from "../wizard/shared/parent-step.service";
 export * from "../shared/spec-health.service";
 export * from "../shared/group.service";
 export * from "../shared/common.service";
+export * from "../shared/specificity.service";
 export * from "../shared/privilege-order.service";
 export * from "../wizard/shared/current-education-place-step.service";
 

@@ -22,7 +22,7 @@ import { FullNameComponent } from './person/full-name/full-name.component';
 import { BirthInfoComponent } from './person/birth-info/birth-info.component';
 import { ApplicantStepComponent } from './wizard/applicant-step/applicant-step.component';
 import { ChildrenStepComponent } from './wizard/children-step/children-step.component';
-import { EnumToArrayPipe, IdentityCardTypeFriendlyNamePipe, FormService, WizardStorageService, CitizenshipService, RelationTypeService, IdentityCardService, ParentStepService, SpecHealthService, AreaService, InstitutionService, GroupService, CommonService, PrivilegeOrderService, PrivilegeService } from './shared/index';
+import { EnumToArrayPipe, IdentityCardTypeFriendlyNamePipe, FormService, WizardStorageService, CitizenshipService, RelationTypeService, IdentityCardService, ParentStepService, SpecHealthService, AreaService, InstitutionService, GroupService, CommonService, PrivilegeOrderService, PrivilegeService, SpecificityService } from './shared/index';
 import { MyDatePickerModule } from 'mydatepicker';
 import { TextMaskModule } from 'angular2-text-mask';
 import { CitizenshipSelectComponent } from './person/citizenship-select/citizenship-select.component';
@@ -87,6 +87,8 @@ import { AttachmentTypePipe } from './shared/attachment-type.pipe';
 import { RelationTypeComponent } from './relation-type/relation-type.component';
 import { ContactInfoStepComponent } from './wizard/contact-info-step/contact-info-step.component';
 import { PrivilegeStepComponent } from './wizard/privilege-step/privilege-step.component';
+import { InquiryInfoStepComponent } from './wizard/inquiry-info-step/inquiry-info-step.component';
+import { DistributionParamsComponent } from './shared/distribution-params/distribution-params.component';
 @NgModule({
   exports: [
     // CDK
@@ -164,7 +166,9 @@ export class MaterialModule { }
     CurrentEducationPlaceStepComponent,
     RelationTypeComponent,
     ContactInfoStepComponent,
-    PrivilegeStepComponent
+    PrivilegeStepComponent,
+    InquiryInfoStepComponent,
+    DistributionParamsComponent
   ],
   imports: [
     BrowserModule,
@@ -195,7 +199,8 @@ export class MaterialModule { }
     CurrentEducationPlaceStepService,
     CommonService,
     PrivilegeOrderService,
-    PrivilegeService
+    PrivilegeService,
+    SpecificityService
   ],
   entryComponents: [ChildComponent],
   bootstrap: [AppComponent]

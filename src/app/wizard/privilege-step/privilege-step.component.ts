@@ -122,7 +122,7 @@ export class PrivilegeStepComponent implements OnInit, OnDestroy {
       if (this.inquiryType == inquiryType.profEducation) {
         this.router.navigate(["../educDocumentInfoStep"], { relativeTo: this.activatedRoute });
       } else {
-        this.router.navigate(["../marksStep"], { relativeTo: this.activatedRoute });
+        this.router.navigate(["../inquiryInfoStep"], { relativeTo: this.activatedRoute });
       }
     }
   }

@@ -6,6 +6,7 @@ import { ChildrenStepComponent } from "./wizard/children-step/children-step.comp
 import { CurrentEducationPlaceStepComponent } from "./wizard/current-education-place-step/current-education-place-step.component";
 import { ContactInfoStepComponent } from "./wizard/contact-info-step/contact-info-step.component";
 import { PrivilegeStepComponent } from "./wizard/privilege-step/privilege-step.component";
+import { InquiryInfoStepComponent } from "./wizard/inquiry-info-step/inquiry-info-step.component";
 export const routes: Routes = [
     {
         path: "",
@@ -18,7 +19,8 @@ export const routes: Routes = [
     { path: "wizard/:type/childrenStep", component: ChildrenStepComponent },
     { path: "wizard/:type/currentEducationPlaceStep", component: CurrentEducationPlaceStepComponent },
     { path: "wizard/:type/contactInfoStep", component: ContactInfoStepComponent },
-    { path: "wizard/:type/privilegeStep", component: PrivilegeStepComponent }
+    { path: "wizard/:type/privilegeStep", component: PrivilegeStepComponent },
+    { path: "wizard/:type/inquiryInfoStep", component: InquiryInfoStepComponent },
     // { path: "products/edit/:id", component: ProductCreateEditComponent},
     // { path: "products/create", component: ProductCreateEditComponent},
     // { path: "products/delete/:id", component: ProductDeleteComponent}
