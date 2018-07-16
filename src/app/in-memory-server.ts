@@ -1,5 +1,5 @@
 import { InMemoryDbService } from 'angular-in-memory-web-api';
-import { RelationType, Countries, IdentityCardType, SpecHealth, Area, Entity } from './shared/index';
+import { RelationType, Countries, IdentityCardType, SpecHealth, Area, Entity, PrivilegeOrder, Privilege } from './shared/index';
 import { EnumToArrayPipe } from './shared/enum-to-array-pipe';
 
 export class InMemoryService implements InMemoryDbService {
@@ -70,6 +70,18 @@ export class InMemoryService implements InMemoryDbService {
       { id: "A537C916-C95A-4DE8-A257-A59800C3D4FA", name: "_только для воспитанников СП школы №75", groupType: 2,institutionId: institutions[3].id },
       { id: "314BB1DF-0FCC-433D-ABB7-A59800C594DA", name: "_только для воспитанников СП школы №86", groupType: 2,institutionId: institutions[5].id },
     ];
+    let privilegeOrders = [
+      new PrivilegeOrder("48c83d8d-a583-410a-8e5a-a5480156ca38","Внеочередное"),
+      new PrivilegeOrder("6811c7b3-ac13-4227-b02d-a5480156ca38","Первоочередное",)
+    ];
+    let privileges = [
+      new Privilege("C8315DA6-DEAA-41B3-8371-A548002D945E","Дети граждан, подвергшихся воздействию радиации вследствие катастрофы на Чернобыльской АЭС",privilegeOrders[0]),
+      new Privilege("44FB045C-E573-485A-A415-A5480156CA6E","дети прокуроров",privilegeOrders[0]),
+      new Privilege("3AA3DA14-F4A7-4F72-A9EC-A5480156CA76","дети судей",privilegeOrders[0]),
+      new Privilege("5DC2751E-9210-4A73-8647-A548002D9471","Дети многодетных семей",privilegeOrders[1]),
+      new Privilege("6FC5026E-A113-4BB8-B4D3-A548002D9489","Дети граждан Российской Федерации (сотрудники и военнослужащие), уволенных с федеральной противопожарной службы, вследствие увечья или иного повреждения здоровья, полученных в связи с выполнением служебных обязанностей и исключивших возможность дальнейшего прохождения указанной службы",privilegeOrders[1]),
+      new Privilege("00D70DBA-7199-4664-A12B-A5480156CA97","дети-инвалиды",privilegeOrders[1]),
+    ];
     return {
       heroes: heroes,
       countries: Countries,
@@ -80,7 +92,9 @@ export class InMemoryService implements InMemoryDbService {
       institutionsTypes: institutionsTypes,
       currentMunicipality: currentMunicipality,
       institutions: institutions,
-      groups:groups
+      groups:groups,
+      privilegeOrders:privilegeOrders,
+      privileges:privileges
     };
   }
 }

@@ -79,7 +79,7 @@ export class ContactInfoStepComponent implements OnInit {
       if (this.inquiryType == inquiryType.healthCamp) {
         this.router.navigate(["../jobInfoStep"], { relativeTo: this.activatedRoute });
       }else{
-        
+        this.router.navigate(["../privilegeStep"], { relativeTo: this.activatedRoute });
       }
     }
   }

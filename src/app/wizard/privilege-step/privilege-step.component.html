@@ -1,0 +1,63 @@
+<div class="container col-md-12">
+  <div class="widget-box">
+    <div class="widget-title">
+      <h5>Контактная информация</h5>
+    </div>
+    <div class="widget-content">
+      <form [formGroup]="privilegeForm" novalidate>
+        <div class="form-group">
+          <mat-checkbox formControlName="withoutPrivilege">Без льготы</mat-checkbox>
+          <div *ngIf="formErrors.withoutPrivilege" class="alert alert-danger">
+            {{ formErrors.withoutPrivilege }}
+          </div>
+        </div>
+        <div class="form-group">
+          <mat-form-field class="full-width">
+            <mat-select formControlName="privilegeOrder" placeholder="Приоритет льготной категории">
+              <mat-option value="" selected>Не выбрано</mat-option>
+              <mat-option *ngFor="let item of privilegeOrders" [value]="item.id">{{item.name}}</mat-option>
+            </mat-select>
+          </mat-form-field>
+          <div *ngIf="formErrors.privilegeOrder" class="alert alert-danger">
+            {{ formErrors.privilegeOrder }}
+          </div>
+        </div>
+        <div class="form-group" *ngIf="privilegeOrder">
+          <mat-form-field class="full-width">
+            <input type="text" placeholder="Льготная категория" matInput formControlName="privilege" [matAutocomplete]="auto">
+            <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
+              <mat-option *ngFor="let option of filteredPrivileges | async" [value]="option">
+                {{option.name}}
+              </mat-option>
+            </mat-autocomplete>
+          </mat-form-field>
+          <div *ngIf="formErrors.privilege" class="alert alert-danger">
+              {{ formErrors.privilege }}
+            </div>
+        </div>
+        
+        <div class="form-group">
+          <span>
+            <b>{{privilegeForm.value | json}}</b>
+          </span>
+          <span>privilegeForm.status:
+            <b>{{privilegeForm.status | json}}</b>
+          </span>
+        </div>
+      </form>
+    </div>
+  </div>
+  <div class="widget-box">
+    <div class="widget-content">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="form-group">
+            <div class="form-actions" style="text-align: center;">
+              <button type="button" class="btn btn-inverse" (click)="goTo.back()">Назад</button>
+              <button type="submit" class="btn btn-primary" (click)="goTo.next()" [disabled]="!isValid()">Далее</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
