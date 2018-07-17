@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild, ViewChildren, QueryList } from '@angular/core';
-import { CitizenshipService, Country, WizardStorageService, ApplicantType, AttachmentType } from '../../shared/index';
+import { CitizenshipService, Country, WizardStorageService, ApplicantType, AttachmentType, StepBase } from '../../shared/index';
 import { ConfirmationDocumentComponent } from '../../confirmation-document/confirmation-document.component';
 import { IdentityCardComponent } from '../../person/identity-card/identity-card.component';
 import { FullNameComponent } from '../../person/full-name/full-name.component';
@@ -11,7 +11,7 @@ import { CitizenshipSelectComponent } from '../../person/citizenship-select/citi
   templateUrl: './applicant-step.component.html',
   styleUrls: ['./applicant-step.component.css']
 })
-export class ApplicantStepComponent implements OnInit {
+export class ApplicantStepComponent implements OnInit, StepBase {
   @ViewChild(IdentityCardComponent) identityCardComponent: IdentityCardComponent;
   @ViewChild(FullNameComponent) fullnameComponent: FullNameComponent
   @ViewChildren(ConfirmationDocumentComponent) confirmationDocuments: QueryList<ConfirmationDocumentComponent>
@@ -26,7 +26,7 @@ export class ApplicantStepComponent implements OnInit {
     countryStateDocument: () => this.citizenshipService.hasForeignCitizenship(this.citizenshipSelectComponent, this.countries)
   }
   isValid(): boolean {
-    if(!this.confirmationDocuments) return false;
+    if (!this.confirmationDocuments) return false;
     let isValid = {
       identityCardForm: this.identityCardComponent
         && this.identityCardComponent.identityCardForm

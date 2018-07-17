@@ -7,7 +7,8 @@ import {
   Country,
   WizardStorageService,
   Entity,
-  AttachmentType
+  AttachmentType,
+  StepBase
 } from "../../shared/index";
 import { IdentityCardComponent } from '../../person/identity-card/identity-card.component';
 import { ConfirmationDocumentComponent } from '../../confirmation-document/confirmation-document.component';
@@ -22,7 +23,7 @@ import { RelationTypeComponent } from '../../relation-type/relation-type.compone
   templateUrl: './parent-step.component.html',
   styleUrls: ['./parent-step.component.css']
 })
-export class ParentStepComponent implements OnInit {
+export class ParentStepComponent implements OnInit, StepBase {
   @ViewChild(IdentityCardComponent) identityCardComponent: IdentityCardComponent;
   @ViewChild(FullNameComponent) fullnameComponent: FullNameComponent;
   @ViewChild(BirthInfoComponent) birthInfoComponent: BirthInfoComponent;

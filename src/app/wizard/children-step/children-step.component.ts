@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild, ViewContainerRef, ComponentRef, ComponentFactory, ComponentFactoryResolver, ChangeDetectorRef, AfterViewInit } from '@angular/core';
-import { Country, CitizenshipService, Child, ConfirmationDocument, WizardStorageService, IdentityCard, Person } from '../../shared/index';
+import { Country, CitizenshipService, Child, ConfirmationDocument, WizardStorageService, IdentityCard, Person, StepBase } from '../../shared/index';
 import { ChildComponent } from './child/child.component';
 import { BirthInfoComponent } from '../../person/birth-info/birth-info.component';
 import { CitizenshipSelectComponent } from '../../person/citizenship-select/citizenship-select.component';
@@ -11,7 +11,7 @@ import { Router, ActivatedRoute } from '@angular/router';
   templateUrl: './children-step.component.html',
   styleUrls: ['./children-step.component.css']
 })
-export class ChildrenStepComponent implements OnInit, AfterViewInit {
+export class ChildrenStepComponent implements OnInit, AfterViewInit, StepBase {
   @ViewChild("childContainer", { read: ViewContainerRef }) viewContainer;
   @ViewChild(BirthInfoComponent) birthInfoComponent: BirthInfoComponent;
   @ViewChild(CitizenshipSelectComponent) citizenshipSelectComponent: CitizenshipSelectComponent;
@@ -136,12 +136,12 @@ export class ChildrenStepComponent implements OnInit, AfterViewInit {
         let children: Array<Child> = [];
         this.components.forEach(x => {
           const specHealthDocument = this.specHealthComponent.specHealth == 101
-          ? null
-          : ((context) => {
-            const form = context.specHealthComponent.confirmationDocumentComponent.confirmationDocumentForm;
-            return new ConfirmationDocument(form.value["name"], form.value["series"], form.value["number"],
-              form.value["dateIssue"].jsdate, form.value["dateExpired"].jsdate)
-          })(this);
+            ? null
+            : ((context) => {
+              const form = context.specHealthComponent.confirmationDocumentComponent.confirmationDocumentForm;
+              return new ConfirmationDocument(form.value["name"], form.value["series"], form.value["number"],
+                form.value["dateIssue"].jsdate, form.value["dateExpired"].jsdate)
+            })(this);
           const person = getPerson(x);
           const identityCard = new IdentityCard(x.instance.identityCardComponent.identityCardForm);
           let child = new Child(person.lastname, person.firstname, person.middlename, person.snils, person.noMiddlename, person.birthDate, person.birthPlace,

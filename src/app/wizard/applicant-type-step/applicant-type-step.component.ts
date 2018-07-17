@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ApplicantType, inquiryType, WizardStorageService, Entity } from "../../shared/index";
+import { ApplicantType, inquiryType, WizardStorageService, Entity, StepBase } from "../../shared/index";
 import { Router, ActivatedRoute, Params } from '@angular/router';
 
 @Component({
@@ -7,7 +7,8 @@ import { Router, ActivatedRoute, Params } from '@angular/router';
   templateUrl: './applicant-type-step.component.html',
   styleUrls: ['./applicant-type-step.component.css']
 })
-export class ApplicantTypeStepComponent implements OnInit {
+export class ApplicantTypeStepComponent implements OnInit,StepBase {
+  isValid(): boolean { return true; }
   inquiryType: string;
   applicantType: ApplicantType = ApplicantType["Законный представитель ребенка"];
   applicantTypes: Array<Entity<number>> = [];

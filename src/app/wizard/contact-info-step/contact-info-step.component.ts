@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, Validators, FormBuilder, ValidatorFn } from '@angular/forms';
-import { FormService, WizardStorageService, ApplicantType, inquiryType } from '../../shared/index';
+import { FormService, WizardStorageService, inquiryType, StepBase } from '../../shared/index';
 import { MatCheckboxChange } from '@angular/material';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 
@@ -10,12 +10,12 @@ import { Router, ActivatedRoute, Params } from '@angular/router';
   templateUrl: './contact-info-step.component.html',
   styleUrls: ['./contact-info-step.component.css']
 })
-export class ContactInfoStepComponent implements OnInit {
+export class ContactInfoStepComponent implements OnInit, StepBase {
 
-  constructor(private storageService:WizardStorageService,private formService: FormService, private fb: FormBuilder,
+  constructor(private formService: FormService, private fb: FormBuilder,
     private router: Router, private activatedRoute: ActivatedRoute) { }
-    
-  private emailValidators: ValidatorFn[] = [Validators.required,Validators.email];
+
+  private emailValidators: ValidatorFn[] = [Validators.required, Validators.email];
   private inquiryType: string;
   masks = {
     smsPhone: ["+", /\d/, "(", /\d/, /\d/, /\d/, ")", /\d/, /\d/, /\d/, "-", /\d/, /\d/, "-", /\d/, /\d/]
@@ -25,20 +25,20 @@ export class ContactInfoStepComponent implements OnInit {
     return {
       byEmail: (change: MatCheckboxChange) => {
         if (change.checked) {
-          this.formService.updateValidators(this.contactsForm,"email", this.emailValidators);
-          this.formService.updateValidators(this.contactsForm,"bySms", []);
+          this.formService.updateValidators(this.contactsForm, "email", this.emailValidators);
+          this.formService.updateValidators(this.contactsForm, "bySms", []);
         } else {
-          this.formService.updateValidators(this.contactsForm,"email", []);
-          this.formService.updateValidators(this.contactsForm,"bySms", [Validators.requiredTrue]);
+          this.formService.updateValidators(this.contactsForm, "email", []);
+          this.formService.updateValidators(this.contactsForm, "bySms", [Validators.requiredTrue]);
         }
       },
       bySms: (change: MatCheckboxChange) => {
         if (change.checked) {
-          this.formService.updateValidators(this.contactsForm,"smsPhone", [Validators.required, Validators.pattern("^\\+\\d\\(\\d\\d\\d\\)\\d\\d\\d-\\d\\d-\\d\\d$")]);
-          this.formService.updateValidators(this.contactsForm,"byEmail", []);
+          this.formService.updateValidators(this.contactsForm, "smsPhone", [Validators.required, Validators.pattern("^\\+\\d\\(\\d\\d\\d\\)\\d\\d\\d-\\d\\d-\\d\\d$")]);
+          this.formService.updateValidators(this.contactsForm, "byEmail", []);
         } else {
-          this.formService.updateValidators(this.contactsForm,"smsPhone", []);
-          this.formService.updateValidators(this.contactsForm,"byEmail", [Validators.requiredTrue]);
+          this.formService.updateValidators(this.contactsForm, "smsPhone", []);
+          this.formService.updateValidators(this.contactsForm, "byEmail", [Validators.requiredTrue]);
         }
       }
     }
@@ -72,20 +72,20 @@ export class ContactInfoStepComponent implements OnInit {
     }
   }
   goTo = {
-    back:()=>{
+    back: () => {
       this.router.navigate(["../parentStep"], { relativeTo: this.activatedRoute });
     },
-    next:()=>{
+    next: () => {
       if (this.inquiryType == inquiryType.healthCamp) {
         this.router.navigate(["../jobInfoStep"], { relativeTo: this.activatedRoute });
-      }else{
+      } else {
         this.router.navigate(["../privilegeStep"], { relativeTo: this.activatedRoute });
       }
     }
   }
   ngOnInit() {
     this.activatedRoute.params.forEach((params: Params) => {
-      if (params["type"])  this.inquiryType = params["type"];
+      if (params["type"]) this.inquiryType = params["type"];
     });
     this.buildForm();
   }

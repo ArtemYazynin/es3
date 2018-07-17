@@ -7,10 +7,10 @@ import { FormGroup, FormArray, FormControl, Validators } from '@angular/forms';
   styleUrls: ['./at-least-one-checkbox-should-be-selected.component.css']
 })
 export class AtLeastOneCheckboxShouldBeSelectedComponent implements OnInit {
-  @Input() items: Array<{key:string,text:string}>
-  @Input() message:string;
-  form:FormGroup;
-  
+  @Input() items: Array<{ key: string, text: string }>
+  @Input() message: string;
+  form: FormGroup;
+
   constructor() { }
 
   ngOnInit() {

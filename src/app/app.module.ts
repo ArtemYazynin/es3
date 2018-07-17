@@ -22,7 +22,7 @@ import { FullNameComponent } from './person/full-name/full-name.component';
 import { BirthInfoComponent } from './person/birth-info/birth-info.component';
 import { ApplicantStepComponent } from './wizard/applicant-step/applicant-step.component';
 import { ChildrenStepComponent } from './wizard/children-step/children-step.component';
-import { EnumToArrayPipe, IdentityCardTypeFriendlyNamePipe, FormService, WizardStorageService, CitizenshipService, RelationTypeService, IdentityCardService, ParentStepService, SpecHealthService, AreaService, InstitutionService, GroupService, CommonService, PrivilegeOrderService, PrivilegeService, SpecificityService } from './shared/index';
+import { EnumToArrayPipe, IdentityCardTypeFriendlyNamePipe, FormService, WizardStorageService, CitizenshipService, RelationTypeService, IdentityCardService, ParentStepService, SpecHealthService, AreaService, InstitutionService, GroupService, CommonService, PrivilegeOrderService, PrivilegeService, SpecificityService, SettingsService } from './shared/index';
 import { MyDatePickerModule } from 'mydatepicker';
 import { TextMaskModule } from 'angular2-text-mask';
 import { CitizenshipSelectComponent } from './person/citizenship-select/citizenship-select.component';
@@ -92,6 +92,7 @@ import { DistributionParamsComponent } from './shared/distribution-params/distri
 import { StayModeComponent } from './shared/stay-mode/stay-mode.component';
 import { AgeGroupComponent } from './shared/age-group/age-group.component';
 import { AtLeastOneCheckboxShouldBeSelectedComponent } from './shared/at-least-one-checkbox-should-be-selected/at-least-one-checkbox-should-be-selected.component';
+import { SchoolInquiryInfoStepComponent } from './wizard/school-inquiry-info-step/school-inquiry-info-step.component';
 @NgModule({
   exports: [
     // CDK
@@ -174,7 +175,8 @@ export class MaterialModule { }
     DistributionParamsComponent,
     StayModeComponent,
     AgeGroupComponent,
-    AtLeastOneCheckboxShouldBeSelectedComponent
+    AtLeastOneCheckboxShouldBeSelectedComponent,
+    SchoolInquiryInfoStepComponent
   ],
   imports: [
     BrowserModule,
@@ -206,7 +208,8 @@ export class MaterialModule { }
     CommonService,
     PrivilegeOrderService,
     PrivilegeService,
-    SpecificityService
+    SpecificityService,
+    SettingsService
   ],
   entryComponents: [ChildComponent],
   bootstrap: [AppComponent]

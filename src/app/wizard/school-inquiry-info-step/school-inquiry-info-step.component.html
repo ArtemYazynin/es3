@@ -1,0 +1,66 @@
+<div class="container col-md-12">
+  <div class="widget-box">
+    <div class="widget-title">
+      <h5>Параметры заявления</h5>
+    </div>
+    <div class="widget-content">
+      <form [formGroup]="schoolInquiryInfoForm" novalidate>
+        <div class="form-group">
+          <mat-form-field class="full-width">
+            <mat-select formControlName="educYear" placeholder="Учебный год">
+              <mat-option value="" selected>Не выбрано</mat-option>
+              <mat-option *ngFor="let item of schoolYears" [value]="item">{{item}}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div class="form-group">
+          <mat-form-field class="full-width">
+            <mat-select formControlName="grade" placeholder="Параллель">
+              <mat-option value="" selected>Не выбрано</mat-option>
+              <mat-option *ngFor="let item of grades" [value]="item">{{item}}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div class="form-group">
+          <mat-form-field class="full-width">
+            <mat-select formControlName="specialization" placeholder="Профиль">
+              <mat-option value="" selected>Не выбрано</mat-option>
+              <mat-option *ngFor="let item of specializations" [value]="item.id">{{item.name}}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div class="form-group">
+          <mat-form-field class="full-width">
+            <input type="text" placeholder="Программа" matInput formControlName="program" [matAutocomplete]="auto">
+            <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
+              <mat-option *ngFor="let option of filteredSchoolPrograms | async" [value]="option">
+                {{option.name}}
+              </mat-option>
+            </mat-autocomplete>
+          </mat-form-field>
+        </div>
+        <div class="form-group">
+          <span>
+            <b>{{schoolInquiryInfoForm.value | json}}</b>
+          </span>
+          <span>schoolInquiryInfoForm.status:
+            <b>{{schoolInquiryInfoForm.status | json}}</b>
+          </span>
+        </div>
+      </form>
+    </div>
+  </div>
+  <div class="widget-box">
+    <div class="widget-content">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="form-group">
+            <div class="form-actions" style="text-align: center;">
+              <button type="button" class="btn btn-inverse" (click)="goTo.back()">Назад</button>
+              <button type="submit" class="btn btn-primary" (click)="goTo.next()" [disabled]="!isValid()">Далее</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>

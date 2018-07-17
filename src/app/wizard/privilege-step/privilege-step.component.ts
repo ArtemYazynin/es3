@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { Router, ActivatedRoute, Params } from '@angular/router';
-import { WizardStorageService, FormService, inquiryType, PrivilegeOrder, PrivilegeOrderService, Privilege, PrivilegeService, CommonService, AttachmentType, Child, ConfirmationDocument } from '../../shared/index';
+import { WizardStorageService, FormService, inquiryType, PrivilegeOrder, PrivilegeOrderService, Privilege, PrivilegeService, CommonService, AttachmentType, Child, ConfirmationDocument, StepBase } from '../../shared/index';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Subscription, Observable } from 'rxjs';
 import { startWith, map } from 'rxjs/operators';
@@ -11,7 +11,7 @@ import { ConfirmationDocumentComponent } from '../../confirmation-document/confi
   templateUrl: './privilege-step.component.html',
   styleUrls: ['./privilege-step.component.css']
 })
-export class PrivilegeStepComponent implements OnInit, OnDestroy {
+export class PrivilegeStepComponent implements OnInit, OnDestroy,StepBase {
   @ViewChild(ConfirmationDocumentComponent) confirmationProofDocumentComponent: ConfirmationDocumentComponent;
 
   private inquiryType: string;
@@ -119,10 +119,18 @@ export class PrivilegeStepComponent implements OnInit, OnDestroy {
       }
     },
     next: () => {
-      if (this.inquiryType == inquiryType.profEducation) {
-        this.router.navigate(["../educDocumentInfoStep"], { relativeTo: this.activatedRoute });
-      } else {
-        this.router.navigate(["../inquiryInfoStep"], { relativeTo: this.activatedRoute });
+      switch (this.inquiryType) {
+        case inquiryType.profEducation:
+          this.router.navigate(["../educDocumentInfoStep"], { relativeTo: this.activatedRoute });
+          break;
+        case inquiryType.preschool:
+          this.router.navigate(["../inquiryInfoStep"], { relativeTo: this.activatedRoute });
+          break;
+        case inquiryType.school:
+          this.router.navigate(["../schoolInquiryInfoStep"], { relativeTo: this.activatedRoute });
+          break;
+        default:
+          break;
       }
     }
   }

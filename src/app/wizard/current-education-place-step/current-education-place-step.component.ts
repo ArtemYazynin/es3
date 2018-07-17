@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Params, ActivatedRoute, Router } from '@angular/router';
-import { AreaService, Area, AreaType, Entity, InstitutionService, FormService, Institution, Group, GroupService, inquiryType, CurrentEducationPlaceStepService, WizardStorageService, CurrentEducationPlace, CommonService } from '../../shared/index';
+import { AreaService, Area, AreaType, Entity, InstitutionService, FormService, Institution, Group, GroupService, inquiryType, CurrentEducationPlaceStepService, WizardStorageService, CurrentEducationPlace, CommonService, StepBase } from '../../shared/index';
 import { FormGroup, Validators, FormControl } from '@angular/forms';
 import { MatCheckboxChange } from '@angular/material/checkbox/typings/checkbox';
 import { Observable } from 'rxjs/internal/Observable';
@@ -13,7 +13,7 @@ import { MatSelectChange, MatAutocompleteSelectedEvent } from '@angular/material
   templateUrl: './current-education-place-step.component.html',
   styleUrls: ['./current-education-place-step.component.css']
 })
-export class CurrentEducationPlaceStepComponent implements OnInit {
+export class CurrentEducationPlaceStepComponent implements OnInit, StepBase {
   private currentMunicipality: Area;
   private municipalities: Array<Area> = [];
   filteredMunicipalities: Observable<Array<Area>>;
@@ -195,7 +195,7 @@ export class CurrentEducationPlaceStepComponent implements OnInit {
   onSubmit() {
 
   }
-  displayFn= this.commonService.displayFn;
+  displayFn = this.commonService.displayFn;
 
   goTo = (() => {
     return {

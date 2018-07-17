@@ -1,18 +1,20 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { inquiryType } from '../../shared/index';
+import { inquiryType, StepBase } from '../../shared/index';
 import { Router, ActivatedRoute, Params } from '../../../../node_modules/@angular/router';
 import { DistributionParamsComponent } from '../../shared/distribution-params/distribution-params.component';
 import { StayModeComponent } from '../../shared/stay-mode/stay-mode.component';
+import { AgeGroupComponent } from '../../shared/age-group/age-group.component';
 
 @Component({
   selector: 'app-inquiry-info-step',
   templateUrl: './inquiry-info-step.component.html',
   styleUrls: ['./inquiry-info-step.component.css']
 })
-export class InquiryInfoStepComponent implements OnInit {
+export class InquiryInfoStepComponent implements OnInit,StepBase {
   private inquiryType: string;
   @ViewChild(DistributionParamsComponent) distributionParamsComponent: DistributionParamsComponent;
   @ViewChild(StayModeComponent) stayModeComponent: StayModeComponent;
+  @ViewChild(AgeGroupComponent) ageGroupComponent:AgeGroupComponent;
 
   constructor(private router: Router, private activatedRoute: ActivatedRoute) { }
 
@@ -22,10 +24,14 @@ export class InquiryInfoStepComponent implements OnInit {
     });
   }
   isValid() {
-    let stayModeIsValid = this.stayModeComponent.stayModeForm && this.stayModeComponent.stayModeForm.valid;
+    let stayModeIsValid = this.stayModeComponent.atLeastOneCheckboxShouldBeSelectedComponent.form 
+      && this.stayModeComponent.atLeastOneCheckboxShouldBeSelectedComponent.form.valid;
+    let ageGroupsIsValid = this.ageGroupComponent.atLeastOneCheckboxShouldBeSelectedComponent.form 
+      && this.ageGroupComponent.atLeastOneCheckboxShouldBeSelectedComponent.form.valid;
     let distributionParamsIsValid = this.distributionParamsComponent.inquiryInfoForm
       && this.distributionParamsComponent.inquiryInfoForm.valid;
-    return distributionParamsIsValid && stayModeIsValid;
+      
+    return distributionParamsIsValid && stayModeIsValid && ageGroupsIsValid;
   }
   goTo = {
     back: () => {

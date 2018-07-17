@@ -29,7 +29,7 @@ export class DistributionParamsComponent implements OnInit {
     }
     return result;
   })();
-  constructor(private formService: FormService,private fb: FormBuilder, 
+  constructor(private formService: FormService, private fb: FormBuilder,
     private specificityService: SpecificityService) { }
 
   ngOnInit() {

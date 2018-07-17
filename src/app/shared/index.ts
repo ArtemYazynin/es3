@@ -15,6 +15,7 @@ export * from "./relationTypes/relation-type";
 //
 
 export * from "./entity";
+export * from "./settings";
 export * from "./privilege";
 export * from "./specificity";
 export * from "./privilege-order";
@@ -34,11 +35,13 @@ export * from "../area/shared/area.service";
 export * from "./form.service";
 export * from "./institution.service";
 export * from "./privilege.service";
+export * from "./settings.service";
 export * from "./citizenships/citizenship.service";
 export * from "./relationTypes/relation-type.service";
 export * from "../wizard/shared/wizard-storage.service";
 export * from "../person/identity-card/shared/identity-card.service";
 export * from "../wizard/shared/parent-step.service";
+export * from "../wizard/shared/step-base";
 export * from "../shared/spec-health.service";
 export * from "../shared/group.service";
 export * from "../shared/common.service";
