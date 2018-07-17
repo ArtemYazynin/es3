@@ -3,30 +3,7 @@
     <h5>Режим пребывания</h5>
   </div>
   <div class="widget-content">
-    <form [formGroup]="stayModeForm" novalidate>
-      <div class="form-group">
-        <mat-checkbox formControlName="IsFullStay">Полный день (10,5-12 часов)</mat-checkbox>
-      </div>
-      <div class="form-group">
-        <mat-checkbox formControlName="IsNightStay">Круглосуточного пребывания (24 часа)</mat-checkbox>
-      </div>
-      <div class="form-group">
-        <mat-checkbox formControlName="IsShortStay">Кратковременного пребывания (3-5 часов)</mat-checkbox>
-      </div>
-      <div class="form-group">
-        <mat-checkbox formControlName="IsReducedStay">Сокращенного дня (8-10 часов)</mat-checkbox>
-      </div>
-      <div class="form-group">
-        <mat-checkbox formControlName="IsExtendedStay">Продленного дня (13-14 часов)</mat-checkbox>
-      </div>
-      <div class="form-group">
-        <span>
-          <b>{{stayModeForm.value | json}}</b>
-        </span>
-        <span>stayModeForm.status:
-          <b>{{stayModeForm.status | json}}</b>
-        </span>
-      </div>
-    </form>
+    <app-at-least-one-checkbox-should-be-selected [items]="items" message="Выберите хотя бы 1 режим пребывания">
+    </app-at-least-one-checkbox-should-be-selected>
   </div>
 </div>

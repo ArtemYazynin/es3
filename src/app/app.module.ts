@@ -90,6 +90,8 @@ import { PrivilegeStepComponent } from './wizard/privilege-step/privilege-step.c
 import { InquiryInfoStepComponent } from './wizard/inquiry-info-step/inquiry-info-step.component';
 import { DistributionParamsComponent } from './shared/distribution-params/distribution-params.component';
 import { StayModeComponent } from './shared/stay-mode/stay-mode.component';
+import { AgeGroupComponent } from './shared/age-group/age-group.component';
+import { AtLeastOneCheckboxShouldBeSelectedComponent } from './shared/at-least-one-checkbox-should-be-selected/at-least-one-checkbox-should-be-selected.component';
 @NgModule({
   exports: [
     // CDK
@@ -170,7 +172,9 @@ export class MaterialModule { }
     PrivilegeStepComponent,
     InquiryInfoStepComponent,
     DistributionParamsComponent,
-    StayModeComponent
+    StayModeComponent,
+    AgeGroupComponent,
+    AtLeastOneCheckboxShouldBeSelectedComponent
   ],
   imports: [
     BrowserModule,

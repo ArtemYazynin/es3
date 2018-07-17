@@ -1,0 +1,18 @@
+<form [formGroup]="form" novalidate>
+  <div [formArrayName]="'items'">
+    <div *ngFor="let control of form.controls.items.controls; let i = index;" [formGroup]="control">
+      <mat-checkbox formControlName="checkbox">{{ control.controls.text.value }}</mat-checkbox>
+    </div>
+  </div>
+  <div class="alert alert-danger" *ngIf="!form.controls.selectedItems.valid">
+    {{message}}
+  </div>
+  <div class="form-group">
+    <span>
+      <b>{{form.value | json}}</b>
+    </span>
+    <span>form.status:
+      <b>{{form.status | json}}</b>
+    </span>
+  </div>
+</form>
