@@ -8,7 +8,12 @@ import {
   WizardStorageService,
   Entity,
   AttachmentType,
-  StepBase
+  StepBase,
+  Parent,
+  Person,
+  IdentityCard,
+  ConfirmationDocument,
+  RelationType
 } from "../../shared/index";
 import { IdentityCardComponent } from '../../person/identity-card/identity-card.component';
 import { ConfirmationDocumentComponent } from '../../confirmation-document/confirmation-document.component';
@@ -16,6 +21,7 @@ import { FullNameComponent } from '../../person/full-name/full-name.component';
 import { BirthInfoComponent } from '../../person/birth-info/birth-info.component';
 import { CitizenshipSelectComponent } from '../../person/citizenship-select/citizenship-select.component';
 import { RelationTypeComponent } from '../../relation-type/relation-type.component';
+import { SnilsComponent } from '../../person/snils/snils.component';
 
 @Component({
   moduleId: module.id,
@@ -24,6 +30,7 @@ import { RelationTypeComponent } from '../../relation-type/relation-type.compone
   styleUrls: ['./parent-step.component.css']
 })
 export class ParentStepComponent implements OnInit, StepBase {
+  @ViewChild(SnilsComponent) snilsComponent: SnilsComponent;
   @ViewChild(IdentityCardComponent) identityCardComponent: IdentityCardComponent;
   @ViewChild(FullNameComponent) fullnameComponent: FullNameComponent;
   @ViewChild(BirthInfoComponent) birthInfoComponent: BirthInfoComponent;
@@ -100,7 +107,7 @@ export class ParentStepComponent implements OnInit, StepBase {
   }
   isAvailable = {
     countryStateDocument: () => this.citizenshipService.hasForeignCitizenship(this.citizenshipSelectComponent, this.countries),
-    representChildrenInterestsDocument: () => {
+    parentRepresentChildren: () => {
       return this.relationTypeComponent
         && this.relationTypeComponent.relationType
         && this.relationTypeComponent.relationType.confirmationDocument;
@@ -136,7 +143,41 @@ export class ParentStepComponent implements OnInit, StepBase {
       }
     },
     next: () => {
-      if (!this.agree || !this.identityCardComponent.identityCardForm.valid) return;
+      let parent = (() => {
+        let getDocumentByType = (type: AttachmentType) => {
+          let document = this.confirmationDocuments.find(x => x.type == type);
+          if (!document) return undefined
+          return new ConfirmationDocument(document.confirmationDocumentForm.controls.name.value,
+            document.confirmationDocumentForm.controls.series.value,
+            document.confirmationDocumentForm.controls.number.value,
+            document.confirmationDocumentForm.controls.dateIssue.value,
+            document.confirmationDocumentForm.controls.dateExpired.value)
+        }
+        let result = new Parent();
+        let birthInfo = (()=>{
+          if(!this.birthInfoComponent) return {};
+          return {
+            birthDate: this.birthInfoComponent.birthInfoForm.controls.birthDate.value,
+            birthPlace: this.birthInfoComponent.birthInfoForm.controls.birthPlace.value,
+            gender: this.birthInfoComponent.birthInfoForm.controls.gender.value,
+          }
+        })();
+        result.person = new Person(this.fullnameComponent.fullnameForm.controls.lastname.value,
+          this.fullnameComponent.fullnameForm.controls.firstname.value,
+          this.fullnameComponent.fullnameForm.controls.middlename.value,
+          this.snilsComponent.snils,
+          this.fullnameComponent.fullnameForm.controls.noMiddlename.value,
+          birthInfo.birthDate,
+          birthInfo.birthPlace,
+          birthInfo.gender);
+        result.IdentityCard = new IdentityCard(this.identityCardComponent.identityCardForm);
+        result.citizenships = this.citizenshipSelectComponent.citizenships;
+        result.countryStateDocument = getDocumentByType(AttachmentType.CountryStateDocument);
+        result.relationType = this.relationTypeComponent.relationType;
+        result.parentRepresentChildrenDocument = getDocumentByType(AttachmentType.ParentRepresentChildren);
+        return result;
+      })();
+      this.storageService.parent = parent;
       this.router.navigate(["../contactInfoStep"], { relativeTo: this.activatedRoute });
     }
   }

@@ -15,6 +15,7 @@ export * from "./relationTypes/relation-type";
 //
 
 export * from "./entity";
+export * from "./file-attachment";
 export * from "./settings";
 export * from "./privilege";
 export * from "./specificity";

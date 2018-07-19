@@ -42,7 +42,7 @@ export class InquiryInfoStepComponent implements OnInit,StepBase {
       }
     },
     next: () => {
-      this.router.navigate(["../institutionStep"], { relativeTo: this.activatedRoute });
+      this.router.navigate(["../preschoolInstitutionStep"], { relativeTo: this.activatedRoute });
     }
   }
 }

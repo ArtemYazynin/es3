@@ -62,32 +62,32 @@ export class InMemoryService implements InMemoryDbService {
       { id: "55BC4673-3909-40F6-9410-A548015814A1", name: "Мочалеевский филиал ГБОУ СОШ с. Подбельск", institutionType: 2 },
     ];
     let groups = [
-      { id: "5258E28E-64F1-4F1F-810F-A548002D9A3A", name: "4Б ясельная", groupType: 1, institutionId: institutions[0].id},
+      { id: "5258E28E-64F1-4F1F-810F-A548002D9A3A", name: "4Б ясельная", groupType: 1, institutionId: institutions[0].id },
       { id: "98DD47A7-9C84-4E5C-AA1F-A548002DBDE6", name: "А старшая", groupType: 1, institutionId: institutions[0].id },
       { id: "46B734F0-EFB5-47D1-B981-A548002DBDE8", name: "В смеш.дошкольная", groupType: 1, institutionId: institutions[1].id },
 
       { id: "C592FB7F-B853-4781-99C5-A59800C352FF", name: "1 _коррекционный", groupType: 2, institutionId: institutions[3].id },
-      { id: "A537C916-C95A-4DE8-A257-A59800C3D4FA", name: "_только для воспитанников СП школы №75", groupType: 2,institutionId: institutions[3].id },
-      { id: "314BB1DF-0FCC-433D-ABB7-A59800C594DA", name: "_только для воспитанников СП школы №86", groupType: 2,institutionId: institutions[5].id },
+      { id: "A537C916-C95A-4DE8-A257-A59800C3D4FA", name: "_только для воспитанников СП школы №75", groupType: 2, institutionId: institutions[3].id },
+      { id: "314BB1DF-0FCC-433D-ABB7-A59800C594DA", name: "_только для воспитанников СП школы №86", groupType: 2, institutionId: institutions[5].id },
     ];
     let privilegeOrders = [
-      new PrivilegeOrder("48c83d8d-a583-410a-8e5a-a5480156ca38","Внеочередное"),
-      new PrivilegeOrder("6811c7b3-ac13-4227-b02d-a5480156ca38","Первоочередное",)
+      new PrivilegeOrder("48c83d8d-a583-410a-8e5a-a5480156ca38", "Внеочередное"),
+      new PrivilegeOrder("6811c7b3-ac13-4227-b02d-a5480156ca38", "Первоочередное", )
     ];
     let privileges = [
-      new Privilege("C8315DA6-DEAA-41B3-8371-A548002D945E","Дети граждан, подвергшихся воздействию радиации вследствие катастрофы на Чернобыльской АЭС",privilegeOrders[0].id),
-      new Privilege("44FB045C-E573-485A-A415-A5480156CA6E","дети прокуроров",privilegeOrders[0].id),
-      new Privilege("3AA3DA14-F4A7-4F72-A9EC-A5480156CA76","дети судей",privilegeOrders[0].id),
-      new Privilege("5DC2751E-9210-4A73-8647-A548002D9471","Дети многодетных семей",privilegeOrders[1].id),
-      new Privilege("6FC5026E-A113-4BB8-B4D3-A548002D9489","Дети граждан Российской Федерации (сотрудники и военнослужащие), уволенных с федеральной противопожарной службы, вследствие увечья или иного повреждения здоровья, полученных в связи с выполнением служебных обязанностей и исключивших возможность дальнейшего прохождения указанной службы",privilegeOrders[1].id),
-      new Privilege("00D70DBA-7199-4664-A12B-A5480156CA97","дети-инвалиды",privilegeOrders[1].id),
+      new Privilege("C8315DA6-DEAA-41B3-8371-A548002D945E", "Дети граждан, подвергшихся воздействию радиации вследствие катастрофы на Чернобыльской АЭС", privilegeOrders[0].id),
+      new Privilege("44FB045C-E573-485A-A415-A5480156CA6E", "дети прокуроров", privilegeOrders[0].id),
+      new Privilege("3AA3DA14-F4A7-4F72-A9EC-A5480156CA76", "дети судей", privilegeOrders[0].id),
+      new Privilege("5DC2751E-9210-4A73-8647-A548002D9471", "Дети многодетных семей", privilegeOrders[1].id),
+      new Privilege("6FC5026E-A113-4BB8-B4D3-A548002D9489", "Дети граждан Российской Федерации (сотрудники и военнослужащие), уволенных с федеральной противопожарной службы, вследствие увечья или иного повреждения здоровья, полученных в связи с выполнением служебных обязанностей и исключивших возможность дальнейшего прохождения указанной службы", privilegeOrders[1].id),
+      new Privilege("00D70DBA-7199-4664-A12B-A5480156CA97", "дети-инвалиды", privilegeOrders[1].id),
     ];
     let specificities = [
       new Specificity("FD80C74C-581E-450F-9374-A893011A7623", "специфичность группы №1"),
       new Specificity("EE8DCE4E-4E9E-4D69-8723-A893011A762C", "специфичность группы №2"),
       new Specificity("44C8880D-837E-47A1-BB6B-A893011A7631", "специфичность группы №3")
     ];
-    let settings = new Settings(new Date().getFullYear());
+    let settings = new Settings(new Date().getFullYear(), 3);
     return {
       heroes: heroes,
       countries: Countries,
@@ -98,11 +98,11 @@ export class InMemoryService implements InMemoryDbService {
       institutionsTypes: institutionsTypes,
       currentMunicipality: currentMunicipality,
       institutions: institutions,
-      groups:groups,
-      privilegeOrders:privilegeOrders,
-      privileges:privileges,
-      specificities:specificities,
-      settings:settings
+      groups: groups,
+      privilegeOrders: privilegeOrders,
+      privileges: privileges,
+      specificities: specificities,
+      settings: settings
     };
   }
 }

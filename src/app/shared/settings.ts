@@ -1,6 +1,8 @@
 export class Settings {
-    currentYear:number;
-    constructor(currentYear:number){
+    currentYear: number;
+    maxCountWishPreschools: number;
+    constructor(currentYear: number, maxCountWishPreschools: number) {
         this.currentYear = currentYear;
+        this.maxCountWishPreschools = maxCountWishPreschools;
     }
 }

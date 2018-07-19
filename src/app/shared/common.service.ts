@@ -16,4 +16,10 @@ export class CommonService {
   displayFn(entity?: Entity<string>): string | undefined {
     return entity ? entity.name : undefined;
   }
+
+
+  getIeVersion(){
+    var myNav = navigator.userAgent.toLowerCase();
+    return (myNav.indexOf('msie') != -1) ? parseInt(myNav.split('msie')[1]) : undefined;
+  }
 }

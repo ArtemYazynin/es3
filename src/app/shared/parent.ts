@@ -1,21 +1,19 @@
 import { IdentityCard } from "../person/identity-card/shared/identityCard";
 import { Person } from "./person";
 import { ConfirmationDocument } from "./confirmation-document";
+import { RelationType } from "./relationTypes/relation-type";
 
 
 
 export class Parent {
-    public IdentityCard: IdentityCard;
-    public citizenship: string;
-    public relationType: string;
-    public agree: boolean;
-    public person: Person;
-    public countryStateDocument: ConfirmationDocument
-    public representChildrenInterestsDocument: ConfirmationDocument;
-    
-    constructor() {
-        this.agree = false;
-    }
+    person: Person;
+    IdentityCard: IdentityCard;
+
+    citizenships: Array<number>;
+    countryStateDocument: ConfirmationDocument
+
+    relationType: RelationType;
+    parentRepresentChildrenDocument: ConfirmationDocument;
 
     static getFormErrorsTemplate() {
         return {
@@ -27,7 +25,7 @@ export class Parent {
         return {
             citizenship: {
                 "required": "Обязательное поле.",
-            }           
+            }
         }
     }
 }

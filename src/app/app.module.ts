@@ -93,6 +93,8 @@ import { StayModeComponent } from './shared/stay-mode/stay-mode.component';
 import { AgeGroupComponent } from './shared/age-group/age-group.component';
 import { AtLeastOneCheckboxShouldBeSelectedComponent } from './shared/at-least-one-checkbox-should-be-selected/at-least-one-checkbox-should-be-selected.component';
 import { SchoolInquiryInfoStepComponent } from './wizard/school-inquiry-info-step/school-inquiry-info-step.component';
+import { PreschoolInstitutionStepComponent } from './wizard/preschool-institution-step/preschool-institution-step.component';
+import { FileAttachmentStepComponent } from './wizard/file-attachment-step/file-attachment-step.component';
 @NgModule({
   exports: [
     // CDK
@@ -176,7 +178,9 @@ export class MaterialModule { }
     StayModeComponent,
     AgeGroupComponent,
     AtLeastOneCheckboxShouldBeSelectedComponent,
-    SchoolInquiryInfoStepComponent
+    SchoolInquiryInfoStepComponent,
+    PreschoolInstitutionStepComponent,
+    FileAttachmentStepComponent
   ],
   imports: [
     BrowserModule,

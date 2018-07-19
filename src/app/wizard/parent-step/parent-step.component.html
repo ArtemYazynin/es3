@@ -29,7 +29,7 @@
         </div>
       </div>
       <app-relation-type></app-relation-type>
-      <div class="row" *ngIf="isAvailable.representChildrenInterestsDocument()">
+      <div class="row" *ngIf="isAvailable.parentRepresentChildren()">
         <div class="col-md-12">
           <app-confirmation-document [type]="attachmentTypes.ParentRepresentChildren" title="Документ, подтверждающий право законного представителя представлять интересы ребенка"></app-confirmation-document>
         </div>

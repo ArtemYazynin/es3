@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Child } from '../../shared/child';
 import { Parent } from '../../shared/parent';
 import { ApplicantType } from '../../shared/applicant-type.enum';
-import { CurrentEducationPlace } from '../../shared';
+import { CurrentEducationPlace, RelationType } from '../../shared';
 
 @Injectable()
 export class WizardStorageService {
