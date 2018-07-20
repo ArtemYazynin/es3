@@ -2,15 +2,19 @@ import { Injectable } from '@angular/core';
 import { Child } from '../../shared/child';
 import { Parent } from '../../shared/parent';
 import { ApplicantType } from '../../shared/applicant-type.enum';
-import { CurrentEducationPlace, RelationType } from '../../shared';
+import { Applicant } from '../../shared/applicant';
+import { CurrentEducationPlace } from './current-education-place';
+import { FileAttachment } from '../../shared/file-attachment';
 
 @Injectable()
 export class WizardStorageService {
-  private _request: { applicantType: ApplicantType,parent: Parent, children: Array<Child>, currentEducationPlace:CurrentEducationPlace } = {
+  private _request: { applicantType: ApplicantType,applicant:Applicant, parent: Parent, children: Array<Child>, currentEducationPlace: CurrentEducationPlace, files: Array<FileAttachment> } = {
+    applicant:undefined,
     parent: undefined,
-    currentEducationPlace:undefined,
+    currentEducationPlace: undefined,
     children: [],
-    applicantType:undefined
+    applicantType: undefined,
+    files: []
   };
   constructor() { }
 
@@ -28,5 +32,8 @@ export class WizardStorageService {
   }
   set currentEducationPlace(value: CurrentEducationPlace) {
     this._request["currentEducationPlace"] = value;
+  }
+  set files(value: Array<FileAttachment>) {
+    this._request.files = value;
   }
 }

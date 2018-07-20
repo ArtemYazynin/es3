@@ -14,19 +14,20 @@ import { $ } from 'protractor';
 })
 export class FileAttachmentStepComponent implements OnInit, OnDestroy, AfterViewInit, StepBase {
   private ngUnsubscribe: Subject<any> = new Subject();
+  private subscription: Subscription;
+  private inquiryType: string;
+  private fileNotChoosen = "Файл не выбран";
+
+  attachmentType = AttachmentType;
+  maxFilesCount = 10;
+  haveDigitalSignature = false;
+  bunchOfFileView: Array<FileView>;
+  bunchOfFile: Array<FileAttachment> = [];
   isOldBrowser: boolean = (() => {
     const version = this.commonService.getIeVersion()
     if (!version) return false;
     return version < 9;
   })();
-  subscription: Subscription;
-  attachmentType = AttachmentType;
-  maxFilesCount = 10;
-  fileNotChoosen = "Файл не выбран";
-  haveDigitalSignature = false;
-  bunchOfFileView: Array<FileView>;
-  bunchOfFile: Array<FileAttachment> = [];
-  private inquiryType: string;
   goTo = {
     back: () => {
       switch (this.inquiryType) {
@@ -45,7 +46,8 @@ export class FileAttachmentStepComponent implements OnInit, OnDestroy, AfterView
       }
     },
     next: () => {
-      //this.router.navigate(["../previewStep"], { relativeTo: this.activatedRoute });
+      this.storageService.files = this.bunchOfFile;
+      this.router.navigate(["../previewStep"], { relativeTo: this.activatedRoute });
     }
   };
   constructor(private router: Router, private activatedRoute: ActivatedRoute,
