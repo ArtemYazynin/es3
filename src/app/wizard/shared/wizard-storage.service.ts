@@ -5,17 +5,27 @@ import { ApplicantType } from '../../shared/applicant-type.enum';
 import { Applicant } from '../../shared/applicant';
 import { CurrentEducationPlace } from './current-education-place';
 import { FileAttachment } from '../../shared/file-attachment';
+import { Privilege } from '../../shared';
 
 @Injectable()
 export class WizardStorageService {
-  private _request: { applicantType: ApplicantType,applicant:Applicant, parent: Parent, children: Array<Child>, currentEducationPlace: CurrentEducationPlace, files: Array<FileAttachment> } = {
-    applicant:undefined,
-    parent: undefined,
-    currentEducationPlace: undefined,
-    children: [],
-    applicantType: undefined,
-    files: []
-  };
+  private _request: {
+    applicantType: ApplicantType,
+    applicant: Applicant,
+    parent: Parent, 
+    children: Array<Child>,
+    privilege:Privilege,
+    currentEducationPlace: CurrentEducationPlace, 
+    files: Array<FileAttachment>
+  } = {
+      applicant: undefined,
+      parent: undefined,
+      currentEducationPlace: undefined,
+      children: [],
+      applicantType: undefined,
+      files: [],
+      privilege: undefined
+    };
   constructor() { }
 
   get request() {
@@ -35,5 +45,12 @@ export class WizardStorageService {
   }
   set files(value: Array<FileAttachment>) {
     this._request.files = value;
+  }
+
+  set applicant(value: Applicant) {
+    this._request.applicant = value;
+  }
+  set privilege(value:Privilege){
+    this._request.privilege = value;
   }
 }

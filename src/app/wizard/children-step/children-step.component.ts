@@ -140,7 +140,7 @@ export class ChildrenStepComponent implements OnInit, AfterViewInit, StepBase {
             : ((context) => {
               const form = context.specHealthComponent.confirmationDocumentComponent.confirmationDocumentForm;
               return new ConfirmationDocument(form.value["name"], form.value["series"], form.value["number"],
-                form.value["dateIssue"].jsdate, form.value["dateExpired"].jsdate)
+                form.value["dateIssue"], form.value["dateExpired"])
             })(this);
           const person = getPerson(x);
           const identityCard = new IdentityCard(x.instance.identityCardComponent.identityCardForm);

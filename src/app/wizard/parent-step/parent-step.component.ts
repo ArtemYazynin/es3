@@ -13,7 +13,7 @@ import {
   Person,
   IdentityCard,
   ConfirmationDocument,
-  RelationType
+  CommonService
 } from "../../shared/index";
 import { IdentityCardComponent } from '../../person/identity-card/identity-card.component';
 import { ConfirmationDocumentComponent } from '../../confirmation-document/confirmation-document.component';
@@ -115,10 +115,9 @@ export class ParentStepComponent implements OnInit, StepBase {
     childApplicantInfo: false
   }
 
-  constructor(private storageService: WizardStorageService,
+  constructor(private storageService: WizardStorageService, private commonService: CommonService,
     private citizenshipService: CitizenshipService,
-    private router: Router,
-    private activatedRoute: ActivatedRoute) { }
+    private router: Router, private activatedRoute: ActivatedRoute) { }
 
   ngOnInit() {
     this.isAvailable.childApplicantInfo = this.storageService.request.applicantType === ApplicantType["Ребенок-заявитель"];
@@ -144,18 +143,9 @@ export class ParentStepComponent implements OnInit, StepBase {
     },
     next: () => {
       let parent = (() => {
-        let getDocumentByType = (type: AttachmentType) => {
-          let document = this.confirmationDocuments.find(x => x.type == type);
-          if (!document) return undefined
-          return new ConfirmationDocument(document.confirmationDocumentForm.controls.name.value,
-            document.confirmationDocumentForm.controls.series.value,
-            document.confirmationDocumentForm.controls.number.value,
-            document.confirmationDocumentForm.controls.dateIssue.value,
-            document.confirmationDocumentForm.controls.dateExpired.value)
-        }
         let result = new Parent();
-        let birthInfo = (()=>{
-          if(!this.birthInfoComponent) return {};
+        let birthInfo = (() => {
+          if (!this.birthInfoComponent) return {};
           return {
             birthDate: this.birthInfoComponent.birthInfoForm.controls.birthDate.value,
             birthPlace: this.birthInfoComponent.birthInfoForm.controls.birthPlace.value,
@@ -172,9 +162,9 @@ export class ParentStepComponent implements OnInit, StepBase {
           birthInfo.gender);
         result.IdentityCard = new IdentityCard(this.identityCardComponent.identityCardForm);
         result.citizenships = this.citizenshipSelectComponent.citizenships;
-        result.countryStateDocument = getDocumentByType(AttachmentType.CountryStateDocument);
+        result.countryStateDocument = this.commonService.getDocumentByType(this.confirmationDocuments, AttachmentType.CountryStateDocument);
         result.relationType = this.relationTypeComponent.relationType;
-        result.parentRepresentChildrenDocument = getDocumentByType(AttachmentType.ParentRepresentChildren);
+        result.parentRepresentChildrenDocument = this.commonService.getDocumentByType(this.confirmationDocuments, AttachmentType.ParentRepresentChildren);
         return result;
       })();
       this.storageService.parent = parent;

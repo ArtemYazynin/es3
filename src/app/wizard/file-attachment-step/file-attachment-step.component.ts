@@ -154,6 +154,12 @@ export class FileAttachmentStepComponent implements OnInit, OnDestroy, AfterView
     return from([this.storageService.request.applicantType])
       .pipe(map(applicantType => {
         let attachmentTypes: Array<AttachmentType> = [];
+        if (this.storageService.request.privilege) {
+          attachmentTypes.push(AttachmentType.PrivilegeProofDocument);
+        }
+        if (this.storageService.request.children.length > 0 && this.storageService.request.children[0].specHealthDocument) {
+          attachmentTypes.push(AttachmentType.SpecHealthDocument);
+        }
         switch (applicantType) {
           case ApplicantType["Законный представитель ребенка"]:
             attachmentTypes.push(AttachmentType.ParentIdentityCard, AttachmentType.ChildBirthdateCertificate);
@@ -182,7 +188,8 @@ export class FileAttachmentStepComponent implements OnInit, OnDestroy, AfterView
             //TEST DATA!!!!
             attachmentTypes.push(AttachmentType.ParentIdentityCard, AttachmentType.ChildBirthdateCertificate,
               AttachmentType.ApplicantIdentityCard, AttachmentType.ApplicantRepresentParent, AttachmentType.ParentRepresentChildren,
-              AttachmentType.CountryStateDocument, AttachmentType.CountryStateApplicantDocument);
+              AttachmentType.CountryStateDocument, AttachmentType.CountryStateApplicantDocument,
+              AttachmentType.PrivilegeProofDocument,AttachmentType.SpecHealthDocument);
             break;
         }
         return attachmentTypes;
