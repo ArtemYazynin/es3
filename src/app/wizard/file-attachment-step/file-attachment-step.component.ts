@@ -1,10 +1,11 @@
 import { Component, OnInit, OnDestroy, AfterViewInit } from '@angular/core';
-import { StepBase, WizardStorageService, ApplicantType, AttachmentType, Entity, AttachmentTypePipe, inquiryType, CommonService, FileAttachment } from '../../shared/index';
+import { StepBase, WizardStorageService, ApplicantType, AttachmentType, Entity, AttachmentTypePipe, inquiryType, CommonService, FileAttachment, FileView } from '../../shared/index';
 import { RequestOptions, Headers, RequestOptionsArgs } from '@angular/http';
 import { HttpInterceptor } from '../../shared/http-interceptor';
 import { map, filter, takeUntil } from 'rxjs/operators';
-import { from, fromEvent, Observable, Subject } from 'rxjs/';
+import { from, fromEvent, Observable, Subject, pipe, Subscription } from 'rxjs/';
 import { ActivatedRoute, Router, Params } from '@angular/router';
+import { $ } from 'protractor';
 
 @Component({
   selector: 'app-file-attachment-step',
@@ -18,9 +19,12 @@ export class FileAttachmentStepComponent implements OnInit, OnDestroy, AfterView
     if (!version) return false;
     return version < 9;
   })();
+  subscription: Subscription;
+  attachmentType = AttachmentType;
+  maxFilesCount = 10;
   fileNotChoosen = "Файл не выбран";
   haveDigitalSignature = false;
-  bunchOfFileView: Array<Entity<number>>;
+  bunchOfFileView: Array<FileView>;
   bunchOfFile: Array<FileAttachment> = [];
   private inquiryType: string;
   goTo = {
@@ -55,24 +59,37 @@ export class FileAttachmentStepComponent implements OnInit, OnDestroy, AfterView
 
   }
   ngAfterViewInit(): void {
-    fromEvent(document.getElementsByName("file"), "change")
+    fromEvent(document.getElementById("add"), "click")
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe(e => {
+        if (this.bunchOfFileView.length >= this.maxFilesCount) return;
+        this.subscription.unsubscribe();
+        this.bunchOfFileView.push(new FileView(AttachmentType.Other, this.fileNotChoosen, this.bunchOfFileView.length));
+        setTimeout(() => {
+          this.subscribeFileChange();
+        }, 0);
+
+      });
+    this.subscribeFileChange();
+  }
+  private subscribeFileChange() {
+    this.subscription = fromEvent(document.getElementsByName("file"), "change")
       .pipe(
-        takeUntil(this.ngUnsubscribe),
         filter(event => {
           return event.target["files"] != undefined;
         }),
         map(event => {
           const files: File[] = event.target["files"];
-          return { file: files[0], attachmentType: event.target["id"] };
+          return { file: files[0], attachmentType: event.target["id"], index: event.target["dataset"].index };
         }))
       .subscribe(params => {
-        const pushFile = (fileView: Entity<number>) => {
-          const index = this.bunchOfFile.findIndex(x => x.attachmentType == fileView.id);
+        const pushFile = (fileView: FileView) => {
+          const index = this.bunchOfFile.findIndex(x => x.index == params.index);
           if (index == -1) {
-            this.bunchOfFile.push(new FileAttachment(fileView.id, params.file));
+            this.bunchOfFile.push(new FileAttachment(fileView.id, params.file, params.index));
           } else {
             this.bunchOfFile.splice(index, 1);
-            this.bunchOfFile.push(new FileAttachment(fileView.id, params.file));
+            this.bunchOfFile.push(new FileAttachment(fileView.id, params.file, params.index));
           }
         }
         const updateFileView = (fileView: Entity<number>, value: string) => {
@@ -83,37 +100,46 @@ export class FileAttachmentStepComponent implements OnInit, OnDestroy, AfterView
             alert("Размер файла не должен превышать 5мб.");
             return;
           }
-          const fileView = this.bunchOfFileView.find(x => x.id == params.attachmentType);
+          const fileView = this.bunchOfFileView.find(x => x.index == params.index);
           updateFileView(fileView, params.file.name);
           pushFile(fileView);//push new file
         } else {
-          const index = this.bunchOfFile.findIndex(x => x.attachmentType == params.attachmentType);
+          const index = this.bunchOfFile.findIndex(x => x.index == params.index);
           if (index == -1) return;
 
-          const fileView = this.bunchOfFileView.find(x => x.id == params.attachmentType);
+          const fileView = this.bunchOfFileView.find(x => x.index == params.index);
           updateFileView(fileView, this.fileNotChoosen);
           this.bunchOfFile.splice(index, 1)//remove file
         }
       });
   }
   ngOnDestroy(): void {
+    this.subscription.unsubscribe();
     this.ngUnsubscribe.next();
     this.ngUnsubscribe.complete();
   }
-  isValid() {
-    return this.bunchOfFile.length >= this.bunchOfFileView.length;
+  remove(fileView: FileView) {
+    this.bunchOfFileView.splice(fileView.index, 1);
+
+    const fileIndex = this.bunchOfFile.findIndex(file => file.index == fileView.index);
+    if (fileIndex == -1) return;
+    this.bunchOfFile.splice(fileIndex, 1);
   }
-  chooseFile(fileView: Entity<number>) {
-    document.getElementById(fileView.id + "").click();
+  isValid() {
+    return this.bunchOfFile.filter(x => x.attachmentType != AttachmentType.Other).length >= this.bunchOfFileView.filter(x => x.id != AttachmentType.Other).length;
+  }
+  chooseFile(fileView: FileView) {
+    const elements = document.querySelectorAll("[data-index='" + fileView.index + "']")
+    elements[0]["click"]();
   }
   private initFiles() {
     this.getRequiredAttachmentTypes()
       .pipe(
         takeUntil(this.ngUnsubscribe),
         map((types: Array<AttachmentType>) => {
-          let result: Array<Entity<number>> = [];
-          types.forEach(type => {
-            result.push(new Entity<number>(type, this.fileNotChoosen));
+          let result: Array<FileView> = [];
+          types.forEach((type, index) => {
+            result.push(new FileView(type, this.fileNotChoosen, index));
           });
           return result;
         }))

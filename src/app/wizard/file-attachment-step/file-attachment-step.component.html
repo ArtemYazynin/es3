@@ -28,15 +28,25 @@
           </div>
         </div>
       </div>
-      <div class="form-group" *ngFor="let item of bunchOfFileView"> 
+      <div class="form-group" *ngFor="let item of bunchOfFileView; let i=index;">
         <div [hidden]="!isOldBrowser">
-          <input type="file" id={{item.id}} name="file" accept=".pdf,.doc,.docx" >
+          <input type="file" id={{item.id}} name="file" [attr.data-index]="i" accept=".pdf,.doc,.docx">
         </div>
         <div [hidden]="isOldBrowser">
-          Файл
-          <label style="display: inline">{{item.name}}</label>&nbsp;
-          <button id="chooseFile" (click)="chooseFile(item)" mat-raised-button color="primary">Выберите файл</button>
-          <p>{{item.id | attachmentType}}</p>
+          <div class="form-group">
+            Файл
+            <label style="display: inline">{{item.name}}</label>&nbsp;
+            <button id="chooseFile" (click)="chooseFile(item)" mat-raised-button color="primary">Выберите файл</button>
+            <p>{{item.id | attachmentType}}</p>
+            <div *ngIf="item.id == attachmentType.Other">
+              <mat-form-field>
+                <textarea matInput id="description{{i}}" placeholder="Описание"></textarea>
+              </mat-form-field>
+              <button id="remove" (click)="remove(item)" mat-raised-button color="warn">Удалить</button>
+            </div>
+
+            <mat-divider></mat-divider>
+          </div>
         </div>
       </div>
       <div class="form-group">
@@ -45,8 +55,11 @@
       <div class="form-group">
         <mat-checkbox [(ngModel)]="haveDigitalSignature">Документы подписаны электронной подписью</mat-checkbox>
       </div>
-      <div class="alert alert-info" align="center">
+      <div class="form-group alert alert-info" align="center">
         Размер одного файла не должен превышать 5мб.
+      </div>
+      <div class="form-group" *ngIf="bunchOfFileView.length < maxFilesCount">
+        <button id="add" mat-raised-button color="primary">Добавить</button>
       </div>
     </div>
   </div>
