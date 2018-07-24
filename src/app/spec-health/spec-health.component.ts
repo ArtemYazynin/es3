@@ -1,6 +1,8 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { SpecHealthService, SpecHealth } from '../shared/index';
+import { Component, Input, OnInit, QueryList, ViewChildren } from '@angular/core';
 import { ConfirmationDocumentComponent } from '../confirmation-document/confirmation-document.component';
+import { AttachmentType, SpecHealth, SpecHealthService } from '../shared/index';
+import { ChildComponent } from '../wizard/children-step/child/child.component';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-spec-health',
@@ -8,18 +10,15 @@ import { ConfirmationDocumentComponent } from '../confirmation-document/confirma
   styleUrls: ['./spec-health.component.css']
 })
 export class SpecHealthComponent implements OnInit {
-  @ViewChild(ConfirmationDocumentComponent) confirmationDocumentComponent:ConfirmationDocumentComponent;
-  isAvailable = {
-    specHealthDocument: () => {
-      return this.specHealth != 101;
-    }
-  }
-  specHealth:number = 101;
-  specHealths: Array<SpecHealth> = [];
-  constructor(private specHealthService: SpecHealthService,) { }
 
-  ngOnInit() {
-    this.specHealthService.get().subscribe(result => { this.specHealths = result; });
-  }
+  @ViewChildren(ConfirmationDocumentComponent) documentComponents: QueryList<ConfirmationDocumentComponent>;
+  @Input() childComponents: Array<ChildComponent>;
 
+  attachmentType = AttachmentType;
+  hasDocuments: boolean = false;
+  specHealth: number = 101;
+  specHealths: Observable<Array<SpecHealth>> = this.specHealthService.get();
+  constructor(private specHealthService: SpecHealthService) { }
+
+  ngOnInit() { }
 }

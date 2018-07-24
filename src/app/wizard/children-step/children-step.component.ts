@@ -1,10 +1,11 @@
-import { Component, OnInit, ViewChild, ViewContainerRef, ComponentRef, ComponentFactory, ComponentFactoryResolver, ChangeDetectorRef, AfterViewInit } from '@angular/core';
-import { Country, CitizenshipService, Child, ConfirmationDocument, WizardStorageService, IdentityCard, Person, StepBase } from '../../shared/index';
-import { ChildComponent } from './child/child.component';
+import { AfterViewInit, ChangeDetectorRef, Component, ComponentFactory, ComponentFactoryResolver, ComponentRef, OnInit, ViewChild, ViewContainerRef } from '@angular/core';
+import { ActivatedRoute, Params, Router } from '@angular/router';
+import { isNullOrUndefined } from 'util';
 import { BirthInfoComponent } from '../../person/birth-info/birth-info.component';
 import { CitizenshipSelectComponent } from '../../person/citizenship-select/citizenship-select.component';
+import { Child, CitizenshipService, CommonService, ConfirmationDocument, Country, IdentityCard, Person, StepBase, WizardStorageService } from '../../shared/index';
 import { SpecHealthComponent } from '../../spec-health/spec-health.component';
-import { Router, ActivatedRoute, Params } from '@angular/router';
+import { ChildComponent } from './child/child.component';
 
 @Component({
   selector: 'app-children-step',
@@ -12,18 +13,17 @@ import { Router, ActivatedRoute, Params } from '@angular/router';
   styleUrls: ['./children-step.component.css']
 })
 export class ChildrenStepComponent implements OnInit, AfterViewInit, StepBase {
-  
+
   @ViewChild("childContainer", { read: ViewContainerRef }) viewContainer;
   @ViewChild(BirthInfoComponent) birthInfoComponent: BirthInfoComponent;
   @ViewChild(CitizenshipSelectComponent) citizenshipSelectComponent: CitizenshipSelectComponent;
   @ViewChild(SpecHealthComponent) specHealthComponent: SpecHealthComponent;
   componentRef: ComponentRef<ChildComponent>;
   components: Array<ComponentRef<ChildComponent>> = [];
-  countries: Array<Country> = [];
   inquiryType: string;
 
   constructor(private activatedRoute: ActivatedRoute, private router: Router, private resolver: ComponentFactoryResolver, private storageService: WizardStorageService,
-    private cd: ChangeDetectorRef, private citizenshipService: CitizenshipService) { }
+    private cd: ChangeDetectorRef, private citizenshipService: CitizenshipService,private commonService:CommonService) { }
 
   isValid(): boolean {
     let isValid = {
@@ -53,13 +53,15 @@ export class ChildrenStepComponent implements OnInit, AfterViewInit, StepBase {
         return this.citizenshipSelectComponent && this.citizenshipSelectComponent.citizenships.length > 0 || false;
       },
       specHealthDocument: () => {
+        const specHealthsDocumentsValid = (): boolean => {
+          return this.specHealthComponent
+            && this.specHealthComponent.documentComponents
+            && this.specHealthComponent.documentComponents.length == this.components.length
+            && isNullOrUndefined(this.specHealthComponent.documentComponents.find(x => !x.confirmationDocumentForm.valid));
+        }
         if (this.specHealthComponent && this.specHealthComponent.specHealth == 101 || false) {
           return true;
-        } else if (this.specHealthComponent
-          && this.specHealthComponent.confirmationDocumentComponent
-          && this.specHealthComponent.confirmationDocumentComponent.confirmationDocumentForm
-          && this.specHealthComponent.confirmationDocumentComponent.confirmationDocumentForm.valid
-          || false) {
+        } else if (specHealthsDocumentsValid()) {
           return true;
         } else {
           return false;
@@ -136,11 +138,11 @@ export class ChildrenStepComponent implements OnInit, AfterViewInit, StepBase {
       next: () => {
         if (!this.isValid()) return;
         let children: Array<Child> = [];
-        this.components.forEach(x => {
+        this.components.forEach((x,i) => {
           const specHealthDocument = this.specHealthComponent.specHealth == 101
             ? null
             : ((context) => {
-              const form = context.specHealthComponent.confirmationDocumentComponent.confirmationDocumentForm;
+              const form = context.specHealthComponent.documentComponents["_results"][i].confirmationDocumentForm;            
               return new ConfirmationDocument(form.value["name"], form.value["series"], form.value["number"],
                 form.value["dateIssue"], form.value["dateExpired"])
             })(this);
@@ -153,7 +155,7 @@ export class ChildrenStepComponent implements OnInit, AfterViewInit, StepBase {
           children.push(child);
         });
 
-        this.storageService.update(this.inquiryType,{ children: children })
+        this.storageService.update(this.inquiryType, { children: children })
         this.router.navigate(["../currentEducationPlaceStep"], { relativeTo: this.activatedRoute });
       }
     }
@@ -161,7 +163,6 @@ export class ChildrenStepComponent implements OnInit, AfterViewInit, StepBase {
 
 
   ngOnInit() {
-    this.citizenshipService.getCountries().subscribe(result => { this.countries = result; });
     this.navBarManager.add();
     this.activatedRoute.params.forEach((params: Params) => {
       if (params["type"]) {
