@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { RelationType, RelationTypeService, ApplicantType, WizardStorageService } from '../shared/index';
+import { ActivatedRoute, Params } from '@angular/router';
+import { ApplicantType, RelationType, RelationTypeService, WizardStorageService } from '../shared/index';
 
 @Component({
   selector: 'app-relation-type',
@@ -7,13 +8,22 @@ import { RelationType, RelationTypeService, ApplicantType, WizardStorageService 
   styleUrls: ['./relation-type.component.css']
 })
 export class RelationTypeComponent implements OnInit {
+  private inquiryType: string;
   relationTypes: Array<RelationType> = [];
   relationType: RelationType;
   isAvailable: boolean = false;
-  constructor(private relationTypeService: RelationTypeService, private storageService: WizardStorageService) { }
+  constructor(private relationTypeService: RelationTypeService, private storageService: WizardStorageService,private activatedRoute: ActivatedRoute) { }
 
   ngOnInit() {
-    this.isAvailable = this.storageService.request.applicantType !== ApplicantType["Ребенок-заявитель"];
+    this.activatedRoute.params.forEach((params: Params) => {
+      if (params["type"]) {
+        this.inquiryType = params["type"];
+      }
+    });
+    this.storageService.storage.asObservable().subscribe(data=>{
+      this.isAvailable = data[this.inquiryType].applicantType !== ApplicantType["Ребенок-заявитель"];
+    }).unsubscribe();
+    
     if (!this.isAvailable) return;
 
     this.relationTypeService.get().subscribe(result => { 

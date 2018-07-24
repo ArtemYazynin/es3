@@ -25,7 +25,7 @@ export class CommonService {
     var myNav = navigator.userAgent.toLowerCase();
     return (myNav.indexOf('msie') != -1) ? parseInt(myNav.split('msie')[1]) : undefined;
   }
-  getDocumentByType(components: QueryList<ConfirmationDocumentComponent>, type: AttachmentType) {
+  getDocumentByType(components: QueryList<ConfirmationDocumentComponent> | Array<ConfirmationDocumentComponent>, type: AttachmentType) {
     let document = components.find(x => x.type == type);
     if (!document) return undefined
     return new ConfirmationDocument(document.confirmationDocumentForm.controls.name.value,

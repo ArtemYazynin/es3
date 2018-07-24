@@ -1,7 +1,9 @@
-export interface StepBase {
-    isValid():boolean;
-    goTo:{
-        back:()=>void,
-        next:()=>void
+
+export abstract class StepBase{
+    abstract inquiryType: string;
+    abstract isValid(): boolean;
+    abstract goTo: {
+        back: () => void,
+        next: () => void
     }
 }

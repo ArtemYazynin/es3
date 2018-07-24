@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { ApplicantType, inquiryType, WizardStorageService, Entity, StepBase } from "../../shared/index";
-import { Router, ActivatedRoute, Params } from '@angular/router';
+import { ActivatedRoute, Params, Router } from '@angular/router';
+import { ApplicantType, Entity, inquiryType, StepBase, WizardStorageService } from "../../shared/index";
 
 @Component({
   selector: 'app-applicant-type-step',
@@ -47,8 +47,8 @@ export class ApplicantTypeStepComponent implements OnInit,StepBase {
       this.router.navigate(["../currentEducationPlaceStep"], { relativeTo: this.activatedRoute });
     },
     next: () => {
-      this.storageService.applicantType = this.applicantType;
-      if (this.storageService.request.applicantType == ApplicantType["Доверенное лицо законного представителя ребенка"]) {
+      this.storageService.update(this.inquiryType,{applicantType:this.applicantType})
+      if (this.applicantType == ApplicantType["Доверенное лицо законного представителя ребенка"]) {
         this.router.navigate(["../applicantStep"], { relativeTo: this.activatedRoute });
       }
       else{

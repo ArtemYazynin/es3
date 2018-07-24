@@ -1,11 +1,10 @@
 import { Component, OnInit, OnDestroy, AfterViewInit } from '@angular/core';
-import { StepBase, WizardStorageService, ApplicantType, AttachmentType, Entity, AttachmentTypePipe, inquiryType, CommonService, FileAttachment, FileView } from '../../shared/index';
+import { StepBase, WizardStorageService, ApplicantType, AttachmentType, Entity, inquiryType, CommonService, FileAttachment, FileView, CompilationOfWizardSteps } from '../../shared/index';
 import { RequestOptions, Headers, RequestOptionsArgs } from '@angular/http';
 import { HttpInterceptor } from '../../shared/http-interceptor';
 import { map, filter, takeUntil } from 'rxjs/operators';
 import { from, fromEvent, Observable, Subject, pipe, Subscription } from 'rxjs/';
 import { ActivatedRoute, Router, Params } from '@angular/router';
-import { $ } from 'protractor';
 
 @Component({
   selector: 'app-file-attachment-step',
@@ -15,14 +14,14 @@ import { $ } from 'protractor';
 export class FileAttachmentStepComponent implements OnInit, OnDestroy, AfterViewInit, StepBase {
   private ngUnsubscribe: Subject<any> = new Subject();
   private subscription: Subscription;
-  private inquiryType: string;
+  inquiryType: string;
   private fileNotChoosen = "Файл не выбран";
 
+  compilationSteps:CompilationOfWizardSteps;
   attachmentType = AttachmentType;
   maxFilesCount = 10;
   haveDigitalSignature = false;
   bunchOfFileView: Array<FileView>;
-  bunchOfFile: Array<FileAttachment> = [];
   isOldBrowser: boolean = (() => {
     const version = this.commonService.getIeVersion()
     if (!version) return false;
@@ -46,7 +45,7 @@ export class FileAttachmentStepComponent implements OnInit, OnDestroy, AfterView
       }
     },
     next: () => {
-      this.storageService.files = this.bunchOfFile;
+      this.storageService.update(this.inquiryType,{ files: this.bunchOfFileView.map(x => x.fileAttachment) });
       this.router.navigate(["../previewStep"], { relativeTo: this.activatedRoute });
     }
   };
@@ -57,20 +56,22 @@ export class FileAttachmentStepComponent implements OnInit, OnDestroy, AfterView
     this.activatedRoute.params.forEach((params: Params) => {
       if (params["type"]) this.inquiryType = params["type"];
     });
+    this.storageService.storage.asObservable().subscribe(data=>{
+      this.compilationSteps = data[this.inquiryType];
+    }).unsubscribe();
     this.initFiles();
-
   }
   ngAfterViewInit(): void {
     fromEvent(document.getElementById("add"), "click")
       .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe(e => {
-        if (this.bunchOfFileView.length >= this.maxFilesCount) return;
+      .subscribe(() => {
+        if (this.bunchOfFileView.length >= this.maxFilesCount)
+          return;
         this.subscription.unsubscribe();
-        this.bunchOfFileView.push(new FileView(AttachmentType.Other, this.fileNotChoosen, this.bunchOfFileView.length));
+        this.bunchOfFileView.push(new FileView(this.fileNotChoosen, this.bunchOfFileView.length, new FileAttachment(AttachmentType.Other, null)));
         setTimeout(() => {
           this.subscribeFileChange();
         }, 0);
-
       });
     this.subscribeFileChange();
   }
@@ -85,15 +86,6 @@ export class FileAttachmentStepComponent implements OnInit, OnDestroy, AfterView
           return { file: files[0], attachmentType: event.target["id"], index: event.target["dataset"].index };
         }))
       .subscribe(params => {
-        const pushFile = (fileView: FileView) => {
-          const index = this.bunchOfFile.findIndex(x => x.index == params.index);
-          if (index == -1) {
-            this.bunchOfFile.push(new FileAttachment(fileView.id, params.file, params.index));
-          } else {
-            this.bunchOfFile.splice(index, 1);
-            this.bunchOfFile.push(new FileAttachment(fileView.id, params.file, params.index));
-          }
-        }
         const updateFileView = (fileView: Entity<number>, value: string) => {
           fileView.name = value;
         }
@@ -104,14 +96,10 @@ export class FileAttachmentStepComponent implements OnInit, OnDestroy, AfterView
           }
           const fileView = this.bunchOfFileView.find(x => x.index == params.index);
           updateFileView(fileView, params.file.name);
-          pushFile(fileView);//push new file
+          fileView.fileAttachment.file = params.file;
         } else {
-          const index = this.bunchOfFile.findIndex(x => x.index == params.index);
-          if (index == -1) return;
-
-          const fileView = this.bunchOfFileView.find(x => x.index == params.index);
+          const fileView = this.bunchOfFileView.find(x => x.fileAttachment.attachmentType == params.attachmentType && x.index == params.index);
           updateFileView(fileView, this.fileNotChoosen);
-          this.bunchOfFile.splice(index, 1)//remove file
         }
       });
   }
@@ -122,13 +110,9 @@ export class FileAttachmentStepComponent implements OnInit, OnDestroy, AfterView
   }
   remove(fileView: FileView) {
     this.bunchOfFileView.splice(fileView.index, 1);
-
-    const fileIndex = this.bunchOfFile.findIndex(file => file.index == fileView.index);
-    if (fileIndex == -1) return;
-    this.bunchOfFile.splice(fileIndex, 1);
   }
   isValid() {
-    return this.bunchOfFile.filter(x => x.attachmentType != AttachmentType.Other).length >= this.bunchOfFileView.filter(x => x.id != AttachmentType.Other).length;
+    return true;
   }
   chooseFile(fileView: FileView) {
     const elements = document.querySelectorAll("[data-index='" + fileView.index + "']")
@@ -141,7 +125,7 @@ export class FileAttachmentStepComponent implements OnInit, OnDestroy, AfterView
         map((types: Array<AttachmentType>) => {
           let result: Array<FileView> = [];
           types.forEach((type, index) => {
-            result.push(new FileView(type, this.fileNotChoosen, index));
+            result.push(new FileView(this.fileNotChoosen, index, new FileAttachment(type, null)));
           });
           return result;
         }))
@@ -151,31 +135,31 @@ export class FileAttachmentStepComponent implements OnInit, OnDestroy, AfterView
   }
 
   private getRequiredAttachmentTypes(): Observable<AttachmentType[]> {
-    return from([this.storageService.request.applicantType])
+    return from([this.compilationSteps.applicantType])
       .pipe(map(applicantType => {
         let attachmentTypes: Array<AttachmentType> = [];
-        if (this.storageService.request.privilege) {
+        if (this.compilationSteps.privilege) {
           attachmentTypes.push(AttachmentType.PrivilegeProofDocument);
         }
-        if (this.storageService.request.children.length > 0 && this.storageService.request.children[0].specHealthDocument) {
+        if (this.compilationSteps.children.length > 0 && this.compilationSteps.children[0].specHealthDocument) {
           attachmentTypes.push(AttachmentType.SpecHealthDocument);
         }
         switch (applicantType) {
           case ApplicantType["Законный представитель ребенка"]:
             attachmentTypes.push(AttachmentType.ParentIdentityCard, AttachmentType.ChildBirthdateCertificate);
-            if (this.storageService.request.parent.parentRepresentChildrenDocument)
+            if (this.compilationSteps.parent.parentRepresentChildrenDocument)
               attachmentTypes.push(AttachmentType.ParentRepresentChildren);
-            if (this.storageService.request.parent.countryStateDocument)
+            if (this.compilationSteps.parent.countryStateDocument)
               attachmentTypes.push(AttachmentType.CountryStateDocument);
             break;
           case ApplicantType["Доверенное лицо законного представителя ребенка"]:
             attachmentTypes.push(AttachmentType.ParentIdentityCard, AttachmentType.ChildBirthdateCertificate,
               AttachmentType.ApplicantIdentityCard, AttachmentType.ApplicantRepresentParent);
 
-            if (this.storageService.request.parent.parentRepresentChildrenDocument)
+            if (this.compilationSteps.parent.parentRepresentChildrenDocument)
               attachmentTypes.push(AttachmentType.ParentRepresentChildren);
 
-            if (this.storageService.request.parent.countryStateDocument)
+            if (this.compilationSteps.parent.countryStateDocument)
               attachmentTypes.push(AttachmentType.CountryStateDocument);
 
             //CountryStateApplicantDocument from applicantStep
@@ -186,10 +170,11 @@ export class FileAttachmentStepComponent implements OnInit, OnDestroy, AfterView
             break;
           default:
             //TEST DATA!!!!
-            attachmentTypes.push(AttachmentType.ParentIdentityCard, AttachmentType.ChildBirthdateCertificate,
-              AttachmentType.ApplicantIdentityCard, AttachmentType.ApplicantRepresentParent, AttachmentType.ParentRepresentChildren,
-              AttachmentType.CountryStateDocument, AttachmentType.CountryStateApplicantDocument,
-              AttachmentType.PrivilegeProofDocument,AttachmentType.SpecHealthDocument);
+            // attachmentTypes.push(AttachmentType.ParentIdentityCard, AttachmentType.ChildBirthdateCertificate,
+            //   AttachmentType.ApplicantIdentityCard, AttachmentType.ApplicantRepresentParent, AttachmentType.ParentRepresentChildren,
+            //   AttachmentType.CountryStateDocument, AttachmentType.CountryStateApplicantDocument,
+            //   AttachmentType.PrivilegeProofDocument,AttachmentType.SpecHealthDocument);
+            attachmentTypes.push(AttachmentType.ParentIdentityCard, AttachmentType.ChildBirthdateCertificate);
             break;
         }
         return attachmentTypes;

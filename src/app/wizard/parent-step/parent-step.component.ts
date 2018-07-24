@@ -12,7 +12,6 @@ import {
   Parent,
   Person,
   IdentityCard,
-  ConfirmationDocument,
   CommonService
 } from "../../shared/index";
 import { IdentityCardComponent } from '../../person/identity-card/identity-card.component';
@@ -38,6 +37,7 @@ export class ParentStepComponent implements OnInit, StepBase {
   @ViewChild(RelationTypeComponent) relationTypeComponent: RelationTypeComponent;
   @ViewChildren(ConfirmationDocumentComponent) confirmationDocuments: QueryList<ConfirmationDocumentComponent>
 
+  applicantType: ApplicantType;
   attachmentTypes = AttachmentType;
   agree: boolean = false;
   citships: Array<Entity<string>> = [];
@@ -72,7 +72,7 @@ export class ParentStepComponent implements OnInit, StepBase {
         || false,
       fullnameForm: this.fullnameComponent && this.fullnameComponent.fullnameForm && this.fullnameComponent.fullnameForm.valid || false,
       birthInfoForm: (() => {
-        if (this.storageService.request.applicantType !== ApplicantType["Ребенок-заявитель"])
+        if (this.applicantType !== ApplicantType["Ребенок-заявитель"])
           return true;
         return this.birthInfoComponent && this.birthInfoComponent.birthInfoForm && this.birthInfoComponent.birthInfoForm.valid || false;
       })(),
@@ -120,7 +120,7 @@ export class ParentStepComponent implements OnInit, StepBase {
     private router: Router, private activatedRoute: ActivatedRoute) { }
 
   ngOnInit() {
-    this.isAvailable.childApplicantInfo = this.storageService.request.applicantType === ApplicantType["Ребенок-заявитель"];
+
 
     this.citizenshipService.getCountries().subscribe(result => {
       this.countries = result;
@@ -129,13 +129,17 @@ export class ParentStepComponent implements OnInit, StepBase {
     this.activatedRoute.params.forEach((params: Params) => {
       if (params["type"]) {
         this.inquiryType = params["type"];
+        this.storageService.storage.asObservable().subscribe(data => {
+          this.applicantType = data[this.inquiryType].applicantType;
+          this.isAvailable.childApplicantInfo = this.applicantType === ApplicantType["Ребенок-заявитель"];
+        }).unsubscribe();
       }
     });
   }
 
   goTo = {
     back: () => {
-      if (this.storageService.request.applicantType == ApplicantType["Доверенное лицо законного представителя ребенка"]) {
+      if (this.applicantType == ApplicantType["Доверенное лицо законного представителя ребенка"]) {
         this.router.navigate(["../applicantStep"], { relativeTo: this.activatedRoute });
       } else {
         this.router.navigate(["../applicantTypeStep"], { relativeTo: this.activatedRoute });
@@ -167,7 +171,7 @@ export class ParentStepComponent implements OnInit, StepBase {
         result.parentRepresentChildrenDocument = this.commonService.getDocumentByType(this.confirmationDocuments, AttachmentType.ParentRepresentChildren);
         return result;
       })();
-      this.storageService.parent = parent;
+      this.storageService.update(this.inquiryType, { parent: parent });
       this.router.navigate(["../contactInfoStep"], { relativeTo: this.activatedRoute });
     }
   }

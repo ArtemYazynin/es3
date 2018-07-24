@@ -4,7 +4,7 @@ import { ChildComponent } from './child/child.component';
 import { BirthInfoComponent } from '../../person/birth-info/birth-info.component';
 import { CitizenshipSelectComponent } from '../../person/citizenship-select/citizenship-select.component';
 import { SpecHealthComponent } from '../../spec-health/spec-health.component';
-import { Router, ActivatedRoute } from '@angular/router';
+import { Router, ActivatedRoute, Params } from '@angular/router';
 
 @Component({
   selector: 'app-children-step',
@@ -12,6 +12,7 @@ import { Router, ActivatedRoute } from '@angular/router';
   styleUrls: ['./children-step.component.css']
 })
 export class ChildrenStepComponent implements OnInit, AfterViewInit, StepBase {
+  
   @ViewChild("childContainer", { read: ViewContainerRef }) viewContainer;
   @ViewChild(BirthInfoComponent) birthInfoComponent: BirthInfoComponent;
   @ViewChild(CitizenshipSelectComponent) citizenshipSelectComponent: CitizenshipSelectComponent;
@@ -19,6 +20,7 @@ export class ChildrenStepComponent implements OnInit, AfterViewInit, StepBase {
   componentRef: ComponentRef<ChildComponent>;
   components: Array<ComponentRef<ChildComponent>> = [];
   countries: Array<Country> = [];
+  inquiryType: string;
 
   constructor(private activatedRoute: ActivatedRoute, private router: Router, private resolver: ComponentFactoryResolver, private storageService: WizardStorageService,
     private cd: ChangeDetectorRef, private citizenshipService: CitizenshipService) { }
@@ -150,7 +152,8 @@ export class ChildrenStepComponent implements OnInit, AfterViewInit, StepBase {
             identityCard);
           children.push(child);
         });
-        this.storageService.children = children;
+
+        this.storageService.update(this.inquiryType,{ children: children })
         this.router.navigate(["../currentEducationPlaceStep"], { relativeTo: this.activatedRoute });
       }
     }
@@ -160,6 +163,11 @@ export class ChildrenStepComponent implements OnInit, AfterViewInit, StepBase {
   ngOnInit() {
     this.citizenshipService.getCountries().subscribe(result => { this.countries = result; });
     this.navBarManager.add();
+    this.activatedRoute.params.forEach((params: Params) => {
+      if (params["type"]) {
+        this.inquiryType = params["type"];
+      }
+    });
   }
 
   ngAfterViewInit() {

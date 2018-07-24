@@ -15,6 +15,10 @@ export * from "./relationTypes/relation-type";
 //
 
 export * from "./entity";
+export * from "./inquiry-info";
+export * from "./age-group";
+export * from "./distribution-params";
+export * from "./stay-mode";
 export * from "./applicant";
 export * from "./file-view"
 export * from "./file-attachment";
@@ -23,6 +27,9 @@ export * from "./privilege";
 export * from "./specificity";
 export * from "./privilege-order";
 export * from "../wizard/shared/current-education-place";
+export * from "../wizard/shared/compilation-of-wizard-steps";
+export * from "../wizard/shared/storage";
+export * from "../wizard/shared/preschool-compilation-of-wizard-steps";
 export * from "./group";
 export * from "./institution";
 export * from "../area/shared/area";

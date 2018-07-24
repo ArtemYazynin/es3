@@ -1,11 +1,11 @@
-import { Component, OnInit, ViewChild, ViewChildren, QueryList } from '@angular/core';
-import { CitizenshipService, Country, WizardStorageService, ApplicantType, AttachmentType, StepBase, Applicant, Person, IdentityCard, CommonService } from '../../shared/index';
+import { Component, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
+import { ActivatedRoute, Params, Router } from '../../../../node_modules/@angular/router';
 import { ConfirmationDocumentComponent } from '../../confirmation-document/confirmation-document.component';
-import { IdentityCardComponent } from '../../person/identity-card/identity-card.component';
-import { FullNameComponent } from '../../person/full-name/full-name.component';
-import { ActivatedRoute, Router } from '../../../../node_modules/@angular/router';
 import { CitizenshipSelectComponent } from '../../person/citizenship-select/citizenship-select.component';
+import { FullNameComponent } from '../../person/full-name/full-name.component';
+import { IdentityCardComponent } from '../../person/identity-card/identity-card.component';
 import { SnilsComponent } from '../../person/snils/snils.component';
+import { Applicant, ApplicantType, AttachmentType, CitizenshipService, CommonService, Country, IdentityCard, Person, StepBase, WizardStorageService } from '../../shared/index';
 
 @Component({
   selector: 'app-applicant-step',
@@ -13,6 +13,7 @@ import { SnilsComponent } from '../../person/snils/snils.component';
   styleUrls: ['./applicant-step.component.css']
 })
 export class ApplicantStepComponent implements OnInit, StepBase {
+  inquiryType: string;
   @ViewChild(IdentityCardComponent) identityCardComponent: IdentityCardComponent;
   @ViewChild(FullNameComponent) fullnameComponent: FullNameComponent
   @ViewChild(SnilsComponent) snilsComponent: SnilsComponent;
@@ -59,7 +60,9 @@ export class ApplicantStepComponent implements OnInit, StepBase {
   }
 
   ngOnInit() {
-
+    this.activatedRoute.params.forEach((params: Params) => {
+      if (params["type"]) this.inquiryType = params["type"];
+    });
     this.citizenshipService.getCountries()
       .subscribe(result => {
         this.countries = result;
@@ -84,12 +87,16 @@ export class ApplicantStepComponent implements OnInit, StepBase {
         result.applicantRepresentParentDocument = this.commonService.getDocumentByType(this.confirmationDocuments, AttachmentType.ApplicantRepresentParent);
         return result;
       })();
-      this.storageService.applicant = applicant;
-      if (this.storageService.request.applicantType == ApplicantType["Законный представитель ребенка"]) {
-        this.router.navigate(["../contactInfoStep"], { relativeTo: this.activatedRoute });
-      } else {
-        this.router.navigate(["../parentStep"], { relativeTo: this.activatedRoute });
-      }
+      this.storageService.update(this.inquiryType, { applicant: applicant });
+      this.storageService.storage.asObservable()
+        .subscribe(data => {
+          if (data[this.inquiryType].applicantType == ApplicantType["Законный представитель ребенка"]) {
+            this.router.navigate(["../contactInfoStep"], { relativeTo: this.activatedRoute });
+          } else {
+            this.router.navigate(["../parentStep"], { relativeTo: this.activatedRoute });
+          }
+        })
+        .unsubscribe();
     }
   }
 }

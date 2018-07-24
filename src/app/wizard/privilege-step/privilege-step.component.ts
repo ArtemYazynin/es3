@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild, QueryList } from '@angular/core';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { WizardStorageService, FormService, inquiryType, PrivilegeOrder, PrivilegeOrderService, Privilege, PrivilegeService, CommonService, AttachmentType, Child, ConfirmationDocument, StepBase } from '../../shared/index';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -11,10 +11,10 @@ import { ConfirmationDocumentComponent } from '../../confirmation-document/confi
   templateUrl: './privilege-step.component.html',
   styleUrls: ['./privilege-step.component.css']
 })
-export class PrivilegeStepComponent implements OnInit, OnDestroy,StepBase {
+export class PrivilegeStepComponent implements OnInit, OnDestroy, StepBase {
   @ViewChild(ConfirmationDocumentComponent) confirmationProofDocumentComponent: ConfirmationDocumentComponent;
 
-  private inquiryType: string;
+  inquiryType: string;
   privilegeForm: FormGroup;
 
   privilegeOrders: Array<PrivilegeOrder> = []
@@ -114,11 +114,17 @@ export class PrivilegeStepComponent implements OnInit, OnDestroy,StepBase {
     back: () => {
       if (this.inquiryType == inquiryType.healthCamp) {
         this.router.navigate(["../jobInfoStep"], { relativeTo: this.activatedRoute });
-      }else{
+      } else {
         this.router.navigate(["../contactInfoStep"], { relativeTo: this.activatedRoute });
       }
     },
     next: () => {
+      (() => {
+        const privilege = new Privilege(this.privilegeForm.controls.privilege.value.id, this.privilegeForm.controls.privilege.value.name, this.privilegeForm.controls.privilegeOrder.value);
+        privilege.privilegeProofDocument = this.commonService.getDocumentByType([this.confirmationProofDocumentComponent], AttachmentType.PrivilegeProofDocument);
+        this.storageService.update(this.inquiryType, { privilege: privilege });
+      })();
+
       switch (this.inquiryType) {
         case inquiryType.profEducation:
           this.router.navigate(["../educDocumentInfoStep"], { relativeTo: this.activatedRoute });

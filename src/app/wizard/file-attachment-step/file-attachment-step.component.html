@@ -40,7 +40,7 @@
             <p>{{item.id | attachmentType}}</p>
             <div *ngIf="item.id == attachmentType.Other">
               <mat-form-field>
-                <textarea matInput id="description{{i}}" placeholder="Описание"></textarea>
+                <textarea matInput id="description{{i}}" [(ngModel)]="item.fileAttachment.description" placeholder="Описание"></textarea>
               </mat-form-field>
               <button id="remove" (click)="remove(item)" mat-raised-button color="warn">Удалить</button>
             </div>

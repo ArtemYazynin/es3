@@ -1,56 +1,26 @@
 import { Injectable } from '@angular/core';
-import { Child } from '../../shared/child';
-import { Parent } from '../../shared/parent';
-import { ApplicantType } from '../../shared/applicant-type.enum';
-import { Applicant } from '../../shared/applicant';
-import { CurrentEducationPlace } from './current-education-place';
-import { FileAttachment } from '../../shared/file-attachment';
-import { Privilege } from '../../shared';
+import { ActivatedRoute } from '@angular/router';
+import { BehaviorSubject } from 'rxjs';
+import { inquiryType } from "../../shared/inquiry-type";
+import { Storage } from "./storage";
 
 @Injectable()
 export class WizardStorageService {
-  private _request: {
-    applicantType: ApplicantType,
-    applicant: Applicant,
-    parent: Parent, 
-    children: Array<Child>,
-    privilege:Privilege,
-    currentEducationPlace: CurrentEducationPlace, 
-    files: Array<FileAttachment>
-  } = {
-      applicant: undefined,
-      parent: undefined,
-      currentEducationPlace: undefined,
-      children: [],
-      applicantType: undefined,
-      files: [],
-      privilege: undefined
-    };
-  constructor() { }
+  storage: BehaviorSubject<Storage> = new BehaviorSubject(new Storage());
 
-  get request() {
-    return this._request;
-  }
-  set applicantType(value: ApplicantType) {
-    this._request["applicantType"] = value;
-  }
-  set parent(value: Parent) {
-    this.request["parent"] = value;
-  }
-  set children(value: Array<Child>) {
-    this._request["children"] = value;
-  }
-  set currentEducationPlace(value: CurrentEducationPlace) {
-    this._request["currentEducationPlace"] = value;
-  }
-  set files(value: Array<FileAttachment>) {
-    this._request.files = value;
-  }
+  constructor(private activatedRoute: ActivatedRoute) { }
 
-  set applicant(value: Applicant) {
-    this._request.applicant = value;
-  }
-  set privilege(value:Privilege){
-    this._request.privilege = value;
+  update(type:string, data: object | Array<any>) {
+    if(!inquiryType || !inquiryType[type] || !data) return;
+    
+    let request: Storage;
+    this.storage.asObservable()
+      .subscribe(result => {
+        request = result;
+      })
+      .unsubscribe();
+    const compilationSteps = Object.assign({}, request[type], data);
+    request[type] = compilationSteps;
+    this.storage.next(request);
   }
 }

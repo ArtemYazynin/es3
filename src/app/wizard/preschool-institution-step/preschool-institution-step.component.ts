@@ -1,12 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { StepBase, CommonService, Institution, SettingsService } from '../../shared/index';
-import { FormGroup, FormBuilder } from '@angular/forms';
-import { Observable,fromEvent,from  } from 'rxjs';
-
-
-import { startWith, map } from 'rxjs/operators';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import { MatAutocompleteSelectedEvent } from '@angular/material';
-import { ActivatedRoute, Router, Params } from '@angular/router';
+import { ActivatedRoute, Params, Router } from '@angular/router';
+import { Observable } from 'rxjs';
+import { map, startWith } from 'rxjs/operators';
+import { CommonService, Institution, SettingsService, StepBase, WizardStorageService } from '../../shared/index';
+
 
 @Component({
   selector: 'app-preschool-institution-step',
@@ -14,7 +13,7 @@ import { ActivatedRoute, Router, Params } from '@angular/router';
   styleUrls: ['./preschool-institution-step.component.css']
 })
 export class PreschoolInstitutionStepComponent implements OnInit, StepBase {
-  private inquiryType: string;
+  inquiryType: string;
   form: FormGroup;
   maxCountWishPreschoolInstitutions: number;
   displayFn = this.commonService.displayFn;
@@ -73,17 +72,17 @@ export class PreschoolInstitutionStepComponent implements OnInit, StepBase {
     }
   })();
   goTo = {
-    back: () => { 
+    back: () => {
       this.router.navigate(["../inquiryInfoStep"], { relativeTo: this.activatedRoute });
-      
     },
-    next: () => {  
+    next: () => {
+      this.storageService.update(this.inquiryType, {institutions:this.selectedInstitutions});
       this.router.navigate(["../fileAttachmentStep"], { relativeTo: this.activatedRoute });
     }
   };
 
   constructor(private commonService: CommonService, private fb: FormBuilder, private settingsService: SettingsService,
-    private router: Router, private activatedRoute: ActivatedRoute) { }
+    private router: Router, private activatedRoute: ActivatedRoute, private storageService:WizardStorageService) { }
 
   ngOnInit() {
     this.activatedRoute.params.forEach((params: Params) => {
