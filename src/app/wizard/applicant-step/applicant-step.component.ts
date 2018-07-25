@@ -87,16 +87,12 @@ export class ApplicantStepComponent implements OnInit, StepBase {
         result.applicantRepresentParentDocument = this.commonService.getDocumentByType(this.confirmationDocuments, AttachmentType.ApplicantRepresentParent);
         return result;
       })();
-      this.storageService.update(this.inquiryType, { applicant: applicant });
-      this.storageService.storage.asObservable()
-        .subscribe(data => {
-          if (data[this.inquiryType].applicantType == ApplicantType["Законный представитель ребенка"]) {
-            this.router.navigate(["../contactInfoStep"], { relativeTo: this.activatedRoute });
-          } else {
-            this.router.navigate(["../parentStep"], { relativeTo: this.activatedRoute });
-          }
-        })
-        .unsubscribe();
+      this.storageService.set(this.inquiryType, { applicant: applicant });
+      if (this.storageService.get(this.inquiryType).applicantType == ApplicantType["Законный представитель ребенка"]) {
+        this.router.navigate(["../contactInfoStep"], { relativeTo: this.activatedRoute });
+      } else {
+        this.router.navigate(["../parentStep"], { relativeTo: this.activatedRoute });
+      }
     }
   }
 }

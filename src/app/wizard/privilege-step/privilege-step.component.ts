@@ -122,7 +122,7 @@ export class PrivilegeStepComponent implements OnInit, OnDestroy, StepBase {
       (() => {
         const privilege = new Privilege(this.privilegeForm.controls.privilege.value.id, this.privilegeForm.controls.privilege.value.name, this.privilegeForm.controls.privilegeOrder.value);
         privilege.privilegeProofDocument = this.commonService.getDocumentByType([this.confirmationProofDocumentComponent], AttachmentType.PrivilegeProofDocument);
-        this.storageService.update(this.inquiryType, { privilege: privilege });
+        this.storageService.set(this.inquiryType, { privilege: privilege });
       })();
 
       switch (this.inquiryType) {

@@ -58,8 +58,8 @@
       <div class="form-group alert alert-info" align="center">
         Размер одного файла не должен превышать 5мб.
       </div>
-      <div class="form-group" *ngIf="bunchOfFileView.length < maxFilesCount">
-        <button id="add" mat-raised-button color="primary">Добавить</button>
+      <div class="form-group">
+        <button id="add" mat-raised-button color="primary" [disabled]="bunchOfFileView.length >= maxFilesCount">Добавить</button>
       </div>
     </div>
   </div>

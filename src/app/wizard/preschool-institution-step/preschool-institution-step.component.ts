@@ -76,7 +76,7 @@ export class PreschoolInstitutionStepComponent implements OnInit, StepBase {
       this.router.navigate(["../inquiryInfoStep"], { relativeTo: this.activatedRoute });
     },
     next: () => {
-      this.storageService.update(this.inquiryType, {institutions:this.selectedInstitutions});
+      this.storageService.set(this.inquiryType, {institutions:this.selectedInstitutions});
       this.router.navigate(["../fileAttachmentStep"], { relativeTo: this.activatedRoute });
     }
   };

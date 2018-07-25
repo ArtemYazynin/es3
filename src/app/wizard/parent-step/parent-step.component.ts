@@ -129,10 +129,8 @@ export class ParentStepComponent implements OnInit, StepBase {
     this.activatedRoute.params.forEach((params: Params) => {
       if (params["type"]) {
         this.inquiryType = params["type"];
-        this.storageService.storage.asObservable().subscribe(data => {
-          this.applicantType = data[this.inquiryType].applicantType;
-          this.isAvailable.childApplicantInfo = this.applicantType === ApplicantType["Ребенок-заявитель"];
-        }).unsubscribe();
+        this.applicantType = this.storageService.get(this.inquiryType).applicantType;
+        this.isAvailable.childApplicantInfo = this.applicantType === ApplicantType["Ребенок-заявитель"];
       }
     });
   }
@@ -171,7 +169,7 @@ export class ParentStepComponent implements OnInit, StepBase {
         result.parentRepresentChildrenDocument = this.commonService.getDocumentByType(this.confirmationDocuments, AttachmentType.ParentRepresentChildren);
         return result;
       })();
-      this.storageService.update(this.inquiryType, { parent: parent });
+      this.storageService.set(this.inquiryType, { parent: parent });
       this.router.navigate(["../contactInfoStep"], { relativeTo: this.activatedRoute });
     }
   }

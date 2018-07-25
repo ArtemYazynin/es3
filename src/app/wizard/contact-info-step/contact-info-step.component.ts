@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, Validators, FormBuilder, ValidatorFn } from '@angular/forms';
-import { FormService, WizardStorageService, inquiryType, StepBase } from '../../shared/index';
+import { FormService, WizardStorageService, inquiryType, StepBase, ContactInfo } from '../../shared/index';
 import { MatCheckboxChange } from '@angular/material';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 
@@ -13,10 +13,10 @@ import { Router, ActivatedRoute, Params } from '@angular/router';
 export class ContactInfoStepComponent implements OnInit, StepBase {
 
   constructor(private formService: FormService, private fb: FormBuilder,
-    private router: Router, private activatedRoute: ActivatedRoute) { }
+    private router: Router, private activatedRoute: ActivatedRoute, private storageService: WizardStorageService) { }
 
   private emailValidators: ValidatorFn[] = [Validators.required, Validators.email];
-  private inquiryType: string;
+  inquiryType: string;
   masks = {
     smsPhone: ["+", /\d/, "(", /\d/, /\d/, /\d/, ")", /\d/, /\d/, /\d/, "-", /\d/, /\d/, "-", /\d/, /\d/]
   }
@@ -76,6 +76,11 @@ export class ContactInfoStepComponent implements OnInit, StepBase {
       this.router.navigate(["../parentStep"], { relativeTo: this.activatedRoute });
     },
     next: () => {
+      (() => {
+        const contactInfo = new ContactInfo(this.contactsForm);
+        this.storageService.set(this.inquiryType, { contactInfo: contactInfo })
+      })();
+
       if (this.inquiryType == inquiryType.healthCamp) {
         this.router.navigate(["../jobInfoStep"], { relativeTo: this.activatedRoute });
       } else {

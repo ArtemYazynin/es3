@@ -12,7 +12,7 @@ export class RelationTypeComponent implements OnInit {
   relationTypes: Array<RelationType> = [];
   relationType: RelationType;
   isAvailable: boolean = false;
-  constructor(private relationTypeService: RelationTypeService, private storageService: WizardStorageService,private activatedRoute: ActivatedRoute) { }
+  constructor(private relationTypeService: RelationTypeService, private storageService: WizardStorageService, private activatedRoute: ActivatedRoute) { }
 
   ngOnInit() {
     this.activatedRoute.params.forEach((params: Params) => {
@@ -20,15 +20,13 @@ export class RelationTypeComponent implements OnInit {
         this.inquiryType = params["type"];
       }
     });
-    this.storageService.storage.asObservable().subscribe(data=>{
-      this.isAvailable = data[this.inquiryType].applicantType !== ApplicantType["Ребенок-заявитель"];
-    }).unsubscribe();
-    
-    if (!this.isAvailable) return;
+    this.isAvailable = this.storageService.get(this.inquiryType).applicantType !== ApplicantType["Ребенок-заявитель"];
 
-    this.relationTypeService.get().subscribe(result => { 
+    if (!this.isAvailable) return; 
+
+    this.relationTypeService.get().subscribe(result => {
       this.relationTypes = result;
-      this.relationType = this.relationTypes[0]; 
+      this.relationType = this.relationTypes[0];
     });
   }
 }

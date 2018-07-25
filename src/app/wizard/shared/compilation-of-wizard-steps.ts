@@ -1,4 +1,4 @@
-import { Applicant, ApplicantType, Child, CurrentEducationPlace, FileAttachment, InquiryInfo, Parent, Privilege } from "../../shared";
+import { Applicant, ApplicantType, Child, CurrentEducationPlace, FileAttachment, InquiryInfo, Parent, Privilege, ContactInfo } from "../../shared";
 
 export class CompilationOfWizardSteps {
     applicantType: ApplicantType;
@@ -9,4 +9,5 @@ export class CompilationOfWizardSteps {
     currentEducationPlace: CurrentEducationPlace; 
     files: Array<FileAttachment> = [];
     inquiryInfo:InquiryInfo;
+    contactInfo:ContactInfo;
 }

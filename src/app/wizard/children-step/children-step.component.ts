@@ -155,7 +155,7 @@ export class ChildrenStepComponent implements OnInit, AfterViewInit, StepBase {
           children.push(child);
         });
 
-        this.storageService.update(this.inquiryType, { children: children })
+        this.storageService.set(this.inquiryType, { children: children })
         this.router.navigate(["../currentEducationPlaceStep"], { relativeTo: this.activatedRoute });
       }
     }

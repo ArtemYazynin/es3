@@ -48,7 +48,7 @@ export class InquiryInfoStepComponent implements OnInit, StepBase {
         const ageGroup = AgeGroup.constructFromForm(this.ageGroupComponent.atLeastOneCheckboxShouldBeSelectedComponent.form);
         return new InquiryInfo(distributionParams, stayMode, ageGroup);
       })();
-      this.storgageService.update(this.inquiryType, { inquiryInfo: inquiryInfo });
+      this.storgageService.set(this.inquiryType, { inquiryInfo: inquiryInfo });
       this.router.navigate(["../preschoolInstitutionStep"], { relativeTo: this.activatedRoute });
     }
   }

@@ -5,6 +5,7 @@ import { HttpInterceptor } from '../../shared/http-interceptor';
 import { map, filter, takeUntil } from 'rxjs/operators';
 import { from, fromEvent, Observable, Subject, pipe, Subscription } from 'rxjs/';
 import { ActivatedRoute, Router, Params } from '@angular/router';
+import { isNullOrUndefined } from 'util';
 
 @Component({
   selector: 'app-file-attachment-step',
@@ -14,10 +15,12 @@ import { ActivatedRoute, Router, Params } from '@angular/router';
 export class FileAttachmentStepComponent implements OnInit, OnDestroy, AfterViewInit, StepBase {
   private ngUnsubscribe: Subject<any> = new Subject();
   private subscription: Subscription;
-  inquiryType: string;
   private fileNotChoosen = "Файл не выбран";
 
-  compilationSteps:CompilationOfWizardSteps;
+  constructor(private router: Router, private activatedRoute: ActivatedRoute, private storageService: WizardStorageService, private commonService: CommonService) { }
+
+  inquiryType: string;
+  compilationSteps: CompilationOfWizardSteps;
   attachmentType = AttachmentType;
   maxFilesCount = 10;
   haveDigitalSignature = false;
@@ -45,20 +48,18 @@ export class FileAttachmentStepComponent implements OnInit, OnDestroy, AfterView
       }
     },
     next: () => {
-      this.storageService.update(this.inquiryType,{ files: this.bunchOfFileView.map(x => x.fileAttachment) });
+      const data = this.bunchOfFileView.map(x => x.fileAttachment).filter(x => x.file != null);
+      this.storageService.set(this.inquiryType, { files: data });
       this.router.navigate(["../previewStep"], { relativeTo: this.activatedRoute });
     }
   };
-  constructor(private router: Router, private activatedRoute: ActivatedRoute,
-    private http: HttpInterceptor, private storageService: WizardStorageService, private commonService: CommonService) { }
+
 
   ngOnInit() {
     this.activatedRoute.params.forEach((params: Params) => {
       if (params["type"]) this.inquiryType = params["type"];
     });
-    this.storageService.storage.asObservable().subscribe(data=>{
-      this.compilationSteps = data[this.inquiryType];
-    }).unsubscribe();
+    this.compilationSteps = this.storageService.get(this.inquiryType);
     this.initFiles();
   }
   ngAfterViewInit(): void {
@@ -112,7 +113,10 @@ export class FileAttachmentStepComponent implements OnInit, OnDestroy, AfterView
     this.bunchOfFileView.splice(fileView.index, 1);
   }
   isValid() {
-    return true;
+    const isValid = this.bunchOfFileView
+      .filter(x => x.fileAttachment.attachmentType != AttachmentType.Other)
+      .every(x => !isNullOrUndefined(x.fileAttachment.file))
+    return isValid;
   }
   chooseFile(fileView: FileView) {
     const elements = document.querySelectorAll("[data-index='" + fileView.index + "']")
@@ -162,19 +166,14 @@ export class FileAttachmentStepComponent implements OnInit, OnDestroy, AfterView
             if (this.compilationSteps.parent.countryStateDocument)
               attachmentTypes.push(AttachmentType.CountryStateDocument);
 
-            //CountryStateApplicantDocument from applicantStep
+            if (this.compilationSteps.applicant.countryStateApplicantDocument)
+              attachmentTypes.push(AttachmentType.CountryStateApplicantDocument);
 
             break;
           case ApplicantType["Ребенок-заявитель"]:
             attachmentTypes.push(AttachmentType.ParentIdentityCard);
             break;
           default:
-            //TEST DATA!!!!
-            // attachmentTypes.push(AttachmentType.ParentIdentityCard, AttachmentType.ChildBirthdateCertificate,
-            //   AttachmentType.ApplicantIdentityCard, AttachmentType.ApplicantRepresentParent, AttachmentType.ParentRepresentChildren,
-            //   AttachmentType.CountryStateDocument, AttachmentType.CountryStateApplicantDocument,
-            //   AttachmentType.PrivilegeProofDocument,AttachmentType.SpecHealthDocument);
-            attachmentTypes.push(AttachmentType.ParentIdentityCard, AttachmentType.ChildBirthdateCertificate);
             break;
         }
         return attachmentTypes;

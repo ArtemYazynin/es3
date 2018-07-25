@@ -22,7 +22,7 @@ import { FullNameComponent } from './person/full-name/full-name.component';
 import { BirthInfoComponent } from './person/birth-info/birth-info.component';
 import { ApplicantStepComponent } from './wizard/applicant-step/applicant-step.component';
 import { ChildrenStepComponent } from './wizard/children-step/children-step.component';
-import { EnumToArrayPipe, IdentityCardTypeFriendlyNamePipe, FormService, WizardStorageService, CitizenshipService, RelationTypeService, IdentityCardService, ParentStepService, SpecHealthService, AreaService, InstitutionService, GroupService, CommonService, PrivilegeOrderService, PrivilegeService, SpecificityService, SettingsService } from './shared/index';
+import { EnumToArrayPipe, IdentityCardTypeFriendlyNamePipe, FormService, WizardStorageService, CitizenshipService, RelationTypeService, IdentityCardService, ParentStepService, SpecHealthService, AreaService, InstitutionService, GroupService, CommonService, PrivilegeOrderService, PrivilegeService, SpecificityService, SettingsService, DrawService } from './shared/index';
 import { MyDatePickerModule } from 'mydatepicker';
 import { TextMaskModule } from 'angular2-text-mask';
 import { CitizenshipSelectComponent } from './person/citizenship-select/citizenship-select.component';
@@ -95,6 +95,7 @@ import { AtLeastOneCheckboxShouldBeSelectedComponent } from './shared/at-least-o
 import { SchoolInquiryInfoStepComponent } from './wizard/school-inquiry-info-step/school-inquiry-info-step.component';
 import { PreschoolInstitutionStepComponent } from './wizard/preschool-institution-step/preschool-institution-step.component';
 import { FileAttachmentStepComponent } from './wizard/file-attachment-step/file-attachment-step.component';
+import { PreviewStepComponent } from './wizard/preview-step/preview-step.component';
 @NgModule({
   exports: [
     // CDK
@@ -180,7 +181,8 @@ export class MaterialModule { }
     AtLeastOneCheckboxShouldBeSelectedComponent,
     SchoolInquiryInfoStepComponent,
     PreschoolInstitutionStepComponent,
-    FileAttachmentStepComponent
+    FileAttachmentStepComponent,
+    PreviewStepComponent
   ],
   imports: [
     BrowserModule,
@@ -213,7 +215,8 @@ export class MaterialModule { }
     PrivilegeOrderService,
     PrivilegeService,
     SpecificityService,
-    SettingsService
+    SettingsService,
+    DrawService
   ],
   entryComponents: [ChildComponent],
   bootstrap: [AppComponent]

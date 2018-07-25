@@ -1,8 +1,10 @@
 import { Injectable, QueryList } from '@angular/core';
-import { Entity } from './entity';
+import { isNullOrUndefined } from 'util';
+import { ConfirmationDocumentComponent } from '../confirmation-document/confirmation-document.component';
 import { AttachmentType } from './attachment-type.enum';
 import { ConfirmationDocument } from './confirmation-document';
-import { ConfirmationDocumentComponent } from '../confirmation-document/confirmation-document.component';
+import { Entity } from './entity';
+import { Person } from './person';
 
 @Injectable({
   providedIn: 'root'

@@ -1,26 +1,23 @@
 import { Injectable } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { BehaviorSubject } from 'rxjs';
 import { inquiryType } from "../../shared/inquiry-type";
-import { Storage } from "./storage";
+import { CompilationOfWizardSteps } from './compilation-of-wizard-steps';
 
 @Injectable()
 export class WizardStorageService {
-  storage: BehaviorSubject<Storage> = new BehaviorSubject(new Storage());
+  private prefix = "inquiry";
+  get(type: string):CompilationOfWizardSteps {
+    const key = this.prefix + "/" + type;
+    const inquiryData = JSON.parse(sessionStorage.getItem(key));
+    return inquiryData || {};
+  }
+  set(type: string, data: object | Array<any>) {
+    if (!inquiryType || !inquiryType[type] || !data) return;
+    const key = this.prefix + "/" + type;
 
-  constructor(private activatedRoute: ActivatedRoute) { }
-
-  update(type:string, data: object | Array<any>) {
-    if(!inquiryType || !inquiryType[type] || !data) return;
-    
-    let request: Storage;
-    this.storage.asObservable()
-      .subscribe(result => {
-        request = result;
-      })
-      .unsubscribe();
-    const compilationSteps = Object.assign({}, request[type], data);
-    request[type] = compilationSteps;
-    this.storage.next(request);
+    const updatedStorage = (() => {
+      let storage = this.get(type);
+      return Object.assign({}, storage, data);
+    })();
+    sessionStorage.setItem(key, JSON.stringify(updatedStorage));
   }
 }

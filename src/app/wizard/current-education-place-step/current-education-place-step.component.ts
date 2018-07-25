@@ -206,7 +206,7 @@ export class CurrentEducationPlaceStepComponent implements OnInit, StepBase {
         const place = new CurrentEducationPlace(this.currentPlaceForm.value["municipality"],
           this.currentPlaceForm.value["institutionType"], this.currentPlaceForm.value["institution"],
           this.currentPlaceForm.value["group"], this.currentPlaceForm.value["isOther"], this.currentPlaceForm.value["other"]);
-        this.storageService.update(this.inquiryType,{ currentEducationPlace: place });
+        this.storageService.set(this.inquiryType,{ currentEducationPlace: place });
         this.router.navigate(["../applicantTypeStep"], { relativeTo: this.activatedRoute });
       }
     }
