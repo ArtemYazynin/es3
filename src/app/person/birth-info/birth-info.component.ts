@@ -21,10 +21,6 @@ export class BirthInfoComponent implements OnInit {
   }
   private buildForm() {
     this.birthInfoForm = this.fb.group({
-      "gender": [
-        1,
-        []
-      ],
       "birthDate": [
         "",
         [Validators.required]

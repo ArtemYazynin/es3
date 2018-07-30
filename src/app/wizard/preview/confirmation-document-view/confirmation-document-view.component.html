@@ -1,0 +1,22 @@
+<div class="widget-box" *ngIf="document">
+  <div class="widget-title">
+    <h5>{{title}}</h5>
+  </div>
+  <div class="widget-content">
+    <div class="form-group">
+      <b>Название документа</b> {{document.name}}
+    </div>
+    <div class="form-group">
+      <b>Серия документа</b> {{document.series || "-"}}
+    </div>
+    <div class="form-group">
+      <b>Номер документа</b> {{document.number}}
+    </div>
+    <div class="form-group">
+      <b>Дата выдачи</b> {{document.dateIssue | date: 'dd.MM.yyyy'}}
+    </div>
+    <div class="form-group" *ngIf="document.dateExpired">
+      <b>Действительно до</b> {{document.dateExpired | date: 'dd.MM.yyyy'}}
+    </div>
+  </div>
+</div>

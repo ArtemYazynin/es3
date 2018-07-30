@@ -1,8 +1,7 @@
-import { Component, OnInit, Input } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { ConfirmationDocument, AttachmentType } from '../shared/index';
+import { Component, Input, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { FormService } from '../shared/form.service';
-import { WizardStorageService } from '../wizard/shared/wizard-storage.service';
+import { AttachmentType, ConfirmationDocument } from '../shared/index';
 
 @Component({
   selector: 'app-confirmation-document',
@@ -18,9 +17,7 @@ export class ConfirmationDocumentComponent implements OnInit {
   @Input() title: string = "";
   @Input() type: AttachmentType;
 
-  constructor(private fb: FormBuilder,
-    private formService: FormService,
-    private storageService: WizardStorageService) { }
+  constructor(private fb: FormBuilder, private formService: FormService) { }
 
   ngOnInit() {
     this.buildForm();

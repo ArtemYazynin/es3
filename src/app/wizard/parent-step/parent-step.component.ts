@@ -21,6 +21,7 @@ import { BirthInfoComponent } from '../../person/birth-info/birth-info.component
 import { CitizenshipSelectComponent } from '../../person/citizenship-select/citizenship-select.component';
 import { RelationTypeComponent } from '../../relation-type/relation-type.component';
 import { SnilsComponent } from '../../person/snils/snils.component';
+import { GenderComponent } from '../../person/gender/gender.component';
 
 @Component({
   moduleId: module.id,
@@ -29,6 +30,7 @@ import { SnilsComponent } from '../../person/snils/snils.component';
   styleUrls: ['./parent-step.component.css']
 })
 export class ParentStepComponent implements OnInit, StepBase {
+  @ViewChild(GenderComponent) gendercomponent: GenderComponent;
   @ViewChild(SnilsComponent) snilsComponent: SnilsComponent;
   @ViewChild(IdentityCardComponent) identityCardComponent: IdentityCardComponent;
   @ViewChild(FullNameComponent) fullnameComponent: FullNameComponent;
@@ -78,7 +80,7 @@ export class ParentStepComponent implements OnInit, StepBase {
       })(),
       countryStateForm: (() => {
         if (!this.citizenshipSelectComponent || this.citizenshipSelectComponent.citizenships.length == 0) return false;
-        let hasForeignCitizenship = this.citizenshipService.hasForeignCitizenship(this.citizenshipSelectComponent, this.countries);
+        let hasForeignCitizenship = this.citizenshipService.hasForeignCitizenship(this.citizenshipSelectComponent.citizenships, this.countries);
         if (!hasForeignCitizenship) return true;
 
         return (() => {
@@ -106,7 +108,7 @@ export class ParentStepComponent implements OnInit, StepBase {
       && isValid.relationType;
   }
   isAvailable = {
-    countryStateDocument: () => this.citizenshipService.hasForeignCitizenship(this.citizenshipSelectComponent, this.countries),
+    countryStateDocument: () => this.citizenshipService.hasForeignCitizenship(this.citizenshipSelectComponent.citizenships, this.countries),
     parentRepresentChildren: () => {
       return this.relationTypeComponent
         && this.relationTypeComponent.relationType
@@ -145,24 +147,23 @@ export class ParentStepComponent implements OnInit, StepBase {
     },
     next: () => {
       let parent = (() => {
-        let result = new Parent();
+        
         let birthInfo = (() => {
           if (!this.birthInfoComponent) return {};
           return {
             birthDate: this.birthInfoComponent.birthInfoForm.controls.birthDate.value,
-            birthPlace: this.birthInfoComponent.birthInfoForm.controls.birthPlace.value,
-            gender: this.birthInfoComponent.birthInfoForm.controls.gender.value,
+            birthPlace: this.birthInfoComponent.birthInfoForm.controls.birthPlace.value
           }
         })();
-        result.person = new Person(this.fullnameComponent.fullnameForm.controls.lastname.value,
+        let result = new Parent(this.fullnameComponent.fullnameForm.controls.lastname.value,
           this.fullnameComponent.fullnameForm.controls.firstname.value,
           this.fullnameComponent.fullnameForm.controls.middlename.value,
           this.snilsComponent.snils,
           this.fullnameComponent.fullnameForm.controls.noMiddlename.value,
           birthInfo.birthDate,
           birthInfo.birthPlace,
-          birthInfo.gender);
-        result.IdentityCard = new IdentityCard(this.identityCardComponent.identityCardForm);
+          this.gendercomponent.gender);
+        result.identityCard = new IdentityCard(this.identityCardComponent.identityCardForm);
         result.citizenships = this.citizenshipSelectComponent.citizenships;
         result.countryStateDocument = this.commonService.getDocumentByType(this.confirmationDocuments, AttachmentType.CountryStateDocument);
         result.relationType = this.relationTypeComponent.relationType;

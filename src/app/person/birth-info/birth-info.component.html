@@ -1,13 +1,5 @@
 <form [formGroup]="birthInfoForm">
   <div class="form-group">
-    <mat-form-field>
-      <mat-select formControlName="gender" placeholder="Пол">
-        <mat-option [value]="1">Мужской</mat-option>
-        <mat-option [value]="2">Женский</mat-option>
-      </mat-select>
-    </mat-form-field>
-  </div>
-  <div class="form-group">
     <mat-form-field (click)="picker.open()">
       <input matInput [matDatepicker]="picker" placeholder="Дата рождения" [max]="currentDate" formControlName="birthDate">
       <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>

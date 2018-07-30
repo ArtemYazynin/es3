@@ -11,6 +11,7 @@ import { ActivatedRoute, Router } from '@angular/router';
   styleUrls: ['./school-inquiry-info-step.component.css']
 })
 export class SchoolInquiryInfoStepComponent implements OnInit, StepBase {
+  inquiryType: string;
   schoolInquiryInfoForm: FormGroup;
   displayFn = this.commonService.displayFn;
   schoolYears: Array<number> = [new Date().getFullYear(), new Date().getFullYear() + 1];

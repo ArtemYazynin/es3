@@ -5,27 +5,12 @@ import { RelationType } from "./relationTypes/relation-type";
 
 
 
-export class Parent {
-    person: Person;
-    IdentityCard: IdentityCard;
+export class Parent extends Person{
+    identityCard: IdentityCard;
 
     citizenships: Array<number>;
     countryStateDocument: ConfirmationDocument
 
     relationType: RelationType;
     parentRepresentChildrenDocument: ConfirmationDocument;
-
-    static getFormErrorsTemplate() {
-        return {
-            citizenship: ""
-        };
-    }
-
-    static getvalidationMessages() {
-        return {
-            citizenship: {
-                "required": "Обязательное поле.",
-            }
-        }
-    }
 }

@@ -4,7 +4,7 @@ import { Person } from "./person";
 
 export class Child extends Person {
     identityCard:IdentityCard;
-    citizenship: Array<number>;
+    citizenships: Array<number>;
     specHealth: number;
     specHealthDocument: ConfirmationDocument
 
@@ -13,7 +13,7 @@ export class Child extends Person {
 
         super(lastname, firstname, middlename, snils, noMiddlename, birthDate, birthPlace, gender);
         this.identityCard = identityCard;
-        this.citizenship = citizenship || [];
+        this.citizenships = citizenship || [];
         this.specHealth = specHealth;
         this.specHealthDocument = specHealthDocument;
     }

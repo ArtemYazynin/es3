@@ -63,5 +63,5 @@ export * from "../wizard/shared/current-education-place-step.service";
 
 export * from "./enum-to-array-pipe";
 export * from "./attachment-type.pipe";
-export * from "../person/identity-card/shared/identity-card-type-friendly-name.pipe";
+export * from "../person/identity-card/shared/identity-card-type.pipe";
 export * from "../person/identity-card/shared/identity-card-change-handler";

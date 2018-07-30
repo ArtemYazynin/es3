@@ -27,7 +27,7 @@ export class ApplicantStepComponent implements OnInit, StepBase {
   attachmentTypes = AttachmentType;
   countries: Array<Country> = [];
   isAvailable = {
-    countryStateDocument: () => this.citizenshipService.hasForeignCitizenship(this.citizenshipSelectComponent, this.countries)
+    countryStateDocument: () => this.citizenshipService.hasForeignCitizenship(this.citizenshipSelectComponent.citizenships, this.countries)
   }
   isValid(): boolean {
     if (!this.confirmationDocuments) return false;
@@ -39,7 +39,7 @@ export class ApplicantStepComponent implements OnInit, StepBase {
       fullnameForm: this.fullnameComponent && this.fullnameComponent.fullnameForm && this.fullnameComponent.fullnameForm.valid || false,
       countryStateDocumentForm: (() => {
         if (!this.citizenshipSelectComponent || this.citizenshipSelectComponent.citizenships.length == 0) return false;
-        let hasForeignCitizenship = this.citizenshipService.hasForeignCitizenship(this.citizenshipSelectComponent, this.countries);
+        let hasForeignCitizenship = this.citizenshipService.hasForeignCitizenship(this.citizenshipSelectComponent.citizenships, this.countries);
         if (!hasForeignCitizenship) return true;
 
         return (() => {
@@ -74,14 +74,13 @@ export class ApplicantStepComponent implements OnInit, StepBase {
     },
     next: () => {
       let applicant = (() => {
-        let result = new Applicant();
-        result.person = new Person(this.fullnameComponent.fullnameForm.controls.lastname.value,
+        let result = new Applicant(this.fullnameComponent.fullnameForm.controls.lastname.value,
           this.fullnameComponent.fullnameForm.controls.firstname.value,
           this.fullnameComponent.fullnameForm.controls.middlename.value,
           this.snilsComponent.snils,
           this.fullnameComponent.fullnameForm.controls.noMiddlename.value,
           null, null, null);
-        result.IdentityCard = new IdentityCard(this.identityCardComponent.identityCardForm);
+        result.identityCard = new IdentityCard(this.identityCardComponent.identityCardForm);
         result.citizenships = this.citizenshipSelectComponent.citizenships;
         result.countryStateApplicantDocument = this.commonService.getDocumentByType(this.confirmationDocuments, AttachmentType.CountryStateApplicantDocument);
         result.applicantRepresentParentDocument = this.commonService.getDocumentByType(this.confirmationDocuments, AttachmentType.ApplicantRepresentParent);

@@ -28,6 +28,9 @@
         </app-citizenship-select>
         <div class="row">
           <div class="col-md-12">
+            <div class="alert alert-info" *ngIf="components.length>1">
+              Внимание! Дата рождения, место рождения, гражданство и специализация по здоровью одинаковы для всех детей
+            </div>
             <birth-info>
             </birth-info>
           </div>

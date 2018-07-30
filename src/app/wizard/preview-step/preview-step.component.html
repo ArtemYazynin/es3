@@ -6,31 +6,52 @@
     <div class="widget-content">
       <div class="row">
         <div class="col-md-6" *ngIf="compilationSteps.applicant">
-          <div class="widget-box">
-            <div class="widget-content">
-              <h4>Заявитель</h4>
-              <div class="form-group">
-                <b>ФИО </b>{{drawManager.fio(compilationSteps.applicant.person)}}
-              </div>
-              <div class="form-group">
-                <b>Документ </b> {{drawManager.identityCard(compilationSteps.applicant.IdentityCard)}}
-              </div>
-              <div class="form-group">
-                <b>СНИЛС </b> {{drawManager.identityCard(compilationSteps.applicant.person.snils)}}
-              </div>
-              <div class="form-group">
-                <b>Гражданство </b> {{drawManager.identityCard(compilationSteps.applicant.citizenships)}}
-              </div>
-            </div>
-          </div>
+          <app-person-view title="Заявитель" [entity]="compilationSteps.applicant">
+            <app-confirmation-document-view title="Документ, подтверждающий полномочие доверенного лица представлять интересы законного представителя ребенка"
+              [document]="compilationSteps.applicant.applicantRepresentParentDocument">
+            </app-confirmation-document-view>
+            <app-confirmation-document-view title="Документ, подтверждающий право пребывания доверенного лица законного представителя на территории РФ"
+              [document]="compilationSteps.applicant.countryStateApplicantDocument">
+            </app-confirmation-document-view>
+          </app-person-view>
         </div>
         <div [ngClass]="parentWidgetSettings">
+          <app-person-view title="Законный представитель" [entity]="compilationSteps.parent">
+            <app-confirmation-document-view title="Документ, подтверждающий право пребывания законного представителя на территории РФ"
+              [document]="compilationSteps.parent.countryStateDocument">
+            </app-confirmation-document-view>
+            <app-confirmation-document-view title="Документ, подтверждающий право законного представителя представлять интересы ребенка"
+              [document]="compilationSteps.parent.parentRepresentChildrenDocument">
+            </app-confirmation-document-view>
+          </app-person-view>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-12">
           <div class="widget-box">
+            <div class="widget-title">
+              <h5>Ребенок/дети</h5>
+            </div>
             <div class="widget-content">
-              <h4>Законный представитель</h4>
+              <div *ngFor="let child of compilationSteps.children; let first = first;">
+                <div *ngIf="first">
+                  <div class="form-group">
+                    <b>Пол</b> {{child.gender == 1 ? "Мужской":"Женский"}}
+                  </div>
+                  <div class="form-group">
+                    <b>Дата рождения</b> {{child.birthDate | date: "dd.MM.yyyy"}}
+                  </div>
+                  <div class="form-group">
+                    <b>Место рождения</b> {{child.birthPlace}}
+                  </div>
+                </div>
+                <app-person-view title="Ребенок" [entity]="child"> </app-person-view>
+              </div>
             </div>
           </div>
         </div>
+
+
       </div>
     </div>
   </div>

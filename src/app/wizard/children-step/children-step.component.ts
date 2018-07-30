@@ -127,9 +127,9 @@ export class ChildrenStepComponent implements OnInit, AfterViewInit, StepBase {
         personForm.value["firstname"],
         personForm.value["middlename"],
         component.instance.snilsComponent.snils, personForm.value["noMiddlename"],
-        birthInfoForm.value["birthDate"].jsdate,
+        birthInfoForm.value["birthDate"],
         birthInfoForm.value["birthPlace"],
-        birthInfoForm.value["gender"]);
+        component.instance.genderComponent.gender);
     }
     return {
       back: () => {

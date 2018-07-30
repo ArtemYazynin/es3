@@ -18,11 +18,11 @@ export class CitizenshipService {
     }));
   }
 
-  hasForeignCitizenship(citizenshipSelectComponent: CitizenshipSelectComponent, countries: Array<Country>) {
-    if (!citizenshipSelectComponent || !countries || countries.length == 0) return false;
+  hasForeignCitizenship(citizenships: Array<number>, countries: Array<Country>) {
+    if (!citizenships || !countries || countries.length == 0) return false;
     let codeOfRussia = countries.find(x => x.name === "Россия").id;
     let foreignCitizenshipsExists = (() => {
-      let result = citizenshipSelectComponent.citizenships.findIndex(x => {
+      let result = citizenships.findIndex(x => {
         return x != codeOfRussia;
       });
       return result == -1 ? false : true;;

@@ -1,7 +1,9 @@
-import { Component, OnInit } from '@angular/core';
-import { StepBase, CommonService, WizardStorageService, CompilationOfWizardSteps, DrawService } from '../../shared/index';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { StepBase, CommonService, WizardStorageService, CompilationOfWizardSteps, DrawService, CitizenshipService, Country } from '../../shared/index';
 import { ActivatedRoute, Router, Params } from '@angular/router';
 import { isNullOrUndefined } from 'util';
+import { takeUntil } from 'rxjs/operators';
+import { Subject } from 'rxjs';
 
 @Component({
   selector: 'app-preview-step',
@@ -10,8 +12,8 @@ import { isNullOrUndefined } from 'util';
 })
 export class PreviewStepComponent implements OnInit, StepBase {
 
-  constructor(private router: Router, private activatedRoute: ActivatedRoute,
-    private storageService: WizardStorageService, private drawService:DrawService) { }
+  constructor(private router: Router, private activatedRoute: ActivatedRoute, private citizenshipService: CitizenshipService,
+    private storageService: WizardStorageService, private drawService: DrawService) { }
 
   inquiryType: string;
   parentWidgetSettings: object;
@@ -24,14 +26,13 @@ export class PreviewStepComponent implements OnInit, StepBase {
 
     }
   };
-  drawManager = {
-    fio:this.drawService.fio,
-    identityCard:this.drawService.identityCard
-  }
+  drawManager = this.drawService
   isValid(): boolean {
     return true;
   }
+
   ngOnInit() {
+
     this.activatedRoute.params.forEach((params: Params) => { if (params["type"]) this.inquiryType = params["type"]; });
     this.compilationSteps = this.storageService.get(this.inquiryType);
     this.parentWidgetSettings = (() => {
@@ -40,4 +41,5 @@ export class PreviewStepComponent implements OnInit, StepBase {
         : { "col-md-6": true };
     })();
   }
+
 }

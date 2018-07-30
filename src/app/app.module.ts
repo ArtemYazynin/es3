@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { NgModule } from '@angular/core';
+import { NgModule, LOCALE_ID } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 
 import { RouterModule } from "@angular/router";
@@ -22,7 +22,7 @@ import { FullNameComponent } from './person/full-name/full-name.component';
 import { BirthInfoComponent } from './person/birth-info/birth-info.component';
 import { ApplicantStepComponent } from './wizard/applicant-step/applicant-step.component';
 import { ChildrenStepComponent } from './wizard/children-step/children-step.component';
-import { EnumToArrayPipe, IdentityCardTypeFriendlyNamePipe, FormService, WizardStorageService, CitizenshipService, RelationTypeService, IdentityCardService, ParentStepService, SpecHealthService, AreaService, InstitutionService, GroupService, CommonService, PrivilegeOrderService, PrivilegeService, SpecificityService, SettingsService, DrawService } from './shared/index';
+import { EnumToArrayPipe, FormService, WizardStorageService, CitizenshipService, RelationTypeService, IdentityCardService, ParentStepService, SpecHealthService, AreaService, InstitutionService, GroupService, CommonService, PrivilegeOrderService, PrivilegeService, SpecificityService, SettingsService, DrawService } from './shared/index';
 import { MyDatePickerModule } from 'mydatepicker';
 import { TextMaskModule } from 'angular2-text-mask';
 import { CitizenshipSelectComponent } from './person/citizenship-select/citizenship-select.component';
@@ -96,6 +96,10 @@ import { SchoolInquiryInfoStepComponent } from './wizard/school-inquiry-info-ste
 import { PreschoolInstitutionStepComponent } from './wizard/preschool-institution-step/preschool-institution-step.component';
 import { FileAttachmentStepComponent } from './wizard/file-attachment-step/file-attachment-step.component';
 import { PreviewStepComponent } from './wizard/preview-step/preview-step.component';
+import { IdentityCardTypePipe } from './person/identity-card/shared/identity-card-type.pipe';
+import { ConfirmationDocumentViewComponent } from './wizard/preview/confirmation-document-view/confirmation-document-view.component';
+import { PersonViewComponent } from './wizard/preview/person-view/person-view.component';
+import { GenderComponent } from './person/gender/gender.component';
 @NgModule({
   exports: [
     // CDK
@@ -155,8 +159,13 @@ export class MaterialModule { }
 @NgModule({
   declarations: [
     AppComponent,
+  //view components//
+    ConfirmationDocumentViewComponent,
+    PersonViewComponent,
+  //end//
+    GenderComponent,
+    IdentityCardTypePipe,
     EnumToArrayPipe,
-    IdentityCardTypeFriendlyNamePipe,
     AttachmentTypePipe,
     IdentityCardComponent,
     ConfirmationDocumentComponent,
