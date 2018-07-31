@@ -1,9 +1,9 @@
 import { Component, OnInit, OnDestroy, AfterViewInit } from '@angular/core';
-import { StepBase, WizardStorageService, ApplicantType, AttachmentType, Entity, inquiryType, CommonService, FileAttachment, FileView, CompilationOfWizardSteps } from '../../shared/index';
+import { StepBase, WizardStorageService, ApplicantType, AttachmentType, Entity, inquiryType, CommonService, FileAttachment, FileView, CompilationOfWizardSteps } from '../../shared';
 import { RequestOptions, Headers, RequestOptionsArgs } from '@angular/http';
 import { HttpInterceptor } from '../../shared/http-interceptor';
 import { map, filter, takeUntil } from 'rxjs/operators';
-import { from, fromEvent, Observable, Subject, pipe, Subscription } from 'rxjs/';
+import { from, fromEvent, Observable, Subject, pipe, Subscription } from 'rxjs';
 import { ActivatedRoute, Router, Params } from '@angular/router';
 import { isNullOrUndefined } from 'util';
 

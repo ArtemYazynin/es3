@@ -1,7 +1,7 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import { Applicant, Child, CitizenshipService, Country, DrawService, Parent } from '../../../shared/index';
+import { Applicant, Child, CitizenshipService, Country, DrawService, Parent } from '../../../shared';
 
 @Component({
   selector: 'app-person-view',

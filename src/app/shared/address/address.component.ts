@@ -2,7 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Observable, Subject } from 'rxjs';
 import { debounceTime, takeUntil, filter, distinctUntilChanged } from 'rxjs/operators';
-import { AddressService, Location } from '../../shared/index';
+import { AddressService, Location } from '..';
 import { MatAutocompleteSelectedEvent } from '@angular/material';
 
 @Component({

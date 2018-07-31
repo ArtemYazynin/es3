@@ -1,4 +1,4 @@
-import { IdentityCard, IdentityCardType, FormService, Entity, IdentityCardService, IdentityCardChangeHandler } from '../../shared/index';
+import { IdentityCard, IdentityCardType, FormService, Entity, IdentityCardService, IdentityCardChangeHandler } from '../../shared';
 import { Subscription } from 'rxjs/internal/Subscription';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { Component, OnInit, Input } from '@angular/core';

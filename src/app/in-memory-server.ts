@@ -1,5 +1,5 @@
 import { InMemoryDbService } from 'angular-in-memory-web-api';
-import { RelationType, Countries, IdentityCardType, SpecHealth, Area, Entity, PrivilegeOrder, Privilege, Specificity, Settings } from './shared/index';
+import { Area, Countries, Entity, IdentityCardType, Privilege, PrivilegeOrder, RelationType, Settings, Specificity } from './shared';
 import { EnumToArrayPipe } from './shared/enum-to-array-pipe';
 
 export class InMemoryService implements InMemoryDbService {
@@ -88,7 +88,7 @@ export class InMemoryService implements InMemoryDbService {
       new Specificity("44C8880D-837E-47A1-BB6B-A893011A7631", "специфичность группы №3")
     ];
     let settings = new Settings(new Date().getFullYear(), 3);
-    
+
     return {
       heroes: heroes,
       countries: Countries,

@@ -1,11 +1,11 @@
 import { Component, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
-import { ActivatedRoute, Params, Router } from '../../../../node_modules/@angular/router';
+import { ActivatedRoute, Params, Router } from '@angular/router';
 import { ConfirmationDocumentComponent } from '../../confirmation-document/confirmation-document.component';
 import { CitizenshipSelectComponent } from '../../person/citizenship-select/citizenship-select.component';
 import { FullNameComponent } from '../../person/full-name/full-name.component';
 import { IdentityCardComponent } from '../../person/identity-card/identity-card.component';
 import { SnilsComponent } from '../../person/snils/snils.component';
-import { Applicant, ApplicantType, AttachmentType, CitizenshipService, CommonService, Country, IdentityCard, Person, StepBase, WizardStorageService } from '../../shared/index';
+import { Applicant, ApplicantType, AttachmentType, CitizenshipService, CommonService, Country, IdentityCard, Person, StepBase, WizardStorageService } from '../../shared';
 
 @Component({
   selector: 'app-applicant-step',

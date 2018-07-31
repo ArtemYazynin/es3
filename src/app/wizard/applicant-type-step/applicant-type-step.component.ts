@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
-import { ApplicantType, Entity, inquiryType, StepBase, WizardStorageService } from "../../shared/index";
+import { ApplicantType, Entity, inquiryType, StepBase, WizardStorageService } from "../../shared";
 
 @Component({
   selector: 'app-applicant-type-step',

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
-import { ApplicantType, RelationType, RelationTypeService, WizardStorageService } from '../shared/index';
+import { ApplicantType, RelationType, RelationTypeService, WizardStorageService } from '../shared';
 
 @Component({
   selector: 'app-relation-type',

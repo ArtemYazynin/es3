@@ -4,7 +4,7 @@ import { MatAutocompleteSelectedEvent } from '@angular/material';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
-import { CommonService, Institution, SettingsService, StepBase, WizardStorageService } from '../../shared/index';
+import { CommonService, Institution, SettingsService, StepBase, WizardStorageService } from '../../shared';
 
 
 @Component({

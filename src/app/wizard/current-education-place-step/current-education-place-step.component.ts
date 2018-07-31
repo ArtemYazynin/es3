@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Params, ActivatedRoute, Router } from '@angular/router';
-import { AreaService, Area, AreaType, Entity, InstitutionService, FormService, Institution, Group, GroupService, inquiryType, CurrentEducationPlaceStepService, WizardStorageService, CurrentEducationPlace, CommonService, StepBase } from '../../shared/index';
+import { AreaService, Area, AreaType, Entity, InstitutionService, FormService, Institution, Group, GroupService, inquiryType, CurrentEducationPlaceStepService, WizardStorageService, CurrentEducationPlace, CommonService, StepBase } from '../../shared';
 import { FormGroup, Validators, FormControl } from '@angular/forms';
 import { MatCheckboxChange } from '@angular/material/checkbox/typings/checkbox';
 import { Observable } from 'rxjs/internal/Observable';

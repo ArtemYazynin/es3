@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpInterceptor } from './http-interceptor';
-import { Observable } from '../../../node_modules/rxjs';
+import { Observable } from 'rxjs';
 import { Specificity } from './specificity';
-import { map } from '../../../node_modules/rxjs/operators';
+import { map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'

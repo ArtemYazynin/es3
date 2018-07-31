@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { IdentityCardType } from '../../../shared/index';
+import { IdentityCardType } from '../../../shared';
 import { FullNameComponent } from '../../../person/full-name/full-name.component';
 import { IdentityCardComponent } from '../../../person/identity-card/identity-card.component';
 import { SnilsComponent } from '../../../person/snils/snils.component';

@@ -1,8 +1,8 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { ActivatedRoute, Params, Router } from '../../../../node_modules/@angular/router';
+import { ActivatedRoute, Params, Router } from '@angular/router';
 import { AgeGroupComponent } from '../../shared/age-group/age-group.component';
 import { DistributionParamsComponent } from '../../shared/distribution-params/distribution-params.component';
-import { AgeGroup, DistributionParams, InquiryInfo, inquiryType, StayMode, StepBase, WizardStorageService } from '../../shared/index';
+import { AgeGroup, DistributionParams, InquiryInfo, inquiryType, StayMode, StepBase, WizardStorageService } from '../../shared';
 import { StayModeComponent } from '../../shared/stay-mode/stay-mode.component';
 
 @Component({

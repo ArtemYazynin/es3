@@ -12,7 +12,7 @@ import {
   Parent,
   IdentityCard,
   CommonService
-} from "../../shared/index";
+} from "../../shared";
 import { IdentityCardComponent } from '../../person/identity-card/identity-card.component';
 import { ConfirmationDocumentComponent } from '../../confirmation-document/confirmation-document.component';
 import { FullNameComponent } from '../../person/full-name/full-name.component';

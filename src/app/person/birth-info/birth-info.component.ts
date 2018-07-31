@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { Person, FormService } from '../../shared/index';
+import { Person, FormService } from '../../shared';
 
 @Component({
   selector: 'birth-info',

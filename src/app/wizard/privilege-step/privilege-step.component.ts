@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy, ViewChild, QueryList } from '@angular/core';
 import { Router, ActivatedRoute, Params } from '@angular/router';
-import { WizardStorageService, FormService, inquiryType, PrivilegeOrder, PrivilegeOrderService, Privilege, PrivilegeService, CommonService, AttachmentType, Child, ConfirmationDocument, StepBase } from '../../shared/index';
+import { WizardStorageService, FormService, inquiryType, PrivilegeOrder, PrivilegeOrderService, Privilege, PrivilegeService, CommonService, AttachmentType, Child, ConfirmationDocument, StepBase } from '../../shared';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Subscription, Observable } from 'rxjs';
 import { startWith, map } from 'rxjs/operators';

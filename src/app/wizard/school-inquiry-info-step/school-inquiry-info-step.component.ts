@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { StepBase, CommonService, Entity } from '../../shared/index';
+import { StepBase, CommonService, Entity } from '../../shared';
 import { Observable } from 'rxjs';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { startWith, map } from 'rxjs/operators';

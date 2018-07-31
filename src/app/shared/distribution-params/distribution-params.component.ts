@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, Validators, FormBuilder } from '../../../../node_modules/@angular/forms';
-import { Specificity, SpecificityService, FormService } from '../index';
+import { FormGroup, Validators, FormBuilder } from '@angular/forms';
+import { Specificity, SpecificityService, FormService } from '..';
 
 @Component({
   selector: 'app-distribution-params',

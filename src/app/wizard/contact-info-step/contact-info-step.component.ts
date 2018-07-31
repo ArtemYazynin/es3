@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, Validators, FormBuilder, ValidatorFn } from '@angular/forms';
-import { FormService, WizardStorageService, inquiryType, StepBase, ContactInfo } from '../../shared/index';
+import { FormService, WizardStorageService, inquiryType, StepBase, ContactInfo } from '../../shared';
 import { MatCheckboxChange } from '@angular/material';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 

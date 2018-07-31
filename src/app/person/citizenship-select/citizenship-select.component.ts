@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Country, CitizenshipService } from '../../shared/index';
+import { Country, CitizenshipService } from '../../shared';
 
 @Component({
   selector: 'app-citizenship-select',

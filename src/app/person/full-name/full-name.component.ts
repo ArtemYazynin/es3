@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ValidatorFn } from '@angular/forms';
-import { FormService, Person } from '../../shared/index';
+import { FormService, Person } from '../../shared';
 import { Subscription } from 'rxjs/internal/Subscription';
 
 @Component({

@@ -5,7 +5,7 @@ import {
     ChangeToOfficerId, ChangeToTemporaryId, ChangeToApplyingForRefugeeStatus, ChangeToForeignBirthCertificate, ChangeToImmigrantId,
     ChangeToForeignPassport, ChangeToObtainingCitizenshipInProgress, ChangeToReceivedTemporaryAsylum, ChangeToPermissionForTemporaryResidence,
     ChangeToRefugeeId, ChangeToCertificateOfExaminationOfAnApplicationForRecognitionRefugee, ChangeToResidencePermit, ChangeToWithoutCitizenId
-} from "./identityCardChangeHandlers/index";
+} from "./identityCardChangeHandlers";
 
 export class IdentityCardChangeHandler {
     private fieldSet: any;

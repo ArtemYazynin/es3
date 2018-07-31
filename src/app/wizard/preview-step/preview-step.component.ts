@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { StepBase, CommonService, WizardStorageService, CompilationOfWizardSteps, DrawService, CitizenshipService, Country } from '../../shared/index';
+import { StepBase, CommonService, WizardStorageService, CompilationOfWizardSteps, DrawService, CitizenshipService, Country } from '../../shared';
 import { ActivatedRoute, Router, Params } from '@angular/router';
 import { isNullOrUndefined } from 'util';
 import { takeUntil } from 'rxjs/operators';

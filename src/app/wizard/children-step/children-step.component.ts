@@ -3,7 +3,7 @@ import { ActivatedRoute, Params, Router } from '@angular/router';
 import { isNullOrUndefined } from 'util';
 import { BirthInfoComponent } from '../../person/birth-info/birth-info.component';
 import { CitizenshipSelectComponent } from '../../person/citizenship-select/citizenship-select.component';
-import { Child, CitizenshipService, CommonService, ConfirmationDocument, Country, IdentityCard, Person, StepBase, WizardStorageService } from '../../shared/index';
+import { Child, CitizenshipService, CommonService, ConfirmationDocument, Country, IdentityCard, Person, StepBase, WizardStorageService } from '../../shared';
 import { SpecHealthComponent } from '../../spec-health/spec-health.component';
 import { ChildComponent } from './child/child.component';
 
