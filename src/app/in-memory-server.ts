@@ -88,6 +88,7 @@ export class InMemoryService implements InMemoryDbService {
       new Specificity("44C8880D-837E-47A1-BB6B-A893011A7631", "специфичность группы №3")
     ];
     let settings = new Settings(new Date().getFullYear(), 3);
+    
     return {
       heroes: heroes,
       countries: Countries,

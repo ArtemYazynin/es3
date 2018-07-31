@@ -1,0 +1,58 @@
+<div class="row">
+  <div class="col-md-12">
+    <div class="widget-box">
+      <div class="widget-title">
+        <h5>Адрес регистрации</h5>
+      </div>
+      <div class="widget-content">
+        <form [formGroup]="addressForm">
+          <div class="form-group">
+            <mat-form-field class="full-width">
+              <input type="text" placeholder="Регион" matInput formControlName="region" [matAutocomplete]="regionAuto">
+              <mat-autocomplete #regionAuto="matAutocomplete" [displayWith]="displayFn" (optionSelected)="onChange.region($event)">
+                <mat-option value="">Не выбрано</mat-option>
+                <mat-option *ngFor="let option of regions | async" [value]="option">
+                  {{option.fullName || option.name}}
+                </mat-option>
+              </mat-autocomplete>
+            </mat-form-field>
+          </div>
+          <div class="form-group" [hidden]="!addressForm.get('region').value">
+              <mat-form-field class="full-width">
+                <input type="text" placeholder="Город" matInput formControlName="city" [matAutocomplete]="cityAuto">
+                <mat-autocomplete #cityAuto="matAutocomplete" [displayWith]="displayFn" (optionSelected)="onChange.city($event)">
+                  <mat-option>Не выбрано</mat-option>
+                  <mat-option *ngFor="let option of cities | async" [value]="option">
+                    {{option.fullName || option.name}}
+                  </mat-option>
+                </mat-autocomplete>
+              </mat-form-field>
+            </div>
+        </form>
+        <div>
+          <span>
+            <b>{{addressForm.value | json}}</b>
+          </span>
+          <br>
+          <span>addressForm.status:
+            <b>{{addressForm.status | json}}</b>
+          </span>
+          <br>
+        </div>
+        <!-- <div class="form-group">
+            <mat-form-field class="full-width">
+              <input type="text" placeholder="Муниципалитет" matInput formControlName="municipality" [matAutocomplete]="auto" >
+              <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn" (optionSelected)="onChange.municipality($event)">
+                <mat-option *ngFor="let option of filteredMunicipalities | async" [value]="option">
+                  {{option.name}}
+                </mat-option>
+              </mat-autocomplete>
+            </mat-form-field>
+            <div *ngIf="formErrors.municipality" class="alert alert-danger">
+              {{ formErrors.municipality }}0
+            </div>
+          </div> -->
+      </div>
+    </div>
+  </div>
+</div>

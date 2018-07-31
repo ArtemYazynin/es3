@@ -15,6 +15,7 @@ export * from "./relationTypes/relation-type";
 //
 
 export * from "./entity";
+export * from "./location";
 export * from "./inquiry-info";
 export * from "./age-group";
 export * from "./distribution-params";
@@ -43,6 +44,7 @@ export * from "./confirmation-document";
 export * from "./person";
 export * from "./parent";
 export * from "../area/shared/area.service";
+export * from "./address.service";
 export * from "./form.service";
 export * from "./draw.service";
 export * from "./institution.service";

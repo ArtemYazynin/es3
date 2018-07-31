@@ -11,6 +11,7 @@ import { SchoolInquiryInfoStepComponent } from "./wizard/school-inquiry-info-ste
 import { PreschoolInstitutionStepComponent } from "./wizard/preschool-institution-step/preschool-institution-step.component";
 import { FileAttachmentStepComponent } from "./wizard/file-attachment-step/file-attachment-step.component";
 import { PreviewStepComponent } from "./wizard/preview-step/preview-step.component";
+import { AddressComponent } from "./shared/address/address.component";
 export const routes: Routes = [
     {
         path: "",
@@ -29,6 +30,7 @@ export const routes: Routes = [
     { path: "wizard/:type/preschoolInstitutionStep", component: PreschoolInstitutionStepComponent },
     { path: "wizard/:type/fileAttachmentStep", component: FileAttachmentStepComponent },
     { path: "wizard/:type/previewStep", component: PreviewStepComponent },
+    { path: "wizard/:type/addressTest", component: AddressComponent },
     // { path: "products/edit/:id", component: ProductCreateEditComponent},
     // { path: "products/create", component: ProductCreateEditComponent},
     // { path: "products/delete/:id", component: ProductDeleteComponent}

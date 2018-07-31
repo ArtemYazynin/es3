@@ -10,7 +10,6 @@ import {
   AttachmentType,
   StepBase,
   Parent,
-  Person,
   IdentityCard,
   CommonService
 } from "../../shared/index";

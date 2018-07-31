@@ -1,5 +1,5 @@
 <form [formGroup]="form" novalidate>
-  <div [formArrayName]="'items'">
+  <div [formArrayName]="'items'" *ngIf="form.controls">
     <div *ngFor="let control of form.controls.items.controls; let i = index;" [formGroup]="control">
       <mat-checkbox formControlName="checkbox">{{ control.controls.text.value }}</mat-checkbox>
     </div>

@@ -4,7 +4,7 @@ import { NgModule, LOCALE_ID } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 
 import { RouterModule } from "@angular/router";
-import { HttpModule } from "@angular/http";
+import { HttpModule, JsonpModule } from "@angular/http";
 
 import { routes } from './app.routes';
 import { AppComponent } from './app.component';
@@ -100,6 +100,8 @@ import { IdentityCardTypePipe } from './person/identity-card/shared/identity-car
 import { ConfirmationDocumentViewComponent } from './wizard/preview/confirmation-document-view/confirmation-document-view.component';
 import { PersonViewComponent } from './wizard/preview/person-view/person-view.component';
 import { GenderComponent } from './person/gender/gender.component';
+import { AddressComponent } from './shared/address/address.component';
+import { AddressService } from './shared/address.service';
 @NgModule({
   exports: [
     // CDK
@@ -163,6 +165,7 @@ export class MaterialModule { }
     ConfirmationDocumentViewComponent,
     PersonViewComponent,
   //end//
+    AddressComponent,
     GenderComponent,
     IdentityCardTypePipe,
     EnumToArrayPipe,
@@ -204,6 +207,7 @@ export class MaterialModule { }
     ReactiveFormsModule,
     RouterModule.forRoot(routes),
     HttpModule,
+    JsonpModule,
     HttpClientModule,
     InMemoryWebApiModule.forRoot(InMemoryService),
   ],
@@ -225,7 +229,8 @@ export class MaterialModule { }
     PrivilegeService,
     SpecificityService,
     SettingsService,
-    DrawService
+    DrawService,
+    AddressService
   ],
   entryComponents: [ChildComponent],
   bootstrap: [AppComponent]
