@@ -1,9 +1,11 @@
 import { AfterViewInit, ChangeDetectorRef, Component, ComponentFactory, ComponentFactoryResolver, ComponentRef, OnInit, ViewChild, ViewContainerRef } from '@angular/core';
+import { FormBuilder } from '@angular/forms';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { isNullOrUndefined } from 'util';
+import { ConfirmationDocumentComponent } from '../../confirmation-document/confirmation-document.component';
 import { BirthInfoComponent } from '../../person/birth-info/birth-info.component';
 import { CitizenshipSelectComponent } from '../../person/citizenship-select/citizenship-select.component';
-import { Child, CitizenshipService, CommonService, ConfirmationDocument, Country, IdentityCard, Person, StepBase, WizardStorageService } from '../../shared';
+import { Child, CitizenshipService, CommonService, CompilationOfWizardSteps, ConfirmationDocument, FormService, IdentityCard, Person, StepBase, WizardStorageService } from '../../shared';
 import { SpecHealthComponent } from '../../spec-health/spec-health.component';
 import { ChildComponent } from './child/child.component';
 
@@ -13,17 +15,17 @@ import { ChildComponent } from './child/child.component';
   styleUrls: ['./children-step.component.css']
 })
 export class ChildrenStepComponent implements OnInit, AfterViewInit, StepBase {
-
   @ViewChild("childContainer", { read: ViewContainerRef }) viewContainer;
   @ViewChild(BirthInfoComponent) birthInfoComponent: BirthInfoComponent;
   @ViewChild(CitizenshipSelectComponent) citizenshipSelectComponent: CitizenshipSelectComponent;
   @ViewChild(SpecHealthComponent) specHealthComponent: SpecHealthComponent;
-  componentRef: ComponentRef<ChildComponent>;
+  private compilationOfWizardSteps: CompilationOfWizardSteps;
   components: Array<ComponentRef<ChildComponent>> = [];
   inquiryType: string;
 
   constructor(private activatedRoute: ActivatedRoute, private router: Router, private resolver: ComponentFactoryResolver, private storageService: WizardStorageService,
-    private cd: ChangeDetectorRef, private citizenshipService: CitizenshipService,private commonService:CommonService) { }
+    private cd: ChangeDetectorRef, private citizenshipService: CitizenshipService, private commonService: CommonService,
+    private fb: FormBuilder, private formService: FormService) { }
 
   isValid(): boolean {
     let isValid = {
@@ -70,7 +72,7 @@ export class ChildrenStepComponent implements OnInit, AfterViewInit, StepBase {
     }
     return isValid.children() && isValid.birthInfo() && isValid.citizenships() && isValid.specHealthDocument();
   }
-  navBarManager = ((context) => {
+  navBarManager = (() => {
     let hideChildren = () => {
       this.components.forEach(x => x.instance.show = false);
     }
@@ -80,10 +82,10 @@ export class ChildrenStepComponent implements OnInit, AfterViewInit, StepBase {
     }
     let add = () => {
       hideChildren()
-      const factory: ComponentFactory<ChildComponent> = context.resolver.resolveComponentFactory(ChildComponent);
-      context.componentRef = context.viewContainer.createComponent(factory);
-      context.componentRef.instance.show = true;
-      context.components.push(context.componentRef);
+      const factory: ComponentFactory<ChildComponent> = this.resolver.resolveComponentFactory(ChildComponent);
+      let componentRef = this.viewContainer.createComponent(factory);
+      componentRef.instance.show = true;
+      this.components.push(componentRef);
     }
     let getTitle = (component: ComponentRef<ChildComponent>) => {
       return component.instance.fullnameComponent && component.instance.fullnameComponent.fullnameForm
@@ -118,7 +120,7 @@ export class ChildrenStepComponent implements OnInit, AfterViewInit, StepBase {
       select: select,
       getTitle: getTitle
     };
-  })(this);
+  })();
   goTo = (() => {
     let getPerson = (component: ComponentRef<ChildComponent>): Person => {
       const personForm = component.instance.fullnameComponent.fullnameForm;
@@ -138,14 +140,14 @@ export class ChildrenStepComponent implements OnInit, AfterViewInit, StepBase {
       next: () => {
         if (!this.isValid()) return;
         let children: Array<Child> = [];
-        this.components.forEach((x,i) => {
+        this.components.forEach((x, i) => {
           const specHealthDocument = this.specHealthComponent.specHealth == 101
             ? null
-            : ((context) => {
-              const form = context.specHealthComponent.documentComponents["_results"][i].confirmationDocumentForm;            
+            : (() => {
+              const form = this.specHealthComponent.documentComponents["_results"][i].confirmationDocumentForm;
               return new ConfirmationDocument(form.value["name"], form.value["series"], form.value["number"],
                 form.value["dateIssue"], form.value["dateExpired"])
-            })(this);
+            })();
           const person = getPerson(x);
           const identityCard = new IdentityCard(x.instance.identityCardComponent.identityCardForm);
           let child = new Child(person.lastname, person.firstname, person.middlename, person.snils, person.noMiddlename, person.birthDate, person.birthPlace,
@@ -163,15 +165,61 @@ export class ChildrenStepComponent implements OnInit, AfterViewInit, StepBase {
 
 
   ngOnInit() {
-    this.navBarManager.add();
     this.activatedRoute.params.forEach((params: Params) => {
       if (params["type"]) {
         this.inquiryType = params["type"];
       }
     });
+    this.compilationOfWizardSteps = this.storageService.get(this.inquiryType);
   }
 
   ngAfterViewInit() {
+
+    if (this.compilationOfWizardSteps.children.length == 0) return;
+    this.birthInfoComponent.birthInfoForm.patchValue({
+      birthDate: this.compilationOfWizardSteps.children[0].birthDate,
+      birthPlace: this.compilationOfWizardSteps.children[0].birthPlace
+    });
+    this.specHealthComponent.specHealth = this.compilationOfWizardSteps.children[0].specHealth;
+    this.citizenshipSelectComponent.citizenships = this.compilationOfWizardSteps.children[0].citizenships;
+    let setActiveChild = (componentRef, index) => {
+      if (index + 1 == this.compilationOfWizardSteps.children.length) {
+        componentRef.instance.show = true;
+      }
+    }
+
+    this.compilationOfWizardSteps.children.forEach((child, index) => {
+      const factory: ComponentFactory<ChildComponent> = this.resolver.resolveComponentFactory(ChildComponent);
+      let componentRef = <ComponentRef<ChildComponent>>this.viewContainer.createComponent(factory);
+      componentRef.instance.snilsComponent.snils = child.snils;
+      componentRef.instance.genderComponent.gender = child.gender
+
+
+      componentRef.instance.fullnameComponent.fullnameForm.patchValue({
+        lastname: child.lastname,
+        firstname: child.firstname,
+        middlename: child.middlename,
+        noMiddlename: child.noMiddlename
+      });
+
+      componentRef.instance.identityCardComponent.identityCardForm.patchValue({
+        identityCardType: child.identityCard.identityCardType,
+        name: child.identityCard.name,
+        series: child.identityCard.series,
+        number: child.identityCard.number,
+        issued: child.identityCard.issued,
+        dateIssue: child.identityCard.dateIssue,
+        dateExpired: child.identityCard.dateExpired,
+        issueDepartmentCode: child.identityCard.issueDepartmentCode,
+        actRecordNumber: child.identityCard.actRecordNumber,
+        actRecordDate: child.identityCard.actRecordDate,
+        actRecordPlace: child.identityCard.actRecordPlace,
+      });
+
+      setActiveChild(componentRef, index);
+      this.components.push(componentRef);
+    });
+
     this.cd.detectChanges();
   }
 }

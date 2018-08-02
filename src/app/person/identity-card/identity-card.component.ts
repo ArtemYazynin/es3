@@ -1,7 +1,8 @@
-import { IdentityCard, IdentityCardType, FormService, Entity, IdentityCardService, IdentityCardChangeHandler } from '../../shared';
-import { Subscription } from 'rxjs/internal/Subscription';
-import { FormGroup, FormBuilder } from '@angular/forms';
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup } from '@angular/forms';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
+import { Entity, FormService, IdentityCard, IdentityCardChangeHandler, IdentityCardService, IdentityCardType } from '../../shared';
 
 @Component({
   selector: 'identity-card',
@@ -12,11 +13,11 @@ export class IdentityCardComponent implements OnInit {
   @Input()
   ids: Array<number> = [];
 
-  private identityCardTypeSubscription: Subscription;
+  private ngUnsubscribe: Subject<any> = new Subject();
   types: Array<Entity<number>> = [];
-  mask = { 
-    issueDepartmentCodeMask: [/\d/,/\d/,/\d/,"-",/\d/,/\d/,/\d/],
-    temporaryResidenceNumber: [/\d/,/\d/,/\d/,/\d/,"-",/\d/,/\d/,/\d/,/\d/]
+  mask = {
+    issueDepartmentCodeMask: [/\d/, /\d/, /\d/, "-", /\d/, /\d/, /\d/],
+    temporaryResidenceNumber: [/\d/, /\d/, /\d/, /\d/, "-", /\d/, /\d/, /\d/, /\d/]
   };
   currentDate = new Date();
   identityCardForm: FormGroup;
@@ -41,18 +42,25 @@ export class IdentityCardComponent implements OnInit {
     }
     return result;
   })();
-  constructor(private fb: FormBuilder, private formService: FormService, private identityCardService: IdentityCardService) { }
-
-  ngOnInit() {
-    this.identityCardService.getTypes(this.ids).subscribe(result => {
-      this.types = result;
-    });
+  constructor(private fb: FormBuilder, private formService: FormService, private identityCardService: IdentityCardService) {
+    this.identityCardService.getTypes(this.ids)
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe(result => {
+        this.types = result;
+      });
     this.buildForm();
     this.subscribeToIdentityCardType();
     this.identityCardForm.patchValue({ identityCardType: IdentityCardType["Паспорт РФ"] });
   }
+
+  ngOnInit() {
+
+
+
+  }
   ngOnDestroy() {
-    this.identityCardTypeSubscription.unsubscribe();
+    this.ngUnsubscribe.next();
+    this.ngUnsubscribe.complete();
   }
 
   private buildForm() {
@@ -70,14 +78,16 @@ export class IdentityCardComponent implements OnInit {
       "actRecordPlace": ["", []],
     });
     this.identityCardForm.valueChanges
+      .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(() => {
-          this.formService.onValueChange(this.identityCardForm, this.formErrors, this.validationMessages);
-        });
+        this.formService.onValueChange(this.identityCardForm, this.formErrors, this.validationMessages);
+      });
   }
   subscribeToIdentityCardType(): void {
     let changeHandler = new IdentityCardChangeHandler(this.identityCardForm, this.isAvailable, this.validationMessages);
-    this.identityCardTypeSubscription = this.identityCardForm.get("identityCardType")
+    this.identityCardForm.get("identityCardType")
       .valueChanges
+      .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(type => {
         changeHandler.Do(parseInt(type));
       });

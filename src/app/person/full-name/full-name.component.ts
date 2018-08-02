@@ -10,7 +10,9 @@ import { Subscription } from 'rxjs/internal/Subscription';
 })
 export class FullNameComponent implements OnInit {
 
-  constructor(private fb: FormBuilder, private formService: FormService) { }
+  constructor(private fb: FormBuilder, private formService: FormService) {
+    this.buildForm();
+  }
 
   fullnameForm: FormGroup;
   formErrors = Person.getFormErrorsTemplate();
@@ -19,7 +21,7 @@ export class FullNameComponent implements OnInit {
   private noMiddlenameSubscription: Subscription;
 
   ngOnInit() {
-    this.buildForm();
+
     this.subscribeOnMiddlename();
   }
 
