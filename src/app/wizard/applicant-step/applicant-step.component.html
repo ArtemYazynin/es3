@@ -16,7 +16,7 @@
       </div>
       <app-citizenship-select>
       </app-citizenship-select>
-      <div class="row" *ngIf="isAvailable.countryStateDocument()">
+      <div class="row" [hidden]="!isAvailable.countryStateDocument()">
         <div class="col-md-12">
           <app-confirmation-document [type]="attachmentTypes.CountryStateApplicantDocument" title="Документ, подтверждающий право пребывания доверенного лица законного представителя на территории РФ">
           </app-confirmation-document>

@@ -40,7 +40,12 @@ export class ApplicantTypeStepComponent implements OnInit,StepBase {
         })();
       }
     });
-
+    this.initFromSessionStorage();
+  }
+  initFromSessionStorage(){
+    const inquiry = this.storageService.get(this.inquiryType);
+    if (inquiry && inquiry.applicantType || false)  this.applicantType = inquiry.applicantType
+   
   }
   goTo = {
     back: () => {
