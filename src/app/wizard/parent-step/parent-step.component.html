@@ -18,22 +18,23 @@
       <app-citizenship-select>
       </app-citizenship-select>
      
-      <div class="row" *ngIf="isAvailable.childApplicantInfo">
+      <div class="row" [hidden]="!isAvailable.childApplicantInfo">
         <div class="col-md-12">
           <birth-info>
           </birth-info>
         </div>
       </div>
-      <div class="row" *ngIf="isAvailable.countryStateDocument()">
+      <div class="row" [hidden]="!isAvailable.countryStateDocument()">
         <div class="col-md-12">
           <app-confirmation-document [type]="attachmentTypes.CountryStateDocument" title="Документ, подтверждающий право пребывания законного представителя на территории РФ">
           </app-confirmation-document>
         </div>
       </div>
       <app-relation-type></app-relation-type>
-      <div class="row" *ngIf="isAvailable.parentRepresentChildren()">
+      <div class="row" [hidden]="!isAvailable.parentRepresentChildren()">
         <div class="col-md-12">
-          <app-confirmation-document [type]="attachmentTypes.ParentRepresentChildren" title="Документ, подтверждающий право законного представителя представлять интересы ребенка"></app-confirmation-document>
+          <app-confirmation-document [type]="attachmentTypes.ParentRepresentChildren" title="Документ, подтверждающий право законного представителя представлять интересы ребенка">
+          </app-confirmation-document>
         </div>
       </div>
     </div>

@@ -1,10 +1,8 @@
 import { Injectable, QueryList } from '@angular/core';
-import { isNullOrUndefined } from 'util';
 import { ConfirmationDocumentComponent } from '../confirmation-document/confirmation-document.component';
 import { AttachmentType } from './attachment-type.enum';
 import { ConfirmationDocument } from './confirmation-document';
 import { Entity } from './entity';
-import { Person } from './person';
 
 @Injectable({
   providedIn: 'root'
@@ -36,4 +34,5 @@ export class CommonService {
       document.confirmationDocumentForm.controls.dateIssue.value,
       document.confirmationDocumentForm.controls.dateExpired.value)
   }
+
 }

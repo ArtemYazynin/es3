@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { Person, FormService } from '../../shared';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormService, Person } from '../../shared';
 
 @Component({
   selector: 'birth-info',
@@ -26,7 +26,7 @@ export class BirthInfoComponent implements OnInit {
         [Validators.required]
       ],
       "birthPlace": [
-        "г. Мары, респ. Туркменистан",
+        "",
         [Validators.required]
       ]
     });

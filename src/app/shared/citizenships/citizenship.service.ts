@@ -1,9 +1,8 @@
 import { Injectable } from '@angular/core';
-import { Country } from './country';
-import { HttpInterceptor } from '../http-interceptor';
 import { Observable } from 'rxjs';
 import { map } from "rxjs/operators";
-import { CitizenshipSelectComponent } from '../../person/citizenship-select/citizenship-select.component';
+import { HttpInterceptor } from '../http-interceptor';
+import { Country } from './country';
 
 @Injectable({
   providedIn: 'root'

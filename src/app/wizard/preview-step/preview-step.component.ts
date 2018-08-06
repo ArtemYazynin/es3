@@ -1,9 +1,7 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { StepBase, CommonService, WizardStorageService, CompilationOfWizardSteps, DrawService, CitizenshipService, Country } from '../../shared';
-import { ActivatedRoute, Router, Params } from '@angular/router';
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Params, Router } from '@angular/router';
 import { isNullOrUndefined } from 'util';
-import { takeUntil } from 'rxjs/operators';
-import { Subject } from 'rxjs';
+import { CitizenshipService, CompilationOfWizardSteps, DrawService, StepBase, WizardStorageService } from '../../shared';
 
 @Component({
   selector: 'app-preview-step',

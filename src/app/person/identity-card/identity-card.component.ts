@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, OnDestroy } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
@@ -9,7 +9,7 @@ import { Entity, FormService, IdentityCard, IdentityCardChangeHandler, IdentityC
   templateUrl: './identity-card.component.html',
   styleUrls: ['./identity-card.component.css']
 })
-export class IdentityCardComponent implements OnInit {
+export class IdentityCardComponent implements OnInit,OnDestroy {
   @Input()
   ids: Array<number> = [];
 

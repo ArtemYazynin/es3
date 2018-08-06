@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
+import { Subscription } from 'rxjs';
 import { ApplicantType, RelationType, RelationTypeService, WizardStorageService } from '../shared';
 
 @Component({
@@ -7,13 +8,12 @@ import { ApplicantType, RelationType, RelationTypeService, WizardStorageService 
   templateUrl: './relation-type.component.html',
   styleUrls: ['./relation-type.component.css']
 })
-export class RelationTypeComponent implements OnInit {
+export class RelationTypeComponent implements OnInit, OnDestroy {
   private inquiryType: string;
+  private subscription: Subscription;
   relationTypes: Array<RelationType> = [];
   relationType: RelationType;
   isAvailable: boolean = false;
-  constructor(private relationTypeService: RelationTypeService, private storageService: WizardStorageService, private activatedRoute: ActivatedRoute) { }
-
   ngOnInit() {
     this.activatedRoute.params.forEach((params: Params) => {
       if (params["type"]) {
@@ -22,11 +22,15 @@ export class RelationTypeComponent implements OnInit {
     });
     this.isAvailable = this.storageService.get(this.inquiryType).applicantType !== ApplicantType["Ребенок-заявитель"];
 
-    if (!this.isAvailable) return; 
+    if (!this.isAvailable) return;
 
-    this.relationTypeService.get().subscribe(result => {
+    this.subscription = this.relationTypeService.get().subscribe(result => {
       this.relationTypes = result;
-      this.relationType = this.relationTypes[0];
+      if (this.relationType) this.relationType = this.relationTypes.find(x => x.id == this.relationType.id);
     });
   }
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
+  }
+  constructor(private relationTypeService: RelationTypeService, private storageService: WizardStorageService, private activatedRoute: ActivatedRoute) { }
 }

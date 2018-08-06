@@ -1,26 +1,15 @@
-import { Component, OnInit, ViewChild, ViewChildren, QueryList } from '@angular/core';
-import { Router, ActivatedRoute, Params } from '@angular/router';
-import {
-  IdentityCardType,
-  CitizenshipService,
-  ApplicantType,
-  Country,
-  WizardStorageService,
-  Entity,
-  AttachmentType,
-  StepBase,
-  Parent,
-  IdentityCard,
-  CommonService
-} from "../../shared";
-import { IdentityCardComponent } from '../../person/identity-card/identity-card.component';
+import { AfterViewInit, ChangeDetectorRef, Component, OnDestroy, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
+import { ActivatedRoute, Params, Router } from '@angular/router';
+import { Subscription } from 'rxjs';
 import { ConfirmationDocumentComponent } from '../../confirmation-document/confirmation-document.component';
-import { FullNameComponent } from '../../person/full-name/full-name.component';
 import { BirthInfoComponent } from '../../person/birth-info/birth-info.component';
 import { CitizenshipSelectComponent } from '../../person/citizenship-select/citizenship-select.component';
-import { RelationTypeComponent } from '../../relation-type/relation-type.component';
-import { SnilsComponent } from '../../person/snils/snils.component';
+import { FullNameComponent } from '../../person/full-name/full-name.component';
 import { GenderComponent } from '../../person/gender/gender.component';
+import { IdentityCardComponent } from '../../person/identity-card/identity-card.component';
+import { SnilsComponent } from '../../person/snils/snils.component';
+import { RelationTypeComponent } from '../../relation-type/relation-type.component';
+import { ApplicantType, AttachmentType, CitizenshipService, CommonService, CompilationOfWizardSteps, Country, Entity, FormService, IdentityCard, IdentityCardType, Parent, StepBase, WizardStorageService } from "../../shared/index";
 
 @Component({
   moduleId: module.id,
@@ -28,7 +17,7 @@ import { GenderComponent } from '../../person/gender/gender.component';
   templateUrl: './parent-step.component.html',
   styleUrls: ['./parent-step.component.css']
 })
-export class ParentStepComponent implements OnInit, StepBase {
+export class ParentStepComponent implements OnInit, AfterViewInit, OnDestroy, StepBase {
   @ViewChild(GenderComponent) gendercomponent: GenderComponent;
   @ViewChild(SnilsComponent) snilsComponent: SnilsComponent;
   @ViewChild(IdentityCardComponent) identityCardComponent: IdentityCardComponent;
@@ -38,6 +27,49 @@ export class ParentStepComponent implements OnInit, StepBase {
   @ViewChild(RelationTypeComponent) relationTypeComponent: RelationTypeComponent;
   @ViewChildren(ConfirmationDocumentComponent) confirmationDocuments: QueryList<ConfirmationDocumentComponent>
 
+  ngOnInit() {
+    this.subscription = this.citizenshipService.getCountries().subscribe(result => this.countries = result);
+
+    this.activatedRoute.params.forEach((params: Params) => params["type"] ? this.inquiryType = params["type"] : undefined);
+    this.applicantType = this.storageService.get(this.inquiryType).applicantType;
+    this.isAvailable.childApplicantInfo = this.applicantType === ApplicantType["Ребенок-заявитель"];
+
+    this.inquiry = <CompilationOfWizardSteps>this.storageService.get(this.inquiryType);
+    if (!this.inquiry || !this.inquiry.parent) return;
+    this.agree = true;
+    this.snilsComponent.snils = this.inquiry.parent.snils;
+    this.citizenshipSelectComponent.citizenships = this.inquiry.parent.citizenships;
+    this.formService.patchFullnameForm(this.fullnameComponent.fullnameForm, this.inquiry.parent);
+    this.formService.patchIdentityCardForm(this.identityCardComponent.identityCardForm, this.inquiry.parent.identityCard);
+    this.gendercomponent.gender = this.inquiry.parent.gender;
+    if (this.birthInfoComponent.birthInfoForm) {
+      this.birthInfoComponent.birthInfoForm.patchValue({
+        birthDate: this.inquiry.parent.birthDate,
+        birthPlace: this.inquiry.parent.birthPlace
+      });
+    }
+    this.relationTypeComponent.relationType = this.inquiry.parent.relationType;
+
+  }
+  ngAfterViewInit(): void {
+    if (!this.inquiry.parent) return;
+
+    this.formService.patchDocumentForm(this.confirmationDocuments.find(x => x.type == AttachmentType.ParentRepresentChildren).confirmationDocumentForm,
+      this.inquiry.parent.parentRepresentChildrenDocument);
+
+    this.formService.patchDocumentForm(this.confirmationDocuments.find(x => x.type == AttachmentType.CountryStateDocument).confirmationDocumentForm,
+      this.inquiry.parent.countryStateDocument);
+    this.cdr.detectChanges();
+  }
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
+  }
+  constructor(private storageService: WizardStorageService, private commonService: CommonService, private formService: FormService,
+    private citizenshipService: CitizenshipService, private cdr: ChangeDetectorRef,
+    private router: Router, private activatedRoute: ActivatedRoute) { }
+
+  private subscription: Subscription;
+  private inquiry: CompilationOfWizardSteps;
   applicantType: ApplicantType;
   attachmentTypes = AttachmentType;
   agree: boolean = false;
@@ -116,26 +148,6 @@ export class ParentStepComponent implements OnInit, StepBase {
     childApplicantInfo: false
   }
 
-  constructor(private storageService: WizardStorageService, private commonService: CommonService,
-    private citizenshipService: CitizenshipService,
-    private router: Router, private activatedRoute: ActivatedRoute) { }
-
-  ngOnInit() {
-
-
-    this.citizenshipService.getCountries().subscribe(result => {
-      this.countries = result;
-    });
-
-    this.activatedRoute.params.forEach((params: Params) => {
-      if (params["type"]) {
-        this.inquiryType = params["type"];
-        this.applicantType = this.storageService.get(this.inquiryType).applicantType;
-        this.isAvailable.childApplicantInfo = this.applicantType === ApplicantType["Ребенок-заявитель"];
-      }
-    });
-  }
-
   goTo = {
     back: () => {
       if (this.applicantType == ApplicantType["Доверенное лицо законного представителя ребенка"]) {
@@ -146,7 +158,7 @@ export class ParentStepComponent implements OnInit, StepBase {
     },
     next: () => {
       let parent = (() => {
-        
+
         let birthInfo = (() => {
           if (!this.birthInfoComponent) return {};
           return {
@@ -164,9 +176,12 @@ export class ParentStepComponent implements OnInit, StepBase {
           this.gendercomponent.gender);
         result.identityCard = new IdentityCard(this.identityCardComponent.identityCardForm);
         result.citizenships = this.citizenshipSelectComponent.citizenships;
-        result.countryStateDocument = this.commonService.getDocumentByType(this.confirmationDocuments, AttachmentType.CountryStateDocument);
+        if (this.citizenshipService.hasForeignCitizenship(result.citizenships, this.countries))
+          result.countryStateDocument = this.commonService.getDocumentByType(this.confirmationDocuments, AttachmentType.CountryStateDocument);
+
         result.relationType = this.relationTypeComponent.relationType;
-        result.parentRepresentChildrenDocument = this.commonService.getDocumentByType(this.confirmationDocuments, AttachmentType.ParentRepresentChildren);
+        if (result.relationType.confirmationDocument)
+          result.parentRepresentChildrenDocument = this.commonService.getDocumentByType(this.confirmationDocuments, AttachmentType.ParentRepresentChildren);
         return result;
       })();
       this.storageService.set(this.inquiryType, { parent: parent });

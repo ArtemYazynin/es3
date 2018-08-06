@@ -32,7 +32,6 @@ export class IdentityCard {
         this.actRecordDate = fg.value["actRecordDate"]; 
         this.actRecordPlace = fg.value["actRecordPlace"]; 
     }
-
     static getFields(){
         return [
             "name", 

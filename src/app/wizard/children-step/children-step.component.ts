@@ -19,7 +19,7 @@ export class ChildrenStepComponent implements OnInit, AfterViewInit, StepBase {
   @ViewChild(BirthInfoComponent) birthInfoComponent: BirthInfoComponent;
   @ViewChild(CitizenshipSelectComponent) citizenshipSelectComponent: CitizenshipSelectComponent;
   @ViewChild(SpecHealthComponent) specHealthComponent: SpecHealthComponent;
-  private compilationOfWizardSteps: CompilationOfWizardSteps;
+  private inquiry: CompilationOfWizardSteps;
   components: Array<ComponentRef<ChildComponent>> = [];
   inquiryType: string;
 
@@ -170,53 +170,30 @@ export class ChildrenStepComponent implements OnInit, AfterViewInit, StepBase {
         this.inquiryType = params["type"];
       }
     });
-    this.compilationOfWizardSteps = this.storageService.get(this.inquiryType);
+    this.inquiry = this.storageService.get(this.inquiryType);
   }
 
   ngAfterViewInit() {
 
-    if (this.compilationOfWizardSteps.children.length == 0) return;
+    if (this.inquiry.children.length == 0) return;
     this.birthInfoComponent.birthInfoForm.patchValue({
-      birthDate: this.compilationOfWizardSteps.children[0].birthDate,
-      birthPlace: this.compilationOfWizardSteps.children[0].birthPlace
+      birthDate: this.inquiry.children[0].birthDate,
+      birthPlace: this.inquiry.children[0].birthPlace
     });
-    this.specHealthComponent.specHealth = this.compilationOfWizardSteps.children[0].specHealth;
-    this.citizenshipSelectComponent.citizenships = this.compilationOfWizardSteps.children[0].citizenships;
-    let setActiveChild = (componentRef, index) => {
-      if (index + 1 == this.compilationOfWizardSteps.children.length) {
-        componentRef.instance.show = true;
-      }
-    }
-
-    this.compilationOfWizardSteps.children.forEach((child, index) => {
+    this.specHealthComponent.specHealth = this.inquiry.children[0].specHealth;
+    this.citizenshipSelectComponent.citizenships = this.inquiry.children[0].citizenships;
+    this.inquiry.children.forEach((child, index) => {
       const factory: ComponentFactory<ChildComponent> = this.resolver.resolveComponentFactory(ChildComponent);
       let componentRef = <ComponentRef<ChildComponent>>this.viewContainer.createComponent(factory);
       componentRef.instance.snilsComponent.snils = child.snils;
       componentRef.instance.genderComponent.gender = child.gender
+      this.formService.patchFullnameForm(componentRef.instance.fullnameComponent.fullnameForm, child);
+      this.formService.patchIdentityCardForm(componentRef.instance.identityCardComponent.identityCardForm, child.identityCard);
+      (function setActiveChild() {
+        if (index + 1 == this.inquiry.children.length)
+          componentRef.instance.show = true;
+      })();
 
-
-      componentRef.instance.fullnameComponent.fullnameForm.patchValue({
-        lastname: child.lastname,
-        firstname: child.firstname,
-        middlename: child.middlename,
-        noMiddlename: child.noMiddlename
-      });
-
-      componentRef.instance.identityCardComponent.identityCardForm.patchValue({
-        identityCardType: child.identityCard.identityCardType,
-        name: child.identityCard.name,
-        series: child.identityCard.series,
-        number: child.identityCard.number,
-        issued: child.identityCard.issued,
-        dateIssue: child.identityCard.dateIssue,
-        dateExpired: child.identityCard.dateExpired,
-        issueDepartmentCode: child.identityCard.issueDepartmentCode,
-        actRecordNumber: child.identityCard.actRecordNumber,
-        actRecordDate: child.identityCard.actRecordDate,
-        actRecordPlace: child.identityCard.actRecordPlace,
-      });
-
-      setActiveChild(componentRef, index);
       this.components.push(componentRef);
     });
 
