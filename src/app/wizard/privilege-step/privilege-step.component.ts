@@ -50,7 +50,7 @@ export class PrivilegeStepComponent implements OnInit, DoCheck, AfterViewInit, O
     this.buildForm();
     this.subscribeOnwithoutPrivilege();
     this.subscribeOnPrivilegeOrder();
-    this.privilegeOrderService.get()this.privilegeOrderService.get()
+    this.privilegeOrderService.get()
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(result => {
         this.privilegeOrders = result;
