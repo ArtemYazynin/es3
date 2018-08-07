@@ -1,11 +1,11 @@
-import { Component, OnDestroy, OnInit, ViewChild, AfterViewInit, ChangeDetectorRef, DoCheck } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, DoCheck, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute, Params, Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Observable, Subject } from 'rxjs';
-import { map, startWith, takeUntil, distinctUntilChanged } from 'rxjs/operators';
-import { ConfirmationDocumentComponent } from '../../confirmation-document/confirmation-document.component';
-import { AttachmentType, CommonService, FormService, inquiryType, Privilege, PrivilegeOrder, PrivilegeOrderService, PrivilegeService, StepBase, WizardStorageService, CompilationOfWizardSteps } from '../../shared';
+import { distinctUntilChanged, map, startWith, takeUntil } from 'rxjs/operators';
 import { isNullOrUndefined } from 'util';
+import { ConfirmationDocumentComponent } from '../../confirmation-document/confirmation-document.component';
+import { AttachmentType, CommonService, CompilationOfWizardSteps, FormService, inquiryType, Privilege, PrivilegeOrder, PrivilegeOrderService, PrivilegeService, StepBase, WizardStorageService } from '../../shared';
 
 @Component({
   selector: 'app-privilege-step',
@@ -13,15 +13,27 @@ import { isNullOrUndefined } from 'util';
   styleUrls: ['./privilege-step.component.css']
 })
 export class PrivilegeStepComponent implements OnInit, DoCheck, AfterViewInit, OnDestroy, StepBase {
+  @ViewChild(ConfirmationDocumentComponent) confirmationProofDocumentComponent: ConfirmationDocumentComponent;
+
   private ngUnsubscribe: Subject<any> = new Subject();
-  private inquiry: CompilationOfWizardSteps;
   private privileges: Array<Privilege>
+  private initializer: { privilege: () => void, document: () => void };
   showPrivilege: boolean;
   showPrivilegeOrders: boolean;
   showPrivilegeProofDocument: boolean;
   displayFn = this.commonService.displayFn;
-  private needPrivilege() {
-    return this.privilegeForm && !this.privilegeForm.controls.withoutPrivilege.value;
+  inquiryType: string;
+  privilegeForm: FormGroup;
+  privilegeOrders: Array<PrivilegeOrder> = []
+  filteredPrivileges: Observable<Array<Privilege>>;
+  attachmentTypes = AttachmentType;
+  formErrors = this.route.snapshot.data.resolved.formErrors;
+  validationMessages = this.route.snapshot.data.resolved.validationMessages;
+
+  constructor(private storageService: WizardStorageService, private formService: FormService, private fb: FormBuilder,
+    private router: Router, private activatedRoute: ActivatedRoute, private privilegeOrderService: PrivilegeOrderService,
+    private privilegeService: PrivilegeService, private commonService: CommonService, private cdr: ChangeDetectorRef,
+    private route: ActivatedRoute) {
   }
 
   ngDoCheck(): void {
@@ -30,45 +42,22 @@ export class PrivilegeStepComponent implements OnInit, DoCheck, AfterViewInit, O
     this.showPrivilegeProofDocument = this.showPrivilege && !!this.privilegeForm.controls.privilege.value;
   }
   ngAfterViewInit(): void {
-    if (this.inquiry && this.inquiry.privilege && this.inquiry.privilege.privilegeProofDocument) {
-      this.confirmationProofDocumentComponent.confirmationDocumentForm.patchValue(this.inquiry.privilege.privilegeProofDocument);
-      this.cdr.detectChanges();
-    }
+    this.initializer.document();
   }
-  @ViewChild(ConfirmationDocumentComponent) confirmationProofDocumentComponent: ConfirmationDocumentComponent;
-  inquiryType: string;
-  privilegeForm: FormGroup;
-  privilegeOrders: Array<PrivilegeOrder> = []
-  filteredPrivileges: Observable<Array<Privilege>>;
-
-  constructor(private storageService: WizardStorageService, private formService: FormService, private fb: FormBuilder,
-    private router: Router, private activatedRoute: ActivatedRoute, private privilegeOrderService: PrivilegeOrderService,
-    private privilegeService: PrivilegeService, private commonService: CommonService, private cdr: ChangeDetectorRef) { }
 
   ngOnInit() {
-    this.activatedRoute.params.forEach((params: Params) => {
-      if (params["type"]) this.inquiryType = params["type"];
-    });
+    this.inquiryType = this.route.snapshot.data.resolved.inquiryType;
     this.buildForm();
     this.subscribeOnwithoutPrivilege();
     this.subscribeOnPrivilegeOrder();
-    this.privilegeOrderService.get()
+    this.privilegeOrderService.get()this.privilegeOrderService.get()
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(result => {
         this.privilegeOrders = result;
       });
+    this.initializer = this.getInitializer();
+    this.initializer.privilege();
 
-    // this.inquiry = <CompilationOfWizardSteps>this.storageService.get(this.inquiryType);
-    // if (!this.inquiry.privilege) return;
-    // if (this.inquiry.privilege) {
-    //   this.privilegeForm.patchValue({
-    //     withoutPrivilege: false,
-    //     privilegeOrder: this.inquiry.privilege.privilegeOrderId,
-    //     privilege: this.inquiry.privilege
-    //   });
-    // } else {
-    //   this.privilegeForm.patchValue({ withoutPrivilege: true });
-    // }
   }
   ngOnDestroy(): void {
     this.ngUnsubscribe.next();
@@ -85,24 +74,35 @@ export class PrivilegeStepComponent implements OnInit, DoCheck, AfterViewInit, O
       ? true
       : check();
   }
-  attachmentTypes = AttachmentType;
-  isVisible = (() => {
-    let privilegeOrder = () => {
-      return this.privilegeForm
-        && !this.privilegeForm.controls.withoutPrivilege.value;
-    }
-    let privilege = () => {
-      return privilegeOrder() && this.privilegeForm.controls.privilegeOrder.value
-    }
-    let privilegeProofDocument = () => {
-      return privilege() && this.privilegeForm.controls.privilege.value;
-    }
+
+  private getInitializer = () => {
+    const inquiry = <CompilationOfWizardSteps>this.storageService.get(this.inquiryType);
     return {
-      privilegeOrder: privilegeOrder,
-      privilege: privilege,
-      privilegeProofDocument: privilegeProofDocument
+      privilege: () => {
+        if (!inquiry.privilege) return;
+        if (Object.keys(inquiry.privilege).length == 0) {
+          this.privilegeForm.patchValue({ withoutPrivilege: true });
+        } else if (inquiry.privilege) {
+          this.privilegeForm.patchValue({
+            withoutPrivilege: false,
+            privilegeOrder: inquiry.privilege.privilegeOrderId,
+            privilege: inquiry.privilege
+          });
+        }
+      },
+      document: () => {
+        if (inquiry && inquiry.privilege && inquiry.privilege.privilegeProofDocument) {
+          this.confirmationProofDocumentComponent.confirmationDocumentForm.patchValue(inquiry.privilege.privilegeProofDocument);
+          this.cdr.detectChanges();
+        }
+      }
     }
-  })();
+
+  }
+
+  private needPrivilege() {
+    return this.privilegeForm && !this.privilegeForm.controls.withoutPrivilege.value;
+  }
   private reset = (() => {
     const privilegeOrder = (withoutPrivilege?) => {
       this.privilegeForm.controls.privilegeOrder.clearValidators();
@@ -134,23 +134,20 @@ export class PrivilegeStepComponent implements OnInit, DoCheck, AfterViewInit, O
     this.privilegeForm.get("privilegeOrder").valueChanges
       .pipe(takeUntil(this.ngUnsubscribe), distinctUntilChanged())
       .subscribe(val => {
-        if (isNullOrUndefined(val) || val == "") {
-
-        } else {
-          this.privilegeService.get(val)
-            .pipe(takeUntil(this.ngUnsubscribe), distinctUntilChanged())
-            .subscribe(result => {
-              this.privileges = result;
-              this.filteredPrivileges = this.privilegeForm.controls.privilege.valueChanges.pipe(
-                startWith<string | Privilege>(''),
-                map((value: Privilege) => typeof value === 'string' ? value : value.name),
-                map((name: string) => {
-                  return name ? this.commonService.autoCompliteFilter(this.privileges, name) : this.privileges.slice();
-                })
-              );
-              this.reset.privilege(this.privilegeForm.controls.withoutPrivilege.value);
-            });
-        }
+        this.reset.privilege(this.privilegeForm.controls.withoutPrivilege.value);
+        if (isNullOrUndefined(val) || val == "") return;
+        this.privilegeService.get(val)
+          .pipe(takeUntil(this.ngUnsubscribe), distinctUntilChanged())
+          .subscribe(result => {
+            this.privileges = result;
+            this.filteredPrivileges = this.privilegeForm.controls.privilege.valueChanges.pipe(
+              startWith<string | Privilege>(''),
+              map((value: Privilege) => typeof value === 'string' ? value : value.name),
+              map((name: string) => {
+                return name ? this.commonService.autoCompliteFilter(this.privileges, name) : this.privileges.slice();
+              })
+            );
+          });
 
       });
   }
@@ -165,8 +162,13 @@ export class PrivilegeStepComponent implements OnInit, DoCheck, AfterViewInit, O
     },
     next: () => {
       (() => {
-        const privilege = new Privilege(this.privilegeForm.controls.privilege.value.id, this.privilegeForm.controls.privilege.value.name, this.privilegeForm.controls.privilegeOrder.value);
-        privilege.privilegeProofDocument = this.commonService.getDocumentByType([this.confirmationProofDocumentComponent], AttachmentType.PrivilegeProofDocument);
+        let privilege: Privilege;
+        if (this.privilegeForm.controls.withoutPrivilege.value) {
+          privilege = new Privilege(undefined, undefined, undefined);
+        } else {
+          privilege = new Privilege(this.privilegeForm.controls.privilege.value.id, this.privilegeForm.controls.privilege.value.name, this.privilegeForm.controls.privilegeOrder.value);
+          privilege.privilegeProofDocument = this.commonService.getDocumentByType([this.confirmationProofDocumentComponent], AttachmentType.PrivilegeProofDocument);
+        }
         this.storageService.set(this.inquiryType, { privilege: privilege });
       })();
 
@@ -185,34 +187,9 @@ export class PrivilegeStepComponent implements OnInit, DoCheck, AfterViewInit, O
       }
     }
   }
-  formErrors = {
-    withoutPrivilege: "",
-    privilegeOrder: "",
-    privilege: ""
-  };
-  validationMessages = {
-    privilegeOrder: {
-      "required": "Обязательное поле."
-    },
-    privilege: {
-      "required": "Обязательное поле."
-    }
-  }
+
   private buildForm() {
-    this.privilegeForm = this.fb.group({
-      "withoutPrivilege": [
-        false,
-        []
-      ],
-      "privilegeOrder": [
-        "",
-        [Validators.required]
-      ],
-      "privilege": [
-        "",
-        []
-      ]
-    })
+    this.privilegeForm = this.route.snapshot.data.resolved.form;
     this.privilegeForm.valueChanges
       .pipe(takeUntil(this.ngUnsubscribe), distinctUntilChanged())
       .subscribe(() => this.formService.onValueChange(this.privilegeForm, this.formErrors, this.validationMessages, false));

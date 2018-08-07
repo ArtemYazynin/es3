@@ -12,6 +12,7 @@ import { PreschoolInstitutionStepComponent } from "./wizard/preschool-institutio
 import { FileAttachmentStepComponent } from "./wizard/file-attachment-step/file-attachment-step.component";
 import { PreviewStepComponent } from "./wizard/preview-step/preview-step.component";
 import { AddressComponent } from "./shared/address/address.component";
+import { PrivilegeStepResolver } from "./wizard/resolvers/privilege-step-resolver";
 export const routes: Routes = [
     {
         path: "",
@@ -24,7 +25,13 @@ export const routes: Routes = [
     { path: "wizard/:type/childrenStep", component: ChildrenStepComponent },
     { path: "wizard/:type/currentEducationPlaceStep", component: CurrentEducationPlaceStepComponent },
     { path: "wizard/:type/contactInfoStep", component: ContactInfoStepComponent },
-    { path: "wizard/:type/privilegeStep", component: PrivilegeStepComponent },
+    { 
+        path: "wizard/:type/privilegeStep", 
+        component: PrivilegeStepComponent, 
+        resolve: {
+            resolved:PrivilegeStepResolver
+        }
+    },
     { path: "wizard/:type/inquiryInfoStep", component: InquiryInfoStepComponent },
     { path: "wizard/:type/schoolInquiryInfoStep", component: SchoolInquiryInfoStepComponent },
     { path: "wizard/:type/preschoolInstitutionStep", component: PreschoolInstitutionStepComponent },

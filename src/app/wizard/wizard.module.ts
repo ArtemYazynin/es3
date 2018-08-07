@@ -48,6 +48,7 @@ import { PersonViewComponent } from '../wizard/preview/person-view/person-view.c
 import { PrivilegeStepComponent } from '../wizard/privilege-step/privilege-step.component';
 import { SchoolInquiryInfoStepComponent } from '../wizard/school-inquiry-info-step/school-inquiry-info-step.component';
 import { CurrentEducationPlaceStepService } from '../wizard/shared/current-education-place-step.service';
+import { PrivilegeStepResolver } from './resolvers/privilege-step-resolver';
 
 
 @NgModule({
@@ -109,6 +110,7 @@ import { CurrentEducationPlaceStepService } from '../wizard/shared/current-educa
     InMemoryWebApiModule.forRoot(InMemoryService),
   ],
   providers: [
+    PrivilegeStepResolver,
     //wizard services
     ParentStepService,
     CurrentEducationPlaceStepService,
