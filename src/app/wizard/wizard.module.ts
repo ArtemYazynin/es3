@@ -49,6 +49,7 @@ import { PrivilegeStepComponent } from '../wizard/privilege-step/privilege-step.
 import { SchoolInquiryInfoStepComponent } from '../wizard/school-inquiry-info-step/school-inquiry-info-step.component';
 import { CurrentEducationPlaceStepService } from '../wizard/shared/current-education-place-step.service';
 import { PrivilegeStepResolver } from './resolvers/privilege-step-resolver';
+import { BaseResolver } from './resolvers/base-resolver';
 
 
 @NgModule({
@@ -110,6 +111,7 @@ import { PrivilegeStepResolver } from './resolvers/privilege-step-resolver';
     InMemoryWebApiModule.forRoot(InMemoryService),
   ],
   providers: [
+    BaseResolver,
     PrivilegeStepResolver,
     //wizard services
     ParentStepService,

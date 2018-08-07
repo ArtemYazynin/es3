@@ -13,6 +13,7 @@ import { FileAttachmentStepComponent } from "./wizard/file-attachment-step/file-
 import { PreviewStepComponent } from "./wizard/preview-step/preview-step.component";
 import { AddressComponent } from "./shared/address/address.component";
 import { PrivilegeStepResolver } from "./wizard/resolvers/privilege-step-resolver";
+import { BaseResolver } from "./wizard/resolvers/base-resolver";
 export const routes: Routes = [
     {
         path: "",
@@ -32,7 +33,13 @@ export const routes: Routes = [
             resolved:PrivilegeStepResolver
         }
     },
-    { path: "wizard/:type/inquiryInfoStep", component: InquiryInfoStepComponent },
+    { 
+        path: "wizard/:type/inquiryInfoStep", 
+        component: InquiryInfoStepComponent,
+        resolve:{
+            resolved:BaseResolver
+        } 
+    },
     { path: "wizard/:type/schoolInquiryInfoStep", component: SchoolInquiryInfoStepComponent },
     { path: "wizard/:type/preschoolInstitutionStep", component: PreschoolInstitutionStepComponent },
     { path: "wizard/:type/fileAttachmentStep", component: FileAttachmentStepComponent },

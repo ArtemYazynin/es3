@@ -22,7 +22,7 @@ export class PrivilegeStepComponent implements OnInit, DoCheck, AfterViewInit, O
   showPrivilegeOrders: boolean;
   showPrivilegeProofDocument: boolean;
   displayFn = this.commonService.displayFn;
-  inquiryType: string;
+  inquiryType = this.route.snapshot.data.resolved.inquiryType;
   privilegeForm: FormGroup;
   privilegeOrders: Array<PrivilegeOrder> = []
   filteredPrivileges: Observable<Array<Privilege>>;
@@ -46,7 +46,6 @@ export class PrivilegeStepComponent implements OnInit, DoCheck, AfterViewInit, O
   }
 
   ngOnInit() {
-    this.inquiryType = this.route.snapshot.data.resolved.inquiryType;
     this.buildForm();
     this.subscribeOnwithoutPrivilege();
     this.subscribeOnPrivilegeOrder();
