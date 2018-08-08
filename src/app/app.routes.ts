@@ -26,23 +26,35 @@ export const routes: Routes = [
     { path: "wizard/:type/childrenStep", component: ChildrenStepComponent },
     { path: "wizard/:type/currentEducationPlaceStep", component: CurrentEducationPlaceStepComponent },
     { path: "wizard/:type/contactInfoStep", component: ContactInfoStepComponent },
-    { 
-        path: "wizard/:type/privilegeStep", 
-        component: PrivilegeStepComponent, 
+    {
+        path: "wizard/:type/privilegeStep",
+        component: PrivilegeStepComponent,
         resolve: {
-            resolved:PrivilegeStepResolver
+            resolved: PrivilegeStepResolver
         }
     },
-    { 
-        path: "wizard/:type/inquiryInfoStep", 
+    {
+        path: "wizard/:type/inquiryInfoStep",
         component: InquiryInfoStepComponent,
-        resolve:{
-            resolved:BaseResolver
-        } 
+        resolve: {
+            resolved: BaseResolver
+        }
     },
     { path: "wizard/:type/schoolInquiryInfoStep", component: SchoolInquiryInfoStepComponent },
-    { path: "wizard/:type/preschoolInstitutionStep", component: PreschoolInstitutionStepComponent },
-    { path: "wizard/:type/fileAttachmentStep", component: FileAttachmentStepComponent },
+    {
+        path: "wizard/:type/preschoolInstitutionStep",
+        component: PreschoolInstitutionStepComponent,
+        resolve: {
+            resolved: BaseResolver
+        }
+    },
+    {
+        path: "wizard/:type/fileAttachmentStep",
+        component: FileAttachmentStepComponent,
+        resolve: {
+            resolved: BaseResolver
+        }
+    },
     { path: "wizard/:type/previewStep", component: PreviewStepComponent },
     { path: "wizard/:type/addressTest", component: AddressComponent },
     // { path: "products/edit/:id", component: ProductCreateEditComponent},

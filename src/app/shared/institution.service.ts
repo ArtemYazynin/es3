@@ -23,4 +23,6 @@ export class InstitutionService {
       return <Array<Institution>>result.json();
     }));
   }
+
+  
 }

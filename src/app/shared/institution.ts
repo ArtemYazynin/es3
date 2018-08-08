@@ -1,5 +1,7 @@
 import { Entity } from "./entity";
 
 export class Institution extends Entity<string>{
-    institutionType:number;
+    constructor(id: string, name: string, public institutionType: number) {
+        super(id, name)
+    }
 }

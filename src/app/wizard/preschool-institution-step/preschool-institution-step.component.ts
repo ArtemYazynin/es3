@@ -1,46 +1,94 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { MatAutocompleteSelectedEvent } from '@angular/material';
-import { ActivatedRoute, Params, Router } from '@angular/router';
-import { Observable } from 'rxjs';
-import { map, startWith } from 'rxjs/operators';
-import { CommonService, Institution, SettingsService, StepBase, WizardStorageService } from '../../shared';
-
+import { ActivatedRoute, Router } from '@angular/router';
+import { Observable, Subject } from 'rxjs';
+import { map, startWith, takeUntil } from 'rxjs/operators';
+import { CommonService, Institution, InstitutionService, SettingsService, StepBase, WizardStorageService, inquiryType, CompilationOfWizardSteps } from '../../shared';
 
 @Component({
   selector: 'app-preschool-institution-step',
   templateUrl: './preschool-institution-step.component.html',
   styleUrls: ['./preschool-institution-step.component.css']
 })
-export class PreschoolInstitutionStepComponent implements OnInit, StepBase {
-  inquiryType: string;
+export class PreschoolInstitutionStepComponent implements OnInit, OnDestroy, StepBase {
+  private ngUnsubscribe: Subject<any> = new Subject();
+  inquiryType = this.route.snapshot.data.resolved.inquiryType;
   form: FormGroup;
   maxCountWishPreschoolInstitutions: number;
   displayFn = this.commonService.displayFn;
-  institutions = [
-    new Institution("0C736803-E27E-4E9E-8209-A452002DB9AA", "МКДОУ Детский сад \"Тополёк\""),
-    new Institution("0C806C63-5331-4B35-8F6F-A452002DB9B4", "МКДОУ Детский сад \"Ручеек\""),
-    new Institution("3819A224-3F46-46C2-9CC0-A452002DB9B4", "МКДОУ Детский сад \"Сказка\""),
-    new Institution("141C4B6A-6DB7-48BF-8407-A452002DB9B8", "МКДОУ Детский сад \"Фиалка\""),
-    new Institution("5403F436-6D3F-4913-8922-A452002DB9BD", "МКДОУ Детский сад \"Росинка\""),
-    new Institution("0159E3B6-B4B2-4018-9F75-A452002DB9C6", "МБДОУ №6 детский сад \"Снежинка\""),
-  ];
+  private institutions: Array<Institution>
   filteredInstitution: Observable<Array<Institution>>
   selectedInstitutions: Array<Institution> = [];
 
+  constructor(private commonService: CommonService, private fb: FormBuilder, private settingsService: SettingsService,
+    private router: Router, private route: ActivatedRoute, private storageService: WizardStorageService, private institutionService: InstitutionService) { }
+
+  ngOnInit() {
+    
+    this.institutionService.getInstitutions(this.inquiryType == inquiryType.preschool ? 1 : 2)
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe(result => {
+        this.institutions = result;
+        this.filteredInstitution = this.form.controls.institution.valueChanges.pipe(
+          startWith<string | Institution>(''),
+          map((value: Institution) => typeof value === 'string' ? value : value.name),
+          map((name: string) => {
+            return name ? this.commonService.autoCompliteFilter(this.institutions, name) : this.institutions.slice();
+          })
+        );
+        (function initFromSessionStorage(outer){
+          const inquiry = <CompilationOfWizardSteps>outer.storageService.get(outer.inquiryType);
+          if (inquiry.institutions && inquiry.institutions.length > 0) {
+            inquiry.institutions.forEach(element => {
+              outer._add(element);
+            });
+          }
+        })(this);
+      });
+    this.settingsService.get()
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe(result => {
+        this.maxCountWishPreschoolInstitutions = result.maxCountWishPreschools;
+      });
+    this.form = this.fb.group({
+      "institution": [
+        "",
+        []
+      ]
+    });
+    
+    
+  }
+  ngOnDestroy(): void {
+    this.ngUnsubscribe.next();
+    this.ngUnsubscribe.complete();
+  }
   isValid(): boolean {
     return this.selectedInstitutions.length > 0;
   }
   add(event: MatAutocompleteSelectedEvent) {
-    this.selectedInstitutions.push(event.option.value);
-    const index = this.institutions.indexOf(event.option.value);
-    this.institutions.splice(index, 1);
-    this.form.patchValue({ institution: "" });
-
-    if (this.selectedInstitutions.length >= this.maxCountWishPreschoolInstitutions) {
-      this.form.controls.institution.disable();
-    }
+    if (!event || !event.option || event.option.value) return;
+    const institution = event.option.value;
+    this._add(institution);
   }
+
+  private _add(institution: Institution) {
+    this.selectedInstitutions.push(institution);
+
+    (function removeFromInstitutionList(outer){
+      const index = outer.institutions.indexOf(institution);
+      outer.institutions.splice(index, 1);
+      outer.form.patchValue({ institution: "" });
+    })(this);
+   
+    (function disableIfMaxCountReceived(outer) {
+      if (outer.selectedInstitutions.length >= outer.maxCountWishPreschoolInstitutions) {
+        outer.form.controls.institution.disable();
+      }
+    })(this);
+  }
+
   move = (() => {
     let clone = (index: number) => {
       return Object.assign({}, this.selectedInstitutions[index]);
@@ -73,37 +121,13 @@ export class PreschoolInstitutionStepComponent implements OnInit, StepBase {
   })();
   goTo = {
     back: () => {
-      this.router.navigate(["../inquiryInfoStep"], { relativeTo: this.activatedRoute });
+      this.router.navigate(["../inquiryInfoStep"], { relativeTo: this.route });
     },
     next: () => {
-      this.storageService.set(this.inquiryType, {institutions:this.selectedInstitutions});
-      this.router.navigate(["../fileAttachmentStep"], { relativeTo: this.activatedRoute });
+      this.storageService.set(this.inquiryType, { institutions: this.selectedInstitutions });
+      this.router.navigate(["../fileAttachmentStep"], { relativeTo: this.route });
     }
   };
 
-  constructor(private commonService: CommonService, private fb: FormBuilder, private settingsService: SettingsService,
-    private router: Router, private activatedRoute: ActivatedRoute, private storageService:WizardStorageService) { }
-
-  ngOnInit() {
-    this.activatedRoute.params.forEach((params: Params) => {
-      if (params["type"]) this.inquiryType = params["type"];
-    });
-    this.settingsService.get().subscribe(result => {
-      this.maxCountWishPreschoolInstitutions = result.maxCountWishPreschools;
-    });
-    this.form = this.fb.group({
-      "institution": [
-        "",
-        []
-      ]
-    });
-    this.filteredInstitution = this.form.controls.institution.valueChanges.pipe(
-      startWith<string | Institution>(''),
-      map((value: Institution) => typeof value === 'string' ? value : value.name),
-      map((name: string) => {
-        return name ? this.commonService.autoCompliteFilter(this.institutions, name) : this.institutions.slice();
-      })
-    );
-  }
 
 }

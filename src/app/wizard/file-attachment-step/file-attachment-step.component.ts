@@ -1,11 +1,9 @@
-import { Component, OnInit, OnDestroy, AfterViewInit } from '@angular/core';
-import { StepBase, WizardStorageService, ApplicantType, AttachmentType, Entity, inquiryType, CommonService, FileAttachment, FileView, CompilationOfWizardSteps } from '../../shared';
-import { RequestOptions, Headers, RequestOptionsArgs } from '@angular/http';
-import { HttpInterceptor } from '../../shared/http-interceptor';
-import { map, filter, takeUntil } from 'rxjs/operators';
-import { from, fromEvent, Observable, Subject, pipe, Subscription } from 'rxjs';
-import { ActivatedRoute, Router, Params } from '@angular/router';
+import { AfterViewInit, Component, OnDestroy, OnInit } from '@angular/core';
+import { ActivatedRoute, Params, Router } from '@angular/router';
+import { from, fromEvent, Observable, Subject, Subscription } from 'rxjs';
+import { filter, map, takeUntil } from 'rxjs/operators';
 import { isNullOrUndefined } from 'util';
+import { ApplicantType, AttachmentType, CommonService, CompilationOfWizardSteps, Entity, FileAttachment, FileView, inquiryType, StepBase, WizardStorageService } from '../../shared';
 
 @Component({
   selector: 'app-file-attachment-step',
@@ -14,12 +12,11 @@ import { isNullOrUndefined } from 'util';
 })
 export class FileAttachmentStepComponent implements OnInit, OnDestroy, AfterViewInit, StepBase {
   private ngUnsubscribe: Subject<any> = new Subject();
-  private subscription: Subscription;
   private fileNotChoosen = "Файл не выбран";
 
-  constructor(private router: Router, private activatedRoute: ActivatedRoute, private storageService: WizardStorageService, private commonService: CommonService) { }
+  constructor(private router: Router, private route: ActivatedRoute, private storageService: WizardStorageService, private commonService: CommonService) { }
 
-  inquiryType: string;
+  inquiryType = this.route.snapshot.data.resolved.inquiryType;
   compilationSteps: CompilationOfWizardSteps;
   attachmentType = AttachmentType;
   maxFilesCount = 10;
@@ -34,13 +31,13 @@ export class FileAttachmentStepComponent implements OnInit, OnDestroy, AfterView
     back: () => {
       switch (this.inquiryType) {
         case inquiryType.preschool:
-          this.router.navigate(["../preschoolInstitutionStep"], { relativeTo: this.activatedRoute });
+          this.router.navigate(["../preschoolInstitutionStep"], { relativeTo: this.route });
           break;
         case inquiryType.school:
-          this.router.navigate(["../schoolInstitutionStep"], { relativeTo: this.activatedRoute });
+          this.router.navigate(["../schoolInstitutionStep"], { relativeTo: this.route });
           break;
         case inquiryType.healthCamp:
-          this.router.navigate(["../healthCampStep"], { relativeTo: this.activatedRoute });
+          this.router.navigate(["../healthCampStep"], { relativeTo: this.route });
           break;
 
         default:
@@ -49,16 +46,12 @@ export class FileAttachmentStepComponent implements OnInit, OnDestroy, AfterView
     },
     next: () => {
       const data = this.bunchOfFileView.map(x => x.fileAttachment).filter(x => x.file != null);
-      this.storageService.set(this.inquiryType, { files: data });
-      this.router.navigate(["../previewStep"], { relativeTo: this.activatedRoute });
+      this.router.navigate(["../previewStep"], { relativeTo: this.route });
     }
   };
 
 
   ngOnInit() {
-    this.activatedRoute.params.forEach((params: Params) => {
-      if (params["type"]) this.inquiryType = params["type"];
-    });
     this.compilationSteps = this.storageService.get(this.inquiryType);
     this.initFiles();
   }
@@ -68,7 +61,6 @@ export class FileAttachmentStepComponent implements OnInit, OnDestroy, AfterView
       .subscribe(() => {
         if (this.bunchOfFileView.length >= this.maxFilesCount)
           return;
-        this.subscription.unsubscribe();
         this.bunchOfFileView.push(new FileView(this.fileNotChoosen, this.bunchOfFileView.length, new FileAttachment(AttachmentType.Other, null)));
         setTimeout(() => {
           this.subscribeFileChange();
@@ -77,8 +69,9 @@ export class FileAttachmentStepComponent implements OnInit, OnDestroy, AfterView
     this.subscribeFileChange();
   }
   private subscribeFileChange() {
-    this.subscription = fromEvent(document.getElementsByName("file"), "change")
+    fromEvent(document.getElementsByName("file"), "change")
       .pipe(
+        takeUntil(this.ngUnsubscribe),
         filter(event => {
           return event.target["files"] != undefined;
         }),
@@ -105,7 +98,6 @@ export class FileAttachmentStepComponent implements OnInit, OnDestroy, AfterView
       });
   }
   ngOnDestroy(): void {
-    this.subscription.unsubscribe();
     this.ngUnsubscribe.next();
     this.ngUnsubscribe.complete();
   }
@@ -142,30 +134,24 @@ export class FileAttachmentStepComponent implements OnInit, OnDestroy, AfterView
     return from([this.compilationSteps.applicantType])
       .pipe(map(applicantType => {
         let attachmentTypes: Array<AttachmentType> = [];
-        if (this.compilationSteps.privilege) {
-          attachmentTypes.push(AttachmentType.PrivilegeProofDocument);
-        }
-        if (this.compilationSteps.children.length > 0 && this.compilationSteps.children[0].specHealthDocument) {
-          attachmentTypes.push(AttachmentType.SpecHealthDocument);
+        if (!this.compilationSteps) return attachmentTypes;
+
+        const hasParent = !!this.compilationSteps.parent;
+        const pushParentDocuments = ()=>{
+          if (hasParent && this.compilationSteps.parent.parentRepresentChildrenDocument)
+          attachmentTypes.push(AttachmentType.ParentRepresentChildren);
+          if (hasParent && this.compilationSteps.parent.countryStateDocument)
+            attachmentTypes.push(AttachmentType.CountryStateDocument);
         }
         switch (applicantType) {
           case ApplicantType["Законный представитель ребенка"]:
             attachmentTypes.push(AttachmentType.ParentIdentityCard, AttachmentType.ChildBirthdateCertificate);
-            if (this.compilationSteps.parent.parentRepresentChildrenDocument)
-              attachmentTypes.push(AttachmentType.ParentRepresentChildren);
-            if (this.compilationSteps.parent.countryStateDocument)
-              attachmentTypes.push(AttachmentType.CountryStateDocument);
+            pushParentDocuments();
             break;
           case ApplicantType["Доверенное лицо законного представителя ребенка"]:
             attachmentTypes.push(AttachmentType.ParentIdentityCard, AttachmentType.ChildBirthdateCertificate,
               AttachmentType.ApplicantIdentityCard, AttachmentType.ApplicantRepresentParent);
-
-            if (this.compilationSteps.parent.parentRepresentChildrenDocument)
-              attachmentTypes.push(AttachmentType.ParentRepresentChildren);
-
-            if (this.compilationSteps.parent.countryStateDocument)
-              attachmentTypes.push(AttachmentType.CountryStateDocument);
-
+              pushParentDocuments();
             if (this.compilationSteps.applicant.countryStateApplicantDocument)
               attachmentTypes.push(AttachmentType.CountryStateApplicantDocument);
 
@@ -175,6 +161,13 @@ export class FileAttachmentStepComponent implements OnInit, OnDestroy, AfterView
             break;
           default:
             break;
+        }
+        if (this.compilationSteps.children && this.compilationSteps.children.length > 0
+          && this.compilationSteps.children[0].specHealthDocument) {
+          attachmentTypes.push(AttachmentType.SpecHealthDocument);
+        }
+        if (this.compilationSteps.privilege) {
+          attachmentTypes.push(AttachmentType.PrivilegeProofDocument);
         }
         return attachmentTypes;
       }));

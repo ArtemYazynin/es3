@@ -1,5 +1,5 @@
 import { InMemoryDbService } from 'angular-in-memory-web-api';
-import { Area, Countries, Entity, IdentityCardType, Privilege, PrivilegeOrder, RelationType, Settings, Specificity } from './shared';
+import { Area, Countries, Entity, IdentityCardType, Privilege, PrivilegeOrder, RelationType, Settings, Specificity, Institution } from './shared';
 import { EnumToArrayPipe } from './shared/enum-to-array-pipe';
 
 export class InMemoryService implements InMemoryDbService {
@@ -54,12 +54,18 @@ export class InMemoryService implements InMemoryDbService {
     ];
     let currentMunicipality = municipalities[municipalities.length - 1];
     let institutions = [
-      { id: "5258E28E-64F1-4F1F-810F-A548002D9A3A", name: "Д/с 027 Лесовичок (Ц., ул Чапаева, 35А)", institutionType: 1 },
-      { id: "FC4DBC65-4B5A-4D87-91EA-A548002D9A65", name: "Д/с 028 Ромашка (Ц., ул.Ушакова, 37)", institutionType: 1 },
-      { id: "9842E1E2-C64B-474F-A245-A548002D9A75", name: "Д/с 036 Якорек (Ш., ул. Макарова, 6)", institutionType: 1 },
-      { id: "FF271F42-4095-481B-872C-A54801581328", name: "Структурное подразделение ГБОУ СОШ с. Пестравка", institutionType: 2, },
-      { id: "DA1F4C68-090C-4ADF-855B-A54801581417", name: "Первомайский филиал ГБОУ СОШ им. Н.С.Доровского с. Подбельск", institutionType: 2 },
-      { id: "55BC4673-3909-40F6-9410-A548015814A1", name: "Мочалеевский филиал ГБОУ СОШ с. Подбельск", institutionType: 2 },
+      new Institution("5258E28E-64F1-4F1F-810F-A548002D9A3A", "Д/с 027 Лесовичок (Ц., ул Чапаева, 35А)",1),
+      new Institution("FC4DBC65-4B5A-4D87-91EA-A548002D9A65", "Д/с 028 Ромашка (Ц., ул.Ушакова, 37)",1),
+      new Institution("9842E1E2-C64B-474F-A245-A548002D9A75", "Д/с 036 Якорек (Ш., ул. Макарова, 6)",1),
+      new Institution("0C736803-E27E-4E9E-8209-A452002DB9AA", "МКДОУ Детский сад \"Тополёк\"",1),
+      new Institution("0C806C63-5331-4B35-8F6F-A452002DB9B4", "МКДОУ Детский сад \"Ручеек\"",1),
+      new Institution("3819A224-3F46-46C2-9CC0-A452002DB9B4", "МКДОУ Детский сад \"Сказка\"",1),
+      new Institution("141C4B6A-6DB7-48BF-8407-A452002DB9B8", "МКДОУ Детский сад \"Фиалка\"",1),
+      new Institution("5403F436-6D3F-4913-8922-A452002DB9BD", "МКДОУ Детский сад \"Росинка\"",1),
+      new Institution("0159E3B6-B4B2-4018-9F75-A452002DB9C6", "МБДОУ №6 детский сад \"Снежинка\"",1),
+      new Institution("FF271F42-4095-481B-872C-A54801581328", "Структурное подразделение ГБОУ СОШ с. Пестравка",2),
+      new Institution("DA1F4C68-090C-4ADF-855B-A54801581417", "Первомайский филиал ГБОУ СОШ им. Н.С.Доровского с. Подбельск",2),
+      new Institution("55BC4673-3909-40F6-9410-A548015814A1", "Мочалеевский филиал ГБОУ СОШ с. Подбельск",2)
     ];
     let groups = [
       { id: "5258E28E-64F1-4F1F-810F-A548002D9A3A", name: "4Б ясельная", groupType: 1, institutionId: institutions[0].id },
@@ -103,7 +109,7 @@ export class InMemoryService implements InMemoryDbService {
       privilegeOrders: privilegeOrders,
       privileges: privileges,
       specificities: specificities,
-      settings: settings
+      settings: settings,
     };
   }
 }
