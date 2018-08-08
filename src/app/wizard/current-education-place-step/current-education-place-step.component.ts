@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { MatAutocompleteSelectedEvent, MatSelectChange, MatCheckboxChange } from '@angular/material';
-import { ActivatedRoute, Params, Router } from '@angular/router';
+import { MatAutocompleteSelectedEvent, MatCheckboxChange, MatSelectChange } from '@angular/material';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Observable } from 'rxjs/internal/Observable';
 import { startWith } from 'rxjs/internal/operators/startWith';
 import { map } from 'rxjs/operators';
@@ -21,11 +21,11 @@ export class CurrentEducationPlaceStepComponent implements OnInit, StepBase {
   filteredInstitutions: Observable<Array<Institution>>;
   groups: Array<Group> = [];
   currentPlaceForm: FormGroup;
-  inquiryType: string;
+  inquiryType = this.route.snapshot.data.resolved.inquiryType;
   formErrors = this.service.getFormErrors();
   validationMessages = this.service.getValidationMessages();
 
-  constructor(private activatedRoute: ActivatedRoute, private areaService: AreaService, private institutionService: InstitutionService,
+  constructor(private route: ActivatedRoute, private areaService: AreaService, private institutionService: InstitutionService,
     private formService: FormService, private router: Router, private groupService: GroupService,
     private service: CurrentEducationPlaceStepService, private storageService: WizardStorageService,
     private commonService: CommonService) { }
@@ -102,7 +102,6 @@ export class CurrentEducationPlaceStepComponent implements OnInit, StepBase {
   })();
   ngOnInit() {
     this.buildForm();
-    this.init.inquiryType();
     this.init.institutionTypes();
     this.init.municipalities();
     this.init.fromSessionStorage();
@@ -133,13 +132,6 @@ export class CurrentEducationPlaceStepComponent implements OnInit, StepBase {
       });
     }
     return {
-      inquiryType: () => {
-        this.activatedRoute.params.forEach((params: Params) => {
-          if (params["type"]) {
-            this.inquiryType = params["type"];
-          }
-        });
-      },
       municipalities: () => {
         let municipalities = () => {
           this.areaService.getAreas(AreaType["Муниципалитет"]).subscribe(result => {
@@ -234,14 +226,14 @@ export class CurrentEducationPlaceStepComponent implements OnInit, StepBase {
   goTo = (() => {
     return {
       back: () => {
-        this.router.navigate(["../childrenStep"], { relativeTo: this.activatedRoute });
+        this.router.navigate(["../childrenStep"], { relativeTo: this.route });
       },
       next: () => {
         const place = new CurrentEducationPlace(this.currentPlaceForm.value["municipality"],
           this.currentPlaceForm.value["institutionType"], this.currentPlaceForm.value["institution"],
           this.currentPlaceForm.value["group"], this.currentPlaceForm.value["isOther"], this.currentPlaceForm.value["other"]);
         this.storageService.set(this.inquiryType, { currentEducationPlace: place });
-        this.router.navigate(["../applicantTypeStep"], { relativeTo: this.activatedRoute });
+        this.router.navigate(["../applicantTypeStep"], { relativeTo: this.route });
       }
     }
   })();

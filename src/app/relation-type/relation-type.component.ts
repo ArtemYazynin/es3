@@ -1,5 +1,5 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { ActivatedRoute, Params } from '@angular/router';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { ApplicantType, RelationType, RelationTypeService, WizardStorageService } from '../shared';
 
@@ -9,17 +9,13 @@ import { ApplicantType, RelationType, RelationTypeService, WizardStorageService 
   styleUrls: ['./relation-type.component.css']
 })
 export class RelationTypeComponent implements OnInit, OnDestroy {
-  private inquiryType: string;
+  @Input() inquiryType: string;
+
   private subscription: Subscription;
   relationTypes: Array<RelationType> = [];
   relationType: RelationType;
   isAvailable: boolean = false;
   ngOnInit() {
-    this.activatedRoute.params.forEach((params: Params) => {
-      if (params["type"]) {
-        this.inquiryType = params["type"];
-      }
-    });
     this.isAvailable = this.storageService.get(this.inquiryType).applicantType !== ApplicantType["Ребенок-заявитель"];
 
     if (!this.isAvailable) return;

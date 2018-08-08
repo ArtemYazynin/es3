@@ -38,9 +38,10 @@ export class ApplicantStepComponent implements OnInit, AfterViewInit, OnDestroy,
   @ViewChild(CitizenshipSelectComponent) citizenshipSelectComponent: CitizenshipSelectComponent;
 
   constructor(private citizenshipService: CitizenshipService, private router: Router,
-    private activatedRoute: ActivatedRoute, private storageService: WizardStorageService,
+    private route: ActivatedRoute, private storageService: WizardStorageService,
     private commonService: CommonService, private cdr: ChangeDetectorRef, private formService: FormService) { }
-  inquiryType: string;
+
+  inquiryType = this.route.snapshot.data.resolved.inquiryType;
   attachmentTypes = AttachmentType;
   countries: Array<Country> = [];
   isAvailable = {
@@ -77,9 +78,6 @@ export class ApplicantStepComponent implements OnInit, AfterViewInit, OnDestroy,
   }
 
   ngOnInit() {
-    this.activatedRoute.params.forEach((params: Params) => {
-      if (params["type"]) this.inquiryType = params["type"];
-    });
     this.subscription = this.citizenshipService.getCountries()
       .subscribe(result => {
         this.countries = result;
@@ -96,7 +94,7 @@ export class ApplicantStepComponent implements OnInit, AfterViewInit, OnDestroy,
   }
   goTo = {
     back: () => {
-      this.router.navigate(["../applicantTypeStep"], { relativeTo: this.activatedRoute });
+      this.router.navigate(["../applicantTypeStep"], { relativeTo: this.route });
     },
     next: () => {
       let applicant = (() => {
@@ -118,9 +116,9 @@ export class ApplicantStepComponent implements OnInit, AfterViewInit, OnDestroy,
       })();
       this.storageService.set(this.inquiryType, { applicant: applicant });
       if (this.storageService.get(this.inquiryType).applicantType == ApplicantType["Законный представитель ребенка"]) {
-        this.router.navigate(["../contactInfoStep"], { relativeTo: this.activatedRoute });
+        this.router.navigate(["../contactInfoStep"], { relativeTo: this.route });
       } else {
-        this.router.navigate(["../parentStep"], { relativeTo: this.activatedRoute });
+        this.router.navigate(["../parentStep"], { relativeTo: this.route });
       }
     }
   }

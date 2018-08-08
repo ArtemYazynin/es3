@@ -9,37 +9,32 @@ import { ApplicantType, Entity, inquiryType, StepBase, WizardStorageService } fr
 })
 export class ApplicantTypeStepComponent implements OnInit,StepBase {
   isValid(): boolean { return true; }
-  inquiryType: string;
+  inquiryType = this.route.snapshot.data.resolved.inquiryType;
   applicantType: ApplicantType = ApplicantType["Законный представитель ребенка"];
   applicantTypes: Array<Entity<number>> = [];
 
 
   constructor(private storageService: WizardStorageService,
     private router: Router,
-    private activatedRoute: ActivatedRoute) { }
+    private route: ActivatedRoute) { }
 
   ngOnInit() {
-    this.activatedRoute.params.forEach((params: Params) => {
-      if (params["type"]) {
-        this.inquiryType = params["type"];
-        this.applicantTypes = (() => {
-          let result: Array<Entity<number>> = [];
-          let groupOfId = ApplicantType.values();
-          for (let index = 0, len = groupOfId.length; index < len; index++) {
-            let _id = parseInt(groupOfId[index]);
-            if (_id === ApplicantType["Ребенок-заявитель"] && this.inquiryType === inquiryType.preschool) {
-              continue;
-            }
-            result.push({
-              id: _id,
-              name: ApplicantType[groupOfId[index]]
-            });
-          }
-
-          return result;
-        })();
+    this.applicantTypes = (() => {
+      let result: Array<Entity<number>> = [];
+      let groupOfId = ApplicantType.values();
+      for (let index = 0, len = groupOfId.length; index < len; index++) {
+        let _id = parseInt(groupOfId[index]);
+        if (_id === ApplicantType["Ребенок-заявитель"] && this.inquiryType === inquiryType.preschool) {
+          continue;
+        }
+        result.push({
+          id: _id,
+          name: ApplicantType[groupOfId[index]]
+        });
       }
-    });
+
+      return result;
+    })();
     this.initFromSessionStorage();
   }
   initFromSessionStorage(){
@@ -49,15 +44,15 @@ export class ApplicantTypeStepComponent implements OnInit,StepBase {
   }
   goTo = {
     back: () => {
-      this.router.navigate(["../currentEducationPlaceStep"], { relativeTo: this.activatedRoute });
+      this.router.navigate(["../currentEducationPlaceStep"], { relativeTo: this.route });
     },
     next: () => {
       this.storageService.set(this.inquiryType,{applicantType:this.applicantType})
       if (this.applicantType == ApplicantType["Доверенное лицо законного представителя ребенка"]) {
-        this.router.navigate(["../applicantStep"], { relativeTo: this.activatedRoute });
+        this.router.navigate(["../applicantStep"], { relativeTo: this.route });
       }
       else{
-        this.router.navigate(["../parentStep"], { relativeTo: this.activatedRoute });
+        this.router.navigate(["../parentStep"], { relativeTo: this.route });
       }
     }
   }

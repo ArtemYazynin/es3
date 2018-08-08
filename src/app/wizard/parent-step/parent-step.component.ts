@@ -27,10 +27,41 @@ export class ParentStepComponent implements OnInit, AfterViewInit, OnDestroy, St
   @ViewChild(RelationTypeComponent) relationTypeComponent: RelationTypeComponent;
   @ViewChildren(ConfirmationDocumentComponent) confirmationDocuments: QueryList<ConfirmationDocumentComponent>
 
+  private subscription: Subscription;
+  private inquiry: CompilationOfWizardSteps;
+  applicantType: ApplicantType;
+  attachmentTypes = AttachmentType;
+  agree: boolean = false;
+  citships: Array<Entity<string>> = [];
+  groupOfIdentityCardTypeId: Array<number> = [
+    IdentityCardType["Паспорт РФ"],
+    IdentityCardType["Другой документ, удостоверяющий личность"],
+    IdentityCardType["Свидетельство о рождении РФ"],
+    IdentityCardType["Загранпаспорт гражданина РФ"],
+    IdentityCardType["Удостоверение офицера"],
+    IdentityCardType["Военный билет"],
+    IdentityCardType["Временное удостоверение, выданное взамен военного билета"],
+    IdentityCardType["Временное удостоверение личности гражданина РФ"],
+    IdentityCardType["Иностранный паспорт"],
+    IdentityCardType["Удостоверение личности лица без гражданства в РФ"],
+    IdentityCardType["Удостоверение личности отдельных категорий лиц, находящихся на территории РФ,подавших заявление о признании гражданами РФ или о приеме в гражданство РФ"],
+    IdentityCardType["Удостоверение беженца"],
+    IdentityCardType["Удостоверение личности лица, ходатайствующего о признании беженцем на территории РФ"],
+    IdentityCardType["Удостоверение личности лица, получившего временное убежище на территории РФ"],
+    IdentityCardType["Вид на жительство"],
+    IdentityCardType["Разрешение на временное проживание в РФ"],
+    IdentityCardType["Свидетельство о рассмотрении ходатайства о признании лица беженцем на территории РФ по существу"],
+    IdentityCardType["Свидетельство о предоставлении временного убежища на территории Российской Федерации"],
+    IdentityCardType["Свидетельство о рождении, выданное уполномоченным органом иностранного государства"]
+  ];
+  countries: Array<Country> = [];
+  inquiryType = this.route.snapshot.data.resolved.inquiryType;
+
+  constructor(private storageService: WizardStorageService, private commonService: CommonService, private formService: FormService,
+    private citizenshipService: CitizenshipService, private cdr: ChangeDetectorRef,
+    private router: Router, private route: ActivatedRoute) { }
   ngOnInit() {
     this.subscription = this.citizenshipService.getCountries().subscribe(result => this.countries = result);
-
-    this.activatedRoute.params.forEach((params: Params) => params["type"] ? this.inquiryType = params["type"] : undefined);
     this.applicantType = this.storageService.get(this.inquiryType).applicantType;
     this.isAvailable.childApplicantInfo = this.applicantType === ApplicantType["Ребенок-заявитель"];
 
@@ -64,39 +95,7 @@ export class ParentStepComponent implements OnInit, AfterViewInit, OnDestroy, St
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
   }
-  constructor(private storageService: WizardStorageService, private commonService: CommonService, private formService: FormService,
-    private citizenshipService: CitizenshipService, private cdr: ChangeDetectorRef,
-    private router: Router, private activatedRoute: ActivatedRoute) { }
-
-  private subscription: Subscription;
-  private inquiry: CompilationOfWizardSteps;
-  applicantType: ApplicantType;
-  attachmentTypes = AttachmentType;
-  agree: boolean = false;
-  citships: Array<Entity<string>> = [];
-  groupOfIdentityCardTypeId: Array<number> = [
-    IdentityCardType["Паспорт РФ"],
-    IdentityCardType["Другой документ, удостоверяющий личность"],
-    IdentityCardType["Свидетельство о рождении РФ"],
-    IdentityCardType["Загранпаспорт гражданина РФ"],
-    IdentityCardType["Удостоверение офицера"],
-    IdentityCardType["Военный билет"],
-    IdentityCardType["Временное удостоверение, выданное взамен военного билета"],
-    IdentityCardType["Временное удостоверение личности гражданина РФ"],
-    IdentityCardType["Иностранный паспорт"],
-    IdentityCardType["Удостоверение личности лица без гражданства в РФ"],
-    IdentityCardType["Удостоверение личности отдельных категорий лиц, находящихся на территории РФ,подавших заявление о признании гражданами РФ или о приеме в гражданство РФ"],
-    IdentityCardType["Удостоверение беженца"],
-    IdentityCardType["Удостоверение личности лица, ходатайствующего о признании беженцем на территории РФ"],
-    IdentityCardType["Удостоверение личности лица, получившего временное убежище на территории РФ"],
-    IdentityCardType["Вид на жительство"],
-    IdentityCardType["Разрешение на временное проживание в РФ"],
-    IdentityCardType["Свидетельство о рассмотрении ходатайства о признании лица беженцем на территории РФ по существу"],
-    IdentityCardType["Свидетельство о предоставлении временного убежища на территории Российской Федерации"],
-    IdentityCardType["Свидетельство о рождении, выданное уполномоченным органом иностранного государства"]
-  ];
-  countries: Array<Country> = [];
-  inquiryType: string;
+  
   isValid(): boolean {
     let isValid = {
       identityCardForm: this.identityCardComponent
@@ -151,9 +150,9 @@ export class ParentStepComponent implements OnInit, AfterViewInit, OnDestroy, St
   goTo = {
     back: () => {
       if (this.applicantType == ApplicantType["Доверенное лицо законного представителя ребенка"]) {
-        this.router.navigate(["../applicantStep"], { relativeTo: this.activatedRoute });
+        this.router.navigate(["../applicantStep"], { relativeTo: this.route });
       } else {
-        this.router.navigate(["../applicantTypeStep"], { relativeTo: this.activatedRoute });
+        this.router.navigate(["../applicantTypeStep"], { relativeTo: this.route });
       }
     },
     next: () => {
@@ -185,7 +184,7 @@ export class ParentStepComponent implements OnInit, AfterViewInit, OnDestroy, St
         return result;
       })();
       this.storageService.set(this.inquiryType, { parent: parent });
-      this.router.navigate(["../contactInfoStep"], { relativeTo: this.activatedRoute });
+      this.router.navigate(["../contactInfoStep"], { relativeTo: this.route });
     }
   }
 }

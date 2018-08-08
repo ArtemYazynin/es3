@@ -2,7 +2,6 @@ import { AfterViewInit, ChangeDetectorRef, Component, ComponentFactory, Componen
 import { FormBuilder } from '@angular/forms';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { isNullOrUndefined } from 'util';
-import { ConfirmationDocumentComponent } from '../../confirmation-document/confirmation-document.component';
 import { BirthInfoComponent } from '../../person/birth-info/birth-info.component';
 import { CitizenshipSelectComponent } from '../../person/citizenship-select/citizenship-select.component';
 import { Child, CitizenshipService, CommonService, CompilationOfWizardSteps, ConfirmationDocument, FormService, IdentityCard, Person, StepBase, WizardStorageService } from '../../shared';
@@ -21,9 +20,9 @@ export class ChildrenStepComponent implements OnInit, AfterViewInit, StepBase {
   @ViewChild(SpecHealthComponent) specHealthComponent: SpecHealthComponent;
   private inquiry: CompilationOfWizardSteps;
   components: Array<ComponentRef<ChildComponent>> = [];
-  inquiryType: string;
+  inquiryType = this.route.snapshot.data.resolved.inquiryType;
 
-  constructor(private activatedRoute: ActivatedRoute, private router: Router, private resolver: ComponentFactoryResolver, private storageService: WizardStorageService,
+  constructor(private route: ActivatedRoute, private router: Router, private resolver: ComponentFactoryResolver, private storageService: WizardStorageService,
     private cd: ChangeDetectorRef, private citizenshipService: CitizenshipService, private commonService: CommonService,
     private fb: FormBuilder, private formService: FormService) { }
 
@@ -158,24 +157,19 @@ export class ChildrenStepComponent implements OnInit, AfterViewInit, StepBase {
         });
 
         this.storageService.set(this.inquiryType, { children: children })
-        this.router.navigate(["../currentEducationPlaceStep"], { relativeTo: this.activatedRoute });
+        this.router.navigate(["../currentEducationPlaceStep"], { relativeTo: this.route });
       }
     }
   })();
 
 
   ngOnInit() {
-    this.activatedRoute.params.forEach((params: Params) => {
-      if (params["type"]) {
-        this.inquiryType = params["type"];
-      }
-    });
     this.inquiry = this.storageService.get(this.inquiryType);
   }
 
   ngAfterViewInit() {
+    if (!this.inquiry || !this.inquiry.children || this.inquiry.children.length == 0) return;
 
-    if (this.inquiry.children.length == 0) return;
     this.birthInfoComponent.birthInfoForm.patchValue({
       birthDate: this.inquiry.children[0].birthDate,
       birthPlace: this.inquiry.children[0].birthPlace

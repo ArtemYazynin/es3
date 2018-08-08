@@ -13,10 +13,10 @@ import { Router, ActivatedRoute, Params } from '@angular/router';
 export class ContactInfoStepComponent implements OnInit, StepBase {
 
   constructor(private formService: FormService, private fb: FormBuilder,
-    private router: Router, private activatedRoute: ActivatedRoute, private storageService: WizardStorageService) { }
+    private router: Router, private route: ActivatedRoute, private storageService: WizardStorageService) { }
 
   private emailValidators: ValidatorFn[] = [Validators.required, Validators.email];
-  inquiryType: string;
+  inquiryType = this.route.snapshot.data.resolved.inquiryType;
   masks = {
     smsPhone: ["+", /\d/, "(", /\d/, /\d/, /\d/, ")", /\d/, /\d/, /\d/, "-", /\d/, /\d/, "-", /\d/, /\d/]
   }
@@ -73,7 +73,7 @@ export class ContactInfoStepComponent implements OnInit, StepBase {
   }
   goTo = {
     back: () => {
-      this.router.navigate(["../parentStep"], { relativeTo: this.activatedRoute });
+      this.router.navigate(["../parentStep"], { relativeTo: this.route });
     },
     next: () => {
       (() => {
@@ -82,16 +82,13 @@ export class ContactInfoStepComponent implements OnInit, StepBase {
       })();
 
       if (this.inquiryType == inquiryType.healthCamp) {
-        this.router.navigate(["../jobInfoStep"], { relativeTo: this.activatedRoute });
+        this.router.navigate(["../jobInfoStep"], { relativeTo: this.route });
       } else {
-        this.router.navigate(["../privilegeStep"], { relativeTo: this.activatedRoute });
+        this.router.navigate(["../privilegeStep"], { relativeTo: this.route });
       }
     }
   }
   ngOnInit() {
-    this.activatedRoute.params.forEach((params: Params) => {
-      if (params["type"]) this.inquiryType = params["type"];
-    });
     this.buildForm();
     const inquiry = <CompilationOfWizardSteps>this.storageService.get(this.inquiryType);
     if (!inquiry.contactInfo) return;

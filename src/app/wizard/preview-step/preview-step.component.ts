@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Params, Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { isNullOrUndefined } from 'util';
 import { CitizenshipService, CompilationOfWizardSteps, DrawService, StepBase, WizardStorageService } from '../../shared';
 
@@ -10,15 +10,15 @@ import { CitizenshipService, CompilationOfWizardSteps, DrawService, StepBase, Wi
 })
 export class PreviewStepComponent implements OnInit, StepBase {
 
-  constructor(private router: Router, private activatedRoute: ActivatedRoute, private citizenshipService: CitizenshipService,
+  constructor(private router: Router, private route: ActivatedRoute, private citizenshipService: CitizenshipService,
     private storageService: WizardStorageService, private drawService: DrawService) { }
 
-  inquiryType: string;
+  inquiryType = this.route.snapshot.data.resolved.inquiryType;
   parentWidgetSettings: object;
   compilationSteps: CompilationOfWizardSteps;
   goTo = {
     back: () => {
-      this.router.navigate(["../fileAttachmentStep"], { relativeTo: this.activatedRoute });
+      this.router.navigate(["../fileAttachmentStep"], { relativeTo: this.route });
     },
     next: () => {
 
@@ -30,8 +30,6 @@ export class PreviewStepComponent implements OnInit, StepBase {
   }
 
   ngOnInit() {
-
-    this.activatedRoute.params.forEach((params: Params) => { if (params["type"]) this.inquiryType = params["type"]; });
     this.compilationSteps = this.storageService.get(this.inquiryType);
     this.parentWidgetSettings = (() => {
       return isNullOrUndefined(this.compilationSteps.applicant)

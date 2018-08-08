@@ -17,7 +17,7 @@
       </div>
       <app-citizenship-select>
       </app-citizenship-select>
-     
+
       <div class="row" [hidden]="!isAvailable.childApplicantInfo">
         <div class="col-md-12">
           <birth-info>
@@ -30,7 +30,7 @@
           </app-confirmation-document>
         </div>
       </div>
-      <app-relation-type></app-relation-type>
+      <app-relation-type [inquiryType]="inquiryType"></app-relation-type>
       <div class="row" [hidden]="!isAvailable.parentRepresentChildren()">
         <div class="col-md-12">
           <app-confirmation-document [type]="attachmentTypes.ParentRepresentChildren" title="Документ, подтверждающий право законного представителя представлять интересы ребенка">
