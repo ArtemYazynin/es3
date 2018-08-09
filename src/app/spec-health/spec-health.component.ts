@@ -20,5 +20,6 @@ export class SpecHealthComponent implements OnInit {
   specHealths: Observable<Array<SpecHealth>> = this.specHealthService.get();
   constructor(private specHealthService: SpecHealthService) { }
 
-  ngOnInit() { }
+  ngOnInit() { 
+  }
 }
