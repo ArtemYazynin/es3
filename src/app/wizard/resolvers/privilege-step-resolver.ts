@@ -1,9 +1,7 @@
-import { BaseResolver } from "./base-resolver";
-import { ActivatedRouteSnapshot, RouterStateSnapshot } from "@angular/router";
-import { FormBuilder, Validators } from "@angular/forms";
 import { Injectable } from "@angular/core";
-import { Observable } from "rxjs";
-import { PrivilegeOrder } from "../../shared";
+import { FormBuilder, Validators } from "@angular/forms";
+import { ActivatedRouteSnapshot, RouterStateSnapshot } from "@angular/router";
+import { BaseResolver } from "./base-resolver";
 
 @Injectable()
 export class PrivilegeStepResolver extends BaseResolver {

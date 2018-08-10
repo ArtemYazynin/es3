@@ -1,20 +1,21 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/internal/Observable';
-import { Entity } from './entity';
+import { map, single, first } from 'rxjs/operators';
 import { HttpInterceptor } from './http-interceptor';
-import { map } from 'rxjs/operators';
 import { SpecHealth } from './spec-health';
 
 @Injectable({
   providedIn: 'root'
 })
 export class SpecHealthService {
-
+  private baseUrl = "app/specHealths";
   constructor(private http: HttpInterceptor) { }
 
-  get():Observable<Array<SpecHealth>>{
-    return this.http.get("app/specHealths").pipe(map(result => {
-      return <Array<SpecHealth>>result.json();
+  get(code?: string | number): Observable<Array<SpecHealth>> {
+    let url = code ? this.baseUrl + "?code=" + code : this.baseUrl;
+
+    return this.http.get(url).pipe(map(response => {
+      return <Array<SpecHealth>>response.json();
     }));
   }
 }

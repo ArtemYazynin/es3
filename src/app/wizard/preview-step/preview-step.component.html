@@ -7,6 +7,9 @@
       <div class="row">
         <div class="col-md-6" *ngIf="compilationSteps.applicant">
           <app-person-view title="Заявитель" [entity]="compilationSteps.applicant">
+            <div class="form-group">
+              <b>Гражданство </b> {{drawManager.citizenships(compilationSteps.applicant.citizenships, countries)}}
+            </div>
             <app-confirmation-document-view title="Документ, подтверждающий полномочие доверенного лица представлять интересы законного представителя ребенка"
               [document]="compilationSteps.applicant.applicantRepresentParentDocument">
             </app-confirmation-document-view>
@@ -17,6 +20,9 @@
         </div>
         <div [ngClass]="parentWidgetSettings">
           <app-person-view title="Законный представитель" [entity]="compilationSteps.parent">
+            <div class="form-group">
+              <b>Гражданство </b> {{drawManager.citizenships(compilationSteps.parent.citizenships, countries)}}
+            </div>
             <app-confirmation-document-view title="Документ, подтверждающий право пребывания законного представителя на территории РФ"
               [document]="compilationSteps.parent.countryStateDocument">
             </app-confirmation-document-view>
@@ -33,8 +39,9 @@
               <h5>Ребенок/дети</h5>
             </div>
             <div class="widget-content">
-              <div *ngFor="let child of compilationSteps.children; let first = first;">
-                <div *ngIf="first">
+              <div *ngFor="let child of compilationSteps.children; let last = last;">
+                <app-person-view title="Ребенок" [entity]="child"> </app-person-view>
+                <div *ngIf="last">
                   <div class="form-group">
                     <b>Пол</b> {{child.gender == 1 ? "Мужской":"Женский"}}
                   </div>
@@ -44,14 +51,61 @@
                   <div class="form-group">
                     <b>Место рождения</b> {{child.birthPlace}}
                   </div>
+                  <div class="form-group" *ngIf="child.specHealth != 101">
+                    <b>Спец. по здоровью: </b>{{($specHealth | async)?.name}}
+                  </div>
+                  <div class="form-group">
+                    <b>Гражданство </b> {{drawManager.citizenships(child.citizenships, countries)}}
+                  </div>
                 </div>
-                <app-person-view title="Ребенок" [entity]="child"> </app-person-view>
               </div>
             </div>
           </div>
         </div>
-
-
+      </div>
+      <div class="row">
+        <app-preview-inquiry-info [inquiryInfo]="compilationSteps.inquiryInfo"></app-preview-inquiry-info>
+      </div>
+      <div class="row">
+        <div class="col-md-6">
+          <div class="widget-box">
+            <div class="widget-title">
+              <h5>Контактная информация</h5>
+            </div>
+            <div class="widget-content">
+              <div class="form-group">
+                <b>Email </b> {{compilationSteps.contactInfo.email}}
+              </div>
+              <div class="form-group">
+                <b>Номер для смс </b> {{compilationSteps.contactInfo.smsPhone}}
+              </div>
+              <div class="form-group">
+                <b>Телефон(ы) </b> {{compilationSteps.contactInfo.phones}}
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="widget-box">
+            <div class="widget-title">
+              <h5>Предпочитаемые организации</h5>
+            </div>
+            <div class="widget-content">
+              <div class="form-group" *ngFor="let institution of compilationSteps.institutions">
+                {{institution.name}}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6">
+          <app-preview-current-education-place [currentEducationPlace]="compilationSteps.currentEducationPlace"></app-preview-current-education-place>
+        </div>
+        <div class="col-md-6">
+          <app-preview-privilege [privilege]="compilationSteps.privilege"></app-preview-privilege>
+            
+        </div>
       </div>
     </div>
   </div>

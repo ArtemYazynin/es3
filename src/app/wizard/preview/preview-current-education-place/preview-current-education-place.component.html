@@ -1,0 +1,30 @@
+<div class="widget-box">
+  <div class="widget-title">
+    <h5>Текущее место обучения ребенка</h5>
+  </div>
+  <div class="widget-content">
+    <div [ngSwitch]="currentEducationPlace.isOther">
+      <div *ngSwitchCase="true">
+        <div class="form-group">
+          <b>Тип </b> Другая
+        </div>
+        <div class="form-group">
+          <b>Образовательная организация </b> {{currentEducationPlace.other}}
+        </div>
+      </div>
+      <div *ngSwitchCase="false">
+        <div class="form-group">
+          <div class="form-group">
+            <b>Тип </b> {{($institutionType | async)?.name}}
+          </div>
+          <div class="form-group">
+            <b>Образовательная организация </b> {{currentEducationPlace.institution.name}}
+          </div>
+          <div class="form-group">
+            <b>Група/класс </b> {{($group | async)?.name}}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

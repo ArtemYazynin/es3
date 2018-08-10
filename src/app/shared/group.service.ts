@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/internal/Observable';
-import { Group } from './group';
 import { map } from 'rxjs/operators';
+import { isNullOrUndefined } from 'util';
+import { Group } from './group';
 import { HttpInterceptor } from './http-interceptor';
 
 @Injectable({
@@ -11,9 +12,15 @@ export class GroupService {
 
   constructor(private http: HttpInterceptor) { }
 
-  getGroup(institutionId: string): Observable<Array<Group>> {
-    return this.http.get("app/groups?institutionId=" + institutionId).pipe(map(result => {
+  getGroup(institutionId: string, id?: string): Observable<Array<Group>> {
+    let url = isNullOrUndefined(id) && id == ""
+      ? this.getBaseUrl(institutionId)
+      : this.getBaseUrl(institutionId) + "&id=" + id
+    return this.http.get(url).pipe(map(result => {
       return <Array<Group>>result.json();
     }));
+  }
+  private getBaseUrl(institutionId: string) {
+    return "app/groups?institutionId=" + institutionId
   }
 }

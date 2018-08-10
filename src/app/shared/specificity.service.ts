@@ -3,16 +3,20 @@ import { HttpInterceptor } from './http-interceptor';
 import { Observable } from 'rxjs';
 import { Specificity } from './specificity';
 import { map } from 'rxjs/operators';
+import { isNullOrUndefined } from 'util';
 
 @Injectable({
   providedIn: 'root'
 })
 export class SpecificityService {
 
-  constructor(private http:HttpInterceptor) { }
-
-  get():Observable<Array<Specificity>>{
-    return this.http.get("app/specificities").pipe(map(result => {
+  constructor(private http: HttpInterceptor) { }
+  private baseUrl = "app/specificities";
+  get(id?: string): Observable<Array<Specificity>> {
+    const url = isNullOrUndefined(id) || id == ""
+      ? this.baseUrl
+      : this.baseUrl + "/?id=" + id.trim();
+    return this.http.get(url).pipe(map(result => {
       return <Array<Specificity>>result.json();
     }));
   }

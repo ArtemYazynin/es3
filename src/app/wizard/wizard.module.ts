@@ -50,6 +50,9 @@ import { SchoolInquiryInfoStepComponent } from '../wizard/school-inquiry-info-st
 import { CurrentEducationPlaceStepService } from '../wizard/shared/current-education-place-step.service';
 import { PrivilegeStepResolver } from './resolvers/privilege-step-resolver';
 import { BaseResolver } from './resolvers/base-resolver';
+import { PreviewInquiryInfoComponent } from './preview/preview-inquiry-info/preview-inquiry-info.component';
+import { PreviewCurrentEducationPlaceComponent } from './preview/preview-current-education-place/preview-current-education-place.component';
+import { PreviewPrivilegeComponent } from './preview/preview-privilege/preview-privilege.component';
 
 
 @NgModule({
@@ -94,7 +97,10 @@ import { BaseResolver } from './resolvers/base-resolver';
     DistributionParamsComponent,
     StayModeComponent,
     AgeGroupComponent,
-    AtLeastOneCheckboxShouldBeSelectedComponent
+    AtLeastOneCheckboxShouldBeSelectedComponent,
+    PreviewInquiryInfoComponent,
+    PreviewCurrentEducationPlaceComponent,
+    PreviewPrivilegeComponent
   ],
   imports: [
     BrowserModule,

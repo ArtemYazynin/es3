@@ -3,12 +3,12 @@ import { Applicant, ApplicantType, Child, CurrentEducationPlace, FileAttachment,
 export class CompilationOfWizardSteps {
     applicantType: ApplicantType;
     applicant: Applicant;
-    parent: Parent; 
+    parent: Parent;
     children: Array<Child> = [];
-    privilege:Privilege;
-    institutions:Array<Institution>
-    currentEducationPlace: CurrentEducationPlace; 
+    privilege: Privilege;
+    institutions: Array<Institution>
+    currentEducationPlace: CurrentEducationPlace;
     files: Array<FileAttachment> = [];
-    inquiryInfo:InquiryInfo;
-    contactInfo:ContactInfo;
+    inquiryInfo: InquiryInfo;
+    contactInfo: ContactInfo;
 }

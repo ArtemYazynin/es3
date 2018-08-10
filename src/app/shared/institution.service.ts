@@ -4,6 +4,7 @@ import { map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { Entity } from '.';
 import { Institution } from './institution';
+import { isNullOrUndefined } from 'util';
 
 @Injectable({
   providedIn: 'root'
@@ -11,9 +12,14 @@ import { Institution } from './institution';
 export class InstitutionService {
 
   constructor(private http: HttpInterceptor) { }
-
-  getTypes(): Observable<Array<Entity<number>>> {
-    return this.http.get("app/institutionsTypes").pipe(map(result => {
+  private baseUrl = {
+    institutionTypes: "app/institutionsTypes"
+  }
+  getTypes(id?: number): Observable<Array<Entity<number>>> {
+    const url = isNullOrUndefined(id)
+      ? this.baseUrl.institutionTypes
+      : this.baseUrl.institutionTypes + "?id=" + id
+    return this.http.get(url).pipe(map(result => {
       return <Array<Entity<number>>>result.json();
     }));
   }
@@ -24,5 +30,5 @@ export class InstitutionService {
     }));
   }
 
-  
+
 }

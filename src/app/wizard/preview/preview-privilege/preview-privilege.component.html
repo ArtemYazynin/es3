@@ -1,0 +1,12 @@
+<div *ngIf="privilege">
+  <div class="widget-box">
+    <div class="widget-title">
+      <h5>Льготная категория</h5>
+    </div>
+    <div class="widget-content">
+      <div class="form-group">
+        <b>Приоритет льготной категории</b> {{privilege.privilegeOrder | json}}
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,6 +1,6 @@
 import { AfterViewInit, Component, OnDestroy, OnInit } from '@angular/core';
-import { ActivatedRoute, Params, Router } from '@angular/router';
-import { from, fromEvent, Observable, Subject, Subscription } from 'rxjs';
+import { ActivatedRoute, Router } from '@angular/router';
+import { from, fromEvent, Observable, Subject } from 'rxjs';
 import { filter, map, takeUntil } from 'rxjs/operators';
 import { isNullOrUndefined } from 'util';
 import { ApplicantType, AttachmentType, CommonService, CompilationOfWizardSteps, Entity, FileAttachment, FileView, inquiryType, StepBase, WizardStorageService } from '../../shared';
@@ -17,7 +17,7 @@ export class FileAttachmentStepComponent implements OnInit, OnDestroy, AfterView
   constructor(private router: Router, private route: ActivatedRoute, private storageService: WizardStorageService, private commonService: CommonService) { }
 
   inquiryType = this.route.snapshot.data.resolved.inquiryType;
-  compilationSteps: CompilationOfWizardSteps;
+  private compilationSteps: CompilationOfWizardSteps;
   attachmentType = AttachmentType;
   maxFilesCount = 10;
   haveDigitalSignature = false;
@@ -39,13 +39,18 @@ export class FileAttachmentStepComponent implements OnInit, OnDestroy, AfterView
         case inquiryType.healthCamp:
           this.router.navigate(["../healthCampStep"], { relativeTo: this.route });
           break;
-
         default:
           break;
       }
     },
     next: () => {
-      const data = this.bunchOfFileView.map(x => x.fileAttachment).filter(x => x.file != null);
+      const data = this.bunchOfFileView
+      .filter(x => x.fileAttachment.file != null)
+        .map(x => {
+          const data = Object.assign({}, x.fileAttachment.file, { name: x.fileAttachment.file.name });
+          return data;
+        });
+      this.storageService.set(this.inquiryType, { files: data });
       this.router.navigate(["../previewStep"], { relativeTo: this.route });
     }
   };
@@ -137,9 +142,9 @@ export class FileAttachmentStepComponent implements OnInit, OnDestroy, AfterView
         if (!this.compilationSteps) return attachmentTypes;
 
         const hasParent = !!this.compilationSteps.parent;
-        const pushParentDocuments = ()=>{
+        const pushParentDocuments = () => {
           if (hasParent && this.compilationSteps.parent.parentRepresentChildrenDocument)
-          attachmentTypes.push(AttachmentType.ParentRepresentChildren);
+            attachmentTypes.push(AttachmentType.ParentRepresentChildren);
           if (hasParent && this.compilationSteps.parent.countryStateDocument)
             attachmentTypes.push(AttachmentType.CountryStateDocument);
         }
@@ -151,7 +156,7 @@ export class FileAttachmentStepComponent implements OnInit, OnDestroy, AfterView
           case ApplicantType["Доверенное лицо законного представителя ребенка"]:
             attachmentTypes.push(AttachmentType.ParentIdentityCard, AttachmentType.ChildBirthdateCertificate,
               AttachmentType.ApplicantIdentityCard, AttachmentType.ApplicantRepresentParent);
-              pushParentDocuments();
+            pushParentDocuments();
             if (this.compilationSteps.applicant.countryStateApplicantDocument)
               attachmentTypes.push(AttachmentType.CountryStateApplicantDocument);
 
