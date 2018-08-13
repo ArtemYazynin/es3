@@ -15,7 +15,9 @@ export * from "./relationTypes/relation-type";
 //
 
 export * from "./entity";
+
 export * from "./location";
+export * from "./files-info";
 export * from "./inquiry-info";
 export * from "./age-group";
 export * from "./distribution-params";

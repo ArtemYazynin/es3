@@ -2,7 +2,6 @@ import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { HttpModule, JsonpModule } from "@angular/http";
-import { DateAdapter } from '@angular/material';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouterModule } from "@angular/router";
 import { NgSelectModule } from '@ng-select/ng-select';
@@ -48,11 +47,13 @@ import { PersonViewComponent } from '../wizard/preview/person-view/person-view.c
 import { PrivilegeStepComponent } from '../wizard/privilege-step/privilege-step.component';
 import { SchoolInquiryInfoStepComponent } from '../wizard/school-inquiry-info-step/school-inquiry-info-step.component';
 import { CurrentEducationPlaceStepService } from '../wizard/shared/current-education-place-step.service';
-import { PrivilegeStepResolver } from './resolvers/privilege-step-resolver';
-import { BaseResolver } from './resolvers/base-resolver';
-import { PreviewInquiryInfoComponent } from './preview/preview-inquiry-info/preview-inquiry-info.component';
 import { PreviewCurrentEducationPlaceComponent } from './preview/preview-current-education-place/preview-current-education-place.component';
+import { PreviewFilesComponent } from './preview/preview-files/preview-files.component';
+import { PreviewInquiryInfoComponent } from './preview/preview-inquiry-info/preview-inquiry-info.component';
 import { PreviewPrivilegeComponent } from './preview/preview-privilege/preview-privilege.component';
+import { BaseResolver } from './resolvers/base-resolver';
+import { PrivilegeStepResolver } from './resolvers/privilege-step-resolver';
+import { YesNoPipe } from '../shared/yes-no.pipe';
 
 
 @NgModule({
@@ -78,6 +79,7 @@ import { PreviewPrivilegeComponent } from './preview/preview-privilege/preview-p
     //end
     AddressComponent,
     GenderComponent,
+    YesNoPipe,
     IdentityCardTypePipe,
     EnumToArrayPipe,
     AttachmentTypePipe,
@@ -100,7 +102,8 @@ import { PreviewPrivilegeComponent } from './preview/preview-privilege/preview-p
     AtLeastOneCheckboxShouldBeSelectedComponent,
     PreviewInquiryInfoComponent,
     PreviewCurrentEducationPlaceComponent,
-    PreviewPrivilegeComponent
+    PreviewPrivilegeComponent,
+    PreviewFilesComponent
   ],
   imports: [
     BrowserModule,
@@ -142,7 +145,6 @@ import { PreviewPrivilegeComponent } from './preview/preview-privilege/preview-p
     AddressService
   ],
   entryComponents: [ChildComponent],//динамически добавляемые компоненты ViewContainerRef.createComponent()
-  bootstrap: []
 })
 export class WizardModule {
 

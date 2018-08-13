@@ -45,12 +45,19 @@ export class FileAttachmentStepComponent implements OnInit, OnDestroy, AfterView
     },
     next: () => {
       const data = this.bunchOfFileView
-      .filter(x => x.fileAttachment.file != null)
-        .map(x => {
-          const data = Object.assign({}, x.fileAttachment.file, { name: x.fileAttachment.file.name });
+        .filter(x => x.fileAttachment.file != null)
+        .map(fileView => {
+          let data = Object.assign({}, fileView.fileAttachment.file, { name: fileView.fileAttachment.file.name });
+          if (isNullOrUndefined(fileView.fileAttachment.description) || fileView.fileAttachment.description == "") return data;
+          Object.assign(data, { description: fileView.fileAttachment.description })
           return data;
         });
-      this.storageService.set(this.inquiryType, { files: data });
+      this.storageService.set(this.inquiryType, {
+        filesInfo: {
+          files: data,
+          haveDigitalSignature: this.haveDigitalSignature
+        }
+      });
       this.router.navigate(["../previewStep"], { relativeTo: this.route });
     }
   };

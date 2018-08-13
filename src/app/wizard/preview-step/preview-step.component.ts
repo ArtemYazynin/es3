@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Observable, Subject } from 'rxjs';
+import { Observable, Subject, timer } from 'rxjs';
 import { map, takeUntil } from 'rxjs/operators';
 import { isNullOrUndefined } from 'util';
 import { CitizenshipService, CompilationOfWizardSteps, Country, DrawService, Entity, Group, GroupService, InstitutionService, SpecHealth, SpecHealthService, StepBase, WizardStorageService } from '../../shared';
@@ -12,9 +12,8 @@ import { CitizenshipService, CompilationOfWizardSteps, Country, DrawService, Ent
 })
 export class PreviewStepComponent implements OnInit, OnDestroy, StepBase {
 
-  constructor(private router: Router, private route: ActivatedRoute, private citizenshipService: CitizenshipService, private groupService: GroupService,
-    private storageService: WizardStorageService, private drawService: DrawService, private specHealthService: SpecHealthService,
-    private institutionService: InstitutionService) { }
+  constructor(private router: Router, private route: ActivatedRoute, private citizenshipService: CitizenshipService,
+    private storageService: WizardStorageService, private drawService: DrawService, private specHealthService: SpecHealthService) { }
   private ngUnsubscribe: Subject<any> = new Subject();
   $group: Observable<Group>;
   $institutionType: Observable<Entity<number>>
@@ -30,7 +29,11 @@ export class PreviewStepComponent implements OnInit, OnDestroy, StepBase {
       this.router.navigate(["../fileAttachmentStep"], { relativeTo: this.route });
     },
     next: () => {
-
+      timer(5000).pipe().subscribe((response) => {
+        this.storageService.set(this.inquiryType);
+        confirm("Заявление успешно зарегистрировано");
+        this.router.navigate([""], { relativeTo: this.route });
+      })
     }
   };
   drawManager = this.drawService

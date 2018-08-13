@@ -34,5 +34,7 @@ export class CommonService {
       document.confirmationDocumentForm.controls.dateIssue.value,
       document.confirmationDocumentForm.controls.dateExpired.value)
   }
-
+  compareObjects(o1: any, o2: any): boolean {
+    return (o1 && o1.id) === (o2 && o2.id);
+  }
 }

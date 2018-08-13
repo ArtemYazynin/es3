@@ -1,4 +1,4 @@
-import { AfterViewInit, ChangeDetectorRef, Component, DoCheck, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, DoCheck, OnDestroy, OnInit, ViewChild, ChangeDetectionStrategy } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Observable, Subject } from 'rxjs';
@@ -16,15 +16,15 @@ export class PrivilegeStepComponent implements OnInit, DoCheck, AfterViewInit, O
   @ViewChild(ConfirmationDocumentComponent) confirmationProofDocumentComponent: ConfirmationDocumentComponent;
 
   private ngUnsubscribe: Subject<any> = new Subject();
-  private privileges: Array<Privilege>
-  private initializer: { privilege: () => void, document: () => void };
+  private privileges: Array<Privilege>;
+  inquiry: CompilationOfWizardSteps;
   showPrivilege: boolean;
   showPrivilegeOrders: boolean;
   showPrivilegeProofDocument: boolean;
   displayFn = this.commonService.displayFn;
   inquiryType = this.route.snapshot.data.resolved.inquiryType;
   privilegeForm: FormGroup;
-  privilegeOrders: Array<PrivilegeOrder> = []
+  privilegeOrders: Observable<Array<PrivilegeOrder>>;
   filteredPrivileges: Observable<Array<Privilege>>;
   attachmentTypes = AttachmentType;
   formErrors = this.route.snapshot.data.resolved.formErrors;
@@ -35,27 +35,39 @@ export class PrivilegeStepComponent implements OnInit, DoCheck, AfterViewInit, O
     private privilegeService: PrivilegeService, private commonService: CommonService, private cdr: ChangeDetectorRef,
     private route: ActivatedRoute) {
   }
-
+  private needPrivilege() {
+    return this.privilegeForm && !this.privilegeForm.controls.withoutPrivilege.value;
+  }
+  
   ngDoCheck(): void {
     this.showPrivilegeOrders = this.needPrivilege();
     this.showPrivilege = this.needPrivilege() && !!this.privilegeForm.controls.privilegeOrder.value;
-    this.showPrivilegeProofDocument = this.showPrivilege && !!this.privilegeForm.controls.privilege.value;
+    this.showPrivilegeProofDocument = this.showPrivilege && !!this.privilegeForm.controls.privilege.value; 
   }
   ngAfterViewInit(): void {
-    this.initializer.document();
+    if (this.inquiry && this.inquiry.privilege && this.inquiry.privilege.privilegeProofDocument) {
+      this.confirmationProofDocumentComponent.confirmationDocumentForm.patchValue(this.inquiry.privilege.privilegeProofDocument);
+      this.cdr.detectChanges();
+    }
   }
 
   ngOnInit() {
+    this.inquiry = <CompilationOfWizardSteps>this.storageService.get(this.inquiryType);
     this.buildForm();
     this.subscribeOnwithoutPrivilege();
     this.subscribeOnPrivilegeOrder();
-    this.privilegeOrderService.get()
-      .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe(result => {
-        this.privilegeOrders = result;
+    this.privilegeOrders = this.privilegeOrderService.get();
+
+    if (!this.inquiry.privilege) return;
+    if (Object.keys(this.inquiry.privilege).length == 0) {
+      this.privilegeForm.patchValue({ withoutPrivilege: true });
+    } else if (this.inquiry.privilege) {
+      this.privilegeForm.patchValue({
+        withoutPrivilege: false,
+        privilegeOrder: this.inquiry.privilege.privilegeOrder,
+        privilege: this.inquiry.privilege
       });
-    this.initializer = this.getInitializer();
-    this.initializer.privilege();
+    }
 
   }
   ngOnDestroy(): void {
@@ -73,34 +85,41 @@ export class PrivilegeStepComponent implements OnInit, DoCheck, AfterViewInit, O
       ? true
       : check();
   }
+  compareObjects = this.commonService.compareObjects;
+  goTo = {
+    back: () => {
+      if (this.inquiryType == inquiryType.healthCamp) {
+        this.router.navigate(["../jobInfoStep"], { relativeTo: this.activatedRoute });
+      } else {
+        this.router.navigate(["../contactInfoStep"], { relativeTo: this.activatedRoute });
+      }
+    },
+    next: () => {
+      (() => {
+        let privilege: Privilege;
+        if (this.privilegeForm.controls.withoutPrivilege.value) {
+          privilege = new Privilege(undefined, undefined, undefined);
+        } else {
+          privilege = new Privilege(this.privilegeForm.controls.privilege.value.id, this.privilegeForm.controls.privilege.value.name, this.privilegeForm.controls.privilegeOrder.value);
+          privilege.privilegeProofDocument = this.commonService.getDocumentByType([this.confirmationProofDocumentComponent], AttachmentType.PrivilegeProofDocument);
+        }
+        this.storageService.set(this.inquiryType, { privilege: privilege });
+      })();
 
-  private getInitializer = () => {
-    const inquiry = <CompilationOfWizardSteps>this.storageService.get(this.inquiryType);
-    return {
-      privilege: () => {
-        if (!inquiry.privilege) return;
-        if (Object.keys(inquiry.privilege).length == 0) {
-          this.privilegeForm.patchValue({ withoutPrivilege: true });
-        } else if (inquiry.privilege) {
-          this.privilegeForm.patchValue({
-            withoutPrivilege: false,
-            privilegeOrder: inquiry.privilege.privilegeOrderId,
-            privilege: inquiry.privilege
-          });
-        }
-      },
-      document: () => {
-        if (inquiry && inquiry.privilege && inquiry.privilege.privilegeProofDocument) {
-          this.confirmationProofDocumentComponent.confirmationDocumentForm.patchValue(inquiry.privilege.privilegeProofDocument);
-          this.cdr.detectChanges();
-        }
+      switch (this.inquiryType) {
+        case inquiryType.profEducation:
+          this.router.navigate(["../educDocumentInfoStep"], { relativeTo: this.activatedRoute });
+          break;
+        case inquiryType.preschool:
+          this.router.navigate(["../inquiryInfoStep"], { relativeTo: this.activatedRoute });
+          break;
+        case inquiryType.school:
+          this.router.navigate(["../schoolInquiryInfoStep"], { relativeTo: this.activatedRoute });
+          break;
+        default:
+          break;
       }
     }
-
-  }
-
-  private needPrivilege() {
-    return this.privilegeForm && !this.privilegeForm.controls.withoutPrivilege.value;
   }
   private reset = (() => {
     const privilegeOrder = (withoutPrivilege?) => {
@@ -149,42 +168,6 @@ export class PrivilegeStepComponent implements OnInit, DoCheck, AfterViewInit, O
           });
 
       });
-  }
-
-  goTo = {
-    back: () => {
-      if (this.inquiryType == inquiryType.healthCamp) {
-        this.router.navigate(["../jobInfoStep"], { relativeTo: this.activatedRoute });
-      } else {
-        this.router.navigate(["../contactInfoStep"], { relativeTo: this.activatedRoute });
-      }
-    },
-    next: () => {
-      (() => {
-        let privilege: Privilege;
-        if (this.privilegeForm.controls.withoutPrivilege.value) {
-          privilege = new Privilege(undefined, undefined, undefined);
-        } else {
-          privilege = new Privilege(this.privilegeForm.controls.privilege.value.id, this.privilegeForm.controls.privilege.value.name, this.privilegeForm.controls.privilegeOrder.value);
-          privilege.privilegeProofDocument = this.commonService.getDocumentByType([this.confirmationProofDocumentComponent], AttachmentType.PrivilegeProofDocument);
-        }
-        this.storageService.set(this.inquiryType, { privilege: privilege });
-      })();
-
-      switch (this.inquiryType) {
-        case inquiryType.profEducation:
-          this.router.navigate(["../educDocumentInfoStep"], { relativeTo: this.activatedRoute });
-          break;
-        case inquiryType.preschool:
-          this.router.navigate(["../inquiryInfoStep"], { relativeTo: this.activatedRoute });
-          break;
-        case inquiryType.school:
-          this.router.navigate(["../schoolInquiryInfoStep"], { relativeTo: this.activatedRoute });
-          break;
-        default:
-          break;
-      }
-    }
   }
 
   private buildForm() {

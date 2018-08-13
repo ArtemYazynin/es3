@@ -13,9 +13,9 @@
         </div>
         <div class="form-group" *ngIf="showPrivilegeOrders">
           <mat-form-field class="full-width">
-            <mat-select formControlName="privilegeOrder" placeholder="Приоритет льготной категории">
+            <mat-select formControlName="privilegeOrder" [compareWith]="compareObjects" placeholder="Приоритет льготной категории">
               <mat-option value="" selected>Не выбрано</mat-option>
-              <mat-option *ngFor="let item of privilegeOrders" [value]="item.id">{{item.name}}</mat-option>
+              <mat-option *ngFor="let item of privilegeOrders | async" [value]="item">{{item.name}}</mat-option>
             </mat-select>
           </mat-form-field>
           <div *ngIf="formErrors.privilegeOrder" class="alert alert-danger">

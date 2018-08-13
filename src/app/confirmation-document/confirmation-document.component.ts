@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { FormService } from '../shared/form.service';
 import { AttachmentType, ConfirmationDocument } from '../shared';
+import { FormService } from '../shared/form.service';
 
 @Component({
   selector: 'app-confirmation-document',

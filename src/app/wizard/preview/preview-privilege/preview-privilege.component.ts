@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { Privilege } from '../../../shared';
 
 @Component({
@@ -8,9 +8,9 @@ import { Privilege } from '../../../shared';
 })
 export class PreviewPrivilegeComponent implements OnInit {
   @Input() privilege: Privilege;
+  visibility: boolean = false;
   constructor() { }
-
   ngOnInit() {
+    this.visibility = this.privilege && Object.keys(this.privilege).length > 0
   }
-
 }
