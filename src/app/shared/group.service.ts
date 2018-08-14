@@ -13,7 +13,7 @@ export class GroupService {
   constructor(private http: HttpInterceptor) { }
 
   getGroup(institutionId: string, id?: string): Observable<Array<Group>> {
-    let url = isNullOrUndefined(id) && id == ""
+    let url = isNullOrUndefined(id) || id == ""
       ? this.getBaseUrl(institutionId)
       : this.getBaseUrl(institutionId) + "&id=" + id
     return this.http.get(url).pipe(map(result => {
