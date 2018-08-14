@@ -3,7 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { isNullOrUndefined } from 'util';
 import { BirthInfoComponent } from '../../person/birth-info/birth-info.component';
 import { CitizenshipSelectComponent } from '../../person/citizenship-select/citizenship-select.component';
-import { Child, CompilationOfWizardSteps, ConfirmationDocument, FormService, IdentityCard, Person, StepBase, WizardStorageService } from '../../shared';
+import { Child, CompilationOfWizardSteps, ConfirmationDocument, FormService, IdentityCard, Person, StepBase, WizardStorageService, CommonService } from '../../shared';
 import { SpecHealthComponent } from '../../spec-health/spec-health.component';
 import { ChildComponent } from './child/child.component';
 
@@ -23,7 +23,7 @@ export class ChildrenStepComponent implements OnInit, AfterViewInit, StepBase {
   inquiryType = this.route.snapshot.data.resolved.inquiryType;
 
   constructor(private route: ActivatedRoute, private router: Router, private resolver: ComponentFactoryResolver, private storageService: WizardStorageService,
-    private cdr: ChangeDetectorRef, private formService: FormService) { }
+    private cdr: ChangeDetectorRef, private formService: FormService, private commonService: CommonService) { }
 
   isValid(): boolean {
     let isValid = {
@@ -136,30 +136,48 @@ export class ChildrenStepComponent implements OnInit, AfterViewInit, StepBase {
         this.router.navigate(["/"]);
       },
       next: () => {
-        if (!this.isValid()) return;
-        let children: Array<Child> = [];
-        this.components.forEach((x, i) => {
-          const specHealthDocument = this.specHealthComponent.specHealth == 101
-            ? null
-            : (() => {
-              const form = this.specHealthComponent.documentComponents["_results"][i].confirmationDocumentForm;
-              return new ConfirmationDocument(form.value["name"], form.value["series"], form.value["number"],
-                form.value["dateIssue"], form.value["dateExpired"])
-            })();
-          const person = getPerson(x);
-          const identityCard = new IdentityCard(x.instance.identityCardComponent.identityCardForm);
-          let child = new Child(person.lastname, person.firstname, person.middlename, person.snils, person.noMiddlename, person.birthDate, person.birthPlace,
-            person.gender, this.citizenshipSelectComponent.citizenships, this.specHealthComponent.specHealth,
-            specHealthDocument,
-            identityCard);
-          children.push(child);
-        });
-
+        let children = this.getChildren();
+        if (this.commonService.hasDublicates(children)) {
+          alert("Дети имеют одинаковые персональные данные")
+          return;
+        }
         this.storageService.set(this.inquiryType, { children: children })
         this.router.navigate(["../currentEducationPlaceStep"], { relativeTo: this.route });
       }
     }
   })();
+
+  private getChildren(): Array<Child> {
+    let buildPerson = (component: ComponentRef<ChildComponent>): Person => {
+      const personForm = component.instance.fullnameComponent.fullnameForm;
+      const birthInfoForm = this.birthInfoComponent.birthInfoForm;
+      return new Person(personForm.value["lastname"],
+        personForm.value["firstname"],
+        personForm.value["middlename"],
+        component.instance.snilsComponent.snils, personForm.value["noMiddlename"],
+        birthInfoForm.value["birthDate"],
+        birthInfoForm.value["birthPlace"],
+        component.instance.genderComponent.gender);
+    }
+    let result = [];
+    this.components.forEach((x, i) => {
+      const specHealthDocument = this.specHealthComponent.specHealth == 101
+        ? null
+        : (() => {
+          const form = this.specHealthComponent.documentComponents["_results"][i].confirmationDocumentForm;
+          return new ConfirmationDocument(form.value["name"], form.value["series"], form.value["number"],
+            form.value["dateIssue"], form.value["dateExpired"])
+        })();
+      const person = buildPerson(x);
+      const identityCard = new IdentityCard(x.instance.identityCardComponent.identityCardForm);
+      let child = new Child(person.lastname, person.firstname, person.middlename, person.snils, person.noMiddlename, person.birthDate, person.birthPlace,
+        person.gender, this.citizenshipSelectComponent.citizenships, this.specHealthComponent.specHealth,
+        specHealthDocument,
+        identityCard);
+      result.push(child);
+    });
+    return result;
+  }
 
   ngOnInit() {
     this.inquiry = this.storageService.get(this.inquiryType);
