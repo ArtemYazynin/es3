@@ -15,7 +15,7 @@ export * from "./relationTypes/relation-type";
 //
 
 export * from "./entity";
-
+export * from "./dublicates-finder";
 export * from "./location";
 export * from "./files-info";
 export * from "./inquiry-info";

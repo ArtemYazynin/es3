@@ -1,5 +1,3 @@
-import { FormGroup } from "@angular/forms";
-
 export class Person {
     lastname: string;
     firstname: string;
@@ -11,7 +9,7 @@ export class Person {
     birthPlace: string;
     gender: number = 1;
 
-    constructor(lastname: string,firstname: string,middlename: string,snils: string,noMiddlename: boolean,birthDate: Date,birthPlace: string,gender: number){
+    constructor(lastname: string, firstname: string, middlename: string, snils: string, noMiddlename: boolean, birthDate: Date, birthPlace: string, gender: number) {
         this.lastname = lastname;
         this.firstname = firstname;
 

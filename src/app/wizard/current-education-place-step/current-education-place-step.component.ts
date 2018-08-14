@@ -171,7 +171,6 @@ export class CurrentEducationPlaceStepComponent implements OnInit, StepBase {
           switch (this.inquiryType) {
             case inquiryType.preschool:
               this.institutionsTypes.push(result.find(x => x.id == preschoolType));
-              this.institutionsTypes.push(result.find(x => x.id == schoolType));//ТЕСТ
               break;
             case inquiryType.school:
               this.institutionsTypes.push(result.find(x => x.id == schoolType));

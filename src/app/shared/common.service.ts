@@ -3,6 +3,7 @@ import { ConfirmationDocumentComponent } from '../confirmation-document/confirma
 import { AttachmentType } from './attachment-type.enum';
 import { ConfirmationDocument } from './confirmation-document';
 import { Entity } from './entity';
+import { IdentityCard } from '../person/identity-card/shared/identityCard';
 
 @Injectable({
   providedIn: 'root'
@@ -36,21 +37,5 @@ export class CommonService {
   }
   compareObjects(o1: any, o2: any): boolean {
     return (o1 && o1.id) === (o2 && o2.id);
-  }
-
-  hasDublicates(collection: Array<any>): boolean {
-    if(!collection.every(x => !!x.hashCode)){
-      console.error("hashCode property is required for hasDublicates params collection");
-    }
-    let result = false;
-    let checked = {};
-    for (let index = 0, len = collection.length; index < len; index++) {
-      const element = collection[index];
-      if (checked[element.hashCode]) {
-        result = true; break;
-      }
-      checked[element.hashCode] = element;
-    }
-    return result;
   }
 }

@@ -137,7 +137,7 @@ export class ChildrenStepComponent implements OnInit, AfterViewInit, StepBase {
       },
       next: () => {
         let children = this.getChildren();
-        if (this.commonService.hasDublicates(children)) {
+        if (this.commonService.hasDublicates(children.map(x=>x.identityCard))) {
           alert("Дети имеют одинаковые персональные данные")
           return;
         }

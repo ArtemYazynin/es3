@@ -114,6 +114,7 @@ export class ApplicantStepComponent implements OnInit, AfterViewInit, OnDestroy,
         result.applicantRepresentParentDocument = this.commonService.getDocumentByType(this.confirmationDocuments, AttachmentType.ApplicantRepresentParent);
         return result;
       })();
+      
       this.storageService.set(this.inquiryType, { applicant: applicant });
       if (this.storageService.get(this.inquiryType).applicantType == ApplicantType["Законный представитель ребенка"]) {
         this.router.navigate(["../contactInfoStep"], { relativeTo: this.route });
