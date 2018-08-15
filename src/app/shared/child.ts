@@ -8,16 +8,16 @@ export class Child extends Person {
     citizenships: Array<number>;
     specHealth: number;
     specHealthDocument: ConfirmationDocument
-
+    disabledChild: any;
     constructor(lastname: string, firstname: string, middlename: string, snils: string, noMiddlename: boolean, birthDate: Date, birthPlace: string, gender: number,
-        citizenship: Array<number>, specHealth: number, specHealthDocument: ConfirmationDocument, identityCard: IdentityCard) {
+        citizenship: Array<number>, specHealth: number, specHealthDocument: ConfirmationDocument, identityCard: IdentityCard,disabledChild:any) {
         super(lastname, firstname, middlename, snils, noMiddlename, birthDate, birthPlace, gender);
         
         this.identityCard = identityCard;
         this.citizenships = citizenship || [];
         this.specHealth = specHealth;
         this.specHealthDocument = specHealthDocument;
-        
+        this.disabledChild = disabledChild;
     }
     
 }

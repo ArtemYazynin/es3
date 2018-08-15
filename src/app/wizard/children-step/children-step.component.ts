@@ -1,9 +1,9 @@
-import { AfterViewInit, ChangeDetectorRef, Component, ComponentFactory, ComponentFactoryResolver, ComponentRef, OnInit, ViewChild, ViewContainerRef, AfterContentInit } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, ComponentFactory, ComponentFactoryResolver, ComponentRef, OnInit, ViewChild, ViewContainerRef } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { isNullOrUndefined } from 'util';
 import { BirthInfoComponent } from '../../person/birth-info/birth-info.component';
 import { CitizenshipSelectComponent } from '../../person/citizenship-select/citizenship-select.component';
-import { Child, CompilationOfWizardSteps, ConfirmationDocument, FormService, IdentityCard, Person, StepBase, WizardStorageService, CommonService, DublicatesFinder } from '../../shared';
+import { Child, CommonService, CompilationOfWizardSteps, ConfirmationDocument, DublicatesFinder, FormService, IdentityCard, Person, StepBase, WizardStorageService } from '../../shared';
 import { SpecHealthComponent } from '../../spec-health/spec-health.component';
 import { ChildComponent } from './child/child.component';
 
@@ -83,7 +83,9 @@ export class ChildrenStepComponent implements OnInit, AfterViewInit, StepBase {
       const factory: ComponentFactory<ChildComponent> = this.resolver.resolveComponentFactory(ChildComponent);
       let componentRef = this.viewContainer.createComponent(factory);
       componentRef.instance.show = true;
+      componentRef.instance.inquiryType = this.inquiryType;
       this.components.push(componentRef);
+      this.cdr.detectChanges();
     }
     let getTitle = (component: ComponentRef<ChildComponent>) => {
       return component.instance.fullnameComponent && component.instance.fullnameComponent.fullnameForm
@@ -120,24 +122,13 @@ export class ChildrenStepComponent implements OnInit, AfterViewInit, StepBase {
     };
   })();
   goTo = (() => {
-    let getPerson = (component: ComponentRef<ChildComponent>): Person => {
-      const personForm = component.instance.fullnameComponent.fullnameForm;
-      const birthInfoForm = this.birthInfoComponent.birthInfoForm;
-      return new Person(personForm.value["lastname"],
-        personForm.value["firstname"],
-        personForm.value["middlename"],
-        component.instance.snilsComponent.snils, personForm.value["noMiddlename"],
-        birthInfoForm.value["birthDate"],
-        birthInfoForm.value["birthPlace"],
-        component.instance.genderComponent.gender);
-    }
     return {
       back: () => {
         this.router.navigate(["/"]);
       },
       next: () => {
         let children = this.getChildren();
-        if(DublicatesFinder.betweenChildren(children)) return true;
+        if (DublicatesFinder.betweenChildren(children)) return true;
 
         this.storageService.set(this.inquiryType, { children: children })
         this.router.navigate(["../currentEducationPlaceStep"], { relativeTo: this.route });
@@ -171,7 +162,7 @@ export class ChildrenStepComponent implements OnInit, AfterViewInit, StepBase {
       let child = new Child(person.lastname, person.firstname, person.middlename, person.snils, person.noMiddlename, person.birthDate, person.birthPlace,
         person.gender, this.citizenshipSelectComponent.citizenships, this.specHealthComponent.specHealth,
         specHealthDocument,
-        identityCard);
+        identityCard, x.instance.disabledChild);
       result.push(child);
     });
     return result;
@@ -202,6 +193,7 @@ export class ChildrenStepComponent implements OnInit, AfterViewInit, StepBase {
         let componentRef = <ComponentRef<ChildComponent>>outer.viewContainer.createComponent(factory);
         componentRef.instance.snilsComponent.snils = child.snils;
         componentRef.instance.genderComponent.gender = child.gender
+        componentRef.instance.disabledChild = child.disabledChild;
         outer.formService.patchFullnameForm(componentRef.instance.fullnameComponent.fullnameForm, child);
         outer.formService.patchIdentityCardForm(componentRef.instance.identityCardComponent.identityCardForm, child.identityCard);
         (function setActiveChild(outer) {

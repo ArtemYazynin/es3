@@ -12,7 +12,7 @@ import { Observable } from 'rxjs';
 export class SpecHealthComponent implements OnInit {
 
   @ViewChildren(ConfirmationDocumentComponent) documentComponents: QueryList<ConfirmationDocumentComponent>;
-  @Input() childComponents: Array<ChildComponent>;
+  @Input() childrenComponents: Array<ChildComponent>;
 
   attachmentType = AttachmentType;
   hasDocuments: boolean = false;

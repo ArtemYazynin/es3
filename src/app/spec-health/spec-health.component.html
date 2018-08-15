@@ -14,7 +14,7 @@
   </div>
 </div>
 <div class="row" *ngIf="specHealth != 101">
-  <div *ngFor="let item of childComponents">
+  <div *ngFor="let item of childrenComponents">
     <div class="col-md-12" [hidden]="!item.instance.show">
       <app-confirmation-document type="attachmentType.SpecHealthDocument" title="Документ, подтверждающий потребность в группе с ОВЗ">
       </app-confirmation-document>

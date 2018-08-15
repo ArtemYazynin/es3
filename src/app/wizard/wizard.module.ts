@@ -54,6 +54,7 @@ import { PreviewPrivilegeComponent } from './preview/preview-privilege/preview-p
 import { BaseResolver } from './resolvers/base-resolver';
 import { PrivilegeStepResolver } from './resolvers/privilege-step-resolver';
 import { YesNoPipe } from '../shared/yes-no.pipe';
+import { DisabilityChildComponent } from '../disability-child/disability-child.component';
 
 
 @NgModule({
@@ -92,6 +93,7 @@ import { YesNoPipe } from '../shared/yes-no.pipe';
     CitizenshipSelectComponent,
     ChildComponent,
     SnilsComponent,
+    DisabilityChildComponent,
     SpecHealthComponent,
 
     RelationTypeComponent,
