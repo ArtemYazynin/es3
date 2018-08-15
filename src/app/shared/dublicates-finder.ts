@@ -34,6 +34,15 @@ export class DublicatesFinder {
         return false;
     }
 
+    static betweenChildren(children: Array<Child>){
+        const collection = children.map(x=>x.identityCard);
+        if (this.hasDublicates(collection)) {
+            alert("Дети имеют одинаковые персональные данные")
+            return true;
+        }
+        return false;
+    }
+
     private static hasDublicates(collection: Array<IdentityCard>): boolean {
         let result = false;
         let checked = {};

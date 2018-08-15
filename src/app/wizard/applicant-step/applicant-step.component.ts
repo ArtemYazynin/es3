@@ -5,7 +5,7 @@ import { CitizenshipSelectComponent } from '../../person/citizenship-select/citi
 import { FullNameComponent } from '../../person/full-name/full-name.component';
 import { IdentityCardComponent } from '../../person/identity-card/identity-card.component';
 import { SnilsComponent } from '../../person/snils/snils.component';
-import { Applicant, ApplicantType, AttachmentType, CitizenshipService, CommonService, CompilationOfWizardSteps, Country, IdentityCard, StepBase, WizardStorageService, ConfirmationDocument, FormService } from '../../shared';
+import { Applicant, ApplicantType, AttachmentType, CitizenshipService, CommonService, CompilationOfWizardSteps, Country, IdentityCard, StepBase, WizardStorageService, ConfirmationDocument, FormService, DublicatesFinder } from '../../shared';
 import { Subscription } from 'rxjs';
 
 @Component({
@@ -110,11 +110,13 @@ export class ApplicantStepComponent implements OnInit, AfterViewInit, OnDestroy,
         if (this.citizenshipService.hasForeignCitizenship(result.citizenships, this.countries)) {
           result.countryStateApplicantDocument = this.commonService.getDocumentByType(this.confirmationDocuments, AttachmentType.CountryStateApplicantDocument);
         }
-
         result.applicantRepresentParentDocument = this.commonService.getDocumentByType(this.confirmationDocuments, AttachmentType.ApplicantRepresentParent);
         return result;
       })();
-      
+
+      if (DublicatesFinder.betweenApplicantChildren(this.inquiry.applicant, this.inquiry.children)) return;
+      if (DublicatesFinder.betweenChildren(this.inquiry.children)) return;
+
       this.storageService.set(this.inquiryType, { applicant: applicant });
       if (this.storageService.get(this.inquiryType).applicantType == ApplicantType["Законный представитель ребенка"]) {
         this.router.navigate(["../contactInfoStep"], { relativeTo: this.route });

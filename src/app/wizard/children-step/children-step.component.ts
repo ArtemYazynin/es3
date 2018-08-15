@@ -3,7 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { isNullOrUndefined } from 'util';
 import { BirthInfoComponent } from '../../person/birth-info/birth-info.component';
 import { CitizenshipSelectComponent } from '../../person/citizenship-select/citizenship-select.component';
-import { Child, CompilationOfWizardSteps, ConfirmationDocument, FormService, IdentityCard, Person, StepBase, WizardStorageService, CommonService } from '../../shared';
+import { Child, CompilationOfWizardSteps, ConfirmationDocument, FormService, IdentityCard, Person, StepBase, WizardStorageService, CommonService, DublicatesFinder } from '../../shared';
 import { SpecHealthComponent } from '../../spec-health/spec-health.component';
 import { ChildComponent } from './child/child.component';
 
@@ -137,10 +137,8 @@ export class ChildrenStepComponent implements OnInit, AfterViewInit, StepBase {
       },
       next: () => {
         let children = this.getChildren();
-        if (this.commonService.hasDublicates(children.map(x=>x.identityCard))) {
-          alert("Дети имеют одинаковые персональные данные")
-          return;
-        }
+        if(DublicatesFinder.betweenChildren(children)) return true;
+
         this.storageService.set(this.inquiryType, { children: children })
         this.router.navigate(["../currentEducationPlaceStep"], { relativeTo: this.route });
       }
