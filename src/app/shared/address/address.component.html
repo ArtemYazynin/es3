@@ -8,16 +8,16 @@
         <form [formGroup]="addressForm">
           <div class="form-group">
             <mat-form-field class="full-width">
-              <input type="text" placeholder="Регион" matInput formControlName="region" [matAutocomplete]="regionAuto">
-              <mat-autocomplete #regionAuto="matAutocomplete" [displayWith]="displayFn" (optionSelected)="onChange.region($event)">
+              <input type="text" [placeholder]="placeHolder.region()" matInput formControlName="region" [matAutocomplete]="regionAuto">
+              <mat-autocomplete #regionAuto="matAutocomplete" [displayWith]="display.region" (optionSelected)="onChange.region(this,$event)">
                 <mat-option value="">Не выбрано</mat-option>
                 <mat-option *ngFor="let option of regions | async" [value]="option">
-                  {{option.fullName || option.name}}
+                  {{option.typeShort}}.{{option.name}}
                 </mat-option>
               </mat-autocomplete>
             </mat-form-field>
           </div>
-          <div class="form-group" *ngIf="hasRegion()">
+          <div class="form-group" *ngIf="selected.region()">
             <mat-form-field class="full-width">
               <mat-select formControlName="regionChildType" placeholder="Тип" (selectionChange)="onChange.regionChildType($event)">
                 <mat-option value="">Не выбрано</mat-option>
@@ -26,13 +26,46 @@
               </mat-select>
             </mat-form-field>
           </div>
-          <div class="form-group" *ngIf="addressForm.get('regionChildType').value">
+          <div class="form-group" *ngIf="selected.districtType()">
             <mat-form-field class="full-width">
-              <input type="text" placeholder="Город" matInput formControlName="city" [matAutocomplete]="cityAuto">
-              <mat-autocomplete #cityAuto="matAutocomplete" [displayWith]="displayFn" (optionSelected)="onChange.city($event)">
+              <input type="text" [placeholder]="placeHolder.district()" matInput formControlName="district" [matAutocomplete]="districtAuto">
+              <mat-autocomplete #districtAuto="matAutocomplete" [displayWith]="display.other" (optionSelected)="onChange.district($event)">
+                <mat-option>Не выбрано</mat-option>
+                <mat-option *ngFor="let option of districts | async" [value]="option">
+                  {{option.typeShort}}.{{option.name}}
+                </mat-option>
+              </mat-autocomplete>
+            </mat-form-field>
+          </div>
+          <div class="form-group" *ngIf="selected.cityTypeOrDistrict()">
+            <mat-form-field class="full-width">
+              <input type="text" [placeholder]="placeHolder.city()" matInput formControlName="city" [matAutocomplete]="cityAuto">
+              <mat-autocomplete #cityAuto="matAutocomplete" [displayWith]="display.other" (optionSelected)="onChange.city($event)">
                 <mat-option>Не выбрано</mat-option>
                 <mat-option *ngFor="let option of cities | async" [value]="option">
-                  {{option.fullName || option.name}}
+                  {{option.typeShort}}.{{option.name}}
+                </mat-option>
+              </mat-autocomplete>
+            </mat-form-field>
+          </div>
+          <div class="form-group" *ngIf="selected.city()">
+            <mat-form-field class="full-width">
+              <input type="text" [placeholder]="placeHolder.street()" matInput formControlName="street" [matAutocomplete]="streetAuto">
+              <mat-autocomplete #streetAuto="matAutocomplete" [displayWith]="display.other" (optionSelected)="onChange.street($event)">
+                <mat-option>Не выбрано</mat-option>
+                <mat-option *ngFor="let option of streets | async" [value]="option">
+                  {{option.typeShort}}.{{option.name}}
+                </mat-option>
+              </mat-autocomplete>
+            </mat-form-field>
+          </div>
+          <div class="form-group" *ngIf="selected.street()">
+            <mat-form-field class="full-width">
+              <input type="text" [placeholder]="placeHolder.building()" matInput formControlName="building" [matAutocomplete]="buildingAuto">
+              <mat-autocomplete #buildingAuto="matAutocomplete" [displayWith]="display.other" (optionSelected)="onChange.building($event)">
+                <mat-option>Не выбрано</mat-option>
+                <mat-option *ngFor="let option of buildings | async" [value]="option">
+                  {{option.typeShort ? option.typeShort + '.': ''}}{{option.name}}
                 </mat-option>
               </mat-autocomplete>
             </mat-form-field>
