@@ -1,9 +1,9 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { Observable, Subject } from 'rxjs';
+import { Observable, Subject, pipe } from 'rxjs';
 import { debounceTime, takeUntil, filter, distinctUntilChanged } from 'rxjs/operators';
 import { AddressService, Location } from '..';
-import { MatAutocompleteSelectedEvent } from '@angular/material';
+import { MatAutocompleteSelectedEvent, MatSelectChange } from '@angular/material';
 
 @Component({
   selector: 'app-address',
@@ -14,8 +14,13 @@ export class AddressComponent implements OnInit, OnDestroy {
 
   private ngUnsubscribe: Subject<any> = new Subject();
   addressForm: FormGroup;
+  private debounceTime = 700;
+  regionChildTypes = {
+    district: 0,
+    city: 1
+  }
   regions: Observable<Array<Location>>;
-  cities:Observable<Array<Location>>;
+  cities: Observable<Array<Location>>;
   constructor(private addressService: AddressService, private fb: FormBuilder) { }
 
   ngOnDestroy(): void {
@@ -29,26 +34,39 @@ export class AddressComponent implements OnInit, OnDestroy {
       .pipe(
         takeUntil(this.ngUnsubscribe),
         distinctUntilChanged(),
-        debounceTime(700),
+        debounceTime(this.debounceTime),
         filter(x => (typeof x) != "object"))
       .subscribe(value => {
         this.regions = this.addressService.getRegions(value);
       });
-    this.addressForm.patchValue({ region: "" });
+    this.addressForm.controls.city.valueChanges
+      .pipe(
+        takeUntil(this.ngUnsubscribe),
+        distinctUntilChanged(),
+        debounceTime(this.debounceTime))
+      .subscribe(value => {
+        this.cities = this.addressService.getCities(this.addressForm.controls.region.value,value);
+      });
   }
   displayFn(entity?: Location): string | undefined {
     return entity ? (entity.fullName || entity.name) : undefined;
   }
   onChange = (() => {
-    const region = (e:MatAutocompleteSelectedEvent) => {
+    const region = (e: MatAutocompleteSelectedEvent) => {
+      if (!!e.option.value == false) return;
       const location = <Location>e.option.value;
     }
-    const city = (e:MatAutocompleteSelectedEvent)=>{
+    const city = (e: MatAutocompleteSelectedEvent) => {
+
+    }
+    const regionChildType = (e: MatSelectChange) => {
+
 
     }
     return {
       region: region,
-      city:city
+      regionChildType: regionChildType,
+      city: city
     }
   })();
   private buildForm() {
@@ -57,10 +75,30 @@ export class AddressComponent implements OnInit, OnDestroy {
         "",
         []
       ],
+      "district": [
+        "",
+        []
+      ],
       "city": [
         "",
         []
-      ]
+      ],
+      "street": [
+        "",
+        []
+      ],
+      "building": [
+        "",
+        []
+      ],
+      "regionChildType": [
+        "",
+        []
+      ],
     })
+  }
+
+  hasRegion() {
+    return (typeof this.addressForm.controls.region.value) == "object";
   }
 }

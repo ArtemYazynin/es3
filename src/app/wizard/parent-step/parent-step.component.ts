@@ -9,7 +9,7 @@ import { GenderComponent } from '../../person/gender/gender.component';
 import { IdentityCardComponent } from '../../person/identity-card/identity-card.component';
 import { SnilsComponent } from '../../person/snils/snils.component';
 import { RelationTypeComponent } from '../../relation-type/relation-type.component';
-import { ApplicantType, AttachmentType, CitizenshipService, CommonService, CompilationOfWizardSteps, Country, DublicatesFinder, Entity, FormService, IdentityCard, IdentityCardType, Parent, StepBase, WizardStorageService } from "../../shared/index";
+import { inquiryType, ApplicantType, AttachmentType, CitizenshipService, CommonService, CompilationOfWizardSteps, Country, DublicatesFinder, Entity, FormService, IdentityCard, IdentityCardType, Parent, StepBase, WizardStorageService } from "../../shared/index";
 
 @Component({
   moduleId: module.id,
@@ -56,6 +56,7 @@ export class ParentStepComponent implements OnInit, AfterViewInit, OnDestroy, St
   ];
   countries: Array<Country> = [];
   inquiryType = this.route.snapshot.data.resolved.inquiryType;
+  inquiryTypes = inquiryType;
 
   constructor(private storageService: WizardStorageService, private commonService: CommonService, private formService: FormService,
     private citizenshipService: CitizenshipService, private cdr: ChangeDetectorRef,
@@ -137,15 +138,25 @@ export class ParentStepComponent implements OnInit, AfterViewInit, OnDestroy, St
       && isValid.countryStateForm
       && isValid.relationType;
   }
-  isAvailable = {
-    countryStateDocument: () => this.citizenshipService.hasForeignCitizenship(this.citizenshipSelectComponent.citizenships, this.countries),
-    parentRepresentChildren: () => {
-      return this.relationTypeComponent
-        && this.relationTypeComponent.relationType
-        && this.relationTypeComponent.relationType.confirmationDocument;
-    },
-    childApplicantInfo: false
-  }
+  isAvailable = (() => {
+    const hasForeignCitizenship = () => {
+      return this.citizenshipService.hasForeignCitizenship(this.citizenshipSelectComponent.citizenships, this.countries);
+    }
+    return {
+      address: () => {
+        const citizenshipSelected = this.citizenshipSelectComponent && this.citizenshipSelectComponent.citizenships.length > 0
+        const notHasApplicant = this.inquiry.applicantType == ApplicantType["Законный представитель ребенка"];
+        return true && citizenshipSelected;//notHasApplicant && TODO
+      },
+      countryStateDocument: hasForeignCitizenship,
+      parentRepresentChildren: () => {
+        return this.relationTypeComponent
+          && this.relationTypeComponent.relationType
+          && this.relationTypeComponent.relationType.confirmationDocument;
+      },
+      childApplicantInfo: false
+    }
+  })();
 
   goTo = {
     back: () => {

@@ -17,6 +17,11 @@
       </div>
       <app-citizenship-select>
       </app-citizenship-select>
+      <div class="row" *ngIf="isAvailable.address()">
+        <div class="col-md-12">
+          <app-address></app-address>
+        </div>
+      </div>
 
       <div class="row" [hidden]="!isAvailable.childApplicantInfo">
         <div class="col-md-12">

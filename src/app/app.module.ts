@@ -5,6 +5,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MyDatePickerModule } from 'mydatepicker';
 import { AppComponent } from './app.component';
 import { WizardModule } from './wizard/wizard.module';
+import { JsonpModule } from '@angular/http';
 
 
 @NgModule({
@@ -13,7 +14,7 @@ import { WizardModule } from './wizard/wizard.module';
     BrowserModule,
     WizardModule,
     BrowserAnimationsModule,
-    MyDatePickerModule
+    MyDatePickerModule,JsonpModule
   ],
   providers: [
   ],
