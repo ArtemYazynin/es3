@@ -1,11 +1,10 @@
 import { Injectable } from '@angular/core';
+import { Jsonp } from '@angular/http';
 import { Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { isNullOrUndefined } from 'util';
 import { HttpInterceptor } from './http-interceptor';
 import { Location } from "./location";
-import { HttpUrlEncodingCodec } from '@angular/common/http';
-import { Jsonp } from '@angular/http';
 @Injectable({
   providedIn: 'root'
 })

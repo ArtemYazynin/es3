@@ -19,7 +19,7 @@
           </div>
           <div class="form-group" *ngIf="selected.region()">
             <mat-form-field class="full-width">
-              <mat-select formControlName="regionChildType" placeholder="Тип" (selectionChange)="onChange.regionChildType($event)">
+              <mat-select formControlName="regionChildType" placeholder="Тип" (selectionChange)="onChange.regionChildType(this,$event)">
                 <mat-option value="">Не выбрано</mat-option>
                 <mat-option value="0">Район</mat-option>
                 <mat-option value="1">Город</mat-option>
@@ -29,7 +29,7 @@
           <div class="form-group" *ngIf="selected.districtType()">
             <mat-form-field class="full-width">
               <input type="text" [placeholder]="placeHolder.district()" matInput formControlName="district" [matAutocomplete]="districtAuto">
-              <mat-autocomplete #districtAuto="matAutocomplete" [displayWith]="display.other" (optionSelected)="onChange.district($event)">
+              <mat-autocomplete #districtAuto="matAutocomplete" [displayWith]="display.other" (optionSelected)="onChange.district(this,$event)">
                 <mat-option>Не выбрано</mat-option>
                 <mat-option *ngFor="let option of districts | async" [value]="option">
                   {{option.typeShort}}.{{option.name}}
@@ -40,7 +40,7 @@
           <div class="form-group" *ngIf="selected.cityTypeOrDistrict()">
             <mat-form-field class="full-width">
               <input type="text" [placeholder]="placeHolder.city()" matInput formControlName="city" [matAutocomplete]="cityAuto">
-              <mat-autocomplete #cityAuto="matAutocomplete" [displayWith]="display.other" (optionSelected)="onChange.city($event)">
+              <mat-autocomplete #cityAuto="matAutocomplete" [displayWith]="display.other" (optionSelected)="onChange.city(this,$event)">
                 <mat-option>Не выбрано</mat-option>
                 <mat-option *ngFor="let option of cities | async" [value]="option">
                   {{option.typeShort}}.{{option.name}}
@@ -51,7 +51,7 @@
           <div class="form-group" *ngIf="selected.city()">
             <mat-form-field class="full-width">
               <input type="text" [placeholder]="placeHolder.street()" matInput formControlName="street" [matAutocomplete]="streetAuto">
-              <mat-autocomplete #streetAuto="matAutocomplete" [displayWith]="display.other" (optionSelected)="onChange.street($event)">
+              <mat-autocomplete #streetAuto="matAutocomplete" [displayWith]="display.other" (optionSelected)="onChange.street(this,$event)">
                 <mat-option>Не выбрано</mat-option>
                 <mat-option *ngFor="let option of streets | async" [value]="option">
                   {{option.typeShort}}.{{option.name}}
@@ -62,12 +62,17 @@
           <div class="form-group" *ngIf="selected.street()">
             <mat-form-field class="full-width">
               <input type="text" [placeholder]="placeHolder.building()" matInput formControlName="building" [matAutocomplete]="buildingAuto">
-              <mat-autocomplete #buildingAuto="matAutocomplete" [displayWith]="display.other" (optionSelected)="onChange.building($event)">
+              <mat-autocomplete #buildingAuto="matAutocomplete" [displayWith]="display.other" (optionSelected)="onChange.building(this,$event)">
                 <mat-option>Не выбрано</mat-option>
                 <mat-option *ngFor="let option of buildings | async" [value]="option">
-                  {{option.typeShort ? option.typeShort + '.': ''}}{{option.name}}
+                  {{option.name}}
                 </mat-option>
               </mat-autocomplete>
+            </mat-form-field>
+          </div>
+          <div class="form-group" *ngIf="selected.building()">
+            <mat-form-field>
+              <input matInput formControlName="flat" placeholder="Квартира">
             </mat-form-field>
           </div>
         </form>

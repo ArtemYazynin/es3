@@ -1,10 +1,10 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, FormControl, AbstractControl } from '@angular/forms';
-import { Observable, Subject, pipe } from 'rxjs';
-import { debounceTime, takeUntil, filter, distinctUntilChanged } from 'rxjs/operators';
-import { AddressService, Location } from '..';
+import { AbstractControl, FormBuilder, FormGroup } from '@angular/forms';
 import { MatAutocompleteSelectedEvent, MatSelectChange } from '@angular/material';
+import { Observable, Subject } from 'rxjs';
+import { debounceTime, distinctUntilChanged, filter, takeUntil } from 'rxjs/operators';
 import { isNullOrUndefined } from 'util';
+import { AddressService, Location } from '..';
 
 @Component({
   selector: 'app-address',
@@ -49,6 +49,9 @@ export class AddressComponent implements OnInit, OnDestroy {
     },
     street: () => {
       return (typeof this.addressForm.controls.street.value) == "object";
+    },
+    building: () => {
+      return (typeof this.addressForm.controls.building.value) == "object";
     },
   }
 
@@ -130,41 +133,45 @@ export class AddressComponent implements OnInit, OnDestroy {
     },
     other: (entity?: Location) => {
       return entity
-        ? entity.typeShort ? (entity.typeShort + ".").concat(entity.name) : ""
+        ? entity.typeShort ? (entity.typeShort + ".").concat(entity.name) : entity.name
         : undefined;
     }
   }
   onChange = (() => {
-    const clearForm = (form: FormGroup, except: string) => {
-      if (isNullOrUndefined(form)
-        || isNullOrUndefined(except)
-        || except == "") return;
-      except = except.trim();
-      for (const key in form.controls) {
-        if (form.controls.hasOwnProperty(key)) {
-          if (key == except) continue;
-          form.controls[key].patchValue("");
-        }
+    const clearForm = (form: FormGroup, except: Array<string>) => {
+      if (isNullOrUndefined(form) || isNullOrUndefined(except)) return;
+      const difference = getDifference(Object.keys(form.controls), except)
+      difference.forEach(key => {
+        if (!!form.controls[key].value) form.controls[key].patchValue("");
+      });
+    }
+    const getDifference = (a: Array<string>, b: Array<string>) => {
+      let result = [];
+      for (let index = 0, len = a.length; index < len; index++) {
+        const element = a[index];
+        if (b.indexOf(a[index]) >= 0) continue;
+        result.push(element);
       }
+      return result;
     }
-    const region = (context: AddressComponent, e: MatAutocompleteSelectedEvent) => {
-      if (!!e.option.value == false) return;
-      clearForm(context.addressForm, "region");
+    const region = (context: AddressComponent) => {
+      clearForm(context.addressForm, ["region"]);
     }
-    const city = (context: AddressComponent, e: MatAutocompleteSelectedEvent) => {
-      clearForm(context.addressForm, "city");
+    const regionChildType = (context: AddressComponent) => {
+      clearForm(context.addressForm, ["region", "regionChildType"]);
     }
-    const district = (context: AddressComponent, e: MatAutocompleteSelectedEvent) => {
+    const city = (context: AddressComponent) => {
+      clearForm(context.addressForm, ["region", "regionChildType", "city"]);
+    }
+    const district = (context: AddressComponent) => {
+      clearForm(context.addressForm, ["region", "regionChildType", "district"]);
+    }
 
+    const street = (context: AddressComponent) => {
+      clearForm(context.addressForm, ["region", "regionChildType", "district", "city", "street"]);
     }
-    const regionChildType = (context: AddressComponent, e: MatSelectChange) => {
-
-    }
-    const street = (context: AddressComponent, e: MatSelectChange) => {
-
-    }
-    const building = (context: AddressComponent, e: MatSelectChange) => {
-
+    const building = (context: AddressComponent) => {
+      clearForm(context.addressForm, ["region", "regionChildType", "district", "city", "street", "building"]);
     }
 
     return {
@@ -202,9 +209,10 @@ export class AddressComponent implements OnInit, OnDestroy {
         "",
         []
       ],
-
+      "flat": [
+        "",
+        []
+      ],
     })
   }
-
-
 }
