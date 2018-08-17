@@ -3,7 +3,7 @@
 @import "~@angular/material/prebuilt-themes/indigo-pink.css";
 
 .full-width{
-    width: -webkit-fill-available;
+    width: 90%;
 }
 .radio-group {
     display: inline-flex;

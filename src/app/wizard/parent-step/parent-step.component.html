@@ -19,7 +19,7 @@
       </app-citizenship-select>
       <div class="row" *ngIf="isAvailable.address()">
         <div class="col-md-12">
-          <app-address></app-address>
+          <app-address title="Адрес регистрации" [type]="addressTypes.register"></app-address>
         </div>
       </div>
 

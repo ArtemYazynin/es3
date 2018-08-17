@@ -2,7 +2,7 @@
   <div class="col-md-12">
     <div class="widget-box">
       <div class="widget-title">
-        <h5>Адрес регистрации</h5>
+        <h5>{{title}}</h5>
       </div>
       <div class="widget-content">
         <form [formGroup]="addressForm">
@@ -58,6 +58,10 @@
                 </mat-option>
               </mat-autocomplete>
             </mat-form-field>
+            <button mat-icon-button color="primary" id="cityToggle" matTooltip="{{customStreet ? 'Выбор' : 'Ручной ввод'}}">
+              <i class="fas fa-list" *ngIf="customStreet"></i>
+              <i class="fas fa-edit" *ngIf="!customStreet"></i>
+            </button>
           </div>
           <div class="form-group" *ngIf="selected.street()">
             <mat-form-field class="full-width">

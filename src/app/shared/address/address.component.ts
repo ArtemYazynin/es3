@@ -1,10 +1,10 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, Input } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup } from '@angular/forms';
-import { MatAutocompleteSelectedEvent, MatSelectChange } from '@angular/material';
-import { Observable, Subject } from 'rxjs';
+import { Observable, Subject, of, fromEvent, Subscription } from 'rxjs';
 import { debounceTime, distinctUntilChanged, filter, takeUntil } from 'rxjs/operators';
 import { isNullOrUndefined } from 'util';
-import { AddressService, Location } from '..';
+import { AddressService, Location } from "../../shared/index";
+import { locationTypes } from "../../shared/location-type";
 
 @Component({
   selector: 'app-address',
@@ -12,19 +12,18 @@ import { AddressService, Location } from '..';
   styleUrls: ['./address.component.css']
 })
 export class AddressComponent implements OnInit, OnDestroy {
-
+  @Input() title: string;
+  @Input() type: number;
   private ngUnsubscribe: Subject<any> = new Subject();
-  addressForm: FormGroup;
   private debounceTime = 300;
-  regionChildTypes = {
-    district: 0,
-    city: 1
-  }
+  addressForm: FormGroup;
+  regionChildTypes = { district: 0, city: 1 }
   regions: Observable<Array<Location>>;
   cities: Observable<Array<Location>>;
   districts: Observable<Array<Location>>;
   streets: Observable<Array<Location>>;
   buildings: Observable<Array<Location>>;
+  customStreet = false;
   constructor(private addressService: AddressService, private fb: FormBuilder) { }
 
   ngOnDestroy(): void {
@@ -48,10 +47,12 @@ export class AddressComponent implements OnInit, OnDestroy {
       return (typeof this.addressForm.controls.city.value) == "object";
     },
     street: () => {
-      return (typeof this.addressForm.controls.street.value) == "object";
+      return (typeof this.addressForm.controls.street.value) == "object"
+        || (!!this.customStreet && !!this.addressForm.controls.street.value);
     },
     building: () => {
-      return (typeof this.addressForm.controls.building.value) == "object";
+      return (typeof this.addressForm.controls.building.value) == "object"
+        || (!!this.customStreet && !!this.addressForm.controls.building.value);
     },
   }
 
@@ -155,23 +156,31 @@ export class AddressComponent implements OnInit, OnDestroy {
       return result;
     }
     const region = (context: AddressComponent) => {
-      clearForm(context.addressForm, ["region"]);
+      clearForm(context.addressForm, [locationTypes.region]);
     }
     const regionChildType = (context: AddressComponent) => {
-      clearForm(context.addressForm, ["region", "regionChildType"]);
+      clearForm(context.addressForm, [locationTypes.region, "regionChildType"]);
     }
     const city = (context: AddressComponent) => {
-      clearForm(context.addressForm, ["region", "regionChildType", "city"]);
+      clearForm(context.addressForm, [locationTypes.region, "regionChildType", locationTypes.district, locationTypes.city]);
+      setTimeout(() => {
+        fromEvent(document.getElementById("cityToggle"), "click")
+          .pipe(takeUntil(this.ngUnsubscribe))
+          .subscribe(x => {
+            this.customStreet = !this.customStreet;
+            clearForm(context.addressForm, [locationTypes.region, "regionChildType", locationTypes.district, locationTypes.city]);
+          });
+      }, 0);
     }
     const district = (context: AddressComponent) => {
-      clearForm(context.addressForm, ["region", "regionChildType", "district"]);
+      clearForm(context.addressForm, [locationTypes.region, "regionChildType", locationTypes.district]);
     }
 
     const street = (context: AddressComponent) => {
-      clearForm(context.addressForm, ["region", "regionChildType", "district", "city", "street"]);
+      clearForm(context.addressForm, [locationTypes.region, "regionChildType", locationTypes.district, locationTypes.city, locationTypes.street]);
     }
     const building = (context: AddressComponent) => {
-      clearForm(context.addressForm, ["region", "regionChildType", "district", "city", "street", "building"]);
+      clearForm(context.addressForm, [locationTypes.region, "regionChildType", locationTypes.district, locationTypes.city, locationTypes.street, locationTypes.building]);
     }
 
     return {
@@ -185,31 +194,31 @@ export class AddressComponent implements OnInit, OnDestroy {
   })();
   private buildForm() {
     this.addressForm = this.fb.group({
-      "region": [
+      region: [
         "",
         []
       ],
-      "regionChildType": [
+      regionChildType: [
         "",
         []
       ],
-      "district": [
+      district: [
         "",
         []
       ],
-      "city": [
+      city: [
         "",
         []
       ],
-      "street": [
+      street: [
         "",
         []
       ],
-      "building": [
+      building: [
         "",
         []
       ],
-      "flat": [
+      flat: [
         "",
         []
       ],

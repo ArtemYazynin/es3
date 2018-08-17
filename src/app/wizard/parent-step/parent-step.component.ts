@@ -10,6 +10,8 @@ import { IdentityCardComponent } from '../../person/identity-card/identity-card.
 import { SnilsComponent } from '../../person/snils/snils.component';
 import { RelationTypeComponent } from '../../relation-type/relation-type.component';
 import { inquiryType, ApplicantType, AttachmentType, CitizenshipService, CommonService, CompilationOfWizardSteps, Country, DublicatesFinder, Entity, FormService, IdentityCard, IdentityCardType, Parent, StepBase, WizardStorageService } from "../../shared/index";
+import { AddressComponent } from '../../shared/address/address.component';
+import { addressTypes } from "../../shared/address-type";
 
 @Component({
   moduleId: module.id,
@@ -25,7 +27,8 @@ export class ParentStepComponent implements OnInit, AfterViewInit, OnDestroy, St
   @ViewChild(BirthInfoComponent) birthInfoComponent: BirthInfoComponent;
   @ViewChild(CitizenshipSelectComponent) citizenshipSelectComponent: CitizenshipSelectComponent;
   @ViewChild(RelationTypeComponent) relationTypeComponent: RelationTypeComponent;
-  @ViewChildren(ConfirmationDocumentComponent) confirmationDocuments: QueryList<ConfirmationDocumentComponent>
+  @ViewChildren(ConfirmationDocumentComponent) confirmationDocuments: QueryList<ConfirmationDocumentComponent>;
+  @ViewChildren(AddressComponent) addressesComponents: QueryList<AddressComponent>;
 
   private subscription: Subscription;
   private inquiry: CompilationOfWizardSteps;
@@ -57,6 +60,7 @@ export class ParentStepComponent implements OnInit, AfterViewInit, OnDestroy, St
   countries: Array<Country> = [];
   inquiryType = this.route.snapshot.data.resolved.inquiryType;
   inquiryTypes = inquiryType;
+  addressTypes = addressTypes;
 
   constructor(private storageService: WizardStorageService, private commonService: CommonService, private formService: FormService,
     private citizenshipService: CitizenshipService, private cdr: ChangeDetectorRef,
@@ -144,7 +148,8 @@ export class ParentStepComponent implements OnInit, AfterViewInit, OnDestroy, St
     }
     return {
       address: () => {
-        const citizenshipSelected = this.citizenshipSelectComponent && this.citizenshipSelectComponent.citizenships.length > 0
+        const citizenshipSelected = this.citizenshipSelectComponent
+          && this.citizenshipSelectComponent.citizenships.indexOf(643) >= 0
         const notHasApplicant = this.inquiry.applicantType == ApplicantType["Законный представитель ребенка"];
         return true && citizenshipSelected;//notHasApplicant && TODO
       },

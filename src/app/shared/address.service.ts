@@ -5,18 +5,18 @@ import { map } from 'rxjs/operators';
 import { isNullOrUndefined } from 'util';
 import { HttpInterceptor } from './http-interceptor';
 import { Location } from "./location";
+import { locationTypes } from "./location-type";
 @Injectable({
   providedIn: 'root'
 })
 export class AddressService {
   private url = "http://fias.ir-tech.ru/location?&callback=JSONP_CALLBACK&limit=35&";
-
   constructor(private http: HttpInterceptor, private jsonp: Jsonp) { }
 
   getRegions(searchStr: string): Observable<Array<Location>> {
     if (this.invalid(searchStr)) return this.getDefault();
     const urlTail = this.urlBuilder({
-      contentType: "region",
+      contentType: locationTypes.region,
       query: encodeURI(searchStr.trim())
     });
     const url = this.url.concat(urlTail);
@@ -28,12 +28,12 @@ export class AddressService {
       let result = {
         parentType: location.contentType
       };
-      result[location.contentType == "district" ? "districtId" : "regionId"] = location.id
+      result[location.contentType == locationTypes.district ? "districtId" : "regionId"] = location.id
       return result;
     })();
     const params = Object.assign({}, dynamicParams, {
       parentId: location.id,
-      contentType: "city",
+      contentType: locationTypes.city,
       query: encodeURI(searchStr.trim())
     });
     const urlTail = this.urlBuilder(params);
@@ -46,32 +46,32 @@ export class AddressService {
     const urlTail = this.urlBuilder({
       regionId: region.id,
       parentId: region.id,
-      parentType: "region",
-      contentType: "district",
+      parentType: locationTypes.region,
+      contentType: locationTypes.district,
       query: encodeURI(searchStr.trim())
     });
     const url = this.url.concat(urlTail);
     return this.sendRequest(url);
   }
   getStreets(city: Location, searchStr: string) {
-    if (isNullOrUndefined(city) || this.invalid(searchStr)) return this.getDefault();
+    if ((typeof city) != "object" || isNullOrUndefined(city) || this.invalid(searchStr)) return this.getDefault();
     const urlTail = this.urlBuilder({
       cityId: city.id,
       parentId: city.id,
-      parentType: "city",
-      contentType: "street",
+      parentType: locationTypes.city,
+      contentType: locationTypes.street,
       query: encodeURI(searchStr.trim())
     });
     const url = this.url.concat(urlTail);
     return this.sendRequest(url);
   }
   getBuildings(street: Location, searchStr: string) {
-    if (isNullOrUndefined(street) || this.invalid(searchStr)) return this.getDefault();
+    if ((typeof street) != "object" || isNullOrUndefined(street) || this.invalid(searchStr)) return this.getDefault();
     const urlTail = this.urlBuilder({
       streetId: street.id,
       parentId: street.id,
-      parentType: "street",
-      contentType: "building",
+      parentType: locationTypes.street,
+      contentType: locationTypes.building,
       query: encodeURI(searchStr.trim())
     });
     const url = this.url.concat(urlTail);

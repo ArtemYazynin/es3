@@ -1,6 +1,7 @@
 //const
 export * from "./inquiry-type";
-
+export * from "./location-type";
+export * from "./address-type";
 
 //enums
 export * from "../person/identity-card/shared/identityCardType";
