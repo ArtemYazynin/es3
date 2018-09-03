@@ -7,7 +7,7 @@ import { AppComponent } from './app.component';
 import { WizardModule } from './wizard/wizard.module';
 import { JsonpModule } from '@angular/http';
 
-
+import { HashLocationStrategy, LocationStrategy } from '@angular/common';
 @NgModule({
   declarations: [],
   imports: [
@@ -17,6 +17,7 @@ import { JsonpModule } from '@angular/http';
     MyDatePickerModule,JsonpModule
   ],
   providers: [
+    {provide: LocationStrategy, useClass: HashLocationStrategy}
   ],
   entryComponents: [],//динамически добавляемые компоненты ViewContainerRef.createComponent()
   bootstrap: [AppComponent]
