@@ -86,8 +86,8 @@ export class AddressService {
     return of([]);
   }
   private sendRequest(url: string): Observable<Array<Location>> {
-    return this.jsonp.request(url).pipe(map((response: Response) => {
-      let result = <Array<Location>>response.json()["result"];
+    return this.jsonp.request(url).pipe(map(response => {
+      let result = response.json()["result"];
       return result;
     }));
   }
