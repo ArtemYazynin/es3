@@ -10,7 +10,6 @@ export class PersonViewComponent implements OnInit {
   @Input() title: string;
   @Input() entity: Applicant | Parent | Child
 
-
   drawManager = this.drawService
 
   constructor(private drawService: DrawService) { }
@@ -18,4 +17,7 @@ export class PersonViewComponent implements OnInit {
   ngOnInit() {
   }
 
+  isChild = ()=>{
+    return 'specHealthDocument' in this.entity;
+  }
 }

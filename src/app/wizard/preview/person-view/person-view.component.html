@@ -12,7 +12,7 @@
     <div class="form-group">
       <b>СНИЛС </b> {{entity.snils || "-"}}
     </div>
-    <div class="widget-box" *ngIf="entity.specHealthDocument">
+    <div class="widget-box" *ngIf="isChild()">
       <h4>Документ, подтверждающий потребность в группе с ОВЗ</h4>
       <div class="widget-content">
         <div class="form-group">

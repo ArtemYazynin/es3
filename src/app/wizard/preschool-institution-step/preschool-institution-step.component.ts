@@ -68,7 +68,7 @@ export class PreschoolInstitutionStepComponent implements OnInit, OnDestroy, Ste
     return this.selectedInstitutions.length > 0;
   }
   add(event: MatAutocompleteSelectedEvent) {
-    if (!event || !event.option || event.option.value) return;
+    if (!event || !event.option || !event.option.value) return;
     const institution = event.option.value;
     this._add(institution);
   }

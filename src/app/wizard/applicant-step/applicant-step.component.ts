@@ -114,7 +114,7 @@ export class ApplicantStepComponent implements OnInit, AfterViewInit, OnDestroy,
         return result;
       })();
 
-      if (DublicatesFinder.betweenApplicantChildren(this.inquiry.applicant, this.inquiry.children)) return;
+      if (DublicatesFinder.betweenApplicantChildren(applicant, this.inquiry.children)) return;
       if (DublicatesFinder.betweenChildren(this.inquiry.children)) return;
 
       this.storageService.set(this.inquiryType, { applicant: applicant });
