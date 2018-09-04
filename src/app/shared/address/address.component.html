@@ -1,11 +1,19 @@
 <div class="row">
   <div class="col-md-12">
-    <div class="widget-box">
+    <div *ngIf="mode == modes.read">
+      <form>
+        <div class="form-group" >
+          <b>{{title}} </b>{{getAddress()}}
+          <button id="chooseFile" (click)="mode = modes.edit" mat-raised-button color="primary">Изменить</button>
+        </div>
+      </form>
+    </div>
+    <div class="widget-box" *ngIf="mode == modes.edit">
       <div class="widget-title">
         <h5>{{title}}</h5>
       </div>
       <div class="widget-content">
-        <form [formGroup]="addressForm">
+        <form [formGroup]="addressForm" (ngSubmit)="onSubmit()">
           <div class="form-group">
             <mat-form-field class="full-width">
               <input type="text" [placeholder]="placeHolder.region()" matInput formControlName="region" [matAutocomplete]="regionAuto">
@@ -58,7 +66,7 @@
                 </mat-option>
               </mat-autocomplete>
             </mat-form-field>
-            <button mat-icon-button color="primary" id="cityToggle" matTooltip="{{customStreet ? 'Выбор' : 'Ручной ввод'}}">
+            <button type="button" mat-icon-button color="primary" id="cityToggle" matTooltip="{{customStreet ? 'Выбор' : 'Ручной ввод'}}">
               <i class="fas fa-list" *ngIf="customStreet"></i>
               <i class="fas fa-edit" *ngIf="!customStreet"></i>
             </button>
@@ -78,6 +86,14 @@
             <mat-form-field>
               <input matInput formControlName="flat" placeholder="Квартира">
             </mat-form-field>
+          </div>
+          <div class="row">
+            <div class="col-md-12">
+              <div class="form-actions" style="text-align: center;">
+                <button type="submit" class="btn btn-primary">Принять</button>
+                <button type="button" class="btn btn-inverse" (click)="mode = modes.read">Отмена</button>
+              </div>
+            </div>
           </div>
         </form>
         <div>

@@ -151,7 +151,7 @@ export class ParentStepComponent implements OnInit, AfterViewInit, OnDestroy, St
         const citizenshipSelected = this.citizenshipSelectComponent
           && this.citizenshipSelectComponent.citizenships.indexOf(643) >= 0
         const notHasApplicant = this.inquiry.applicantType == ApplicantType["Законный представитель ребенка"];
-        return true && citizenshipSelected;//notHasApplicant && TODO
+        return notHasApplicant && citizenshipSelected;
       },
       countryStateDocument: hasForeignCitizenship,
       parentRepresentChildren: () => {

@@ -15,7 +15,13 @@ export * from "./countries";
 export * from "./relationTypes/relation-type";
 //
 
+export * from "./addressBuilder/abstract-address-builder";
+export * from "./addressBuilder/address-builder";
+export * from "./addressBuilder/address-builder-director";
+
+
 export * from "./entity";
+export * from "./address";
 export * from "./dublicates-finder";
 export * from "./location";
 export * from "./files-info";

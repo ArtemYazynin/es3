@@ -7,6 +7,8 @@ import { IdentityCardComponent } from '../../person/identity-card/identity-card.
 import { SnilsComponent } from '../../person/snils/snils.component';
 import { Applicant, ApplicantType, AttachmentType, CitizenshipService, CommonService, CompilationOfWizardSteps, Country, IdentityCard, StepBase, WizardStorageService, ConfirmationDocument, FormService, DublicatesFinder } from '../../shared';
 import { Subscription } from 'rxjs';
+import { AddressComponent } from '../../shared/address/address.component';
+import { addressTypes } from "../../shared/address-type";
 
 @Component({
   selector: 'app-applicant-step',
@@ -36,6 +38,7 @@ export class ApplicantStepComponent implements OnInit, AfterViewInit, OnDestroy,
   @ViewChild(SnilsComponent) snilsComponent: SnilsComponent;
   @ViewChildren(ConfirmationDocumentComponent) confirmationDocuments: QueryList<ConfirmationDocumentComponent>
   @ViewChild(CitizenshipSelectComponent) citizenshipSelectComponent: CitizenshipSelectComponent;
+  @ViewChildren(AddressComponent) addressesComponents: QueryList<AddressComponent>;
 
   constructor(private citizenshipService: CitizenshipService, private router: Router,
     private route: ActivatedRoute, private storageService: WizardStorageService,
@@ -43,8 +46,15 @@ export class ApplicantStepComponent implements OnInit, AfterViewInit, OnDestroy,
 
   inquiryType = this.route.snapshot.data.resolved.inquiryType;
   attachmentTypes = AttachmentType;
+  addressTypes = addressTypes;
   countries: Array<Country> = [];
   isAvailable = {
+    address: () => {
+      const citizenshipSelected = this.citizenshipSelectComponent
+        && this.citizenshipSelectComponent.citizenships.indexOf(643) >= 0
+      return this.inquiry.applicantType == ApplicantType["Доверенное лицо законного представителя ребенка"]
+        && citizenshipSelected;
+    },
     countryStateDocument: () => this.citizenshipService.hasForeignCitizenship(this.citizenshipSelectComponent.citizenships, this.countries)
   }
   isValid(): boolean {
@@ -111,6 +121,13 @@ export class ApplicantStepComponent implements OnInit, AfterViewInit, OnDestroy,
           result.countryStateApplicantDocument = this.commonService.getDocumentByType(this.confirmationDocuments, AttachmentType.CountryStateApplicantDocument);
         }
         result.applicantRepresentParentDocument = this.commonService.getDocumentByType(this.confirmationDocuments, AttachmentType.ApplicantRepresentParent);
+
+        const registerAddress = this.addressesComponents.find(x => x.type == addressTypes.register).address;
+        result.addresses.register = registerAddress ? registerAddress : this.inquiry.applicant.addresses.register;
+
+        const residentialAddress = this.addressesComponents.find(x => x.type == addressTypes.residential).address;
+        result.addresses.residential = residentialAddress ? residentialAddress : this.inquiry.applicant.addresses.residential;
+
         return result;
       })();
 
