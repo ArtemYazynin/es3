@@ -23,6 +23,7 @@ export class AddressComponent implements OnInit, OnDestroy {
   modes = { read: 1, edit: 2 }
   mode = this.modes.read;
   private debounceTime = 300;
+  private addressType: string;
 
   private ngUnsubscribe: Subject<any> = new Subject();
   addressForm: FormGroup;
@@ -33,7 +34,6 @@ export class AddressComponent implements OnInit, OnDestroy {
   streets: Observable<Array<Location>>;
   buildings: Observable<Array<Location>>;
   customStreet = false;
-
 
   constructor(private addressService: AddressService, private fb: FormBuilder) { }
 
@@ -138,10 +138,7 @@ export class AddressComponent implements OnInit, OnDestroy {
       .subscribe(value => {
         this.buildings = this.addressService.getBuildings(this.addressForm.controls.street.value, value);
       });
-  }
-
-  getAddress = () => {
-    let addressType = (() => {
+    this.addressType = (() => {
       for (const key in addressTypes) {
         if (addressTypes.hasOwnProperty(key)) {
           const element = addressTypes[key];
@@ -151,17 +148,17 @@ export class AddressComponent implements OnInit, OnDestroy {
         }
       }
     })();
+    if (this.owner) this.address = this.owner[this.addressType];
+  }
 
+  getAddress = () => {
     const addressToString = (address: Address): string => {
       const builder = new AddressBuilder(address);
       new AddressBuilderDirector().construct(builder);
       return builder.getResult();
     }
-
     if (this.address) {
       return addressToString(this.address)
-    } else if (this.owner[addressType]) {
-      return addressToString(this.owner[addressType]);
     } else {
       return "-";
     }
@@ -171,7 +168,7 @@ export class AddressComponent implements OnInit, OnDestroy {
     this.mode = this.modes.read;
     if (!this.addressForm.controls.region.value) return;
     this.address = new Address(<Location>this.addressForm.controls.region.value, this.addressForm.controls.district.value, this.addressForm.controls.city.value,
-      this.addressForm.controls.street.value, this.addressForm.controls.building.value, this.addressForm.controls.flat.value, this.addressForm.controls.additionalInfo.value);
+      this.addressForm.controls.street.value, this.addressForm.controls.building.value, this.addressForm.controls.flat.value, this.addressForm.controls.additionalInfo.value, false);
   }
   display = {
     region: (entity?: Location) => {
@@ -267,7 +264,7 @@ export class AddressComponent implements OnInit, OnDestroy {
         "",
         []
       ],
-      additionalInfo:[
+      additionalInfo: [
         "",
         ""
       ]

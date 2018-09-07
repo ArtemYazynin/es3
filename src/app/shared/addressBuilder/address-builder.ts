@@ -3,13 +3,14 @@ import { Location } from "../location";
 import { AbstractAddressBuilder } from "./abstract-address-builder";
 
 export class AddressBuilder implements AbstractAddressBuilder {
-    
-    private result: string;
+
+    private result: string = "";
 
     constructor(public address: Address) {
 
     }
     buildRegion() {
+        if (!this.address.region) return;
         this.result = this.address.region.typeShort + "." + this.address.region.name;
     }
     buildDistrict() {
@@ -49,7 +50,7 @@ export class AddressBuilder implements AbstractAddressBuilder {
     }
 
     buildAdditionalInfo() {
-        if(!this.address.additionalInfo) return;
+        if (!this.address.additionalInfo) return;
         this.result += ". Доп. информация: " + this.address.additionalInfo
     }
     getResult(): string {

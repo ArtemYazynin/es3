@@ -11,8 +11,9 @@ import { SnilsComponent } from '../../person/snils/snils.component';
 import { RelationTypeComponent } from '../../relation-type/relation-type.component';
 import { addressTypes } from "../../shared/address-type";
 import { RfCitizensAddressesComponent } from '../../shared/rf-citizens-addresses/rf-citizens-addresses.component';
-import { ApplicantType, AttachmentType, CitizenshipService, CommonService, CompilationOfWizardSteps, Country, DublicatesFinder, Entity, FormService, IdentityCard, IdentityCardType, inquiryType, Parent, StepBase, WizardStorageService } from "../../shared/index";
+import { ApplicantType, AttachmentType, CitizenshipService, CommonService, CompilationOfWizardSteps, Country, DublicatesFinder, Entity, FormService, IdentityCard, IdentityCardType, inquiryType, Parent, StepBase, WizardStorageService, Address } from "../../shared/index";
 import { ForeignCitizensAddressesComponent } from '../../shared/foreign-citizens-addresses/foreign-citizens-addresses.component';
+import { isNullOrUndefined } from 'util';
 
 @Component({
   moduleId: module.id,
@@ -39,7 +40,6 @@ export class ParentStepComponent implements OnInit, AfterViewInit, OnDestroy, St
   applicantType: ApplicantType;
   attachmentTypes = AttachmentType;
   agree: boolean = false;
-  citships: Array<Entity<string>> = [];
   groupOfIdentityCardTypeId: Array<number> = [
     IdentityCardType["Паспорт РФ"],
     IdentityCardType["Другой документ, удостоверяющий личность"],
@@ -199,7 +199,6 @@ export class ParentStepComponent implements OnInit, AfterViewInit, OnDestroy, St
           result.countryStateDocument = this.commonService.getDocumentByType(this.confirmationDocuments, AttachmentType.CountryStateDocument);
         }
 
-
         result.relationType = this.relationTypeComponent.relationType;
         if (result.relationType.confirmationDocument)
           result.parentRepresentChildrenDocument = this.commonService.getDocumentByType(this.confirmationDocuments, AttachmentType.ParentRepresentChildren);
@@ -212,13 +211,19 @@ export class ParentStepComponent implements OnInit, AfterViewInit, OnDestroy, St
           const residentialAddress = this.rfAddressesComponent.addressesComponents.find(x => x.type == addressTypes.residential).address;
           result.residential = residentialAddress ? residentialAddress : this.inquiry.parent.residential;
 
-          result.tempRegistrationExpired = this.rfAddressesComponent.temporaryRegistration ? this.rfAddressesComponent.tempRegistrationExpiredDate : undefined;
+          result.tempRegistrationExpired = this.rfAddressesComponent.tempRegistrationExpiredDate;
           result.registerAddressLikeAsResidentialAddress = this.rfAddressesComponent.registerAddressLikeAsResidentialAddress;
         } else {
+          if (this.foreignAddressesComponent.form.get("notHasRfRegistration").value) {
+            const additionalInfo = this.foreignAddressesComponent.form.get("foreignAddress").value;
+            if (additionalInfo) result.register = Address.build({ additionalInfo: additionalInfo }, true)
+          } else {
+            result.register = this.foreignAddressesComponent.addressComponent.address
+              ? Address.build(this.foreignAddressesComponent.addressComponent.address, false)
+              : this.inquiry.parent ? this.inquiry.parent.register : undefined;
+            result.tempRegistrationExpired = this.foreignAddressesComponent.form.controls.tempRegistrationExpiredDate.value;
+          }
           delete result.residential;
-          const registerAddress = this.foreignAddressesComponent.addressesComponents.find(x => x.type == addressTypes.register).address;
-          result.register = registerAddress ? registerAddress : this.inquiry.parent.register;
-          result.tempRegistrationExpired = this.foreignAddressesComponent.tempRegistrationExpiredDate;
         }
         //--
 

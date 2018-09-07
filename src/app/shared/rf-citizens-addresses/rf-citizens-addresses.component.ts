@@ -4,8 +4,9 @@ import { addressTypes } from "../address-type";
 import { MatCheckboxChange } from '@angular/material';
 import { Address } from '../address';
 import { ActivatedRoute } from '@angular/router';
-import { CompilationOfWizardSteps, WizardStorageService, PersonWithAddress } from '..';
+import { CompilationOfWizardSteps, WizardStorageService, PersonWithAddress, Parent } from '..';
 import { fromEvent } from 'rxjs';
+import { Applicant } from '../applicant';
 
 @Component({
   selector: 'app-rf-citizens-addresses',
@@ -14,7 +15,7 @@ import { fromEvent } from 'rxjs';
 })
 export class RfCitizensAddressesComponent implements OnInit {
   @ViewChildren(AddressComponent) addressesComponents: QueryList<AddressComponent>;
-  @Input() owner: PersonWithAddress;
+  @Input() owner: Parent | Applicant;
   addressTypes = addressTypes;
   currentDate = new Date();
   temporaryRegistration:boolean = false;
