@@ -9,9 +9,10 @@ import { GenderComponent } from '../../person/gender/gender.component';
 import { IdentityCardComponent } from '../../person/identity-card/identity-card.component';
 import { SnilsComponent } from '../../person/snils/snils.component';
 import { RelationTypeComponent } from '../../relation-type/relation-type.component';
-import { inquiryType, ApplicantType, AttachmentType, CitizenshipService, CommonService, CompilationOfWizardSteps, Country, DublicatesFinder, Entity, FormService, IdentityCard, IdentityCardType, Parent, StepBase, WizardStorageService } from "../../shared/index";
-import { AddressComponent } from '../../shared/address/address.component';
 import { addressTypes } from "../../shared/address-type";
+import { RfCitizensAddressesComponent } from '../../shared/rf-citizens-addresses/rf-citizens-addresses.component';
+import { ApplicantType, AttachmentType, CitizenshipService, CommonService, CompilationOfWizardSteps, Country, DublicatesFinder, Entity, FormService, IdentityCard, IdentityCardType, inquiryType, Parent, StepBase, WizardStorageService } from "../../shared/index";
+import { ForeignCitizensAddressesComponent } from '../../shared/foreign-citizens-addresses/foreign-citizens-addresses.component';
 
 @Component({
   moduleId: module.id,
@@ -28,10 +29,13 @@ export class ParentStepComponent implements OnInit, AfterViewInit, OnDestroy, St
   @ViewChild(CitizenshipSelectComponent) citizenshipSelectComponent: CitizenshipSelectComponent;
   @ViewChild(RelationTypeComponent) relationTypeComponent: RelationTypeComponent;
   @ViewChildren(ConfirmationDocumentComponent) confirmationDocuments: QueryList<ConfirmationDocumentComponent>;
-  @ViewChildren(AddressComponent) addressesComponents: QueryList<AddressComponent>;
+  @ViewChild(RfCitizensAddressesComponent) rfAddressesComponent: RfCitizensAddressesComponent;
+  @ViewChild(ForeignCitizensAddressesComponent) foreignAddressesComponent: ForeignCitizensAddressesComponent;
 
   private subscription: Subscription;
-  private inquiry: CompilationOfWizardSteps;
+
+
+  inquiry: CompilationOfWizardSteps;
   applicantType: ApplicantType;
   attachmentTypes = AttachmentType;
   agree: boolean = false;
@@ -65,6 +69,7 @@ export class ParentStepComponent implements OnInit, AfterViewInit, OnDestroy, St
   constructor(private storageService: WizardStorageService, private commonService: CommonService, private formService: FormService,
     private citizenshipService: CitizenshipService, private cdr: ChangeDetectorRef,
     private router: Router, private route: ActivatedRoute) { }
+
   ngOnInit() {
     this.subscription = this.citizenshipService.getCountries().subscribe(result => this.countries = result);
     this.applicantType = this.storageService.get(this.inquiryType).applicantType;
@@ -85,7 +90,6 @@ export class ParentStepComponent implements OnInit, AfterViewInit, OnDestroy, St
       });
     }
     this.relationTypeComponent.relationType = this.inquiry.parent.relationType;
-
   }
   ngAfterViewInit(): void {
     if (!this.inquiry.parent) return;
@@ -147,7 +151,7 @@ export class ParentStepComponent implements OnInit, AfterViewInit, OnDestroy, St
       return this.citizenshipService.hasForeignCitizenship(this.citizenshipSelectComponent.citizenships, this.countries);
     }
     return {
-      address: () => {
+      hasRfCitizenship: () => {
         const citizenshipSelected = this.citizenshipSelectComponent
           && this.citizenshipSelectComponent.citizenships.indexOf(643) >= 0
         const notHasApplicant = this.inquiry.applicantType == ApplicantType["Законный представитель ребенка"];
@@ -180,7 +184,7 @@ export class ParentStepComponent implements OnInit, AfterViewInit, OnDestroy, St
             birthPlace: this.birthInfoComponent.birthInfoForm.controls.birthPlace.value
           }
         })();
-        let parent = new Parent(this.fullnameComponent.fullnameForm.controls.lastname.value,
+        let result = new Parent(this.fullnameComponent.fullnameForm.controls.lastname.value,
           this.fullnameComponent.fullnameForm.controls.firstname.value,
           this.fullnameComponent.fullnameForm.controls.middlename.value,
           this.snilsComponent.snils,
@@ -188,15 +192,37 @@ export class ParentStepComponent implements OnInit, AfterViewInit, OnDestroy, St
           birthInfo.birthDate,
           birthInfo.birthPlace,
           this.gendercomponent.gender);
-        parent.identityCard = new IdentityCard(this.identityCardComponent.identityCardForm);
-        parent.citizenships = this.citizenshipSelectComponent.citizenships;
-        if (this.citizenshipService.hasForeignCitizenship(parent.citizenships, this.countries))
-          parent.countryStateDocument = this.commonService.getDocumentByType(this.confirmationDocuments, AttachmentType.CountryStateDocument);
+        result.identityCard = new IdentityCard(this.identityCardComponent.identityCardForm);
+        result.citizenships = this.citizenshipSelectComponent.citizenships;
 
-        parent.relationType = this.relationTypeComponent.relationType;
-        if (parent.relationType.confirmationDocument)
-          parent.parentRepresentChildrenDocument = this.commonService.getDocumentByType(this.confirmationDocuments, AttachmentType.ParentRepresentChildren);
-        return parent;
+        if (this.citizenshipService.hasForeignCitizenship(result.citizenships, this.countries)) {
+          result.countryStateDocument = this.commonService.getDocumentByType(this.confirmationDocuments, AttachmentType.CountryStateDocument);
+        }
+
+
+        result.relationType = this.relationTypeComponent.relationType;
+        if (result.relationType.confirmationDocument)
+          result.parentRepresentChildrenDocument = this.commonService.getDocumentByType(this.confirmationDocuments, AttachmentType.ParentRepresentChildren);
+
+        //--addresses
+        if (this.citizenshipService.hasRfCitizenship(result.citizenships, this.countries)) {
+          const registerAddress = this.rfAddressesComponent.addressesComponents.find(x => x.type == addressTypes.register).address;
+          result.register = registerAddress ? registerAddress : this.inquiry.parent.register;
+
+          const residentialAddress = this.rfAddressesComponent.addressesComponents.find(x => x.type == addressTypes.residential).address;
+          result.residential = residentialAddress ? residentialAddress : this.inquiry.parent.residential;
+
+          result.tempRegistrationExpired = this.rfAddressesComponent.temporaryRegistration ? this.rfAddressesComponent.tempRegistrationExpiredDate : undefined;
+          result.registerAddressLikeAsResidentialAddress = this.rfAddressesComponent.registerAddressLikeAsResidentialAddress;
+        } else {
+          delete result.residential;
+          const registerAddress = this.foreignAddressesComponent.addressesComponents.find(x => x.type == addressTypes.register).address;
+          result.register = registerAddress ? registerAddress : this.inquiry.parent.register;
+          result.tempRegistrationExpired = this.foreignAddressesComponent.tempRegistrationExpiredDate;
+        }
+        //--
+
+        return result;
       })();
 
       if (this.inquiry.applicantType == ApplicantType["Доверенное лицо законного представителя ребенка"]) {

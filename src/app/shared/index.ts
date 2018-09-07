@@ -21,6 +21,7 @@ export * from "./addressBuilder/address-builder-director";
 
 
 export * from "./entity";
+export * from "./person-with-address";
 export * from "./address";
 export * from "./dublicates-finder";
 export * from "./location";

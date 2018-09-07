@@ -17,12 +17,14 @@
       </div>
       <app-citizenship-select>
       </app-citizenship-select>
-      <div class="row" *ngIf="isAvailable.address()">
-        <div class="col-md-12">
-          <app-address title="Адрес регистрации" [type]="addressTypes.register"></app-address>
-        </div>
+      <div *ngIf="isAvailable.hasRfCitizenship()">
+        <app-rf-citizens-addresses [owner]="inquiry.parent">
+        </app-rf-citizens-addresses>
       </div>
-
+      <div *ngIf="!isAvailable.hasRfCitizenship()">
+        <app-foreign-citizens-addresses [owner]="inquiry.parent">
+        </app-foreign-citizens-addresses>
+      </div>
       <div class="row" [hidden]="!isAvailable.childApplicantInfo">
         <div class="col-md-12">
           <birth-info>

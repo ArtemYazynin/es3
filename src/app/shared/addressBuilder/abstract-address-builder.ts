@@ -5,5 +5,6 @@ export abstract class AbstractAddressBuilder {
     abstract buildStreet();
     abstract buildBuilding();
     abstract buildFlat();
+    abstract buildAdditionalInfo();
     abstract getResult(): string;
 }

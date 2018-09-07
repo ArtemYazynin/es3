@@ -4,9 +4,9 @@ import { ActivatedRoute } from '@angular/router';
 import { fromEvent, Observable, Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged, filter, takeUntil } from 'rxjs/operators';
 import { isNullOrUndefined } from 'util';
-import { Address, AddressBuilder, AddressBuilderDirector, AddressService, CompilationOfWizardSteps, Location, WizardStorageService } from "../../shared/index";
-import { locationTypes } from "../../shared/location-type";
 import { addressTypes } from "../../shared/address-type";
+import { Address, AddressBuilder, AddressBuilderDirector, AddressService, CompilationOfWizardSteps, Location, PersonWithAddress, WizardStorageService } from "../../shared/index";
+import { locationTypes } from "../../shared/location-type";
 
 @Component({
   selector: 'app-address',
@@ -16,13 +16,13 @@ import { addressTypes } from "../../shared/address-type";
 export class AddressComponent implements OnInit, OnDestroy {
   @Input() title: string;
   @Input() type: number;
+  @Input() owner: PersonWithAddress;
 
-  inquiry: CompilationOfWizardSteps;
   address: Address;
+  addressTypes = addressTypes;
   modes = { read: 1, edit: 2 }
   mode = this.modes.read;
   private debounceTime = 300;
-  private inquiryType = this.route.snapshot.data.resolved.inquiryType;
 
   private ngUnsubscribe: Subject<any> = new Subject();
   addressForm: FormGroup;
@@ -35,7 +35,7 @@ export class AddressComponent implements OnInit, OnDestroy {
   customStreet = false;
 
 
-  constructor(private route: ActivatedRoute, private addressService: AddressService, private fb: FormBuilder, private storageService: WizardStorageService) { }
+  constructor(private addressService: AddressService, private fb: FormBuilder) { }
 
   ngOnDestroy(): void {
     this.ngUnsubscribe.next();
@@ -93,7 +93,6 @@ export class AddressComponent implements OnInit, OnDestroy {
   })();
 
   ngOnInit() {
-    this.inquiry = this.storageService.get(this.inquiryType);
     this.buildForm();
     this.addressForm.controls.region.valueChanges
       .pipe(
@@ -161,8 +160,8 @@ export class AddressComponent implements OnInit, OnDestroy {
 
     if (this.address) {
       return addressToString(this.address)
-    } else if (this.inquiry && this.inquiry.applicant && this.inquiry.applicant.addresses && this.inquiry.applicant.addresses[addressType]) {
-      return addressToString(this.inquiry.applicant.addresses[addressType]);
+    } else if (this.owner[addressType]) {
+      return addressToString(this.owner[addressType]);
     } else {
       return "-";
     }
@@ -172,7 +171,7 @@ export class AddressComponent implements OnInit, OnDestroy {
     this.mode = this.modes.read;
     if (!this.addressForm.controls.region.value) return;
     this.address = new Address(<Location>this.addressForm.controls.region.value, this.addressForm.controls.district.value, this.addressForm.controls.city.value,
-      this.addressForm.controls.street.value, this.addressForm.controls.building.value, this.addressForm.controls.flat.value);
+      this.addressForm.controls.street.value, this.addressForm.controls.building.value, this.addressForm.controls.flat.value, this.addressForm.controls.additionalInfo.value);
   }
   display = {
     region: (entity?: Location) => {
@@ -268,6 +267,10 @@ export class AddressComponent implements OnInit, OnDestroy {
         "",
         []
       ],
+      additionalInfo:[
+        "",
+        ""
+      ]
     })
   }
 }

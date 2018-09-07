@@ -1,9 +1,10 @@
-import { Person } from "./person";
 import { IdentityCard } from "../person/identity-card/shared/identityCard";
-import { ConfirmationDocument } from "./confirmation-document";
 import { Address } from "./address";
+import { ConfirmationDocument } from "./confirmation-document";
+import { Person } from "./person";
+import { PersonWithAddress } from "./person-with-address";
 
-export class Applicant extends Person {
+export class Applicant extends Person implements PersonWithAddress {
     identityCard: IdentityCard;
 
     citizenships: Array<number>;
@@ -11,5 +12,8 @@ export class Applicant extends Person {
 
     applicantRepresentParentDocument: ConfirmationDocument;
 
-    addresses = { register:undefined, residential:undefined };
+    register: Address;
+    residential: Address;
+    tempRegistrationExpired: Date;
+    registerAddressLikeAsResidentialAddress: boolean;
 }

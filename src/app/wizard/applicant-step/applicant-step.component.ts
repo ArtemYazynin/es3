@@ -1,14 +1,14 @@
-import { Component, OnInit, QueryList, ViewChild, ViewChildren, AfterViewInit, ChangeDetectorRef, OnDestroy } from '@angular/core';
-import { ActivatedRoute, Params, Router } from '@angular/router';
+import { AfterViewInit, ChangeDetectorRef, Component, OnDestroy, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { Subscription } from 'rxjs';
 import { ConfirmationDocumentComponent } from '../../confirmation-document/confirmation-document.component';
 import { CitizenshipSelectComponent } from '../../person/citizenship-select/citizenship-select.component';
 import { FullNameComponent } from '../../person/full-name/full-name.component';
 import { IdentityCardComponent } from '../../person/identity-card/identity-card.component';
 import { SnilsComponent } from '../../person/snils/snils.component';
-import { Applicant, ApplicantType, AttachmentType, CitizenshipService, CommonService, CompilationOfWizardSteps, Country, IdentityCard, StepBase, WizardStorageService, ConfirmationDocument, FormService, DublicatesFinder } from '../../shared';
-import { Subscription } from 'rxjs';
-import { AddressComponent } from '../../shared/address/address.component';
+import { Applicant, ApplicantType, AttachmentType, CitizenshipService, CommonService, CompilationOfWizardSteps, Country, DublicatesFinder, FormService, IdentityCard, StepBase, WizardStorageService } from '../../shared';
 import { addressTypes } from "../../shared/address-type";
+import { RfCitizensAddressesComponent } from '../../shared/rf-citizens-addresses/rf-citizens-addresses.component';
 
 @Component({
   selector: 'app-applicant-step',
@@ -38,7 +38,7 @@ export class ApplicantStepComponent implements OnInit, AfterViewInit, OnDestroy,
   @ViewChild(SnilsComponent) snilsComponent: SnilsComponent;
   @ViewChildren(ConfirmationDocumentComponent) confirmationDocuments: QueryList<ConfirmationDocumentComponent>
   @ViewChild(CitizenshipSelectComponent) citizenshipSelectComponent: CitizenshipSelectComponent;
-  @ViewChildren(AddressComponent) addressesComponents: QueryList<AddressComponent>;
+  @ViewChild(RfCitizensAddressesComponent) addressesComponent: RfCitizensAddressesComponent;
 
   constructor(private citizenshipService: CitizenshipService, private router: Router,
     private route: ActivatedRoute, private storageService: WizardStorageService,
@@ -47,9 +47,10 @@ export class ApplicantStepComponent implements OnInit, AfterViewInit, OnDestroy,
   inquiryType = this.route.snapshot.data.resolved.inquiryType;
   attachmentTypes = AttachmentType;
   addressTypes = addressTypes;
+  
   countries: Array<Country> = [];
   isAvailable = {
-    address: () => {
+    hasRfCitizenship: () => {
       const citizenshipSelected = this.citizenshipSelectComponent
         && this.citizenshipSelectComponent.citizenships.indexOf(643) >= 0
       return this.inquiry.applicantType == ApplicantType["Доверенное лицо законного представителя ребенка"]
@@ -122,12 +123,13 @@ export class ApplicantStepComponent implements OnInit, AfterViewInit, OnDestroy,
         }
         result.applicantRepresentParentDocument = this.commonService.getDocumentByType(this.confirmationDocuments, AttachmentType.ApplicantRepresentParent);
 
-        const registerAddress = this.addressesComponents.find(x => x.type == addressTypes.register).address;
-        result.addresses.register = registerAddress ? registerAddress : this.inquiry.applicant.addresses.register;
+        const registerAddress = this.addressesComponent.addressesComponents.find(x => x.type == addressTypes.register).address;
+        result.register = registerAddress ? registerAddress : this.inquiry.applicant.register;
 
-        const residentialAddress = this.addressesComponents.find(x => x.type == addressTypes.residential).address;
-        result.addresses.residential = residentialAddress ? residentialAddress : this.inquiry.applicant.addresses.residential;
-
+        const residentialAddress = this.addressesComponent.addressesComponents.find(x => x.type == addressTypes.residential).address;
+        result.residential = residentialAddress ? residentialAddress : this.inquiry.applicant.residential;
+        result.tempRegistrationExpired = this.addressesComponent.temporaryRegistration ? this.addressesComponent.tempRegistrationExpiredDate : undefined;
+        result.registerAddressLikeAsResidentialAddress = this.addressesComponent.registerAddressLikeAsResidentialAddress;
         return result;
       })();
 

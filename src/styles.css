@@ -2,6 +2,11 @@
 @import "~@ng-select/ng-select/themes/default.theme.css";
 @import "~@angular/material/prebuilt-themes/indigo-pink.css";
 
+.disabledDiv {
+    pointer-events: none;
+    opacity: 0.4;
+}
+
 .full-width{
     width: 90%;
 }

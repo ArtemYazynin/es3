@@ -28,4 +28,16 @@ export class CitizenshipService {
     })();
     return foreignCitizenshipsExists;
   }
+
+  hasRfCitizenship(citizenships: Array<number>, countries: Array<Country>) {
+    if (!citizenships || !countries || countries.length == 0) return false;
+    let codeOfRussia = countries.find(x => x.name === "Россия").id;
+    let rfCitizenshipsExists = (() => {
+      let result = citizenships.findIndex(x => {
+        return x == codeOfRussia;
+      });
+      return result == -1 ? false : true;;
+    })();
+    return rfCitizenshipsExists;
+  }
 }

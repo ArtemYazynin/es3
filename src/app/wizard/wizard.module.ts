@@ -55,6 +55,8 @@ import { BaseResolver } from './resolvers/base-resolver';
 import { PrivilegeStepResolver } from './resolvers/privilege-step-resolver';
 import { YesNoPipe } from '../shared/yes-no.pipe';
 import { DisabilityChildComponent } from '../disability-child/disability-child.component';
+import { RfCitizensAddressesComponent } from '../shared/rf-citizens-addresses/rf-citizens-addresses.component';
+import { ForeignCitizensAddressesComponent } from '../shared/foreign-citizens-addresses/foreign-citizens-addresses.component';
 
 
 @NgModule({
@@ -105,7 +107,9 @@ import { DisabilityChildComponent } from '../disability-child/disability-child.c
     PreviewInquiryInfoComponent,
     PreviewCurrentEducationPlaceComponent,
     PreviewPrivilegeComponent,
-    PreviewFilesComponent
+    PreviewFilesComponent,
+    RfCitizensAddressesComponent,
+    ForeignCitizensAddressesComponent
   ],
   imports: [
     BrowserModule,

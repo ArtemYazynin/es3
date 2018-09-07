@@ -8,5 +8,6 @@ export class AddressBuilderDirector {
         builder.buildStreet();
         builder.buildBuilding();
         builder.buildFlat();
+        builder.buildAdditionalInfo();
     }
 }

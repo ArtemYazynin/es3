@@ -3,6 +3,7 @@ import { Location } from "../location";
 import { AbstractAddressBuilder } from "./abstract-address-builder";
 
 export class AddressBuilder implements AbstractAddressBuilder {
+    
     private result: string;
 
     constructor(public address: Address) {
@@ -45,6 +46,11 @@ export class AddressBuilder implements AbstractAddressBuilder {
     }
     buildFlat() {
         if (this.address.flat) this.result += ", " + this.address.flat;
+    }
+
+    buildAdditionalInfo() {
+        if(!this.address.additionalInfo) return;
+        this.result += ". Доп. информация: " + this.address.additionalInfo
     }
     getResult(): string {
         return this.result;

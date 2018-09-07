@@ -13,4 +13,9 @@ export class Location {
     oktmo:number;
     name:string;
     parents:any
+
+    equals(location: Location){
+        if(!location || (typeof location) != "object") return false;
+        return this.id == location.id;
+    }
  }
