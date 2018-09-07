@@ -1,37 +1,42 @@
-import { Component, OnInit, QueryList, ViewChildren, Input } from '@angular/core';
-import { AddressComponent } from '../address/address.component';
-import { addressTypes } from "../address-type";
+import { Component, Input, OnDestroy, OnInit, QueryList, ViewChildren } from '@angular/core';
 import { MatCheckboxChange } from '@angular/material';
+import { Subscription } from 'rxjs';
+import { Parent } from '..';
 import { Address } from '../address';
-import { ActivatedRoute } from '@angular/router';
-import { CompilationOfWizardSteps, WizardStorageService, PersonWithAddress, Parent } from '..';
-import { fromEvent } from 'rxjs';
+import { addressTypes } from "../address-type";
+import { AddressComponent } from '../address/address.component';
 import { Applicant } from '../applicant';
+import { CitizenshipService } from '../citizenships/citizenship.service';
 
 @Component({
   selector: 'app-rf-citizens-addresses',
   templateUrl: './rf-citizens-addresses.component.html',
   styleUrls: ['./rf-citizens-addresses.component.css']
 })
-export class RfCitizensAddressesComponent implements OnInit {
+export class RfCitizensAddressesComponent implements OnInit, OnDestroy {
   @ViewChildren(AddressComponent) addressesComponents: QueryList<AddressComponent>;
   @Input() owner: Parent | Applicant;
+  private subscription: Subscription;
   addressTypes = addressTypes;
   currentDate = new Date();
-  temporaryRegistration:boolean = false;
+  temporaryRegistration: boolean = false;
   tempRegistrationExpiredDate: Date;
-  registerAddressLikeAsResidentialAddress:boolean = false;
-  inquiry: CompilationOfWizardSteps;
-  private inquiryType = this.route.snapshot.data.resolved.inquiryType;
+  registerAddressLikeAsResidentialAddress: boolean = false;
   private residentialAddressBackup: Address;
 
-  constructor(private route: ActivatedRoute, private storageService: WizardStorageService) { }
+  constructor(private citizenshipService: CitizenshipService) { }
 
   ngOnInit() {
-    this.inquiry = this.storageService.get(this.inquiryType);
-    this.temporaryRegistration = !!this.owner.tempRegistrationExpired;
-    this.tempRegistrationExpiredDate = this.owner.tempRegistrationExpired;
     this.registerAddressLikeAsResidentialAddress = this.owner.registerAddressLikeAsResidentialAddress;
+    this.subscription = this.citizenshipService.getCountries().subscribe(countries => {
+      if (this.citizenshipService.hasRfCitizenship(this.owner.citizenships, countries)) {
+        this.temporaryRegistration = !!this.owner.tempRegistrationExpiredDate;
+        this.tempRegistrationExpiredDate = this.owner.tempRegistrationExpiredDate;
+      }
+    });
+  }
+  ngOnDestroy(): void {
+    if (this.subscription) this.subscription.unsubscribe();
   }
 
   temporaryRegistrationChange = (change: MatCheckboxChange) => {

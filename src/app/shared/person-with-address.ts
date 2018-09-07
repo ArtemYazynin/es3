@@ -3,6 +3,6 @@ import { Address } from "./address";
 export interface PersonWithAddress {
     register:Address;
     residential:Address;
-    tempRegistrationExpired:Date;
+    tempRegistrationExpiredDate:Date;
     registerAddressLikeAsResidentialAddress:boolean;
 }

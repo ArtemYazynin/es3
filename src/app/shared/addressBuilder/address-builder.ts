@@ -54,6 +54,6 @@ export class AddressBuilder implements AbstractAddressBuilder {
         this.result += ". Доп. информация: " + this.address.additionalInfo
     }
     getResult(): string {
-        return this.result;
+        return this.result == "" ? "-" : this.result;;
     }
 }

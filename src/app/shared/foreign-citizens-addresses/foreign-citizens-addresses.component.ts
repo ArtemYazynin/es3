@@ -56,7 +56,7 @@ export class ForeignCitizensAddressesComponent implements OnInit, OnDestroy {
 
         let value = this.owner.register.foreign
           ? { notHasRfRegistration: this.owner.register.foreign, foreignAddress: this.owner.register.additionalInfo }
-          : { notHasRfRegistration: this.owner.register.foreign, tempRegistrationExpiredDate: this.owner.tempRegistrationExpired }
+          : { notHasRfRegistration: this.owner.register.foreign, tempRegistrationExpiredDate: this.owner.tempRegistrationExpiredDate }
         this.form.patchValue(value);
       });
   }

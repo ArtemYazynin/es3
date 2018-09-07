@@ -7,6 +7,8 @@ import { isNullOrUndefined } from 'util';
 import { addressTypes } from "../../shared/address-type";
 import { Address, AddressBuilder, AddressBuilderDirector, AddressService, CompilationOfWizardSteps, Location, PersonWithAddress, WizardStorageService } from "../../shared/index";
 import { locationTypes } from "../../shared/location-type";
+import { Parent } from '../parent';
+import { Applicant } from '../applicant';
 
 @Component({
   selector: 'app-address',
@@ -16,7 +18,7 @@ import { locationTypes } from "../../shared/location-type";
 export class AddressComponent implements OnInit, OnDestroy {
   @Input() title: string;
   @Input() type: number;
-  @Input() owner: PersonWithAddress;
+  @Input() owner: Parent | Applicant;
 
   address: Address;
   addressTypes = addressTypes;
@@ -166,7 +168,7 @@ export class AddressComponent implements OnInit, OnDestroy {
 
   onSubmit = () => {
     this.mode = this.modes.read;
-    if (!this.addressForm.controls.region.value) return;
+    //if (!this.addressForm.controls.region.value) return;
     this.address = new Address(<Location>this.addressForm.controls.region.value, this.addressForm.controls.district.value, this.addressForm.controls.city.value,
       this.addressForm.controls.street.value, this.addressForm.controls.building.value, this.addressForm.controls.flat.value, this.addressForm.controls.additionalInfo.value, false);
   }

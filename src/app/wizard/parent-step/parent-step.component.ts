@@ -102,7 +102,7 @@ export class ParentStepComponent implements OnInit, AfterViewInit, OnDestroy, St
     this.cdr.detectChanges();
   }
   ngOnDestroy(): void {
-    this.subscription.unsubscribe();
+    if (this.subscription) this.subscription.unsubscribe();
   }
 
   isValid(): boolean {
@@ -211,7 +211,7 @@ export class ParentStepComponent implements OnInit, AfterViewInit, OnDestroy, St
           const residentialAddress = this.rfAddressesComponent.addressesComponents.find(x => x.type == addressTypes.residential).address;
           result.residential = residentialAddress ? residentialAddress : this.inquiry.parent.residential;
 
-          result.tempRegistrationExpired = this.rfAddressesComponent.tempRegistrationExpiredDate;
+          result.tempRegistrationExpiredDate = this.rfAddressesComponent.tempRegistrationExpiredDate;
           result.registerAddressLikeAsResidentialAddress = this.rfAddressesComponent.registerAddressLikeAsResidentialAddress;
         } else {
           if (this.foreignAddressesComponent.form.get("notHasRfRegistration").value) {
@@ -221,7 +221,7 @@ export class ParentStepComponent implements OnInit, AfterViewInit, OnDestroy, St
             result.register = this.foreignAddressesComponent.addressComponent.address
               ? Address.build(this.foreignAddressesComponent.addressComponent.address, false)
               : this.inquiry.parent ? this.inquiry.parent.register : undefined;
-            result.tempRegistrationExpired = this.foreignAddressesComponent.form.controls.tempRegistrationExpiredDate.value;
+            result.tempRegistrationExpiredDate = this.foreignAddressesComponent.form.controls.tempRegistrationExpiredDate.value;
           }
           delete result.residential;
         }

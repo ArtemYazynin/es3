@@ -14,6 +14,6 @@ export class Applicant extends Person implements PersonWithAddress {
 
     register: Address;
     residential: Address;
-    tempRegistrationExpired: Date;
+    tempRegistrationExpiredDate: Date;
     registerAddressLikeAsResidentialAddress: boolean;
 }

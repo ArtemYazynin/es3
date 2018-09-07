@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, from, of } from 'rxjs';
 import { map } from "rxjs/operators";
 import { HttpInterceptor } from '../http-interceptor';
 import { Country } from './country';
+import { isNullOrUndefined } from 'util';
 
 @Injectable({
   providedIn: 'root'
@@ -12,9 +13,16 @@ export class CitizenshipService {
   constructor(private http: HttpInterceptor) { }
 
   getCountries(): Observable<Array<Country>> {
-    return this.http.get("app/countries").pipe(map(result => {
-      return <Array<Country>>result.json();
-    }));
+    const key = "countries";
+    const data = localStorage.getItem(key);
+    if (isNullOrUndefined(data)) {
+      return this.http.get("app/" + key).pipe(map(result => {
+        let countries = <Array<Country>>result.json();
+        localStorage.setItem(key, JSON.stringify(countries));
+        return countries;
+      }));
+    }
+    return of(JSON.parse(data));
   }
 
   hasForeignCitizenship(citizenships: Array<number>, countries: Array<Country>) {
