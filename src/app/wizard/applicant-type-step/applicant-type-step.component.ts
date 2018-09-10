@@ -1,14 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
-import { ApplicantType, Entity, inquiryType, StepBase, WizardStorageService } from "../../shared";
+import { ApplicantType, Entity, inquiryType, StepBase, WizardStorageService, CompilationOfWizardSteps } from "../../shared";
 
 @Component({
   selector: 'app-applicant-type-step',
   templateUrl: './applicant-type-step.component.html',
   styleUrls: ['./applicant-type-step.component.css']
 })
-export class ApplicantTypeStepComponent implements OnInit,StepBase {
+export class ApplicantTypeStepComponent implements OnInit, StepBase {
   isValid(): boolean { return true; }
+  inquiry: CompilationOfWizardSteps;
   inquiryType = this.route.snapshot.data.resolved.inquiryType;
   applicantType: ApplicantType = ApplicantType["Законный представитель ребенка"];
   applicantTypes: Array<Entity<number>> = [];
@@ -37,21 +38,24 @@ export class ApplicantTypeStepComponent implements OnInit,StepBase {
     })();
     this.initFromSessionStorage();
   }
-  initFromSessionStorage(){
-    const inquiry = this.storageService.get(this.inquiryType);
-    if (inquiry && inquiry.applicantType || false)  this.applicantType = inquiry.applicantType
-   
+  initFromSessionStorage() {
+    this.inquiry = this.storageService.get(this.inquiryType);
+    this.applicantType = (this.inquiry && this.inquiry.applicantType) || ApplicantType["Законный представитель ребенка"];
+
   }
   goTo = {
     back: () => {
       this.router.navigate(["../currentEducationPlaceStep"], { relativeTo: this.route });
     },
     next: () => {
-      this.storageService.set(this.inquiryType,{applicantType:this.applicantType})
+      Object.assign(this.inquiry, { applicantType: this.applicantType });
       if (this.applicantType == ApplicantType["Доверенное лицо законного представителя ребенка"]) {
+        this.storageService.set(this.inquiryType, this.inquiry)
         this.router.navigate(["../applicantStep"], { relativeTo: this.route });
       }
-      else{
+      else {
+        this.inquiry.applicant = undefined;
+        this.storageService.set(this.inquiryType, this.inquiry)
         this.router.navigate(["../parentStep"], { relativeTo: this.route });
       }
     }
