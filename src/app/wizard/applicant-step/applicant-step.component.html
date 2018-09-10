@@ -16,15 +16,16 @@
       </div>
       <app-citizenship-select>
       </app-citizenship-select>
-      <div *ngIf="isAvailable.hasRfCitizenship()">
-        <app-rf-citizens-addresses [owner]="inquiry.applicant">
-        </app-rf-citizens-addresses>
+      <div *ngIf="isAvailable.addresses()">
+        <div *ngIf="isAvailable.hasRfCitizenship()">
+          <app-rf-citizens-addresses [owner]="inquiry.applicant">
+          </app-rf-citizens-addresses>
+        </div>
+        <div *ngIf="!isAvailable.hasRfCitizenship()">
+          <app-foreign-citizens-addresses [owner]="inquiry.applicant">
+          </app-foreign-citizens-addresses>
+        </div>
       </div>
-      <div *ngIf="!isAvailable.hasRfCitizenship()">
-        <app-foreign-citizens-addresses [owner]="inquiry.applicant">
-        </app-foreign-citizens-addresses>
-      </div>
-
       <div class="row" [hidden]="!isAvailable.countryStateDocument()">
         <div class="col-md-12">
           <app-confirmation-document [type]="attachmentTypes.CountryStateApplicantDocument" title="Документ, подтверждающий право пребывания доверенного лица законного представителя на территории РФ">

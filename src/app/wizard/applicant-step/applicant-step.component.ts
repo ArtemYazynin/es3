@@ -8,8 +8,8 @@ import { IdentityCardComponent } from '../../person/identity-card/identity-card.
 import { SnilsComponent } from '../../person/snils/snils.component';
 import { Applicant, ApplicantType, AttachmentType, CitizenshipService, CommonService, CompilationOfWizardSteps, Country, DublicatesFinder, FormService, IdentityCard, StepBase, WizardStorageService } from '../../shared';
 import { addressTypes } from "../../shared/address-type";
-import { RfCitizensAddressesComponent } from '../../shared/rf-citizens-addresses/rf-citizens-addresses.component';
 import { ForeignCitizensAddressesComponent } from '../../shared/foreign-citizens-addresses/foreign-citizens-addresses.component';
+import { RfCitizensAddressesComponent } from '../../shared/rf-citizens-addresses/rf-citizens-addresses.component';
 
 @Component({
   selector: 'app-applicant-step',
@@ -52,13 +52,9 @@ export class ApplicantStepComponent implements OnInit, AfterViewInit, OnDestroy,
 
   countries: Array<Country> = [];
   isAvailable = {
-    hasRfCitizenship: () => {
-      const citizenshipSelected = this.citizenshipSelectComponent
-        && this.citizenshipSelectComponent.citizenships.indexOf(643) >= 0
-      return this.inquiry.applicantType == ApplicantType["Доверенное лицо законного представителя ребенка"]
-        && citizenshipSelected;
-    },
-    countryStateDocument: () => this.citizenshipService.hasForeignCitizenship(this.citizenshipSelectComponent.citizenships, this.countries)
+    hasRfCitizenship: () => this.citizenshipSelectComponent.citizenships.indexOf(643) >= 0,
+    countryStateDocument: () => this.citizenshipService.hasForeignCitizenship(this.citizenshipSelectComponent.citizenships, this.countries),
+    addresses: () => this.citizenshipSelectComponent.citizenships.length > 0 && this.inquiry.applicantType == ApplicantType["Доверенное лицо законного представителя ребенка"]
   }
   isValid(): boolean {
     if (!this.confirmationDocuments) return false;
@@ -125,19 +121,14 @@ export class ApplicantStepComponent implements OnInit, AfterViewInit, OnDestroy,
         }
         result.applicantRepresentParentDocument = this.commonService.getDocumentByType(this.confirmationDocuments, AttachmentType.ApplicantRepresentParent);
 
-        // const registerAddress = this.addressesComponent.addressesComponents.find(x => x.type == addressTypes.register).address;
-        // result.register = registerAddress ? registerAddress : this.inquiry.applicant.register;
+        if (this.inquiry.applicantType == ApplicantType["Доверенное лицо законного представителя ребенка"]) {
+          //--addresses
+          Object.assign(result, this.citizenshipService.hasRfCitizenship(result.citizenships, this.countries)
+            ? this.rfAddressesComponent.getResult(this.inquiry.parent)
+            : this.foreignAddressesComponent.getResult(this.inquiry.parent));
+          //--
+        }
 
-        // const residentialAddress = this.addressesComponent.addressesComponents.find(x => x.type == addressTypes.residential).address;
-        // result.residential = residentialAddress ? residentialAddress : this.inquiry.applicant.residential;
-        // result.tempRegistrationExpiredDate = this.addressesComponent.temporaryRegistration ? this.addressesComponent.tempRegistrationExpiredDate : undefined;
-        // result.registerAddressLikeAsResidentialAddress = this.addressesComponent.registerAddressLikeAsResidentialAddress;
-        
-        //--addresses
-        Object.assign(result, this.citizenshipService.hasRfCitizenship(result.citizenships, this.countries)
-          ? this.rfAddressesComponent.getResult(this.inquiry.parent)
-          : this.foreignAddressesComponent.getResult(this.inquiry.parent));
-        //--
         return result;
       })();
 
@@ -145,7 +136,7 @@ export class ApplicantStepComponent implements OnInit, AfterViewInit, OnDestroy,
       if (DublicatesFinder.betweenChildren(this.inquiry.children)) return;
 
       this.storageService.set(this.inquiryType, { applicant: applicant });
-      if (this.storageService.get(this.inquiryType).applicantType == ApplicantType["Законный представитель ребенка"]) {
+      if (this.inquiry.applicantType == ApplicantType["Законный представитель ребенка"]) {
         this.router.navigate(["../contactInfoStep"], { relativeTo: this.route });
       } else {
         this.router.navigate(["../parentStep"], { relativeTo: this.route });

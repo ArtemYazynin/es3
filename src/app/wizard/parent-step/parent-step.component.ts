@@ -150,19 +150,22 @@ export class ParentStepComponent implements OnInit, AfterViewInit, OnDestroy, St
     const hasForeignCitizenship = () => {
       return this.citizenshipService.hasForeignCitizenship(this.citizenshipSelectComponent.citizenships, this.countries);
     }
+    const hasRfCitizenship = () => {
+      return this.citizenshipSelectComponent && this.citizenshipSelectComponent.citizenships.indexOf(643) >= 0;
+    }
+    const parentRepresentChildren = () => {
+      return this.relationTypeComponent
+        && this.relationTypeComponent.relationType
+        && this.relationTypeComponent.relationType.confirmationDocument;
+    };
+    const addresses = () => {
+      return this.citizenshipSelectComponent.citizenships.length > 0 && this.inquiry.applicantType == ApplicantType["Законный представитель ребенка"];
+    }
     return {
-      hasRfCitizenship: () => {
-        const citizenshipSelected = this.citizenshipSelectComponent
-          && this.citizenshipSelectComponent.citizenships.indexOf(643) >= 0
-        const notHasApplicant = this.inquiry.applicantType == ApplicantType["Законный представитель ребенка"];
-        return notHasApplicant && citizenshipSelected;
-      },
+      addresses: addresses,
+      hasRfCitizenship: hasRfCitizenship,
       countryStateDocument: hasForeignCitizenship,
-      parentRepresentChildren: () => {
-        return this.relationTypeComponent
-          && this.relationTypeComponent.relationType
-          && this.relationTypeComponent.relationType.confirmationDocument;
-      },
+      parentRepresentChildren: parentRepresentChildren,
       childApplicantInfo: false
     }
   })();
@@ -203,12 +206,11 @@ export class ParentStepComponent implements OnInit, AfterViewInit, OnDestroy, St
         if (result.relationType.confirmationDocument)
           result.parentRepresentChildrenDocument = this.commonService.getDocumentByType(this.confirmationDocuments, AttachmentType.ParentRepresentChildren);
 
-        //--addresses
-        Object.assign(result, this.citizenshipService.hasRfCitizenship(result.citizenships, this.countries)
-          ? this.rfAddressesComponent.getResult(this.inquiry.parent)
-          : this.foreignAddressesComponent.getResult(this.inquiry.parent));
-        //--
-
+        if (this.inquiry.applicantType == ApplicantType["Законный представитель ребенка"]) {
+          Object.assign(result, this.citizenshipService.hasRfCitizenship(result.citizenships, this.countries)
+            ? this.rfAddressesComponent.getResult(this.inquiry.parent)
+            : this.foreignAddressesComponent.getResult(this.inquiry.parent));
+        }
         return result;
       })();
 
