@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Applicant, Child, DrawService, Parent } from '../../../shared';
+import { isNullOrUndefined } from 'util';
 
 @Component({
   selector: 'app-person-view',
@@ -18,6 +19,6 @@ export class PersonViewComponent implements OnInit {
   }
 
   isChild = ()=>{
-    return 'specHealthDocument' in this.entity;
+    return ('specHealthDocument' in this.entity) && !isNullOrUndefined(this.entity.specHealthDocument);
   }
 }

@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { addressTypes } from "../../shared/address-type";
-import { Country, FormService, inquiryType, Parent } from "../../shared/index";
+import { Country, FormService, inquiryType, Parent, PersonWithAddress, Address } from "../../shared/index";
 import { AddressComponent } from '../address/address.component';
 import { Applicant } from '../applicant';
 import { CitizenshipService } from '../citizenships/citizenship.service';
@@ -59,6 +59,20 @@ export class ForeignCitizensAddressesComponent implements OnInit, OnDestroy {
           : { notHasRfRegistration: this.owner.register.foreign, tempRegistrationExpiredDate: this.owner.tempRegistrationExpiredDate }
         this.form.patchValue(value);
       });
+  }
+  getResult(owner: Parent | Applicant): PersonWithAddress{
+    let result: any = { residential:undefined };
+
+    if (this.form.get("notHasRfRegistration").value) {
+      const additionalInfo = this.form.get("foreignAddress").value;
+      if (additionalInfo) result.register = Address.build({ additionalInfo: additionalInfo }, true)
+    } else {
+      result.register = this.addressComponent.address
+        ? Address.build(this.addressComponent.address, false)
+        : owner ? owner.register : undefined;
+      result.tempRegistrationExpiredDate = this.form.controls.tempRegistrationExpiredDate.value;
+    }
+    return result;
   }
   hasRegistrationChange() {
     if (!this.addressComponent) return;

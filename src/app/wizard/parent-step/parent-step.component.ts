@@ -204,27 +204,9 @@ export class ParentStepComponent implements OnInit, AfterViewInit, OnDestroy, St
           result.parentRepresentChildrenDocument = this.commonService.getDocumentByType(this.confirmationDocuments, AttachmentType.ParentRepresentChildren);
 
         //--addresses
-        if (this.citizenshipService.hasRfCitizenship(result.citizenships, this.countries)) {
-          const registerAddress = this.rfAddressesComponent.addressesComponents.find(x => x.type == addressTypes.register).address;
-          result.register = registerAddress ? registerAddress : this.inquiry.parent.register;
-
-          const residentialAddress = this.rfAddressesComponent.addressesComponents.find(x => x.type == addressTypes.residential).address;
-          result.residential = residentialAddress ? residentialAddress : this.inquiry.parent.residential;
-
-          result.tempRegistrationExpiredDate = this.rfAddressesComponent.tempRegistrationExpiredDate;
-          result.registerAddressLikeAsResidentialAddress = this.rfAddressesComponent.registerAddressLikeAsResidentialAddress;
-        } else {
-          if (this.foreignAddressesComponent.form.get("notHasRfRegistration").value) {
-            const additionalInfo = this.foreignAddressesComponent.form.get("foreignAddress").value;
-            if (additionalInfo) result.register = Address.build({ additionalInfo: additionalInfo }, true)
-          } else {
-            result.register = this.foreignAddressesComponent.addressComponent.address
-              ? Address.build(this.foreignAddressesComponent.addressComponent.address, false)
-              : this.inquiry.parent ? this.inquiry.parent.register : undefined;
-            result.tempRegistrationExpiredDate = this.foreignAddressesComponent.form.controls.tempRegistrationExpiredDate.value;
-          }
-          delete result.residential;
-        }
+        Object.assign(result, this.citizenshipService.hasRfCitizenship(result.citizenships, this.countries)
+          ? this.rfAddressesComponent.getResult(this.inquiry.parent)
+          : this.foreignAddressesComponent.getResult(this.inquiry.parent));
         //--
 
         return result;

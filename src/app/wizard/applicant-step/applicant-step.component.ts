@@ -9,6 +9,7 @@ import { SnilsComponent } from '../../person/snils/snils.component';
 import { Applicant, ApplicantType, AttachmentType, CitizenshipService, CommonService, CompilationOfWizardSteps, Country, DublicatesFinder, FormService, IdentityCard, StepBase, WizardStorageService } from '../../shared';
 import { addressTypes } from "../../shared/address-type";
 import { RfCitizensAddressesComponent } from '../../shared/rf-citizens-addresses/rf-citizens-addresses.component';
+import { ForeignCitizensAddressesComponent } from '../../shared/foreign-citizens-addresses/foreign-citizens-addresses.component';
 
 @Component({
   selector: 'app-applicant-step',
@@ -38,7 +39,8 @@ export class ApplicantStepComponent implements OnInit, AfterViewInit, OnDestroy,
   @ViewChild(SnilsComponent) snilsComponent: SnilsComponent;
   @ViewChildren(ConfirmationDocumentComponent) confirmationDocuments: QueryList<ConfirmationDocumentComponent>
   @ViewChild(CitizenshipSelectComponent) citizenshipSelectComponent: CitizenshipSelectComponent;
-  @ViewChild(RfCitizensAddressesComponent) addressesComponent: RfCitizensAddressesComponent;
+  @ViewChild(RfCitizensAddressesComponent) rfAddressesComponent: RfCitizensAddressesComponent;
+  @ViewChild(ForeignCitizensAddressesComponent) foreignAddressesComponent: ForeignCitizensAddressesComponent;
 
   constructor(private citizenshipService: CitizenshipService, private router: Router,
     private route: ActivatedRoute, private storageService: WizardStorageService,
@@ -47,7 +49,7 @@ export class ApplicantStepComponent implements OnInit, AfterViewInit, OnDestroy,
   inquiryType = this.route.snapshot.data.resolved.inquiryType;
   attachmentTypes = AttachmentType;
   addressTypes = addressTypes;
-  
+
   countries: Array<Country> = [];
   isAvailable = {
     hasRfCitizenship: () => {
@@ -123,13 +125,19 @@ export class ApplicantStepComponent implements OnInit, AfterViewInit, OnDestroy,
         }
         result.applicantRepresentParentDocument = this.commonService.getDocumentByType(this.confirmationDocuments, AttachmentType.ApplicantRepresentParent);
 
-        const registerAddress = this.addressesComponent.addressesComponents.find(x => x.type == addressTypes.register).address;
-        result.register = registerAddress ? registerAddress : this.inquiry.applicant.register;
+        // const registerAddress = this.addressesComponent.addressesComponents.find(x => x.type == addressTypes.register).address;
+        // result.register = registerAddress ? registerAddress : this.inquiry.applicant.register;
 
-        const residentialAddress = this.addressesComponent.addressesComponents.find(x => x.type == addressTypes.residential).address;
-        result.residential = residentialAddress ? residentialAddress : this.inquiry.applicant.residential;
-        result.tempRegistrationExpired = this.addressesComponent.temporaryRegistration ? this.addressesComponent.tempRegistrationExpiredDate : undefined;
-        result.registerAddressLikeAsResidentialAddress = this.addressesComponent.registerAddressLikeAsResidentialAddress;
+        // const residentialAddress = this.addressesComponent.addressesComponents.find(x => x.type == addressTypes.residential).address;
+        // result.residential = residentialAddress ? residentialAddress : this.inquiry.applicant.residential;
+        // result.tempRegistrationExpiredDate = this.addressesComponent.temporaryRegistration ? this.addressesComponent.tempRegistrationExpiredDate : undefined;
+        // result.registerAddressLikeAsResidentialAddress = this.addressesComponent.registerAddressLikeAsResidentialAddress;
+        
+        //--addresses
+        Object.assign(result, this.citizenshipService.hasRfCitizenship(result.citizenships, this.countries)
+          ? this.rfAddressesComponent.getResult(this.inquiry.parent)
+          : this.foreignAddressesComponent.getResult(this.inquiry.parent));
+        //--
         return result;
       })();
 

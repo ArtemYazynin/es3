@@ -1,7 +1,7 @@
 import { Component, Input, OnDestroy, OnInit, QueryList, ViewChildren } from '@angular/core';
 import { MatCheckboxChange } from '@angular/material';
 import { Subscription } from 'rxjs';
-import { Parent } from '..';
+import { Parent, PersonWithAddress } from '..';
 import { Address } from '../address';
 import { addressTypes } from "../address-type";
 import { AddressComponent } from '../address/address.component';
@@ -27,7 +27,7 @@ export class RfCitizensAddressesComponent implements OnInit, OnDestroy {
   constructor(private citizenshipService: CitizenshipService) { }
 
   ngOnInit() {
-    this.registerAddressLikeAsResidentialAddress = this.owner.registerAddressLikeAsResidentialAddress;
+    this.registerAddressLikeAsResidentialAddress = this.owner && this.owner.registerAddressLikeAsResidentialAddress;
     this.subscription = this.citizenshipService.getCountries().subscribe(countries => {
       if (this.citizenshipService.hasRfCitizenship(this.owner.citizenships, countries)) {
         this.temporaryRegistration = !!this.owner.tempRegistrationExpiredDate;
@@ -37,6 +37,24 @@ export class RfCitizensAddressesComponent implements OnInit, OnDestroy {
   }
   ngOnDestroy(): void {
     if (this.subscription) this.subscription.unsubscribe();
+  }
+
+  getResult(owner: Parent | Applicant): PersonWithAddress {
+    let result: any = {};
+
+    const registerAddress = this.addressesComponents.find(x => x.type == addressTypes.register).address;
+    result.register = registerAddress
+      ? registerAddress
+      : owner ? owner.register : undefined;
+
+    const residentialAddress = this.addressesComponents.find(x => x.type == addressTypes.residential).address;
+    result.residential = residentialAddress 
+      ? residentialAddress 
+      : owner ? owner.residential : undefined;
+
+    result.tempRegistrationExpiredDate = this.tempRegistrationExpiredDate;
+    result.registerAddressLikeAsResidentialAddress = this.registerAddressLikeAsResidentialAddress;
+    return result;
   }
 
   temporaryRegistrationChange = (change: MatCheckboxChange) => {
