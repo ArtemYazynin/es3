@@ -14,6 +14,7 @@ import { PrivilegeStepComponent } from "./wizard/privilege-step/privilege-step.c
 import { BaseResolver } from "./wizard/resolvers/base-resolver";
 import { PrivilegeStepResolver } from "./wizard/resolvers/privilege-step-resolver";
 import { SchoolInquiryInfoStepComponent } from "./wizard/school-inquiry-info-step/school-inquiry-info-step.component";
+import { RegisterCompleteComponent } from "./wizard/register-complete/register-complete.component";
 export const routes: Routes = [
     {
         path: "",
@@ -99,12 +100,13 @@ export const routes: Routes = [
         }
     },
     {
-        path: "wizard/:type/addressTest",
-        component: AddressComponent,
+        path: "wizard/:type/registerComplete/:id",
+        component: RegisterCompleteComponent,
         resolve: {
             resolved: BaseResolver
         }
     },
+   
     // { path: "products/edit/:id", component: ProductCreateEditComponent},
     // { path: "products/create", component: ProductCreateEditComponent},
     // { path: "products/delete/:id", component: ProductDeleteComponent}

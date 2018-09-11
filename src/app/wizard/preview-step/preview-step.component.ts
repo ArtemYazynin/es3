@@ -1,9 +1,12 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, Inject } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Observable, Subject, timer } from 'rxjs';
 import { map, takeUntil } from 'rxjs/operators';
 import { isNullOrUndefined } from 'util';
-import { CitizenshipService, CompilationOfWizardSteps, Country, DrawService, Entity, Group, GroupService, InstitutionService, SpecHealth, SpecHealthService, StepBase, WizardStorageService } from '../../shared';
+import { CitizenshipService, CompilationOfWizardSteps, Country, DrawService, Entity, Group, GroupService, InstitutionService, SpecHealth, SpecHealthService, StepBase, WizardStorageService, InquiryService } from '../../shared';
+import { Guid } from '../../shared/guid';
+import { MatDialogRef, MAT_DIALOG_DATA, MatDialog } from '@angular/material';
+import { ConfirmDialogComponent } from '../../confirm-dialog/confirm-dialog.component';
 
 @Component({
   selector: 'app-preview-step',
@@ -13,7 +16,8 @@ import { CitizenshipService, CompilationOfWizardSteps, Country, DrawService, Ent
 export class PreviewStepComponent implements OnInit, OnDestroy, StepBase {
 
   constructor(private router: Router, private route: ActivatedRoute, private citizenshipService: CitizenshipService,
-    private storageService: WizardStorageService, private drawService: DrawService, private specHealthService: SpecHealthService) { }
+    private storageService: WizardStorageService, private drawService: DrawService, private specHealthService: SpecHealthService,
+    private inquiryService: InquiryService, public dialog: MatDialog) { }
   private ngUnsubscribe: Subject<any> = new Subject();
   $group: Observable<Group>;
   $institutionType: Observable<Entity<number>>
@@ -24,15 +28,18 @@ export class PreviewStepComponent implements OnInit, OnDestroy, StepBase {
   countries: Array<Country> = [];
 
   compilationSteps: CompilationOfWizardSteps;
+
   goTo = {
     back: () => {
       this.router.navigate(["../fileAttachmentStep"], { relativeTo: this.route });
     },
     next: () => {
-      timer(5000).pipe().subscribe((response) => {
-        this.storageService.set(this.inquiryType);
-        confirm("Заявление успешно зарегистрировано");
-        this.router.navigate([""], { relativeTo: this.route });
+      timer(1000).pipe().subscribe((response) => {
+        let tempInquiry = this.storageService.get(this.inquiryType);
+        this.inquiryService.create(tempInquiry).subscribe(inquiry => {
+          this.router.navigate([`../registerComplete/${inquiry.id}`], { relativeTo: this.route });
+        });
+
       })
     }
   };

@@ -55,6 +55,7 @@ export * from "./person";
 export * from "./parent";
 export * from "../area/shared/area.service";
 export * from "./address.service";
+export * from "./inquiry.service";
 export * from "./form.service";
 export * from "./draw.service";
 export * from "./institution.service";

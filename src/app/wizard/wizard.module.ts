@@ -21,7 +21,7 @@ import { IdentityCardComponent } from '../person/identity-card/identity-card.com
 import { IdentityCardTypePipe } from '../person/identity-card/shared/identity-card-type.pipe';
 import { SnilsComponent } from '../person/snils/snils.component';
 import { RelationTypeComponent } from '../relation-type/relation-type.component';
-import { AreaService, CitizenshipService, CommonService, DrawService, EnumToArrayPipe, FormService, GroupService, IdentityCardService, InstitutionService, ParentStepService, PrivilegeOrderService, PrivilegeService, RelationTypeService, SettingsService, SpecHealthService, SpecificityService, WizardStorageService } from '../shared';
+import { AreaService, CitizenshipService, CommonService, DrawService, EnumToArrayPipe, FormService, GroupService, IdentityCardService, InstitutionService, ParentStepService, PrivilegeOrderService, PrivilegeService, RelationTypeService, SettingsService, SpecHealthService, SpecificityService, WizardStorageService, InquiryService } from '../shared';
 import { AddressService } from '../shared/address.service';
 import { AddressComponent } from '../shared/address/address.component';
 import { AgeGroupComponent } from '../shared/age-group/age-group.component';
@@ -57,6 +57,8 @@ import { YesNoPipe } from '../shared/yes-no.pipe';
 import { DisabilityChildComponent } from '../disability-child/disability-child.component';
 import { RfCitizensAddressesComponent } from '../shared/rf-citizens-addresses/rf-citizens-addresses.component';
 import { ForeignCitizensAddressesComponent } from '../shared/foreign-citizens-addresses/foreign-citizens-addresses.component';
+import { ConfirmDialogComponent } from '../confirm-dialog/confirm-dialog.component';
+import { RegisterCompleteComponent } from './register-complete/register-complete.component';
 
 
 @NgModule({
@@ -109,7 +111,9 @@ import { ForeignCitizensAddressesComponent } from '../shared/foreign-citizens-ad
     PreviewPrivilegeComponent,
     PreviewFilesComponent,
     RfCitizensAddressesComponent,
-    ForeignCitizensAddressesComponent
+    ForeignCitizensAddressesComponent,
+    ConfirmDialogComponent,
+    RegisterCompleteComponent
   ],
   imports: [
     BrowserModule,
@@ -148,9 +152,10 @@ import { ForeignCitizensAddressesComponent } from '../shared/foreign-citizens-ad
     SpecificityService,
     SettingsService,
     DrawService,
-    AddressService
+    AddressService,
+    InquiryService
   ],
-  entryComponents: [ChildComponent],//динамически добавляемые компоненты ViewContainerRef.createComponent()
+  entryComponents: [ChildComponent,ConfirmDialogComponent],//динамически добавляемые компоненты ViewContainerRef.createComponent()
 })
 export class WizardModule {
 

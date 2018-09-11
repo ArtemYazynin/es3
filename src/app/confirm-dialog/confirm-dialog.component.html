@@ -1,0 +1,11 @@
+<h1 mat-dialog-title>{{config.title}}</h1>
+<div mat-dialog-content *ngIf="config.body">
+  <p>Заявление успешно зарегистрировано под номером {{config.body}} </p>
+  <!-- <mat-form-field>
+    <input matInput [(ngModel)]="config.body">
+  </mat-form-field> -->
+</div>
+<div mat-dialog-actions>
+  <button mat-button (click)="onNoClick()">Перейти к заявлению</button>
+  <button type="button" class="btn btn-primary" [mat-dialog-close]="config" cdkFocusInitial>Зарегистрировать новое</button>
+</div>

@@ -1,9 +1,11 @@
 import { InMemoryDbService } from 'angular-in-memory-web-api';
-import { Area, Countries, Entity, IdentityCardType, Institution, Privilege, PrivilegeOrder, RelationType, Settings, Specificity } from './shared';
+import { Observable, of } from 'rxjs';
+import { Area, CompilationOfWizardSteps, Countries, Entity, IdentityCardType, Institution, Privilege, PrivilegeOrder, RelationType, Settings, Specificity } from './shared';
 import { EnumToArrayPipe } from './shared/enum-to-array-pipe';
 
 export class InMemoryService implements InMemoryDbService {
   createDb() {
+    let inquiries:Array<CompilationOfWizardSteps> = [];
     let heroes = [
       { id: 1, name: 'Windstorm' },
       { id: 2, name: 'Bombasto' },
@@ -78,7 +80,7 @@ export class InMemoryService implements InMemoryDbService {
     ];
     let privilegeOrders = [
       new PrivilegeOrder("48c83d8d-a583-410a-8e5a-a5480156ca38", "Внеочередное"),
-      new PrivilegeOrder("6811c7b3-ac13-4227-b02d-a5480156ca38", "Первоочередное", )
+      new PrivilegeOrder("6811c7b3-ac13-4227-b02d-a5480156ca38", "Первоочередное")
     ];
     let privileges = [
       new Privilege("C8315DA6-DEAA-41B3-8371-A548002D945E", "Дети граждан, подвергшихся воздействию радиации вследствие катастрофы на Чернобыльской АЭС", privilegeOrders[0]),
@@ -95,6 +97,7 @@ export class InMemoryService implements InMemoryDbService {
     ];
     let settings = new Settings(new Date().getFullYear(), 3);
 
+
     return {
       heroes: heroes,
       countries: Countries,
@@ -110,6 +113,7 @@ export class InMemoryService implements InMemoryDbService {
       privileges: privileges,
       specificities: specificities,
       settings: settings,
+      inquiries:inquiries
     };
   }
 }

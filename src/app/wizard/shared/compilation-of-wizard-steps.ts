@@ -1,6 +1,9 @@
 import { Applicant, ApplicantType, Child, ContactInfo, CurrentEducationPlace, FilesInfo, InquiryInfo, Institution, Parent, Privilege } from "../../shared";
 
 export class CompilationOfWizardSteps {
+    id:string
+    version:Date;
+    number:string;
     applicantType: ApplicantType;
     applicant: Applicant;
     parent: Parent;
