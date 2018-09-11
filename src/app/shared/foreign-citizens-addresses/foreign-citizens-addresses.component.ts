@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { addressTypes } from "../../shared/address-type";
-import { Country, FormService, inquiryType, Parent, PersonWithAddress, Address } from "../../shared/index";
+import { Country, FormService, inquiryType, Parent, PersonWithAddress, Address, Child } from "../../shared/index";
 import { AddressComponent } from '../address/address.component';
 import { Applicant } from '../applicant';
 import { CitizenshipService } from '../citizenships/citizenship.service';
@@ -60,7 +60,7 @@ export class ForeignCitizensAddressesComponent implements OnInit, OnDestroy {
         this.form.patchValue(value);
       });
   }
-  getResult(owner: Parent | Applicant): PersonWithAddress{
+  getResult(owner: Parent | Applicant | Child): PersonWithAddress{
     let result: any = { residential:undefined };
 
     if (this.form.get("notHasRfRegistration").value) {

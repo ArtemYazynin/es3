@@ -3,9 +3,11 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { isNullOrUndefined } from 'util';
 import { BirthInfoComponent } from '../../person/birth-info/birth-info.component';
 import { CitizenshipSelectComponent } from '../../person/citizenship-select/citizenship-select.component';
-import { Child, CommonService, CompilationOfWizardSteps, ConfirmationDocument, DublicatesFinder, FormService, IdentityCard, Person, StepBase, WizardStorageService } from '../../shared';
+import { Child, CommonService, CompilationOfWizardSteps, ConfirmationDocument, DublicatesFinder, FormService, IdentityCard, Person, StepBase, WizardStorageService, ApplicantType, CitizenshipService } from '../../shared';
 import { SpecHealthComponent } from '../../spec-health/spec-health.component';
 import { ChildComponent } from './child/child.component';
+import { RfCitizensAddressesComponent } from '../../shared/rf-citizens-addresses/rf-citizens-addresses.component';
+import { ForeignCitizensAddressesComponent } from '../../shared/foreign-citizens-addresses/foreign-citizens-addresses.component';
 
 @Component({
   selector: 'app-children-step',
@@ -18,12 +20,14 @@ export class ChildrenStepComponent implements OnInit, AfterViewInit, StepBase {
   @ViewChild(BirthInfoComponent) birthInfoComponent: BirthInfoComponent;
   @ViewChild(CitizenshipSelectComponent) citizenshipSelectComponent: CitizenshipSelectComponent;
   @ViewChild(SpecHealthComponent) specHealthComponent: SpecHealthComponent;
+  @ViewChild(RfCitizensAddressesComponent) rfAddressesComponent: RfCitizensAddressesComponent;
+  @ViewChild(ForeignCitizensAddressesComponent) foreignAddressesComponent: ForeignCitizensAddressesComponent;
   private inquiry: CompilationOfWizardSteps;
   components: Array<ComponentRef<ChildComponent>> = [];
   inquiryType = this.route.snapshot.data.resolved.inquiryType;
 
   constructor(private route: ActivatedRoute, private router: Router, private resolver: ComponentFactoryResolver, private storageService: WizardStorageService,
-    private cdr: ChangeDetectorRef, private formService: FormService, private commonService: CommonService) { }
+    private cdr: ChangeDetectorRef, private formService: FormService, private citizenshipService: CitizenshipService) { }
 
   isValid(): boolean {
     let isValid = {
@@ -70,6 +74,18 @@ export class ChildrenStepComponent implements OnInit, AfterViewInit, StepBase {
     }
     return isValid.children() && isValid.birthInfo() && isValid.citizenships() && isValid.specHealthDocument();
   }
+  isAvailable = (() => {
+    const hasRfCitizenship = () => {
+      return this.citizenshipSelectComponent && this.citizenshipSelectComponent.citizenships.indexOf(643) >= 0;
+    }
+    const addresses = () => {
+      return this.citizenshipSelectComponent.citizenships.length > 0;
+    }
+    return {
+      addresses: addresses,
+      hasRfCitizenship: hasRfCitizenship,
+    }
+  })();
   navBarManager = (() => {
     let hideChildren = () => {
       this.components.forEach(x => x.instance.show = false);
@@ -149,6 +165,7 @@ export class ChildrenStepComponent implements OnInit, AfterViewInit, StepBase {
         component.instance.genderComponent.gender);
     }
     let result = [];
+
     this.components.forEach((x, i) => {
       const specHealthDocument = this.specHealthComponent.specHealth == 101
         ? null
@@ -163,7 +180,12 @@ export class ChildrenStepComponent implements OnInit, AfterViewInit, StepBase {
         person.gender, this.citizenshipSelectComponent.citizenships, this.specHealthComponent.specHealth,
         specHealthDocument,
         identityCard, x.instance.disabledChild);
+
+      Object.assign(child, this.citizenshipService.hasRfCitizenship(child.citizenships, this.citizenshipSelectComponent.countries)
+        ? this.rfAddressesComponent.getResult(this.inquiry.children[i])
+        : this.foreignAddressesComponent.getResult(this.inquiry.children[i]));
       result.push(child);
+
     });
     return result;
   }

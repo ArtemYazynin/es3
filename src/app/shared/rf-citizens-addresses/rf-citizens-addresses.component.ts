@@ -1,13 +1,12 @@
 import { Component, Input, OnDestroy, OnInit, QueryList, ViewChildren } from '@angular/core';
 import { MatCheckboxChange } from '@angular/material';
 import { Subscription } from 'rxjs';
-import { Parent, PersonWithAddress } from '..';
+import { Parent, PersonWithAddress, Child } from '..';
 import { Address } from '../address';
 import { addressTypes } from "../address-type";
 import { AddressComponent } from '../address/address.component';
 import { Applicant } from '../applicant';
 import { CitizenshipService } from '../citizenships/citizenship.service';
-import { isNullOrUndefined } from 'util';
 
 @Component({
   selector: 'app-rf-citizens-addresses',
@@ -16,7 +15,7 @@ import { isNullOrUndefined } from 'util';
 })
 export class RfCitizensAddressesComponent implements OnInit, OnDestroy {
   @ViewChildren(AddressComponent) addressesComponents: QueryList<AddressComponent>;
-  @Input() owner: Parent | Applicant;
+  @Input() owner: Parent | Applicant | Child;
   private subscription: Subscription;
   addressTypes = addressTypes;
   currentDate = new Date();
@@ -40,7 +39,7 @@ export class RfCitizensAddressesComponent implements OnInit, OnDestroy {
     if (this.subscription) this.subscription.unsubscribe();
   }
 
-  getResult(owner: Parent | Applicant): PersonWithAddress {
+  getResult(owner: Parent | Applicant | Child): PersonWithAddress {
     let result: any = {};
 
     const registerAddress = this.addressesComponents.find(x => x.type == addressTypes.register).address;
@@ -68,15 +67,15 @@ export class RfCitizensAddressesComponent implements OnInit, OnDestroy {
     if (change.checked) {
       this.residentialAddressBackup = (() => {
         const residentialAddress = this.addressesComponents.find(x => x.type == addressTypes.residential).address;
-        return this.clone(residentialAddress 
-            ? residentialAddress 
-            : this.owner ? this.owner.residential: undefined);
+        return this.clone(residentialAddress
+          ? residentialAddress
+          : this.owner ? this.owner.residential : undefined);
       })();
       this.addressesComponents.find(x => x.type == addressTypes.residential).address = (() => {
         const registerAddress = this.addressesComponents.find(x => x.type == addressTypes.register).address;
-        return this.clone(registerAddress 
-            ? registerAddress 
-            : this.owner ? this.owner.register : undefined);
+        return this.clone(registerAddress
+          ? registerAddress
+          : this.owner ? this.owner.register : undefined);
 
       })();
       document.getElementById("residentialAddressContainer").classList.add("disabledDiv");
