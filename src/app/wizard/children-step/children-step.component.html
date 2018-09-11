@@ -28,11 +28,11 @@
         </app-citizenship-select>
         <div *ngIf="isAvailable.addresses()">
           <div *ngIf="isAvailable.hasRfCitizenship()">
-            <app-rf-citizens-addresses [owner]="inquiry.children[0]">
+            <app-rf-citizens-addresses [owner]="inquiry.children ? inquiry.children[0] : undefined">
             </app-rf-citizens-addresses>
           </div>
           <div *ngIf="!isAvailable.hasRfCitizenship()">
-            <app-foreign-citizens-addresses [owner]="inquiry.children[0]">
+            <app-foreign-citizens-addresses [owner]="inquiry.children ? inquiry.children[0] : undefined">
             </app-foreign-citizens-addresses>
           </div>
         </div>
