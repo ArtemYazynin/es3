@@ -1,5 +1,8 @@
 import { DatePipe } from '@angular/common';
 import { Injectable } from '@angular/core';
+import { Address } from '../shared/address';
+import { AddressBuilder } from '../shared/addressBuilder/address-builder';
+import { AddressBuilderDirector } from '../shared/addressBuilder/address-builder-director';
 import { map } from 'rxjs/operators';
 import { isNullOrUndefined } from 'util';
 import { IdentityCard } from '../person/identity-card/shared/identityCard';
@@ -35,6 +38,20 @@ export class DrawService {
     });
     return result;
   }
+
+  getAddress(address: Address) {
+    const addressToString = (address: Address): string => {
+      const builder = new AddressBuilder(address);
+      new AddressBuilderDirector().construct(builder);
+      return builder.getResult();
+    }
+    if (address) {
+      return addressToString(address)
+    } else {
+      return "-";
+    }
+  }
+
   identityCard(identityCard: IdentityCard) {
     let result = "";
     if (!identityCard) return result;

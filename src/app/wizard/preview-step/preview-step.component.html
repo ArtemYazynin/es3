@@ -23,6 +23,9 @@
             <div class="form-group">
               <b>Гражданство </b> {{drawManager.citizenships(compilationSteps.parent.citizenships, countries)}}
             </div>
+            <div class="form-group">
+              <b>Адрес проживания законного представителя </b> {{drawManager.address(compilationSteps.parent.register)}}
+            </div>
             <app-confirmation-document-view title="Документ, подтверждающий право пребывания законного представителя на территории РФ"
               [document]="compilationSteps.parent.countryStateDocument">
             </app-confirmation-document-view>
