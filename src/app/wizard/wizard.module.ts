@@ -59,6 +59,7 @@ import { RfCitizensAddressesComponent } from '../shared/rf-citizens-addresses/rf
 import { ForeignCitizensAddressesComponent } from '../shared/foreign-citizens-addresses/foreign-citizens-addresses.component';
 import { ConfirmDialogComponent } from '../confirm-dialog/confirm-dialog.component';
 import { RegisterCompleteComponent } from './register-complete/register-complete.component';
+import { RegisterCompleteResolver } from './resolvers/register-complete-resolver';
 
 
 @NgModule({
@@ -132,6 +133,7 @@ import { RegisterCompleteComponent } from './register-complete/register-complete
   providers: [
     BaseResolver,
     PrivilegeStepResolver,
+    RegisterCompleteResolver,
     //wizard services
     ParentStepService,
     CurrentEducationPlaceStepService,
