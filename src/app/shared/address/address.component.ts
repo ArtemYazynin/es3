@@ -1,14 +1,13 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
 import { fromEvent, Observable, Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged, filter, takeUntil } from 'rxjs/operators';
 import { isNullOrUndefined } from 'util';
 import { addressTypes } from "../../shared/address-type";
-import { Address, AddressBuilder, AddressBuilderDirector, AddressService, CompilationOfWizardSteps, Location, PersonWithAddress, WizardStorageService } from "../../shared/index";
+import { Address, AddressService, DrawService, Location } from "../../shared/index";
 import { locationTypes } from "../../shared/location-type";
-import { Parent } from '../parent';
 import { Applicant } from '../applicant';
+import { Parent } from '../parent';
 
 @Component({
   selector: 'app-address',
@@ -37,7 +36,9 @@ export class AddressComponent implements OnInit, OnDestroy {
   buildings: Observable<Array<Location>>;
   customStreet = false;
 
-  constructor(private addressService: AddressService, private fb: FormBuilder) { }
+  constructor(private addressService: AddressService, private fb: FormBuilder, private drawService: DrawService) { }
+
+  drawManager = this.drawService;
 
   ngOnDestroy(): void {
     this.ngUnsubscribe.next();
@@ -151,19 +152,6 @@ export class AddressComponent implements OnInit, OnDestroy {
       }
     })();
     if (this.owner) this.address = this.owner[this.addressType];
-  }
-
-  getAddress = () => {
-    const addressToString = (address: Address): string => {
-      const builder = new AddressBuilder(address);
-      new AddressBuilderDirector().construct(builder);
-      return builder.getResult();
-    }
-    if (this.address) {
-      return addressToString(this.address)
-    } else {
-      return "-";
-    }
   }
 
   onSubmit = () => {
