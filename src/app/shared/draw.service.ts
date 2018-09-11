@@ -39,7 +39,7 @@ export class DrawService {
     return result;
   }
 
-  getAddress(address: Address) {
+  address(address: Address) {
     const addressToString = (address: Address): string => {
       const builder = new AddressBuilder(address);
       new AddressBuilderDirector().construct(builder);

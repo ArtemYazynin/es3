@@ -10,6 +10,12 @@
             <div class="form-group">
               <b>Гражданство </b> {{drawManager.citizenships(compilationSteps.applicant.citizenships, countries)}}
             </div>
+            <div class="form-group">
+              <b>Адрес регистрации </b> {{drawManager.address(compilationSteps.applicant.register)}}
+            </div>
+            <div class="form-group">
+              <b>Адрес проживания </b> {{drawManager.address(compilationSteps.applicant.residential)}}
+            </div>
             <app-confirmation-document-view title="Документ, подтверждающий полномочие доверенного лица представлять интересы законного представителя ребенка"
               [document]="compilationSteps.applicant.applicantRepresentParentDocument">
             </app-confirmation-document-view>
@@ -24,7 +30,10 @@
               <b>Гражданство </b> {{drawManager.citizenships(compilationSteps.parent.citizenships, countries)}}
             </div>
             <div class="form-group">
-              <b>Адрес проживания законного представителя </b> {{drawManager.getAddress(compilationSteps.parent.register)}}
+              <b>Адрес регистрации </b> {{drawManager.address(compilationSteps.parent.register)}}
+            </div>
+            <div class="form-group">
+              <b>Адрес проживания </b> {{drawManager.address(compilationSteps.parent.residential)}}
             </div>
             <app-confirmation-document-view title="Документ, подтверждающий право пребывания законного представителя на территории РФ"
               [document]="compilationSteps.parent.countryStateDocument">
@@ -59,6 +68,12 @@
                   </div>
                   <div class="form-group">
                     <b>Гражданство </b> {{drawManager.citizenships(child.citizenships, countries)}}
+                  </div>
+                  <div class="form-group">
+                    <b>Адрес регистрации </b> {{drawManager.address(compilationSteps.applicant.register)}}
+                  </div>
+                  <div class="form-group">
+                    <b>Адрес проживания </b> {{drawManager.address(compilationSteps.applicant.residential)}}
                   </div>
                 </div>
               </div>
