@@ -69,13 +69,13 @@
                   <div class="form-group">
                     <b>Гражданство </b> {{drawManager.citizenships(child.citizenships, countries)}}
                   </div>
-                  <div class="form-group">
-                    <b>Адрес регистрации </b> {{drawManager.address(compilationSteps.applicant.register)}}
-                  </div>
-                  <div class="form-group">
-                    <b>Адрес проживания </b> {{drawManager.address(compilationSteps.applicant.residential)}}
-                  </div>
                 </div>
+              </div>
+              <div class="form-group">
+                <b>Адрес регистрации </b> {{drawManager.address(compilationSteps.children[0].register)}}
+              </div>
+              <div class="form-group">
+                <b>Адрес проживания </b> {{drawManager.address(compilationSteps.children[0].residential)}}
               </div>
             </div>
           </div>
