@@ -5,41 +5,41 @@
     </div>
     <div class="widget-content">
       <div class="row">
-        <div class="col-md-6" *ngIf="compilationSteps.applicant">
-          <app-person-view title="Заявитель" [entity]="compilationSteps.applicant">
+        <div class="col-md-6" *ngIf="inquiry.applicant">
+          <app-person-view title="Заявитель" [entity]="inquiry.applicant">
             <div class="form-group">
-              <b>Гражданство </b> {{drawManager.citizenships(compilationSteps.applicant.citizenships, countries)}}
+              <b>Гражданство </b> {{drawManager.citizenships(inquiry.applicant.citizenships, countries)}}
             </div>
             <div class="form-group">
-              <b>Адрес регистрации </b> {{drawManager.address(compilationSteps.applicant.register)}}
+              <b>Адрес регистрации </b> {{drawManager.address(inquiry.applicant.register)}}
             </div>
             <div class="form-group">
-              <b>Адрес проживания </b> {{drawManager.address(compilationSteps.applicant.residential)}}
+              <b>Адрес проживания </b> {{drawManager.address(inquiry.applicant.residential)}}
             </div>
             <app-confirmation-document-view title="Документ, подтверждающий полномочие доверенного лица представлять интересы законного представителя ребенка"
-              [document]="compilationSteps.applicant.applicantRepresentParentDocument">
+              [document]="inquiry.applicant.applicantRepresentParentDocument">
             </app-confirmation-document-view>
             <app-confirmation-document-view title="Документ, подтверждающий право пребывания доверенного лица законного представителя на территории РФ"
-              [document]="compilationSteps.applicant.countryStateApplicantDocument">
+              [document]="inquiry.applicant.countryStateApplicantDocument">
             </app-confirmation-document-view>
           </app-person-view>
         </div>
         <div [ngClass]="parentWidgetSettings">
-          <app-person-view title="Законный представитель" [entity]="compilationSteps.parent">
+          <app-person-view title="Законный представитель" [entity]="inquiry.parent">
             <div class="form-group">
-              <b>Гражданство </b> {{drawManager.citizenships(compilationSteps.parent.citizenships, countries)}}
+              <b>Гражданство </b> {{drawManager.citizenships(inquiry.parent.citizenships, countries)}}
             </div>
             <div class="form-group">
-              <b>Адрес регистрации </b> {{drawManager.address(compilationSteps.parent.register)}}
+              <b>Адрес регистрации </b> {{drawManager.address(inquiry.parent.register)}}
             </div>
             <div class="form-group">
-              <b>Адрес проживания </b> {{drawManager.address(compilationSteps.parent.residential)}}
+              <b>Адрес проживания </b> {{drawManager.address(inquiry.parent.residential)}}
             </div>
             <app-confirmation-document-view title="Документ, подтверждающий право пребывания законного представителя на территории РФ"
-              [document]="compilationSteps.parent.countryStateDocument">
+              [document]="inquiry.parent.countryStateDocument">
             </app-confirmation-document-view>
             <app-confirmation-document-view title="Документ, подтверждающий право законного представителя представлять интересы ребенка"
-              [document]="compilationSteps.parent.parentRepresentChildrenDocument">
+              [document]="inquiry.parent.parentRepresentChildrenDocument">
             </app-confirmation-document-view>
           </app-person-view>
         </div>
@@ -51,7 +51,7 @@
               <h5>Ребенок/дети</h5>
             </div>
             <div class="widget-content">
-              <div *ngFor="let child of compilationSteps.children; let last = last;">
+              <div *ngFor="let child of inquiry.children; let last = last;">
                 <app-person-view title="Ребенок" [entity]="child"> </app-person-view>
                 <div *ngIf="last">
                   <div class="form-group">
@@ -72,17 +72,17 @@
                 </div>
               </div>
               <div class="form-group">
-                <b>Адрес регистрации </b> {{drawManager.address(compilationSteps.children[0].register)}}
+                <b>Адрес регистрации </b> {{drawManager.address(inquiry.children[0].register)}}
               </div>
               <div class="form-group">
-                <b>Адрес проживания </b> {{drawManager.address(compilationSteps.children[0].residential)}}
+                <b>Адрес проживания </b> {{drawManager.address(inquiry.children[0].residential)}}
               </div>
             </div>
           </div>
         </div>
       </div>
       <div class="row">
-        <app-preview-inquiry-info [inquiryInfo]="compilationSteps.inquiryInfo"></app-preview-inquiry-info>
+        <app-preview-inquiry-info [inquiryInfo]="inquiry.inquiryInfo"></app-preview-inquiry-info>
       </div>
       <div class="row">
         <div class="col-md-6">
@@ -92,13 +92,13 @@
             </div>
             <div class="widget-content">
               <div class="form-group">
-                <b>Email </b> {{compilationSteps.contactInfo.email}}
+                <b>Email </b> {{inquiry.contactInfo.email}}
               </div>
               <div class="form-group">
-                <b>Номер для смс </b> {{compilationSteps.contactInfo.smsPhone}}
+                <b>Номер для смс </b> {{inquiry.contactInfo.smsPhone}}
               </div>
               <div class="form-group">
-                <b>Телефон(ы) </b> {{compilationSteps.contactInfo.phones}}
+                <b>Телефон(ы) </b> {{inquiry.contactInfo.phones}}
               </div>
             </div>
           </div>
@@ -109,7 +109,7 @@
               <h5>Предпочитаемые организации</h5>
             </div>
             <div class="widget-content">
-              <div class="form-group" *ngFor="let institution of compilationSteps.institutions">
+              <div class="form-group" *ngFor="let institution of inquiry.institutions">
                 {{institution.name}}
               </div>
             </div>
@@ -118,15 +118,15 @@
       </div>
       <div class="row">
         <div class="col-md-6">
-          <app-preview-current-education-place [currentEducationPlace]="compilationSteps.currentEducationPlace"></app-preview-current-education-place>
+          <app-preview-current-education-place [currentEducationPlace]="inquiry.currentEducationPlace"></app-preview-current-education-place>
         </div>
         <div class="col-md-6">
-          <app-preview-privilege [privilege]="compilationSteps.privilege"></app-preview-privilege>
+          <app-preview-privilege [privilege]="inquiry.privilege"></app-preview-privilege>
         </div>
       </div>
       <div class="row">
         <div class="col-md-12">
-          <app-preview-files [filesInfo]="compilationSteps.filesInfo">
+          <app-preview-files [filesInfo]="inquiry.filesInfo">
           </app-preview-files>
         </div>
       </div>

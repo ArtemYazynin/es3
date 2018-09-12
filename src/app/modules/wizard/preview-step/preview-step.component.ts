@@ -26,7 +26,7 @@ export class PreviewStepComponent implements OnInit, OnDestroy, StepBase {
 
   countries: Array<Country> = [];
 
-  compilationSteps: Inquiry;
+  inquiry: Inquiry;
 
   goTo = {
     back: () => {
@@ -54,11 +54,11 @@ export class PreviewStepComponent implements OnInit, OnDestroy, StepBase {
         this.countries = data;
       });
 
-    this.compilationSteps = this.storageService.get(this.inquiryType);
-    this.$specHealth = this.specHealthService.get(this.compilationSteps.children[0].specHealth)
+    this.inquiry = this.storageService.get(this.inquiryType);
+    this.$specHealth = this.specHealthService.get(this.inquiry.children[0].specHealth)
       .pipe(map(specHealths => specHealths[0]));
     this.parentWidgetSettings = (() => {
-      return isNullOrUndefined(this.compilationSteps.applicant)
+      return isNullOrUndefined(this.inquiry.applicant)
         ? { "col-md-12": true }
         : { "col-md-6": true };
     })();

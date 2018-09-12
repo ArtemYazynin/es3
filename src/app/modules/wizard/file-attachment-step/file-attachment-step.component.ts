@@ -18,7 +18,7 @@ export class FileAttachmentStepComponent implements OnInit, OnDestroy, AfterView
   constructor(private router: Router, private route: ActivatedRoute, private storageService: WizardStorageService, private commonService: CommonService) { }
 
   inquiryType = this.route.snapshot.data.resolved.inquiryType;
-  private compilationSteps: Inquiry;
+  private inquiry: Inquiry;
   attachmentType = AttachmentType;
   maxFilesCount = 10;
   haveDigitalSignature = false;
@@ -65,7 +65,7 @@ export class FileAttachmentStepComponent implements OnInit, OnDestroy, AfterView
 
 
   ngOnInit() {
-    this.compilationSteps = this.storageService.get(this.inquiryType);
+    this.inquiry = this.storageService.get(this.inquiryType);
     this.initFiles();
   }
   ngAfterViewInit(): void {
@@ -144,16 +144,16 @@ export class FileAttachmentStepComponent implements OnInit, OnDestroy, AfterView
   }
 
   private getRequiredAttachmentTypes(): Observable<AttachmentType[]> {
-    return from([this.compilationSteps.applicantType])
+    return from([this.inquiry.applicantType])
       .pipe(map(applicantType => {
         let attachmentTypes: Array<AttachmentType> = [];
-        if (!this.compilationSteps) return attachmentTypes;
+        if (!this.inquiry) return attachmentTypes;
 
-        const hasParent = !!this.compilationSteps.parent;
+        const hasParent = !!this.inquiry.parent;
         const pushParentDocuments = () => {
-          if (hasParent && this.compilationSteps.parent.parentRepresentChildrenDocument)
+          if (hasParent && this.inquiry.parent.parentRepresentChildrenDocument)
             attachmentTypes.push(AttachmentType.ParentRepresentChildren);
-          if (hasParent && this.compilationSteps.parent.countryStateDocument)
+          if (hasParent && this.inquiry.parent.countryStateDocument)
             attachmentTypes.push(AttachmentType.CountryStateDocument);
         }
         switch (applicantType) {
@@ -165,7 +165,7 @@ export class FileAttachmentStepComponent implements OnInit, OnDestroy, AfterView
             attachmentTypes.push(AttachmentType.ParentIdentityCard, AttachmentType.ChildBirthdateCertificate,
               AttachmentType.ApplicantIdentityCard, AttachmentType.ApplicantRepresentParent);
             pushParentDocuments();
-            if (this.compilationSteps.applicant.countryStateApplicantDocument)
+            if (this.inquiry.applicant.countryStateApplicantDocument)
               attachmentTypes.push(AttachmentType.CountryStateApplicantDocument);
 
             break;
@@ -175,11 +175,11 @@ export class FileAttachmentStepComponent implements OnInit, OnDestroy, AfterView
           default:
             break;
         }
-        if (this.compilationSteps.children && this.compilationSteps.children.length > 0
-          && this.compilationSteps.children[0].specHealthDocument) {
+        if (this.inquiry.children && this.inquiry.children.length > 0
+          && this.inquiry.children[0].specHealthDocument) {
           attachmentTypes.push(AttachmentType.SpecHealthDocument);
         }
-        if (this.compilationSteps.privilege) {
+        if (this.inquiry.privilege) {
           attachmentTypes.push(AttachmentType.PrivilegeProofDocument);
         }
         return attachmentTypes;
