@@ -9,7 +9,6 @@ import { InMemoryWebApiModule } from 'angular-in-memory-web-api';
 import { TextMaskModule } from 'angular2-text-mask';
 import { MyDatePickerModule } from 'mydatepicker';
 import { AppComponent } from '../app.component';
-import { routes } from '../app.routes';
 import { ConfirmDialogComponent } from '../confirm-dialog/confirm-dialog.component';
 import { ConfirmationDocumentComponent } from '../confirmation-document/confirmation-document.component';
 import { DisabilityChildComponent } from '../disability-child/disability-child.component';
@@ -60,6 +59,7 @@ import { RegisterCompleteComponent } from './register-complete/register-complete
 import { BaseResolver } from './resolvers/base-resolver';
 import { PrivilegeStepResolver } from './resolvers/privilege-step-resolver';
 import { RegisterCompleteResolver } from './resolvers/register-complete-resolver';
+import { wizardRoutes } from './wizard-routes';
 
 
 @NgModule({
@@ -124,7 +124,7 @@ import { RegisterCompleteResolver } from './resolvers/register-complete-resolver
     NgSelectModule,
     FormsModule,
     ReactiveFormsModule,
-    RouterModule.forRoot(routes),
+    RouterModule.forRoot(wizardRoutes),
     HttpModule,
     JsonpModule,
     HttpClientModule,
@@ -157,7 +157,7 @@ import { RegisterCompleteResolver } from './resolvers/register-complete-resolver
     AddressService,
     InquiryService
   ],
-  entryComponents: [ChildComponent,ConfirmDialogComponent], //динамически добавляемые компоненты ViewContainerRef.createComponent()
+  entryComponents: [ChildComponent, ConfirmDialogComponent], //динамически добавляемые компоненты ViewContainerRef.createComponent()
 })
 export class WizardModule {
 
