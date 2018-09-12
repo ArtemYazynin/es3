@@ -259,5 +259,40 @@ export class AddressComponent implements OnInit, OnDestroy {
         ""
       ]
     })
+
+    if (this.owner) {
+      if (this.type == 2 && this.owner.register) {
+        this.address = this.owner.register;
+      }
+      if (this.type == 3 && this.owner.residential) {
+        this.address = this.owner.residential;
+      }
+
+      if (this.address) {
+        if (this.address.region)
+          this.addressForm.controls["region"].setValue(this.address.region);
+
+        this.addressForm.controls["regionChildType"].setValue(this.address.city ? "1" :
+          (this.address.district ? "0" : ""));
+
+        if (this.address.city)
+          this.addressForm.controls["city"].setValue(this.address.city);
+
+        if (this.address.district)
+          this.addressForm.controls["district"].setValue(this.address.district);
+
+        if (this.address.street)
+          this.addressForm.controls["street"].setValue(this.address.street);
+
+        if (this.address.building)
+          this.addressForm.controls["building"].setValue(this.address.building);
+
+        if (this.address.flat)
+          this.addressForm.controls["flat"].setValue(this.address.flat);
+
+        if (this.address.additionalInfo)
+          this.addressForm.controls["additionalInfo"].setValue(this.address.additionalInfo);
+      }
+    }
   }
 }
