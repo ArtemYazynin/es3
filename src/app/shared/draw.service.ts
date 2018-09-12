@@ -1,26 +1,19 @@
-import { DatePipe } from '@angular/common';
-import { Injectable } from '@angular/core';
-import { Address } from '../shared/address';
-import { AddressBuilder } from '../shared/addressBuilder/address-builder';
-import { AddressBuilderDirector } from '../shared/addressBuilder/address-builder-director';
-import { map } from 'rxjs/operators';
-import { isNullOrUndefined } from 'util';
-import { IdentityCard } from '../person/identity-card/shared/identityCard';
-import { IdentityCardType } from '../person/identity-card/shared/identityCardType';
-import { CitizenshipService } from './citizenships/citizenship.service';
-import { Country } from './citizenships/country';
-import { EnumToArrayPipe } from './enum-to-array-pipe';
-import { HttpInterceptor } from './http-interceptor';
-import { Person } from './person';
-
+import { DatePipe } from "@angular/common";
+import { Injectable } from "@angular/core";
+import { isNullOrUndefined } from "util";
+import { Country } from "./models/country";
+import { Person } from "./models/person";
+import { Address } from "./models/address";
+import { AddressBuilder } from "./addressBuilder/address-builder";
+import { AddressBuilderDirector } from "./addressBuilder/address-builder-director";
+import { IdentityCard } from "./models/identityCard";
+import { EnumToArrayPipe } from "./enum-to-array-pipe";
+import { IdentityCardType } from "./models/identityCardType";
 
 @Injectable({
   providedIn: 'root'
 })
 export class DrawService {
-
-  constructor(private http: HttpInterceptor, private citizenshipService: CitizenshipService) { }
-
   fio(person: Person) {
     if (isNullOrUndefined(person)) return "";
     const requiredResult = person.lastname ? person.lastname.concat(" ".concat(person.firstname)) : "";

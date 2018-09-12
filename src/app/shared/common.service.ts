@@ -1,9 +1,8 @@
 import { Injectable, QueryList } from '@angular/core';
-import { ConfirmationDocumentComponent } from '../confirmation-document/confirmation-document.component';
-import { AttachmentType } from './attachment-type.enum';
-import { ConfirmationDocument } from './confirmation-document';
-import { Entity } from './entity';
-import { IdentityCard } from '../person/identity-card/shared/identityCard';
+import { ConfirmationDocumentComponent } from './components/confirmation-document/confirmation-document.component';
+import { Entity } from './models/entity';
+import { ConfirmationDocument } from './models/confirmation-document';
+import { AttachmentType } from './models/attachment-type.enum';
 
 @Injectable({
   providedIn: 'root'
@@ -39,5 +38,5 @@ export class CommonService {
     return (o1 && o1.id) === (o2 && o2.id);
   }
 
-  
+
 }

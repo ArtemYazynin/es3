@@ -16,16 +16,16 @@ export class HttpInterceptor extends Http {
         super(backend, options)
     }
 
-    public request(url: string|Request, options?: RequestOptionsArgs): Observable<Response> {
+    public request(url: string | Request, options?: RequestOptionsArgs): Observable<Response> {
         return super.request(url, options)
-        .pipe(catchError(err => {
-            console.log(err.statusText);
-            throw 'error in source. Details: ' + err;
-          }))
+            .pipe(catchError(err => {
+                console.log(err.statusText);
+                throw 'error in source. Details: ' + err;
+            }))
     }
 
     public handleError = (error: Response) => {
-            
+
         // Do messaging and error handling here
         return Observable.throw(error)
     }

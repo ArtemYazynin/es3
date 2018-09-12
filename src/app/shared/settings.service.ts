@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpInterceptor } from './http-interceptor';
 import { map } from 'rxjs/operators';
-import { Settings } from './settings';
+import { Settings } from './models/settings';
 import { Observable } from 'rxjs';
 
 @Injectable({

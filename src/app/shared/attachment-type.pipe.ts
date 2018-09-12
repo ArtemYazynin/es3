@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { AttachmentType } from './attachment-type.enum';
+import { AttachmentType } from './models/attachment-type.enum';
 
 @Pipe({
   name: 'attachmentType'

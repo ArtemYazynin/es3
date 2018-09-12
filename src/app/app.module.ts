@@ -8,11 +8,10 @@ import { RouterModule } from '@angular/router';
 import { MyDatePickerModule } from 'mydatepicker';
 import { AppComponent } from './app.component';
 import { routes } from './app.routes';
-import { InquiryReadComponentComponent } from './inquiry/inquiry-read-component/inquiry-read-component.component';
-import { WizardModule } from './wizard/wizard.module';
+import { WizardModule } from './modules/wizard/wizard.module';
 
 @NgModule({
-  declarations: [InquiryReadComponentComponent],
+  declarations: [],
   imports: [
     RouterModule.forRoot(routes),
     BrowserModule,

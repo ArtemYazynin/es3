@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
-import { HttpInterceptor } from './http-interceptor';
-import { map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
-import { Entity } from '.';
-import { Institution } from './institution';
+import { map } from 'rxjs/operators';
 import { isNullOrUndefined } from 'util';
+import { Entity } from '.';
+import { HttpInterceptor } from './http-interceptor';
+import { Institution } from './models/institution';
 
 @Injectable({
   providedIn: 'root'

@@ -1,6 +1,4 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { IdentityCardType } from '../person/identity-card/shared/identityCardType';
-import { ApplicantType } from './applicant-type.enum';
 
 @Pipe({
   name: 'enumToArray'

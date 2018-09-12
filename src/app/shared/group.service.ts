@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/internal/Observable';
 import { map } from 'rxjs/operators';
 import { isNullOrUndefined } from 'util';
-import { Group } from './group';
+import { Group } from './models/group';
 import { HttpInterceptor } from './http-interceptor';
 
 @Injectable({

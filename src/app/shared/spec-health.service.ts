@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/internal/Observable';
-import { map, single, first } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 import { HttpInterceptor } from './http-interceptor';
-import { SpecHealth } from './spec-health';
+import { SpecHealth } from './models/spec-health';
 
 @Injectable({
   providedIn: 'root'
