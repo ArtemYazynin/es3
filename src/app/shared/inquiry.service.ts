@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
-import { HttpInterceptor } from './http-interceptor';
-import { CompilationOfWizardSteps } from '../wizard/shared/compilation-of-wizard-steps';
-import { Guid } from './guid';
-import { map } from 'rxjs/operators';
+import { Headers, RequestOptions } from '@angular/http';
 import { Observable } from 'rxjs';
-import { RequestOptions, RequestOptionsArgs, Headers } from '@angular/http';
+import { map } from 'rxjs/operators';
+import { CompilationOfWizardSteps } from '../modules/wizard/shared';
+import { HttpInterceptor } from './http-interceptor';
+import { Guid } from './models/guid';
 
 @Injectable({
   providedIn: 'root'

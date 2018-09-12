@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { FormGroup, AbstractControl, ValidatorFn } from '@angular/forms';
-import { ConfirmationDocument, Person } from '.';
-import { IdentityCard } from '../person/identity-card/shared/identityCard';
+import { ConfirmationDocument, Person, IdentityCard } from '.';
 
 @Injectable()
 export class FormService {

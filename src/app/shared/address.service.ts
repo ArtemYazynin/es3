@@ -4,8 +4,8 @@ import { Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { isNullOrUndefined } from 'util';
 import { HttpInterceptor } from './http-interceptor';
-import { Location } from "./location";
-import { locationTypes } from "./location-type";
+import { Location } from "./models/location";
+import { locationTypes } from "./models/location-type";
 @Injectable({
   providedIn: 'root'
 })
