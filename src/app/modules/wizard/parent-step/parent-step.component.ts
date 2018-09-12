@@ -1,7 +1,7 @@
 import { AfterViewInit, ChangeDetectorRef, Component, OnDestroy, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
-import { StepBase, CompilationOfWizardSteps, WizardStorageService } from '../shared';
+import { StepBase, Inquiry, WizardStorageService } from '../shared';
 import { GenderComponent } from '../../../shared/components/gender/gender.component';
 import { SnilsComponent } from '../../../shared/components/snils/snils.component';
 import { IdentityCardComponent } from '../../../shared/components/identity-card/identity-card.component';
@@ -36,7 +36,7 @@ export class ParentStepComponent implements OnInit, AfterViewInit, OnDestroy, St
   private subscription: Subscription;
 
 
-  inquiry: CompilationOfWizardSteps;
+  inquiry: Inquiry;
   applicantType: ApplicantType;
   attachmentTypes = AttachmentType;
   agree: boolean = false;
@@ -75,7 +75,7 @@ export class ParentStepComponent implements OnInit, AfterViewInit, OnDestroy, St
     this.applicantType = this.storageService.get(this.inquiryType).applicantType;
     this.isAvailable.childApplicantInfo = this.applicantType === ApplicantType["Ребенок-заявитель"];
 
-    this.inquiry = <CompilationOfWizardSteps>this.storageService.get(this.inquiryType);
+    this.inquiry = <Inquiry>this.storageService.get(this.inquiryType);
     if (!this.inquiry || !this.inquiry.parent) return;
     this.agree = true;
     this.snilsComponent.snils = this.inquiry.parent.snils;

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { StepBase } from '../shared/step-base';
+import { StepBase } from '../shared/models/step-base';
 import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({

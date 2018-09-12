@@ -4,7 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Observable, Subject, timer } from 'rxjs';
 import { map, takeUntil } from 'rxjs/operators';
 import { isNullOrUndefined } from 'util';
-import { StepBase, WizardStorageService, CompilationOfWizardSteps } from '../shared';
+import { StepBase, WizardStorageService, Inquiry } from '../shared';
 import { CitizenshipService, DrawService, SpecHealthService, InquiryService, Group, Entity, SpecHealth, Country } from '../../../shared';
 
 @Component({
@@ -26,7 +26,7 @@ export class PreviewStepComponent implements OnInit, OnDestroy, StepBase {
 
   countries: Array<Country> = [];
 
-  compilationSteps: CompilationOfWizardSteps;
+  compilationSteps: Inquiry;
 
   goTo = {
     back: () => {

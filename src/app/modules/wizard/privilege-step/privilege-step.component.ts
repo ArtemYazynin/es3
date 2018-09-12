@@ -4,7 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Observable, Subject } from 'rxjs';
 import { distinctUntilChanged, map, startWith, takeUntil } from 'rxjs/operators';
 import { isNullOrUndefined } from 'util';
-import { StepBase, CompilationOfWizardSteps, WizardStorageService } from '../shared';
+import { StepBase, Inquiry, WizardStorageService } from '../shared';
 import { ConfirmationDocumentComponent } from '../../../shared/components/confirmation-document/confirmation-document.component';
 import { Privilege, PrivilegeOrder, AttachmentType, FormService, PrivilegeOrderService, PrivilegeService, CommonService, inquiryType } from '../../../shared';
 
@@ -18,7 +18,7 @@ export class PrivilegeStepComponent implements OnInit, DoCheck, AfterViewInit, O
 
   private ngUnsubscribe: Subject<any> = new Subject();
   private privileges: Array<Privilege>;
-  inquiry: CompilationOfWizardSteps;
+  inquiry: Inquiry;
   showPrivilege: boolean;
   showPrivilegeOrders: boolean;
   showPrivilegeProofDocument: boolean;
@@ -53,7 +53,7 @@ export class PrivilegeStepComponent implements OnInit, DoCheck, AfterViewInit, O
   }
 
   ngOnInit() {
-    this.inquiry = <CompilationOfWizardSteps>this.storageService.get(this.inquiryType);
+    this.inquiry = <Inquiry>this.storageService.get(this.inquiryType);
     this.buildForm();
     this.subscribeOnwithoutPrivilege();
     this.subscribeOnPrivilegeOrder();

@@ -4,7 +4,7 @@ import { MatAutocompleteSelectedEvent } from '@angular/material';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Observable, Subject } from 'rxjs';
 import { map, startWith, takeUntil } from 'rxjs/operators';
-import { StepBase, WizardStorageService, CompilationOfWizardSteps } from '../shared';
+import { StepBase, WizardStorageService, Inquiry } from '../shared';
 import { Institution, CommonService, SettingsService, InstitutionService, inquiryType } from '../../../shared';
 
 @Component({
@@ -39,7 +39,7 @@ export class PreschoolInstitutionStepComponent implements OnInit, OnDestroy, Ste
           })
         );
         (function initFromSessionStorage(outer) {
-          const inquiry = <CompilationOfWizardSteps>outer.storageService.get(outer.inquiryType);
+          const inquiry = <Inquiry>outer.storageService.get(outer.inquiryType);
           if (inquiry.institutions && inquiry.institutions.length > 0) {
             inquiry.institutions.forEach(element => {
               outer._add(element);

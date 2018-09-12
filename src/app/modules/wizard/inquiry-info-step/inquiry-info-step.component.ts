@@ -1,7 +1,7 @@
 import { AfterViewInit, ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { StepBase, WizardStorageService, CompilationOfWizardSteps } from '../shared';
+import { StepBase, WizardStorageService, Inquiry } from '../shared';
 import { DistributionParamsComponent } from '../../../shared/components/distribution-params/distribution-params.component';
 import { StayModeComponent } from '../../../shared/components/stay-mode/stay-mode.component';
 import { AgeGroupComponent } from '../../../shared/components/age-group/age-group.component';
@@ -24,7 +24,7 @@ export class InquiryInfoStepComponent implements OnInit, AfterViewInit, StepBase
   ngOnInit() {
   }
   ngAfterViewInit(): void {
-    const inquiry = <CompilationOfWizardSteps>this.storageService.get(this.inquiryType);
+    const inquiry = <Inquiry>this.storageService.get(this.inquiryType);
     if (!inquiry.inquiryInfo) return;
     this.distributionParamsComponent.inquiryInfoForm.patchValue({
       wishDate: inquiry.inquiryInfo.distributionParams.wishDate,

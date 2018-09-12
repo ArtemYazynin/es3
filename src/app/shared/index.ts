@@ -4,6 +4,7 @@ export * from "./models/location-type";
 export * from "./models/address-type";
 
 //enums
+export * from "./models/register-source.enum";
 export * from "./models/identityCardType";
 export * from "./models/applicant-type.enum";
 export * from "./models/area-type.enum";
@@ -21,6 +22,9 @@ export * from "./addressBuilder/address-builder-director";
 
 
 export * from "./models/entity";
+export * from "./models/contact-info";
+export * from "./models/current-education-place";
+export * from "./models/status";
 export * from "./models/person-with-address";
 export * from "./models/address";
 export * from "./dublicates-finder";

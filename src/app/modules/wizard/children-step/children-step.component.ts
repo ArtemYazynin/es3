@@ -7,7 +7,7 @@ import { CitizenshipSelectComponent } from '../../../shared/components/citizensh
 import { ForeignCitizensAddressesComponent } from '../../../shared/components/foreign-citizens-addresses/foreign-citizens-addresses.component';
 import { RfCitizensAddressesComponent } from '../../../shared/components/rf-citizens-addresses/rf-citizens-addresses.component';
 import { SpecHealthComponent } from '../../../shared/components/spec-health/spec-health.component';
-import { CompilationOfWizardSteps, StepBase, WizardStorageService } from '../shared';
+import { Inquiry, StepBase, WizardStorageService } from '../shared';
 import { ChildComponent } from './child/child.component';
 
 
@@ -24,7 +24,7 @@ export class ChildrenStepComponent implements OnInit, AfterViewInit, StepBase {
   @ViewChild(SpecHealthComponent) specHealthComponent: SpecHealthComponent;
   @ViewChild(RfCitizensAddressesComponent) rfAddressesComponent: RfCitizensAddressesComponent;
   @ViewChild(ForeignCitizensAddressesComponent) foreignAddressesComponent: ForeignCitizensAddressesComponent;
-  private inquiry: CompilationOfWizardSteps;
+  private inquiry: Inquiry;
   components: Array<ComponentRef<ChildComponent>> = [];
   inquiryType = this.route.snapshot.data.resolved.inquiryType;
 

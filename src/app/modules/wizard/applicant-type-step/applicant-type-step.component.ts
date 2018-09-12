@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ApplicantType, Entity, inquiryType } from '../../../shared/index';
-import { CompilationOfWizardSteps, StepBase, WizardStorageService } from '../shared/index';
+import { Inquiry, StepBase, WizardStorageService } from '../shared/index';
 
 @Component({
   selector: 'app-applicant-type-step',
@@ -10,7 +10,7 @@ import { CompilationOfWizardSteps, StepBase, WizardStorageService } from '../sha
 })
 export class ApplicantTypeStepComponent implements OnInit, StepBase {
   isValid(): boolean { return true; }
-  inquiry: CompilationOfWizardSteps;
+  inquiry: Inquiry;
   inquiryType = this.route.snapshot.data.resolved.inquiryType;
   applicantType: ApplicantType = ApplicantType["Законный представитель ребенка"];
   applicantTypes: Array<Entity<number>> = [];

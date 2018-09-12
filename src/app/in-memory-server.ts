@@ -1,11 +1,11 @@
 import { InMemoryDbService } from 'angular-in-memory-web-api';
-import { CompilationOfWizardSteps } from './modules/wizard/shared/compilation-of-wizard-steps';
+import { Inquiry } from './shared/models/inquiry';
 import { Area, Countries, Institution, Privilege, PrivilegeOrder, Settings, Specificity, IdentityCardType, RelationType, Entity } from './shared/index';
 import { EnumToArrayPipe } from './shared/enum-to-array-pipe';
 
 export class InMemoryService implements InMemoryDbService {
   createDb() {
-    let inquiries: Array<CompilationOfWizardSteps> = [];
+    let inquiries: Array<Inquiry> = [];
     let heroes = [
       { id: 1, name: 'Windstorm' },
       { id: 2, name: 'Bombasto' },

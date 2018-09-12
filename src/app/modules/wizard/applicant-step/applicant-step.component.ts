@@ -9,7 +9,7 @@ import { IdentityCardComponent } from '../../../shared/components/identity-card/
 import { RfCitizensAddressesComponent } from '../../../shared/components/rf-citizens-addresses/rf-citizens-addresses.component';
 import { SnilsComponent } from '../../../shared/components/snils/snils.component';
 import { addressTypes, Applicant, ApplicantType, AttachmentType, CitizenshipService, CommonService, Country, DublicatesFinder, FormService, IdentityCard } from '../../../shared/index';
-import { CompilationOfWizardSteps, StepBase, WizardStorageService } from '../shared/index';
+import { Inquiry, StepBase, WizardStorageService } from '../shared/index';
 
 @Component({
   selector: 'app-applicant-step',
@@ -32,7 +32,7 @@ export class ApplicantStepComponent implements OnInit, AfterViewInit, OnDestroy,
     this.cdr.detectChanges();
   }
 
-  private inquiry: CompilationOfWizardSteps;
+  private inquiry: Inquiry;
   private subscription: Subscription;
   @ViewChild(IdentityCardComponent) identityCardComponent: IdentityCardComponent;
   @ViewChild(FullNameComponent) fullnameComponent: FullNameComponent
@@ -92,7 +92,7 @@ export class ApplicantStepComponent implements OnInit, AfterViewInit, OnDestroy,
         this.countries = result;
       });
 
-    this.inquiry = <CompilationOfWizardSteps>this.storageService.get(this.inquiryType);
+    this.inquiry = <Inquiry>this.storageService.get(this.inquiryType);
     if (!this.inquiry || !this.inquiry.applicant) return;
     this.snilsComponent.snils = this.inquiry.applicant.snils;
     this.citizenshipSelectComponent.citizenships = this.inquiry.applicant.citizenships;

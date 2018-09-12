@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, Validators, FormBuilder, ValidatorFn } from '@angular/forms';
 import { MatCheckboxChange } from '@angular/material';
 import { Router, ActivatedRoute, Params } from '@angular/router';
-import { StepBase, WizardStorageService, ContactInfo, CompilationOfWizardSteps } from '../shared';
+import { StepBase, WizardStorageService, ContactInfo, Inquiry } from '../shared';
 import { FormService, inquiryType } from '../../../shared';
 
 
@@ -91,7 +91,7 @@ export class ContactInfoStepComponent implements OnInit, StepBase {
   }
   ngOnInit() {
     this.buildForm();
-    const inquiry = <CompilationOfWizardSteps>this.storageService.get(this.inquiryType);
+    const inquiry = <Inquiry>this.storageService.get(this.inquiryType);
     if (!inquiry.contactInfo) return;
     this.contactsForm.patchValue({
       byEmail: inquiry.contactInfo.byEmail,

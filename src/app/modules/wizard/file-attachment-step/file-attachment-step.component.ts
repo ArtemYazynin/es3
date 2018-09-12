@@ -3,7 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { from, fromEvent, Observable, Subject } from 'rxjs';
 import { filter, map, takeUntil } from 'rxjs/operators';
 import { isNullOrUndefined } from 'util';
-import { StepBase, WizardStorageService, CompilationOfWizardSteps } from '../shared';
+import { StepBase, WizardStorageService, Inquiry } from '../shared';
 import { CommonService, AttachmentType, FileView, inquiryType, FileAttachment, Entity, ApplicantType } from '../../../shared';
 
 @Component({
@@ -18,7 +18,7 @@ export class FileAttachmentStepComponent implements OnInit, OnDestroy, AfterView
   constructor(private router: Router, private route: ActivatedRoute, private storageService: WizardStorageService, private commonService: CommonService) { }
 
   inquiryType = this.route.snapshot.data.resolved.inquiryType;
-  private compilationSteps: CompilationOfWizardSteps;
+  private compilationSteps: Inquiry;
   attachmentType = AttachmentType;
   maxFilesCount = 10;
   haveDigitalSignature = false;
