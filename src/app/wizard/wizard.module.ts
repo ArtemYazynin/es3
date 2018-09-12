@@ -10,7 +10,9 @@ import { TextMaskModule } from 'angular2-text-mask';
 import { MyDatePickerModule } from 'mydatepicker';
 import { AppComponent } from '../app.component';
 import { routes } from '../app.routes';
+import { ConfirmDialogComponent } from '../confirm-dialog/confirm-dialog.component';
 import { ConfirmationDocumentComponent } from '../confirmation-document/confirmation-document.component';
+import { DisabilityChildComponent } from '../disability-child/disability-child.component';
 import { InMemoryService } from '../in-memory-server';
 import { MaterialModule } from '../material.module';
 import { BirthInfoComponent } from '../person/birth-info/birth-info.component';
@@ -21,15 +23,18 @@ import { IdentityCardComponent } from '../person/identity-card/identity-card.com
 import { IdentityCardTypePipe } from '../person/identity-card/shared/identity-card-type.pipe';
 import { SnilsComponent } from '../person/snils/snils.component';
 import { RelationTypeComponent } from '../relation-type/relation-type.component';
-import { AreaService, CitizenshipService, CommonService, DrawService, EnumToArrayPipe, FormService, GroupService, IdentityCardService, InstitutionService, ParentStepService, PrivilegeOrderService, PrivilegeService, RelationTypeService, SettingsService, SpecHealthService, SpecificityService, WizardStorageService, InquiryService } from '../shared';
+import { AreaService, CitizenshipService, CommonService, DrawService, EnumToArrayPipe, FormService, GroupService, IdentityCardService, InquiryService, InstitutionService, ParentStepService, PrivilegeOrderService, PrivilegeService, RelationTypeService, SettingsService, SpecHealthService, SpecificityService, WizardStorageService } from '../shared';
 import { AddressService } from '../shared/address.service';
 import { AddressComponent } from '../shared/address/address.component';
 import { AgeGroupComponent } from '../shared/age-group/age-group.component';
 import { AtLeastOneCheckboxShouldBeSelectedComponent } from '../shared/at-least-one-checkbox-should-be-selected/at-least-one-checkbox-should-be-selected.component';
 import { AttachmentTypePipe } from '../shared/attachment-type.pipe';
 import { DistributionParamsComponent } from '../shared/distribution-params/distribution-params.component';
+import { ForeignCitizensAddressesComponent } from '../shared/foreign-citizens-addresses/foreign-citizens-addresses.component';
 import { HttpInterceptor } from '../shared/http-interceptor';
+import { RfCitizensAddressesComponent } from '../shared/rf-citizens-addresses/rf-citizens-addresses.component';
 import { StayModeComponent } from '../shared/stay-mode/stay-mode.component';
+import { YesNoPipe } from '../shared/yes-no.pipe';
 import { SpecHealthComponent } from '../spec-health/spec-health.component';
 import { ApplicantStepComponent } from '../wizard/applicant-step/applicant-step.component';
 import { ApplicantTypeStepComponent } from '../wizard/applicant-type-step/applicant-type-step.component';
@@ -51,14 +56,9 @@ import { PreviewCurrentEducationPlaceComponent } from './preview/preview-current
 import { PreviewFilesComponent } from './preview/preview-files/preview-files.component';
 import { PreviewInquiryInfoComponent } from './preview/preview-inquiry-info/preview-inquiry-info.component';
 import { PreviewPrivilegeComponent } from './preview/preview-privilege/preview-privilege.component';
+import { RegisterCompleteComponent } from './register-complete/register-complete.component';
 import { BaseResolver } from './resolvers/base-resolver';
 import { PrivilegeStepResolver } from './resolvers/privilege-step-resolver';
-import { YesNoPipe } from '../shared/yes-no.pipe';
-import { DisabilityChildComponent } from '../disability-child/disability-child.component';
-import { RfCitizensAddressesComponent } from '../shared/rf-citizens-addresses/rf-citizens-addresses.component';
-import { ForeignCitizensAddressesComponent } from '../shared/foreign-citizens-addresses/foreign-citizens-addresses.component';
-import { ConfirmDialogComponent } from '../confirm-dialog/confirm-dialog.component';
-import { RegisterCompleteComponent } from './register-complete/register-complete.component';
 import { RegisterCompleteResolver } from './resolvers/register-complete-resolver';
 
 
@@ -157,7 +157,7 @@ import { RegisterCompleteResolver } from './resolvers/register-complete-resolver
     AddressService,
     InquiryService
   ],
-  entryComponents: [ChildComponent,ConfirmDialogComponent],//динамически добавляемые компоненты ViewContainerRef.createComponent()
+  entryComponents: [ChildComponent,ConfirmDialogComponent], //динамически добавляемые компоненты ViewContainerRef.createComponent()
 })
 export class WizardModule {
 

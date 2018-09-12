@@ -20,7 +20,9 @@ export class RegisterCompleteComponent implements OnInit, StepBase {
     }
   };
 
-  constructor(private router: Router, private route: ActivatedRoute) { }
+  constructor(private router: Router, private route: ActivatedRoute) { 
+    
+  }
 
   ngOnInit() {
     let s = this;

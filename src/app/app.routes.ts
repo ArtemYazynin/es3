@@ -16,6 +16,7 @@ import { PrivilegeStepResolver } from "./wizard/resolvers/privilege-step-resolve
 import { SchoolInquiryInfoStepComponent } from "./wizard/school-inquiry-info-step/school-inquiry-info-step.component";
 import { RegisterCompleteComponent } from "./wizard/register-complete/register-complete.component";
 import { RegisterCompleteResolver } from "./wizard/resolvers/register-complete-resolver";
+import { InquiryReadComponentComponent } from "./inquiry/inquiry-read-component/inquiry-read-component.component";
 export const routes: Routes = [
     {
         path: "",
@@ -107,7 +108,14 @@ export const routes: Routes = [
             resolved: RegisterCompleteResolver
         }
     },
-   
+    {
+        path: "inquiry/:id",
+        component: InquiryReadComponentComponent,
+        resolve: {
+            resolved: BaseResolver
+        }
+    }
+
     // { path: "products/edit/:id", component: ProductCreateEditComponent},
     // { path: "products/create", component: ProductCreateEditComponent},
     // { path: "products/delete/:id", component: ProductDeleteComponent}

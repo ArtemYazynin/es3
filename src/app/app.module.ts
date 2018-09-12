@@ -8,8 +8,9 @@ import { WizardModule } from './wizard/wizard.module';
 import { JsonpModule } from '@angular/http';
 
 import { HashLocationStrategy, LocationStrategy } from '@angular/common';
+import { InquiryReadComponentComponent } from './inquiry/inquiry-read-component/inquiry-read-component.component';
 @NgModule({
-  declarations: [],
+  declarations: [InquiryReadComponentComponent],
   imports: [
     BrowserModule,
     WizardModule,
