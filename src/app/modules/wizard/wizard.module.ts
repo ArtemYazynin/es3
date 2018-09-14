@@ -43,7 +43,6 @@ import { ParentStepComponent } from '../wizard/parent-step/parent-step.component
 import { PreschoolInstitutionStepComponent } from '../wizard/preschool-institution-step/preschool-institution-step.component';
 import { PreviewStepComponent } from '../wizard/preview-step/preview-step.component';
 import { ConfirmationDocumentViewComponent } from '../wizard/preview/confirmation-document-view/confirmation-document-view.component';
-import { PersonViewComponent } from '../wizard/preview/person-view/person-view.component';
 import { PrivilegeStepComponent } from '../wizard/privilege-step/privilege-step.component';
 import { SchoolInquiryInfoStepComponent } from '../wizard/school-inquiry-info-step/school-inquiry-info-step.component';
 import { CurrentEducationPlaceStepService } from '../wizard/shared/current-education-place-step.service';
@@ -52,12 +51,12 @@ import { PreviewFilesComponent } from './preview/preview-files/preview-files.com
 import { PreviewInquiryInfoComponent } from './preview/preview-inquiry-info/preview-inquiry-info.component';
 import { PreviewPrivilegeComponent } from './preview/preview-privilege/preview-privilege.component';
 import { RegisterCompleteComponent } from './register-complete/register-complete.component';
-import { BaseResolver } from './resolvers/base-resolver';
 import { PrivilegeStepResolver } from './resolvers/privilege-step-resolver';
-import { RegisterCompleteResolver } from './resolvers/register-complete-resolver';
+import { RegisterCompleteResolver } from '../../shared/register-complete-resolver';
 import { ParentStepService, WizardStorageService } from './shared';
 import { wizardRoutes } from './wizard-routes';
 import { HttpInterceptor } from '../../shared/http-interceptor';
+import { PersonViewComponent } from './preview/person-view/person-view.component';
 
 
 
@@ -130,7 +129,6 @@ import { HttpInterceptor } from '../../shared/http-interceptor';
     InMemoryWebApiModule.forRoot(InMemoryService),
   ],
   providers: [
-    BaseResolver,
     PrivilegeStepResolver,
     RegisterCompleteResolver,
     //wizard services

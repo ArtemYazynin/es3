@@ -1,5 +1,4 @@
 export * from "../../../shared/models/current-education-place";
-export * from "../../../shared/models/inquiry";
 export * from "../../../shared/models/contact-info";
 export * from "./wizard-storage.service";
 export * from "./parent-step.service";

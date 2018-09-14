@@ -22,6 +22,8 @@ export * from "./addressBuilder/address-builder-director";
 
 
 export * from "./models/entity";
+export * from "./models/inquiry";
+export * from "./models/portal-identity";
 export * from "./models/contact-info";
 export * from "./models/current-education-place";
 export * from "./models/status";
@@ -52,6 +54,7 @@ export * from "./models/client";
 export * from "./models/confirmation-document";
 export * from "./models/person";
 export * from "./models/parent";
+export * from "./status.service"
 export * from "./area.service";
 export * from "./address.service";
 export * from "./inquiry.service";
@@ -72,6 +75,8 @@ export * from "./specificity.service";
 export * from "./privilege-order.service";
 
 export * from "./enum-to-array-pipe";
+
+export * from "./privilege-order.pipe";
 export * from "./attachment-type.pipe";
 export * from "./identity-card-type.pipe";
 export * from "./components/identity-card/shared/identity-card-change-handler";

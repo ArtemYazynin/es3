@@ -8,8 +8,8 @@ import { FullNameComponent } from '../../../shared/components/full-name/full-nam
 import { IdentityCardComponent } from '../../../shared/components/identity-card/identity-card.component';
 import { RfCitizensAddressesComponent } from '../../../shared/components/rf-citizens-addresses/rf-citizens-addresses.component';
 import { SnilsComponent } from '../../../shared/components/snils/snils.component';
-import { addressTypes, Applicant, ApplicantType, AttachmentType, CitizenshipService, CommonService, Country, DublicatesFinder, FormService, IdentityCard } from '../../../shared/index';
-import { Inquiry, StepBase, WizardStorageService } from '../shared/index';
+import { addressTypes, Applicant, ApplicantType, AttachmentType, CitizenshipService, CommonService, Country, DublicatesFinder, FormService, IdentityCard, Inquiry } from '../../../shared/index';
+import { StepBase, WizardStorageService } from '../shared/index';
 
 @Component({
   selector: 'app-applicant-step',

@@ -4,8 +4,9 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Observable, Subject, timer } from 'rxjs';
 import { map, takeUntil } from 'rxjs/operators';
 import { isNullOrUndefined } from 'util';
-import { StepBase, WizardStorageService, Inquiry } from '../shared';
-import { CitizenshipService, DrawService, SpecHealthService, InquiryService, Group, Entity, SpecHealth, Country } from '../../../shared';
+import { StepBase, WizardStorageService } from '../shared';
+import { CitizenshipService, DrawService, SpecHealthService, InquiryService, Group, Entity, SpecHealth, Country, Inquiry } from '../../../shared';
+import { Guid } from '../../../shared/models/guid';
 
 @Component({
   selector: 'app-preview-step',
@@ -34,11 +35,10 @@ export class PreviewStepComponent implements OnInit, OnDestroy, StepBase {
     },
     next: () => {
       timer(1000).pipe().subscribe((response) => {
-        let tempInquiry = this.storageService.get(this.inquiryType);
-        this.inquiryService.create(tempInquiry).subscribe(inquiry => {
+        this.inquiry.type = this.inquiryType;
+        this.inquiryService.create(this.inquiry).subscribe(inquiry => {
           this.router.navigate([`../registerComplete/${inquiry.id}`], { relativeTo: this.route });
         });
-
       })
     }
   };

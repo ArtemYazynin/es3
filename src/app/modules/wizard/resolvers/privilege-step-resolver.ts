@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 import { FormBuilder, Validators } from "@angular/forms";
 import { ActivatedRouteSnapshot, RouterStateSnapshot } from "@angular/router";
-import { BaseResolver } from "./base-resolver";
+import { BaseResolver } from "../../../shared/base-resolver";
 
 @Injectable()
 export class PrivilegeStepResolver extends BaseResolver {

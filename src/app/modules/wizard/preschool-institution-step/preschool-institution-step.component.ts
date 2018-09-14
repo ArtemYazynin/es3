@@ -4,8 +4,8 @@ import { MatAutocompleteSelectedEvent } from '@angular/material';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Observable, Subject } from 'rxjs';
 import { map, startWith, takeUntil } from 'rxjs/operators';
-import { StepBase, WizardStorageService, Inquiry } from '../shared';
-import { Institution, CommonService, SettingsService, InstitutionService, inquiryType } from '../../../shared';
+import { StepBase, WizardStorageService } from '../shared';
+import { Institution, CommonService, SettingsService, InstitutionService, inquiryType, Inquiry } from '../../../shared';
 
 @Component({
   selector: 'app-preschool-institution-step',

@@ -9,7 +9,7 @@ export class WizardStorageService {
   get(type: string): Inquiry {
     const key = this.prefix + "/" + type;
     const inquiryData = JSON.parse(sessionStorage.getItem(key));
-    return inquiryData || {};
+    return new Inquiry(inquiryData);
   }
   set(type: string, data?: object | Array<any>) {
     if (!inquiryType || !inquiryType[type]) return;

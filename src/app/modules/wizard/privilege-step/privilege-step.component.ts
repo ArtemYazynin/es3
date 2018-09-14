@@ -4,9 +4,9 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Observable, Subject } from 'rxjs';
 import { distinctUntilChanged, map, startWith, takeUntil } from 'rxjs/operators';
 import { isNullOrUndefined } from 'util';
-import { StepBase, Inquiry, WizardStorageService } from '../shared';
+import { StepBase, WizardStorageService } from '../shared';
 import { ConfirmationDocumentComponent } from '../../../shared/components/confirmation-document/confirmation-document.component';
-import { Privilege, PrivilegeOrder, AttachmentType, FormService, PrivilegeOrderService, PrivilegeService, CommonService, inquiryType } from '../../../shared';
+import { Privilege, PrivilegeOrder, AttachmentType, FormService, PrivilegeOrderService, PrivilegeService, CommonService, inquiryType, Inquiry } from '../../../shared';
 
 @Component({
   selector: 'app-privilege-step',

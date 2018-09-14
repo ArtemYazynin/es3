@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { isNullOrUndefined } from 'util';
-import { Applicant, Parent, Child, DrawService } from '../../../../shared';
+import { Applicant, Parent, DrawService, Child } from '../../../../shared';
 
 @Component({
   selector: 'app-person-view',

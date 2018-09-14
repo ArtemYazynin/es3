@@ -1,7 +1,7 @@
 import { AfterViewInit, ChangeDetectorRef, Component, OnDestroy, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
-import { StepBase, Inquiry, WizardStorageService } from '../shared';
+import { StepBase, WizardStorageService } from '../shared';
 import { GenderComponent } from '../../../shared/components/gender/gender.component';
 import { SnilsComponent } from '../../../shared/components/snils/snils.component';
 import { IdentityCardComponent } from '../../../shared/components/identity-card/identity-card.component';
@@ -12,7 +12,7 @@ import { RelationTypeComponent } from '../../../shared/components/relation-type/
 import { ConfirmationDocumentComponent } from '../../../shared/components/confirmation-document/confirmation-document.component';
 import { RfCitizensAddressesComponent } from '../../../shared/components/rf-citizens-addresses/rf-citizens-addresses.component';
 import { ForeignCitizensAddressesComponent } from '../../../shared/components/foreign-citizens-addresses/foreign-citizens-addresses.component';
-import { ApplicantType, AttachmentType, IdentityCardType, Country, inquiryType, addressTypes, CommonService, FormService, CitizenshipService, Parent, IdentityCard, DublicatesFinder } from '../../../shared';
+import { ApplicantType, AttachmentType, IdentityCardType, Country, inquiryType, addressTypes, CommonService, FormService, CitizenshipService, Parent, IdentityCard, DublicatesFinder, Inquiry } from '../../../shared';
 
 
 @Component({

@@ -1,11 +1,17 @@
 import { InMemoryDbService } from 'angular-in-memory-web-api';
 import { Inquiry } from './shared/models/inquiry';
-import { Area, Countries, Institution, Privilege, PrivilegeOrder, Settings, Specificity, IdentityCardType, RelationType, Entity } from './shared/index';
+import { Area, Countries, Institution, Privilege, PrivilegeOrder, Settings, Specificity, IdentityCardType, RelationType, Entity, Status } from './shared/index';
 import { EnumToArrayPipe } from './shared/enum-to-array-pipe';
+import { Guid } from './shared/models/guid';
 
 export class InMemoryService implements InMemoryDbService {
   createDb() {
     let inquiries: Array<Inquiry> = [];
+    let statuses:Array<Status> = [
+      new Status(Guid.newGuid(),"Новое"),
+      new Status(Guid.newGuid(),"Очередник"),
+      new Status(Guid.newGuid(),"Отмена"),
+    ]
     let heroes = [
       { id: 1, name: 'Windstorm' },
       { id: 2, name: 'Bombasto' },
@@ -113,7 +119,8 @@ export class InMemoryService implements InMemoryDbService {
       privileges: privileges,
       specificities: specificities,
       settings: settings,
-      inquiries: inquiries
+      inquiries: inquiries,
+      statuses:statuses
     };
   }
 }

@@ -1,3 +1,5 @@
+import { DatePipe } from "@angular/common";
+
 export class ConfirmationDocument {
   public name: string;
   public series: string;
@@ -33,5 +35,17 @@ export class ConfirmationDocument {
     "dateIssue": {
       "required": "Обязательное поле.  Введите дату в формате ДД.ММ.ГГГГ.",
     }
+  }
+
+  static toString(document:ConfirmationDocument): string {
+    if(!document) return "-";
+    let pipe = new DatePipe('en-US');
+    let result = "";
+    result += document.name ? `${document.name}; ` : "";
+    result += document.series ? `${document.series}; ` : "";
+    result += document.number ? `${document.number}; ` : "";
+    result += document.dateIssue ? `Дата выдачи: ${pipe.transform(document.dateIssue,"dd.MM.yyyy")} ` : "";
+    result += document.dateExpired ? `Действителен до: ${pipe.transform(document.dateExpired,"dd.MM.yyyy")} ` : "";
+    return result;
   }
 }

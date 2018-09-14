@@ -1,3 +1,104 @@
-<p>
-  inquiry-read works!
-</p>
+<div class="container col-md-12">
+  <div class="col-md-12">
+    <div class="col-md-6">
+      <div class="widget-box">
+        <div class="widget-title">
+          <h5>Заявление {{inquiry.number}}</h5>
+
+          <div class="buttons">
+            <a class="btn "><i class="fas fa-redo"></i></a>
+            <a class="btn "><i class="fas fa-edit"></i></a>
+          </div>
+        </div>
+        <div class="widget-content">
+          <div class="row">
+            <div class="col-md-6">
+              <h4>Заявление в {{inquiry.typeFriendlyName}}</h4>
+              <dl class="dl-horizontal">
+                <dt>Номер</dt>
+                <dd>{{inquiry.number}}</dd>
+                <dt>Зарегистрировано</dt>
+                <dd>{{inquiry.registerDateTime}}</dd>
+                <dt>Источник регистрации</dt>
+                <dd>{{inquiry.registerSource}}</dd>
+                <dt>Внешний идентификатор</dt>
+                <dd>{{inquiry.portalIdentity ? inquiry.portalIdentity.data : '-'}}</dd>
+                <dt>Идентификатор в ЕЛК</dt>
+                <dd>{{inquiry.portalIdentity ? inquiry.portalIdentity.data : '-'}}</dd>
+                <dt>Идентификатор в РЛДД</dt>
+                <dd>{{inquiry.portalIdentity ? inquiry.portalIdentity.data : '-'}}</dd>
+
+                <dt>Заявление на перевод</dt>
+                <dd>Нет</dd>
+                <div *ngIf="inquiry && inquiry.privilege && inquiry.privilege.privilegeOrder">
+                  <dt>Льгота</dt>
+                  <dd>
+                    {{inquiry.privilege.privilegeOrder.name}}<br>
+                    <i>{{inquiry.privilege.name}}</i>
+                  </dd>
+                  <dt>Документ, подтверждающий льготу</dt>
+                  <dd>{{getDocumentView(inquiry.privilege.privilegeProofDocument)}}</dd>
+                </div>
+                <dt>Доп. информация</dt>
+                <dd>{{inquiry.addInformation}}</dd>
+                <dt>Статус</dt>
+                <dd>{{inquiry.status.name}}</dd>
+              </dl>
+            </div>
+          </div>
+          <div class="button-row">
+            <mat-form-field style="width: 70%">
+              <mat-select placeholder="Перевести в статус" #status>
+                <mat-option *ngFor="let status of statuses" [value]="status.id">
+                  {{status.name}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+            <button type="button" class="btn btn-primary" (click)="changeStatus(status.value)">Выполнить</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="widget-box">
+        <div class="widget-title">
+          <h5>Законный представитель</h5>
+
+          <div class="buttons">
+            <a class="btn "><i class="fas fa-redo"></i></a>
+            <a class="btn "><i class="fas fa-edit"></i></a>
+          </div>
+        </div>
+        <div class="widget-content">
+          <div class="row">
+            <div class="col-md-6">
+              <dl class="dl-horizontal">
+                <dt>ФИО</dt>
+                <dd>{{drawManager.fio(inquiry.parent)}}</dd>
+                <dt>Документ</dt>
+                <dd>{{drawManager.identityCard(inquiry.parent.identityCard)}}</dd>
+                <dt>СНИЛС</dt>
+                <dd>{{inquiry.parent.snils || "-"}}</dd>
+                <dt>Гражданство</dt>
+                <dd>{{drawManager.citizenships(inquiry.parent.citizenships, countries)}}</dd>
+                <div *ngIf="inquiry.parent.countryStateDocument">
+                  <dt>Документ, подтверждающий право пребывания законного представителя на территории РФ</dt>
+                  <dd>{{getDocumentView(inquiry.parent.countryStateDocument)}}</dd>
+                </div>
+                <dt>Родственная связь</dt>
+                <dd>{{inquiry.parent.relationType.name}}</dd>
+                <div *ngIf="inquiry.parent.relationType.confirmationDocument">
+                  <dt>Документ, подтверждающий право законного представителя представлять интересы ребенка</dt>
+                  <dd>{{getDocumentView(inquiry.parent.parentRepresentChildrenDocument)}}</dd>
+                </div>
+              </dl>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+  </div>
+
+</div>

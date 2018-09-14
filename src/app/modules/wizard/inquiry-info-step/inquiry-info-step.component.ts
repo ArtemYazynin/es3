@@ -1,11 +1,11 @@
 import { AfterViewInit, ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { StepBase, WizardStorageService, Inquiry } from '../shared';
+import { StepBase, WizardStorageService } from '../shared';
 import { DistributionParamsComponent } from '../../../shared/components/distribution-params/distribution-params.component';
 import { StayModeComponent } from '../../../shared/components/stay-mode/stay-mode.component';
 import { AgeGroupComponent } from '../../../shared/components/age-group/age-group.component';
-import { inquiryType, DistributionParams, StayMode, AgeGroup, InquiryInfo } from '../../../shared';
+import { inquiryType, DistributionParams, StayMode, AgeGroup, InquiryInfo, Inquiry } from '../../../shared';
 
 
 @Component({

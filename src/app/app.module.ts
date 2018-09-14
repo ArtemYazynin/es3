@@ -9,18 +9,24 @@ import { MyDatePickerModule } from 'mydatepicker';
 import { AppComponent } from './app.component';
 import { routes } from './app.routes';
 import { WizardModule } from './modules/wizard/wizard.module';
+import { BaseResolver } from './shared/base-resolver';
+import { InquiryModule } from './modules/inquiry/inquiry.module';
+import { PrivilegeOrderPipe } from './shared/privilege-order.pipe';
 
 @NgModule({
-  declarations: [],
+  declarations: [PrivilegeOrderPipe],
   imports: [
     RouterModule.forRoot(routes),
     BrowserModule,
     WizardModule,
+    InquiryModule,
     BrowserAnimationsModule,
     MyDatePickerModule, JsonpModule
   ],
+  exports: [],
   providers: [
-    { provide: LocationStrategy, useClass: HashLocationStrategy }
+    { provide: LocationStrategy, useClass: HashLocationStrategy },
+    BaseResolver
   ],
   entryComponents: [],//динамически добавляемые компоненты ViewContainerRef.createComponent()
   bootstrap: [AppComponent]

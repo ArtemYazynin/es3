@@ -11,9 +11,9 @@ import { PreschoolInstitutionStepComponent } from "./preschool-institution-step/
 import { PreviewStepComponent } from "./preview-step/preview-step.component";
 import { PrivilegeStepComponent } from "./privilege-step/privilege-step.component";
 import { RegisterCompleteComponent } from "./register-complete/register-complete.component";
-import { BaseResolver } from "./resolvers/base-resolver";
+import { BaseResolver } from "../../shared/base-resolver";
 import { PrivilegeStepResolver } from "./resolvers/privilege-step-resolver";
-import { RegisterCompleteResolver } from "./resolvers/register-complete-resolver";
+import { RegisterCompleteResolver } from "../../shared/register-complete-resolver";
 import { SchoolInquiryInfoStepComponent } from "./school-inquiry-info-step/school-inquiry-info-step.component";
 
 export const wizardRoutes: Routes = [

@@ -1,13 +1,13 @@
 import { AfterViewInit, ChangeDetectorRef, Component, ComponentFactory, ComponentFactoryResolver, ComponentRef, OnInit, ViewChild, ViewContainerRef } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { isNullOrUndefined } from 'util';
-import { Child, CitizenshipService, ConfirmationDocument, DublicatesFinder, FormService, IdentityCard, Person } from '../../../shared';
+import { Child, CitizenshipService, ConfirmationDocument, DublicatesFinder, FormService, IdentityCard, Person, Inquiry } from '../../../shared';
 import { BirthInfoComponent } from '../../../shared/components/birth-info/birth-info.component';
 import { CitizenshipSelectComponent } from '../../../shared/components/citizenship-select/citizenship-select.component';
 import { ForeignCitizensAddressesComponent } from '../../../shared/components/foreign-citizens-addresses/foreign-citizens-addresses.component';
 import { RfCitizensAddressesComponent } from '../../../shared/components/rf-citizens-addresses/rf-citizens-addresses.component';
 import { SpecHealthComponent } from '../../../shared/components/spec-health/spec-health.component';
-import { Inquiry, StepBase, WizardStorageService } from '../shared';
+import { StepBase, WizardStorageService } from '../shared';
 import { ChildComponent } from './child/child.component';
 
 

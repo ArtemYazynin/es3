@@ -3,8 +3,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { from, fromEvent, Observable, Subject } from 'rxjs';
 import { filter, map, takeUntil } from 'rxjs/operators';
 import { isNullOrUndefined } from 'util';
-import { StepBase, WizardStorageService, Inquiry } from '../shared';
-import { CommonService, AttachmentType, FileView, inquiryType, FileAttachment, Entity, ApplicantType } from '../../../shared';
+import { StepBase, WizardStorageService, } from '../shared';
+import { CommonService, AttachmentType, FileView, inquiryType, FileAttachment, Entity, ApplicantType, Inquiry } from '../../../shared';
 
 @Component({
   selector: 'app-file-attachment-step',
