@@ -1,0 +1,18 @@
+<div class="widget-box">
+  <div class="widget-title">
+    <h5>Заявление {{inquiry.number}}</h5>
+    <div class="buttons">
+      <a class="btn"><i class="fas fa-redo"></i></a>
+    </div>
+  </div>
+  <div class="widget-content">
+    <app-inquiry-common-info [inquiry]="inquiry | async">
+      <dt>Льгота</dt>
+      <dd>{{(inquiry | async).privilege.privilegeOrder.name}}<br>
+        <i>{{(inquiry | async).privilege.name}}</i>
+      </dd>
+      <dt>Документ, подтверждающий льготу</dt>
+      <dd>{{getDocumentView((inquiry | async).privilege.privilegeProofDocument)}}</dd>
+    </app-inquiry-common-info>
+  </div>
+</div>

@@ -1,10 +1,9 @@
-import { ChangeDetectionStrategy, Component, OnInit, OnDestroy } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-
-import { Subscription, Subject } from 'rxjs';
-import { InquiryService, Inquiry, inquiryType, PrivilegeOrderService, PrivilegeOrder, ConfirmationDocument, StatusService, Status, DrawService, CitizenshipService, Country } from '../../../shared/index';
-import { pipe } from '@angular/core/src/render3/pipe';
+import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+import { CitizenshipService, ConfirmationDocument, Country, DrawService, Inquiry, InquiryService, PrivilegeOrder, PrivilegeOrderService, Status, StatusService } from '../../../shared/index';
+
 
 @Component({
   selector: 'app-inquiry-read',
@@ -56,6 +55,10 @@ export class InquiryReadComponent implements OnInit, OnDestroy {
     return ConfirmationDocument.toString(document);
   }
   changeStatus(status: string) {
-    let s = this;
+    
   }
+
+  // editCommon(){
+  //   this.router.navigate(["/edit/common"], { relativeTo: this.route });
+  // }
 }
