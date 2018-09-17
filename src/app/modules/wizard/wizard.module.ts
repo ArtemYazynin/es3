@@ -57,6 +57,7 @@ import { ParentStepService, WizardStorageService } from './shared';
 import { wizardRoutes } from './wizard-routes';
 import { HttpInterceptor } from '../../shared/http-interceptor';
 import { PersonViewComponent } from './preview/person-view/person-view.component';
+import { PrivilegeEditComponent } from '../../shared/components/privilege-edit/privilege-edit.component';
 
 
 
@@ -112,8 +113,10 @@ import { PersonViewComponent } from './preview/person-view/person-view.component
     RfCitizensAddressesComponent,
     ForeignCitizensAddressesComponent,
     ConfirmDialogComponent,
-    RegisterCompleteComponent
+    RegisterCompleteComponent,
+    PrivilegeEditComponent
   ],
+  exports:[PrivilegeEditComponent],
   imports: [
     BrowserModule,
     MaterialModule,

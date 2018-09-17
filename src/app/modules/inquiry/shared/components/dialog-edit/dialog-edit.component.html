@@ -1,13 +1,8 @@
 <h1 mat-dialog-title>Заявление</h1>
 <div mat-dialog-content>
-  <app-inquiry-common-info [inquiry]="inquiry">
-    <dt>Льгота</dt>
-    <dd>{{inquiry.privilege.privilegeOrder.name}}<br>
-      <i>{{inquiry.privilege.name}}</i>
-    </dd>
-    <dt>Документ, подтверждающий льготу</dt>
-    <dd>{{getDocumentView(inquiry.privilege.privilegeProofDocument)}}</dd>
-  </app-inquiry-common-info>
+  <!-- <app-privilege-edit [inquiry]="inquiry">
+
+  </app-privilege-edit> -->
 </div>
 <mat-dialog-actions>
   <button class="btn btn-warning" (click)="onNoClick()">Закрыть</button>

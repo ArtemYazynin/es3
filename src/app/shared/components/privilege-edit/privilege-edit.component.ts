@@ -1,0 +1,148 @@
+import { AfterViewInit, ChangeDetectorRef, Component, DoCheck, Input, OnInit, ViewChild } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Observable, Subject } from 'rxjs';
+import { distinctUntilChanged, map, startWith, takeUntil } from 'rxjs/operators';
+import { isNullOrUndefined } from 'util';
+import { AttachmentType, CommonService, FormService, Inquiry, Privilege, PrivilegeOrder, PrivilegeOrderService, PrivilegeService } from '../..';
+import { ConfirmationDocumentComponent } from '../confirmation-document/confirmation-document.component';
+
+@Component({
+  selector: 'app-privilege-edit',
+  templateUrl: './privilege-edit.component.html',
+  styleUrls: ['./privilege-edit.component.css'],
+})
+export class PrivilegeEditComponent implements OnInit, DoCheck, AfterViewInit {
+  @Input() inquiry: Inquiry;
+  @ViewChild(ConfirmationDocumentComponent) confirmationProofDocumentComponent: ConfirmationDocumentComponent;
+  private ngUnsubscribe: Subject<any> = new Subject();
+  private privileges: Array<Privilege>;
+  formErrors = {
+    withoutPrivilege: "",
+    privilegeOrder: "",
+    privilege: ""
+  };
+  validationMessages = {
+    privilegeOrder: {
+      "required": "Обязательное поле."
+    },
+    privilege: {
+      "required": "Обязательное поле."
+    }
+  };
+  compareObjects = this.commonService.compareObjects;
+  displayFn = this.commonService.displayFn;
+  attachmentTypes = AttachmentType;
+  privilegeForm: FormGroup;
+  privilegeOrders: Observable<Array<PrivilegeOrder>>;
+  filteredPrivileges: Observable<Array<Privilege>>;
+  showPrivilege: boolean;
+  showPrivilegeOrders: boolean;
+  showPrivilegeProofDocument: boolean;
+  constructor(private formService: FormService, private fb: FormBuilder, private privilegeOrderService: PrivilegeOrderService,
+    private privilegeService: PrivilegeService, private commonService: CommonService, private cdr: ChangeDetectorRef) { }
+
+  ngOnInit() {
+    this.buildForm();
+    this.subscribeOnwithoutPrivilege();
+    this.subscribeOnPrivilegeOrder();
+    this.privilegeOrders = this.privilegeOrderService.get();
+
+    if (!this.inquiry.privilege) return;
+    if (Object.keys(this.inquiry.privilege).length == 0) {
+      this.privilegeForm.patchValue({ withoutPrivilege: true });
+    } else if (this.inquiry.privilege) {
+      this.privilegeForm.patchValue({
+        withoutPrivilege: false,
+        privilegeOrder: this.inquiry.privilege.privilegeOrder,
+        privilege: this.inquiry.privilege
+      });
+    }
+  }
+  ngOnDestroy(): void {
+    this.ngUnsubscribe.next();
+    this.ngUnsubscribe.complete();
+  }
+  ngDoCheck(): void {
+    this.showPrivilegeOrders = this.needPrivilege();
+    this.showPrivilege = this.needPrivilege() && !!this.privilegeForm.controls.privilegeOrder.value;
+    this.showPrivilegeProofDocument = this.showPrivilege && !!this.privilegeForm.controls.privilege.value;
+  }
+  ngAfterViewInit(): void {
+    if (this.inquiry && this.inquiry.privilege && this.inquiry.privilege.privilegeProofDocument) {
+      this.confirmationProofDocumentComponent.confirmationDocumentForm.patchValue(this.inquiry.privilege.privilegeProofDocument);
+      this.cdr.detectChanges();
+    }
+  }
+  private buildForm() {
+    this.privilegeForm = this.fb.group({
+      "withoutPrivilege": [
+        false,
+        []
+      ],
+      "privilegeOrder": [
+        "",
+        [Validators.required]
+      ],
+      "privilege": [
+        "",
+        []
+      ]
+    })
+
+    this.privilegeForm.valueChanges
+      .pipe(takeUntil(this.ngUnsubscribe), distinctUntilChanged())
+      .subscribe(() => this.formService.onValueChange(this.privilegeForm, this.formErrors, this.validationMessages, false));
+    this.formService.onValueChange(this.privilegeForm, this.formErrors, this.validationMessages, false);
+  }
+  private subscribeOnwithoutPrivilege() {
+    this.privilegeForm.get("withoutPrivilege").valueChanges
+      .pipe(takeUntil(this.ngUnsubscribe), distinctUntilChanged())
+      .subscribe(checked => {
+        this.reset.privilegeOrder(checked);
+        this.reset.privilege(false);
+      });
+  }
+  private subscribeOnPrivilegeOrder() {
+    this.privilegeForm.get("privilegeOrder").valueChanges
+      .pipe(takeUntil(this.ngUnsubscribe), distinctUntilChanged())
+      .subscribe(val => {
+        this.reset.privilege(this.privilegeForm.controls.withoutPrivilege.value);
+        if (isNullOrUndefined(val) || val == "") return;
+        this.privilegeService.get(val)
+          .pipe(takeUntil(this.ngUnsubscribe), distinctUntilChanged())
+          .subscribe(result => {
+            this.privileges = result;
+            this.filteredPrivileges = this.privilegeForm.controls.privilege.valueChanges.pipe(
+              startWith<string | Privilege>(''),
+              map((value: Privilege) => typeof value === 'string' ? value : value.name),
+              map((name: string) => {
+                return name ? this.commonService.autoCompliteFilter(this.privileges, name) : this.privileges.slice();
+              })
+            );
+          });
+
+      });
+  }
+  private reset = (() => {
+    const privilegeOrder = (withoutPrivilege?) => {
+      this.privilegeForm.controls.privilegeOrder.clearValidators();
+      this.privilegeForm.controls.privilegeOrder.patchValue("");
+      if (!withoutPrivilege) this.privilegeForm.controls.privilegeOrder.setValidators([Validators.required]);
+      this.privilegeForm.controls.privilegeOrder.updateValueAndValidity();
+    }
+    const privilege = (validate: boolean) => {
+      this.privilegeForm.controls.privilege.clearValidators();
+      this.privilegeForm.controls.privilege.patchValue("");
+      if (validate) this.privilegeForm.controls.privilege.setValidators([Validators.required]);
+
+      this.privilegeForm.controls.privilege.updateValueAndValidity();
+    }
+    return {
+      privilegeOrder: privilegeOrder,
+      privilege: privilege
+    }
+  })();
+  private needPrivilege() {
+    return this.privilegeForm && !this.privilegeForm.controls.withoutPrivilege.value;
+  }
+}

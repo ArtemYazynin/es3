@@ -27,8 +27,6 @@ import { DialogEditComponent } from './shared/components/dialog-edit/dialog-edit
     HttpModule,
     JsonpModule,
     HttpClientModule,
-
-
     CommonModule,
     MaterialModule,
     RouterModule.forRoot([
@@ -40,9 +38,10 @@ import { DialogEditComponent } from './shared/components/dialog-edit/dialog-edit
         }
       }
     ]),
+
   ],
   declarations: [InquiryReadComponent, InquiryCommonInfoComponent, RegisterSourcePipe, DialogEditComponent],
   providers: [StatusService],
-  entryComponents:[DialogEditComponent]
+  entryComponents: [DialogEditComponent]
 })
 export class InquiryModule { }
