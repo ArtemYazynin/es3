@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
@@ -12,17 +13,19 @@ import { CitizenshipService, ConfirmationDocument, Country, DrawService, Inquiry
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class InquiryReadComponent implements OnInit, OnDestroy {
+
   private ngUnsubscribe: Subject<any> = new Subject();
-  countries:Array<Country>
+  countries: Array<Country>
   privilegeOrders: Array<PrivilegeOrder>;
   statuses: Array<Status>;
   inquiry: Inquiry;
   inquiryTypeFriendlyName: string;
   drawManager = this.drawService;
+  statusForm: FormGroup;
 
   constructor(private router: Router, private route: ActivatedRoute, private inquiryService: InquiryService,
     private privilegeOrderService: PrivilegeOrderService, private statusService: StatusService, private drawService: DrawService,
-    private citizenshipService: CitizenshipService) { }
+    private citizenshipService: CitizenshipService, private fb: FormBuilder) { }
 
   ngOnInit() {
     this.citizenshipService.getCountries()
@@ -44,7 +47,10 @@ export class InquiryReadComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(statuses => {
         this.statuses = statuses;
-      })
+        if (this.statuses.length > 0)
+          this.statusForm.controls.status.patchValue(this.statuses[0].id);
+      });
+    this.buildForm();
   }
   ngOnDestroy(): void {
     this.ngUnsubscribe.next();
@@ -55,7 +61,13 @@ export class InquiryReadComponent implements OnInit, OnDestroy {
     return ConfirmationDocument.toString(document);
   }
   changeStatus(status: string) {
-    
+
+  }
+
+  buildForm() {
+    this.statusForm = this.fb.group({
+      status: ["", []]
+    });
   }
 
   // editCommon(){

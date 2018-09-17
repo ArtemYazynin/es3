@@ -29,9 +29,9 @@
             </app-inquiry-common-info>
           </div>
         </div>
-        <div class="button-row">
+        <div class="button-row" [formGroup]="statusForm">
           <mat-form-field style="width: 70%">
-            <mat-select placeholder="Перевести в статус" #status>
+            <mat-select placeholder="Перевести в статус" formControlName="status" #status>
               <mat-option *ngFor="let status of statuses" [value]="status.id">
                 {{status.name}}
               </mat-option>
@@ -46,7 +46,6 @@
     <div class="widget-box">
       <div class="widget-title">
         <h5>Законный представитель</h5>
-
         <div class="buttons">
           <a class="btn "><i class="fas fa-redo"></i></a>
           <a class="btn "><i class="fas fa-edit"></i></a>
@@ -76,6 +75,66 @@
               </div>
             </dl>
           </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-12">
+    <div class="widget-box">
+      <div class="widget-title">
+        <h5>Ребёнок (дети)</h5>
+        <div class="buttons">
+          <a class="btn "><i class="fas fa-redo"></i></a>
+          <a class="btn "><i class="fas fa-edit"></i></a>
+        </div>
+      </div>
+      <div class="widget-content">
+        <div class="row">
+          <div *ngFor="let child of inquiry.children; let last = last;">
+            <div class="col-md-6">
+              <dl class="dl-horizontal">
+                <dt>ФИО</dt>
+                <dd>{{drawManager.fio(child)}}</dd>
+                <dt>Документ</dt>
+                <dd>{{drawManager.identityCard(child.identityCard)}}</dd>
+                <dt>СНИЛС</dt>
+                <dd>{{child.snils || "-"}}</dd>
+                <div class="widget-box" *ngIf="child.specHealthDocument != null || child.specHealthDocument != undefiend">
+                  <h5>Документ, подтверждающий потребность в группе с ОВЗ</h5>
+                  <div class="widget-content">
+                    <dt>Название </dt>
+                    <dd>{{child.specHealthDocument.name}}</dd>
+                    <dt>Серия </dt>
+                    <dd>{{child.specHealthDocument.series}}</dd>
+                    <dt>Номер </dt>
+                    <dd>{{child.specHealthDocument.number}}</dd>
+                    <dt>Дата выдачи </dt>
+                    <dd>{{child.specHealthDocument.dateIssue | date: 'dd.MM.yyyy'}}</dd>
+                    <dt>Действителен до </dt>
+                    <dd>{{child.specHealthDocument.dateExpired | date: 'dd.MM.yyyy'}}</dd>
+                  </div>
+                </div>
+              </dl>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <dl class="dl-horizontal">
+            <dt>Пол </dt>
+            <dd>{{inquiry.children[0].gender == 1 ? "Мужской":"Женский"}}</dd>
+            <dt>Дата рождения </dt>
+            <dd>{{inquiry.children[0].birthDate | date: "dd.MM.yyyy"}}</dd>
+            <dt>Место рождения </dt>
+            <dd>{{inquiry.children[0].birthPlace}}</dd>
+            <dt *ngIf="inquiry.children[0].specHealth != 101">Спец. по здоровью: </dt>
+            <dd>{{($specHealth | async)?.name}}</dd>
+            <dt>Гражданство</dt>
+            <dd>{{drawManager.citizenships(inquiry.children[0].citizenships, countries)}}</dd>
+            <dt>Адрес регистрации </dt>
+            <dd>{{drawManager.address(inquiry.children[0].register)}}</dd>
+            <dt>Адрес проживания </dt>
+            <dd>{{drawManager.address(inquiry.children[0].residential)}}</dd>
+          </dl>
         </div>
       </div>
     </div>
