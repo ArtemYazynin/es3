@@ -3,6 +3,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { CitizenshipService, ConfirmationDocument, Country, DrawService, Inquiry, InquiryService, PrivilegeOrder, PrivilegeOrderService, Status, StatusService } from '../../../shared/index';
+import { MatDialog, MatDialogConfig } from '@angular/material';
+import { DialogEditComponent } from '../shared/components/dialog-edit/dialog-edit.component';
 
 
 @Component({
@@ -13,7 +15,7 @@ import { CitizenshipService, ConfirmationDocument, Country, DrawService, Inquiry
 })
 export class InquiryReadComponent implements OnInit, OnDestroy {
   private ngUnsubscribe: Subject<any> = new Subject();
-  countries:Array<Country>
+  countries: Array<Country>
   privilegeOrders: Array<PrivilegeOrder>;
   statuses: Array<Status>;
   inquiry: Inquiry;
@@ -22,7 +24,7 @@ export class InquiryReadComponent implements OnInit, OnDestroy {
 
   constructor(private router: Router, private route: ActivatedRoute, private inquiryService: InquiryService,
     private privilegeOrderService: PrivilegeOrderService, private statusService: StatusService, private drawService: DrawService,
-    private citizenshipService: CitizenshipService) { }
+    private citizenshipService: CitizenshipService, public dialog: MatDialog) { }
 
   ngOnInit() {
     this.citizenshipService.getCountries()
@@ -55,10 +57,24 @@ export class InquiryReadComponent implements OnInit, OnDestroy {
     return ConfirmationDocument.toString(document);
   }
   changeStatus(status: string) {
-    
+
   }
 
-  // editCommon(){
-  //   this.router.navigate(["/edit/common"], { relativeTo: this.route });
-  // }
+  edit = (() => {
+    const common = () => {
+      const dialogConfig = new MatDialogConfig();
+
+      dialogConfig.disableClose = true;
+      dialogConfig.autoFocus = true;
+      dialogConfig.data = this.inquiry;
+      const dialogRef = this.dialog.open(DialogEditComponent, dialogConfig);
+
+      dialogRef.afterClosed().subscribe(result => {
+        console.log('The dialog was closed');
+      });
+    }
+    return {
+      common: common
+    }
+  })();
 }
