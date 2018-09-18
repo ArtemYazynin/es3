@@ -1,8 +1,9 @@
 import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Subject, BehaviorSubject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
-import { CitizenshipService, ConfirmationDocument, Country, DrawService, Inquiry, InquiryService, PrivilegeOrder, PrivilegeOrderService, Status, StatusService } from '../../../shared/index';
+import { Subject, BehaviorSubject, Observable } from 'rxjs';
+import { map, takeUntil } from 'rxjs/operators';
+import { CitizenshipService, ConfirmationDocument, Country, DrawService, Entity, Group, GroupService, Inquiry, InquiryService, InstitutionService, PrivilegeOrder, PrivilegeOrderService, Specificity, SpecificityService, Status, StatusService } from '../../../shared/index';
 import { MatDialog, MatDialogConfig } from '@angular/material';
 import { DialogEditComponent } from '../shared/components/dialog-edit/dialog-edit.component';
 
@@ -19,12 +20,19 @@ export class InquiryReadComponent implements OnInit, OnDestroy {
   countries: Array<Country>
   privilegeOrders: Array<PrivilegeOrder>;
   statuses: Array<Status>;
+  specificity: Observable<Specificity>;
+  $group: Observable<Group>;
+  $institutionType: Observable<Entity<number>>;
+  visibility: boolean = false;
+
   inquiryTypeFriendlyName: string;
   drawManager = this.drawService;
+  statusForm: FormGroup;
 
   constructor(private router: Router, private route: ActivatedRoute, private inquiryService: InquiryService,
     private privilegeOrderService: PrivilegeOrderService, private statusService: StatusService, private drawService: DrawService,
-    private citizenshipService: CitizenshipService, public dialog: MatDialog) { }
+    private citizenshipService: CitizenshipService, private fb: FormBuilder, private specificityService: SpecificityService, public dialog: MatDialog,
+    private institutionService: InstitutionService, private groupService: GroupService) { }
 
   ngOnInit() {
     this.citizenshipService.getCountries()
@@ -43,7 +51,20 @@ export class InquiryReadComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(statuses => {
         this.statuses = statuses;
-      })
+        if (this.statuses.length > 0)
+          this.statusForm.controls.status.patchValue(this.statuses[0].id);
+      });
+    (() => {
+      let inquiry = this.$inquiry.getValue();
+      this.specificity = this.specificityService.get(inquiry.inquiryInfo.distributionParams.specificity).pipe(map(specificities => specificities[0]));
+      this.$institutionType = this.institutionService.getTypes(inquiry.currentEducationPlace.institutionType)
+        .pipe(map(types => types[0]));
+      this.$group = this.groupService.getGroup(inquiry.currentEducationPlace.institution, inquiry.currentEducationPlace.group)
+        .pipe(map(groups => groups[0]));
+      this.visibility = inquiry.privilege && Object.keys(inquiry.privilege).length > 0
+    })();
+
+    this.buildForm();
   }
   ngOnDestroy(): void {
     this.ngUnsubscribe.next();
@@ -55,6 +76,12 @@ export class InquiryReadComponent implements OnInit, OnDestroy {
   }
   changeStatus(status: string) {
 
+  }
+
+  buildForm() {
+    this.statusForm = this.fb.group({
+      status: ["", []]
+    });
   }
 
   edit = (() => {
