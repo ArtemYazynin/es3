@@ -75,8 +75,6 @@ export * from "./specificity.service";
 export * from "./privilege-order.service";
 
 export * from "./enum-to-array-pipe";
-
-export * from "./privilege-order.pipe";
 export * from "./attachment-type.pipe";
 export * from "./identity-card-type.pipe";
 export * from "./components/identity-card/shared/identity-card-change-handler";

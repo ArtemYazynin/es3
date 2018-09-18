@@ -8,9 +8,9 @@ import { NgSelectModule } from '@ng-select/ng-select';
 import { InMemoryWebApiModule } from 'angular-in-memory-web-api';
 import { TextMaskModule } from 'angular2-text-mask';
 import { MyDatePickerModule } from 'mydatepicker';
-import { AppComponent } from '../../app.component';
 import { InMemoryService } from '../../in-memory-server';
 import { MaterialModule } from '../../material.module';
+import { ShareModule } from '../../share.module';
 import { AddressService, AreaService, AttachmentTypePipe, CitizenshipService, CommonService, DrawService, EnumToArrayPipe, FormService, GroupService, IdentityCardService, IdentityCardTypePipe, InquiryService, InstitutionService, PrivilegeOrderService, PrivilegeService, RelationTypeService, SettingsService, SpecHealthService, SpecificityService } from '../../shared';
 import { AddressComponent } from '../../shared/components/address/address.component';
 import { AgeGroupComponent } from '../../shared/components/age-group/age-group.component';
@@ -18,7 +18,6 @@ import { AtLeastOneCheckboxShouldBeSelectedComponent } from '../../shared/compon
 import { BirthInfoComponent } from '../../shared/components/birth-info/birth-info.component';
 import { CitizenshipSelectComponent } from '../../shared/components/citizenship-select/citizenship-select.component';
 import { ConfirmDialogComponent } from '../../shared/components/confirm-dialog/confirm-dialog.component';
-import { ConfirmationDocumentComponent } from '../../shared/components/confirmation-document/confirmation-document.component';
 import { DisabilityChildComponent } from '../../shared/components/disability-child/disability-child.component';
 import { DistributionParamsComponent } from '../../shared/components/distribution-params/distribution-params.component';
 import { ForeignCitizensAddressesComponent } from '../../shared/components/foreign-citizens-addresses/foreign-citizens-addresses.component';
@@ -30,6 +29,8 @@ import { RfCitizensAddressesComponent } from '../../shared/components/rf-citizen
 import { SnilsComponent } from '../../shared/components/snils/snils.component';
 import { SpecHealthComponent } from '../../shared/components/spec-health/spec-health.component';
 import { StayModeComponent } from '../../shared/components/stay-mode/stay-mode.component';
+import { HttpInterceptor } from '../../shared/http-interceptor';
+import { RegisterCompleteResolver } from '../../shared/register-complete-resolver';
 import { YesNoPipe } from '../../shared/yes-no.pipe';
 import { ApplicantStepComponent } from '../wizard/applicant-step/applicant-step.component';
 import { ApplicantTypeStepComponent } from '../wizard/applicant-type-step/applicant-type-step.component';
@@ -46,24 +47,20 @@ import { ConfirmationDocumentViewComponent } from '../wizard/preview/confirmatio
 import { PrivilegeStepComponent } from '../wizard/privilege-step/privilege-step.component';
 import { SchoolInquiryInfoStepComponent } from '../wizard/school-inquiry-info-step/school-inquiry-info-step.component';
 import { CurrentEducationPlaceStepService } from '../wizard/shared/current-education-place-step.service';
+import { PersonViewComponent } from './preview/person-view/person-view.component';
 import { PreviewCurrentEducationPlaceComponent } from './preview/preview-current-education-place/preview-current-education-place.component';
 import { PreviewFilesComponent } from './preview/preview-files/preview-files.component';
 import { PreviewInquiryInfoComponent } from './preview/preview-inquiry-info/preview-inquiry-info.component';
 import { PreviewPrivilegeComponent } from './preview/preview-privilege/preview-privilege.component';
 import { RegisterCompleteComponent } from './register-complete/register-complete.component';
 import { PrivilegeStepResolver } from './resolvers/privilege-step-resolver';
-import { RegisterCompleteResolver } from '../../shared/register-complete-resolver';
 import { ParentStepService, WizardStorageService } from './shared';
 import { wizardRoutes } from './wizard-routes';
-import { HttpInterceptor } from '../../shared/http-interceptor';
-import { PersonViewComponent } from './preview/person-view/person-view.component';
-import { PrivilegeEditComponent } from '../../shared/components/privilege-edit/privilege-edit.component';
 
 
 
 @NgModule({
   declarations: [
-    AppComponent,
     //view components//
     ConfirmationDocumentViewComponent,
     PersonViewComponent,
@@ -89,7 +86,6 @@ import { PrivilegeEditComponent } from '../../shared/components/privilege-edit/p
     EnumToArrayPipe,
     AttachmentTypePipe,
     IdentityCardComponent,
-    ConfirmationDocumentComponent,
 
     FullNameComponent,
     BirthInfoComponent,
@@ -114,11 +110,12 @@ import { PrivilegeEditComponent } from '../../shared/components/privilege-edit/p
     ForeignCitizensAddressesComponent,
     ConfirmDialogComponent,
     RegisterCompleteComponent,
-    PrivilegeEditComponent
+
   ],
-  exports:[PrivilegeEditComponent],
+  exports: [],
   imports: [
     BrowserModule,
+    ShareModule,
     MaterialModule,
     MyDatePickerModule,
     TextMaskModule,

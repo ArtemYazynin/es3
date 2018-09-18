@@ -1,10 +1,13 @@
-<h1 mat-dialog-title>Заявление</h1>
-<div mat-dialog-content>
-  <!-- <app-privilege-edit [inquiry]="inquiry">
-
-  </app-privilege-edit> -->
+<div *ngIf="$inquiry | async as inquiry">
+  <h1 mat-dialog-title>Заявление</h1>
+  <div mat-dialog-content>
+    <div>
+      <app-privilege-edit [inquiry]="inquiry">
+      </app-privilege-edit>
+    </div>
+  </div>
+  <mat-dialog-actions>
+    <button class="btn btn-warning" [mat-dialog-close]="inquiry">Закрыть</button>
+    <button class="btn btn-primary" (click)="click.save()" [disabled]="!isValid()">Сохранить</button>
+  </mat-dialog-actions>
 </div>
-<mat-dialog-actions>
-  <button class="btn btn-warning" (click)="onNoClick()">Закрыть</button>
-  <button class="btn btn-primary" [mat-dialog-close]="inquiry">Сохранить</button>
-</mat-dialog-actions>

@@ -15,10 +15,12 @@ import { NgSelectModule } from '@ng-select/ng-select';
 import { InquiryCommonInfoComponent } from './shared/components/inquiry-common-info/inquiry-common-info.component';
 import { RegisterSourcePipe } from '../../shared/models/register-source.pipe';
 import { DialogEditComponent } from './shared/components/dialog-edit/dialog-edit.component';
+import { ShareModule } from '../../share.module';
 
 @NgModule({
   imports: [
     BrowserModule,
+    ShareModule,
     MyDatePickerModule,
     TextMaskModule,
     NgSelectModule,

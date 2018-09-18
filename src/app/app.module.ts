@@ -11,17 +11,20 @@ import { routes } from './app.routes';
 import { WizardModule } from './modules/wizard/wizard.module';
 import { BaseResolver } from './shared/base-resolver';
 import { InquiryModule } from './modules/inquiry/inquiry.module';
-import { PrivilegeOrderPipe } from './shared/privilege-order.pipe';
+import { ShareModule } from './share.module';
 
 @NgModule({
-  declarations: [PrivilegeOrderPipe],
+  declarations: [AppComponent],
   imports: [
-    RouterModule.forRoot(routes),
+    
     BrowserModule,
+    
     WizardModule,
     InquiryModule,
     BrowserAnimationsModule,
-    MyDatePickerModule, JsonpModule
+    MyDatePickerModule,
+    JsonpModule,
+    RouterModule.forRoot(routes),
   ],
   exports: [],
   providers: [

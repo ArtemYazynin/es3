@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Headers, RequestOptions } from '@angular/http';
-import { Observable, of } from 'rxjs';
+import { Observable, of, BehaviorSubject } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { WizardStorageService } from '../modules/wizard/shared';
 import { HttpInterceptor } from './http-interceptor';
@@ -35,9 +35,9 @@ export class InquiryService {
     return of(this.storageService.get("preschool"));
   }
 
-  get(id: string): Observable<Inquiry> {
+  get(id: string): BehaviorSubject<Inquiry> {
     if (!id) return Observable.create();
-    return of(this.storageService.get("preschool"));
+    return new BehaviorSubject<Inquiry>(this.storageService.get("preschool"));
     // const url = `${this.baseUrl}?id=${id}`;
     // return this.http.get(url).pipe(map(result => {
     //   const inquiries = <Array<Inquiry>>result.json();

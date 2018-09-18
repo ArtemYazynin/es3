@@ -1,4 +1,4 @@
-import { AfterViewInit, ChangeDetectorRef, Component, DoCheck, Input, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, DoCheck, Input, OnInit, ViewChild, ChangeDetectionStrategy } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Observable, Subject } from 'rxjs';
 import { distinctUntilChanged, map, startWith, takeUntil } from 'rxjs/operators';
@@ -10,8 +10,9 @@ import { ConfirmationDocumentComponent } from '../confirmation-document/confirma
   selector: 'app-privilege-edit',
   templateUrl: './privilege-edit.component.html',
   styleUrls: ['./privilege-edit.component.css'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class PrivilegeEditComponent implements OnInit, DoCheck, AfterViewInit {
+export class PrivilegeEditComponent implements OnInit, AfterViewInit {
   @Input() inquiry: Inquiry;
   @ViewChild(ConfirmationDocumentComponent) confirmationProofDocumentComponent: ConfirmationDocumentComponent;
   private ngUnsubscribe: Subject<any> = new Subject();
@@ -35,9 +36,6 @@ export class PrivilegeEditComponent implements OnInit, DoCheck, AfterViewInit {
   privilegeForm: FormGroup;
   privilegeOrders: Observable<Array<PrivilegeOrder>>;
   filteredPrivileges: Observable<Array<Privilege>>;
-  showPrivilege: boolean;
-  showPrivilegeOrders: boolean;
-  showPrivilegeProofDocument: boolean;
   constructor(private formService: FormService, private fb: FormBuilder, private privilegeOrderService: PrivilegeOrderService,
     private privilegeService: PrivilegeService, private commonService: CommonService, private cdr: ChangeDetectorRef) { }
 
@@ -52,7 +50,6 @@ export class PrivilegeEditComponent implements OnInit, DoCheck, AfterViewInit {
       this.privilegeForm.patchValue({ withoutPrivilege: true });
     } else if (this.inquiry.privilege) {
       this.privilegeForm.patchValue({
-        withoutPrivilege: false,
         privilegeOrder: this.inquiry.privilege.privilegeOrder,
         privilege: this.inquiry.privilege
       });
@@ -62,17 +59,24 @@ export class PrivilegeEditComponent implements OnInit, DoCheck, AfterViewInit {
     this.ngUnsubscribe.next();
     this.ngUnsubscribe.complete();
   }
-  ngDoCheck(): void {
-    this.showPrivilegeOrders = this.needPrivilege();
-    this.showPrivilege = this.needPrivilege() && !!this.privilegeForm.controls.privilegeOrder.value;
-    this.showPrivilegeProofDocument = this.showPrivilege && !!this.privilegeForm.controls.privilege.value;
-  }
   ngAfterViewInit(): void {
-    if (this.inquiry && this.inquiry.privilege && this.inquiry.privilege.privilegeProofDocument) {
+    if (this.inquiry && this.inquiry.privilege && this.inquiry.privilege.privilegeProofDocument
+      && this.confirmationProofDocumentComponent && this.confirmationProofDocumentComponent.confirmationDocumentForm) {
       this.confirmationProofDocumentComponent.confirmationDocumentForm.patchValue(this.inquiry.privilege.privilegeProofDocument);
       this.cdr.detectChanges();
     }
   }
+
+  isValid = (): boolean => {
+    let isValid = this.privilegeForm.controls.withoutPrivilege.value
+      ? true
+      : !!this.privilegeForm.controls.privilegeOrder.value
+      && !!this.privilegeForm.controls.privilege.value
+      && !!this.confirmationProofDocumentComponent
+      && !!this.confirmationProofDocumentComponent.confirmationDocumentForm.valid;
+    return isValid;
+  }
+  
   private buildForm() {
     this.privilegeForm = this.fb.group({
       "withoutPrivilege": [
@@ -142,7 +146,4 @@ export class PrivilegeEditComponent implements OnInit, DoCheck, AfterViewInit {
       privilege: privilege
     }
   })();
-  private needPrivilege() {
-    return this.privilegeForm && !this.privilegeForm.controls.withoutPrivilege.value;
-  }
 }

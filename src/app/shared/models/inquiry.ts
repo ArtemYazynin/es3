@@ -24,7 +24,7 @@ export class Inquiry {
             }
         }
     }
-
+    
     get type() {
         return this._type;
     }

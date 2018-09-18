@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, AfterViewInit, ChangeDetectorRef } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AttachmentType, CommonService, Inquiry, inquiryType, Privilege } from '../../../shared';
 import { PrivilegeEditComponent } from '../../../shared/components/privilege-edit/privilege-edit.component';
@@ -9,30 +9,30 @@ import { StepBase, WizardStorageService } from '../shared';
   templateUrl: './privilege-step.component.html',
   styleUrls: ['./privilege-step.component.css']
 })
-export class PrivilegeStepComponent implements OnInit, StepBase {
+export class PrivilegeStepComponent implements OnInit, AfterViewInit, StepBase {
+  ngAfterViewInit(): void {
+    this.cdr.detectChanges();
+  }
   @ViewChild(PrivilegeEditComponent) privilegeEditComponent: PrivilegeEditComponent;
   inquiry: Inquiry;
   inquiryType = this.route.snapshot.data.resolved.inquiryType;
 
   constructor(private storageService: WizardStorageService, private router: Router, private activatedRoute: ActivatedRoute,
-    private commonService: CommonService, private route: ActivatedRoute) {
+    private commonService: CommonService, private route: ActivatedRoute, private cdr:ChangeDetectorRef) {
   }
-
 
   ngOnInit() {
     this.inquiry = <Inquiry>this.storageService.get(this.inquiryType);
   }
 
   isValid() {
-    let check = (): boolean => {
-      return this.privilegeEditComponent.privilegeForm.controls.privilegeOrder.value
-        && this.privilegeEditComponent.privilegeForm.controls.privilege.value
-        && this.privilegeEditComponent.confirmationProofDocumentComponent
-        && this.privilegeEditComponent.confirmationProofDocumentComponent.confirmationDocumentForm.valid;
-    }
-    return this.privilegeEditComponent.privilegeForm.controls.withoutPrivilege.value
+    let result = this.privilegeEditComponent.privilegeForm.controls.withoutPrivilege.value
       ? true
-      : check();
+      : !!this.privilegeEditComponent.privilegeForm.controls.privilegeOrder.value
+      && !!this.privilegeEditComponent.privilegeForm.controls.privilege.value
+      && !!this.privilegeEditComponent.confirmationProofDocumentComponent
+      && !!this.privilegeEditComponent.confirmationProofDocumentComponent.confirmationDocumentForm.valid;
+    return result;
   }
 
   goTo = {
@@ -47,12 +47,12 @@ export class PrivilegeStepComponent implements OnInit, StepBase {
       (() => {
         let privilege: Privilege;
         if (this.privilegeEditComponent.privilegeForm.controls.withoutPrivilege.value) {
-          privilege = new Privilege(undefined, undefined, undefined);
+          privilege = new Privilege();
         } else {
-          privilege = new Privilege(this.privilegeEditComponent.privilegeForm.controls.privilege.value.id, 
-              this.privilegeEditComponent.privilegeForm.controls.privilege.value.name, 
-              this.privilegeEditComponent.privilegeForm.controls.privilegeOrder.value);
-          privilege.privilegeProofDocument = 
+          privilege = new Privilege(this.privilegeEditComponent.privilegeForm.controls.privilege.value.id,
+            this.privilegeEditComponent.privilegeForm.controls.privilege.value.name,
+            this.privilegeEditComponent.privilegeForm.controls.privilegeOrder.value);
+          privilege.privilegeProofDocument =
             this.commonService.getDocumentByType([this.privilegeEditComponent.confirmationProofDocumentComponent], AttachmentType.PrivilegeProofDocument);
         }
         this.storageService.set(this.inquiryType, { privilege: privilege });

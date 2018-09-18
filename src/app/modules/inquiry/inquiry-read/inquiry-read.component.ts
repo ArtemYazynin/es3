@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Subject } from 'rxjs';
+import { Subject, BehaviorSubject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { CitizenshipService, ConfirmationDocument, Country, DrawService, Inquiry, InquiryService, PrivilegeOrder, PrivilegeOrderService, Status, StatusService } from '../../../shared/index';
 import { MatDialog, MatDialogConfig } from '@angular/material';
@@ -14,11 +14,11 @@ import { DialogEditComponent } from '../shared/components/dialog-edit/dialog-edi
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class InquiryReadComponent implements OnInit, OnDestroy {
+  $inquiry: BehaviorSubject<Inquiry>;
   private ngUnsubscribe: Subject<any> = new Subject();
   countries: Array<Country>
   privilegeOrders: Array<PrivilegeOrder>;
   statuses: Array<Status>;
-  inquiry: Inquiry;
   inquiryTypeFriendlyName: string;
   drawManager = this.drawService;
 
@@ -37,11 +37,8 @@ export class InquiryReadComponent implements OnInit, OnDestroy {
       .subscribe(orders => {
         this.privilegeOrders = orders;
       });
-    this.inquiryService.get(this.route.snapshot.data.resolved.inquiryId)
-      .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe(inquiry => {
-        this.inquiry = inquiry;
-      });
+
+    this.$inquiry = this.inquiryService.get(this.route.snapshot.data.resolved.inquiryId);
     this.statusService.get()
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(statuses => {
@@ -66,12 +63,13 @@ export class InquiryReadComponent implements OnInit, OnDestroy {
 
       dialogConfig.disableClose = true;
       dialogConfig.autoFocus = true;
-      dialogConfig.data = this.inquiry;
-      const dialogRef = this.dialog.open(DialogEditComponent, dialogConfig);
-
-      dialogRef.afterClosed().subscribe(result => {
-        console.log('The dialog was closed');
-      });
+      dialogConfig.data = this.$inquiry;
+      dialogConfig.width = "1000px";
+      this.dialog.open(DialogEditComponent, dialogConfig);
+      //const dialogRef = this.dialog.open(DialogEditComponent, dialogConfig);
+      // dialogRef.afterClosed().subscribe((result:Inquiry) => {
+      //   console.log('The dialog was closed');
+      // });
     }
     return {
       common: common
