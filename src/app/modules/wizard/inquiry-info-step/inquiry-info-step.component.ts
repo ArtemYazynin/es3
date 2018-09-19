@@ -1,4 +1,4 @@
-import { AfterViewInit, ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, OnInit, ViewChild, ChangeDetectionStrategy } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { StepBase, WizardStorageService } from '../shared';
@@ -11,31 +11,33 @@ import { inquiryType, DistributionParams, StayMode, AgeGroup, InquiryInfo, Inqui
 @Component({
   selector: 'app-inquiry-info-step',
   templateUrl: './inquiry-info-step.component.html',
-  styleUrls: ['./inquiry-info-step.component.css']
+  styleUrls: ['./inquiry-info-step.component.css'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class InquiryInfoStepComponent implements OnInit, AfterViewInit, StepBase {
   @ViewChild(DistributionParamsComponent) distributionParamsComponent: DistributionParamsComponent;
   @ViewChild(StayModeComponent) stayModeComponent: StayModeComponent;
   @ViewChild(AgeGroupComponent) ageGroupComponent: AgeGroupComponent;
   inquiryType = this.route.snapshot.data.resolved.inquiryType;
+  private inquiry: Inquiry;
 
   constructor(private router: Router, private route: ActivatedRoute, private storageService: WizardStorageService, private cdr: ChangeDetectorRef) { }
 
   ngOnInit() {
+    this.inquiry = <Inquiry>this.storageService.get(this.inquiryType);
   }
   ngAfterViewInit(): void {
-    const inquiry = <Inquiry>this.storageService.get(this.inquiryType);
-    if (!inquiry.inquiryInfo) return;
+    if (!this.inquiry.inquiryInfo) return;
     this.distributionParamsComponent.inquiryInfoForm.patchValue({
-      wishDate: inquiry.inquiryInfo.distributionParams.wishDate,
-      specificity: inquiry.inquiryInfo.distributionParams.specificity,
-      offerGeneralGroup: inquiry.inquiryInfo.distributionParams.offerGeneralGroup,
-      offerCareGroup: inquiry.inquiryInfo.distributionParams.offerCareGroup,
-      isSearchNear: inquiry.inquiryInfo.distributionParams.isSearchNear,
-      isCanTempEnrolled: inquiry.inquiryInfo.distributionParams.isCanTempEnrolled
+      wishDate: this.inquiry.inquiryInfo.distributionParams.wishDate,
+      specificity: this.inquiry.inquiryInfo.distributionParams.specificity,
+      offerGeneralGroup: this.inquiry.inquiryInfo.distributionParams.offerGeneralGroup,
+      offerCareGroup: this.inquiry.inquiryInfo.distributionParams.offerCareGroup,
+      isSearchNear: this.inquiry.inquiryInfo.distributionParams.isSearchNear,
+      isCanTempEnrolled: this.inquiry.inquiryInfo.distributionParams.isCanTempEnrolled
     });
-    this.updateChild(inquiry.inquiryInfo.stayMode, this.stayModeComponent.atLeastOneCheckboxShouldBeSelectedComponent.form);
-    this.updateChild(inquiry.inquiryInfo.ageGroup, this.ageGroupComponent.atLeastOneCheckboxShouldBeSelectedComponent.form);
+    this.updateChild(this.inquiry.inquiryInfo.stayMode, this.stayModeComponent.atLeastOneCheckboxShouldBeSelectedComponent.form);
+    this.updateChild(this.inquiry.inquiryInfo.ageGroup, this.ageGroupComponent.atLeastOneCheckboxShouldBeSelectedComponent.form);
     this.cdr.detectChanges();
   }
   isValid() {

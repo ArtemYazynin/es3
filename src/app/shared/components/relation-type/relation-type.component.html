@@ -1,4 +1,4 @@
-<div class="row" *ngIf="isAvailable">
+<div class="row">
   <div class="col-md-12">
     <div class="widget-box">
       <div class="widget-content">
@@ -9,7 +9,9 @@
             </mat-select>
           </mat-form-field>
           <br>
-          <span>relationType: <b>{{relationType | json}}</b></span>
+        </div>
+        <div class="alert-info">
+          RELATIONTYPE: {{relationType | json}}
         </div>
       </div>
     </div>

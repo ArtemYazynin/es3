@@ -9,12 +9,7 @@ import { FormService, Person } from '../../index';
   styleUrls: ['./full-name.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class FullNameComponent implements OnInit, DoCheck {
-  counter:number = 0;
-  ngDoCheck(): void {
-    this.counter++;
-    console.log(`FullNameComponent changeDetection: ${this.counter}`);
-  }
+export class FullNameComponent implements OnInit {
 
   constructor(private fb: FormBuilder, private formService: FormService) {
     this.buildForm();

@@ -1,10 +1,11 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, ChangeDetectionStrategy } from '@angular/core';
 import { AtLeastOneCheckboxShouldBeSelectedComponent } from '../at-least-one-checkbox-should-be-selected/at-least-one-checkbox-should-be-selected.component';
 
 @Component({
   selector: 'app-age-group',
   templateUrl: './age-group.component.html',
-  styleUrls: ['./age-group.component.css']
+  styleUrls: ['./age-group.component.css'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AgeGroupComponent implements OnInit {
   @ViewChild(AtLeastOneCheckboxShouldBeSelectedComponent) atLeastOneCheckboxShouldBeSelectedComponent: AtLeastOneCheckboxShouldBeSelectedComponent;

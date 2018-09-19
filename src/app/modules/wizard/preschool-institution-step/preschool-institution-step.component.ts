@@ -1,16 +1,17 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { MatAutocompleteSelectedEvent } from '@angular/material';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Observable, Subject } from 'rxjs';
 import { map, startWith, takeUntil } from 'rxjs/operators';
 import { StepBase, WizardStorageService } from '../shared';
-import { Institution, CommonService, SettingsService, InstitutionService, inquiryType, Inquiry } from '../../../shared';
+import { Institution, CommonService, SettingsService, InstitutionService, inquiryType, Inquiry, InquiryType } from '../../../shared';
 
 @Component({
   selector: 'app-preschool-institution-step',
   templateUrl: './preschool-institution-step.component.html',
-  styleUrls: ['./preschool-institution-step.component.css']
+  styleUrls: ['./preschool-institution-step.component.css'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class PreschoolInstitutionStepComponent implements OnInit, OnDestroy, StepBase {
   private ngUnsubscribe: Subject<any> = new Subject();
@@ -26,8 +27,8 @@ export class PreschoolInstitutionStepComponent implements OnInit, OnDestroy, Ste
     private router: Router, private route: ActivatedRoute, private storageService: WizardStorageService, private institutionService: InstitutionService) { }
 
   ngOnInit() {
-
-    this.institutionService.getInstitutions(this.inquiryType == inquiryType.preschool ? 1 : 2)
+    const inquiry = <Inquiry>this.storageService.get(this.inquiryType);
+    this.institutionService.getInstitutions(this.inquiryType == inquiryType.preschool ? InquiryType.preschool : InquiryType.school)
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(result => {
         this.institutions = result;
@@ -38,14 +39,11 @@ export class PreschoolInstitutionStepComponent implements OnInit, OnDestroy, Ste
             return name ? this.commonService.autoCompliteFilter(this.institutions, name) : this.institutions.slice();
           })
         );
-        (function initFromSessionStorage(outer) {
-          const inquiry = <Inquiry>outer.storageService.get(outer.inquiryType);
-          if (inquiry.institutions && inquiry.institutions.length > 0) {
-            inquiry.institutions.forEach(element => {
-              outer._add(element);
-            });
-          }
-        })(this);
+        if (inquiry.institutions && inquiry.institutions.length > 0) {
+          inquiry.institutions.forEach(element => {
+            this._add(element);
+          });
+        }
       });
     this.settingsService.get()
       .pipe(takeUntil(this.ngUnsubscribe))

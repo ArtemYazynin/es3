@@ -1,11 +1,12 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ConfirmationDocument, AttachmentType, FormService } from '../../index';
 
 @Component({
   selector: 'app-confirmation-document',
   templateUrl: './confirmation-document.component.html',
-  styleUrls: ['./confirmation-document.component.css']
+  styleUrls: ['./confirmation-document.component.css'],
+  changeDetection:ChangeDetectionStrategy.OnPush
 })
 export class ConfirmationDocumentComponent implements OnInit {
   currentDate = new Date();

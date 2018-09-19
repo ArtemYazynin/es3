@@ -11,12 +11,8 @@ import { IdentityCardType, inquiryType, Child, FormService } from '../../../../s
   styleUrls: ['./child.component.css'],
   //changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ChildComponent implements OnInit, AfterViewInit, DoCheck {
+export class ChildComponent implements OnInit, AfterViewInit {
   counter:number = 0;
-  ngDoCheck(): void {
-    this.counter++;
-    console.log(`ChildComponent changeDetection: ${this.counter}`);
-  }
   @ViewChild(IdentityCardComponent) identityCardComponent: IdentityCardComponent;
   @ViewChild(FullNameComponent) fullnameComponent: FullNameComponent;
   @ViewChild(SnilsComponent) snilsComponent: SnilsComponent;

@@ -7,14 +7,14 @@
       <div class="row">
         <div class="col-md-6">
           <full-name>
-            <app-snils></app-snils>
+            <app-snils [snils]="inquiry?.applicant?.snils"></app-snils>
           </full-name>
         </div>
         <div class="col-md-6">
           <identity-card></identity-card>
         </div>
       </div>
-      <app-citizenship-select>
+      <app-citizenship-select [citizenships]="inquiry?.applicant?.citizenships">
       </app-citizenship-select>
       <div *ngIf="isAvailable.addresses()">
         <div *ngIf="isAvailable.hasRfCitizenship()">

@@ -1,19 +1,21 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ApplicantType, Entity, inquiryType, Inquiry } from '../../../shared/index';
+import { Entity, inquiryType, Inquiry, ApplicantType } from '../../../shared/index';
 import { StepBase, WizardStorageService } from '../shared/index';
+import { ApplicantTypePipe } from '../../../shared/applicant-type.pipe';
 
 @Component({
   selector: 'app-applicant-type-step',
   templateUrl: './applicant-type-step.component.html',
-  styleUrls: ['./applicant-type-step.component.css']
+  styleUrls: ['./applicant-type-step.component.css'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ApplicantTypeStepComponent implements OnInit, StepBase {
   isValid(): boolean { return true; }
   inquiry: Inquiry;
   inquiryType = this.route.snapshot.data.resolved.inquiryType;
-  applicantType: ApplicantType = ApplicantType["Законный представитель ребенка"];
-  applicantTypes: Array<Entity<number>> = [];
+  applicantType: ApplicantType = ApplicantType.Parent;
+  applicantTypes: Array<ApplicantType> = [];
 
 
   constructor(private storageService: WizardStorageService,
@@ -21,28 +23,18 @@ export class ApplicantTypeStepComponent implements OnInit, StepBase {
     private route: ActivatedRoute) { }
 
   ngOnInit() {
-    this.applicantTypes = (() => {
-      let result: Array<Entity<number>> = [];
-      let groupOfId = ApplicantType.values();
-      for (let index = 0, len = groupOfId.length; index < len; index++) {
-        let _id = parseInt(groupOfId[index]);
-        if (_id === ApplicantType["Ребенок-заявитель"] && this.inquiryType === inquiryType.preschool) {
-          continue;
-        }
-        result.push({
-          id: _id,
-          name: ApplicantType[groupOfId[index]]
-        });
+    this.applicantTypes = (()=>{
+      const types = [
+        ApplicantType.Parent,
+        ApplicantType.Applicant
+      ];
+      if (this.inquiryType !== inquiryType.preschool) {
+        types.push(ApplicantType.Child);
       }
-
-      return result;
+      return types;
     })();
-    this.initFromSessionStorage();
-  }
-  initFromSessionStorage() {
     this.inquiry = this.storageService.get(this.inquiryType);
-    this.applicantType = (this.inquiry && this.inquiry.applicantType) || ApplicantType["Законный представитель ребенка"];
-
+    this.applicantType = (this.inquiry && this.inquiry.applicantType) || ApplicantType.Parent;
   }
   goTo = {
     back: () => {
@@ -50,7 +42,7 @@ export class ApplicantTypeStepComponent implements OnInit, StepBase {
     },
     next: () => {
       Object.assign(this.inquiry, { applicantType: this.applicantType });
-      if (this.applicantType == ApplicantType["Доверенное лицо законного представителя ребенка"]) {
+      if (this.applicantType == ApplicantType.Applicant) {
         this.storageService.set(this.inquiryType, this.inquiry)
         this.router.navigate(["../applicantStep"], { relativeTo: this.route });
       }

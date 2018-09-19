@@ -24,7 +24,7 @@
         </ng-template>
       </div>
       <div>
-        <app-citizenship-select>
+        <app-citizenship-select [citizenships]="inquiry?.children[0]?.citizenships">
         </app-citizenship-select>
         <div *ngIf="isAvailable.addresses()">
           <div *ngIf="isAvailable.hasRfCitizenship()">

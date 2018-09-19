@@ -1,4 +1,3 @@
-import { ApplicantType } from "./applicant-type.enum";
 import { Applicant } from "./applicant";
 import { Child } from "./child";
 import { Parent } from "./parent";
@@ -12,51 +11,27 @@ import { RegisterSource } from "./register-source.enum";
 import { PortalIdentity } from "./portal-identity";
 import { Status } from "./status";
 import { inquiryType } from "./inquiry-type";
+import { ApplicantType } from "../applicant-type.enum";
+import { InquiryTypeFriendlyNamePipe } from "../inquiry-type.pipe";
 
 export class Inquiry {
     private def = "-";
-    private _type:string;
-    constructor(inquiry?:Inquiry){
-        if(!inquiry) return;
+    private _type: string;
+    constructor(inquiry?: Inquiry) {
+        if (!inquiry) return;
         for (const key in inquiry) {
             if (inquiry.hasOwnProperty(key)) {
                 this[key] = inquiry[key];
             }
         }
     }
-    
+
     get type() {
         return this._type;
     }
     set type(type: any) {
         this._type = type ? type : this.def;
-        this.setFriendlyName();
-    }
-    private setFriendlyName() {
-        if (this._type) {
-            switch (this._type) {
-                case inquiryType.preschool:
-                    this.typeFriendlyName = "ДОО";
-                    break;
-                case inquiryType.school:
-                    this.typeFriendlyName = "ООО";
-                    break;
-                case inquiryType.odo:
-                    this.typeFriendlyName = "ОДО";
-                    break;
-                case inquiryType.healthCamp:
-                    this.typeFriendlyName = "ЗОЛ";
-                    break;
-                case inquiryType.profEducation:
-                    this.typeFriendlyName = "ПОО";
-                    break;
-                default:
-                    this.typeFriendlyName = this.def;
-                    break;
-            }
-        } else {
-            this.typeFriendlyName = this.def;
-        }
+        this.typeFriendlyName = new InquiryTypeFriendlyNamePipe().transform(this.type);
     }
 
     id: string;

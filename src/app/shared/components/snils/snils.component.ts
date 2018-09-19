@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy, Input } from '@angular/core';
 
 @Component({
   selector: 'app-snils',
@@ -9,7 +9,7 @@ import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 export class SnilsComponent implements OnInit {
   snilsMask = [/\d/, /\d/, /\d/, "-", /\d/, /\d/, /\d/, "-", /\d/, /\d/, /\d/, " ", /\d/, /\d/];
   pattern = "^\\d{3}-\\d{3}-\\d{3}\\s\\d{2}$";
-  snils: any = "";
+  @Input() snils: any = "";
   constructor() { }
 
   ngOnInit() {

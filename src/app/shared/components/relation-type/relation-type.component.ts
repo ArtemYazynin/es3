@@ -1,32 +1,32 @@
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
-import { ApplicantType, RelationType, RelationTypeService } from '../../index';
-import { WizardStorageService } from '../../../modules/wizard/shared';
+import { RelationType, RelationTypeService } from '../../index';
 
 @Component({
   selector: 'app-relation-type',
   templateUrl: './relation-type.component.html',
-  styleUrls: ['./relation-type.component.css']
+  styleUrls: ['./relation-type.component.css'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class RelationTypeComponent implements OnInit, OnDestroy {
-  @Input() inquiryType: string;
+  @Input() relationType: RelationType;
 
   private subscription: Subscription;
   relationTypes: Array<RelationType> = [];
-  relationType: RelationType;
-  isAvailable: boolean = false;
+
+  constructor(private relationTypeService: RelationTypeService, private cdr: ChangeDetectorRef) { }
+
   ngOnInit() {
-    this.isAvailable = this.storageService.get(this.inquiryType).applicantType !== ApplicantType["Ребенок-заявитель"];
-
-    if (!this.isAvailable) return;
-
     this.subscription = this.relationTypeService.get().subscribe(result => {
       this.relationTypes = result;
-      if (this.relationType) this.relationType = this.relationTypes.find(x => x.id == this.relationType.id);
+      if (this.relationType) {
+        this.relationType = this.relationTypes.find(x => x.id == this.relationType.id);
+        this.cdr.detectChanges();
+      }
     });
   }
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
   }
-  constructor(private relationTypeService: RelationTypeService, private storageService: WizardStorageService) { }
+
 }

@@ -19,7 +19,8 @@ import { ApplicantType, AttachmentType, IdentityCardType, Country, inquiryType, 
   moduleId: module.id,
   selector: 'app-parent-step',
   templateUrl: './parent-step.component.html',
-  styleUrls: ['./parent-step.component.css']
+  styleUrls: ['./parent-step.component.css'],
+  //changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ParentStepComponent implements OnInit, AfterViewInit, OnDestroy, StepBase {
   @ViewChild(GenderComponent) gendercomponent: GenderComponent;
@@ -34,7 +35,6 @@ export class ParentStepComponent implements OnInit, AfterViewInit, OnDestroy, St
   @ViewChild(ForeignCitizensAddressesComponent) foreignAddressesComponent: ForeignCitizensAddressesComponent;
 
   private subscription: Subscription;
-
 
   inquiry: Inquiry;
   applicantType: ApplicantType;
@@ -71,34 +71,35 @@ export class ParentStepComponent implements OnInit, AfterViewInit, OnDestroy, St
     private router: Router, private route: ActivatedRoute) { }
 
   ngOnInit() {
-    this.subscription = this.citizenshipService.getCountries().subscribe(result => this.countries = result);
-    this.applicantType = this.storageService.get(this.inquiryType).applicantType;
-    this.isAvailable.childApplicantInfo = this.applicantType === ApplicantType["Ребенок-заявитель"];
-
     this.inquiry = <Inquiry>this.storageService.get(this.inquiryType);
-    if (!this.inquiry || !this.inquiry.parent) return;
-    this.agree = true;
-    this.snilsComponent.snils = this.inquiry.parent.snils;
-    this.citizenshipSelectComponent.citizenships = this.inquiry.parent.citizenships;
-    this.formService.patchFullnameForm(this.fullnameComponent.fullnameForm, this.inquiry.parent);
-    this.formService.patchIdentityCardForm(this.identityCardComponent.identityCardForm, this.inquiry.parent.identityCard);
-    this.gendercomponent.gender = this.inquiry.parent.gender;
-    if (this.birthInfoComponent.birthInfoForm) {
-      this.birthInfoComponent.birthInfoForm.patchValue({
-        birthDate: this.inquiry.parent.birthDate,
-        birthPlace: this.inquiry.parent.birthPlace
-      });
-    }
-    this.relationTypeComponent.relationType = this.inquiry.parent.relationType;
+    this.subscription = this.citizenshipService.getCountries().subscribe(result => this.countries = result);
+
   }
   ngAfterViewInit(): void {
-    if (!this.inquiry.parent) return;
+    if (this.inquiry && this.inquiry.parent) {
+      this.agree = true;
+      this.applicantType = this.inquiry.applicantType;
+      this.isAvailable.childApplicantInfo = this.applicantType === ApplicantType.Child;
 
-    this.formService.patchDocumentForm(this.confirmationDocuments.find(x => x.type == AttachmentType.ParentRepresentChildren).confirmationDocumentForm,
-      this.inquiry.parent.parentRepresentChildrenDocument);
+      this.formService.patchFullnameForm(this.fullnameComponent.fullnameForm, this.inquiry.parent);
+      this.formService.patchIdentityCardForm(this.identityCardComponent.identityCardForm, this.inquiry.parent.identityCard);
+      this.gendercomponent.gender = this.inquiry.parent.gender;
+      if (this.birthInfoComponent.birthInfoForm) {
+        this.birthInfoComponent.birthInfoForm.patchValue({
+          birthDate: this.inquiry.parent.birthDate,
+          birthPlace: this.inquiry.parent.birthPlace
+        });
+      }
+      this.formService.patchDocumentForm(this.confirmationDocuments.find(x => x.type == AttachmentType.ParentRepresentChildren).confirmationDocumentForm,
+        this.inquiry.parent.parentRepresentChildrenDocument);
 
-    this.formService.patchDocumentForm(this.confirmationDocuments.find(x => x.type == AttachmentType.CountryStateDocument).confirmationDocumentForm,
-      this.inquiry.parent.countryStateDocument);
+      this.formService.patchDocumentForm(this.confirmationDocuments.find(x => x.type == AttachmentType.CountryStateDocument).confirmationDocumentForm,
+        this.inquiry.parent.countryStateDocument);
+    } else {
+      this.identityCardComponent.identityCardForm.controls.identityCardType.patchValue(IdentityCardType["Паспорт РФ"]);
+    }
+
+
     this.cdr.detectChanges();
   }
   ngOnDestroy(): void {
@@ -113,7 +114,7 @@ export class ParentStepComponent implements OnInit, AfterViewInit, OnDestroy, St
         || false,
       fullnameForm: this.fullnameComponent && this.fullnameComponent.fullnameForm && this.fullnameComponent.fullnameForm.valid || false,
       birthInfoForm: (() => {
-        if (this.applicantType !== ApplicantType["Ребенок-заявитель"])
+        if (this.applicantType !== ApplicantType.Child)
           return true;
         return this.birthInfoComponent && this.birthInfoComponent.birthInfoForm && this.birthInfoComponent.birthInfoForm.valid || false;
       })(),
@@ -159,20 +160,24 @@ export class ParentStepComponent implements OnInit, AfterViewInit, OnDestroy, St
         && this.relationTypeComponent.relationType.confirmationDocument;
     };
     const addresses = () => {
-      return this.citizenshipSelectComponent.citizenships.length > 0 && this.inquiry.applicantType == ApplicantType["Законный представитель ребенка"];
+      return this.citizenshipSelectComponent.citizenships.length > 0 && this.inquiry.applicantType == ApplicantType.Parent;
+    }
+    const relationType = () => {
+      return this.inquiry.applicantType != ApplicantType.Child;
     }
     return {
       addresses: addresses,
       hasRfCitizenship: hasRfCitizenship,
       countryStateDocument: hasForeignCitizenship,
       parentRepresentChildren: parentRepresentChildren,
-      childApplicantInfo: false
+      childApplicantInfo: false,
+      relationType: relationType
     }
   })();
 
   goTo = {
     back: () => {
-      if (this.applicantType == ApplicantType["Доверенное лицо законного представителя ребенка"]) {
+      if (this.applicantType == ApplicantType.Applicant) {
         this.router.navigate(["../applicantStep"], { relativeTo: this.route });
       } else {
         this.router.navigate(["../applicantTypeStep"], { relativeTo: this.route });
@@ -206,7 +211,7 @@ export class ParentStepComponent implements OnInit, AfterViewInit, OnDestroy, St
         if (result.relationType.confirmationDocument)
           result.parentRepresentChildrenDocument = this.commonService.getDocumentByType(this.confirmationDocuments, AttachmentType.ParentRepresentChildren);
 
-        if (this.inquiry.applicantType == ApplicantType["Законный представитель ребенка"]) {
+        if (this.inquiry.applicantType == ApplicantType.Parent) {
           Object.assign(result, this.citizenshipService.hasRfCitizenship(result.citizenships, this.countries)
             ? this.rfAddressesComponent.getResult(this.inquiry.parent)
             : this.foreignAddressesComponent.getResult(this.inquiry.parent));
@@ -214,11 +219,11 @@ export class ParentStepComponent implements OnInit, AfterViewInit, OnDestroy, St
         return result;
       })();
 
-      if (this.inquiry.applicantType == ApplicantType["Доверенное лицо законного представителя ребенка"]) {
+      if (this.inquiry.applicantType == ApplicantType.Applicant) {
         if (DublicatesFinder.betweenApplicantParent(this.inquiry.applicant, parent)) return;
         if (DublicatesFinder.betweenApplicantChildren(this.inquiry.applicant, this.inquiry.children)) return;
         if (DublicatesFinder.betweenParentChildren(parent, this.inquiry.children)) return;
-      } else if (this.inquiry.applicantType == ApplicantType["Законный представитель ребенка"]) {
+      } else if (this.inquiry.applicantType == ApplicantType.Parent) {
         if (DublicatesFinder.betweenParentChildren(parent, this.inquiry.children)) return;
       }
 

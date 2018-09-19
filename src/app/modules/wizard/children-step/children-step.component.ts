@@ -203,7 +203,7 @@ export class ChildrenStepComponent implements OnInit, AfterViewInit, StepBase {
       birthPlace: child.birthPlace
     });
     this.specHealthComponent.specHealth = child.specHealth;
-    this.citizenshipSelectComponent.citizenships = child.citizenships;
+    //this.citizenshipSelectComponent.citizenships = child.citizenships;
     (() => {//initChildrenComponents
       this.inquiry.children.forEach((child, index) => {
         const factory: ComponentFactory<ChildComponent> = this.resolver.resolveComponentFactory(ChildComponent);

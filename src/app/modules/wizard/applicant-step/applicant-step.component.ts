@@ -1,4 +1,4 @@
-import { AfterViewInit, ChangeDetectorRef, Component, OnDestroy, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
+import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { CitizenshipSelectComponent } from '../../../shared/components/citizenship-select/citizenship-select.component';
@@ -8,31 +8,21 @@ import { FullNameComponent } from '../../../shared/components/full-name/full-nam
 import { IdentityCardComponent } from '../../../shared/components/identity-card/identity-card.component';
 import { RfCitizensAddressesComponent } from '../../../shared/components/rf-citizens-addresses/rf-citizens-addresses.component';
 import { SnilsComponent } from '../../../shared/components/snils/snils.component';
-import { addressTypes, Applicant, ApplicantType, AttachmentType, CitizenshipService, CommonService, Country, DublicatesFinder, FormService, IdentityCard, Inquiry } from '../../../shared/index';
+import { addressTypes, Applicant, ApplicantType, AttachmentType, CitizenshipService, CommonService, Country, DublicatesFinder, FormService, IdentityCard, IdentityCardType, Inquiry } from '../../../shared/index';
 import { StepBase, WizardStorageService } from '../shared/index';
 
 @Component({
   selector: 'app-applicant-step',
   templateUrl: './applicant-step.component.html',
-  styleUrls: ['./applicant-step.component.css']
+  styleUrls: ['./applicant-step.component.css'],
+  //changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ApplicantStepComponent implements OnInit, AfterViewInit, OnDestroy, StepBase {
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
   }
 
-  ngAfterViewInit(): void {
-    if (!this.inquiry.applicant) return;
-    this.formService.patchDocumentForm(this.confirmationDocuments.find(x => x.type == AttachmentType.ApplicantRepresentParent).confirmationDocumentForm,
-      this.inquiry.applicant.applicantRepresentParentDocument);
-
-    this.formService.patchDocumentForm(this.confirmationDocuments.find(x => x.type == AttachmentType.CountryStateApplicantDocument).confirmationDocumentForm,
-      this.inquiry.applicant.countryStateApplicantDocument);
-
-    this.cdr.detectChanges();
-  }
-
-  private inquiry: Inquiry;
+  inquiry: Inquiry;
   private subscription: Subscription;
   @ViewChild(IdentityCardComponent) identityCardComponent: IdentityCardComponent;
   @ViewChild(FullNameComponent) fullnameComponent: FullNameComponent
@@ -54,7 +44,7 @@ export class ApplicantStepComponent implements OnInit, AfterViewInit, OnDestroy,
   isAvailable = {
     hasRfCitizenship: () => this.citizenshipSelectComponent.citizenships.indexOf(643) >= 0,
     countryStateDocument: () => this.citizenshipService.hasForeignCitizenship(this.citizenshipSelectComponent.citizenships, this.countries),
-    addresses: () => this.citizenshipSelectComponent.citizenships.length > 0 && this.inquiry.applicantType == ApplicantType["Доверенное лицо законного представителя ребенка"]
+    addresses: () => this.citizenshipSelectComponent.citizenships.length > 0 && this.inquiry.applicantType == ApplicantType.Applicant
   }
   isValid(): boolean {
     if (!this.confirmationDocuments) return false;
@@ -87,20 +77,28 @@ export class ApplicantStepComponent implements OnInit, AfterViewInit, OnDestroy,
   }
 
   ngOnInit() {
-    this.subscription = this.citizenshipService.getCountries()
-      .subscribe(result => {
-        this.countries = result;
-      });
-
     this.inquiry = <Inquiry>this.storageService.get(this.inquiryType);
-    if (!this.inquiry || !this.inquiry.applicant) return;
-    this.snilsComponent.snils = this.inquiry.applicant.snils;
-    this.citizenshipSelectComponent.citizenships = this.inquiry.applicant.citizenships;
-    if (!this.inquiry || !this.inquiry.applicant) return;
-    this.formService.patchFullnameForm(this.fullnameComponent.fullnameForm, this.inquiry.applicant);
-    this.formService.patchIdentityCardForm(this.identityCardComponent.identityCardForm, this.inquiry.applicant.identityCard);
-
+    this.subscription = this.citizenshipService.getCountries()
+      .subscribe(result => { this.countries = result; });
   }
+
+  ngAfterViewInit(): void {
+    if (this.inquiry && this.inquiry.applicant) {
+      this.formService.patchDocumentForm(this.confirmationDocuments.find(x => x.type == AttachmentType.ApplicantRepresentParent).confirmationDocumentForm,
+        this.inquiry.applicant.applicantRepresentParentDocument);
+
+      this.formService.patchDocumentForm(this.confirmationDocuments.find(x => x.type == AttachmentType.CountryStateApplicantDocument).confirmationDocumentForm,
+        this.inquiry.applicant.countryStateApplicantDocument);
+        
+      this.formService.patchFullnameForm(this.fullnameComponent.fullnameForm, this.inquiry.applicant);
+      this.formService.patchIdentityCardForm(this.identityCardComponent.identityCardForm, this.inquiry.applicant.identityCard);
+    }
+    else {
+      this.identityCardComponent.identityCardForm.controls.identityCardType.patchValue(IdentityCardType["Паспорт РФ"]);
+    }
+    this.cdr.detectChanges();
+  }
+
   goTo = {
     back: () => {
       this.router.navigate(["../applicantTypeStep"], { relativeTo: this.route });
@@ -121,7 +119,7 @@ export class ApplicantStepComponent implements OnInit, AfterViewInit, OnDestroy,
         }
         result.applicantRepresentParentDocument = this.commonService.getDocumentByType(this.confirmationDocuments, AttachmentType.ApplicantRepresentParent);
 
-        if (this.inquiry.applicantType == ApplicantType["Доверенное лицо законного представителя ребенка"]) {
+        if (this.inquiry.applicantType == ApplicantType.Applicant) {
           //--addresses
           Object.assign(result, this.citizenshipService.hasRfCitizenship(result.citizenships, this.countries)
             ? this.rfAddressesComponent.getResult(this.inquiry.parent)
@@ -136,7 +134,7 @@ export class ApplicantStepComponent implements OnInit, AfterViewInit, OnDestroy,
       if (DublicatesFinder.betweenChildren(this.inquiry.children)) return;
 
       this.storageService.set(this.inquiryType, { applicant: applicant });
-      if (this.inquiry.applicantType == ApplicantType["Законный представитель ребенка"]) {
+      if (this.inquiry.applicantType == ApplicantType.Parent) {
         this.router.navigate(["../contactInfoStep"], { relativeTo: this.route });
       } else {
         this.router.navigate(["../parentStep"], { relativeTo: this.route });

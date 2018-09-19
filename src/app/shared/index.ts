@@ -6,9 +6,10 @@ export * from "./models/address-type";
 //enums
 export * from "./models/register-source.enum";
 export * from "./models/identityCardType";
-export * from "./models/applicant-type.enum";
+export * from "./applicant-type.enum";
 export * from "./models/area-type.enum";
 export * from "./models/attachment-type.enum"
+export * from "./inquiry-type.enum";
 //
 
 //json

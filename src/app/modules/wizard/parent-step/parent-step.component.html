@@ -8,14 +8,14 @@
         <div class="col-md-6">
           <full-name>
             <app-gender></app-gender>
-            <app-snils></app-snils>
+            <app-snils [snils]="inquiry?.parent?.snils"></app-snils>
           </full-name>
         </div>
         <div class="col-md-6">
           <identity-card [ids]="groupOfIdentityCardTypeId"></identity-card>
         </div>
       </div>
-      <app-citizenship-select>
+      <app-citizenship-select [citizenships]="inquiry?.parent?.citizenships">
       </app-citizenship-select>
       <div *ngIf="isAvailable.addresses()">
         <div *ngIf="isAvailable.hasRfCitizenship()">
@@ -40,7 +40,10 @@
           </app-confirmation-document>
         </div>
       </div>
-      <app-relation-type [inquiryType]="inquiryType"></app-relation-type>
+      <div *ngIf="isAvailable.relationType()">
+        <app-relation-type [relationType]="inquiry?.parent?.relationType">
+        </app-relation-type>
+      </div>
       <div class="row" [hidden]="!isAvailable.parentRepresentChildren()">
         <div class="col-md-12">
           <app-confirmation-document [type]="attachmentTypes.ParentRepresentChildren" title="Документ, подтверждающий право законного представителя представлять интересы ребенка">

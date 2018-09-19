@@ -1,10 +1,11 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, ChangeDetectionStrategy } from '@angular/core';
 import { FormGroup, FormArray, FormControl, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-at-least-one-checkbox-should-be-selected',
   templateUrl: './at-least-one-checkbox-should-be-selected.component.html',
-  styleUrls: ['./at-least-one-checkbox-should-be-selected.component.css']
+  styleUrls: ['./at-least-one-checkbox-should-be-selected.component.css'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AtLeastOneCheckboxShouldBeSelectedComponent implements OnInit {
   @Input() items: Array<{ key: string, text: string }>

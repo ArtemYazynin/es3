@@ -51,18 +51,22 @@
                     {{ formErrors.phones }}
                   </div>
                 </div>
+
               </div>
             </div>
           </div>
-          <div>
-            <span>
-              <b>{{contactsForm.value | json}}</b>
-            </span>
-            <span>contactsForm.status:
-              <b>{{contactsForm.status | json}}</b>
-            </span>
-          </div>
+
         </form>
+      </div>
+      <div class="row">
+        <div class="col-md-12 alert-info">
+          <span>
+            <b>{{contactsForm.value | json}}</b>
+          </span>
+          <span>contactsForm.status:
+            <b>{{contactsForm.status | json}}</b>
+          </span>
+        </div>
       </div>
     </div>
   </div>

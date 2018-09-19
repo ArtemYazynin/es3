@@ -1,27 +1,43 @@
-import { Component, OnInit } from '@angular/core';
-import { FormGroup, Validators, FormBuilder, ValidatorFn } from '@angular/forms';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, ValidatorFn, Validators } from '@angular/forms';
 import { MatCheckboxChange } from '@angular/material';
-import { Router, ActivatedRoute, Params } from '@angular/router';
-import { StepBase, WizardStorageService, ContactInfo } from '../shared';
-import { FormService, inquiryType,Inquiry } from '../../../shared';
+import { ActivatedRoute, Router } from '@angular/router';
+import { FormService, Inquiry, inquiryType } from '../../../shared';
+import { ContactInfo, StepBase, WizardStorageService } from '../shared';
 
 
 @Component({
   selector: 'app-contact-info-step',
   templateUrl: './contact-info-step.component.html',
-  styleUrls: ['./contact-info-step.component.css']
+  styleUrls: ['./contact-info-step.component.css'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ContactInfoStepComponent implements OnInit, StepBase {
+  private emailValidators: ValidatorFn[] = [Validators.required, Validators.email];
+  inquiryType = this.route.snapshot.data.resolved.inquiryType;
+
 
   constructor(private formService: FormService, private fb: FormBuilder,
     private router: Router, private route: ActivatedRoute, private storageService: WizardStorageService) { }
 
-  private emailValidators: ValidatorFn[] = [Validators.required, Validators.email];
-  inquiryType = this.route.snapshot.data.resolved.inquiryType;
-  masks = {
-    smsPhone: ["+", /\d/, "(", /\d/, /\d/, /\d/, ")", /\d/, /\d/, /\d/, "-", /\d/, /\d/, "-", /\d/, /\d/]
+  ngOnInit() {
+    this.buildForm();
+    const inquiry = <Inquiry>this.storageService.get(this.inquiryType);
+    if (!inquiry.contactInfo) return;
+    this.contactsForm.patchValue({
+      byEmail: inquiry.contactInfo.byEmail,
+      bySms: inquiry.contactInfo.bySms,
+      email: inquiry.contactInfo.email,
+      smsPhone: inquiry.contactInfo.smsPhone,
+      phones: inquiry.contactInfo.phones,
+    });
   }
 
+  isValid() {
+    return this.contactsForm && this.contactsForm.valid;
+  }
+
+  masks = { smsPhone: ["+", /\d/, "(", /\d/, /\d/, /\d/, ")", /\d/, /\d/, /\d/, "-", /\d/, /\d/, "-", /\d/, /\d/] }
   onChange = (() => {
     return {
       byEmail: (change: MatCheckboxChange) => {
@@ -89,21 +105,7 @@ export class ContactInfoStepComponent implements OnInit, StepBase {
       }
     }
   }
-  ngOnInit() {
-    this.buildForm();
-    const inquiry = <Inquiry>this.storageService.get(this.inquiryType);
-    if (!inquiry.contactInfo) return;
-    this.contactsForm.patchValue({
-      byEmail: inquiry.contactInfo.byEmail,
-      bySms: inquiry.contactInfo.bySms,
-      email: inquiry.contactInfo.email,
-      smsPhone: inquiry.contactInfo.smsPhone,
-      phones: inquiry.contactInfo.phones,
-    });
-  }
-  isValid() {
-    return this.contactsForm && this.contactsForm.valid;
-  }
+
 
   private buildForm() {
     this.contactsForm = this.fb.group({

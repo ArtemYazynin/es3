@@ -1,11 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { Specificity, FormService, SpecificityService } from '../..';
 
 @Component({
   selector: 'app-distribution-params',
   templateUrl: './distribution-params.component.html',
-  styleUrls: ['./distribution-params.component.css']
+  styleUrls: ['./distribution-params.component.css'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class DistributionParamsComponent implements OnInit {
   inquiryInfoForm: FormGroup;

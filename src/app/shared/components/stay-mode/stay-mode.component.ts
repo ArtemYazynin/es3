@@ -1,14 +1,15 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, ChangeDetectionStrategy } from '@angular/core';
 import { AtLeastOneCheckboxShouldBeSelectedComponent } from '../at-least-one-checkbox-should-be-selected/at-least-one-checkbox-should-be-selected.component';
 
 @Component({
   selector: 'app-stay-mode',
   templateUrl: './stay-mode.component.html',
-  styleUrls: ['./stay-mode.component.css']
+  styleUrls: ['./stay-mode.component.css'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class StayModeComponent implements OnInit {
-  @ViewChild(AtLeastOneCheckboxShouldBeSelectedComponent) atLeastOneCheckboxShouldBeSelectedComponent:AtLeastOneCheckboxShouldBeSelectedComponent;
-  
+  @ViewChild(AtLeastOneCheckboxShouldBeSelectedComponent) atLeastOneCheckboxShouldBeSelectedComponent: AtLeastOneCheckboxShouldBeSelectedComponent;
+
   constructor() { }
   items = [
     { key: 'IsFullStay', text: 'Полный день (10,5-12 часов)' },

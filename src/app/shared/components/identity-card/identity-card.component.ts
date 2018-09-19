@@ -10,12 +10,7 @@ import { Entity, FormService, IdentityCard, IdentityCardChangeHandler, IdentityC
   styleUrls: ['./identity-card.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IdentityCardComponent implements OnInit, DoCheck, OnDestroy {
-  counter:number = 0;
-  ngDoCheck(): void {
-    this.counter++;
-    console.log(`IdentityCardComponent changeDetection: ${this.counter}`);
-  }
+export class IdentityCardComponent implements OnInit, OnDestroy {
   @Input()
   ids: Array<number> = [];
 

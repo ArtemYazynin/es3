@@ -1,11 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { FormService, Person } from '../../index';
 
 @Component({
   selector: 'birth-info',
   templateUrl: './birth-info.component.html',
-  styleUrls: ['./birth-info.component.css']
+  styleUrls: ['./birth-info.component.css'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class BirthInfoComponent implements OnInit {
 

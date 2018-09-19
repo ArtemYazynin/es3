@@ -1,17 +1,17 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { MatDialog } from '@angular/material';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Observable, Subject, timer } from 'rxjs';
 import { map, takeUntil } from 'rxjs/operators';
 import { isNullOrUndefined } from 'util';
+import { CitizenshipService, Country, DrawService, Entity, Group, Inquiry, InquiryService, SpecHealth, SpecHealthService } from '../../../shared';
 import { StepBase, WizardStorageService } from '../shared';
-import { CitizenshipService, DrawService, SpecHealthService, InquiryService, Group, Entity, SpecHealth, Country, Inquiry } from '../../../shared';
-import { Guid } from '../../../shared/models/guid';
 
 @Component({
   selector: 'app-preview-step',
   templateUrl: './preview-step.component.html',
-  styleUrls: ['./preview-step.component.css']
+  styleUrls: ['./preview-step.component.css'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class PreviewStepComponent implements OnInit, OnDestroy, StepBase {
 
