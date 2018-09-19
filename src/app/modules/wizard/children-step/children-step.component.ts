@@ -1,4 +1,4 @@
-import { AfterViewInit, ChangeDetectorRef, Component, ComponentFactory, ComponentFactoryResolver, ComponentRef, OnInit, ViewChild, ViewContainerRef } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, ComponentFactory, ComponentFactoryResolver, ComponentRef, OnInit, ViewChild, ViewContainerRef, ChangeDetectionStrategy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { isNullOrUndefined } from 'util';
 import { Child, CitizenshipService, ConfirmationDocument, DublicatesFinder, FormService, IdentityCard, Person, Inquiry } from '../../../shared';
@@ -14,10 +14,10 @@ import { ChildComponent } from './child/child.component';
 @Component({
   selector: 'app-children-step',
   templateUrl: './children-step.component.html',
-  styleUrls: ['./children-step.component.css']
+  styleUrls: ['./children-step.component.css'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ChildrenStepComponent implements OnInit, AfterViewInit, StepBase {
-
   @ViewChild("childContainer", { read: ViewContainerRef }) viewContainer;
   @ViewChild(BirthInfoComponent) birthInfoComponent: BirthInfoComponent;
   @ViewChild(CitizenshipSelectComponent) citizenshipSelectComponent: CitizenshipSelectComponent;
@@ -34,29 +34,14 @@ export class ChildrenStepComponent implements OnInit, AfterViewInit, StepBase {
   isValid(): boolean {
     let isValid = {
       children: (): boolean => {
-        let result = true;
-        for (let index = 0, len = this.components.length; index < len; index++) {
-          const component = this.components[index];
-          if (!component.instance.fullnameComponent
-            || !component.instance.fullnameComponent.fullnameForm
-            || !component.instance.fullnameComponent.fullnameForm.valid) {
-            result = false;
-            break;
-          }
-          if (!component.instance.identityCardComponent
-            || !component.instance.identityCardComponent.identityCardForm
-            || !component.instance.identityCardComponent.identityCardForm.valid) {
-            result = false;
-            break;
-          }
-        }
+        let result = this.components.every(x=>x.instance.isValid());
         return result;
       },
       birthInfo: (): boolean => {
-        return this.birthInfoComponent && this.birthInfoComponent.birthInfoForm && this.birthInfoComponent.birthInfoForm.valid || false;
+        return this.birthInfoComponent && this.birthInfoComponent.birthInfoForm && this.birthInfoComponent.birthInfoForm.valid;
       },
       citizenships: (): boolean => {
-        return this.citizenshipSelectComponent && this.citizenshipSelectComponent.citizenships.length > 0 || false;
+        return this.citizenshipSelectComponent && this.citizenshipSelectComponent.citizenships.length > 0;
       },
       specHealthDocument: () => {
         const specHealthsDocumentsValid = (): boolean => {
@@ -65,7 +50,7 @@ export class ChildrenStepComponent implements OnInit, AfterViewInit, StepBase {
             && this.specHealthComponent.documentComponents.length == this.components.length
             && isNullOrUndefined(this.specHealthComponent.documentComponents.find(x => !x.confirmationDocumentForm.valid));
         }
-        if (this.specHealthComponent && this.specHealthComponent.specHealth == 101 || false) {
+        if (this.specHealthComponent && this.specHealthComponent.specHealth == 101) {
           return true;
         } else if (specHealthsDocumentsValid()) {
           return true;

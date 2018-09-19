@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ValidatorFn } from '@angular/forms';
 import { Subscription } from 'rxjs/internal/Subscription';
 import { FormService, Person } from '../../index';
@@ -6,7 +6,8 @@ import { FormService, Person } from '../../index';
 @Component({
   selector: 'full-name',
   templateUrl: './full-name.component.html',
-  styleUrls: ['./full-name.component.css']
+  styleUrls: ['./full-name.component.css'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class FullNameComponent implements OnInit {
 

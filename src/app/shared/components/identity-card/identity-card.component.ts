@@ -1,13 +1,14 @@
-import { Component, Input, OnInit, OnDestroy } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import { Entity, IdentityCard, FormService, IdentityCardService, IdentityCardType, IdentityCardChangeHandler } from '../../index';
+import { Entity, FormService, IdentityCard, IdentityCardChangeHandler, IdentityCardService, IdentityCardType } from '../../index';
 
 @Component({
   selector: 'identity-card',
   templateUrl: './identity-card.component.html',
-  styleUrls: ['./identity-card.component.css']
+  styleUrls: ['./identity-card.component.css'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class IdentityCardComponent implements OnInit, OnDestroy {
   @Input()
@@ -42,21 +43,20 @@ export class IdentityCardComponent implements OnInit, OnDestroy {
     }
     return result;
   })();
-  constructor(private fb: FormBuilder, private formService: FormService, private identityCardService: IdentityCardService) {
+  constructor(private fb: FormBuilder, private formService: FormService, private identityCardService: IdentityCardService,
+    private cdr: ChangeDetectorRef) {
+
+  }
+
+  ngOnInit() {
     this.identityCardService.getTypes(this.ids)
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(result => {
         this.types = result;
+        this.identityCardForm.patchValue({ identityCardType: IdentityCardType["Паспорт РФ"] });
       });
     this.buildForm();
     this.subscribeToIdentityCardType();
-    this.identityCardForm.patchValue({ identityCardType: IdentityCardType["Паспорт РФ"] });
-  }
-
-  ngOnInit() {
-
-
-
   }
   ngOnDestroy() {
     this.ngUnsubscribe.next();

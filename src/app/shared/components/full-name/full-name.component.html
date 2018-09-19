@@ -29,6 +29,20 @@
       <div class="form-group">
         <mat-checkbox id="noMiddlename" name="hasMiddlenoMiddlenamename" formControlName="noMiddlename">Нет отчества</mat-checkbox>
       </div>
+      <div class="alert alert-info">
+          <span>
+              <b>{{fullnameForm.value | json}}</b>
+          </span>
+          <br>
+          <span>fullnameForm.status:
+              <b>{{fullnameForm.status | json}}</b>
+          </span>
+          <br>
+          <span>formErrors:
+              <b>{{formErrors | json}}</b>
+          </span>
+
+      </div>
     </form>
     <ng-content></ng-content>
   </div>

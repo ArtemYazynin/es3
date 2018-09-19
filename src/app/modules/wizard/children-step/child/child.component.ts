@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, ChangeDetectionStrategy } from '@angular/core';
 import { IdentityCardComponent } from '../../../../shared/components/identity-card/identity-card.component';
 import { FullNameComponent } from '../../../../shared/components/full-name/full-name.component';
 import { SnilsComponent } from '../../../../shared/components/snils/snils.component';
@@ -8,7 +8,8 @@ import { IdentityCardType, inquiryType } from '../../../../shared';
 @Component({
   selector: 'app-child',
   templateUrl: './child.component.html',
-  styleUrls: ['./child.component.css']
+  styleUrls: ['./child.component.css'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ChildComponent implements OnInit {
   @ViewChild(IdentityCardComponent) identityCardComponent: IdentityCardComponent;
@@ -37,5 +38,11 @@ export class ChildComponent implements OnInit {
     } else {
       this.disabledChild = "";
     }
+  }
+
+  isValid = (): boolean => {
+    const fullnameFormIsValid = this.fullnameComponent && this.fullnameComponent.fullnameForm && this.fullnameComponent.fullnameForm.valid;
+    const identityCardFormIsValid = this.identityCardComponent && this.identityCardComponent.identityCardForm && this.identityCardComponent.identityCardForm.valid;
+    return fullnameFormIsValid && identityCardFormIsValid;
   }
 }

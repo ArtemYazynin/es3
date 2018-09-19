@@ -1,9 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 
 @Component({
   selector: 'app-snils',
   templateUrl: './snils.component.html',
-  styleUrls: ['./snils.component.css']
+  styleUrls: ['./snils.component.css'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SnilsComponent implements OnInit {
   snilsMask = [/\d/, /\d/, /\d/, "-", /\d/, /\d/, /\d/, "-", /\d/, /\d/, /\d/, " ", /\d/, /\d/];
