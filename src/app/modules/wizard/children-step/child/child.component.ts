@@ -1,23 +1,28 @@
-import { Component, OnInit, ViewChild, ChangeDetectionStrategy } from '@angular/core';
+import { Component, OnInit, ViewChild, ChangeDetectionStrategy, AfterViewInit, DoCheck } from '@angular/core';
 import { IdentityCardComponent } from '../../../../shared/components/identity-card/identity-card.component';
 import { FullNameComponent } from '../../../../shared/components/full-name/full-name.component';
 import { SnilsComponent } from '../../../../shared/components/snils/snils.component';
 import { GenderComponent } from '../../../../shared/components/gender/gender.component';
-import { IdentityCardType, inquiryType } from '../../../../shared';
+import { IdentityCardType, inquiryType, Child, FormService } from '../../../../shared';
 
 @Component({
   selector: 'app-child',
   templateUrl: './child.component.html',
   styleUrls: ['./child.component.css'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  //changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ChildComponent implements OnInit {
+export class ChildComponent implements OnInit, AfterViewInit, DoCheck {
+  counter:number = 0;
+  ngDoCheck(): void {
+    this.counter++;
+    console.log(`ChildComponent changeDetection: ${this.counter}`);
+  }
   @ViewChild(IdentityCardComponent) identityCardComponent: IdentityCardComponent;
   @ViewChild(FullNameComponent) fullnameComponent: FullNameComponent;
   @ViewChild(SnilsComponent) snilsComponent: SnilsComponent;
   @ViewChild(GenderComponent) genderComponent: GenderComponent;
 
-  constructor() { }
+  constructor(private formService: FormService) { }
 
 
   groupOfIdentityCardTypeId: Array<number> = [
@@ -30,6 +35,7 @@ export class ChildComponent implements OnInit {
   inquiryType: string;
   show: boolean = false;
   disabledChild: any;
+  child: Child;
 
   ngOnInit() {
     if (!!this.disabledChild) return;
@@ -37,6 +43,18 @@ export class ChildComponent implements OnInit {
       this.disabledChild = false;
     } else {
       this.disabledChild = "";
+    }
+  }
+
+  ngAfterViewInit(): void {
+    if (this.child) {
+      this.snilsComponent.snils = this.child.snils;
+      this.genderComponent.gender = this.child.gender
+      this.disabledChild = this.child.disabledChild;
+      this.formService.patchFullnameForm(this.fullnameComponent.fullnameForm, this.child);
+      this.formService.patchIdentityCardForm(this.identityCardComponent.identityCardForm, this.child.identityCard);
+    } else {
+      this.identityCardComponent.identityCardForm.controls.identityCardType.patchValue(IdentityCardType["Паспорт РФ"]);
     }
   }
 

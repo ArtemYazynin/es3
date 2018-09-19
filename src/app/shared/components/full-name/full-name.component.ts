@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy, DoCheck } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ValidatorFn } from '@angular/forms';
 import { Subscription } from 'rxjs/internal/Subscription';
 import { FormService, Person } from '../../index';
@@ -9,7 +9,12 @@ import { FormService, Person } from '../../index';
   styleUrls: ['./full-name.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class FullNameComponent implements OnInit {
+export class FullNameComponent implements OnInit, DoCheck {
+  counter:number = 0;
+  ngDoCheck(): void {
+    this.counter++;
+    console.log(`FullNameComponent changeDetection: ${this.counter}`);
+  }
 
   constructor(private fb: FormBuilder, private formService: FormService) {
     this.buildForm();

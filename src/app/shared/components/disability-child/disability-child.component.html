@@ -11,6 +11,9 @@
               <mat-option *ngFor="let item of disabilityTypes" [value]="item.id">{{item.name}}</mat-option>
             </mat-select>
           </mat-form-field>
+          <div class="alert alert-info">
+            DISABLED CHILD: {{item.instance.disabledChild}}
+          </div>
         </div>
       </div>
     </div>

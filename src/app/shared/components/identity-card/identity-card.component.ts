@@ -1,6 +1,6 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnDestroy, OnInit, DoCheck } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { Subject } from 'rxjs';
+import { Subject, Observable } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { Entity, FormService, IdentityCard, IdentityCardChangeHandler, IdentityCardService, IdentityCardType } from '../../index';
 
@@ -10,12 +10,18 @@ import { Entity, FormService, IdentityCard, IdentityCardChangeHandler, IdentityC
   styleUrls: ['./identity-card.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IdentityCardComponent implements OnInit, OnDestroy {
+export class IdentityCardComponent implements OnInit, DoCheck, OnDestroy {
+  counter:number = 0;
+  ngDoCheck(): void {
+    this.counter++;
+    console.log(`IdentityCardComponent changeDetection: ${this.counter}`);
+  }
   @Input()
   ids: Array<number> = [];
 
   private ngUnsubscribe: Subject<any> = new Subject();
   types: Array<Entity<number>> = [];
+  $types: Observable<Array<Entity<number>>>;
   mask = {
     issueDepartmentCodeMask: [/\d/, /\d/, /\d/, "-", /\d/, /\d/, /\d/],
     temporaryResidenceNumber: [/\d/, /\d/, /\d/, /\d/, "-", /\d/, /\d/, /\d/, /\d/]
@@ -43,18 +49,12 @@ export class IdentityCardComponent implements OnInit, OnDestroy {
     }
     return result;
   })();
-  constructor(private fb: FormBuilder, private formService: FormService, private identityCardService: IdentityCardService,
-    private cdr: ChangeDetectorRef) {
+  constructor(private fb: FormBuilder, private formService: FormService, private identityCardService: IdentityCardService) {
 
   }
 
   ngOnInit() {
-    this.identityCardService.getTypes(this.ids)
-      .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe(result => {
-        this.types = result;
-        this.identityCardForm.patchValue({ identityCardType: IdentityCardType["Паспорт РФ"] });
-      });
+    this.$types = this.identityCardService.getTypes(this.ids);
     this.buildForm();
     this.subscribeToIdentityCardType();
   }

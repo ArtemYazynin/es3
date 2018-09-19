@@ -2,7 +2,7 @@
     <div class="widget-content">
         <h4>Удостоверение личности</h4>
         <form [formGroup]="identityCardForm">
-            <div class="form-group">
+            <div class="form-group" *ngIf="$types | async as types">
                 <mat-form-field class="full-width">
                     <mat-select formControlName="identityCardType" placeholder="Тип документа">
                         <mat-option *ngFor="let item of types" [value]="item.id">{{item.name}}</mat-option>

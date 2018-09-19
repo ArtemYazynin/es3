@@ -1,7 +1,7 @@
-import { AfterViewInit, ChangeDetectorRef, Component, ComponentFactory, ComponentFactoryResolver, ComponentRef, OnInit, ViewChild, ViewContainerRef, ChangeDetectionStrategy } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, ComponentFactory, ComponentFactoryResolver, ComponentRef, OnInit, ViewChild, ViewContainerRef } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { isNullOrUndefined } from 'util';
-import { Child, CitizenshipService, ConfirmationDocument, DublicatesFinder, FormService, IdentityCard, Person, Inquiry } from '../../../shared';
+import { Child, CitizenshipService, ConfirmationDocument, DublicatesFinder, FormService, IdentityCard, Inquiry, Person } from '../../../shared';
 import { BirthInfoComponent } from '../../../shared/components/birth-info/birth-info.component';
 import { CitizenshipSelectComponent } from '../../../shared/components/citizenship-select/citizenship-select.component';
 import { ForeignCitizensAddressesComponent } from '../../../shared/components/foreign-citizens-addresses/foreign-citizens-addresses.component';
@@ -15,7 +15,7 @@ import { ChildComponent } from './child/child.component';
   selector: 'app-children-step',
   templateUrl: './children-step.component.html',
   styleUrls: ['./children-step.component.css'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  //changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ChildrenStepComponent implements OnInit, AfterViewInit, StepBase {
   @ViewChild("childContainer", { read: ViewContainerRef }) viewContainer;
@@ -34,7 +34,7 @@ export class ChildrenStepComponent implements OnInit, AfterViewInit, StepBase {
   isValid(): boolean {
     let isValid = {
       children: (): boolean => {
-        let result = this.components.every(x=>x.instance.isValid());
+        let result = this.components && this.components.every(x => x.instance.isValid());
         return result;
       },
       birthInfo: (): boolean => {
@@ -75,13 +75,17 @@ export class ChildrenStepComponent implements OnInit, AfterViewInit, StepBase {
   })();
   navBarManager = (() => {
     let hideChildren = () => {
+      if (!this.components) return;
       this.components.forEach(x => x.instance.show = false);
     }
     let select = (component: ComponentRef<ChildComponent>) => {
+      if (!component) return;
       hideChildren();
       component.instance.show = true;
+
     }
     let add = () => {
+      if (!this.components) return;
       hideChildren()
       const factory: ComponentFactory<ChildComponent> = this.resolver.resolveComponentFactory(ChildComponent);
       let componentRef = this.viewContainer.createComponent(factory);
@@ -91,7 +95,7 @@ export class ChildrenStepComponent implements OnInit, AfterViewInit, StepBase {
       this.cdr.detectChanges();
     }
     let getTitle = (component: ComponentRef<ChildComponent>) => {
-      return component.instance.fullnameComponent && component.instance.fullnameComponent.fullnameForm
+      return component && component.instance.fullnameComponent && component.instance.fullnameComponent.fullnameForm
         && component.instance.fullnameComponent.fullnameForm.value["firstname"]
         ? component.instance.fullnameComponent.fullnameForm.value["firstname"]
         : "Ребёнок";
@@ -112,6 +116,7 @@ export class ChildrenStepComponent implements OnInit, AfterViewInit, StepBase {
         select(this.components[this.components.length - 1]);
       }
       return (component: ComponentRef<ChildComponent>) => {
+        if (!component || !this.components || !this.viewContainer) return;
         removeView(component);
         removeComponent(component);
         setActiveChild();
@@ -199,24 +204,18 @@ export class ChildrenStepComponent implements OnInit, AfterViewInit, StepBase {
     });
     this.specHealthComponent.specHealth = child.specHealth;
     this.citizenshipSelectComponent.citizenships = child.citizenships;
-    (function initChildrenComponents(outer) {
-      outer.inquiry.children.forEach((child, index) => {
-        const factory: ComponentFactory<ChildComponent> = outer.resolver.resolveComponentFactory(ChildComponent);
-        let componentRef = <ComponentRef<ChildComponent>>outer.viewContainer.createComponent(factory);
-        componentRef.instance.snilsComponent.snils = child.snils;
-        componentRef.instance.genderComponent.gender = child.gender
-        componentRef.instance.disabledChild = child.disabledChild;
-        outer.formService.patchFullnameForm(componentRef.instance.fullnameComponent.fullnameForm, child);
-        outer.formService.patchIdentityCardForm(componentRef.instance.identityCardComponent.identityCardForm, child.identityCard);
-        (function setActiveChild(outer) {
-          if (index + 1 == outer.inquiry.children.length)
-            componentRef.instance.show = true;
-        })(outer);
+    (() => {//initChildrenComponents
+      this.inquiry.children.forEach((child, index) => {
+        const factory: ComponentFactory<ChildComponent> = this.resolver.resolveComponentFactory(ChildComponent);
+        let componentRef = <ComponentRef<ChildComponent>>this.viewContainer.createComponent(factory);
+        componentRef.instance.child = child;
+        if (index + 1 == this.inquiry.children.length)
+          componentRef.instance.show = true;
 
-        outer.components.push(componentRef);
+        this.components.push(componentRef);
       });
-      outer.cdr.detectChanges();
-    })(this);
+      this.cdr.detectChanges();
+    })();
     (function initSpecHealthDocuments(outer) {
       if (outer.specHealthComponent.specHealth == 101) return;
       outer.specHealthComponent.documentComponents.forEach((document, i) => {
