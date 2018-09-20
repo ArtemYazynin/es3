@@ -6,12 +6,12 @@
     <div class="widget-content">
       <div class="row">
         <div class="col-md-6">
-          <full-name>
+          <full-name [person]="inquiry?.applicant">
             <app-snils [snils]="inquiry?.applicant?.snils"></app-snils>
           </full-name>
         </div>
         <div class="col-md-6">
-          <identity-card></identity-card>
+          <identity-card [model]="inquiry?.applicant?.identityCard"></identity-card>
         </div>
       </div>
       <app-citizenship-select [citizenships]="inquiry?.applicant?.citizenships">
@@ -28,13 +28,15 @@
       </div>
       <div class="row" [hidden]="!isAvailable.countryStateDocument()">
         <div class="col-md-12">
-          <app-confirmation-document [type]="attachmentTypes.CountryStateApplicantDocument" title="Документ, подтверждающий право пребывания доверенного лица законного представителя на территории РФ">
+          <app-confirmation-document [type]="attachmentTypes.CountryStateApplicantDocument" title="Документ, подтверждающий право пребывания доверенного лица законного представителя на территории РФ"
+            [model]="inquiry?.applicant?.countryStateApplicantDocument">
           </app-confirmation-document>
         </div>
       </div>
       <div class="row">
         <div class="col-md-12">
-          <app-confirmation-document [type]="attachmentTypes.ApplicantRepresentParent" title="Документ, подтверждающий полномочие доверенного лица представлять интересы законного представителя ребенка">
+          <app-confirmation-document [type]="attachmentTypes.ApplicantRepresentParent" title="Документ, подтверждающий полномочие доверенного лица представлять интересы законного представителя ребенка"
+            [model]="inquiry?.applicant?.applicantRepresentParentDocument">
           </app-confirmation-document>
         </div>
       </div>

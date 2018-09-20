@@ -16,6 +16,8 @@ import { InquiryCommonInfoComponent } from './shared/components/inquiry-common-i
 import { RegisterSourcePipe } from '../../shared/models/register-source.pipe';
 import { DialogEditComponent } from './shared/components/dialog-edit/dialog-edit.component';
 import { ShareModule } from '../../share.module';
+import { EditParentDialogComponent } from './edit-parent-dialog/edit-parent-dialog.component';
+import { InquiryInfoEditComponent } from './shared/components/inquiry-info-edit/inquiry-info-edit.component';
 
 @NgModule({
   imports: [
@@ -42,8 +44,8 @@ import { ShareModule } from '../../share.module';
     ]),
 
   ],
-  declarations: [InquiryReadComponent, InquiryCommonInfoComponent, RegisterSourcePipe, DialogEditComponent],
+  declarations: [InquiryReadComponent, InquiryCommonInfoComponent, RegisterSourcePipe, DialogEditComponent, InquiryInfoEditComponent, EditParentDialogComponent],
   providers: [StatusService],
-  entryComponents: [DialogEditComponent]
+  entryComponents: [DialogEditComponent,EditParentDialogComponent]
 })
 export class InquiryModule { }

@@ -6,7 +6,7 @@ import { ConfirmationDocument, AttachmentType, FormService } from '../../index';
   selector: 'app-confirmation-document',
   templateUrl: './confirmation-document.component.html',
   styleUrls: ['./confirmation-document.component.css'],
-  changeDetection:ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ConfirmationDocumentComponent implements OnInit {
   currentDate = new Date();
@@ -16,11 +16,21 @@ export class ConfirmationDocumentComponent implements OnInit {
 
   @Input() title: string = "";
   @Input() type: AttachmentType;
+  @Input() model: ConfirmationDocument;
 
   constructor(private fb: FormBuilder, private formService: FormService) { }
 
   ngOnInit() {
     this.buildForm();
+    if (this.model) {
+      this.confirmationDocumentForm.patchValue({
+        name: this.model.name,
+        series: this.model.series,
+        number: this.model.number,
+        dateIssue: this.model.dateIssue,
+        dateExpired: this.model.dateExpired,
+      });
+    }
   }
 
   private buildForm(): any {

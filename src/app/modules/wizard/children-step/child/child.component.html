@@ -1,13 +1,13 @@
 <div [hidden]="!show" class="widget-content">
   <div class="row">
     <div class="col-md-6">
-      <full-name>
-        <app-gender></app-gender>
-        <app-snils></app-snils>
+      <full-name [person]="child">
+        <app-gender [gender]="child?.gender"></app-gender>
+        <app-snils [snils]="child?.snils"></app-snils>
       </full-name>
     </div>
     <div class="col-md-6">
-      <identity-card [ids]="groupOfIdentityCardTypeId"></identity-card>
+      <identity-card [ids]="groupOfIdentityCardTypeId" [model]="child?.identityCard"></identity-card>
     </div>
   </div>
 </div>

@@ -18,16 +18,12 @@ export class DialogEditComponent implements OnInit {
 
   ngOnInit() {
   }
-  onNoClick(): void {
 
-  }
-  click = {
-    save: () => {
-      const inquiry = this.prepare();
-      this.$inquiry.next(inquiry);
-      this.storageService.set(inquiry["_type"], { privilege: inquiry.privilege })
-      this.dialogRef.close();
-    }
+  save() {
+    const inquiry = this.prepare();
+    this.$inquiry.next(inquiry);
+    this.storageService.set(inquiry["_type"], { privilege: inquiry.privilege })
+    this.dialogRef.close();
   }
 
   isValid = (): boolean => {

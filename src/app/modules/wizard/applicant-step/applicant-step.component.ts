@@ -17,7 +17,7 @@ import { StepBase, WizardStorageService } from '../shared/index';
   styleUrls: ['./applicant-step.component.css'],
   //changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ApplicantStepComponent implements OnInit, AfterViewInit, OnDestroy, StepBase {
+export class ApplicantStepComponent implements OnInit, OnDestroy, StepBase {
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
   }
@@ -80,23 +80,6 @@ export class ApplicantStepComponent implements OnInit, AfterViewInit, OnDestroy,
     this.inquiry = <Inquiry>this.storageService.get(this.inquiryType);
     this.subscription = this.citizenshipService.getCountries()
       .subscribe(result => { this.countries = result; });
-  }
-
-  ngAfterViewInit(): void {
-    if (this.inquiry && this.inquiry.applicant) {
-      this.formService.patchDocumentForm(this.confirmationDocuments.find(x => x.type == AttachmentType.ApplicantRepresentParent).confirmationDocumentForm,
-        this.inquiry.applicant.applicantRepresentParentDocument);
-
-      this.formService.patchDocumentForm(this.confirmationDocuments.find(x => x.type == AttachmentType.CountryStateApplicantDocument).confirmationDocumentForm,
-        this.inquiry.applicant.countryStateApplicantDocument);
-        
-      this.formService.patchFullnameForm(this.fullnameComponent.fullnameForm, this.inquiry.applicant);
-      this.formService.patchIdentityCardForm(this.identityCardComponent.identityCardForm, this.inquiry.applicant.identityCard);
-    }
-    else {
-      this.identityCardComponent.identityCardForm.controls.identityCardType.patchValue(IdentityCardType["Паспорт РФ"]);
-    }
-    this.cdr.detectChanges();
   }
 
   goTo = {

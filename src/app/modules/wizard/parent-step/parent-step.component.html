@@ -4,52 +4,7 @@
       <h5>Законный представитель</h5>
     </div>
     <div class="widget-content">
-      <div class="row">
-        <div class="col-md-6">
-          <full-name>
-            <app-gender></app-gender>
-            <app-snils [snils]="inquiry?.parent?.snils"></app-snils>
-          </full-name>
-        </div>
-        <div class="col-md-6">
-          <identity-card [ids]="groupOfIdentityCardTypeId"></identity-card>
-        </div>
-      </div>
-      <app-citizenship-select [citizenships]="inquiry?.parent?.citizenships">
-      </app-citizenship-select>
-      <div *ngIf="isAvailable.addresses()">
-        <div *ngIf="isAvailable.hasRfCitizenship()">
-          <app-rf-citizens-addresses [owner]="inquiry.parent">
-          </app-rf-citizens-addresses>
-        </div>
-        <div *ngIf="!isAvailable.hasRfCitizenship()">
-          <app-foreign-citizens-addresses [owner]="inquiry.parent">
-          </app-foreign-citizens-addresses>
-        </div>
-      </div>
-
-      <div class="row" [hidden]="!isAvailable.childApplicantInfo">
-        <div class="col-md-12">
-          <birth-info>
-          </birth-info>
-        </div>
-      </div>
-      <div class="row" [hidden]="!isAvailable.countryStateDocument()">
-        <div class="col-md-12">
-          <app-confirmation-document [type]="attachmentTypes.CountryStateDocument" title="Документ, подтверждающий право пребывания законного представителя на территории РФ">
-          </app-confirmation-document>
-        </div>
-      </div>
-      <div *ngIf="isAvailable.relationType()">
-        <app-relation-type [relationType]="inquiry?.parent?.relationType">
-        </app-relation-type>
-      </div>
-      <div class="row" [hidden]="!isAvailable.parentRepresentChildren()">
-        <div class="col-md-12">
-          <app-confirmation-document [type]="attachmentTypes.ParentRepresentChildren" title="Документ, подтверждающий право законного представителя представлять интересы ребенка">
-          </app-confirmation-document>
-        </div>
-      </div>
+      <app-edit-parent [inquiry]="inquiry"></app-edit-parent>
     </div>
   </div>
   <div class="widget-box">

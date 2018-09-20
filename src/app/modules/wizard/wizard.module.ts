@@ -12,21 +12,11 @@ import { InMemoryService } from '../../in-memory-server';
 import { MaterialModule } from '../../material.module';
 import { ShareModule } from '../../share.module';
 import { AddressService, AreaService, AttachmentTypePipe, CitizenshipService, CommonService, DrawService, EnumToArrayPipe, FormService, GroupService, IdentityCardService, IdentityCardTypePipe, InquiryService, InstitutionService, PrivilegeOrderService, PrivilegeService, RelationTypeService, SettingsService, SpecHealthService, SpecificityService } from '../../shared';
-import { AddressComponent } from '../../shared/components/address/address.component';
 import { AgeGroupComponent } from '../../shared/components/age-group/age-group.component';
 import { AtLeastOneCheckboxShouldBeSelectedComponent } from '../../shared/components/at-least-one-checkbox-should-be-selected/at-least-one-checkbox-should-be-selected.component';
-import { BirthInfoComponent } from '../../shared/components/birth-info/birth-info.component';
-import { CitizenshipSelectComponent } from '../../shared/components/citizenship-select/citizenship-select.component';
 import { ConfirmDialogComponent } from '../../shared/components/confirm-dialog/confirm-dialog.component';
 import { DisabilityChildComponent } from '../../shared/components/disability-child/disability-child.component';
 import { DistributionParamsComponent } from '../../shared/components/distribution-params/distribution-params.component';
-import { ForeignCitizensAddressesComponent } from '../../shared/components/foreign-citizens-addresses/foreign-citizens-addresses.component';
-import { FullNameComponent } from '../../shared/components/full-name/full-name.component';
-import { GenderComponent } from '../../shared/components/gender/gender.component';
-import { IdentityCardComponent } from '../../shared/components/identity-card/identity-card.component';
-import { RelationTypeComponent } from '../../shared/components/relation-type/relation-type.component';
-import { RfCitizensAddressesComponent } from '../../shared/components/rf-citizens-addresses/rf-citizens-addresses.component';
-import { SnilsComponent } from '../../shared/components/snils/snils.component';
 import { SpecHealthComponent } from '../../shared/components/spec-health/spec-health.component';
 import { StayModeComponent } from '../../shared/components/stay-mode/stay-mode.component';
 import { HttpInterceptor } from '../../shared/http-interceptor';
@@ -79,24 +69,13 @@ import { wizardRoutes } from './wizard-routes';
     FileAttachmentStepComponent,
     PreviewStepComponent,
     //end
-    AddressComponent,
-    GenderComponent,
     YesNoPipe,
     IdentityCardTypePipe,
     EnumToArrayPipe,
     AttachmentTypePipe,
-    IdentityCardComponent,
-
-    FullNameComponent,
-    BirthInfoComponent,
-
-    CitizenshipSelectComponent,
     ChildComponent,
-    SnilsComponent,
     DisabilityChildComponent,
     SpecHealthComponent,
-
-    RelationTypeComponent,
 
     DistributionParamsComponent,
     StayModeComponent,
@@ -106,10 +85,8 @@ import { wizardRoutes } from './wizard-routes';
     PreviewCurrentEducationPlaceComponent,
     PreviewPrivilegeComponent,
     PreviewFilesComponent,
-    RfCitizensAddressesComponent,
-    ForeignCitizensAddressesComponent,
     ConfirmDialogComponent,
-    RegisterCompleteComponent,
+    RegisterCompleteComponent
 
   ],
   exports: [],

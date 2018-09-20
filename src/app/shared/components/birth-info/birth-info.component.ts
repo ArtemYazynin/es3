@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy, Input } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { FormService, Person } from '../../index';
 
@@ -9,6 +9,7 @@ import { FormService, Person } from '../../index';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class BirthInfoComponent implements OnInit {
+  @Input() model: Person;
 
   constructor(private fb: FormBuilder, private formService: FormService) { }
 
@@ -19,6 +20,12 @@ export class BirthInfoComponent implements OnInit {
 
   ngOnInit() {
     this.buildForm();
+    if (this.model) {
+      this.birthInfoForm.patchValue({
+        birthDate: this.model.birthDate,
+        birthPlace: this.model.birthPlace
+      });
+    }
   }
   private buildForm() {
     this.birthInfoForm = this.fb.group({

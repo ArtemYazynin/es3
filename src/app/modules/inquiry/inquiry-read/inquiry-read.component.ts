@@ -6,6 +6,7 @@ import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { map, takeUntil } from 'rxjs/operators';
 import { CitizenshipService, ConfirmationDocument, Country, DrawService, Entity, Group, GroupService, Inquiry, InquiryService, InstitutionService, PrivilegeOrder, PrivilegeOrderService, Specificity, SpecificityService, Status, StatusService } from '../../../shared/index';
 import { DialogEditComponent } from '../shared/components/dialog-edit/dialog-edit.component';
+import { EditParentDialogComponent } from '../edit-parent-dialog/edit-parent-dialog.component';
 
 
 @Component({
@@ -23,7 +24,6 @@ export class InquiryReadComponent implements OnInit, OnDestroy {
   specificity: Observable<Specificity>;
   $group: Observable<Group>;
   $institutionType: Observable<Entity<number>>;
-  visibility: boolean = false;
 
   inquiryTypeFriendlyName: string;
   drawManager = this.drawService;
@@ -61,7 +61,6 @@ export class InquiryReadComponent implements OnInit, OnDestroy {
         .pipe(map(types => types[0]));
       this.$group = this.groupService.getGroup(inquiry.currentEducationPlace.institution, inquiry.currentEducationPlace.group)
         .pipe(map(groups => groups[0]));
-      this.visibility = inquiry.privilege && Object.keys(inquiry.privilege).length > 0
     })();
 
     this.buildForm();
@@ -85,21 +84,31 @@ export class InquiryReadComponent implements OnInit, OnDestroy {
   }
 
   edit = (() => {
+    const getDefaultConfig = () => {
+      let config = new MatDialogConfig();
+      config.disableClose = true;
+      config.autoFocus = true;
+      config.data = this.$inquiry;
+      config.width = "1000px";
+      return config;
+    }
     const common = () => {
-      const dialogConfig = new MatDialogConfig();
 
-      dialogConfig.disableClose = true;
-      dialogConfig.autoFocus = true;
-      dialogConfig.data = this.$inquiry;
-      dialogConfig.width = "1000px";
-      this.dialog.open(DialogEditComponent, dialogConfig);
-      //const dialogRef = this.dialog.open(DialogEditComponent, dialogConfig);
+    }
+    const parent = () => {
+      this.dialog.open(EditParentDialogComponent, getDefaultConfig());
+    }
+    const privilege = () => {
+      this.dialog.open(DialogEditComponent, getDefaultConfig());
+      // const dialogRef = this.dialog.open(DialogEditComponent, config);
       // dialogRef.afterClosed().subscribe((result:Inquiry) => {
       //   console.log('The dialog was closed');
       // });
     }
     return {
-      common: common
+      common: common,
+      privilege: privilege,
+      parent: parent
     }
   })();
 }

@@ -11,8 +11,8 @@ import { Entity, FormService, IdentityCard, IdentityCardChangeHandler, IdentityC
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class IdentityCardComponent implements OnInit, OnDestroy {
-  @Input()
-  ids: Array<number> = [];
+  @Input() ids: Array<number> = [];
+  @Input() model: IdentityCard;
 
   private ngUnsubscribe: Subject<any> = new Subject();
   types: Array<Entity<number>> = [];
@@ -52,6 +52,23 @@ export class IdentityCardComponent implements OnInit, OnDestroy {
     this.$types = this.identityCardService.getTypes(this.ids);
     this.buildForm();
     this.subscribeToIdentityCardType();
+    if (this.model) {
+      this.identityCardForm.patchValue({
+        identityCardType: this.model.identityCardType,
+        name: this.model.name,
+        series: this.model.series,
+        number: this.model.number,
+        issued: this.model.issued,
+        dateIssue: this.model.dateIssue,
+        dateExpired: this.model.dateExpired,
+        issueDepartmentCode: this.model.issueDepartmentCode,
+        actRecordNumber: this.model.actRecordNumber,
+        actRecordDate: this.model.actRecordDate,
+        actRecordPlace: this.model.actRecordPlace,
+      });
+    }else{
+      this.identityCardForm.controls.identityCardType.patchValue(IdentityCardType["Паспорт РФ"]);
+    }
   }
   ngOnDestroy() {
     this.ngUnsubscribe.next();

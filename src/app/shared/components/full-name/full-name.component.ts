@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectionStrategy, DoCheck } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy, DoCheck, Input } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ValidatorFn } from '@angular/forms';
 import { Subscription } from 'rxjs/internal/Subscription';
 import { FormService, Person } from '../../index';
@@ -10,19 +10,26 @@ import { FormService, Person } from '../../index';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class FullNameComponent implements OnInit {
-
-  constructor(private fb: FormBuilder, private formService: FormService) {
-    this.buildForm();
-  }
-
+  @Input() person: Person;
+  private fioRegExp: string = "^[А-яЁё]+([ -]{1}[А-яЁё]+)*[ ]*$";
+  private noMiddlenameSubscription: Subscription;
   fullnameForm: FormGroup;
   formErrors = Person.getFormErrorsTemplate();
   validationMessages = Person.getvalidationMessages();
-  private fioRegExp: string = "^[А-яЁё]+([ -]{1}[А-яЁё]+)*[ ]*$";
-  private noMiddlenameSubscription: Subscription;
+  constructor(private fb: FormBuilder, private formService: FormService) {
+
+  }
 
   ngOnInit() {
-
+    this.buildForm();
+    if (this.person) {
+      this.fullnameForm.patchValue({
+        lastname: this.person.lastname,
+        firstname: this.person.firstname,
+        middlename: this.person.middlename,
+        noMiddlename: this.person.noMiddlename
+      });
+    }
     this.subscribeOnMiddlename();
   }
 

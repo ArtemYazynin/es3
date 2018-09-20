@@ -44,13 +44,7 @@ export class ChildComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit(): void {
     if (this.child) {
-      this.snilsComponent.snils = this.child.snils;
-      this.genderComponent.gender = this.child.gender
       this.disabledChild = this.child.disabledChild;
-      this.formService.patchFullnameForm(this.fullnameComponent.fullnameForm, this.child);
-      this.formService.patchIdentityCardForm(this.identityCardComponent.identityCardForm, this.child.identityCard);
-    } else {
-      this.identityCardComponent.identityCardForm.controls.identityCardType.patchValue(IdentityCardType["Паспорт РФ"]);
     }
   }
 

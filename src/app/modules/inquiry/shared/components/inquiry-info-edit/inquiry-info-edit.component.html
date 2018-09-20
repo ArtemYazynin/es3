@@ -1,0 +1,11 @@
+<div class="widget-box">
+  <div class="widget-title">
+    <h5>{{title || '-'}}</h5>
+    <div class="buttons" *ngIf="edit.observers.length > 0">
+      <a class="btn" (click)="onEdit()"><i class="fas fa-edit"></i></a>
+    </div>
+  </div>
+  <div class="widget-content">
+    <ng-content></ng-content>
+  </div>
+</div>

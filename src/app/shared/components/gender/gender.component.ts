@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy, Input } from '@angular/core';
 
 @Component({
   selector: 'app-gender',
@@ -10,9 +10,11 @@ export class GenderComponent implements OnInit {
 
   constructor() { }
 
-  gender: number = 1;
-  
+  @Input() gender: number;
+
+
   ngOnInit() {
+    this.gender = this.gender || 1;
   }
 
 }

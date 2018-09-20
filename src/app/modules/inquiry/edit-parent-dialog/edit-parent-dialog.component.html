@@ -1,10 +1,7 @@
 <div *ngIf="$inquiry | async as inquiry">
-  <h1 mat-dialog-title>Заявление</h1>
+  <h1 mat-dialog-title>Законный представитель</h1>
   <div mat-dialog-content>
-    <div>
-      <app-privilege-edit [inquiry]="inquiry">
-      </app-privilege-edit>
-    </div>
+    <app-edit-parent [inquiry]="inquiry"></app-edit-parent>
   </div>
   <mat-dialog-actions>
     <button class="btn btn-inverse" [mat-dialog-close]="inquiry">Закрыть</button>
