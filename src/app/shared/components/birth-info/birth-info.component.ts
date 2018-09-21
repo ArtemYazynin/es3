@@ -1,6 +1,7 @@
-import { Component, OnInit, ChangeDetectionStrategy, Input } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
+import { AbstractControl, FormBuilder, FormGroup, ValidatorFn, Validators } from '@angular/forms';
 import { FormService, Person } from '../../index';
+import { IdentityCardComponent } from '../identity-card/identity-card.component';
 
 @Component({
   selector: 'birth-info',
@@ -10,6 +11,7 @@ import { FormService, Person } from '../../index';
 })
 export class BirthInfoComponent implements OnInit {
   @Input() model: Person;
+  @Input() identityCardComponent: IdentityCardComponent;
 
   constructor(private fb: FormBuilder, private formService: FormService) { }
 
@@ -27,11 +29,21 @@ export class BirthInfoComponent implements OnInit {
       });
     }
   }
+
+  compareBirthAndIssueDate(): ValidatorFn {
+    return (birth: AbstractControl): { [key: string]: any } => {
+      if (birth.dirty)
+        if (birth.value >= this.identityCardComponent.identityCardForm.controls.dateIssue.value)
+          return { custom: 'custom' };
+    };
+  }
+
   private buildForm() {
     this.birthInfoForm = this.fb.group({
       "birthDate": [
         "",
-        [Validators.required]
+        [Validators.required,
+        this.compareBirthAndIssueDate()]
       ],
       "birthPlace": [
         "",

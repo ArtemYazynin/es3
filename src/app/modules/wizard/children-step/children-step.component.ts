@@ -1,10 +1,11 @@
-import { AfterViewInit, ChangeDetectorRef, Component, ComponentFactory, ComponentFactoryResolver, ComponentRef, OnInit, ViewChild, ViewContainerRef } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, ComponentFactory, ComponentFactoryResolver, ComponentRef, OnInit, ViewChild, ViewContainerRef, Input } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { isNullOrUndefined } from 'util';
 import { Child, CitizenshipService, ConfirmationDocument, DublicatesFinder, FormService, IdentityCard, Inquiry, Person } from '../../../shared';
 import { BirthInfoComponent } from '../../../shared/components/birth-info/birth-info.component';
 import { CitizenshipSelectComponent } from '../../../shared/components/citizenship-select/citizenship-select.component';
 import { ForeignCitizensAddressesComponent } from '../../../shared/components/foreign-citizens-addresses/foreign-citizens-addresses.component';
+import { IdentityCardComponent } from '../../../shared/components/identity-card/identity-card.component';
 import { RfCitizensAddressesComponent } from '../../../shared/components/rf-citizens-addresses/rf-citizens-addresses.component';
 import { SpecHealthComponent } from '../../../shared/components/spec-health/spec-health.component';
 import { StepBase, WizardStorageService } from '../shared';
@@ -195,7 +196,20 @@ export class ChildrenStepComponent implements OnInit, AfterViewInit, StepBase {
     } else {
       this.initFromSessionStorage();
     }
+
+    this.components.forEach((component) => {
+      component.instance.identityCardComponent.identityCardForm.controls.dateIssue.valueChanges
+        .subscribe(() => this.birthInfoComponent.compareBirthAndIssueDate());
+    })
   }
+
+  getIdentityCardComponent(): IdentityCardComponent {
+    for (let index = 0, len = this.components.length; index < len; index++)
+      if (this.components[index].instance.show)
+        return this.components[index].instance.identityCardComponent;
+    return null;
+  }
+
   private initFromSessionStorage() {
     const child = this.inquiry.children[0];
     this.birthInfoComponent.birthInfoForm.patchValue({
