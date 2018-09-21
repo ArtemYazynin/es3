@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, Inject, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { BehaviorSubject } from 'rxjs';
-import { Inquiry } from '../../../shared';
+import { Inquiry, ApplicantType } from '../../../shared';
 import { EditParentComponent } from '../shared/components/edit-parent/edit-parent.component';
 
 @Component({
@@ -12,7 +12,7 @@ import { EditParentComponent } from '../shared/components/edit-parent/edit-paren
 })
 export class EditParentDialogComponent implements OnInit, OnDestroy {
   @ViewChild(EditParentComponent) editParent:EditParentComponent;
-  
+  applicantTypes = ApplicantType;
   constructor(public dialogRef: MatDialogRef<EditParentDialogComponent>, @Inject(MAT_DIALOG_DATA) public $inquiry: BehaviorSubject<Inquiry>) { }
 
   ngOnInit() {

@@ -4,7 +4,7 @@
       <h5>Законный представитель</h5>
     </div>
     <div class="widget-content">
-      <app-edit-parent [inquiry]="inquiry"></app-edit-parent>
+      <app-edit-parent [model]="inquiry?.parent" [modelType]="applicantTypes.Parent" [applicantType]="inquiry.applicantType"></app-edit-parent>
     </div>
   </div>
   <div class="widget-box">

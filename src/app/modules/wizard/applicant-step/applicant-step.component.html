@@ -4,7 +4,8 @@
       <h5>Доверенное лицо законного представителя ребенка</h5>
     </div>
     <div class="widget-content">
-      <div class="row">
+      <app-edit-parent [model]="inquiry?.applicant" [modelType]="applicantTypes.Applicant" [applicantType]="inquiry.applicantType"></app-edit-parent>
+      <!-- <div class="row">
         <div class="col-md-6">
           <full-name [person]="inquiry?.applicant">
             <app-snils [snils]="inquiry?.applicant?.snils"></app-snils>
@@ -39,7 +40,7 @@
             [model]="inquiry?.applicant?.applicantRepresentParentDocument">
           </app-confirmation-document>
         </div>
-      </div>
+      </div> -->
     </div>
   </div>
   <div class="widget-box">

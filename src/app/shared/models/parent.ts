@@ -18,4 +18,8 @@ export class Parent extends Person implements PersonWithAddress {
     residential: Address;
     tempRegistrationExpiredDate: Date;
     registerAddressLikeAsResidentialAddress: boolean;
+
+    static get systemName(){
+        return "parent";
+    }
 }

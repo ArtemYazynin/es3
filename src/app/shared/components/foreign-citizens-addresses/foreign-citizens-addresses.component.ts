@@ -14,11 +14,10 @@ export class ForeignCitizensAddressesComponent implements OnInit, OnDestroy {
   @ViewChild(AddressComponent) addressComponent: AddressComponent;
   @Input() owner: Parent | Applicant;
 
+  private subscription: Subscription;
+  
   addressTypes = addressTypes;
   inquiryTypes = inquiryType;
-
-  inquiryType = this.route.snapshot.data.resolved.inquiryType;
-  private subscription: Subscription;
   form: FormGroup;
   foreignAddress: string;
   currentDate = new Date();

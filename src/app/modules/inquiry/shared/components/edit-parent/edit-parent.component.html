@@ -1,50 +1,50 @@
-<div>
+<ng-template #confirmationDocument let-type="type" let-title="title" let-model="model">
+  <div class="col-md-12">
+    <app-confirmation-document [type]="type" [title]="title" [model]="model">
+    </app-confirmation-document>
+  </div>
+</ng-template>
+
+<ng-container>
   <div class="row">
     <div class="col-md-6">
-      <full-name [person]="inquiry?.parent">
-        <app-gender [gender]="inquiry?.parent?.gender"></app-gender>
-        <app-snils [snils]="inquiry?.parent?.snils"></app-snils>
+      <full-name [person]="model">
+        <app-snils [snils]="model?.snils"></app-snils>
       </full-name>
     </div>
     <div class="col-md-6">
-      <identity-card [ids]="groupOfIdentityCardTypeId" [model]="inquiry?.parent?.identityCard"></identity-card>
+      <identity-card [ids]="groupOfIdentityCardTypeId" [model]="model?.identityCard"></identity-card>
     </div>
   </div>
-  <app-citizenship-select [citizenships]="inquiry?.parent?.citizenships">
+  <app-citizenship-select [citizenships]="model?.citizenships">
   </app-citizenship-select>
-  <div *ngIf="isAvailable.addresses(inquiry.applicantType)">
+  <div *ngIf="isAvailable.addresses()">
     <div *ngIf="isAvailable.hasRfCitizenship()">
-      <app-rf-citizens-addresses [owner]="inquiry?.parent">
+      <app-rf-citizens-addresses [owner]="model">
       </app-rf-citizens-addresses>
     </div>
     <div *ngIf="!isAvailable.hasRfCitizenship()">
-      <app-foreign-citizens-addresses [owner]="inquiry?.parent">
+      <app-foreign-citizens-addresses [owner]="model">
       </app-foreign-citizens-addresses>
     </div>
   </div>
-
   <div class="row" [hidden]="!isAvailable.childApplicantInfo">
     <div class="col-md-12">
-      <birth-info [model]="inquiry?.parent">
+      <birth-info [model]="model">
       </birth-info>
     </div>
   </div>
   <div class="row" [hidden]="!isAvailable.countryStateDocument()">
-    <div class="col-md-12">
-      <app-confirmation-document [type]="attachmentTypes.CountryStateDocument" title="Документ, подтверждающий право пребывания законного представителя на территории РФ"
-        [model]="inquiry?.parent?.countryStateDocument">
-      </app-confirmation-document>
-    </div>
+    <ng-container *ngTemplateOutlet="confirmationDocument; context: countryStateDocumentContext"></ng-container>
   </div>
-  <div *ngIf="isAvailable.relationType(inquiry.applicantType)">
-    <app-relation-type [relationType]="inquiry?.parent?.relationType">
+  <div class="row" [hidden]="modelType !== applicantTypes.Applicant">
+    <ng-container *ngTemplateOutlet="confirmationDocument; context: applicantRepresentParentDocumentContext"></ng-container>
+  </div>
+  <div [hidden]="modelType !== applicantTypes.Parent">
+    <app-relation-type [relationType]="model?.relationType">
     </app-relation-type>
   </div>
   <div class="row" [hidden]="!isAvailable.parentRepresentChildren()">
-    <div class="col-md-12">
-      <app-confirmation-document [type]="attachmentTypes.ParentRepresentChildren" title="Документ, подтверждающий право законного представителя представлять интересы ребенка"
-        [model]="inquiry?.parent?.parentRepresentChildrenDocument">
-      </app-confirmation-document>
-    </div>
+    <ng-container *ngTemplateOutlet="confirmationDocument; context: parentRepresentChildrenDocumentContext"></ng-container>
   </div>
-</div>
+</ng-container>

@@ -1,18 +1,17 @@
-import { Applicant } from "./applicant";
-import { Child } from "./child";
-import { Parent } from "./parent";
-import { CurrentEducationPlace } from "./current-education-place";
-import { Privilege } from "./privilege";
-import { Institution } from "./institution";
-import { FilesInfo } from "./files-info";
-import { ContactInfo } from "./contact-info";
-import { InquiryInfo } from "./inquiry-info";
-import { RegisterSource } from "./register-source.enum";
-import { PortalIdentity } from "./portal-identity";
-import { Status } from "./status";
-import { inquiryType } from "./inquiry-type";
 import { ApplicantType } from "../applicant-type.enum";
 import { InquiryTypeFriendlyNamePipe } from "../inquiry-type.pipe";
+import { Applicant } from "./applicant";
+import { Child } from "./child";
+import { ContactInfo } from "./contact-info";
+import { CurrentEducationPlace } from "./current-education-place";
+import { FilesInfo } from "./files-info";
+import { InquiryInfo } from "./inquiry-info";
+import { Institution } from "./institution";
+import { Parent } from "./parent";
+import { PortalIdentity } from "./portal-identity";
+import { Privilege } from "./privilege";
+import { RegisterSource } from "./register-source.enum";
+import { Status } from "./status";
 
 export class Inquiry {
     private def = "-";

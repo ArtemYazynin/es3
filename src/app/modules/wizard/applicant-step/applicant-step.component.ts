@@ -17,11 +17,7 @@ import { StepBase, WizardStorageService } from '../shared/index';
   styleUrls: ['./applicant-step.component.css'],
   //changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ApplicantStepComponent implements OnInit, OnDestroy, StepBase {
-  ngOnDestroy(): void {
-    this.subscription.unsubscribe();
-  }
-
+export class ApplicantStepComponent implements OnInit, AfterViewInit, OnDestroy, StepBase {
   inquiry: Inquiry;
   private subscription: Subscription;
   @ViewChild(IdentityCardComponent) identityCardComponent: IdentityCardComponent;
@@ -39,6 +35,7 @@ export class ApplicantStepComponent implements OnInit, OnDestroy, StepBase {
   inquiryType = this.route.snapshot.data.resolved.inquiryType;
   attachmentTypes = AttachmentType;
   addressTypes = addressTypes;
+  applicantTypes = ApplicantType;
 
   countries: Array<Country> = [];
   isAvailable = {
@@ -78,8 +75,14 @@ export class ApplicantStepComponent implements OnInit, OnDestroy, StepBase {
 
   ngOnInit() {
     this.inquiry = <Inquiry>this.storageService.get(this.inquiryType);
-    this.subscription = this.citizenshipService.getCountries()
-      .subscribe(result => { this.countries = result; });
+    this.subscription = this.citizenshipService.getCountries().subscribe(result => { this.countries = result; });
+  }
+  ngAfterViewInit(): void {
+    this.cdr.detectChanges();
+  }
+
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
   }
 
   goTo = {

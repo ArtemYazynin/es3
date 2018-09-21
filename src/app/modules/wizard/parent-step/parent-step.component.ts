@@ -20,6 +20,7 @@ export class ParentStepComponent implements OnInit, AfterViewInit, StepBase {
 
   inquiryType = this.route.snapshot.data.resolved.inquiryType;
   inquiryTypes = inquiryType;
+  applicantTypes = ApplicantType;
 
   constructor(private storageService: WizardStorageService, private commonService: CommonService, private formService: FormService,
     private citizenshipService: CitizenshipService, private cdr: ChangeDetectorRef,
@@ -99,8 +100,7 @@ export class ParentStepComponent implements OnInit, AfterViewInit, StepBase {
           this.editParentComponent.snilsComponent.snils,
           this.editParentComponent.fullnameComponent.fullnameForm.controls.noMiddlename.value,
           birthInfo.birthDate,
-          birthInfo.birthPlace,
-          this.editParentComponent.gendercomponent.gender);
+          birthInfo.birthPlace, 1);
         result.identityCard = new IdentityCard(this.editParentComponent.identityCardComponent.identityCardForm);
         result.citizenships = this.editParentComponent.citizenshipSelectComponent.citizenships;
 
