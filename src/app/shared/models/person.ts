@@ -41,7 +41,7 @@ export class Person {
             lastname: fioValidationObj,
             firstname: fioValidationObj,
             middlename: fioValidationObj,
-            birthDate: { "required": "Обязательное поле.", "custom": "Дата рождения не должна быть старше даты выдачи документа."},
+            birthDate: { "required": "Обязательное поле." },
             birthPlace: { "required": "Обязательное поле." },
         }
     }
