@@ -112,10 +112,10 @@ export class PrivilegeEditComponent implements OnInit, AfterViewInit {
       .subscribe(val => {
         this.reset.privilege(this.privilegeForm.controls.withoutPrivilege.value);
         if (isNullOrUndefined(val) || val == "") return;
-        this.privilegeService.get(val)
+        this.privilegeService.get()
           .pipe(takeUntil(this.ngUnsubscribe), distinctUntilChanged())
           .subscribe(result => {
-            this.privileges = result;
+            this.privileges = result.filter(value => value.privilegeOrder.id == val.id);
             this.filteredPrivileges = this.privilegeForm.controls.privilege.valueChanges.pipe(
               startWith<string | Privilege>(''),
               map((value: Privilege) => typeof value === 'string' ? value : value.name),
