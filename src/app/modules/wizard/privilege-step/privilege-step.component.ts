@@ -47,14 +47,15 @@ export class PrivilegeStepComponent implements OnInit, AfterViewInit, StepBase {
     },
     next: () => {
       (() => {
+        let privilege: Privilege;
         if (!this.privilegeEditComponent.privilegeForm.controls.withoutPrivilege.value) {
-          let privilege = new Privilege(this.privilegeEditComponent.privilegeForm.controls.privilege.value.id,
+          privilege = new Privilege(this.privilegeEditComponent.privilegeForm.controls.privilege.value.id,
             this.privilegeEditComponent.privilegeForm.controls.privilege.value.name,
             this.privilegeEditComponent.privilegeForm.controls.privilegeOrder.value);
           privilege.privilegeProofDocument =
             this.commonService.getDocumentByType([this.privilegeEditComponent.confirmationProofDocumentComponent], AttachmentType.PrivilegeProofDocument);
-          this.storageService.set(this.inquiryType, { privilege: privilege });
         }
+        this.storageService.set(this.inquiryType, { privilege: privilege });
       })();
 
       switch (this.inquiryType) {
