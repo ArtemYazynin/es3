@@ -13,7 +13,8 @@ import { BehaviorSubject } from 'rxjs';
 })
 export class DialogEditComponent implements OnInit {
   @ViewChild(PrivilegeEditComponent) privilegeEditComponent: PrivilegeEditComponent;
-  constructor(public dialogRef: MatDialogRef<DialogEditComponent>, @Inject(MAT_DIALOG_DATA) public $inquiry: BehaviorSubject<Inquiry>,
+  constructor(public dialogRef: MatDialogRef<DialogEditComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: { $inquiry: BehaviorSubject<Inquiry> },
     private commonService: CommonService, private storageService: WizardStorageService) { }
 
   ngOnInit() {
@@ -21,7 +22,7 @@ export class DialogEditComponent implements OnInit {
 
   save() {
     const inquiry = this.prepare();
-    this.$inquiry.next(inquiry);
+    this.data.$inquiry.next(inquiry);
     this.storageService.set(inquiry["_type"], { privilege: inquiry.privilege })
     this.dialogRef.close();
   }
@@ -42,6 +43,6 @@ export class DialogEditComponent implements OnInit {
       }
       return result;
     })();
-    return Object.assign({}, this.$inquiry.getValue(), { privilege: privilege });
+    return Object.assign({}, this.data.$inquiry.getValue(), { privilege: privilege });
   }
 }

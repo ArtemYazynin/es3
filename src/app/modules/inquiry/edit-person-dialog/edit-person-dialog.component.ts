@@ -2,18 +2,20 @@ import { ChangeDetectionStrategy, Component, Inject, OnDestroy, OnInit, ViewChil
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { BehaviorSubject } from 'rxjs';
 import { Inquiry, ApplicantType } from '../../../shared';
-import { EditParentComponent } from '../shared/components/edit-parent/edit-parent.component';
+import { EditPersonComponent } from '../shared/components/edit-person/edit-person.component';
 
 @Component({
-  selector: 'app-edit-parent-dialog',
-  templateUrl: './edit-parent-dialog.component.html',
-  styleUrls: ['./edit-parent-dialog.component.css'],
+  selector: 'app-edit-person-dialog',
+  templateUrl: './edit-person-dialog.component.html',
+  styleUrls: ['./edit-person-dialog.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class EditParentDialogComponent implements OnInit, OnDestroy {
-  @ViewChild(EditParentComponent) editParent:EditParentComponent;
+export class EditPersonDialogComponent implements OnInit, OnDestroy {
+  @ViewChild(EditPersonComponent) editPerson: EditPersonComponent;
   applicantTypes = ApplicantType;
-  constructor(public dialogRef: MatDialogRef<EditParentDialogComponent>, @Inject(MAT_DIALOG_DATA) public $inquiry: BehaviorSubject<Inquiry>) { }
+  constructor(public dialogRef: MatDialogRef<EditPersonDialogComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: { $inquiry: BehaviorSubject<Inquiry>, modelType: ApplicantType },
+  ) { }
 
   ngOnInit() {
   }

@@ -4,9 +4,9 @@ import { MatDialog, MatDialogConfig } from '@angular/material';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { map, takeUntil } from 'rxjs/operators';
-import { CitizenshipService, ConfirmationDocument, Country, DrawService, Entity, Group, GroupService, Inquiry, InquiryService, InstitutionService, PrivilegeOrder, PrivilegeOrderService, Specificity, SpecificityService, Status, StatusService } from '../../../shared/index';
+import { CitizenshipService, ConfirmationDocument, Country, DrawService, Entity, Group, GroupService, Inquiry, InquiryService, InstitutionService, PrivilegeOrder, PrivilegeOrderService, Specificity, SpecificityService, Status, StatusService, ApplicantType } from '../../../shared/index';
 import { DialogEditComponent } from '../shared/components/dialog-edit/dialog-edit.component';
-import { EditParentDialogComponent } from '../edit-parent-dialog/edit-parent-dialog.component';
+import { EditPersonDialogComponent } from '../edit-person-dialog/edit-person-dialog.component';
 
 
 @Component({
@@ -26,6 +26,7 @@ export class InquiryReadComponent implements OnInit, OnDestroy {
   $institutionType: Observable<Entity<number>>;
 
   inquiryTypeFriendlyName: string;
+  applicantTypes = ApplicantType;
   drawManager = this.drawService;
   statusForm: FormGroup;
 
@@ -84,19 +85,22 @@ export class InquiryReadComponent implements OnInit, OnDestroy {
   }
 
   edit = (() => {
-    const getDefaultConfig = () => {
+    const getDefaultConfig = (modelType?: ApplicantType) => {
       let config = new MatDialogConfig();
       config.disableClose = true;
       config.autoFocus = true;
-      config.data = this.$inquiry;
+      config.data = {
+        $inquiry: this.$inquiry,
+        modelType: modelType
+      };
       config.width = "1000px";
       return config;
     }
     const common = () => {
 
     }
-    const parent = () => {
-      this.dialog.open(EditParentDialogComponent, getDefaultConfig());
+    const person = (modelType: ApplicantType) => {
+      this.dialog.open(EditPersonDialogComponent, getDefaultConfig(modelType));
     }
     const privilege = () => {
       this.dialog.open(DialogEditComponent, getDefaultConfig());
@@ -108,7 +112,7 @@ export class InquiryReadComponent implements OnInit, OnDestroy {
     return {
       common: common,
       privilege: privilege,
-      parent: parent
+      person: person
     }
   })();
 }

@@ -18,13 +18,13 @@ import { RelationTypeComponent } from "./shared/components/relation-type/relatio
 import { RfCitizensAddressesComponent } from "./shared/components/rf-citizens-addresses/rf-citizens-addresses.component";
 import { SnilsComponent } from "./shared/components/snils/snils.component";
 import { InquiryTypeFriendlyNamePipe } from './shared/inquiry-type.pipe';
-import { EditParentComponent } from "./modules/inquiry/shared/components/edit-parent/edit-parent.component";
+import { EditPersonComponent } from "./modules/inquiry/shared/components/edit-person/edit-person.component";
 
 @NgModule({
     declarations: [
         PrivilegeEditComponent, ConfirmationDocumentComponent, ApplicantTypePipe, InquiryTypeFriendlyNamePipe, FullNameComponent, GenderComponent,
         SnilsComponent, IdentityCardComponent, CitizenshipSelectComponent, RfCitizensAddressesComponent, AddressComponent, ForeignCitizensAddressesComponent,
-        BirthInfoComponent, RelationTypeComponent, EditParentComponent
+        BirthInfoComponent, RelationTypeComponent, EditPersonComponent
     ],
     imports: [
         CommonModule,
@@ -37,7 +37,7 @@ import { EditParentComponent } from "./modules/inquiry/shared/components/edit-pa
     exports: [
         PrivilegeEditComponent, ConfirmationDocumentComponent, ApplicantTypePipe, InquiryTypeFriendlyNamePipe, FullNameComponent, GenderComponent,
         SnilsComponent, IdentityCardComponent, CitizenshipSelectComponent, RfCitizensAddressesComponent, AddressComponent, ForeignCitizensAddressesComponent,
-        BirthInfoComponent, RelationTypeComponent, EditParentComponent
+        BirthInfoComponent, RelationTypeComponent, EditPersonComponent
     ],
     providers: [
     ]

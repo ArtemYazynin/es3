@@ -13,12 +13,12 @@ import { SnilsComponent } from '../../../../../shared/components/snils/snils.com
 import { WizardStorageService } from '../../../../wizard/shared';
 
 @Component({
-  selector: 'app-edit-parent',
-  templateUrl: './edit-parent.component.html',
-  styleUrls: ['./edit-parent.component.css'],
+  selector: 'app-edit-person',
+  templateUrl: './edit-person.component.html',
+  styleUrls: ['./edit-person.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class EditParentComponent implements OnInit, AfterViewInit, OnDestroy {
+export class EditPersonComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild(BirthInfoComponent) birthInfoComponent: BirthInfoComponent;
   @ViewChild(SnilsComponent) snilsComponent: SnilsComponent;
   @ViewChild(IdentityCardComponent) identityCardComponent: IdentityCardComponent;

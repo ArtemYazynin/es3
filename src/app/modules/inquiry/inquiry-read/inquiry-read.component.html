@@ -35,7 +35,7 @@
       </app-inquiry-info-edit>
     </div>
     <div class="col-md-6">
-      <app-inquiry-info-edit title="Законный представитель" (edit)="edit.parent()">
+      <app-inquiry-info-edit title="Законный представитель" (edit)="edit.person(applicantTypes.Parent)">
         <div class="row">
           <div class="col-md-6">
             <dl class="dl-horizontal">
@@ -62,6 +62,33 @@
         </div>
       </app-inquiry-info-edit>
     </div>
+  </div>
+  <div class="col-md-12" *ngIf="inquiry.applicant">
+    <app-inquiry-info-edit title="Доверенное лицо законного представителя ребенка" (edit)="edit.person(applicantTypes.Applicant)">
+      <div class="row">
+        <div class="col-md-6">
+          <dl class="dl-horizontal">
+            <dt>ФИО</dt>
+            <dd>{{drawManager.fio(inquiry.applicant)}}</dd>
+            <dt>Документ</dt>
+            <dd>{{drawManager.identityCard(inquiry.applicant.identityCard)}}</dd>
+            <dt>СНИЛС</dt>
+            <dd>{{inquiry.applicant.snils || "-"}}</dd>
+            <dt>Гражданство</dt>
+            <dd>{{drawManager.citizenships(inquiry.applicant.citizenships, countries)}}</dd>
+            <div *ngIf="inquiry.applicant.countryStateApplicantDocument">
+              <dt>Документ, подтверждающий право пребывания доверенного лица законного представителя на территории РФ</dt>
+              <dd>{{getDocumentView(inquiry.applicant.countryStateApplicantDocument)}}</dd>
+            </div>
+            <div>
+              <dt>Документ, подтверждающий полномочие доверенного лица представлять интересы законного представителя
+                ребенка</dt>
+              <dd>{{getDocumentView(inquiry.applicant.applicantRepresentParentDocument)}}</dd>
+            </div>
+          </dl>
+        </div>
+      </div>
+    </app-inquiry-info-edit>
   </div>
   <div class="col-md-12">
     <div class="widget-box">
@@ -291,29 +318,6 @@
             </dl>
           </div>
         </app-inquiry-info-edit>
-        <!-- <div class="widget-box" *ngIf="inquiry.privilege?.privilegeProofDocument">
-          <div class="widget-title">
-            <h5>Документ, подтверждающий наличие льготной категории</h5>
-          </div>
-          <div class="widget-content">
-            <div class="row">
-              <dl class="dl-horizontal">
-                <dt>Название документа </dt>
-                <dd>{{inquiry.privilege.privilegeProofDocument.name}}</dd>
-                <dt>Серия документа </dt>
-                <dd>{{inquiry.privilege.privilegeProofDocument.series || "-"}}</dd>
-                <dt>Номер документа </dt>
-                <dd>{{inquiry.privilege.privilegeProofDocument.number}}</dd>
-                <dt>Дата выдачи </dt>
-                <dd>{{inquiry.privilege.privilegeProofDocument.dateIssue | date: 'dd.MM.yyyy'}}</dd>
-                <div class="form-group" *ngIf="inquiry.privilege.privilegeProofDocument.dateExpired">
-                  <dt>Действительно до </dt>
-                  <dd>{{inquiry.privilege.privilegeProofDocument.dateExpired | date: 'dd.MM.yyyy'}}</dd>
-                </div>
-              </dl>
-            </div>
-          </div>
-        </div> -->
       </app-inquiry-info-edit>
     </div>
     <div class="col-md-4">

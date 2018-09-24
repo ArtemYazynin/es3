@@ -4,13 +4,22 @@ import { Entity } from './models/entity';
 import { ConfirmationDocument } from './models/confirmation-document';
 import { AttachmentType } from './models/attachment-type.enum';
 import { IdentityCardType } from './models/identityCardType';
+import { ApplicantType } from './applicant-type.enum';
+import { EditPersonComponent } from '../modules/inquiry/shared/components/edit-person/edit-person.component';
+import { Applicant } from './models/applicant';
+import { IdentityCard } from './models/identityCard';
+import { Parent } from './models/parent';
+import { PersonWithAddress } from './models/person-with-address';
+import { CitizenshipService } from './citizenship.service';
+import { DublicatesFinder } from './dublicates-finder';
+import { Child } from './models/child';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CommonService {
 
-  constructor() { }
+  constructor(private citizenshipService: CitizenshipService) { }
 
   autoCompliteFilter<T extends Entity<string>>(collection: Array<T>, name: string): Array<T> {
     const filterValue = name.toLowerCase();
@@ -61,5 +70,65 @@ export class CommonService {
       IdentityCardType["Свидетельство о предоставлении временного убежища на территории Российской Федерации"],
       IdentityCardType["Свидетельство о рождении, выданное уполномоченным органом иностранного государства"]
     ];
+  }
+
+  buildParent(editParentComponent: EditPersonComponent, applicantType: ApplicantType): Parent{
+    let birthInfo = (() => {
+      if (!editParentComponent.birthInfoComponent) return {};
+      return {
+        birthDate: editParentComponent.birthInfoComponent.birthInfoForm.controls.birthDate.value,
+        birthPlace: editParentComponent.birthInfoComponent.birthInfoForm.controls.birthPlace.value
+      }
+    })();
+    let result = new Parent(editParentComponent.fullnameComponent.fullnameForm.controls.lastname.value,
+      editParentComponent.fullnameComponent.fullnameForm.controls.firstname.value,
+      editParentComponent.fullnameComponent.fullnameForm.controls.middlename.value,
+      editParentComponent.snilsComponent.snils,
+      editParentComponent.fullnameComponent.fullnameForm.controls.noMiddlename.value,
+      birthInfo.birthDate,
+      birthInfo.birthPlace, 1);
+    result.identityCard = new IdentityCard(editParentComponent.identityCardComponent.identityCardForm);
+    result.citizenships = editParentComponent.citizenshipSelectComponent.citizenships;
+
+    if (this.citizenshipService.hasForeignCitizenship(result.citizenships, editParentComponent.countries)) {
+      result.countryStateDocument = this.getDocumentByType(editParentComponent.confirmationDocuments, AttachmentType.CountryStateDocument);
+    }
+
+    result.relationType = editParentComponent.relationTypeComponent.relationType;
+    if (result.relationType.confirmationDocument)
+      result.parentRepresentChildrenDocument = this.getDocumentByType(editParentComponent.confirmationDocuments, AttachmentType.ParentRepresentChildren);
+
+    if (applicantType == ApplicantType.Parent) {
+      Object.assign(result, this.citizenshipService.hasRfCitizenship(result.citizenships, editParentComponent.countries)
+        ? editParentComponent.rfAddressesComponent.getResult()
+        : editParentComponent.foreignAddressesComponent.getResult());
+    }
+    return result;
+  }
+
+  buildApplicant(editParentComponent: EditPersonComponent, applicantType: ApplicantType):Applicant {
+    let result = new Applicant(editParentComponent.fullnameComponent.fullnameForm.controls.lastname.value,
+      editParentComponent.fullnameComponent.fullnameForm.controls.firstname.value,
+      editParentComponent.fullnameComponent.fullnameForm.controls.middlename.value,
+      editParentComponent.snilsComponent.snils,
+      editParentComponent.fullnameComponent.fullnameForm.controls.noMiddlename.value,
+      null, null, null);
+    result.identityCard = new IdentityCard(editParentComponent.identityCardComponent.identityCardForm);
+    result.citizenships = editParentComponent.citizenshipSelectComponent.citizenships;
+
+    if (this.citizenshipService.hasForeignCitizenship(result.citizenships, editParentComponent.countries)) {
+      result.countryStateApplicantDocument = this.getDocumentByType(editParentComponent.confirmationDocuments, AttachmentType.CountryStateApplicantDocument);
+    }
+    result.applicantRepresentParentDocument = this.getDocumentByType(editParentComponent.confirmationDocuments, AttachmentType.ApplicantRepresentParent);
+
+    if (applicantType == ApplicantType.Applicant) {
+      //--addresses
+      Object.assign(result, this.citizenshipService.hasRfCitizenship(result.citizenships, editParentComponent.countries)
+        ? editParentComponent.rfAddressesComponent.getResult()
+        : editParentComponent.foreignAddressesComponent.getResult());
+      //--
+    }
+
+    return result;
   }
 }

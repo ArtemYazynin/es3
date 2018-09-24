@@ -26,6 +26,7 @@ export class DublicatesFinder {
     }
 
     static betweenApplicantParent(applicant: Applicant, parent: Parent): boolean {
+        if (!applicant || !parent) return false;
         const collection = [applicant.identityCard, parent.identityCard];
         if (this.hasDublicates(collection)) {
             alert("Законный представитель и доверенное лицо законного представителя имеют одинаковые персональные данные")

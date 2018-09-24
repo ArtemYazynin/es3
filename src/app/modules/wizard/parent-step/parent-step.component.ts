@@ -1,7 +1,7 @@
 import { ChangeDetectorRef, Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ApplicantType, AttachmentType, CitizenshipService, CommonService, DublicatesFinder, FormService, IdentityCard, Inquiry, inquiryType, Parent } from '../../../shared';
-import { EditParentComponent } from '../../inquiry/shared/components/edit-parent/edit-parent.component';
+import { EditPersonComponent } from '../../inquiry/shared/components/edit-person/edit-person.component';
 import { StepBase, WizardStorageService } from '../shared';
 
 
@@ -13,7 +13,7 @@ import { StepBase, WizardStorageService } from '../shared';
   //changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ParentStepComponent implements OnInit, AfterViewInit, StepBase {
-  @ViewChild(EditParentComponent) editParentComponent: EditParentComponent;
+  @ViewChild(EditPersonComponent) editParentComponent: EditPersonComponent;
 
   inquiry: Inquiry;
   agree: boolean = false;
@@ -86,40 +86,7 @@ export class ParentStepComponent implements OnInit, AfterViewInit, StepBase {
       }
     },
     next: () => {
-      let parent = (() => {
-        let birthInfo = (() => {
-          if (!this.editParentComponent.birthInfoComponent) return {};
-          return {
-            birthDate: this.editParentComponent.birthInfoComponent.birthInfoForm.controls.birthDate.value,
-            birthPlace: this.editParentComponent.birthInfoComponent.birthInfoForm.controls.birthPlace.value
-          }
-        })();
-        let result = new Parent(this.editParentComponent.fullnameComponent.fullnameForm.controls.lastname.value,
-          this.editParentComponent.fullnameComponent.fullnameForm.controls.firstname.value,
-          this.editParentComponent.fullnameComponent.fullnameForm.controls.middlename.value,
-          this.editParentComponent.snilsComponent.snils,
-          this.editParentComponent.fullnameComponent.fullnameForm.controls.noMiddlename.value,
-          birthInfo.birthDate,
-          birthInfo.birthPlace, 1);
-        result.identityCard = new IdentityCard(this.editParentComponent.identityCardComponent.identityCardForm);
-        result.citizenships = this.editParentComponent.citizenshipSelectComponent.citizenships;
-
-        if (this.citizenshipService.hasForeignCitizenship(result.citizenships, this.editParentComponent.countries)) {
-          result.countryStateDocument = this.commonService.getDocumentByType(this.editParentComponent.confirmationDocuments, AttachmentType.CountryStateDocument);
-        }
-
-        result.relationType = this.editParentComponent.relationTypeComponent.relationType;
-        if (result.relationType.confirmationDocument)
-          result.parentRepresentChildrenDocument = this.commonService.getDocumentByType(this.editParentComponent.confirmationDocuments, AttachmentType.ParentRepresentChildren);
-
-        if (this.inquiry.applicantType == ApplicantType.Parent) {
-          Object.assign(result, this.citizenshipService.hasRfCitizenship(result.citizenships, this.editParentComponent.countries)
-            ? this.editParentComponent.rfAddressesComponent.getResult(this.inquiry.parent)
-            : this.editParentComponent.foreignAddressesComponent.getResult(this.inquiry.parent));
-        }
-        return result;
-      })();
-
+      let parent = this.commonService.buildParent(this.editParentComponent, this.inquiry.applicantType);
       if (this.inquiry.applicantType == ApplicantType.Applicant) {
         if (DublicatesFinder.betweenApplicantParent(this.inquiry.applicant, parent)) return;
         if (DublicatesFinder.betweenApplicantChildren(this.inquiry.applicant, this.inquiry.children)) return;

@@ -56,7 +56,7 @@ export class ForeignCitizensAddressesComponent implements OnInit, OnDestroy {
         this.form.patchValue(value);
       });
   }
-  getResult(owner: Parent | Applicant | Child): PersonWithAddress{
+  getResult(): PersonWithAddress{
     let result: any = { residential:undefined };
 
     if (this.form.get("notHasRfRegistration").value) {
@@ -65,7 +65,7 @@ export class ForeignCitizensAddressesComponent implements OnInit, OnDestroy {
     } else {
       result.register = this.addressComponent.address
         ? Address.build(this.addressComponent.address, false)
-        : owner ? owner.register : undefined;
+        : undefined;
       result.tempRegistrationExpiredDate = this.form.controls.tempRegistrationExpiredDate.value;
     }
     return result;

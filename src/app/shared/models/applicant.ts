@@ -3,13 +3,14 @@ import { ConfirmationDocument } from "./confirmation-document";
 import { Person } from "./person";
 import { PersonWithAddress } from "./person-with-address";
 import { IdentityCard } from "./identityCard";
+import { FormGroup } from "@angular/forms";
 
 export class Applicant extends Person implements PersonWithAddress {
     constructor(lastname: string, firstname: string, middlename: string, snils: string, noMiddlename: boolean, birthDate: Date, birthPlace: string, gender: number) {
         super(lastname, firstname, middlename, snils, noMiddlename, birthDate, birthPlace, gender);
 
     }
-    
+
     identityCard: IdentityCard;
     citizenships: Array<number>;
     countryStateApplicantDocument: ConfirmationDocument
@@ -19,7 +20,7 @@ export class Applicant extends Person implements PersonWithAddress {
     tempRegistrationExpiredDate: Date;
     registerAddressLikeAsResidentialAddress: boolean;
 
-    static get systemName(){
+    static get systemName() {
         return "applicant";
     }
 }

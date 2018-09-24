@@ -35,18 +35,14 @@ export class RfCitizensAddressesComponent implements OnInit, OnDestroy {
     if (this.subscription) this.subscription.unsubscribe();
   }
 
-  getResult(owner: Parent | Applicant | Child): PersonWithAddress {
+  getResult(): PersonWithAddress {
     let result: any = {};
 
     const registerAddress = this.addressesComponents.find(x => x.type == addressTypes.register).address;
-    result.register = registerAddress
-      ? registerAddress
-      : owner ? owner.register : undefined;
+    result.register = registerAddress;
 
     const residentialAddress = this.addressesComponents.find(x => x.type == addressTypes.residential).address;
-    result.residential = residentialAddress
-      ? residentialAddress
-      : owner ? owner.residential : undefined;
+    result.residential = residentialAddress;
 
     result.tempRegistrationExpiredDate = this.tempRegistrationExpiredDate;
     result.registerAddressLikeAsResidentialAddress = this.registerAddressLikeAsResidentialAddress;

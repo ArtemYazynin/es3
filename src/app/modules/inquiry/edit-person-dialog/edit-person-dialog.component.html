@@ -1,0 +1,18 @@
+<div *ngIf="data.$inquiry | async as inquiry">
+  <ng-container *ngIf="data.modelType == applicantTypes.Parent">
+    <h1 mat-dialog-title>Законный представитель</h1>
+    <div mat-dialog-content>
+      <app-edit-person [model]="inquiry.parent" [modelType]="data.modelType" [applicantType]="inquiry.applicantType"></app-edit-person>
+    </div>
+  </ng-container>
+  <ng-container *ngIf="data.modelType == applicantTypes.Applicant">
+    <h1 mat-dialog-title>Доверенное лицо законного представителя ребенка</h1>
+    <div mat-dialog-content>
+      <app-edit-person [model]="inquiry.applicant" [modelType]="data.modelType" [applicantType]="inquiry.applicantType"></app-edit-person>
+    </div>
+  </ng-container>
+  <mat-dialog-actions>
+    <button class="btn btn-inverse" [mat-dialog-close]="inquiry">Закрыть</button>
+    <button class="btn btn-primary" (click)="save()" [disabled]="!isValid()">Сохранить</button>
+  </mat-dialog-actions>
+</div>
