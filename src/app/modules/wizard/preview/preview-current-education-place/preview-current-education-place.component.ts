@@ -1,8 +1,8 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { Entity, Group, GroupService, InstitutionService, SpecHealth } from '../../../../shared';
 import { CurrentEducationPlace } from '../../shared';
-import { Group, Entity, SpecHealth, InstitutionService, GroupService } from '../../../../shared';
 
 @Component({
   selector: 'app-preview-current-education-place',
@@ -22,7 +22,7 @@ export class PreviewCurrentEducationPlaceComponent implements OnInit {
     this.$institutionType = this.institutionService.getTypes(this.currentEducationPlace.institutionType)
       .pipe(map(types => types[0]));
     this.$group = this.groupService.getGroup(this.currentEducationPlace.institution, this.currentEducationPlace.group)
-      .pipe(map(groups => groups[0]));
+      .pipe(map(groups => groups.length > 1 ? null : groups[0]));
   }
 
 }

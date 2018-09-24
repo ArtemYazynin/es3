@@ -6,7 +6,7 @@ export class CurrentEducationPlace {
     other:string;
     isOther:boolean;
 
-    constructor(municipality:string,institutionType:number,institution:string,group:string,isOther:boolean,other:string){
+    constructor(municipality:string,institutionType:number,institution:string,isOther:boolean,other:string, group?:string){
         this.municipality = municipality;
         this.institutionType = institutionType;
         this.institution = institution;
