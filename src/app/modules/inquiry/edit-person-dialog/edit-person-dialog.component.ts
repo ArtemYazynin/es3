@@ -27,7 +27,18 @@ export class EditPersonDialogComponent implements OnInit, OnDestroy {
     // const inquiry = this.prepare();
     // this.$inquiry.next(inquiry);
     // this.storageService.set(inquiry["_type"], { privilege: inquiry.privilege })
-    // this.dialogRef.close();
+
+    switch (this.data.modelType) {
+      case ApplicantType.Parent:
+
+        break;
+      case ApplicantType.Applicant:
+        
+        break;
+      default:
+        break;
+    }
+    this.dialogRef.close();
   }
 
   isValid = (): boolean => {

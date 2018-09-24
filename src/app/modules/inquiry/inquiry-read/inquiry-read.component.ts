@@ -6,7 +6,7 @@ import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { map, takeUntil } from 'rxjs/operators';
 import { CitizenshipService, ConfirmationDocument, Country, DrawService, Entity, Group, GroupService, Inquiry, InquiryService, InstitutionService, PrivilegeOrder, PrivilegeOrderService, Specificity, SpecificityService, Status, StatusService, ApplicantType } from '../../../shared/index';
 import { EditPersonDialogComponent } from '../edit-person-dialog/edit-person-dialog.component';
-import { DialogEditComponent } from '../shared/components/dialog-edit/dialog-edit.component';
+import { EditPrivilegeDialogComponent } from '../shared/components/edit-privilege-dialog/edit-privilege-dialog.component';
 
 
 @Component({
@@ -103,8 +103,8 @@ export class InquiryReadComponent implements OnInit, OnDestroy {
       this.dialog.open(EditPersonDialogComponent, getDefaultConfig(modelType));
     }
     const privilege = () => {
-      this.dialog.open(DialogEditComponent, getDefaultConfig());
-      // const dialogRef = this.dialog.open(DialogEditComponent, config);
+      this.dialog.open(EditPrivilegeDialogComponent, getDefaultConfig());
+      // const dialogRef = this.dialog.open(EditPrivilegeDialogComponent, config);
       // dialogRef.afterClosed().subscribe((result:Inquiry) => {
       //   console.log('The dialog was closed');
       // });

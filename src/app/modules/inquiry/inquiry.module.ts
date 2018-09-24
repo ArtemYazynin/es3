@@ -15,7 +15,7 @@ import { RegisterCompleteResolver } from '../../shared/register-complete-resolve
 import { StatusService } from '../../shared/status.service';
 import { EditPersonDialogComponent } from './edit-person-dialog/edit-person-dialog.component';
 import { InquiryReadComponent } from './inquiry-read/inquiry-read.component';
-import { DialogEditComponent } from './shared/components/dialog-edit/dialog-edit.component';
+import { EditPrivilegeDialogComponent } from './shared/components/edit-privilege-dialog/edit-privilege-dialog.component';
 import { InquiryCommonInfoComponent } from './shared/components/inquiry-common-info/inquiry-common-info.component';
 import { InquiryInfoEditComponent } from './shared/components/inquiry-info-edit/inquiry-info-edit.component';
 
@@ -44,8 +44,8 @@ import { InquiryInfoEditComponent } from './shared/components/inquiry-info-edit/
     ]),
 
   ],
-  declarations: [InquiryReadComponent, InquiryCommonInfoComponent, RegisterSourcePipe, DialogEditComponent, InquiryInfoEditComponent, EditPersonDialogComponent],
+  declarations: [InquiryReadComponent, InquiryCommonInfoComponent, RegisterSourcePipe, EditPrivilegeDialogComponent, InquiryInfoEditComponent, EditPersonDialogComponent],
   providers: [StatusService],
-  entryComponents: [DialogEditComponent, EditPersonDialogComponent,]
+  entryComponents: [EditPrivilegeDialogComponent, EditPersonDialogComponent,]
 })
 export class InquiryModule { }

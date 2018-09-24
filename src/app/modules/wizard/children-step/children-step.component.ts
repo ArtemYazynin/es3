@@ -174,10 +174,9 @@ export class ChildrenStepComponent implements OnInit, AfterViewInit, StepBase {
         identityCard, x.instance.disabledChild);
 
       (() => {
-        const randomChild = this.inquiry.children ? this.inquiry.children[i] : undefined;
         Object.assign(child, this.citizenshipService.hasRfCitizenship(child.citizenships, this.citizenshipSelectComponent.countries)
-          ? this.rfAddressesComponent.getResult(randomChild)
-          : this.foreignAddressesComponent.getResult(randomChild));
+          ? this.rfAddressesComponent.getResult()
+          : this.foreignAddressesComponent.getResult());
       })();
       result.push(child);
 

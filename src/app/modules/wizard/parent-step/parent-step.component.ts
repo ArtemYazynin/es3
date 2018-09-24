@@ -13,7 +13,7 @@ import { StepBase, WizardStorageService } from '../shared';
   //changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ParentStepComponent implements OnInit, AfterViewInit, StepBase {
-  @ViewChild(EditPersonComponent) editParentComponent: EditPersonComponent;
+  @ViewChild(EditPersonComponent) editPersonComponent: EditPersonComponent;
 
   inquiry: Inquiry;
   agree: boolean = false;
@@ -37,34 +37,34 @@ export class ParentStepComponent implements OnInit, AfterViewInit, StepBase {
 
   isValid(): boolean {
     let isValid = {
-      identityCardForm: this.editParentComponent.identityCardComponent
-        && this.editParentComponent.identityCardComponent.identityCardForm
-        && this.editParentComponent.identityCardComponent.identityCardForm.valid
+      identityCardForm: this.editPersonComponent.identityCardComponent
+        && this.editPersonComponent.identityCardComponent.identityCardForm
+        && this.editPersonComponent.identityCardComponent.identityCardForm.valid
         || false,
-      fullnameForm: this.editParentComponent.fullnameComponent && this.editParentComponent.fullnameComponent.fullnameForm && this.editParentComponent.fullnameComponent.fullnameForm.valid || false,
+      fullnameForm: this.editPersonComponent.fullnameComponent && this.editPersonComponent.fullnameComponent.fullnameForm && this.editPersonComponent.fullnameComponent.fullnameForm.valid || false,
       birthInfoForm: (() => {
         if (this.inquiry.applicantType !== ApplicantType.Child)
           return true;
-        return this.editParentComponent.birthInfoComponent && this.editParentComponent.birthInfoComponent.birthInfoForm && this.editParentComponent.birthInfoComponent.birthInfoForm.valid || false;
+        return this.editPersonComponent.birthInfoComponent && this.editPersonComponent.birthInfoComponent.birthInfoForm && this.editPersonComponent.birthInfoComponent.birthInfoForm.valid || false;
       })(),
       countryStateForm: (() => {
-        if (!this.editParentComponent.citizenshipSelectComponent || this.editParentComponent.citizenshipSelectComponent.citizenships.length == 0) return false;
-        let hasForeignCitizenship = this.citizenshipService.hasForeignCitizenship(this.editParentComponent.citizenshipSelectComponent.citizenships, this.editParentComponent.countries);
+        if (!this.editPersonComponent.citizenshipSelectComponent || this.editPersonComponent.citizenshipSelectComponent.citizenships.length == 0) return false;
+        let hasForeignCitizenship = this.citizenshipService.hasForeignCitizenship(this.editPersonComponent.citizenshipSelectComponent.citizenships, this.editPersonComponent.countries);
         if (!hasForeignCitizenship) return true;
 
         return (() => {
-          if (!this.editParentComponent.confirmationDocuments) return false;
-          let component = this.editParentComponent.confirmationDocuments.find(x => x.type == AttachmentType.CountryStateDocument);
+          if (!this.editPersonComponent.confirmationDocuments) return false;
+          let component = this.editPersonComponent.confirmationDocuments.find(x => x.type == AttachmentType.CountryStateDocument);
           return component && component.confirmationDocumentForm && component.confirmationDocumentForm.valid;
         })();
       })(),
       relationType: (() => {
-        if (!this.editParentComponent.relationTypeComponent || !this.editParentComponent.relationTypeComponent.relationType) return false;
-        if (!this.editParentComponent.relationTypeComponent.relationType.confirmationDocument) return true;
+        if (!this.editPersonComponent.relationTypeComponent || !this.editPersonComponent.relationTypeComponent.relationType) return false;
+        if (!this.editPersonComponent.relationTypeComponent.relationType.confirmationDocument) return true;
 
         return (() => {
-          if (!this.editParentComponent.confirmationDocuments) return false;
-          let component = this.editParentComponent.confirmationDocuments.find(x => x.type == AttachmentType.ParentRepresentChildren);
+          if (!this.editPersonComponent.confirmationDocuments) return false;
+          let component = this.editPersonComponent.confirmationDocuments.find(x => x.type == AttachmentType.ParentRepresentChildren);
           return component && component.confirmationDocumentForm && component.confirmationDocumentForm.valid;
         })()
       })()
@@ -86,7 +86,7 @@ export class ParentStepComponent implements OnInit, AfterViewInit, StepBase {
       }
     },
     next: () => {
-      let parent = this.commonService.buildParent(this.editParentComponent, this.inquiry.applicantType);
+      let parent = this.commonService.buildParent(this.editPersonComponent, this.inquiry.applicantType);
       if (this.inquiry.applicantType == ApplicantType.Applicant) {
         if (DublicatesFinder.betweenApplicantParent(this.inquiry.applicant, parent)) return;
         if (DublicatesFinder.betweenApplicantChildren(this.inquiry.applicant, this.inquiry.children)) return;

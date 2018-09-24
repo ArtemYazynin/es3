@@ -6,14 +6,14 @@ import { WizardStorageService } from '../../../../wizard/shared';
 import { BehaviorSubject } from 'rxjs';
 
 @Component({
-  selector: 'app-dialog-edit',
-  templateUrl: './dialog-edit.component.html',
-  styleUrls: ['./dialog-edit.component.css'],
+  selector: 'app-edit-privilege-dialog',
+  templateUrl: './edit-privilege-dialog.component.html',
+  styleUrls: ['./edit-privilege-dialog.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class DialogEditComponent implements OnInit {
+export class EditPrivilegeDialogComponent implements OnInit {
   @ViewChild(PrivilegeEditComponent) privilegeEditComponent: PrivilegeEditComponent;
-  constructor(public dialogRef: MatDialogRef<DialogEditComponent>,
+  constructor(public dialogRef: MatDialogRef<EditPrivilegeDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: { $inquiry: BehaviorSubject<Inquiry> },
     private commonService: CommonService, private storageService: WizardStorageService) { }
 
