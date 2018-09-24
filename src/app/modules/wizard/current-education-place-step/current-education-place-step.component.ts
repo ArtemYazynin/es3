@@ -5,8 +5,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Observable } from 'rxjs/internal/Observable';
 import { startWith } from 'rxjs/internal/operators/startWith';
 import { map } from 'rxjs/operators';
-import { StepBase, CurrentEducationPlaceStepService, WizardStorageService, CurrentEducationPlace } from '../shared';
-import { Area, Institution, Entity, Group, AreaService, InstitutionService, FormService, GroupService, CommonService, AreaType, inquiryType } from '../../../shared';
+import { Area, AreaService, AreaType, CommonService, Entity, FormService, Group, GroupService, inquiryType, Institution, InstitutionService } from '../../../shared';
+import { CurrentEducationPlace, CurrentEducationPlaceStepService, StepBase, WizardStorageService } from '../shared';
 
 @Component({
   selector: 'app-curren-education-place-step',
@@ -92,7 +92,6 @@ export class CurrentEducationPlaceStepComponent implements OnInit, StepBase {
       institution: (change: MatAutocompleteSelectedEvent) => {
         reset.groups();
         this.init.groups((<Institution>change.option.value).id)
-
       },
       group: () => { },
       isOther: (change: MatCheckboxChange) => {
@@ -116,6 +115,7 @@ export class CurrentEducationPlaceStepComponent implements OnInit, StepBase {
     const groups = (institutionId: string) => {
       this.groupService.getGroup(institutionId).subscribe(groups => {
         this.groups = groups;
+        this.checkGroups();
       });
     }
     const institutions = (institutionType?: number) => {
@@ -204,6 +204,7 @@ export class CurrentEducationPlaceStepComponent implements OnInit, StepBase {
           } else {
             institutions(inquiry.currentEducationPlace.institutionType);
             groups(inquiry.currentEducationPlace.institution["id"]);
+            this.checkGroups();
             return {
               municipality: inquiry.currentEducationPlace.municipality,
               institutionType: inquiry.currentEducationPlace.institutionType,
@@ -218,6 +219,20 @@ export class CurrentEducationPlaceStepComponent implements OnInit, StepBase {
     }
   })();
 
+
+  private checkGroups() {
+    if (!this.groups || this.groups.length == 0) {
+      this.currentPlaceForm.controls.group.clearValidators();
+      this.currentPlaceForm.controls.group.updateValueAndValidity();
+    }
+
+    else if (this.currentPlaceForm.controls.group.validator == null || this.currentPlaceForm.controls.group.validator.length == 0) {
+      this.currentPlaceForm.controls.group.setValidators([Validators.required]);
+      this.currentPlaceForm.controls.group.updateValueAndValidity();
+    }
+
+  }
+
   onSubmit() {
 
   }
@@ -231,7 +246,7 @@ export class CurrentEducationPlaceStepComponent implements OnInit, StepBase {
       next: () => {
         const place = new CurrentEducationPlace(this.currentPlaceForm.value["municipality"],
           this.currentPlaceForm.value["institutionType"], this.currentPlaceForm.value["institution"],
-          this.currentPlaceForm.value["group"], this.currentPlaceForm.value["isOther"], this.currentPlaceForm.value["other"]);
+          this.currentPlaceForm.value["isOther"], this.currentPlaceForm.value["other"], this.currentPlaceForm.value["group"]);
         this.storageService.set(this.inquiryType, { currentEducationPlace: place });
         this.router.navigate(["../applicantTypeStep"], { relativeTo: this.route });
       }

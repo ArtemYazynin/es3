@@ -277,7 +277,7 @@
                   <dt>Образовательная организация </dt>
                   <dd>{{inquiry.currentEducationPlace.institution.name}}</dd>
                   <dt>Група/класс </dt>
-                  <dd>{{($group | async)?.name}}</dd>
+                  <dd>{{($group | async)?.name || "-"}}</dd>
                 </dl>
               </div>
             </div>

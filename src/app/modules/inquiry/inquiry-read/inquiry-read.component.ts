@@ -5,8 +5,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { map, takeUntil } from 'rxjs/operators';
 import { CitizenshipService, ConfirmationDocument, Country, DrawService, Entity, Group, GroupService, Inquiry, InquiryService, InstitutionService, PrivilegeOrder, PrivilegeOrderService, Specificity, SpecificityService, Status, StatusService, ApplicantType } from '../../../shared/index';
-import { DialogEditComponent } from '../shared/components/dialog-edit/dialog-edit.component';
 import { EditPersonDialogComponent } from '../edit-person-dialog/edit-person-dialog.component';
+import { DialogEditComponent } from '../shared/components/dialog-edit/dialog-edit.component';
 
 
 @Component({
@@ -61,7 +61,7 @@ export class InquiryReadComponent implements OnInit, OnDestroy {
       this.$institutionType = this.institutionService.getTypes(inquiry.currentEducationPlace.institutionType)
         .pipe(map(types => types[0]));
       this.$group = this.groupService.getGroup(inquiry.currentEducationPlace.institution, inquiry.currentEducationPlace.group)
-        .pipe(map(groups => groups[0]));
+        .pipe(map(groups => groups.length > 1 ? null : groups[0]));
     })();
 
     this.buildForm();

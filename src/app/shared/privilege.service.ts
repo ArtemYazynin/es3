@@ -12,7 +12,7 @@ export class PrivilegeService {
 
   constructor(private http: HttpInterceptor) { }
 
-  get(privilegeOrderId: string): Observable<Array<Privilege>> {
+  get(privilegeOrderId?: string): Observable<Array<Privilege>> {
     let url = (() => {
       let base = "app/privileges";
 
