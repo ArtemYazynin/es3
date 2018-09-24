@@ -1,4 +1,4 @@
-import { AfterViewInit, ChangeDetectorRef, Component, DoCheck, Input, OnInit, ViewChild, ChangeDetectionStrategy } from '@angular/core';
+import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Observable, Subject } from 'rxjs';
 import { distinctUntilChanged, map, startWith, takeUntil } from 'rxjs/operators';
@@ -45,10 +45,9 @@ export class PrivilegeEditComponent implements OnInit, AfterViewInit {
     this.subscribeOnPrivilegeOrder();
     this.privilegeOrders = this.privilegeOrderService.get();
 
-    if (!this.inquiry.privilege) return;
-    if (Object.keys(this.inquiry.privilege).length == 0) {
+    if (!this.inquiry.privilege) {
       this.privilegeForm.patchValue({ withoutPrivilege: true });
-    } else if (this.inquiry.privilege) {
+    } else {
       this.privilegeForm.patchValue({
         privilegeOrder: this.inquiry.privilege.privilegeOrder,
         privilege: this.inquiry.privilege
@@ -76,7 +75,7 @@ export class PrivilegeEditComponent implements OnInit, AfterViewInit {
       && !!this.confirmationProofDocumentComponent.confirmationDocumentForm.valid;
     return isValid;
   }
-  
+
   private buildForm() {
     this.privilegeForm = this.fb.group({
       "withoutPrivilege": [

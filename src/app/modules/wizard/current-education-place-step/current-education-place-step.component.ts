@@ -115,7 +115,7 @@ export class CurrentEducationPlaceStepComponent implements OnInit, StepBase {
     const groups = (institutionId: string) => {
       this.groupService.getGroup(institutionId).subscribe(groups => {
         this.groups = groups;
-        this.checkingGroups();
+        this.checkGroups();
       });
     }
     const institutions = (institutionType?: number) => {
@@ -204,7 +204,7 @@ export class CurrentEducationPlaceStepComponent implements OnInit, StepBase {
           } else {
             institutions(inquiry.currentEducationPlace.institutionType);
             groups(inquiry.currentEducationPlace.institution["id"]);
-            this.checkingGroups();
+            this.checkGroups();
             return {
               municipality: inquiry.currentEducationPlace.municipality,
               institutionType: inquiry.currentEducationPlace.institutionType,
@@ -220,7 +220,7 @@ export class CurrentEducationPlaceStepComponent implements OnInit, StepBase {
   })();
 
 
-  checkingGroups() {
+  private checkGroups() {
     if (!this.groups || this.groups.length == 0) {
       this.currentPlaceForm.controls.group.clearValidators();
       this.currentPlaceForm.controls.group.updateValueAndValidity();

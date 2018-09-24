@@ -263,7 +263,7 @@
     <div class="col-md-4">
       <app-inquiry-info-edit title="Льготная категория" (edit)="edit.privilege()">
         <div class="row">
-          <dl class="dl-horizontal" *ngIf="inquiry.privilege && inquiry.privilege.privilegeOrder">
+          <dl class="dl-horizontal" *ngIf="inquiry.privilege">
             <dt>Приоритет льготной категории </dt>
             <dd>{{inquiry.privilege.privilegeOrder.name}}</dd>
             <dt>Льготная категория </dt>
