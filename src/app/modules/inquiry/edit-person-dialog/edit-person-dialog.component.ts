@@ -1,7 +1,7 @@
-import { ChangeDetectionStrategy, Component, Inject, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Inject, OnDestroy, OnInit, ViewChild, AfterViewInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { BehaviorSubject } from 'rxjs';
-import { Inquiry, ApplicantType } from '../../../shared';
+import { Inquiry, ApplicantType, CommonService } from '../../../shared';
 import { EditPersonComponent } from '../shared/components/edit-person/edit-person.component';
 
 @Component({
@@ -11,11 +11,11 @@ import { EditPersonComponent } from '../shared/components/edit-person/edit-perso
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class EditPersonDialogComponent implements OnInit, OnDestroy {
-  @ViewChild(EditPersonComponent) editPerson: EditPersonComponent;
+  @ViewChild(EditPersonComponent) editPersonComponent: EditPersonComponent;
   applicantTypes = ApplicantType;
   constructor(public dialogRef: MatDialogRef<EditPersonDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: { $inquiry: BehaviorSubject<Inquiry>, modelType: ApplicantType },
-  ) { }
+    private commonService:CommonService) { }
 
   ngOnInit() {
   }
@@ -30,7 +30,7 @@ export class EditPersonDialogComponent implements OnInit, OnDestroy {
 
     switch (this.data.modelType) {
       case ApplicantType.Parent:
-
+      //let parent = this.commonService.buildParent(this.editPersonComponent, this.inquiry.applicantType);
         break;
       case ApplicantType.Applicant:
         
@@ -42,7 +42,9 @@ export class EditPersonDialogComponent implements OnInit, OnDestroy {
   }
 
   isValid = (): boolean => {
-    return true;
-    //return !!this.privilegeEditComponent && this.privilegeEditComponent.isValid();
+    if(!this.editPersonComponent) return false;
+    let result = this.editPersonComponent.isValid()
+    console.log(`result: ${result}`)
+    return result;
   }
 }
