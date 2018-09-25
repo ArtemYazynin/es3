@@ -105,8 +105,9 @@ export class EditPersonComponent implements OnInit, AfterViewInit, OnDestroy {
     };
     const addresses = () => {
       const hasCitizenships = this.citizenshipSelectComponent && this.citizenshipSelectComponent.citizenships.length > 0;
-      const permissibleModel = this.applicantType == ApplicantType.Applicant && this.modelType == ApplicantType.Applicant;
-      return permissibleModel && hasCitizenships;
+      return hasCitizenships 
+        && ((this.applicantType == ApplicantType.Parent && this.modelType == ApplicantType.Parent)
+            || (this.applicantType == ApplicantType.Applicant && this.modelType == ApplicantType.Applicant));
     }
     return {
       addresses: addresses,
