@@ -1,6 +1,6 @@
 import { ChangeDetectorRef, Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ApplicantType, AttachmentType, CitizenshipService, CommonService, DublicatesFinder, FormService, IdentityCard, Inquiry, inquiryType, Parent } from '../../../shared';
+import { ApplicantType, AttachmentType, CitizenshipService, CommonService, DublicatesFinder, FormService, IdentityCard, Inquiry, inquiryType, Parent, InquiryService } from '../../../shared';
 import { EditPersonComponent } from '../../inquiry/shared/components/edit-person/edit-person.component';
 import { StepBase, WizardStorageService } from '../shared';
 
@@ -22,7 +22,7 @@ export class ParentStepComponent implements OnInit, AfterViewInit, StepBase {
   inquiryTypes = inquiryType;
   applicantTypes = ApplicantType;
 
-  constructor(private storageService: WizardStorageService, private commonService: CommonService, private formService: FormService,
+  constructor(private storageService: WizardStorageService, private commonService: CommonService, private formService: FormService, private inquiryService: InquiryService,
     private citizenshipService: CitizenshipService, private cdr: ChangeDetectorRef,
     private router: Router, private route: ActivatedRoute) { }
 
@@ -48,15 +48,9 @@ export class ParentStepComponent implements OnInit, AfterViewInit, StepBase {
       }
     },
     next: () => {
-      let parent = this.commonService.buildParent(this.editPersonComponent, this.inquiry.applicantType);
-      if (this.inquiry.applicantType == ApplicantType.Applicant) {
-        if (DublicatesFinder.betweenApplicantParent(this.inquiry.applicant, parent)) return;
-        if (DublicatesFinder.betweenApplicantChildren(this.inquiry.applicant, this.inquiry.children)) return;
-        if (DublicatesFinder.betweenParentChildren(parent, this.inquiry.children)) return;
-      } else if (this.inquiry.applicantType == ApplicantType.Parent) {
-        if (DublicatesFinder.betweenParentChildren(parent, this.inquiry.children)) return;
-      }
-      this.storageService.set(this.inquiryType, { parent: parent });
+      this.inquiryService.saveParent(this.inquiry, this.editPersonComponent, (patch) => {
+        this.storageService.set(this.inquiryType, patch);
+      })
       this.router.navigate(["../contactInfoStep"], { relativeTo: this.route });
     }
   }

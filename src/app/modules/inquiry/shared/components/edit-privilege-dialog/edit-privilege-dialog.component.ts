@@ -1,9 +1,9 @@
 import { ChangeDetectionStrategy, Component, Inject, OnInit, ViewChild } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
-import { Inquiry, Privilege, CommonService, AttachmentType } from '../../../../../shared';
+import { BehaviorSubject } from 'rxjs';
+import { AttachmentType, CommonService, Inquiry, Privilege } from '../../../../../shared';
 import { PrivilegeEditComponent } from '../../../../../shared/components/privilege-edit/privilege-edit.component';
 import { WizardStorageService } from '../../../../wizard/shared';
-import { BehaviorSubject } from 'rxjs';
 
 @Component({
   selector: 'app-edit-privilege-dialog',

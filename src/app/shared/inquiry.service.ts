@@ -1,21 +1,48 @@
 import { Injectable } from '@angular/core';
-import { Headers, RequestOptions } from '@angular/http';
-import { Observable, of, BehaviorSubject } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { BehaviorSubject, Observable, of } from 'rxjs';
+import { EditPersonComponent } from '../modules/inquiry/shared/components/edit-person/edit-person.component';
 import { WizardStorageService } from '../modules/wizard/shared';
+import { CommonService } from './common.service';
+import { DublicatesFinder } from './dublicates-finder';
 import { HttpInterceptor } from './http-interceptor';
 import { Guid } from './models/guid';
-import { RegisterSource } from './models/register-source.enum';
-import { PortalIdentity } from './models/portal-identity';
-import { Status } from './models/status';
 import { Inquiry } from './models/inquiry';
+import { PortalIdentity } from './models/portal-identity';
+import { RegisterSource } from './models/register-source.enum';
+import { Status } from './models/status';
+import { ApplicantType } from './applicant-type.enum';
+import { Parent } from './models/parent';
 
 @Injectable({
   providedIn: 'root'
 })
 export class InquiryService {
   private baseUrl = "app/inquiries"
-  constructor(private http: HttpInterceptor, private storageService: WizardStorageService) { }
+  constructor(private http: HttpInterceptor, private storageService: WizardStorageService, private commonService: CommonService) { }
+
+  saveApplicant(inquiry: Inquiry, editPersonComponent: EditPersonComponent, update: (patch: object) => void): void {
+    if(inquiry.applicantType != ApplicantType.Applicant) return;
+    
+    let applicant = this.commonService.buildApplicant(editPersonComponent, inquiry.applicantType);
+    if (DublicatesFinder.betweenApplicantParent(inquiry.applicant, inquiry.parent)) return;
+    if (DublicatesFinder.betweenApplicantChildren(applicant, inquiry.children)) return;
+    if (DublicatesFinder.betweenChildren(inquiry.children)) return;
+    update({ applicant: applicant });
+  }
+
+  saveParent(inquiry: Inquiry, editPersonComponent: EditPersonComponent, update: (patch: object) => void, addCondition: boolean = true): void {
+    let parent: Parent;
+    if (inquiry.applicantType == ApplicantType.Parent && addCondition) {
+      parent = this.commonService.buildParent(editPersonComponent, inquiry.applicantType);
+      if (DublicatesFinder.betweenParentChildren(parent, inquiry.children)) return;
+    } else if (inquiry.applicantType == ApplicantType.Applicant && addCondition) {
+      parent = this.commonService.buildParent(editPersonComponent, inquiry.applicantType);
+      if (DublicatesFinder.betweenApplicantParent(inquiry.applicant, parent)) return;
+      if (DublicatesFinder.betweenApplicantChildren(inquiry.applicant, inquiry.children)) return;
+      if (DublicatesFinder.betweenParentChildren(parent, inquiry.children)) return;
+    }
+    if (!!parent) update({ parent: parent });
+  }
 
   create(inquiry: Inquiry): Observable<Inquiry> {
     // let options = new RequestOptions({ headers: new Headers({ 'Content-Type': 'application/json' }) });

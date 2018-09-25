@@ -1,15 +1,15 @@
 import { AfterViewInit, ChangeDetectionStrategy, Component, Input, OnDestroy, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { BirthInfoComponent } from '../../../../../shared/components/birth-info/birth-info.component';
-import { SnilsComponent } from '../../../../../shared/components/snils/snils.component';
-import { IdentityCardComponent } from '../../../../../shared/components/identity-card/identity-card.component';
-import { FullNameComponent } from '../../../../../shared/components/full-name/full-name.component';
 import { CitizenshipSelectComponent } from '../../../../../shared/components/citizenship-select/citizenship-select.component';
-import { RfCitizensAddressesComponent } from '../../../../../shared/components/rf-citizens-addresses/rf-citizens-addresses.component';
-import { ForeignCitizensAddressesComponent } from '../../../../../shared/components/foreign-citizens-addresses/foreign-citizens-addresses.component';
-import { RelationTypeComponent } from '../../../../../shared/components/relation-type/relation-type.component';
 import { ConfirmationDocumentComponent } from '../../../../../shared/components/confirmation-document/confirmation-document.component';
-import { Parent, Applicant, ApplicantType, AttachmentType, Country, CommonService, CitizenshipService, ConfirmationDocument } from '../../../../../shared/index';
+import { ForeignCitizensAddressesComponent } from '../../../../../shared/components/foreign-citizens-addresses/foreign-citizens-addresses.component';
+import { FullNameComponent } from '../../../../../shared/components/full-name/full-name.component';
+import { IdentityCardComponent } from '../../../../../shared/components/identity-card/identity-card.component';
+import { RelationTypeComponent } from '../../../../../shared/components/relation-type/relation-type.component';
+import { RfCitizensAddressesComponent } from '../../../../../shared/components/rf-citizens-addresses/rf-citizens-addresses.component';
+import { SnilsComponent } from '../../../../../shared/components/snils/snils.component';
+import { Applicant, ApplicantType, AttachmentType, CitizenshipService, CommonService, ConfirmationDocument, Country, Parent } from '../../../../../shared/index';
 import { WizardStorageService } from '../../../../wizard/shared';
 
 @Component({
@@ -105,9 +105,9 @@ export class EditPersonComponent implements OnInit, AfterViewInit, OnDestroy {
     };
     const addresses = () => {
       const hasCitizenships = this.citizenshipSelectComponent && this.citizenshipSelectComponent.citizenships.length > 0;
-      return hasCitizenships 
+      return hasCitizenships
         && ((this.applicantType == ApplicantType.Parent && this.modelType == ApplicantType.Parent)
-            || (this.applicantType == ApplicantType.Applicant && this.modelType == ApplicantType.Applicant));
+          || (this.applicantType == ApplicantType.Applicant && this.modelType == ApplicantType.Applicant));
     }
     return {
       addresses: addresses,
@@ -119,44 +119,58 @@ export class EditPersonComponent implements OnInit, AfterViewInit, OnDestroy {
   })();
 
   isValid(): boolean {
+    const isApplicant = this.applicantType == ApplicantType.Applicant && this.modelType == ApplicantType.Applicant;
     let isValid = {
-      identityCardForm: this.identityCardComponent
-        && this.identityCardComponent.identityCardForm
-        && this.identityCardComponent.identityCardForm.valid
-        || false,
-      fullnameForm: this.fullnameComponent && this.fullnameComponent.fullnameForm && this.fullnameComponent.fullnameForm.valid || false,
-      birthInfoForm: (() => {
-        if (this.applicantType !== ApplicantType.Child)
-          return true;
-        return this.birthInfoComponent && this.birthInfoComponent.birthInfoForm && this.birthInfoComponent.birthInfoForm.valid || false;
-      })(),
-      countryStateForm: (() => {
+      identityCardForm: !!this.identityCardComponent && !!this.identityCardComponent.identityCardForm && this.identityCardComponent.identityCardForm.valid,
+      fullnameForm: !!this.fullnameComponent && !!this.fullnameComponent.fullnameForm && this.fullnameComponent.fullnameForm.valid,
+      birthInfoForm: () => {
+        if (this.applicantType !== ApplicantType.Child) return true;
+        return !!this.birthInfoComponent && !!this.birthInfoComponent.birthInfoForm && this.birthInfoComponent.birthInfoForm.valid;
+      },
+      countryStateDocument: () => {
+        if (this.modelType != ApplicantType.Parent) return true;
         if (!this.citizenshipSelectComponent || this.citizenshipSelectComponent.citizenships.length == 0) return false;
-        let hasForeignCitizenship = this.citizenshipService.hasForeignCitizenship(this.citizenshipSelectComponent.citizenships, this.countries);
-        if (!hasForeignCitizenship) return true;
+        if (!this.citizenshipService.hasForeignCitizenship(this.citizenshipSelectComponent.citizenships, this.countries)) return true;
+        let component = this.confirmationDocuments
+          ? this.confirmationDocuments.find(x => x.type == AttachmentType.CountryStateDocument)
+          : undefined;
+        return !!component && !!component.confirmationDocumentForm && component.confirmationDocumentForm.valid;
+      },
+      relationType: () => {
+        if (this.applicantType != ApplicantType.Parent) return true;
 
-        return (() => {
-          if (!this.confirmationDocuments) return false;
-          let component = this.confirmationDocuments.find(x => x.type == AttachmentType.CountryStateDocument);
-          return component && component.confirmationDocumentForm && component.confirmationDocumentForm.valid;
-        })();
-      })(),
-      relationType: (() => {
         if (!this.relationTypeComponent || !this.relationTypeComponent.relationType) return false;
-        if (!this.relationTypeComponent.relationType.confirmationDocument) return true;
-
-        return (() => {
-          if (!this.confirmationDocuments) return false;
-          let component = this.confirmationDocuments.find(x => x.type == AttachmentType.ParentRepresentChildren);
-          return component && component.confirmationDocumentForm && component.confirmationDocumentForm.valid;
-        })()
-      })()
+        if (this.relationTypeComponent.relationType.confirmationDocument) {
+          let component = !!this.confirmationDocuments
+            ? this.confirmationDocuments.find(x => x.type == AttachmentType.ParentRepresentChildren)
+            : undefined;
+          return !!component && !!component.confirmationDocumentForm && component.confirmationDocumentForm.valid;
+        }
+      },
+      countryStateApplicantDocument: () => {
+        const hasCitizenships = !!this.citizenshipSelectComponent && this.citizenshipSelectComponent.citizenships.length > 0;
+        if (!isApplicant) return true;
+        if (!hasCitizenships) return false;
+        if (!this.citizenshipService.hasForeignCitizenship(this.citizenshipSelectComponent.citizenships, this.countries)) return true;
+        let component = this.confirmationDocuments
+          ? this.confirmationDocuments.find(x => x.type == AttachmentType.CountryStateApplicantDocument)
+          : undefined;
+        return !!component && !!component.confirmationDocumentForm && component.confirmationDocumentForm.valid;
+      },
+      applicantRepresentParentDocument: () => {
+        if (!isApplicant) return true;
+        let component = this.confirmationDocuments.find(x => x.type == AttachmentType.ApplicantRepresentParent);
+        return !!component && !!component.confirmationDocumentForm && component.confirmationDocumentForm.valid
+      }
     }
+
     let result = isValid.fullnameForm
       && isValid.identityCardForm
-      && isValid.birthInfoForm
-      && isValid.countryStateForm
-      && isValid.relationType;
+      && isValid.birthInfoForm()
+      && isValid.countryStateDocument()
+      && isValid.relationType()
+      && isValid.countryStateApplicantDocument()
+      && isValid.applicantRepresentParentDocument();
     return result;
   }
 }
