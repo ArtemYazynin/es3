@@ -26,7 +26,7 @@ export class DistributionParamsComponent implements OnInit {
     let result = [];
     let currentDate = new Date();
     let currentYear = currentDate.getMonth() < 8 ? currentDate.getFullYear() : currentDate.getFullYear() + 1;
-    for (let index = currentYear; index < currentYear + 5; index++) {
+    for (let index = currentYear, length = currentYear + 5; index < length; index++) {
       result.push(index);
     }
     return result;
