@@ -1,6 +1,6 @@
-import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
-import { FormGroup, Validators, FormBuilder } from '@angular/forms';
-import { Specificity, FormService, SpecificityService } from '../..';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormService, Specificity, SpecificityService } from '../..';
 
 @Component({
   selector: 'app-distribution-params',
@@ -24,7 +24,8 @@ export class DistributionParamsComponent implements OnInit {
   }
   wishDates = (() => {
     let result = [];
-    let currentYear = new Date().getFullYear();
+    let currentDate = new Date();
+    let currentYear = currentDate.getMonth() < 8 ? currentDate.getFullYear() : currentDate.getFullYear() + 1;
     for (let index = currentYear; index < currentYear + 5; index++) {
       result.push(index);
     }
