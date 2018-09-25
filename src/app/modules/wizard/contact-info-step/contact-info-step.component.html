@@ -21,6 +21,9 @@
                     {{ formErrors.bySms }}
                   </div>
                 </div>
+                <div class="form-group">
+                  <mat-checkbox formControlName="dontNotify" (change)="onChange.dontNotify($event)">Не оповещать</mat-checkbox>
+                </div>
               </div>
             </div>
           </div>
