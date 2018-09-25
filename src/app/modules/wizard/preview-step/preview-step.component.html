@@ -90,7 +90,12 @@
             <div class="widget-title">
               <h5>Контактная информация</h5>
             </div>
-            <div class="widget-content">
+            <div class="widget-content" *ngIf="inquiry.contactInfo.dontNotify">
+              <div class="form-group">
+                <b>Не оповещать</b>
+              </div>
+            </div>
+            <div class="widget-content" *ngIf="!inquiry.contactInfo.dontNotify">
               <div class="form-group">
                 <b>Email </b> {{inquiry.contactInfo.email}}
               </div>

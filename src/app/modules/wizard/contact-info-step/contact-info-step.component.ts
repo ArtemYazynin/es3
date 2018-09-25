@@ -30,8 +30,15 @@ export class ContactInfoStepComponent implements OnInit, StepBase {
       dontNotify: inquiry.contactInfo.dontNotify,
       email: inquiry.contactInfo.email,
       smsPhone: inquiry.contactInfo.smsPhone,
-      phones: inquiry.contactInfo.phones,
+      phones: inquiry.contactInfo.phones
     });
+    if (this.contactsForm.controls.dontNotify.value == true) {
+      this.contactsForm.controls.email.clearValidators();
+      this.contactsForm.controls.email.disable();
+      this.contactsForm.controls.smsPhone.disable();
+      this.contactsForm.controls.phones.disable();
+      this.contactsForm.updateValueAndValidity();
+    }
   }
 
   isValid() {
