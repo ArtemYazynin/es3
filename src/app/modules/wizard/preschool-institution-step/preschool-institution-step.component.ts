@@ -4,8 +4,9 @@ import { MatAutocompleteSelectedEvent } from '@angular/material';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Observable, Subject } from 'rxjs';
 import { map, startWith, takeUntil } from 'rxjs/operators';
-import { CommonService, Inquiry, inquiryType, InquiryType, Institution, InstitutionService, SettingsService } from '../../../shared';
+import { CommonService, Inquiry, inquiryType, InquiryType, InstitutionService, SettingsService } from '../../../shared';
 import { StepBase, WizardStorageService } from '../shared';
+import { Institution } from './../../../shared/models/institution';
 
 @Component({
   selector: 'app-preschool-institution-step',
@@ -68,6 +69,7 @@ export class PreschoolInstitutionStepComponent implements OnInit, OnDestroy, Ste
     if (!event || !event.option || !event.option.value) return;
     const institution = event.option.value;
     this._add(institution);
+    document.getElementsByTagName("input")[0].blur();
   }
 
   private _add(institution: Institution) {
