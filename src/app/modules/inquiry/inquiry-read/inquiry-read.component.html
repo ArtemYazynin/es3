@@ -229,16 +229,11 @@
       </div>
     </div>
     <div class="col-md-4">
-      <div class="widget-box">
-        <div class="widget-title">
-          <h5>Предпочитаемые организации</h5>
+      <app-inquiry-info-edit title="Предпочитаемые организации" (edit)="edit.institutions()">
+        <div class="form-group" *ngFor="let institution of inquiry.institutions; let i = index">
+          {{i+1}}.{{institution.name}}
         </div>
-        <div class="widget-content">
-          <div class="form-group" *ngFor="let institution of inquiry.institutions; let i = index">
-            {{i+1}}.{{institution.name}}
-          </div>
-        </div>
-      </div>
+      </app-inquiry-info-edit>
     </div>
     <div class="col-md-4">
       <div class="widget-box">

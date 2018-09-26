@@ -25,12 +25,13 @@ import { StayModeComponent } from "./shared/components/stay-mode/stay-mode.compo
 import { AgeGroupComponent } from "./shared/components/age-group/age-group.component";
 import { InquiryInfoEditComponent } from "./modules/inquiry/shared/components/inquiry-info-edit/inquiry-info-edit.component";
 import { AtLeastOneCheckboxShouldBeSelectedComponent } from "./shared/components/at-least-one-checkbox-should-be-selected/at-least-one-checkbox-should-be-selected.component";
+import { EditInstitutionsComponent } from "./modules/inquiry/shared/edit-institutions/edit-institutions.component";
 
 @NgModule({
     declarations: [
         PrivilegeEditComponent, ConfirmationDocumentComponent, ApplicantTypePipe, InquiryTypeFriendlyNamePipe, FullNameComponent, GenderComponent,
         SnilsComponent, IdentityCardComponent, CitizenshipSelectComponent, RfCitizensAddressesComponent, AddressComponent, ForeignCitizensAddressesComponent,
-        BirthInfoComponent, RelationTypeComponent, EditPersonComponent, EditInquiryInfoComponent,AtLeastOneCheckboxShouldBeSelectedComponent,
+        BirthInfoComponent, RelationTypeComponent, EditPersonComponent, EditInquiryInfoComponent, AtLeastOneCheckboxShouldBeSelectedComponent, EditInstitutionsComponent,
 
         InquiryInfoEditComponent, DistributionParamsComponent, StayModeComponent, AgeGroupComponent //inquiryInfo params
     ],
@@ -46,7 +47,7 @@ import { AtLeastOneCheckboxShouldBeSelectedComponent } from "./shared/components
         PrivilegeEditComponent, ConfirmationDocumentComponent, ApplicantTypePipe, InquiryTypeFriendlyNamePipe, FullNameComponent, GenderComponent,
         SnilsComponent, IdentityCardComponent, CitizenshipSelectComponent, RfCitizensAddressesComponent, AddressComponent, ForeignCitizensAddressesComponent,
         BirthInfoComponent, RelationTypeComponent, EditPersonComponent, EditInquiryInfoComponent, DistributionParamsComponent, StayModeComponent, AgeGroupComponent,
-        InquiryInfoEditComponent, AtLeastOneCheckboxShouldBeSelectedComponent
+        InquiryInfoEditComponent, AtLeastOneCheckboxShouldBeSelectedComponent, EditInstitutionsComponent
     ],
     providers: [
     ]

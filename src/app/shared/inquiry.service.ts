@@ -59,6 +59,10 @@ export class InquiryService {
     update({ inquiryInfo: inquiryInfo });
   }
 
+  saveWishInstitutions(){
+    
+  }
+
   create(inquiry: Inquiry): Observable<Inquiry> {
     // let options = new RequestOptions({ headers: new Headers({ 'Content-Type': 'application/json' }) });
     // inquiry.id = Guid.newGuid();

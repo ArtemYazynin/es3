@@ -1,4 +1,4 @@
-import { Component, OnInit, Inject, ViewChild, AfterViewInit, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, Inject, ViewChild, AfterViewInit, ChangeDetectorRef, ChangeDetectionStrategy } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { BehaviorSubject } from 'rxjs';
 import { Inquiry, ApplicantType, CommonService, InquiryService, DistributionParams, StayMode, AgeGroup, InquiryInfo } from '../../../shared';
@@ -8,7 +8,8 @@ import { EditInquiryInfoComponent } from '../shared/components/edit-inquiry-info
 @Component({
   selector: 'app-edit-inquiry-info-dialog',
   templateUrl: './edit-inquiry-info-dialog.component.html',
-  styleUrls: ['./edit-inquiry-info-dialog.component.css']
+  styleUrls: ['./edit-inquiry-info-dialog.component.css'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class EditInquiryInfoDialogComponent implements OnInit, AfterViewInit {
   @ViewChild(EditInquiryInfoComponent) editInquiryInfoComponent: EditInquiryInfoComponent;
