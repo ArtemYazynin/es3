@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { FormGroup, AbstractControl, ValidatorFn } from '@angular/forms';
-import { ConfirmationDocument, Person, IdentityCard } from '.';
+import { AbstractControl, FormGroup } from '@angular/forms';
+import { ControlInfo } from './models/controlInfo';
 
 @Injectable()
 export class FormService {
@@ -28,11 +28,14 @@ export class FormService {
       }
     }
   }
-  updateValidators(form: FormGroup, name: string, validators: ValidatorFn[]) {
-    if (!name || name == "" || !validators) return;
-    let control = form.get(name);
-    control.clearValidators();
-    if (validators.length > 0) control.setValidators(validators);
-    control.updateValueAndValidity();
+  updateValidators(form: FormGroup, controls: Array<ControlInfo>) {
+    if (!controls) return;
+    controls.forEach(element => {
+      if (!element || element.name == "") return;
+      let control = form.get(element.name);
+      control.clearValidators();
+      if (element.validators.length > 0) control.setValidators(element.validators);
+      control.updateValueAndValidity();
+    });
   }
 }

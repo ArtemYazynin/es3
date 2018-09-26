@@ -3,8 +3,8 @@ import { FormBuilder, FormGroup, ValidatorFn, Validators } from '@angular/forms'
 import { MatCheckboxChange } from '@angular/material';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormService, Inquiry, inquiryType } from '../../../shared';
+import { ControlInfo } from '../../../shared/models/controlInfo';
 import { ContactInfo, StepBase, WizardStorageService } from '../shared';
-
 
 @Component({
   selector: 'app-contact-info-step',
@@ -15,7 +15,6 @@ import { ContactInfo, StepBase, WizardStorageService } from '../shared';
 export class ContactInfoStepComponent implements OnInit, StepBase {
   private emailValidators: ValidatorFn[] = [Validators.required, Validators.email];
   inquiryType = this.route.snapshot.data.resolved.inquiryType;
-
 
   constructor(private formService: FormService, private fb: FormBuilder,
     private router: Router, private route: ActivatedRoute, private storageService: WizardStorageService) { }
@@ -34,9 +33,7 @@ export class ContactInfoStepComponent implements OnInit, StepBase {
     });
     if (this.contactsForm.controls.dontNotify.value == true) {
       this.contactsForm.controls.email.clearValidators();
-      this.contactsForm.controls.email.disable();
-      this.contactsForm.controls.smsPhone.disable();
-      this.contactsForm.controls.phones.disable();
+      this.isDontNotify(true);
       this.contactsForm.updateValueAndValidity();
     }
   }
@@ -45,48 +42,55 @@ export class ContactInfoStepComponent implements OnInit, StepBase {
     return this.contactsForm && this.contactsForm.valid;
   }
 
+  isDontNotify(option: boolean): void {
+    if (option) {
+      this.contactsForm.controls.email.disable();
+      this.contactsForm.controls.smsPhone.disable();
+      this.contactsForm.controls.phones.disable();
+    } else {
+      this.contactsForm.controls.email.enable();
+      this.contactsForm.controls.smsPhone.enable();
+      this.contactsForm.controls.phones.enable();
+    }
+  }
+
   masks = { smsPhone: ["+", /\d/, "(", /\d/, /\d/, /\d/, ")", /\d/, /\d/, /\d/, "-", /\d/, /\d/, "-", /\d/, /\d/] }
   onChange = (() => {
+    const smsPhonePattern = "^\\+\\d\\(\\d\\d\\d\\)\\d\\d\\d-\\d\\d-\\d\\d$";
     return {
       byEmail: (change: MatCheckboxChange) => {
         if (change.checked) {
-          this.formService.updateValidators(this.contactsForm, "email", this.emailValidators);
-          this.formService.updateValidators(this.contactsForm, "bySms", []);
+          this.formService.updateValidators(this.contactsForm,
+            [new ControlInfo("email", this.emailValidators), new ControlInfo("bySms", [])]);
           this.contactsForm.controls.dontNotify.setValue(false);
-          this.contactsForm.controls.email.enable();
-          this.contactsForm.controls.smsPhone.enable();
-          this.contactsForm.controls.phones.enable();
+          this.isDontNotify(false);
         } else {
-          this.formService.updateValidators(this.contactsForm, "email", []);
-          this.formService.updateValidators(this.contactsForm, "bySms", [Validators.requiredTrue]);
+          this.formService.updateValidators(this.contactsForm,
+            [new ControlInfo("email", []), new ControlInfo("bySms", [Validators.requiredTrue])]);
         }
       },
       bySms: (change: MatCheckboxChange) => {
         if (change.checked) {
-          this.formService.updateValidators(this.contactsForm, "smsPhone", [Validators.required, Validators.pattern("^\\+\\d\\(\\d\\d\\d\\)\\d\\d\\d-\\d\\d-\\d\\d$")]);
-          this.formService.updateValidators(this.contactsForm, "byEmail", []);
+          this.formService.updateValidators(this.contactsForm,
+            [new ControlInfo("smsPhone", [Validators.required, Validators.pattern(smsPhonePattern)]), new ControlInfo("byEmail", [])]);
           this.contactsForm.controls.dontNotify.setValue(false);
-          this.contactsForm.controls.email.enable();
-          this.contactsForm.controls.smsPhone.enable();
-          this.contactsForm.controls.phones.enable();
+          this.isDontNotify(false);
         } else {
-          this.formService.updateValidators(this.contactsForm, "smsPhone", []);
-          this.formService.updateValidators(this.contactsForm, "byEmail", [Validators.requiredTrue]);
+          this.formService.updateValidators(this.contactsForm,
+            [new ControlInfo("smsPhone", []), new ControlInfo("byEmail", [Validators.requiredTrue])]);
         }
       },
       dontNotify: (change: MatCheckboxChange) => {
         if (change.checked) {
-          this.formService.updateValidators(this.contactsForm, "bySms", []);
-          this.formService.updateValidators(this.contactsForm, "byEmail", []);
+          this.formService.updateValidators(this.contactsForm,
+            [new ControlInfo("bySms", []), new ControlInfo("byEmail", []), new ControlInfo("email", []), new ControlInfo("smsPhone", [])]);
           this.contactsForm.patchValue({
             byEmail: false, bySms: false, email: "", smsPhone: "", phones: ""
           });
-          this.contactsForm.controls.email.disable();
-          this.contactsForm.controls.smsPhone.disable();
-          this.contactsForm.controls.phones.disable();
+          this.isDontNotify(true);
         } else {
-          this.formService.updateValidators(this.contactsForm, "bySms", [Validators.requiredTrue]);
-          this.formService.updateValidators(this.contactsForm, "byEmail", [Validators.requiredTrue]);
+          this.formService.updateValidators(this.contactsForm,
+            [new ControlInfo("bySms", [Validators.requiredTrue]), new ControlInfo("byEmail", [Validators.requiredTrue])]);
         }
       }
     }
@@ -97,7 +101,7 @@ export class ContactInfoStepComponent implements OnInit, StepBase {
     bySms: "",
     email: "",
     smsPhone: "",
-    phones: "",
+    phones: ""
   };
   validationMessages = {
     byEmail: {
@@ -137,7 +141,6 @@ export class ContactInfoStepComponent implements OnInit, StepBase {
     }
   }
 
-
   private buildForm() {
     this.contactsForm = this.fb.group({
       "byEmail": [
@@ -163,7 +166,7 @@ export class ContactInfoStepComponent implements OnInit, StepBase {
       "phones": [
         "",
         [
-          Validators.pattern("^(\\s*\,?\\s*\\d{10})*"),
+          Validators.pattern("^(\\d{10}\\s*\,?\\s*)*"),
           Validators.maxLength(250)
         ]
       ]
