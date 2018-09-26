@@ -1,11 +1,11 @@
-import { Component, OnDestroy, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { MatAutocompleteSelectedEvent } from '@angular/material';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Observable, Subject } from 'rxjs';
 import { map, startWith, takeUntil } from 'rxjs/operators';
+import { CommonService, Inquiry, inquiryType, InquiryType, Institution, InstitutionService, SettingsService } from '../../../shared';
 import { StepBase, WizardStorageService } from '../shared';
-import { Institution, CommonService, SettingsService, InstitutionService, inquiryType, Inquiry, InquiryType } from '../../../shared';
 
 @Component({
   selector: 'app-preschool-institution-step',
@@ -28,6 +28,11 @@ export class PreschoolInstitutionStepComponent implements OnInit, OnDestroy, Ste
 
   ngOnInit() {
     const inquiry = <Inquiry>this.storageService.get(this.inquiryType);
+    this.settingsService.get()
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe(result => {
+        this.maxCountWishPreschoolInstitutions = result.maxCountWishPreschools;
+      });
     this.institutionService.getInstitutions(this.inquiryType == inquiryType.preschool ? InquiryType.preschool : InquiryType.school)
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(result => {
@@ -45,19 +50,12 @@ export class PreschoolInstitutionStepComponent implements OnInit, OnDestroy, Ste
           });
         }
       });
-    this.settingsService.get()
-      .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe(result => {
-        this.maxCountWishPreschoolInstitutions = result.maxCountWishPreschools;
-      });
     this.form = this.fb.group({
       "institution": [
         "",
         []
       ]
     });
-
-
   }
   ngOnDestroy(): void {
     this.ngUnsubscribe.next();
@@ -76,7 +74,7 @@ export class PreschoolInstitutionStepComponent implements OnInit, OnDestroy, Ste
     this.selectedInstitutions.push(institution);
 
     (function removeFromInstitutionList(outer) {
-      const index = outer.institutions.indexOf(institution);
+      const index = outer.institutions.findIndex(elem => elem.id == institution.id);
       outer.institutions.splice(index, 1);
       outer.form.patchValue({ institution: "" });
     })(this);
