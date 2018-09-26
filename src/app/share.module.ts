@@ -19,12 +19,20 @@ import { RfCitizensAddressesComponent } from "./shared/components/rf-citizens-ad
 import { SnilsComponent } from "./shared/components/snils/snils.component";
 import { InquiryTypeFriendlyNamePipe } from './shared/inquiry-type.pipe';
 import { EditPersonComponent } from "./modules/inquiry/shared/components/edit-person/edit-person.component";
+import { EditInquiryInfoComponent } from "./modules/inquiry/shared/components/edit-inquiry-info/edit-inquiry-info.component";
+import { DistributionParamsComponent } from "./shared/components/distribution-params/distribution-params.component";
+import { StayModeComponent } from "./shared/components/stay-mode/stay-mode.component";
+import { AgeGroupComponent } from "./shared/components/age-group/age-group.component";
+import { InquiryInfoEditComponent } from "./modules/inquiry/shared/components/inquiry-info-edit/inquiry-info-edit.component";
+import { AtLeastOneCheckboxShouldBeSelectedComponent } from "./shared/components/at-least-one-checkbox-should-be-selected/at-least-one-checkbox-should-be-selected.component";
 
 @NgModule({
     declarations: [
         PrivilegeEditComponent, ConfirmationDocumentComponent, ApplicantTypePipe, InquiryTypeFriendlyNamePipe, FullNameComponent, GenderComponent,
         SnilsComponent, IdentityCardComponent, CitizenshipSelectComponent, RfCitizensAddressesComponent, AddressComponent, ForeignCitizensAddressesComponent,
-        BirthInfoComponent, RelationTypeComponent, EditPersonComponent
+        BirthInfoComponent, RelationTypeComponent, EditPersonComponent, EditInquiryInfoComponent,AtLeastOneCheckboxShouldBeSelectedComponent,
+
+        InquiryInfoEditComponent, DistributionParamsComponent, StayModeComponent, AgeGroupComponent //inquiryInfo params
     ],
     imports: [
         CommonModule,
@@ -37,7 +45,8 @@ import { EditPersonComponent } from "./modules/inquiry/shared/components/edit-pe
     exports: [
         PrivilegeEditComponent, ConfirmationDocumentComponent, ApplicantTypePipe, InquiryTypeFriendlyNamePipe, FullNameComponent, GenderComponent,
         SnilsComponent, IdentityCardComponent, CitizenshipSelectComponent, RfCitizensAddressesComponent, AddressComponent, ForeignCitizensAddressesComponent,
-        BirthInfoComponent, RelationTypeComponent, EditPersonComponent
+        BirthInfoComponent, RelationTypeComponent, EditPersonComponent, EditInquiryInfoComponent, DistributionParamsComponent, StayModeComponent, AgeGroupComponent,
+        InquiryInfoEditComponent, AtLeastOneCheckboxShouldBeSelectedComponent
     ],
     providers: [
     ]

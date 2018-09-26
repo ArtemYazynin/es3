@@ -1,18 +1,15 @@
 import { Injectable, QueryList } from '@angular/core';
-import { ConfirmationDocumentComponent } from './components/confirmation-document/confirmation-document.component';
-import { Entity } from './models/entity';
-import { ConfirmationDocument } from './models/confirmation-document';
-import { AttachmentType } from './models/attachment-type.enum';
-import { IdentityCardType } from './models/identityCardType';
-import { ApplicantType } from './applicant-type.enum';
 import { EditPersonComponent } from '../modules/inquiry/shared/components/edit-person/edit-person.component';
-import { Applicant } from './models/applicant';
-import { IdentityCard } from './models/identityCard';
-import { Parent } from './models/parent';
-import { PersonWithAddress } from './models/person-with-address';
+import { ApplicantType } from './applicant-type.enum';
 import { CitizenshipService } from './citizenship.service';
-import { DublicatesFinder } from './dublicates-finder';
-import { Child } from './models/child';
+import { ConfirmationDocumentComponent } from './components/confirmation-document/confirmation-document.component';
+import { Applicant } from './models/applicant';
+import { AttachmentType } from './models/attachment-type.enum';
+import { ConfirmationDocument } from './models/confirmation-document';
+import { Entity } from './models/entity';
+import { IdentityCard } from './models/identityCard';
+import { IdentityCardType } from './models/identityCardType';
+import { Parent } from './models/parent';
 
 @Injectable({
   providedIn: 'root'
@@ -72,7 +69,7 @@ export class CommonService {
     ];
   }
 
-  buildParent(editParentComponent: EditPersonComponent, applicantType: ApplicantType): Parent{
+  buildParent(editParentComponent: EditPersonComponent, applicantType: ApplicantType): Parent {
     let birthInfo = (() => {
       if (!editParentComponent.birthInfoComponent) return {};
       return {
@@ -106,7 +103,7 @@ export class CommonService {
     return result;
   }
 
-  buildApplicant(editParentComponent: EditPersonComponent, applicantType: ApplicantType):Applicant {
+  buildApplicant(editParentComponent: EditPersonComponent, applicantType: ApplicantType): Applicant {
     let result = new Applicant(editParentComponent.fullnameComponent.fullnameForm.controls.lastname.value,
       editParentComponent.fullnameComponent.fullnameForm.controls.firstname.value,
       editParentComponent.fullnameComponent.fullnameForm.controls.middlename.value,
@@ -131,4 +128,6 @@ export class CommonService {
 
     return result;
   }
+
+  
 }

@@ -1,9 +1,8 @@
-import { ChangeDetectionStrategy, Component, Inject, OnDestroy, OnInit, ViewChild, AfterViewInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Inject, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { BehaviorSubject } from 'rxjs';
-import { Inquiry, ApplicantType, CommonService, DublicatesFinder, InquiryService } from '../../../shared';
 import { EditPersonComponent } from '../shared/components/edit-person/edit-person.component';
-import { ApplicantTypePipe } from '../../../shared/applicant-type.pipe';
+import { ApplicantType, Inquiry, CommonService, InquiryService } from '../../../shared';
 import { WizardStorageService } from '../../wizard/shared';
 
 @Component({
@@ -12,7 +11,7 @@ import { WizardStorageService } from '../../wizard/shared';
   styleUrls: ['./edit-person-dialog.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class EditPersonDialogComponent implements OnInit, OnDestroy {
+export class EditPersonDialogComponent implements OnInit {
   @ViewChild(EditPersonComponent) editPersonComponent: EditPersonComponent;
   applicantTypes = ApplicantType;
   constructor(public dialogRef: MatDialogRef<EditPersonDialogComponent>,
@@ -21,9 +20,6 @@ export class EditPersonDialogComponent implements OnInit, OnDestroy {
     private inquiryService: InquiryService) { }
 
   ngOnInit() {
-  }
-
-  ngOnDestroy(): void {
   }
 
   save() {

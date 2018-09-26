@@ -12,6 +12,11 @@ import { RegisterSource } from './models/register-source.enum';
 import { Status } from './models/status';
 import { ApplicantType } from './applicant-type.enum';
 import { Parent } from './models/parent';
+import { DistributionParams } from './models/distribution-params';
+import { StayMode } from './models/stay-mode';
+import { EditInquiryInfoComponent } from '../modules/inquiry/shared/components/edit-inquiry-info/edit-inquiry-info.component';
+import { InquiryInfo } from './models/inquiry-info';
+import { AgeGroup } from './models/age-group';
 
 @Injectable({
   providedIn: 'root'
@@ -21,8 +26,8 @@ export class InquiryService {
   constructor(private http: HttpInterceptor, private storageService: WizardStorageService, private commonService: CommonService) { }
 
   saveApplicant(inquiry: Inquiry, editPersonComponent: EditPersonComponent, update: (patch: object) => void): void {
-    if(inquiry.applicantType != ApplicantType.Applicant) return;
-    
+    if (inquiry.applicantType != ApplicantType.Applicant) return;
+
     let applicant = this.commonService.buildApplicant(editPersonComponent, inquiry.applicantType);
     if (DublicatesFinder.betweenApplicantParent(inquiry.applicant, inquiry.parent)) return;
     if (DublicatesFinder.betweenApplicantChildren(applicant, inquiry.children)) return;
@@ -42,6 +47,16 @@ export class InquiryService {
       if (DublicatesFinder.betweenParentChildren(parent, inquiry.children)) return;
     }
     if (!!parent) update({ parent: parent });
+  }
+
+  saveInquiryInfo(editInquiryInfoComponent: EditInquiryInfoComponent, update: (patch: object) => void): void {
+    const inquiryInfo = (() => {
+      const distributionParams = DistributionParams.constructFromForm(editInquiryInfoComponent.distributionParamsComponent.inquiryInfoForm);
+      const stayMode = StayMode.constructFromForm(editInquiryInfoComponent.stayModeComponent.atLeastOneCheckboxShouldBeSelectedComponent.form);
+      const ageGroup = AgeGroup.constructFromForm(editInquiryInfoComponent.ageGroupComponent.atLeastOneCheckboxShouldBeSelectedComponent.form);
+      return new InquiryInfo(distributionParams, stayMode, ageGroup);
+    })();
+    update({ inquiryInfo: inquiryInfo });
   }
 
   create(inquiry: Inquiry): Observable<Inquiry> {

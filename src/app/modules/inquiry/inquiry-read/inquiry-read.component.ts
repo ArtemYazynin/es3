@@ -6,7 +6,8 @@ import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { map, takeUntil } from 'rxjs/operators';
 import { CitizenshipService, ConfirmationDocument, Country, DrawService, Entity, Group, GroupService, Inquiry, InquiryService, InstitutionService, PrivilegeOrder, PrivilegeOrderService, Specificity, SpecificityService, Status, StatusService, ApplicantType } from '../../../shared/index';
 import { EditPersonDialogComponent } from '../edit-person-dialog/edit-person-dialog.component';
-import { EditPrivilegeDialogComponent } from '../shared/components/edit-privilege-dialog/edit-privilege-dialog.component';
+import { EditPrivilegeDialogComponent } from '../edit-privilege-dialog/edit-privilege-dialog.component';
+import { EditInquiryInfoDialogComponent } from '../edit-inquiry-info-dialog/edit-inquiry-info-dialog.component';
 
 
 @Component({
@@ -109,10 +110,14 @@ export class InquiryReadComponent implements OnInit, OnDestroy {
       //   console.log('The dialog was closed');
       // });
     }
+    const inquiryInfo = () => {
+      this.dialog.open(EditInquiryInfoDialogComponent, getDefaultConfig());
+    }
     return {
       common: common,
       privilege: privilege,
-      person: person
+      person: person,
+      inquiryInfo: inquiryInfo
     }
   })();
 }
