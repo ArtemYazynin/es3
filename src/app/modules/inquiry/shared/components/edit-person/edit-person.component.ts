@@ -138,14 +138,13 @@ export class EditPersonComponent implements OnInit, AfterViewInit, OnDestroy {
       },
       relationType: () => {
         if (this.applicantType != ApplicantType.Parent) return true;
-
         if (!this.relationTypeComponent || !this.relationTypeComponent.relationType) return false;
-        if (this.relationTypeComponent.relationType.confirmationDocument) {
-          let component = !!this.confirmationDocuments
-            ? this.confirmationDocuments.find(x => x.type == AttachmentType.ParentRepresentChildren)
-            : undefined;
-          return !!component && !!component.confirmationDocumentForm && component.confirmationDocumentForm.valid;
-        }
+        if (!this.relationTypeComponent.relationType.confirmationDocument) return true;
+
+        let component = !!this.confirmationDocuments
+          ? this.confirmationDocuments.find(x => x.type == AttachmentType.ParentRepresentChildren)
+          : undefined;
+        return !!component && !!component.confirmationDocumentForm && component.confirmationDocumentForm.valid;
       },
       countryStateApplicantDocument: () => {
         const hasCitizenships = !!this.citizenshipSelectComponent && this.citizenshipSelectComponent.citizenships.length > 0;
