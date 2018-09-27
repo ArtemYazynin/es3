@@ -1,6 +1,8 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy, Input, AfterViewInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { DistributionParams } from '../../models/distribution-params';
 import { FormService, Specificity, SpecificityService } from '../..';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-distribution-params',
@@ -8,9 +10,11 @@ import { FormService, Specificity, SpecificityService } from '../..';
   styleUrls: ['./distribution-params.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class DistributionParamsComponent implements OnInit {
+export class DistributionParamsComponent implements OnInit, AfterViewInit {
+  @Input() model: DistributionParams;
+
   inquiryInfoForm: FormGroup;
-  groupOfSpecificity: Array<Specificity> = [];
+  $groupOfSpecificity: Observable<Array<Specificity>>;
   formErrors = {
     wishDate: "",
     specificity: "",
@@ -36,8 +40,17 @@ export class DistributionParamsComponent implements OnInit {
 
   ngOnInit() {
     this.buildForm();
-    this.specificityService.get().subscribe(result => {
-      this.groupOfSpecificity = result;
+    this.$groupOfSpecificity = this.specificityService.get();
+  }
+  ngAfterViewInit(): void {
+    if(!this.model) return;
+    this.inquiryInfoForm.patchValue({
+      wishDate: this.model.wishDate,
+      specificity: this.model.specificity,
+      offerGeneralGroup: this.model.offerGeneralGroup,
+      offerCareGroup: this.model.offerCareGroup,
+      isSearchNear: this.model.isSearchNear,
+      isCanTempEnrolled: this.model.isCanTempEnrolled
     });
   }
   private buildForm() {

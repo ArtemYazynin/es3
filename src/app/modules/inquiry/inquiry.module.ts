@@ -13,11 +13,11 @@ import { ShareModule } from '../../share.module';
 import { RegisterSourcePipe } from '../../shared/models/register-source.pipe';
 import { RegisterCompleteResolver } from '../../shared/register-complete-resolver';
 import { StatusService } from '../../shared/status.service';
-import { EditPersonDialogComponent } from './edit-person-dialog/edit-person-dialog.component';
 import { InquiryReadComponent } from './inquiry-read/inquiry-read.component';
-import { EditPrivilegeDialogComponent } from './shared/components/edit-privilege-dialog/edit-privilege-dialog.component';
 import { InquiryCommonInfoComponent } from './shared/components/inquiry-common-info/inquiry-common-info.component';
-import { InquiryInfoEditComponent } from './shared/components/inquiry-info-edit/inquiry-info-edit.component';
+import { EditPrivilegeDialogComponent } from './edit-privilege-dialog/edit-privilege-dialog.component';
+import { EditPersonDialogComponent } from './edit-person-dialog/edit-person-dialog.component';
+import { EditInquiryInfoDialogComponent } from './edit-inquiry-info-dialog/edit-inquiry-info-dialog.component';
 
 @NgModule({
   imports: [
@@ -44,8 +44,8 @@ import { InquiryInfoEditComponent } from './shared/components/inquiry-info-edit/
     ]),
 
   ],
-  declarations: [InquiryReadComponent, InquiryCommonInfoComponent, RegisterSourcePipe, EditPrivilegeDialogComponent, InquiryInfoEditComponent, EditPersonDialogComponent],
+  declarations: [InquiryReadComponent, InquiryCommonInfoComponent, RegisterSourcePipe, EditPrivilegeDialogComponent, EditPersonDialogComponent, EditInquiryInfoDialogComponent],
   providers: [StatusService],
-  entryComponents: [EditPrivilegeDialogComponent, EditPersonDialogComponent,]
+  entryComponents: [EditPrivilegeDialogComponent, EditPersonDialogComponent, EditInquiryInfoDialogComponent]
 })
 export class InquiryModule { }

@@ -23,6 +23,9 @@ export class WizardStorageService {
     } else {
       const updatedStorage = (() => {
         let storage = this.get(type);
+        if (!storage.type) {
+          data["type"] = type;
+        }
         return Object.assign({}, storage, data);
       })();
       sessionStorage.setItem(key, JSON.stringify(updatedStorage));

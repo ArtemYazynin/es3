@@ -12,13 +12,9 @@ import { InMemoryService } from '../../in-memory-server';
 import { MaterialModule } from '../../material.module';
 import { ShareModule } from '../../share.module';
 import { AddressService, AreaService, AttachmentTypePipe, CitizenshipService, CommonService, DrawService, EnumToArrayPipe, FormService, GroupService, IdentityCardService, IdentityCardTypePipe, InquiryService, InstitutionService, PrivilegeOrderService, PrivilegeService, RelationTypeService, SettingsService, SpecHealthService, SpecificityService } from '../../shared';
-import { AgeGroupComponent } from '../../shared/components/age-group/age-group.component';
-import { AtLeastOneCheckboxShouldBeSelectedComponent } from '../../shared/components/at-least-one-checkbox-should-be-selected/at-least-one-checkbox-should-be-selected.component';
 import { ConfirmDialogComponent } from '../../shared/components/confirm-dialog/confirm-dialog.component';
 import { DisabilityChildComponent } from '../../shared/components/disability-child/disability-child.component';
-import { DistributionParamsComponent } from '../../shared/components/distribution-params/distribution-params.component';
 import { SpecHealthComponent } from '../../shared/components/spec-health/spec-health.component';
-import { StayModeComponent } from '../../shared/components/stay-mode/stay-mode.component';
 import { HttpInterceptor } from '../../shared/http-interceptor';
 import { RegisterCompleteResolver } from '../../shared/register-complete-resolver';
 import { YesNoPipe } from '../../shared/yes-no.pipe';
@@ -77,10 +73,7 @@ import { wizardRoutes } from './wizard-routes';
     DisabilityChildComponent,
     SpecHealthComponent,
 
-    DistributionParamsComponent,
-    StayModeComponent,
-    AgeGroupComponent,
-    AtLeastOneCheckboxShouldBeSelectedComponent,
+    
     PreviewInquiryInfoComponent,
     PreviewCurrentEducationPlaceComponent,
     PreviewPrivilegeComponent,

@@ -20,7 +20,7 @@
           <mat-form-field class="full-width">
             <mat-select formControlName="specificity" placeholder="Предпочитаемая специфика группы">
               <mat-option value="" selected>Без специфики</mat-option>
-              <mat-option *ngFor="let item of groupOfSpecificity" [value]="item.id">{{item.name}}</mat-option>
+              <mat-option *ngFor="let item of $groupOfSpecificity | async" [value]="item.id">{{item.name}}</mat-option>
             </mat-select>
           </mat-form-field>
           <div *ngIf="formErrors.specificity" class="alert alert-danger">
@@ -51,7 +51,7 @@
             {{ formErrors.isCanTempEnrolled }}
           </div>
         </div>
-        <div class="form-group">
+        <div class="alert-info">
           <span>
             <b>{{inquiryInfoForm.value | json}}</b>
           </span>

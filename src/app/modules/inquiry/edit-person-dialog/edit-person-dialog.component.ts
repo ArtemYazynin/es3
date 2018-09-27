@@ -1,8 +1,9 @@
-import { ChangeDetectionStrategy, Component, Inject, OnDestroy, OnInit, ViewChild, AfterViewInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Inject, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { BehaviorSubject } from 'rxjs';
-import { Inquiry, ApplicantType, CommonService } from '../../../shared';
 import { EditPersonComponent } from '../shared/components/edit-person/edit-person.component';
+import { ApplicantType, Inquiry, CommonService, InquiryService } from '../../../shared';
+import { WizardStorageService } from '../../wizard/shared';
 
 @Component({
   selector: 'app-edit-person-dialog',
@@ -10,41 +11,32 @@ import { EditPersonComponent } from '../shared/components/edit-person/edit-perso
   styleUrls: ['./edit-person-dialog.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class EditPersonDialogComponent implements OnInit, OnDestroy {
+export class EditPersonDialogComponent implements OnInit {
   @ViewChild(EditPersonComponent) editPersonComponent: EditPersonComponent;
   applicantTypes = ApplicantType;
   constructor(public dialogRef: MatDialogRef<EditPersonDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: { $inquiry: BehaviorSubject<Inquiry>, modelType: ApplicantType },
-    private commonService:CommonService) { }
+    private commonService: CommonService, private storageService: WizardStorageService,
+    private inquiryService: InquiryService) { }
 
   ngOnInit() {
   }
 
-  ngOnDestroy(): void {
-  }
-
   save() {
-    // const inquiry = this.prepare();
-    // this.$inquiry.next(inquiry);
-    // this.storageService.set(inquiry["_type"], { privilege: inquiry.privilege })
-
-    switch (this.data.modelType) {
-      case ApplicantType.Parent:
-      //let parent = this.commonService.buildParent(this.editPersonComponent, this.inquiry.applicantType);
-        break;
-      case ApplicantType.Applicant:
-        
-        break;
-      default:
-        break;
+    const update = (patch: object) => {
+      this.storageService.set(inquiry.type, patch);
+      Object.assign(inquiry, patch);
+      this.data.$inquiry.next(inquiry);
+    }
+    let inquiry = this.data.$inquiry.getValue();
+    this.inquiryService.saveParent(inquiry, this.editPersonComponent, update, this.data.modelType == ApplicantType.Parent);
+    if (this.data.modelType == ApplicantType.Applicant) {
+      this.inquiryService.saveApplicant(inquiry, this.editPersonComponent, update);
     }
     this.dialogRef.close();
   }
 
   isValid = (): boolean => {
-    if(!this.editPersonComponent) return false;
-    let result = this.editPersonComponent.isValid()
-    console.log(`result: ${result}`)
-    return result;
+    return this.editPersonComponent && this.editPersonComponent.isValid();
   }
 }
