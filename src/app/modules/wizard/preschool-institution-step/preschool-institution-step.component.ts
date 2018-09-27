@@ -1,10 +1,8 @@
-import { ChangeDetectionStrategy, Component, OnInit,OnDestroy, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { EditInstitutionsComponent } from '../../inquiry/shared/edit-institutions/edit-institutions.component';
-import { StepBase, WizardStorageService } from '../shared';
-import { Institution } from './../../../shared/models/institution';
 import { Inquiry } from '../../../shared';
-import { takeUntil } from 'rxjs/operators';
+import { EditInstitutionsComponent } from '../../inquiry/shared/components/edit-institutions/edit-institutions.component';
+import { StepBase, WizardStorageService } from '../shared';
 
 @Component({
   selector: 'app-preschool-institution-step',

@@ -1,9 +1,9 @@
 import { Component, OnInit, Input, OnDestroy, ChangeDetectionStrategy, ElementRef } from '@angular/core';
 import { FormGroup, FormBuilder } from '@angular/forms';
-import { Institution, CommonService, InstitutionService, inquiryType, InquiryType, SettingsService, Inquiry } from '../../../../shared';
 import { Observable, Subject } from 'rxjs';
 import { takeUntil, startWith, map } from 'rxjs/operators';
 import { MatAutocompleteSelectedEvent } from '@angular/material';
+import { Inquiry, Institution, CommonService, InstitutionService, SettingsService, inquiryType, InquiryType } from '../../../../../shared';
 
 @Component({
   selector: 'app-edit-institutions',

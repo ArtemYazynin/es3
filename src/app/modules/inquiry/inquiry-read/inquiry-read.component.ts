@@ -113,15 +113,20 @@ export class InquiryReadComponent implements OnInit, OnDestroy {
     const inquiryInfo = () => {
       this.dialog.open(EditInquiryInfoDialogComponent, getDefaultConfig());
     }
-    const institutions = () =>{
-      
+    const institutions = () => {
+
+    }
+
+    const contactInfo = () => {
+      return true;
     }
     return {
       common: common,
       privilege: privilege,
       person: person,
       inquiryInfo: inquiryInfo,
-      institutions: institutions
+      institutions: institutions,
+      contactInfo: contactInfo
     }
   })();
 }

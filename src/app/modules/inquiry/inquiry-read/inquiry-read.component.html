@@ -210,16 +210,13 @@
   </div>
   <div class="col-md-12">
     <div class="col-md-4">
-      <div class="widget-box">
-        <div class="widget-title">
-          <h5>Контактная информация</h5>
-        </div>
-        <div class="widget-content" *ngIf="inquiry.contactInfo.dontNotify">
+      <app-inquiry-info-edit title="Контактная информация" (edit)="edit.contactInfo()">
+        <ng-container *ngIf="inquiry.contactInfo.dontNotify">
           <div class="form-group">
             <b>Не оповещать</b>
           </div>
-        </div>
-        <div class="widget-content" *ngIf="!inquiry.contactInfo.dontNotify">
+        </ng-container>
+        <ng-container *ngIf="!inquiry.contactInfo.dontNotify">
           <div class="row">
             <dl class="dl-horizontal">
               <dt>Email </dt>
@@ -230,8 +227,9 @@
               <dd>{{inquiry.contactInfo.phones || "-"}}</dd>
             </dl>
           </div>
-        </div>
-      </div>
+        </ng-container>
+      </app-inquiry-info-edit>
+
     </div>
     <div class="col-md-4">
       <app-inquiry-info-edit title="Предпочитаемые организации" (edit)="edit.institutions()">
