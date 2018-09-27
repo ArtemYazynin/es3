@@ -66,6 +66,8 @@ export class EditInstitutionsComponent implements OnInit, OnDestroy {
     if (!event || !event.option || !event.option.value) return;
     const institution = event.option.value;
     this._add(institution);
+    document.getElementsByTagName("input")[0].blur();
+
   }
 
   private _add(institution: Institution) {
