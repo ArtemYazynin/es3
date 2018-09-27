@@ -1,8 +1,10 @@
-import { ChangeDetectionStrategy, Component, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit,OnDestroy, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Inquiry } from '../../../shared';
 import { EditInstitutionsComponent } from '../../inquiry/shared/edit-institutions/edit-institutions.component';
+import { CommonService, Inquiry, inquiryType, InquiryType, InstitutionService, SettingsService } from '../../../shared';
 import { StepBase, WizardStorageService } from '../shared';
+import { Institution } from './../../../shared/models/institution';
 
 @Component({
   selector: 'app-preschool-institution-step',
@@ -19,6 +21,12 @@ export class PreschoolInstitutionStepComponent implements OnInit, StepBase {
 
   ngOnInit() {
     this.inquiry = <Inquiry>this.storageService.get(this.inquiryType);
+    this.settingsService.get()
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe(result => {
+        this.maxCountWishPreschoolInstitutions = result.maxCountWishPreschools;
+      });
+    document.getElementsByTagName("input")[0].blur();
   }
 
   goTo = {

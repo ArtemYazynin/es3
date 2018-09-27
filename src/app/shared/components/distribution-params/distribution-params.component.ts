@@ -1,7 +1,7 @@
 import { Component, OnInit, ChangeDetectionStrategy, Input, AfterViewInit } from '@angular/core';
-import { FormGroup, Validators, FormBuilder } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { DistributionParams } from '../../models/distribution-params';
-import { Specificity, FormService, SpecificityService } from '../..';
+import { FormService, Specificity, SpecificityService } from '../..';
 import { Observable } from 'rxjs';
 
 @Component({
@@ -28,8 +28,9 @@ export class DistributionParamsComponent implements OnInit, AfterViewInit {
   }
   wishDates = (() => {
     let result = [];
-    let currentYear = new Date().getFullYear();
-    for (let index = currentYear; index < currentYear + 5; index++) {
+    let currentDate = new Date();
+    let currentYear = currentDate.getMonth() < 8 ? currentDate.getFullYear() : currentDate.getFullYear() + 1;
+    for (let index = currentYear, length = currentYear + 5; index < length; index++) {
       result.push(index);
     }
     return result;
