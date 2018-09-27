@@ -1,9 +1,9 @@
 import { ChangeDetectionStrategy, Component, Inject, OnInit, ViewChild } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
-import { Inquiry, Privilege, CommonService, AttachmentType } from '../../../../../shared';
+import { BehaviorSubject } from 'rxjs';
+import { AttachmentType, CommonService, Inquiry, Privilege } from '../../../../../shared';
 import { PrivilegeEditComponent } from '../../../../../shared/components/privilege-edit/privilege-edit.component';
 import { WizardStorageService } from '../../../../wizard/shared';
-import { BehaviorSubject } from 'rxjs';
 
 @Component({
   selector: 'app-edit-privilege-dialog',
@@ -33,11 +33,11 @@ export class EditPrivilegeDialogComponent implements OnInit {
 
   private prepare(): Inquiry {
     const privilege: Privilege = (() => {
-      let result;
+      let result = new Privilege();
       if (!this.privilegeEditComponent.privilegeForm.controls.withoutPrivilege.value) {
-        result = new Privilege(this.privilegeEditComponent.privilegeForm.controls.privilege.value.id,
-          this.privilegeEditComponent.privilegeForm.controls.privilege.value.name,
-          this.privilegeEditComponent.privilegeForm.controls.privilegeOrder.value);
+        result.id = this.privilegeEditComponent.privilegeForm.controls.privilege.value.id;
+        result.name = this.privilegeEditComponent.privilegeForm.controls.privilege.value.name;
+        result.privilegeOrder = this.privilegeEditComponent.privilegeForm.controls.privilegeOrder.value;
         result.privilegeProofDocument =
           this.commonService.getDocumentByType([this.privilegeEditComponent.confirmationProofDocumentComponent], AttachmentType.PrivilegeProofDocument);
       }
