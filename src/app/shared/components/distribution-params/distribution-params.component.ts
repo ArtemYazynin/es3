@@ -42,6 +42,7 @@ export class DistributionParamsComponent implements OnInit, AfterViewInit {
     this.$groupOfSpecificity = this.specificityService.get();
   }
   ngAfterViewInit(): void {
+    if(!this.model) return;
     this.inquiryInfoForm.patchValue({
       wishDate: this.model.wishDate,
       specificity: this.model.specificity,
