@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, OnDestroy, ChangeDetectionStrategy } from '@angular/core';
+import { Component, OnInit, Input, OnDestroy, ChangeDetectionStrategy, ElementRef } from '@angular/core';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { Institution, CommonService, InstitutionService, inquiryType, InquiryType, SettingsService, Inquiry } from '../../../../shared';
 import { Observable, Subject } from 'rxjs';
@@ -62,11 +62,15 @@ export class EditInstitutionsComponent implements OnInit, OnDestroy {
   isValid(): boolean {
     return this.selectedInstitutions.length > 0;
   }
-  add(event: MatAutocompleteSelectedEvent) {
+  add(event: MatAutocompleteSelectedEvent, inputElement: any) {
     if (!event || !event.option || !event.option.value) return;
     const institution = event.option.value;
     this._add(institution);
-    document.getElementsByTagName("input")[0].blur();
+    /* 
+      angular.material bug 
+      https://github.com/angular/material2/issues/9061
+    */
+    inputElement.blur();//fix
 
   }
 
