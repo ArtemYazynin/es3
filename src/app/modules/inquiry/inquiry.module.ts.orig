@@ -19,7 +19,13 @@ import { EditPreschoolInstitutionDialogComponent } from './edit-preschool-instit
 import { EditPrivilegeDialogComponent } from './edit-privilege-dialog/edit-privilege-dialog.component';
 import { InquiryReadComponent } from './inquiry-read/inquiry-read.component';
 import { InquiryCommonInfoComponent } from './shared/components/inquiry-common-info/inquiry-common-info.component';
+<<<<<<< HEAD
+=======
+import { EditPrivilegeDialogComponent } from './edit-privilege-dialog/edit-privilege-dialog.component';
+import { EditPersonDialogComponent } from './edit-person-dialog/edit-person-dialog.component';
+import { EditInquiryInfoDialogComponent } from './edit-inquiry-info-dialog/edit-inquiry-info-dialog.component';
 import { EditContactInfoDialogComponent } from './edit-contact-info-dialog/edit-contact-info-dialog.component';
+>>>>>>> master
 
 @NgModule({
   imports: [
@@ -46,8 +52,14 @@ import { EditContactInfoDialogComponent } from './edit-contact-info-dialog/edit-
     ]),
 
   ],
-  declarations: [InquiryReadComponent, InquiryCommonInfoComponent, RegisterSourcePipe, EditPrivilegeDialogComponent, EditPersonDialogComponent, EditInquiryInfoDialogComponent, EditPreschoolInstitutionDialogComponent,EditContactInfoDialogComponent],
+<<<<<<< HEAD
+  declarations: [InquiryReadComponent, InquiryCommonInfoComponent, RegisterSourcePipe, EditPrivilegeDialogComponent, EditPersonDialogComponent, EditInquiryInfoDialogComponent, EditPreschoolInstitutionDialogComponent],
   providers: [StatusService],
-  entryComponents: [EditPrivilegeDialogComponent, EditPersonDialogComponent, EditInquiryInfoDialogComponent, EditPreschoolInstitutionDialogComponent, EditContactInfoDialogComponent]
+  entryComponents: [EditPrivilegeDialogComponent, EditPersonDialogComponent, EditInquiryInfoDialogComponent, EditPreschoolInstitutionDialogComponent]
+=======
+  declarations: [InquiryReadComponent, InquiryCommonInfoComponent, RegisterSourcePipe, EditPrivilegeDialogComponent, EditPersonDialogComponent, EditInquiryInfoDialogComponent, EditContactInfoDialogComponent],
+  providers: [StatusService],
+  entryComponents: [EditPrivilegeDialogComponent, EditPersonDialogComponent, EditInquiryInfoDialogComponent, EditContactInfoDialogComponent]
+>>>>>>> master
 })
 export class InquiryModule { }

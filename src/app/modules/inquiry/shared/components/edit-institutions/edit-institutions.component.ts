@@ -9,7 +9,7 @@ import { CommonService, Inquiry, inquiryType, InquiryType, Institution, Institut
   selector: 'app-edit-institutions',
   templateUrl: './edit-institutions.component.html',
   styleUrls: ['./edit-institutions.component.css'],
-  //changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class EditInstitutionsComponent implements OnInit, OnDestroy {
   @Input() inquiry: Inquiry;

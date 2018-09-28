@@ -239,35 +239,30 @@
       </app-inquiry-info-edit>
     </div>
     <div class="col-md-4">
-      <div class="widget-box">
-        <div class="widget-title">
-          <h5>Текущее место обучения ребенка</h5>
-        </div>
-        <div class="widget-content">
-          <div [ngSwitch]="inquiry.currentEducationPlace.isOther">
-            <div *ngSwitchCase="true">
-              <div class="form-group">
-                <b>Тип </b> Другая
-              </div>
-              <div class="form-group">
-                <b>Образовательная организация </b> {{inquiry.currentEducationPlace.other}}
-              </div>
+      <app-inquiry-info-edit title="Текущее место обучения ребенка" (edit)="edit.currentEducationPlace()">
+        <div [ngSwitch]="inquiry.currentEducationPlace.isOther">
+          <div *ngSwitchCase="true">
+            <div class="form-group">
+              <b>Тип </b> Другая
             </div>
-            <div *ngSwitchCase="false">
-              <div class="row">
-                <dl class="dl-horizontal">
-                  <dt>Тип </dt>
-                  <dd>{{($institutionType | async)?.name}}</dd>
-                  <dt>Образовательная организация </dt>
-                  <dd>{{inquiry.currentEducationPlace.institution.name}}</dd>
-                  <dt>Група/класс </dt>
-                  <dd>{{($group | async)?.name || "-"}}</dd>
-                </dl>
-              </div>
+            <div class="form-group">
+              <b>Образовательная организация </b> {{inquiry.currentEducationPlace.other}}
+            </div>
+          </div>
+          <div *ngSwitchCase="false">
+            <div class="row">
+              <dl class="dl-horizontal">
+                <dt>Тип </dt>
+                <dd>{{($institutionType | async)?.name}}</dd>
+                <dt>Образовательная организация </dt>
+                <dd>{{inquiry.currentEducationPlace.institution.name}}</dd>
+                <dt>Група/класс </dt>
+                <dd>{{($group | async)?.name || "-"}}</dd>
+              </dl>
             </div>
           </div>
         </div>
-      </div>
+      </app-inquiry-info-edit>
     </div>
   </div>
   <div class="col-md-12">
@@ -305,19 +300,14 @@
       </app-inquiry-info-edit>
     </div>
     <div class="col-md-4">
-      <div class="widget-box">
-        <div class="widget-title">
-          <h5>Файлы</h5>
+      <app-inquiry-info-edit title="Файлы" (edit)="edit.fileAttachments()">
+        <div class="form-group" *ngFor="let file of inquiry.filesInfo.files">
+          {{file.name}}({{file.description}})
         </div>
-        <div class="widget-content">
-          <div class="form-group" *ngFor="let file of inquiry.filesInfo.files">
-            {{file.name}}({{file.description}})
-          </div>
-          <div class="form-group">
-            <b>Документы подписаны электронной подписью</b> {{inquiry.filesInfo.haveDigitalSignature ? "Да" : "Нет"}}
-          </div>
+        <div class="form-group">
+          <b>Документы подписаны электронной подписью</b> {{inquiry.filesInfo.haveDigitalSignature ? "Да" : "Нет"}}
         </div>
-      </div>
+      </app-inquiry-info-edit>
     </div>
   </div>
 

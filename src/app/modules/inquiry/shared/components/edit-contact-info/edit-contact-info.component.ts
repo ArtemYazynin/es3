@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { FormBuilder, FormGroup, ValidatorFn, Validators } from '@angular/forms';
 import { MatCheckboxChange } from '@angular/material';
 import { FormService } from '../../../../../shared';
@@ -8,7 +8,8 @@ import { ContactInfo } from '../../../../wizard/shared';
 @Component({
   selector: 'app-edit-contact-info',
   templateUrl: './edit-contact-info.component.html',
-  styleUrls: ['./edit-contact-info.component.css']
+  styleUrls: ['./edit-contact-info.component.css'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class EditContactInfoComponent implements OnInit {
   @Input() contactInfo: ContactInfo;
@@ -26,7 +27,7 @@ export class EditContactInfoComponent implements OnInit {
     this.updateForm();
 
   }
-  
+
   isValid() {
     return this.contactsForm && this.contactsForm.valid;
   }

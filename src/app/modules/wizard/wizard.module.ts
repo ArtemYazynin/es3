@@ -11,7 +11,7 @@ import { MyDatePickerModule } from 'mydatepicker';
 import { InMemoryService } from '../../in-memory-server';
 import { MaterialModule } from '../../material.module';
 import { ShareModule } from '../../share.module';
-import { AddressService, AreaService, AttachmentTypePipe, CitizenshipService, CommonService, DrawService, EnumToArrayPipe, FormService, GroupService, IdentityCardService, IdentityCardTypePipe, InquiryService, InstitutionService, PrivilegeOrderService, PrivilegeService, RelationTypeService, SettingsService, SpecHealthService, SpecificityService } from '../../shared';
+import { AddressService, AreaService, CitizenshipService, CommonService, DrawService, EnumToArrayPipe, FormService, GroupService, IdentityCardService, IdentityCardTypePipe, InquiryService, InstitutionService, PrivilegeOrderService, PrivilegeService, RelationTypeService, SettingsService, SpecHealthService, SpecificityService } from '../../shared';
 import { ConfirmDialogComponent } from '../../shared/components/confirm-dialog/confirm-dialog.component';
 import { DisabilityChildComponent } from '../../shared/components/disability-child/disability-child.component';
 import { SpecHealthComponent } from '../../shared/components/spec-health/spec-health.component';
@@ -68,7 +68,6 @@ import { wizardRoutes } from './wizard-routes';
     YesNoPipe,
     IdentityCardTypePipe,
     EnumToArrayPipe,
-    AttachmentTypePipe,
     ChildComponent,
     DisabilityChildComponent,
     SpecHealthComponent,
