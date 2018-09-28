@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { EditPersonComponent } from '../modules/inquiry/shared/components/edit-person/edit-person.component';
-import { WizardStorageService } from '../modules/wizard/shared';
 import { CommonService } from './common.service';
 import { DublicatesFinder } from './dublicates-finder';
 import { HttpInterceptor } from './http-interceptor';
@@ -17,6 +16,9 @@ import { StayMode } from './models/stay-mode';
 import { EditInquiryInfoComponent } from '../modules/inquiry/shared/components/edit-inquiry-info/edit-inquiry-info.component';
 import { InquiryInfo } from './models/inquiry-info';
 import { AgeGroup } from './models/age-group';
+import { EditContactInfoComponent } from '../modules/inquiry/shared/components/edit-contact-info/edit-contact-info.component';
+import { ContactInfo } from './models/contact-info';
+import { WizardStorageService } from '../modules/wizard/shared/wizard-storage.service';
 
 @Injectable({
   providedIn: 'root'
@@ -59,8 +61,14 @@ export class InquiryService {
     update({ inquiryInfo: inquiryInfo });
   }
 
-  saveWishInstitutions(){
-    
+  saveWishInstitutions() {
+
+  }
+
+  saveContactInfo(editContactInfoComponent: EditContactInfoComponent, update: (patch: object) => void) {
+    const contactInfo = new ContactInfo(editContactInfoComponent.contactsForm);
+    update({ contactInfo: contactInfo })
+    //this.storageService.set(this.inquiryType, { contactInfo: contactInfo })
   }
 
   create(inquiry: Inquiry): Observable<Inquiry> {

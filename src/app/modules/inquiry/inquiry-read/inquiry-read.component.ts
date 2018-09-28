@@ -8,6 +8,7 @@ import { CitizenshipService, ConfirmationDocument, Country, DrawService, Entity,
 import { EditPersonDialogComponent } from '../edit-person-dialog/edit-person-dialog.component';
 import { EditPrivilegeDialogComponent } from '../edit-privilege-dialog/edit-privilege-dialog.component';
 import { EditInquiryInfoDialogComponent } from '../edit-inquiry-info-dialog/edit-inquiry-info-dialog.component';
+import { EditContactInfoDialogComponent } from '../edit-contact-info-dialog/edit-contact-info-dialog.component';
 
 
 @Component({
@@ -118,7 +119,7 @@ export class InquiryReadComponent implements OnInit, OnDestroy {
     }
 
     const contactInfo = () => {
-      return true;
+      this.dialog.open(EditContactInfoDialogComponent, getDefaultConfig());
     }
     return {
       common: common,
