@@ -300,19 +300,14 @@
       </app-inquiry-info-edit>
     </div>
     <div class="col-md-4">
-      <div class="widget-box">
-        <div class="widget-title">
-          <h5>Файлы</h5>
+      <app-inquiry-info-edit title="Файлы" (edit)="edit.fileAttachments()">
+        <div class="form-group" *ngFor="let file of inquiry.filesInfo.files">
+          {{file.name}}({{file.description}})
         </div>
-        <div class="widget-content">
-          <div class="form-group" *ngFor="let file of inquiry.filesInfo.files">
-            {{file.name}}({{file.description}})
-          </div>
-          <div class="form-group">
-            <b>Документы подписаны электронной подписью</b> {{inquiry.filesInfo.haveDigitalSignature ? "Да" : "Нет"}}
-          </div>
+        <div class="form-group">
+          <b>Документы подписаны электронной подписью</b> {{inquiry.filesInfo.haveDigitalSignature ? "Да" : "Нет"}}
         </div>
-      </div>
+      </app-inquiry-info-edit>
     </div>
   </div>
 

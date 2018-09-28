@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, ChangeDetectionStrategy } from '@angular/core';
 import { Area, Institution, Entity, Group, AreaType, inquiryType, AreaService, InstitutionService, FormService, GroupService, CommonService, Inquiry } from '../../../../../shared';
 import { Observable } from 'rxjs';
 import { FormGroup, Validators, FormControl } from '@angular/forms';
@@ -10,7 +10,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 @Component({
   selector: 'app-edit-current-education-place',
   templateUrl: './edit-current-education-place.component.html',
-  styleUrls: ['./edit-current-education-place.component.css']
+  styleUrls: ['./edit-current-education-place.component.css'],
+  changeDetection:ChangeDetectionStrategy.OnPush
 })
 export class EditCurrentEducationPlaceComponent implements OnInit {
   @Input() inquiry:Inquiry;

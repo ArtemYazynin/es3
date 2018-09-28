@@ -125,6 +125,10 @@ export class InquiryReadComponent implements OnInit, OnDestroy {
     const currentEducationPlace = () => {
 
     }
+
+    const fileAttachments = () => {
+
+    }
     return {
       common: common,
       privilege: privilege,
@@ -132,7 +136,8 @@ export class InquiryReadComponent implements OnInit, OnDestroy {
       inquiryInfo: inquiryInfo,
       institutions: institutions,
       contactInfo: contactInfo,
-      currentEducationPlace: currentEducationPlace
+      currentEducationPlace: currentEducationPlace,
+      fileAttachments: fileAttachments
     }
   })();
 }
