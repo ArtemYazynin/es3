@@ -1,22 +1,23 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, of } from 'rxjs';
+import { EditInquiryInfoComponent } from '../modules/inquiry/shared/components/edit-inquiry-info/edit-inquiry-info.component';
+import { EditInstitutionsComponent } from '../modules/inquiry/shared/components/edit-institutions/edit-institutions.component';
 import { EditPersonComponent } from '../modules/inquiry/shared/components/edit-person/edit-person.component';
 import { WizardStorageService } from '../modules/wizard/shared';
+import { ApplicantType } from './applicant-type.enum';
 import { CommonService } from './common.service';
 import { DublicatesFinder } from './dublicates-finder';
 import { HttpInterceptor } from './http-interceptor';
+import { AgeGroup } from './models/age-group';
+import { DistributionParams } from './models/distribution-params';
 import { Guid } from './models/guid';
 import { Inquiry } from './models/inquiry';
+import { InquiryInfo } from './models/inquiry-info';
+import { Parent } from './models/parent';
 import { PortalIdentity } from './models/portal-identity';
 import { RegisterSource } from './models/register-source.enum';
 import { Status } from './models/status';
-import { ApplicantType } from './applicant-type.enum';
-import { Parent } from './models/parent';
-import { DistributionParams } from './models/distribution-params';
 import { StayMode } from './models/stay-mode';
-import { EditInquiryInfoComponent } from '../modules/inquiry/shared/components/edit-inquiry-info/edit-inquiry-info.component';
-import { InquiryInfo } from './models/inquiry-info';
-import { AgeGroup } from './models/age-group';
 
 @Injectable({
   providedIn: 'root'
@@ -59,8 +60,11 @@ export class InquiryService {
     update({ inquiryInfo: inquiryInfo });
   }
 
-  saveWishInstitutions(){
-    
+  saveWishInstitutions(editInstitutionComponent: EditInstitutionsComponent, update: (patch: object) => void): void {
+    const institutions = (() => {
+      return editInstitutionComponent.selectedInstitutions;
+    })();
+    update({ institutions: institutions });
   }
 
   create(inquiry: Inquiry): Observable<Inquiry> {

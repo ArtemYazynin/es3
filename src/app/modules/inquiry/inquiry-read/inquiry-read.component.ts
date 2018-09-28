@@ -4,10 +4,11 @@ import { MatDialog, MatDialogConfig } from '@angular/material';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { map, takeUntil } from 'rxjs/operators';
-import { CitizenshipService, ConfirmationDocument, Country, DrawService, Entity, Group, GroupService, Inquiry, InquiryService, InstitutionService, PrivilegeOrder, PrivilegeOrderService, Specificity, SpecificityService, Status, StatusService, ApplicantType } from '../../../shared/index';
-import { EditPersonDialogComponent } from '../edit-person-dialog/edit-person-dialog.component';
-import { EditPrivilegeDialogComponent } from '../edit-privilege-dialog/edit-privilege-dialog.component';
+import { ApplicantType, CitizenshipService, ConfirmationDocument, Country, DrawService, Entity, Group, GroupService, Inquiry, InquiryService, InstitutionService, PrivilegeOrder, PrivilegeOrderService, Specificity, SpecificityService, Status, StatusService } from '../../../shared/index';
 import { EditInquiryInfoDialogComponent } from '../edit-inquiry-info-dialog/edit-inquiry-info-dialog.component';
+import { EditPersonDialogComponent } from '../edit-person-dialog/edit-person-dialog.component';
+import { EditPreschoolInstitutionDialogComponent } from '../edit-preschool-institution-dialog/edit-preschool-institution-dialog.component';
+import { EditPrivilegeDialogComponent } from '../edit-privilege-dialog/edit-privilege-dialog.component';
 
 
 @Component({
@@ -114,7 +115,7 @@ export class InquiryReadComponent implements OnInit, OnDestroy {
       this.dialog.open(EditInquiryInfoDialogComponent, getDefaultConfig());
     }
     const institutions = () => {
-
+      this.dialog.open(EditPreschoolInstitutionDialogComponent, getDefaultConfig());
     }
 
     const contactInfo = () => {

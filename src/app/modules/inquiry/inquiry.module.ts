@@ -13,11 +13,12 @@ import { ShareModule } from '../../share.module';
 import { RegisterSourcePipe } from '../../shared/models/register-source.pipe';
 import { RegisterCompleteResolver } from '../../shared/register-complete-resolver';
 import { StatusService } from '../../shared/status.service';
+import { EditInquiryInfoDialogComponent } from './edit-inquiry-info-dialog/edit-inquiry-info-dialog.component';
+import { EditPersonDialogComponent } from './edit-person-dialog/edit-person-dialog.component';
+import { EditPreschoolInstitutionDialogComponent } from './edit-preschool-institution-dialog/edit-preschool-institution-dialog.component';
+import { EditPrivilegeDialogComponent } from './edit-privilege-dialog/edit-privilege-dialog.component';
 import { InquiryReadComponent } from './inquiry-read/inquiry-read.component';
 import { InquiryCommonInfoComponent } from './shared/components/inquiry-common-info/inquiry-common-info.component';
-import { EditPrivilegeDialogComponent } from './edit-privilege-dialog/edit-privilege-dialog.component';
-import { EditPersonDialogComponent } from './edit-person-dialog/edit-person-dialog.component';
-import { EditInquiryInfoDialogComponent } from './edit-inquiry-info-dialog/edit-inquiry-info-dialog.component';
 
 @NgModule({
   imports: [
@@ -44,8 +45,8 @@ import { EditInquiryInfoDialogComponent } from './edit-inquiry-info-dialog/edit-
     ]),
 
   ],
-  declarations: [InquiryReadComponent, InquiryCommonInfoComponent, RegisterSourcePipe, EditPrivilegeDialogComponent, EditPersonDialogComponent, EditInquiryInfoDialogComponent],
+  declarations: [InquiryReadComponent, InquiryCommonInfoComponent, RegisterSourcePipe, EditPrivilegeDialogComponent, EditPersonDialogComponent, EditInquiryInfoDialogComponent, EditPreschoolInstitutionDialogComponent],
   providers: [StatusService],
-  entryComponents: [EditPrivilegeDialogComponent, EditPersonDialogComponent, EditInquiryInfoDialogComponent]
+  entryComponents: [EditPrivilegeDialogComponent, EditPersonDialogComponent, EditInquiryInfoDialogComponent, EditPreschoolInstitutionDialogComponent]
 })
 export class InquiryModule { }

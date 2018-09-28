@@ -1,9 +1,9 @@
-import { Component, OnInit, Input, OnDestroy, ChangeDetectionStrategy, ElementRef } from '@angular/core';
-import { FormGroup, FormBuilder } from '@angular/forms';
-import { Observable, Subject } from 'rxjs';
-import { takeUntil, startWith, map } from 'rxjs/operators';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import { MatAutocompleteSelectedEvent } from '@angular/material';
-import { Inquiry, Institution, CommonService, InstitutionService, SettingsService, inquiryType, InquiryType } from '../../../../../shared';
+import { Observable, Subject } from 'rxjs';
+import { map, startWith, takeUntil } from 'rxjs/operators';
+import { CommonService, Inquiry, inquiryType, InquiryType, Institution, InstitutionService, SettingsService } from '../../../../../shared';
 
 @Component({
   selector: 'app-edit-institutions',
@@ -25,6 +25,11 @@ export class EditInstitutionsComponent implements OnInit, OnDestroy {
   constructor(private commonService: CommonService, private institutionService: InstitutionService, private fb: FormBuilder, private settingsService: SettingsService) { }
 
   ngOnInit() {
+    this.settingsService.get()
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe(result => {
+        this.maxCountWishPreschoolInstitutions = result.maxCountWishPreschools;
+      });
     this.institutionService.getInstitutions(this.inquiry.type == inquiryType.preschool ? InquiryType.preschool : InquiryType.school)
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(result => {
@@ -42,11 +47,7 @@ export class EditInstitutionsComponent implements OnInit, OnDestroy {
           });
         }
       });
-    this.settingsService.get()
-      .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe(result => {
-        this.maxCountWishPreschoolInstitutions = result.maxCountWishPreschools;
-      });
+
     this.form = this.fb.group({
       "institution": [
         "",
@@ -78,7 +79,7 @@ export class EditInstitutionsComponent implements OnInit, OnDestroy {
     this.selectedInstitutions.push(institution);
 
     (function removeFromInstitutionList(outer) {
-      const index = outer.institutions.indexOf(institution);
+      const index = outer.institutions.findIndex(elem => elem.id == institution.id);
       outer.institutions.splice(index, 1);
       outer.form.patchValue({ institution: "" });
     })(this);
