@@ -1,8 +1,8 @@
 import { ChangeDetectionStrategy, Component, Inject, OnInit, ViewChild } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { BehaviorSubject } from 'rxjs';
+import { CommonService, Inquiry, InquiryService } from '../../../shared';
 import { PrivilegeEditComponent } from '../../../shared/components/privilege-edit/privilege-edit.component';
-import { Inquiry, CommonService, Privilege, AttachmentType } from '../../../shared';
 import { WizardStorageService } from '../../wizard/shared';
 
 @Component({
@@ -15,34 +15,23 @@ export class EditPrivilegeDialogComponent implements OnInit {
   @ViewChild(PrivilegeEditComponent) privilegeEditComponent: PrivilegeEditComponent;
   constructor(public dialogRef: MatDialogRef<EditPrivilegeDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: { $inquiry: BehaviorSubject<Inquiry> },
-    private commonService: CommonService, private storageService: WizardStorageService) { }
+    private commonService: CommonService, private storageService: WizardStorageService, private inquiryService: InquiryService) { }
 
   ngOnInit() {
   }
 
   save() {
-    const inquiry = this.prepare();
-    this.data.$inquiry.next(inquiry);
-    this.storageService.set(inquiry["_type"], { privilege: inquiry.privilege })
+    this.inquiryService.savePrivilege(this.privilegeEditComponent, (patch) => {
+      this.storageService.set(this.data.$inquiry.getValue().type, patch);
+
+      let inquiry = this.data.$inquiry.getValue();
+      Object.assign(inquiry, patch);
+      this.data.$inquiry.next(inquiry);
+    });
     this.dialogRef.close();
   }
 
   isValid = (): boolean => {
     return !!this.privilegeEditComponent && this.privilegeEditComponent.isValid();
-  }
-
-  private prepare(): Inquiry {
-    const privilege: Privilege = (() => {
-      let result = new Privilege();
-      if (!this.privilegeEditComponent.privilegeForm.controls.withoutPrivilege.value) {
-        result.id = this.privilegeEditComponent.privilegeForm.controls.privilege.value.id;
-        result.name = this.privilegeEditComponent.privilegeForm.controls.privilege.value.name;
-        result.privilegeOrder = this.privilegeEditComponent.privilegeForm.controls.privilegeOrder.value;
-        result.privilegeProofDocument =
-          this.commonService.getDocumentByType([this.privilegeEditComponent.confirmationProofDocumentComponent], AttachmentType.PrivilegeProofDocument);
-      }
-      return result;
-    })();
-    return Object.assign({}, this.data.$inquiry.getValue(), { privilege: privilege });
   }
 }

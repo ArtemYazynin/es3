@@ -4,8 +4,10 @@ import { EditInquiryInfoComponent } from '../modules/inquiry/shared/components/e
 import { EditInstitutionsComponent } from '../modules/inquiry/shared/components/edit-institutions/edit-institutions.component';
 import { EditPersonComponent } from '../modules/inquiry/shared/components/edit-person/edit-person.component';
 import { WizardStorageService } from '../modules/wizard/shared';
+import { CommonService } from '../shared/common.service';
+import { AttachmentType } from '../shared/models/attachment-type.enum';
 import { ApplicantType } from './applicant-type.enum';
-import { CommonService } from './common.service';
+import { PrivilegeEditComponent } from './components/privilege-edit/privilege-edit.component';
 import { DublicatesFinder } from './dublicates-finder';
 import { HttpInterceptor } from './http-interceptor';
 import { AgeGroup } from './models/age-group';
@@ -15,6 +17,7 @@ import { Inquiry } from './models/inquiry';
 import { InquiryInfo } from './models/inquiry-info';
 import { Parent } from './models/parent';
 import { PortalIdentity } from './models/portal-identity';
+import { Privilege } from './models/privilege';
 import { RegisterSource } from './models/register-source.enum';
 import { Status } from './models/status';
 import { StayMode } from './models/stay-mode';
@@ -65,6 +68,21 @@ export class InquiryService {
       return editInstitutionComponent.selectedInstitutions;
     })();
     update({ institutions: institutions });
+  }
+
+  savePrivilege(privilegeEditComponent: PrivilegeEditComponent, update: (patch: object) => void): void {
+    const privilege: Privilege = (() => {
+      let result = new Privilege();
+      if (!privilegeEditComponent.privilegeForm.controls.withoutPrivilege.value) {
+        result.id = privilegeEditComponent.privilegeForm.controls.privilege.value.id;
+        result.name = privilegeEditComponent.privilegeForm.controls.privilege.value.name;
+        result.privilegeOrder = privilegeEditComponent.privilegeForm.controls.privilegeOrder.value;
+        result.privilegeProofDocument =
+          this.commonService.getDocumentByType([privilegeEditComponent.confirmationProofDocumentComponent], AttachmentType.PrivilegeProofDocument);
+      }
+      return result;
+    })();
+    update({ privilege: privilege });
   }
 
   create(inquiry: Inquiry): Observable<Inquiry> {

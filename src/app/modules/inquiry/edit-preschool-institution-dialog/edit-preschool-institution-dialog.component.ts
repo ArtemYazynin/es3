@@ -15,7 +15,7 @@ export class EditPreschoolInstitutionDialogComponent implements OnInit {
   @ViewChild(EditInstitutionsComponent) editInstitutionsComponent: EditInstitutionsComponent;
   constructor(public dialogRef: MatDialogRef<EditPreschoolInstitutionDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: { $inquiry: BehaviorSubject<Inquiry> },
-    private storageService: WizardStorageService, private inquiryService: InquiryService, ) { }
+    private storageService: WizardStorageService, private inquiryService: InquiryService) { }
 
   ngOnInit() {
   }
