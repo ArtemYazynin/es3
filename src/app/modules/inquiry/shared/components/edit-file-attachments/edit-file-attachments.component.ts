@@ -8,14 +8,9 @@ import { ApplicantType, AttachmentType, CommonService, Entity, FileAttachment, F
   selector: 'app-edit-file-attachments',
   templateUrl: './edit-file-attachments.component.html',
   styleUrls: ['./edit-file-attachments.component.css'],
-  changeDetection:ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class EditFileAttachmentsComponent implements OnInit, AfterViewInit,DoCheck, OnDestroy {
-  counter:number = 0;
-  ngDoCheck(): void {
-    this.counter++;
-    console.log("counter: " + this.counter)
-  }
+export class EditFileAttachmentsComponent implements OnInit, AfterViewInit, OnDestroy {
   @Input() inquiry: Inquiry;
 
   private ngUnsubscribe: Subject<any> = new Subject();
@@ -67,7 +62,7 @@ export class EditFileAttachmentsComponent implements OnInit, AfterViewInit,DoChe
       .subscribe(params => {
         const updateFileView = (fileView: FileView, value: string) => {
           fileView.name = value;
-          fileView.fileAttachment.file = null;
+          fileView.fileAttachment.file = value == this.fileNotChoosen ? null : value;
         }
         if (params.file) {
           if (!this.fileSizeIsValid(params.file)) {
@@ -76,12 +71,12 @@ export class EditFileAttachmentsComponent implements OnInit, AfterViewInit,DoChe
           }
           const fileView = this.bunchOfFileView.find(x => x.index == params.index);
           updateFileView(fileView, params.file.name);
-          fileView.fileAttachment.file = params.file;
+         
         } else {
           const fileView = this.bunchOfFileView.find(x => x.fileAttachment.attachmentType == params.attachmentType && x.index == params.index);
           updateFileView(fileView, this.fileNotChoosen);
         }
-        this.cdr.detectChanges();
+        this.cdr.markForCheck();
       });
   }
 

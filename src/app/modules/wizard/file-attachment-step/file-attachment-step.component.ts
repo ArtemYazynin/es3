@@ -1,25 +1,27 @@
-import { ChangeDetectionStrategy, Component, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit, ViewChild, DoCheck, AfterViewChecked, AfterViewInit, ChangeDetectorRef } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { isNullOrUndefined } from 'util';
 import { Inquiry, inquiryType } from '../../../shared';
 import { EditFileAttachmentsComponent } from '../../inquiry/shared/components/edit-file-attachments/edit-file-attachments.component';
 import { StepBase, WizardStorageService } from '../shared';
+import { BehaviorSubject } from 'rxjs';
 
 @Component({
   selector: 'app-file-attachment-step',
   templateUrl: './file-attachment-step.component.html',
   styleUrls: ['./file-attachment-step.component.css'],
-  //changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class FileAttachmentStepComponent implements OnInit, StepBase {
   @ViewChild(EditFileAttachmentsComponent) editFileAttachmentsComponent: EditFileAttachmentsComponent
   inquiry: Inquiry;
   inquiryType = this.route.snapshot.data.resolved.inquiryType;
 
-  constructor(private router: Router, private route: ActivatedRoute, private storageService: WizardStorageService) { }
+  constructor(private router: Router, private route: ActivatedRoute, private storageService: WizardStorageService, private cdr:ChangeDetectorRef) { }
 
   ngOnInit() {
     this.inquiry = this.storageService.get(this.inquiryType);
+    
   }
 
   isValid() {
