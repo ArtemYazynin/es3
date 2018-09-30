@@ -1,8 +1,8 @@
-import { AfterViewInit, ChangeDetectorRef, Component, Input, OnDestroy, OnInit, ChangeDetectionStrategy, DoCheck } from '@angular/core';
+import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { from, fromEvent, Observable, Subject } from 'rxjs';
 import { filter, map, takeUntil } from 'rxjs/operators';
-import { isNullOrUndefined, log } from 'util';
-import { ApplicantType, AttachmentType, CommonService, Entity, FileAttachment, FileView, Inquiry } from '../../../../../shared';
+import { isNullOrUndefined } from 'util';
+import { ApplicantType, AttachmentType, CommonService, FileAttachment, FileView, Inquiry } from '../../../../../shared';
 
 @Component({
   selector: 'app-edit-file-attachments',
@@ -60,9 +60,15 @@ export class EditFileAttachmentsComponent implements OnInit, AfterViewInit, OnDe
           return { file: files[0], attachmentType: event.target["id"], index: event.target["dataset"].index };
         }))
       .subscribe(params => {
-        const updateFileView = (fileView: FileView, value: string) => {
-          fileView.name = value;
-          fileView.fileAttachment.file = value == this.fileNotChoosen ? null : value;
+        const updateFileView = (fileView: FileView, value: string | File) => {
+          if (typeof (value) == "string") {
+            fileView.name = value;
+            fileView.fileAttachment.file = value == this.fileNotChoosen ? null : value;
+          }
+          else {
+            fileView.name = value.name;
+            fileView.fileAttachment.file = value;
+          }
         }
         if (params.file) {
           if (!this.fileSizeIsValid(params.file)) {
@@ -70,8 +76,8 @@ export class EditFileAttachmentsComponent implements OnInit, AfterViewInit, OnDe
             return;
           }
           const fileView = this.bunchOfFileView.find(x => x.index == params.index);
-          updateFileView(fileView, params.file.name);
-         
+          updateFileView(fileView, params.file);
+
         } else {
           const fileView = this.bunchOfFileView.find(x => x.fileAttachment.attachmentType == params.attachmentType && x.index == params.index);
           updateFileView(fileView, this.fileNotChoosen);
