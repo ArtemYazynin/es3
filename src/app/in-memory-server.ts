@@ -7,10 +7,10 @@ import { Guid } from './shared/models/guid';
 export class InMemoryService implements InMemoryDbService {
   createDb() {
     let inquiries: Array<Inquiry> = [];
-    let statuses:Array<Status> = [
-      new Status(Guid.newGuid(),"Новое"),
-      new Status(Guid.newGuid(),"Очередник"),
-      new Status(Guid.newGuid(),"Отмена"),
+    let statuses: Array<Status> = [
+      new Status(Guid.newGuid(), "Новое"),
+      new Status(Guid.newGuid(), "Очередник"),
+      new Status(Guid.newGuid(), "Отмена"),
     ]
     let heroes = [
       { id: 1, name: 'Windstorm' },
@@ -73,7 +73,7 @@ export class InMemoryService implements InMemoryDbService {
       new Institution("0159E3B6-B4B2-4018-9F75-A452002DB9C6", "МБДОУ №6 детский сад \"Снежинка\"", 1),
       new Institution("FF271F42-4095-481B-872C-A54801581328", "Структурное подразделение ГБОУ СОШ с. Пестравка", 2),
       new Institution("DA1F4C68-090C-4ADF-855B-A54801581417", "Первомайский филиал ГБОУ СОШ им. Н.С.Доровского с. Подбельск", 2),
-      new Institution("55BC4673-3909-40F6-9410-A548015814A1", "Мочалеевский филиал ГБОУ СОШ с. Подбельск", 2)
+      new Institution("55BC4673-3909-40F6-9410-A548015814A1", "Мочалеевский филиал ГБОУ СОШ с. Подбельск", 2),
     ];
     let groups = [
       { id: "5258E28E-64F1-4F1F-810F-A548002D9A3A", name: "4Б ясельная", groupType: 1, institutionId: institutions[0].id },
@@ -83,6 +83,14 @@ export class InMemoryService implements InMemoryDbService {
       { id: "C592FB7F-B853-4781-99C5-A59800C352FF", name: "1 _коррекционный", groupType: 2, institutionId: institutions[3].id },
       { id: "A537C916-C95A-4DE8-A257-A59800C3D4FA", name: "_только для воспитанников СП школы №75", groupType: 2, institutionId: institutions[3].id },
       { id: "314BB1DF-0FCC-433D-ABB7-A59800C594DA", name: "_только для воспитанников СП школы №86", groupType: 2, institutionId: institutions[5].id },
+
+      { id: Guid.newGuid(), name: "1а", groupType: 2, institutionId: institutions[9].id },
+      { id: Guid.newGuid(), name: "1б", groupType: 2, institutionId: institutions[9].id },
+      { id: Guid.newGuid(), name: "1в", groupType: 2, institutionId: institutions[9].id },
+
+      { id: Guid.newGuid(), name: "2а", groupType: 2, institutionId: institutions[10].id },
+      { id: Guid.newGuid(), name: "2б", groupType: 2, institutionId: institutions[10].id },
+      { id: Guid.newGuid(), name: "2в", groupType: 2, institutionId: institutions[10].id }
     ];
     let privilegeOrders = [
       new PrivilegeOrder("48c83d8d-a583-410a-8e5a-a5480156ca38", "Внеочередное"),
@@ -120,7 +128,7 @@ export class InMemoryService implements InMemoryDbService {
       specificities: specificities,
       settings: settings,
       inquiries: inquiries,
-      statuses:statuses
+      statuses: statuses
     };
   }
 }
