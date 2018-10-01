@@ -1,14 +1,13 @@
 import { Injectable } from '@angular/core';
-import { inquiryType } from "../../../shared/models/inquiry-type";
-import { Inquiry } from '../../../shared/models/inquiry';
 import { isNullOrUndefined } from 'util';
-import { BehaviorSubject } from 'rxjs';
+import { Inquiry } from '../../../shared/models/inquiry';
+import { inquiryType } from "../../../shared/models/inquiry-type";
 
 @Injectable()
 export class WizardStorageService {
   private prefix = "inquiry";
 
-  
+
   get(type: string): Inquiry {
     const key = this.prefix + "/" + type;
     const inquiryData = JSON.parse(sessionStorage.getItem(key));
