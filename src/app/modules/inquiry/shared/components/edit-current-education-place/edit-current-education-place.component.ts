@@ -1,21 +1,21 @@
-import { Component, OnInit, Input, ChangeDetectionStrategy } from '@angular/core';
-import { Area, Institution, Entity, Group, AreaType, inquiryType, AreaService, InstitutionService, FormService, GroupService, CommonService, Inquiry } from '../../../../../shared';
-import { Observable } from 'rxjs';
-import { FormGroup, Validators, FormControl } from '@angular/forms';
-import { CurrentEducationPlaceStepService, WizardStorageService } from '../../../../wizard/shared';
-import { startWith, map } from 'rxjs/operators';
-import { MatCheckboxChange, MatSelectChange, MatAutocompleteSelectedEvent } from '@angular/material';
+import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { MatAutocompleteSelectedEvent, MatCheckboxChange, MatSelectChange } from '@angular/material';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Observable } from 'rxjs';
+import { map, startWith } from 'rxjs/operators';
+import { Area, AreaService, AreaType, CommonService, Entity, FormService, Group, GroupService, Inquiry, inquiryType, Institution, InstitutionService } from '../../../../../shared';
+import { CurrentEducationPlaceStepService, WizardStorageService } from '../../../../wizard/shared';
 
 @Component({
   selector: 'app-edit-current-education-place',
   templateUrl: './edit-current-education-place.component.html',
   styleUrls: ['./edit-current-education-place.component.css'],
-  changeDetection:ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class EditCurrentEducationPlaceComponent implements OnInit {
-  @Input() inquiry:Inquiry;
-  
+  @Input() inquiry: Inquiry;
+
   private currentMunicipality: Area;
   private municipalities: Array<Area> = [];
   private institutions: Array<Institution> = [];
@@ -147,7 +147,7 @@ export class EditCurrentEducationPlaceComponent implements OnInit {
               municipality: this.inquiry.currentEducationPlace.municipality,
               institutionType: this.inquiry.currentEducationPlace.institutionType,
               institution: this.inquiry.currentEducationPlace.institution,
-              group: this.inquiry.currentEducationPlace.group,
+              group: this.inquiry.currentEducationPlace.group ? this.inquiry.currentEducationPlace.group.id : "",
               isOther: this.inquiry.currentEducationPlace.isOther
             }
           }

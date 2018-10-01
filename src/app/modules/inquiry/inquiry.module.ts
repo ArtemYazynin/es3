@@ -13,13 +13,15 @@ import { ShareModule } from '../../share.module';
 import { RegisterSourcePipe } from '../../shared/models/register-source.pipe';
 import { RegisterCompleteResolver } from '../../shared/register-complete-resolver';
 import { StatusService } from '../../shared/status.service';
+import { EditContactInfoDialogComponent } from './edit-contact-info-dialog/edit-contact-info-dialog.component';
+import { EditCurrentEducationPlaceDialogComponent } from './edit-current-education-place-dialog/edit-current-education-place-dialog.component';
 import { EditInquiryInfoDialogComponent } from './edit-inquiry-info-dialog/edit-inquiry-info-dialog.component';
 import { EditPersonDialogComponent } from './edit-person-dialog/edit-person-dialog.component';
 import { EditPreschoolInstitutionDialogComponent } from './edit-preschool-institution-dialog/edit-preschool-institution-dialog.component';
 import { EditPrivilegeDialogComponent } from './edit-privilege-dialog/edit-privilege-dialog.component';
 import { InquiryReadComponent } from './inquiry-read/inquiry-read.component';
 import { InquiryCommonInfoComponent } from './shared/components/inquiry-common-info/inquiry-common-info.component';
-import { EditContactInfoDialogComponent } from './edit-contact-info-dialog/edit-contact-info-dialog.component';
+
 
 @NgModule({
   imports: [
@@ -46,8 +48,8 @@ import { EditContactInfoDialogComponent } from './edit-contact-info-dialog/edit-
     ]),
 
   ],
-  declarations: [InquiryReadComponent, InquiryCommonInfoComponent, RegisterSourcePipe, EditPrivilegeDialogComponent, EditPersonDialogComponent, EditInquiryInfoDialogComponent, EditPreschoolInstitutionDialogComponent,EditContactInfoDialogComponent],
+  declarations: [InquiryReadComponent, InquiryCommonInfoComponent, RegisterSourcePipe, EditPrivilegeDialogComponent, EditPersonDialogComponent, EditInquiryInfoDialogComponent, EditPreschoolInstitutionDialogComponent, EditContactInfoDialogComponent, EditCurrentEducationPlaceDialogComponent],
   providers: [StatusService],
-  entryComponents: [EditPrivilegeDialogComponent, EditPersonDialogComponent, EditInquiryInfoDialogComponent, EditPreschoolInstitutionDialogComponent, EditContactInfoDialogComponent]
+  entryComponents: [EditPrivilegeDialogComponent, EditPersonDialogComponent, EditInquiryInfoDialogComponent, EditPreschoolInstitutionDialogComponent, EditContactInfoDialogComponent, EditCurrentEducationPlaceDialogComponent]
 })
 export class InquiryModule { }

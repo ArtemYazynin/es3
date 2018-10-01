@@ -256,8 +256,8 @@
                 <dd>{{($institutionType | async)?.name}}</dd>
                 <dt>Образовательная организация </dt>
                 <dd>{{inquiry.currentEducationPlace.institution.name}}</dd>
-                <dt>Група/класс </dt>
-                <dd>{{($group | async)?.name || "-"}}</dd>
+                <dt>Группа/класс </dt>
+                <dd>{{inquiry.currentEducationPlace.group?.name || "-" }}</dd>
               </dl>
             </div>
           </div>

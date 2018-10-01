@@ -1,8 +1,8 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Inquiry } from '../../../shared';
 import { EditCurrentEducationPlaceComponent } from '../../inquiry/shared/components/edit-current-education-place/edit-current-education-place.component';
 import { CurrentEducationPlace, StepBase, WizardStorageService } from '../shared';
-import { Inquiry } from '../../../shared';
 
 @Component({
   selector: 'app-curren-education-place-step',
@@ -41,7 +41,7 @@ export class CurrentEducationPlaceStepComponent implements OnInit, StepBase {
         const place = new CurrentEducationPlace(this.editCurrentEducationPlaceComponent.currentPlaceForm.value["municipality"],
           this.editCurrentEducationPlaceComponent.currentPlaceForm.value["institutionType"], this.editCurrentEducationPlaceComponent.currentPlaceForm.value["institution"],
           this.editCurrentEducationPlaceComponent.currentPlaceForm.value["isOther"], this.editCurrentEducationPlaceComponent.currentPlaceForm.value["other"],
-          this.editCurrentEducationPlaceComponent.currentPlaceForm.value["group"]);
+          this.editCurrentEducationPlaceComponent.groups.find(group => group.id == this.editCurrentEducationPlaceComponent.currentPlaceForm.value["group"]));
         this.storageService.set(this.inquiryType, { currentEducationPlace: place });
         this.router.navigate(["../applicantTypeStep"], { relativeTo: this.route });
       }

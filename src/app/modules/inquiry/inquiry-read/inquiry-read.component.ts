@@ -4,13 +4,13 @@ import { MatDialog, MatDialogConfig } from '@angular/material';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { map, takeUntil } from 'rxjs/operators';
-import { ApplicantType, CitizenshipService, ConfirmationDocument, Country, DrawService, Entity, Group, GroupService, Inquiry, InquiryService, InstitutionService, PrivilegeOrder, PrivilegeOrderService, Specificity, SpecificityService, Status, StatusService } from '../../../shared/index';
+import { ApplicantType, CitizenshipService, ConfirmationDocument, Country, DrawService, Entity, GroupService, Inquiry, InquiryService, InstitutionService, PrivilegeOrder, PrivilegeOrderService, Specificity, SpecificityService, Status, StatusService } from '../../../shared/index';
+import { EditContactInfoDialogComponent } from '../edit-contact-info-dialog/edit-contact-info-dialog.component';
+import { EditCurrentEducationPlaceDialogComponent } from '../edit-current-education-place-dialog/edit-current-education-place-dialog.component';
 import { EditInquiryInfoDialogComponent } from '../edit-inquiry-info-dialog/edit-inquiry-info-dialog.component';
 import { EditPersonDialogComponent } from '../edit-person-dialog/edit-person-dialog.component';
 import { EditPreschoolInstitutionDialogComponent } from '../edit-preschool-institution-dialog/edit-preschool-institution-dialog.component';
 import { EditPrivilegeDialogComponent } from '../edit-privilege-dialog/edit-privilege-dialog.component';
-import { EditContactInfoDialogComponent } from '../edit-contact-info-dialog/edit-contact-info-dialog.component';
-
 
 @Component({
   selector: 'app-inquiry-read',
@@ -25,7 +25,6 @@ export class InquiryReadComponent implements OnInit, OnDestroy {
   privilegeOrders: Array<PrivilegeOrder>;
   statuses: Array<Status>;
   specificity: Observable<Specificity>;
-  $group: Observable<Group>;
   $institutionType: Observable<Entity<number>>;
 
   inquiryTypeFriendlyName: string;
@@ -63,8 +62,6 @@ export class InquiryReadComponent implements OnInit, OnDestroy {
       this.specificity = this.specificityService.get(inquiry.inquiryInfo.distributionParams.specificity).pipe(map(specificities => specificities[0]));
       this.$institutionType = this.institutionService.getTypes(inquiry.currentEducationPlace.institutionType)
         .pipe(map(types => types[0]));
-      this.$group = this.groupService.getGroup(inquiry.currentEducationPlace.institution, inquiry.currentEducationPlace.group)
-        .pipe(map(groups => groups.length > 1 ? null : groups[0]));
     })();
 
     this.buildForm();
@@ -124,7 +121,7 @@ export class InquiryReadComponent implements OnInit, OnDestroy {
     }
 
     const currentEducationPlace = () => {
-
+      this.dialog.open(EditCurrentEducationPlaceDialogComponent, getDefaultConfig());
     }
 
     const fileAttachments = () => {

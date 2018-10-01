@@ -1,12 +1,14 @@
-export class CurrentEducationPlace {
-    municipality:string;
-    institutionType:number;
-    institution:string;
-    group:string;
-    other:string;
-    isOther:boolean;
+import { Group } from "./group";
 
-    constructor(municipality:string,institutionType:number,institution:string,isOther:boolean,other:string, group?:string){
+export class CurrentEducationPlace {
+    municipality: string;
+    institutionType: number;
+    institution: string;
+    group: Group;
+    other: string;
+    isOther: boolean;
+
+    constructor(municipality: string, institutionType: number, institution: string, isOther: boolean, other: string, group?: Group) {
         this.municipality = municipality;
         this.institutionType = institutionType;
         this.institution = institution;

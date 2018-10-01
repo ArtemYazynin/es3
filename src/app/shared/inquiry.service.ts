@@ -1,8 +1,11 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, of } from 'rxjs';
+import { EditContactInfoComponent } from '../modules/inquiry/shared/components/edit-contact-info/edit-contact-info.component';
+import { EditCurrentEducationPlaceComponent } from '../modules/inquiry/shared/components/edit-current-education-place/edit-current-education-place.component';
 import { EditInquiryInfoComponent } from '../modules/inquiry/shared/components/edit-inquiry-info/edit-inquiry-info.component';
 import { EditInstitutionsComponent } from '../modules/inquiry/shared/components/edit-institutions/edit-institutions.component';
 import { EditPersonComponent } from '../modules/inquiry/shared/components/edit-person/edit-person.component';
+import { WizardStorageService } from '../modules/wizard/shared/wizard-storage.service';
 import { CommonService } from '../shared/common.service';
 import { AttachmentType } from '../shared/models/attachment-type.enum';
 import { ApplicantType } from './applicant-type.enum';
@@ -10,6 +13,8 @@ import { PrivilegeEditComponent } from './components/privilege-edit/privilege-ed
 import { DublicatesFinder } from './dublicates-finder';
 import { HttpInterceptor } from './http-interceptor';
 import { AgeGroup } from './models/age-group';
+import { ContactInfo } from './models/contact-info';
+import { CurrentEducationPlace } from './models/current-education-place';
 import { DistributionParams } from './models/distribution-params';
 import { Guid } from './models/guid';
 import { Inquiry } from './models/inquiry';
@@ -20,9 +25,6 @@ import { Privilege } from './models/privilege';
 import { RegisterSource } from './models/register-source.enum';
 import { Status } from './models/status';
 import { StayMode } from './models/stay-mode';
-import { EditContactInfoComponent } from '../modules/inquiry/shared/components/edit-contact-info/edit-contact-info.component';
-import { ContactInfo } from './models/contact-info';
-import { WizardStorageService } from '../modules/wizard/shared/wizard-storage.service';
 
 @Injectable({
   providedIn: 'root'
@@ -86,11 +88,22 @@ export class InquiryService {
     })();
     update({ privilege: privilege });
   }
-  
-   saveContactInfo(editContactInfoComponent: EditContactInfoComponent, update: (patch: object) => void) {
+
+  saveContactInfo(editContactInfoComponent: EditContactInfoComponent, update: (patch: object) => void) {
     const contactInfo = new ContactInfo(editContactInfoComponent.contactsForm);
     update({ contactInfo: contactInfo })
     //this.storageService.set(this.inquiryType, { contactInfo: contactInfo })
+  }
+
+  saveCurrentEducationPlace(editCurrentEducationPlaceComponent: EditCurrentEducationPlaceComponent, update: (patch: object) => void): void {
+    const currentEducationPlace: CurrentEducationPlace = (() => {
+      const place = new CurrentEducationPlace(editCurrentEducationPlaceComponent.currentPlaceForm.value["municipality"],
+        editCurrentEducationPlaceComponent.currentPlaceForm.value["institutionType"], editCurrentEducationPlaceComponent.currentPlaceForm.value["institution"],
+        editCurrentEducationPlaceComponent.currentPlaceForm.value["isOther"], editCurrentEducationPlaceComponent.currentPlaceForm.value["other"],
+        editCurrentEducationPlaceComponent.groups.find(group => group.id == editCurrentEducationPlaceComponent.currentPlaceForm.value["group"]));
+      return place;
+    })();
+    update({ currentEducationPlace: currentEducationPlace });
   }
 
   create(inquiry: Inquiry): Observable<Inquiry> {
