@@ -30,6 +30,7 @@ import { RfCitizensAddressesComponent } from "./shared/components/rf-citizens-ad
 import { SnilsComponent } from "./shared/components/snils/snils.component";
 import { StayModeComponent } from "./shared/components/stay-mode/stay-mode.component";
 import { InquiryTypeFriendlyNamePipe } from './shared/inquiry-type.pipe';
+import { AreaTypePipe } from './shared/area-type.pipe';
 
 @NgModule({
     declarations: [
@@ -38,7 +39,7 @@ import { InquiryTypeFriendlyNamePipe } from './shared/inquiry-type.pipe';
         BirthInfoComponent, RelationTypeComponent, EditPersonComponent, EditInquiryInfoComponent, AtLeastOneCheckboxShouldBeSelectedComponent, EditInstitutionsComponent,
 
         InquiryInfoEditComponent, DistributionParamsComponent, StayModeComponent, AgeGroupComponent, //inquiryInfo params
-        EditContactInfoComponent, EditCurrentEducationPlaceComponent, EditFileAttachmentsComponent
+        EditContactInfoComponent, EditCurrentEducationPlaceComponent, EditFileAttachmentsComponent, AreaTypePipe
     ],
     imports: [
         CommonModule,

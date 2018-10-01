@@ -1,6 +1,6 @@
 export enum AreaType {
-    "Регион" = 1,
-    "Муниципалитет" = 2,
-    "Район" = 3,
-    "ОО" = 4
+    Region = 1,
+    Municipality = 2,
+    District = 3,
+    Institution = 4
 }

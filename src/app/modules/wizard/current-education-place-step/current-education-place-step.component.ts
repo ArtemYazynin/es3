@@ -25,13 +25,6 @@ export class CurrentEducationPlaceStepComponent implements OnInit, StepBase {
     this.inquiry = <Inquiry>this.storageService.get(this.inquiryType);
   }
 
-
-
-  onSubmit() {
-
-  }
-
-
   goTo = (() => {
     return {
       back: () => {

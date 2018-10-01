@@ -10,11 +10,24 @@ import { Entity } from './models/entity';
 import { IdentityCard } from './models/identityCard';
 import { IdentityCardType } from './models/identityCardType';
 import { Parent } from './models/parent';
+import { AreaType } from './models/area-type.enum';
 
 @Injectable()
 export class CommonService {
 
   constructor(private citizenshipService: CitizenshipService) { }
+
+  pipeTransform<T extends number>(value: T | Array<T>, getName: (val: T) => string): Array<Entity<number>> | string {
+    if (value.constructor == Array) {
+      let result: Array<Entity<number>> = [];
+      (<Array<T>>value).forEach(x => {
+        result.push(new Entity<number>(x, getName(x)));
+      });
+      return result;
+    } else {
+      return getName(<T>value);
+    }
+  }
 
   autoCompliteFilter<T extends Entity<string>>(collection: Array<T>, name: string): Array<T> {
     const filterValue = name.toLowerCase();
@@ -24,7 +37,6 @@ export class CommonService {
   displayFn(entity?: Entity<string>): string | undefined {
     return entity ? entity.name : undefined;
   }
-
 
   getIeVersion() {
     var myNav = navigator.userAgent.toLowerCase();
@@ -127,5 +139,5 @@ export class CommonService {
     return result;
   }
 
-  
+
 }
