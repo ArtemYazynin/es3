@@ -1,5 +1,5 @@
-import { Component, OnInit, ChangeDetectionStrategy, DoCheck, Input } from '@angular/core';
-import { FormBuilder, FormGroup, Validators, ValidatorFn } from '@angular/forms';
+import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, ValidatorFn, Validators } from '@angular/forms';
 import { Subscription } from 'rxjs/internal/Subscription';
 import { FormService, Person } from '../../index';
 
@@ -22,6 +22,7 @@ export class FullNameComponent implements OnInit {
 
   ngOnInit() {
     this.buildForm();
+    this.subscribeOnMiddlename();
     if (this.person) {
       this.fullnameForm.patchValue({
         lastname: this.person.lastname,
@@ -30,9 +31,7 @@ export class FullNameComponent implements OnInit {
         noMiddlename: this.person.noMiddlename
       });
     }
-    this.subscribeOnMiddlename();
   }
-
 
   private buildForm() {
     this.fullnameForm = this.fb.group({

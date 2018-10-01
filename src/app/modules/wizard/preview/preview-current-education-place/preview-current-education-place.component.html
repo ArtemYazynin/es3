@@ -20,9 +20,9 @@
           <div class="form-group">
             <b>Образовательная организация </b> {{currentEducationPlace.institution.name}}
           </div>
-            <div class="form-group">
-              <b>Група/класс </b> {{($group| async)?.name || '-'}}
-            </div>
+          <div class="form-group">
+            <b>Группа/класс </b> {{currentEducationPlace.group.name}}
+          </div>
         </div>
       </div>
     </div>

@@ -45,9 +45,9 @@ export class PrivilegeEditComponent implements OnInit, AfterViewInit {
     this.subscribeOnPrivilegeOrder();
     this.privilegeOrders = this.privilegeOrderService.get();
 
-    if (!this.inquiry.privilege) {
+    if (this.inquiry.privilege && !this.inquiry.privilege.id) {
       this.privilegeForm.patchValue({ withoutPrivilege: true });
-    } else {
+    } else if (this.inquiry.privilege) {
       this.privilegeForm.patchValue({
         privilegeOrder: this.inquiry.privilege.privilegeOrder,
         privilege: this.inquiry.privilege

@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { Entity, Group, GroupService, InstitutionService, SpecHealth } from '../../../../shared';
+import { Entity, GroupService, InstitutionService, SpecHealth } from '../../../../shared';
 import { CurrentEducationPlace } from '../../shared';
 
 @Component({
@@ -12,7 +12,6 @@ import { CurrentEducationPlace } from '../../shared';
 export class PreviewCurrentEducationPlaceComponent implements OnInit {
   @Input() currentEducationPlace: CurrentEducationPlace;
 
-  $group: Observable<Group>;
   $institutionType: Observable<Entity<number>>
   $specHealth: Observable<SpecHealth>
 
@@ -21,8 +20,6 @@ export class PreviewCurrentEducationPlaceComponent implements OnInit {
   ngOnInit() {
     this.$institutionType = this.institutionService.getTypes(this.currentEducationPlace.institutionType)
       .pipe(map(types => types[0]));
-    this.$group = this.groupService.getGroup(this.currentEducationPlace.institution, this.currentEducationPlace.group)
-      .pipe(map(groups => groups.length > 1 ? null : groups[0]));
   }
 
 }

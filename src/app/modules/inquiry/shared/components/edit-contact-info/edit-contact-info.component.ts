@@ -19,13 +19,12 @@ export class EditContactInfoComponent implements OnInit {
 
   ngOnInit() {
     this.buildForm();
+    this.updateForm();
     if (this.contactsForm.controls.dontNotify.value) {
       this.contactsForm.controls.email.clearValidators();
       this.markControlsByDontNotify(true);
       this.contactsForm.updateValueAndValidity();
     }
-    this.updateForm();
-
   }
 
   isValid() {

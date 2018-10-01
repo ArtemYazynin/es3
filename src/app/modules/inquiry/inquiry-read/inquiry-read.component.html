@@ -256,8 +256,8 @@
                 <dd>{{($institutionType | async)?.name}}</dd>
                 <dt>Образовательная организация </dt>
                 <dd>{{inquiry.currentEducationPlace.institution.name}}</dd>
-                <dt>Група/класс </dt>
-                <dd>{{($group | async)?.name || "-"}}</dd>
+                <dt>Группа/класс </dt>
+                <dd>{{inquiry.currentEducationPlace.group?.name || "-" }}</dd>
               </dl>
             </div>
           </div>
@@ -269,13 +269,13 @@
     <div class="col-md-4">
       <app-inquiry-info-edit title="Льготная категория" (edit)="edit.privilege()">
         <div class="row">
-          <dl class="dl-horizontal" *ngIf="inquiry.privilege">
+          <dl class="dl-horizontal" *ngIf="inquiry.privilege.id">
             <dt>Приоритет льготной категории </dt>
             <dd>{{inquiry.privilege.privilegeOrder.name}}</dd>
             <dt>Льготная категория </dt>
             <dd>{{inquiry.privilege.name}}</dd>
           </dl>
-          <div class="col-md-6" *ngIf="!inquiry.privilege">
+          <div class="col-md-6" *ngIf="!inquiry.privilege.id">
             Без льготы
           </div>
         </div>

@@ -1,9 +1,9 @@
 <div *ngIf="data.$inquiry | async as inquiry">
-  <h1 mat-dialog-title>Выбор льготы</h1>
+  <h1 mat-dialog-title>Текущее место обучения ребенка</h1>
   <div mat-dialog-content>
     <div>
-      <app-privilege-edit [inquiry]="inquiry">
-      </app-privilege-edit>
+      <app-edit-current-education-place [inquiry]="inquiry">
+      </app-edit-current-education-place>
     </div>
   </div>
   <mat-dialog-actions>

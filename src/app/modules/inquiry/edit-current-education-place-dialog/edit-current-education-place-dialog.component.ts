@@ -2,18 +2,18 @@ import { ChangeDetectionStrategy, Component, Inject, OnInit, ViewChild } from '@
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { BehaviorSubject } from 'rxjs';
 import { CommonService, Inquiry, InquiryService } from '../../../shared';
-import { PrivilegeEditComponent } from '../../../shared/components/privilege-edit/privilege-edit.component';
 import { WizardStorageService } from '../../wizard/shared';
+import { EditCurrentEducationPlaceComponent } from '../shared/components/edit-current-education-place/edit-current-education-place.component';
 
 @Component({
-  selector: 'app-edit-privilege-dialog',
-  templateUrl: './edit-privilege-dialog.component.html',
-  styleUrls: ['./edit-privilege-dialog.component.css'],
+  selector: 'app-current-education-place-dialog',
+  templateUrl: './edit-current-education-place-dialog.component.html',
+  styleUrls: ['./edit-current-education-place-dialog.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class EditPrivilegeDialogComponent implements OnInit {
-  @ViewChild(PrivilegeEditComponent) privilegeEditComponent: PrivilegeEditComponent;
-  constructor(public dialogRef: MatDialogRef<EditPrivilegeDialogComponent>,
+export class EditCurrentEducationPlaceDialogComponent implements OnInit {
+  @ViewChild(EditCurrentEducationPlaceComponent) currentEducationPlaceEditComponent: EditCurrentEducationPlaceComponent;
+  constructor(public dialogRef: MatDialogRef<EditCurrentEducationPlaceDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: { $inquiry: BehaviorSubject<Inquiry> },
     private commonService: CommonService, private storageService: WizardStorageService, private inquiryService: InquiryService) { }
 
@@ -21,7 +21,7 @@ export class EditPrivilegeDialogComponent implements OnInit {
   }
 
   save() {
-    this.inquiryService.savePrivilege(this.privilegeEditComponent, (patch) => {
+    this.inquiryService.saveCurrentEducationPlace(this.currentEducationPlaceEditComponent, (patch) => {
       this.storageService.set(this.data.$inquiry.getValue().type, patch);
 
       let inquiry = this.data.$inquiry.getValue();
@@ -32,6 +32,6 @@ export class EditPrivilegeDialogComponent implements OnInit {
   }
 
   isValid = (): boolean => {
-    return !!this.privilegeEditComponent && this.privilegeEditComponent.isValid();
+    return !!this.currentEducationPlaceEditComponent && this.currentEducationPlaceEditComponent.isValid();
   }
 }

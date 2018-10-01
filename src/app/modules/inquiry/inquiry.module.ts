@@ -18,10 +18,12 @@ import { CurrentEducationPlaceStepService, WizardStorageService } from '../wizar
 import { EditContactInfoDialogComponent } from './edit-contact-info-dialog/edit-contact-info-dialog.component';
 import { EditInquiryInfoDialogComponent } from './edit-inquiry-info-dialog/edit-inquiry-info-dialog.component';
 import { EditPersonDialogComponent } from './edit-person-dialog/edit-person-dialog.component';
+import { EditPreschoolInstitutionDialogComponent } from './edit-preschool-institution-dialog/edit-preschool-institution-dialog.component';
 import { EditPrivilegeDialogComponent } from './edit-privilege-dialog/edit-privilege-dialog.component';
 import { InquiryReadComponent } from './inquiry-read/inquiry-read.component';
 import { InquiryRouting } from './inquiry-routing-module';
 import { InquiryCommonInfoComponent } from './shared/components/inquiry-common-info/inquiry-common-info.component';
+import { EditCurrentEducationPlaceDialogComponent } from './edit-current-education-place-dialog/edit-current-education-place-dialog.component';
 
 @NgModule({
   imports: [
@@ -39,9 +41,21 @@ import { InquiryCommonInfoComponent } from './shared/components/inquiry-common-i
     MaterialModule,
     InMemoryWebApiModule.forRoot(InMemoryService)
   ],
-  declarations: [InquiryReadComponent, InquiryCommonInfoComponent, RegisterSourcePipe, EditPrivilegeDialogComponent, EditPersonDialogComponent, EditInquiryInfoDialogComponent, EditContactInfoDialogComponent],
+  entryComponents: [
+    EditPrivilegeDialogComponent,
+    EditPersonDialogComponent,
+    EditInquiryInfoDialogComponent,
+    EditContactInfoDialogComponent,
+    EditPreschoolInstitutionDialogComponent,
+    EditCurrentEducationPlaceDialogComponent
+  ],
+  declarations: [
+    InquiryReadComponent,
+    InquiryCommonInfoComponent, RegisterSourcePipe, EditPrivilegeDialogComponent, EditPersonDialogComponent,
+    EditInquiryInfoDialogComponent, EditPreschoolInstitutionDialogComponent, EditContactInfoDialogComponent, EditCurrentEducationPlaceDialogComponent],
   providers: [
     CurrentEducationPlaceStepService,
+
     HttpInterceptor,
     FormService,
     WizardStorageService,
@@ -62,6 +76,5 @@ import { InquiryCommonInfoComponent } from './shared/components/inquiry-common-i
     InquiryService,
     StatusService
   ],
-  entryComponents: [EditPrivilegeDialogComponent, EditPersonDialogComponent, EditInquiryInfoDialogComponent, EditContactInfoDialogComponent]
 })
 export class InquiryModule { }
