@@ -5,9 +5,7 @@ import { HttpInterceptor } from './http-interceptor';
 import { Privilege } from './models/privilege';
 import { FormGroup } from '@angular/forms';
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable()
 export class PrivilegeService {
 
   constructor(private http: HttpInterceptor) { }

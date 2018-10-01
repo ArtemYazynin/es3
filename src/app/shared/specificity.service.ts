@@ -5,9 +5,7 @@ import { Specificity } from './models/specificity';
 import { map } from 'rxjs/operators';
 import { isNullOrUndefined } from 'util';
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable()
 export class SpecificityService {
 
   constructor(private http: HttpInterceptor) { }

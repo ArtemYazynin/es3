@@ -11,9 +11,7 @@ import { IdentityCard } from './models/identityCard';
 import { IdentityCardType } from './models/identityCardType';
 import { Parent } from './models/parent';
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable()
 export class CommonService {
 
   constructor(private citizenshipService: CitizenshipService) { }

@@ -4,9 +4,7 @@ import { Observable } from 'rxjs';
 import { HttpInterceptor } from './http-interceptor';
 import { map } from 'rxjs/internal/operators/map';
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable()
 export class PrivilegeOrderService {
 
   constructor(private http: HttpInterceptor) { }

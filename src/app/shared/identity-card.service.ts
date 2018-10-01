@@ -4,9 +4,7 @@ import { map } from 'rxjs/operators';
 import { Entity } from '.';
 import { HttpInterceptor } from './http-interceptor';
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable()
 export class IdentityCardService {
 
   constructor(private http: HttpInterceptor) { }

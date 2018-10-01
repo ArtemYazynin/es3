@@ -20,9 +20,7 @@ import { EditContactInfoComponent } from '../modules/inquiry/shared/components/e
 import { ContactInfo } from './models/contact-info';
 import { WizardStorageService } from '../modules/wizard/shared/wizard-storage.service';
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable()
 export class InquiryService {
   private baseUrl = "app/inquiries"
   constructor(private http: HttpInterceptor, private storageService: WizardStorageService, private commonService: CommonService) { }

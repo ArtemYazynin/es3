@@ -5,9 +5,7 @@ import { isNullOrUndefined } from 'util';
 import { Group } from './models/group';
 import { HttpInterceptor } from './http-interceptor';
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable()
 export class GroupService {
 
   constructor(private http: HttpInterceptor) { }

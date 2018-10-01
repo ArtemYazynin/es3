@@ -6,9 +6,7 @@ import { Entity } from '.';
 import { HttpInterceptor } from './http-interceptor';
 import { Institution } from './models/institution';
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable()
 export class InstitutionService {
 
   constructor(private http: HttpInterceptor) { }

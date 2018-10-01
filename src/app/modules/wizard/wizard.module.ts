@@ -1,9 +1,9 @@
+import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { HttpModule, JsonpModule } from "@angular/http";
-import { BrowserModule } from '@angular/platform-browser';
-import { RouterModule } from "@angular/router";
+import { DateAdapter } from '@angular/material';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { InMemoryWebApiModule } from 'angular-in-memory-web-api';
 import { TextMaskModule } from 'angular2-text-mask';
@@ -41,8 +41,7 @@ import { PreviewPrivilegeComponent } from './preview/preview-privilege/preview-p
 import { RegisterCompleteComponent } from './register-complete/register-complete.component';
 import { PrivilegeStepResolver } from './resolvers/privilege-step-resolver';
 import { ParentStepService, WizardStorageService } from './shared';
-import { wizardRoutes } from './wizard-routes';
-
+import { WizardRoutingModule } from './wizard-routing-module';
 
 
 @NgModule({
@@ -72,7 +71,7 @@ import { wizardRoutes } from './wizard-routes';
     DisabilityChildComponent,
     SpecHealthComponent,
 
-    
+
     PreviewInquiryInfoComponent,
     PreviewCurrentEducationPlaceComponent,
     PreviewPrivilegeComponent,
@@ -83,7 +82,8 @@ import { wizardRoutes } from './wizard-routes';
   ],
   exports: [],
   imports: [
-    BrowserModule,
+    CommonModule,
+    WizardRoutingModule,
     ShareModule,
     MaterialModule,
     MyDatePickerModule,
@@ -91,7 +91,6 @@ import { wizardRoutes } from './wizard-routes';
     NgSelectModule,
     FormsModule,
     ReactiveFormsModule,
-    RouterModule.forRoot(wizardRoutes),
     HttpModule,
     JsonpModule,
     HttpClientModule,
@@ -126,5 +125,7 @@ import { wizardRoutes } from './wizard-routes';
   entryComponents: [ChildComponent, ConfirmDialogComponent], //динамически добавляемые компоненты ViewContainerRef.createComponent()
 })
 export class WizardModule {
-
+  constructor(dateAdapter: DateAdapter<Date>) {
+    dateAdapter.setLocale('ru-RU'); // DD/MM/YYYY
+  }
 }
