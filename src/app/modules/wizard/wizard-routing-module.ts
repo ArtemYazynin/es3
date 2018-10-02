@@ -80,8 +80,18 @@ const routes: Routes = [
         }
     },
     {
-        path: "schoolInquiryInfoStep", 
-        component: SchoolInquiryInfoStepComponent
+        path: "schoolInquiryInfoStep",
+        component: SchoolInquiryInfoStepComponent,
+        resolve: {
+            resolved: BaseResolver
+        }
+    },
+    {
+        path: "schoolInstitutionStep",
+        component: PreschoolInstitutionStepComponent,
+        resolve: {
+            resolved: BaseResolver
+        }
     },
     {
         path: "preschoolInstitutionStep",

@@ -1,6 +1,6 @@
 import { InMemoryDbService } from 'angular-in-memory-web-api';
 import { Inquiry } from './shared/models/inquiry';
-import { Area, Countries, Institution, Privilege, PrivilegeOrder, Settings, Specificity, IdentityCardType, RelationType, Entity, Status } from './shared/index';
+import { Area, Countries, Institution, Privilege, PrivilegeOrder, Settings, Specificity, IdentityCardType, RelationType, Entity, Status, Specialization, EducProgram, EducProgramType } from './shared/index';
 import { EnumToArrayPipe } from './shared/enum-to-array-pipe';
 import { Guid } from './shared/models/guid';
 
@@ -8,9 +8,9 @@ export class InMemoryService implements InMemoryDbService {
   createDb() {
     let inquiries: Array<Inquiry> = [];
     let statuses: Array<Status> = [
-      new Status(Guid.newGuid(), "Новое"),
-      new Status(Guid.newGuid(), "Очередник"),
-      new Status(Guid.newGuid(), "Отмена"),
+      new Status("935F8E2C-69F5-46EF-975F-A452002D5F40", "Новое"),
+      new Status("81E1C045-4357-4031-9856-A452002D5FFB", "Очередник"),
+      new Status("7D87390B-BCCE-456E-BF12-A452002D6005", "Отмена"),
     ]
     let heroes = [
       { id: 1, name: 'Windstorm' },
@@ -84,13 +84,13 @@ export class InMemoryService implements InMemoryDbService {
       { id: "A537C916-C95A-4DE8-A257-A59800C3D4FA", name: "_только для воспитанников СП школы №75", groupType: 2, institutionId: institutions[3].id },
       { id: "314BB1DF-0FCC-433D-ABB7-A59800C594DA", name: "_только для воспитанников СП школы №86", groupType: 2, institutionId: institutions[5].id },
 
-      { id: Guid.newGuid(), name: "1а", groupType: 2, institutionId: institutions[9].id },
-      { id: Guid.newGuid(), name: "1б", groupType: 2, institutionId: institutions[9].id },
-      { id: Guid.newGuid(), name: "1в", groupType: 2, institutionId: institutions[9].id },
+      { id: "3CE51223-9F25-4BD1-A750-A452002D6021", name: "1а", groupType: 2, institutionId: institutions[9].id },
+      { id: "6F48A557-F1CE-48E0-B91A-A452002D6021", name: "1б", groupType: 2, institutionId: institutions[9].id },
+      { id: "43D02308-7FFB-4608-B168-A452002D6026", name: "1в", groupType: 2, institutionId: institutions[9].id },
 
-      { id: Guid.newGuid(), name: "2а", groupType: 2, institutionId: institutions[10].id },
-      { id: Guid.newGuid(), name: "2б", groupType: 2, institutionId: institutions[10].id },
-      { id: Guid.newGuid(), name: "2в", groupType: 2, institutionId: institutions[10].id }
+      { id: "4512BD4F-FAB2-4B56-8CBA-A452002D602F", name: "2а", groupType: 2, institutionId: institutions[10].id },
+      { id: "AE20AC3F-6D98-441E-9890-A452002D6034", name: "2б", groupType: 2, institutionId: institutions[10].id },
+      { id: "7DDD7B39-DEF0-4378-951C-A452002D6038", name: "2в", groupType: 2, institutionId: institutions[10].id }
     ];
     let privilegeOrders = [
       new PrivilegeOrder("48c83d8d-a583-410a-8e5a-a5480156ca38", "Внеочередное"),
@@ -111,7 +111,24 @@ export class InMemoryService implements InMemoryDbService {
     ];
     let settings = new Settings(new Date().getFullYear(), 3);
 
+    let specializations = [
+      new Specialization("C3EEDF8F-FD26-4C5A-995E-A452002D607F", "Общеобразовательный"),
+      new Specialization("ADCB5A00-E848-48E8-89BB-A452002D6083", "Профильный углубленный"),
+      new Specialization("E7759C0A-8A92-4592-A63B-A59900FDAC92", "Профильное обучение"),
+    ];
 
+    const educPrograms = [
+      new EducProgram("3147CCD7-5326-4273-8C86-A452002D6042", "Федеральная государственная программа начального общего, основного общего и среднего(полного)общего образования.",
+        "Фед гос прог нач общего, основного общего и среднего(полного)общего образования.", EducProgramType.School),
+      new EducProgram("532C80B6-A140-4156-8287-A452002D6046", "Основного общего образования", "Основн общ обр", EducProgramType.School),
+      new EducProgram("09618270-297C-425D-84DE-A452002D604B", "Среднего общего образования", "Сред общ обр", EducProgramType.School),
+      new EducProgram("C31ECBFA-3357-4430-930F-A452002D6050", "Начального общего образования ", "Нач общ обр", EducProgramType.School),
+      new EducProgram("102B98BD-C593-480C-8537-A452002D6055", "Присмотр и уход", "присм. и ух.", EducProgramType.Preschool),
+      new EducProgram("C92EB29B-C348-415D-A46C-A452002D6059", "Подготовка к школе детей с задержкой психического развития. Под редакцией С.Г. Шевченко"
+        , "псих. Шевченко", EducProgramType.Preschool),
+      new EducProgram("653E48EA-2C61-4F29-B4AD-A452002D605E", "Программы «Воспитание и обучение глухих детей дошкольного возраста», авторы Л.П. Носкова, Л.А. Головчиц, М., 1991 г.",
+        "Носкова воспитание", EducProgramType.Preschool)
+    ];
     return {
       heroes: heroes,
       countries: Countries,
@@ -128,7 +145,9 @@ export class InMemoryService implements InMemoryDbService {
       specificities: specificities,
       settings: settings,
       inquiries: inquiries,
-      statuses: statuses
+      statuses: statuses,
+      specializations: specializations,
+      educPrograms: educPrograms
     };
   }
 }

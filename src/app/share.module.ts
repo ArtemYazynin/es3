@@ -31,6 +31,7 @@ import { SnilsComponent } from "./shared/components/snils/snils.component";
 import { StayModeComponent } from "./shared/components/stay-mode/stay-mode.component";
 import { InquiryTypeFriendlyNamePipe } from './shared/inquiry-type.pipe';
 import { AreaTypePipe } from './shared/area-type.pipe';
+import { EditSchoolInquiryInfoComponent } from './shared/components/edit-school-inquiry-info/edit-school-inquiry-info.component';
 
 @NgModule({
     declarations: [
@@ -39,7 +40,7 @@ import { AreaTypePipe } from './shared/area-type.pipe';
         BirthInfoComponent, RelationTypeComponent, EditPersonComponent, EditInquiryInfoComponent, AtLeastOneCheckboxShouldBeSelectedComponent, EditInstitutionsComponent,
 
         InquiryInfoEditComponent, DistributionParamsComponent, StayModeComponent, AgeGroupComponent, //inquiryInfo params
-        EditContactInfoComponent, EditCurrentEducationPlaceComponent, EditFileAttachmentsComponent, AreaTypePipe
+        EditContactInfoComponent, EditCurrentEducationPlaceComponent, EditFileAttachmentsComponent, AreaTypePipe, EditSchoolInquiryInfoComponent
     ],
     imports: [
         CommonModule,
@@ -54,7 +55,7 @@ import { AreaTypePipe } from './shared/area-type.pipe';
         SnilsComponent, IdentityCardComponent, CitizenshipSelectComponent, RfCitizensAddressesComponent, AddressComponent, ForeignCitizensAddressesComponent,
         BirthInfoComponent, RelationTypeComponent, EditPersonComponent, EditInquiryInfoComponent, DistributionParamsComponent, StayModeComponent, AgeGroupComponent,
         InquiryInfoEditComponent, AtLeastOneCheckboxShouldBeSelectedComponent, EditInstitutionsComponent, EditContactInfoComponent, EditCurrentEducationPlaceComponent,
-        EditFileAttachmentsComponent
+        EditFileAttachmentsComponent, EditSchoolInquiryInfoComponent
     ],
     providers: [
     ]

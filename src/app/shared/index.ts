@@ -10,6 +10,7 @@ export * from "./applicant-type.enum";
 export * from "./models/area-type.enum";
 export * from "./models/attachment-type.enum"
 export * from "./inquiry-type.enum";
+export * from "./educ-program-type.enum";
 //
 
 //json
@@ -23,6 +24,9 @@ export * from "./addressBuilder/address-builder-director";
 
 
 export * from "./models/entity";
+export * from "./models/school-inquiry-info";
+export * from "./models/educ-program";
+export * from "./models/specialization";
 export * from "./models/inquiry";
 export * from "./models/portal-identity";
 export * from "./models/contact-info";
@@ -55,12 +59,14 @@ export * from "./models/client";
 export * from "./models/confirmation-document";
 export * from "./models/person";
 export * from "./models/parent";
+export * from "./specialization.service";
 export * from "./status.service"
 export * from "./area.service";
 export * from "./address.service";
 export * from "./inquiry.service";
 export * from "./form.service";
 export * from "./draw.service";
+export * from "./educ-program-type.enum";
 export * from "./institution.service";
 export * from "./privilege.service";
 export * from "./settings.service";
@@ -68,7 +74,7 @@ export * from "./citizenship.service";
 export * from "./relation-type.service";
 
 export * from "./identity-card.service";
-
+export * from "./educ-program.service";
 export * from "./spec-health.service";
 export * from "./group.service";
 export * from "./common.service";

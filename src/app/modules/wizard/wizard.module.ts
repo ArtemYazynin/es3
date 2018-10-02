@@ -11,7 +11,7 @@ import { MyDatePickerModule } from 'mydatepicker';
 import { InMemoryService } from '../../in-memory-server';
 import { MaterialModule } from '../../material.module';
 import { ShareModule } from '../../share.module';
-import { AddressService, AreaService, CitizenshipService, CommonService, DrawService, EnumToArrayPipe, FormService, GroupService, IdentityCardService, IdentityCardTypePipe, InquiryService, InstitutionService, PrivilegeOrderService, PrivilegeService, RelationTypeService, SettingsService, SpecHealthService, SpecificityService } from '../../shared';
+import { AddressService, AreaService, CitizenshipService, CommonService, DrawService, EnumToArrayPipe, FormService, GroupService, IdentityCardService, IdentityCardTypePipe, InquiryService, InstitutionService, PrivilegeOrderService, PrivilegeService, RelationTypeService, SettingsService, SpecHealthService, SpecificityService, SpecializationService, EducProgramService } from '../../shared';
 import { ConfirmDialogComponent } from '../../shared/components/confirm-dialog/confirm-dialog.component';
 import { DisabilityChildComponent } from '../../shared/components/disability-child/disability-child.component';
 import { SpecHealthComponent } from '../../shared/components/spec-health/spec-health.component';
@@ -120,7 +120,9 @@ import { WizardRoutingModule } from './wizard-routing-module';
     SettingsService,
     DrawService,
     AddressService,
-    InquiryService
+    InquiryService,
+    SpecializationService,
+    EducProgramService
   ],
   entryComponents: [ChildComponent, ConfirmDialogComponent], //динамически добавляемые компоненты ViewContainerRef.createComponent()
 })
