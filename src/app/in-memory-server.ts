@@ -109,7 +109,7 @@ export class InMemoryService implements InMemoryDbService {
       new Specificity("EE8DCE4E-4E9E-4D69-8723-A893011A762C", "специфичность группы №2"),
       new Specificity("44C8880D-837E-47A1-BB6B-A893011A7631", "специфичность группы №3")
     ];
-    let settings = new Settings(new Date().getFullYear(), 3);
+    let settings = new Settings(new Date().getFullYear(), 3, 4);
 
     let specializations = [
       new Specialization("C3EEDF8F-FD26-4C5A-995E-A452002D607F", "Общеобразовательный"),

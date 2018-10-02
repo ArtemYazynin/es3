@@ -27,7 +27,7 @@ import { CurrentEducationPlaceStepComponent } from '../wizard/current-education-
 import { FileAttachmentStepComponent } from '../wizard/file-attachment-step/file-attachment-step.component';
 import { InquiryInfoStepComponent } from '../wizard/inquiry-info-step/inquiry-info-step.component';
 import { ParentStepComponent } from '../wizard/parent-step/parent-step.component';
-import { PreschoolInstitutionStepComponent } from '../wizard/preschool-institution-step/preschool-institution-step.component';
+import { InstitutionStepComponent } from './institution-step/institution-step.component'
 import { PreviewStepComponent } from '../wizard/preview-step/preview-step.component';
 import { ConfirmationDocumentViewComponent } from '../wizard/preview/confirmation-document-view/confirmation-document-view.component';
 import { PrivilegeStepComponent } from '../wizard/privilege-step/privilege-step.component';
@@ -60,7 +60,7 @@ import { WizardRoutingModule } from './wizard-routing-module';
     PrivilegeStepComponent,
     InquiryInfoStepComponent,
     SchoolInquiryInfoStepComponent,
-    PreschoolInstitutionStepComponent,
+    InstitutionStepComponent,
     FileAttachmentStepComponent,
     PreviewStepComponent,
     //end

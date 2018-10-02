@@ -5,12 +5,12 @@ import { EditInstitutionsComponent } from '../../inquiry/shared/components/edit-
 import { StepBase, WizardStorageService } from '../shared';
 
 @Component({
-  selector: 'app-preschool-institution-step',
-  templateUrl: './preschool-institution-step.component.html',
-  styleUrls: ['./preschool-institution-step.component.css'],
+  selector: 'app-institution-step',
+  templateUrl: './institution-step.component.html',
+  styleUrls: ['./institution-step.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class PreschoolInstitutionStepComponent implements OnInit, StepBase {
+export class InstitutionStepComponent implements OnInit, StepBase {
   @ViewChild(EditInstitutionsComponent) editInstitutionsComponent: EditInstitutionsComponent;
   inquiryType = this.route.snapshot.data.resolved.inquiryType;
   inquiry: Inquiry;
@@ -19,7 +19,6 @@ export class PreschoolInstitutionStepComponent implements OnInit, StepBase {
 
   ngOnInit() {
     this.inquiry = <Inquiry>this.storageService.get(this.inquiryType);
-    
   }
 
   goTo = {

@@ -11,7 +11,7 @@ import { PrivilegeStepComponent } from './privilege-step/privilege-step.componen
 import { PrivilegeStepResolver } from './resolvers/privilege-step-resolver';
 import { InquiryInfoStepComponent } from './inquiry-info-step/inquiry-info-step.component';
 import { SchoolInquiryInfoStepComponent } from './school-inquiry-info-step/school-inquiry-info-step.component';
-import { PreschoolInstitutionStepComponent } from './preschool-institution-step/preschool-institution-step.component';
+import { InstitutionStepComponent } from './institution-step/institution-step.component';
 import { FileAttachmentStepComponent } from './file-attachment-step/file-attachment-step.component';
 import { PreviewStepComponent } from './preview-step/preview-step.component';
 import { RegisterCompleteComponent } from './register-complete/register-complete.component';
@@ -88,14 +88,14 @@ const routes: Routes = [
     },
     {
         path: "schoolInstitutionStep",
-        component: PreschoolInstitutionStepComponent,
+        component: InstitutionStepComponent,
         resolve: {
             resolved: BaseResolver
         }
     },
     {
         path: "preschoolInstitutionStep",
-        component: PreschoolInstitutionStepComponent,
+        component: InstitutionStepComponent,
         resolve: {
             resolved: BaseResolver
         }
