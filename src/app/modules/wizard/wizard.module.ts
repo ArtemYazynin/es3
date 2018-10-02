@@ -1,9 +1,9 @@
+import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { HttpModule, JsonpModule } from "@angular/http";
-import { BrowserModule } from '@angular/platform-browser';
-import { RouterModule } from "@angular/router";
+import { DateAdapter } from '@angular/material';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { InMemoryWebApiModule } from 'angular-in-memory-web-api';
 import { TextMaskModule } from 'angular2-text-mask';
@@ -11,7 +11,7 @@ import { MyDatePickerModule } from 'mydatepicker';
 import { InMemoryService } from '../../in-memory-server';
 import { MaterialModule } from '../../material.module';
 import { ShareModule } from '../../share.module';
-import { AddressService, AreaService, CitizenshipService, CommonService, DrawService, EnumToArrayPipe, FormService, GroupService, IdentityCardService, IdentityCardTypePipe, InquiryService, InstitutionService, PrivilegeOrderService, PrivilegeService, RelationTypeService, SettingsService, SpecHealthService, SpecificityService } from '../../shared';
+import { AddressService, AreaService, CitizenshipService, CommonService, DrawService, EnumToArrayPipe, FormService, GroupService, IdentityCardService, IdentityCardTypePipe, InquiryService, InstitutionService, PrivilegeOrderService, PrivilegeService, RelationTypeService, SettingsService, SpecHealthService, SpecificityService, SpecializationService, EducProgramService } from '../../shared';
 import { ConfirmDialogComponent } from '../../shared/components/confirm-dialog/confirm-dialog.component';
 import { DisabilityChildComponent } from '../../shared/components/disability-child/disability-child.component';
 import { SpecHealthComponent } from '../../shared/components/spec-health/spec-health.component';
@@ -27,7 +27,7 @@ import { CurrentEducationPlaceStepComponent } from '../wizard/current-education-
 import { FileAttachmentStepComponent } from '../wizard/file-attachment-step/file-attachment-step.component';
 import { InquiryInfoStepComponent } from '../wizard/inquiry-info-step/inquiry-info-step.component';
 import { ParentStepComponent } from '../wizard/parent-step/parent-step.component';
-import { PreschoolInstitutionStepComponent } from '../wizard/preschool-institution-step/preschool-institution-step.component';
+import { InstitutionStepComponent } from './institution-step/institution-step.component'
 import { PreviewStepComponent } from '../wizard/preview-step/preview-step.component';
 import { ConfirmationDocumentViewComponent } from '../wizard/preview/confirmation-document-view/confirmation-document-view.component';
 import { PrivilegeStepComponent } from '../wizard/privilege-step/privilege-step.component';
@@ -41,8 +41,7 @@ import { PreviewPrivilegeComponent } from './preview/preview-privilege/preview-p
 import { RegisterCompleteComponent } from './register-complete/register-complete.component';
 import { PrivilegeStepResolver } from './resolvers/privilege-step-resolver';
 import { ParentStepService, WizardStorageService } from './shared';
-import { wizardRoutes } from './wizard-routes';
-
+import { WizardRoutingModule } from './wizard-routing-module';
 
 
 @NgModule({
@@ -61,7 +60,7 @@ import { wizardRoutes } from './wizard-routes';
     PrivilegeStepComponent,
     InquiryInfoStepComponent,
     SchoolInquiryInfoStepComponent,
-    PreschoolInstitutionStepComponent,
+    InstitutionStepComponent,
     FileAttachmentStepComponent,
     PreviewStepComponent,
     //end
@@ -72,7 +71,7 @@ import { wizardRoutes } from './wizard-routes';
     DisabilityChildComponent,
     SpecHealthComponent,
 
-    
+
     PreviewInquiryInfoComponent,
     PreviewCurrentEducationPlaceComponent,
     PreviewPrivilegeComponent,
@@ -83,7 +82,8 @@ import { wizardRoutes } from './wizard-routes';
   ],
   exports: [],
   imports: [
-    BrowserModule,
+    CommonModule,
+    WizardRoutingModule,
     ShareModule,
     MaterialModule,
     MyDatePickerModule,
@@ -91,7 +91,6 @@ import { wizardRoutes } from './wizard-routes';
     NgSelectModule,
     FormsModule,
     ReactiveFormsModule,
-    RouterModule.forRoot(wizardRoutes),
     HttpModule,
     JsonpModule,
     HttpClientModule,
@@ -121,10 +120,14 @@ import { wizardRoutes } from './wizard-routes';
     SettingsService,
     DrawService,
     AddressService,
-    InquiryService
+    InquiryService,
+    SpecializationService,
+    EducProgramService
   ],
   entryComponents: [ChildComponent, ConfirmDialogComponent], //динамически добавляемые компоненты ViewContainerRef.createComponent()
 })
 export class WizardModule {
-
+  constructor(dateAdapter: DateAdapter<Date>) {
+    dateAdapter.setLocale('ru-RU'); // DD/MM/YYYY
+  }
 }

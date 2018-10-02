@@ -4,9 +4,7 @@ import { map } from 'rxjs/operators';
 import { Settings } from './models/settings';
 import { Observable } from 'rxjs';
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable()
 export class SettingsService {
   
   constructor(private http:HttpInterceptor) { }

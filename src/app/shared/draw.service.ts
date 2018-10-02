@@ -10,9 +10,7 @@ import { IdentityCard } from "./models/identityCard";
 import { EnumToArrayPipe } from "./enum-to-array-pipe";
 import { IdentityCardType } from "./models/identityCardType";
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable()
 export class DrawService {
   fio(person: Person) {
     if (isNullOrUndefined(person)) return "";

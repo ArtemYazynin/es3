@@ -4,9 +4,7 @@ import { map } from 'rxjs/operators';
 import { HttpInterceptor } from './http-interceptor';
 import { SpecHealth } from './models/spec-health';
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable()
 export class SpecHealthService {
   private baseUrl = "app/specHealths";
   constructor(private http: HttpInterceptor) { }

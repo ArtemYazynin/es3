@@ -6,9 +6,7 @@ import { isNullOrUndefined } from 'util';
 import { HttpInterceptor } from './http-interceptor';
 import { Location } from "./models/location";
 import { locationTypes } from "./models/location-type";
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable()
 export class AddressService {
   private url = "http://fias.ir-tech.ru/location?&callback=JSONP_CALLBACK&limit=35&";
   constructor(private http: HttpInterceptor, private jsonp: Jsonp) { }

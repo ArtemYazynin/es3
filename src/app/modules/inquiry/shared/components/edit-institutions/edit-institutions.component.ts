@@ -16,7 +16,8 @@ export class EditInstitutionsComponent implements OnInit, OnDestroy {
 
   private ngUnsubscribe: Subject<any> = new Subject();
   form: FormGroup;
-  maxCountWishPreschoolInstitutions: number;
+  inquiryType = inquiryType;
+  maxCountWishInstitutions: number;
   displayFn = this.commonService.displayFn;
   filteredInstitution: Observable<Array<Institution>>
   selectedInstitutions: Array<Institution> = [];
@@ -28,7 +29,15 @@ export class EditInstitutionsComponent implements OnInit, OnDestroy {
     this.settingsService.get()
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(result => {
-        this.maxCountWishPreschoolInstitutions = result.maxCountWishPreschools;
+        switch (this.inquiry.type) {
+          case inquiryType.preschool:
+            this.maxCountWishInstitutions = result.maxCountWishPreschools;
+            break;
+          case inquiryType.school:
+            this.maxCountWishInstitutions = result.maxCountWishSchools;
+          default:
+            break;
+        }
       });
     this.institutionService.getInstitutions(this.inquiry.type == inquiryType.preschool ? InquiryType.preschool : InquiryType.school)
       .pipe(takeUntil(this.ngUnsubscribe))
@@ -85,7 +94,7 @@ export class EditInstitutionsComponent implements OnInit, OnDestroy {
     })(this);
 
     (function disableIfMaxCountReceived(outer) {
-      if (outer.selectedInstitutions.length >= outer.maxCountWishPreschoolInstitutions) {
+      if (outer.selectedInstitutions.length >= outer.maxCountWishInstitutions) {
         outer.form.controls.institution.disable();
       }
     })(this);

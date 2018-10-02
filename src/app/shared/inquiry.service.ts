@@ -28,9 +28,7 @@ import { RegisterSource } from './models/register-source.enum';
 import { Status } from './models/status';
 import { StayMode } from './models/stay-mode';
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable()
 export class InquiryService {
   private baseUrl = "app/inquiries"
   constructor(private http: HttpInterceptor, private storageService: WizardStorageService, private commonService: CommonService) { }

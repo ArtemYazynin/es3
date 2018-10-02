@@ -1,41 +1,43 @@
 import { HashLocationStrategy, LocationStrategy } from '@angular/common';
+import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
-import { JsonpModule } from '@angular/http';
-import { DateAdapter } from '@angular/material';
+import { HttpModule, JsonpModule } from '@angular/http';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { RouterModule } from '@angular/router';
 import { MyDatePickerModule } from 'mydatepicker';
+import { AppRoutingModule } from './app-routing-module';
 import { AppComponent } from './app.component';
-import { routes } from './app.routes';
-import { WizardModule } from './modules/wizard/wizard.module';
 import { BaseResolver } from './shared/base-resolver';
-import { InquiryModule } from './modules/inquiry/inquiry.module';
-import { ShareModule } from './share.module';
+import { HttpInterceptor } from './shared/http-interceptor';
+import { WizardStorageService } from './modules/wizard/shared/wizard-storage.service';
+import { RegisterCompleteResolver } from './shared/register-complete-resolver';
+import { InMemoryWebApiModule } from 'angular-in-memory-web-api';
+import { InMemoryService } from './in-memory-server';
+import { FormService } from './shared/form.service';
 
 @NgModule({
   declarations: [AppComponent],
   imports: [
-    
+    HttpModule,
     BrowserModule,
-    
-    WizardModule,
-    InquiryModule,
+    AppRoutingModule,
     BrowserAnimationsModule,
     MyDatePickerModule,
     JsonpModule,
-    RouterModule.forRoot(routes),
+    
   ],
   exports: [],
   providers: [
     { provide: LocationStrategy, useClass: HashLocationStrategy },
-    BaseResolver
+    HttpInterceptor,
+    WizardStorageService,
+    BaseResolver,
+    FormService,
+    RegisterCompleteResolver
   ],
   entryComponents: [],//динамически добавляемые компоненты ViewContainerRef.createComponent()
   bootstrap: [AppComponent]
 })
 export class AppModule {
-  constructor(dateAdapter: DateAdapter<Date>) {
-    dateAdapter.setLocale('ru-RU'); // DD/MM/YYYY
-  }
+
 }

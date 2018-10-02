@@ -4,9 +4,7 @@ import { Observable } from 'rxjs/internal/Observable';
 import { HttpInterceptor } from './http-interceptor';
 import { map } from 'rxjs/operators';
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable()
 export class StatusService {
 
   constructor(private http:HttpInterceptor) { }

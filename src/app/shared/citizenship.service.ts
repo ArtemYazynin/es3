@@ -5,9 +5,7 @@ import { isNullOrUndefined } from 'util';
 import { HttpInterceptor } from './http-interceptor';
 import { Country } from './models/country';
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable()
 export class CitizenshipService {
 
   constructor(private http: HttpInterceptor) { }

@@ -4,9 +4,7 @@ import { map } from "rxjs/operators";
 import { HttpInterceptor } from './http-interceptor';
 import { RelationType } from './models/relation-type';
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable()
 export class RelationTypeService {
 
   constructor(private http: HttpInterceptor) { }

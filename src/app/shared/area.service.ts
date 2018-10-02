@@ -5,9 +5,7 @@ import { map } from 'rxjs/operators';
 import { AreaType } from './models/area-type.enum';
 import { Area } from './models/area';
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable()
 export class AreaService {
 
   constructor(private http: HttpInterceptor) { }

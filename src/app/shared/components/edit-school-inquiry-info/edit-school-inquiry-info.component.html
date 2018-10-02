@@ -1,0 +1,50 @@
+<form [formGroup]="form" novalidate>
+  <div class="form-group">
+    <mat-form-field class="full-width">
+      <mat-select formControlName="educYear" placeholder="Учебный год">
+        <mat-option value="" selected>Не выбрано</mat-option>
+        <mat-option *ngFor="let item of schoolYears" [value]="item">{{item}}</mat-option>
+      </mat-select>
+    </mat-form-field>
+    <div *ngIf="formErrors.educYear" class="alert alert-danger">
+      {{ formErrors.educYear }}
+    </div>
+  </div>
+  <div class="form-group">
+    <mat-form-field class="full-width">
+      <mat-select formControlName="grade" placeholder="Параллель">
+        <mat-option value="">Не выбрано</mat-option>
+        <mat-option *ngFor="let item of grades" [value]="item">{{item}}</mat-option>
+      </mat-select>
+    </mat-form-field>
+    <div *ngIf="formErrors.grade" class="alert alert-danger">
+      {{ formErrors.grade }}
+    </div>
+  </div>
+  <div class="form-group">
+    <mat-form-field class="full-width">
+      <mat-select formControlName="specialization" placeholder="Профиль">
+        <mat-option value="">Любой</mat-option>
+        <mat-option *ngFor="let item of specializations" [value]="item">{{item.name}}</mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+  <div class="form-group">
+    <mat-form-field class="full-width">
+      <input type="text" placeholder="Программа" matInput formControlName="program" [matAutocomplete]="auto">
+      <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
+        <mat-option *ngFor="let option of filteredPrograms | async" [value]="option">
+          {{option.name}}
+        </mat-option>
+      </mat-autocomplete>
+    </mat-form-field>
+  </div>
+  <div class="alert-info">
+    <span>
+      <b>{{form.value | json}}</b>
+    </span>
+    <span>form.status:
+      <b>{{form.status | json}}</b>
+    </span>
+  </div>
+</form>

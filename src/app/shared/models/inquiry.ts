@@ -12,6 +12,7 @@ import { PortalIdentity } from "./portal-identity";
 import { Privilege } from "./privilege";
 import { RegisterSource } from "./register-source.enum";
 import { Status } from "./status";
+import { SchoolInquiryInfo } from "./school-inquiry-info";
 
 export class Inquiry {
     private def = "-";
@@ -52,5 +53,6 @@ export class Inquiry {
     currentEducationPlace: CurrentEducationPlace;
     filesInfo: FilesInfo
     inquiryInfo: InquiryInfo;
+    schoolInquiryInfo: SchoolInquiryInfo;
     contactInfo: ContactInfo;
 }

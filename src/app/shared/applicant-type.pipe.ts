@@ -1,22 +1,15 @@
 import { Pipe, PipeTransform } from '@angular/core';
 import { ApplicantType } from './applicant-type.enum';
 import { Entity } from './models/entity';
+import { CommonService } from './common.service';
 
 @Pipe({
   name: 'applicantType'
 })
 export class ApplicantTypePipe implements PipeTransform {
-
+  constructor(private commonService: CommonService) { }
   transform(value: ApplicantType | Array<ApplicantType>, args?: any): Array<Entity<number>> | string {
-    if (value.constructor == Array) {
-      let result: Array<Entity<number>> = [];
-      (<Array<ApplicantType>>value).forEach(x => {
-        result.push(new Entity<number>(x, this.getName(x)));
-      });
-      return result;
-    } else {
-      return this.getName(<ApplicantType>value);
-    }
+    return this.commonService.pipeTransform(value, this.getName)
   }
 
   private getName(value: ApplicantType) {
