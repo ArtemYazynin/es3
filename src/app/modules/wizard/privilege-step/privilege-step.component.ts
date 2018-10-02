@@ -1,6 +1,6 @@
 import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { AttachmentType, CommonService, Inquiry, inquiryType, Privilege } from '../../../shared';
+import { CommonService, Inquiry, InquiryService, inquiryType } from '../../../shared';
 import { PrivilegeEditComponent } from '../../../shared/components/privilege-edit/privilege-edit.component';
 import { StepBase, WizardStorageService } from '../shared';
 
@@ -16,7 +16,7 @@ export class PrivilegeStepComponent implements OnInit, AfterViewInit, StepBase {
   inquiryType = this.route.snapshot.data.resolved.inquiryType;
 
   constructor(private storageService: WizardStorageService, private router: Router, private activatedRoute: ActivatedRoute,
-    private commonService: CommonService, private route: ActivatedRoute, private cdr: ChangeDetectorRef) {
+    private commonService: CommonService, private route: ActivatedRoute, private cdr: ChangeDetectorRef, private inquiryService: InquiryService) {
   }
 
   ngOnInit() {
@@ -46,17 +46,9 @@ export class PrivilegeStepComponent implements OnInit, AfterViewInit, StepBase {
       }
     },
     next: () => {
-      (() => {
-        let privilege: Privilege = new Privilege();
-        if (!this.privilegeEditComponent.privilegeForm.controls.withoutPrivilege.value) {
-          privilege.id = this.privilegeEditComponent.privilegeForm.controls.privilege.value.id;
-          privilege.name = this.privilegeEditComponent.privilegeForm.controls.privilege.value.name;
-          privilege.privilegeOrder = this.privilegeEditComponent.privilegeForm.controls.privilegeOrder.value;
-          privilege.privilegeProofDocument =
-            this.commonService.getDocumentByType([this.privilegeEditComponent.confirmationProofDocumentComponent], AttachmentType.PrivilegeProofDocument);
-        }
-        this.storageService.set(this.inquiryType, { privilege: privilege });
-      })();
+      this.inquiryService.savePrivilege(this.privilegeEditComponent, (patch) => {
+        this.storageService.set(this.inquiry.type, patch);
+      });
 
       switch (this.inquiryType) {
         case inquiryType.profEducation:

@@ -17,16 +17,17 @@ export class EditCurrentEducationPlaceDialogComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data: { $inquiry: BehaviorSubject<Inquiry> },
     private commonService: CommonService, private storageService: WizardStorageService, private inquiryService: InquiryService) { }
 
+  inquiry: Inquiry;
+
   ngOnInit() {
+    this.inquiry = this.data.$inquiry.getValue();
   }
 
   save() {
     this.inquiryService.saveCurrentEducationPlace(this.currentEducationPlaceEditComponent, (patch) => {
-      this.storageService.set(this.data.$inquiry.getValue().type, patch);
-
-      let inquiry = this.data.$inquiry.getValue();
-      Object.assign(inquiry, patch);
-      this.data.$inquiry.next(inquiry);
+      this.storageService.set(this.inquiry.type, patch);
+      Object.assign(this.inquiry, patch);
+      this.data.$inquiry.next(this.inquiry);
     });
     this.dialogRef.close();
   }

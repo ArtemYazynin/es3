@@ -1,9 +1,9 @@
-import { ChangeDetectionStrategy, Component, Inject, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Inject, OnInit, ViewChild } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { BehaviorSubject } from 'rxjs';
-import { EditPersonComponent } from '../shared/components/edit-person/edit-person.component';
-import { ApplicantType, Inquiry, CommonService, InquiryService } from '../../../shared';
+import { ApplicantType, CommonService, Inquiry, InquiryService } from '../../../shared';
 import { WizardStorageService } from '../../wizard/shared';
+import { EditPersonComponent } from '../shared/components/edit-person/edit-person.component';
 
 @Component({
   selector: 'app-edit-person-dialog',
@@ -19,19 +19,22 @@ export class EditPersonDialogComponent implements OnInit {
     private commonService: CommonService, private storageService: WizardStorageService,
     private inquiryService: InquiryService) { }
 
+  inquiry: Inquiry;
+
   ngOnInit() {
+    this.inquiry = this.data.$inquiry.getValue();
   }
 
   save() {
     const update = (patch: object) => {
-      this.storageService.set(inquiry.type, patch);
-      Object.assign(inquiry, patch);
-      this.data.$inquiry.next(inquiry);
+      this.storageService.set(this.inquiry.type, patch);
+      Object.assign(this.inquiry, patch);
+      this.data.$inquiry.next(this.inquiry);
     }
-    let inquiry = this.data.$inquiry.getValue();
-    this.inquiryService.saveParent(inquiry, this.editPersonComponent, update, this.data.modelType == ApplicantType.Parent);
+
+    this.inquiryService.saveParent(this.inquiry, this.editPersonComponent, update, this.data.modelType == ApplicantType.Parent);
     if (this.data.modelType == ApplicantType.Applicant) {
-      this.inquiryService.saveApplicant(inquiry, this.editPersonComponent, update);
+      this.inquiryService.saveApplicant(this.inquiry, this.editPersonComponent, update);
     }
     this.dialogRef.close();
   }
