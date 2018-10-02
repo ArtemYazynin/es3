@@ -1,15 +1,15 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { EditCurrentEducationPlaceComponent } from '../shared/components/edit-current-education-place/edit-current-education-place.component';
 
-describe('EditPrivilegeDialogComponent', () => {
+describe('EditCurrentEducationPlaceDialogComponent', () => {
   let component: EditCurrentEducationPlaceComponent;
   let fixture: ComponentFixture<EditCurrentEducationPlaceComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ EditCurrentEducationPlaceComponent ]
+      declarations: [EditCurrentEducationPlaceComponent]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {

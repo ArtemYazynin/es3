@@ -1,7 +1,9 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, of } from 'rxjs';
+import { isNullOrUndefined } from 'util';
 import { EditContactInfoComponent } from '../modules/inquiry/shared/components/edit-contact-info/edit-contact-info.component';
 import { EditCurrentEducationPlaceComponent } from '../modules/inquiry/shared/components/edit-current-education-place/edit-current-education-place.component';
+import { EditFileAttachmentsComponent } from '../modules/inquiry/shared/components/edit-file-attachments/edit-file-attachments.component';
 import { EditInquiryInfoComponent } from '../modules/inquiry/shared/components/edit-inquiry-info/edit-inquiry-info.component';
 import { EditInstitutionsComponent } from '../modules/inquiry/shared/components/edit-institutions/edit-institutions.component';
 import { EditPersonComponent } from '../modules/inquiry/shared/components/edit-person/edit-person.component';
@@ -110,6 +112,23 @@ export class InquiryService {
     update({ currentEducationPlace: currentEducationPlace });
   }
 
+  saveFileAttachments(editFileAttachmentsComponent: EditFileAttachmentsComponent, update: (patch: object) => void) {
+    const files = editFileAttachmentsComponent.bunchOfFileView
+      .filter(x => x.fileAttachment.file != null)
+      .map(fileView => {
+        let data = Object.assign({}, { name: fileView.name }, { attachmentType: fileView.fileAttachment.attachmentType }, { file: {} });
+        if (isNullOrUndefined(fileView.fileAttachment.description) || fileView.fileAttachment.description == "") return data;
+        Object.assign(data, { description: fileView.fileAttachment.description })
+        return data;
+      });
+
+    update({
+      filesInfo: {
+        files: files,
+        haveDigitalSignature: editFileAttachmentsComponent.haveDigitalSignature
+      }
+    })
+  }
   create(inquiry: Inquiry): Observable<Inquiry> {
     // let options = new RequestOptions({ headers: new Headers({ 'Content-Type': 'application/json' }) });
     // inquiry.id = Guid.newGuid();
