@@ -17,16 +17,18 @@ export class EditPreschoolInstitutionDialogComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data: { $inquiry: BehaviorSubject<Inquiry> },
     private storageService: WizardStorageService, private inquiryService: InquiryService) { }
 
+  inquiry: Inquiry;
+
   ngOnInit() {
+    this.inquiry = this.data.$inquiry.getValue();
   }
 
   save() {
     this.inquiryService.saveWishInstitutions(this.editInstitutionsComponent, (patch) => {
-      this.storageService.set(this.data.$inquiry.getValue().type, patch);
+      this.storageService.set(this.inquiry.type, patch);
 
-      let inquiry = this.data.$inquiry.getValue();
-      Object.assign(inquiry, patch);
-      this.data.$inquiry.next(inquiry);
+      Object.assign(this.inquiry, patch);
+      this.data.$inquiry.next(this.inquiry);
     })
     this.dialogRef.close();
   }

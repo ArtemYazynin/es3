@@ -73,18 +73,22 @@ export class InquiryService {
   }
 
   savePrivilege(privilegeEditComponent: PrivilegeEditComponent, update: (patch: object) => void): void {
-    const privilege: Privilege = (() => {
-      let result = new Privilege();
-      if (!privilegeEditComponent.privilegeForm.controls.withoutPrivilege.value) {
-        result.id = privilegeEditComponent.privilegeForm.controls.privilege.value.id;
-        result.name = privilegeEditComponent.privilegeForm.controls.privilege.value.name;
-        result.privilegeOrder = privilegeEditComponent.privilegeForm.controls.privilegeOrder.value;
-        result.privilegeProofDocument =
-          this.commonService.getDocumentByType([privilegeEditComponent.confirmationProofDocumentComponent], AttachmentType.PrivilegeProofDocument);
-      }
-      return result;
-    })();
-    update({ privilege: privilege });
+    if (privilegeEditComponent.privilegeForm.controls.withoutPrivilege.value) {
+      update({ privilege: undefined })
+    } else {
+      update(
+        {
+          privilege: (() => {
+            let result = new Privilege();
+            result.id = privilegeEditComponent.privilegeForm.controls.privilege.value.id;
+            result.name = privilegeEditComponent.privilegeForm.controls.privilege.value.name;
+            result.privilegeOrder = privilegeEditComponent.privilegeForm.controls.privilegeOrder.value;
+            result.privilegeProofDocument =
+              this.commonService.getDocumentByType([privilegeEditComponent.confirmationProofDocumentComponent], AttachmentType.PrivilegeProofDocument);
+            return result;
+          })()
+        })
+    }
   }
 
   saveContactInfo(editContactInfoComponent: EditContactInfoComponent, update: (patch: object) => void) {
