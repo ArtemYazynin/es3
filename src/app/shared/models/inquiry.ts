@@ -13,6 +13,7 @@ import { Privilege } from "./privilege";
 import { RegisterSource } from "./register-source.enum";
 import { Status } from "./status";
 import { SchoolInquiryInfo } from "./school-inquiry-info";
+import { SchoolClass } from "./school-class";
 
 export class Inquiry {
     private def = "-";
@@ -49,10 +50,16 @@ export class Inquiry {
     parent: Parent;
     children: Array<Child> = [];
     privilege: Privilege;
+
     institutions: Array<Institution>
     currentEducationPlace: CurrentEducationPlace;
     filesInfo: FilesInfo
     inquiryInfo: InquiryInfo;
-    schoolInquiryInfo: SchoolInquiryInfo;
+    
     contactInfo: ContactInfo;
+    
+    /** ONLY SCHOOL FUNCTIONALITY */
+    schoolClasses: Array<SchoolClass>;
+    schoolInquiryInfo: SchoolInquiryInfo;
+    /** END */
 }

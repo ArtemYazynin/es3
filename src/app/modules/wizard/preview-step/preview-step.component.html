@@ -81,7 +81,7 @@
           </div>
         </div>
       </div>
-      <div class="row">
+      <div class="row" *ngIf="inquiry.type == inquiryTypes.preschool">
         <app-preview-inquiry-info [inquiryInfo]="inquiry.inquiryInfo"></app-preview-inquiry-info>
       </div>
       <div class="row">
@@ -114,9 +114,16 @@
               <h5>Предпочитаемые организации</h5>
             </div>
             <div class="widget-content">
-              <div class="form-group" *ngFor="let institution of inquiry.institutions">
-                {{institution.name}}
-              </div>
+              <ng-container *ngIf="inquiry.type == inquiryTypes.preschool">
+                <div class="form-group" *ngFor="let institution of inquiry.institutions">
+                  {{institution.name}}
+                </div>
+              </ng-container>
+              <ng-container *ngIf="inquiry.type == inquiryTypes.school">
+                <div class="form-group" *ngFor="let schoolClass of inquiry.schoolClasses">
+                  {{schoolClass.institution.name}} ({{schoolClass.name}})
+                </div>
+              </ng-container>
             </div>
           </div>
         </div>

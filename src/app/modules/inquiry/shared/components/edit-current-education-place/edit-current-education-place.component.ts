@@ -1,11 +1,10 @@
-import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, OnInit, OnDestroy } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatAutocompleteSelectedEvent, MatCheckboxChange, MatSelectChange } from '@angular/material';
-import { ActivatedRoute, Router } from '@angular/router';
-import { Observable } from 'rxjs';
-import { map, startWith } from 'rxjs/operators';
-import { Area, AreaService, AreaType, CommonService, Entity, FormService, Group, GroupService, Inquiry, inquiryType, Institution, InstitutionService } from '../../../../../shared';
-import { CurrentEducationPlaceStepService, WizardStorageService } from '../../../../wizard/shared';
+import { Observable, Subject } from 'rxjs';
+import { map, startWith, takeUntil } from 'rxjs/operators';
+import { Area, AreaService, AreaType, CommonService, Entity, FormService, Group, Inquiry, inquiryType, Institution, InstitutionService, GroupService } from '../../../../../shared';
+import { CurrentEducationPlaceStepService } from '../../../../wizard/shared';
 
 @Component({
   selector: 'app-edit-current-education-place',
@@ -13,9 +12,9 @@ import { CurrentEducationPlaceStepService, WizardStorageService } from '../../..
   styleUrls: ['./edit-current-education-place.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class EditCurrentEducationPlaceComponent implements OnInit {
+export class EditCurrentEducationPlaceComponent implements OnInit, OnDestroy {
   @Input() inquiry: Inquiry;
-
+  private ngUnsubscribe: Subject<any> = new Subject();
   private currentMunicipality: Area;
   private municipalities: Array<Area> = [];
   private institutions: Array<Institution> = [];
@@ -28,10 +27,9 @@ export class EditCurrentEducationPlaceComponent implements OnInit {
   validationMessages = this.service.getValidationMessages();
   displayFn = this.commonService.displayFn;
 
-  constructor(private route: ActivatedRoute, private areaService: AreaService, private institutionService: InstitutionService,
-    private formService: FormService, private router: Router, private groupService: GroupService,
-    private service: CurrentEducationPlaceStepService, private storageService: WizardStorageService,
-    private commonService: CommonService) { }
+  constructor(private areaService: AreaService, private institutionService: InstitutionService,
+    private formService: FormService, private service: CurrentEducationPlaceStepService, private commonService: CommonService,
+    private groupService: GroupService) { }
 
   ngOnInit() {
     this.buildForm();
@@ -40,25 +38,30 @@ export class EditCurrentEducationPlaceComponent implements OnInit {
     this.init.fromSessionStorage();
   }
 
+  ngOnDestroy(): void {
+    this.ngUnsubscribe.next();
+    this.ngUnsubscribe.complete();
+  }
+
   isValid() {
     return this.currentPlaceForm && this.currentPlaceForm.valid || false;
   }
 
   private buildForm() {
     this.currentPlaceForm = this.service.getFormGroup();
-    this.currentPlaceForm.valueChanges.subscribe(() => this.formService.onValueChange(this.currentPlaceForm, this.formErrors, this.validationMessages));
+    this.currentPlaceForm.valueChanges.pipe(takeUntil(this.ngUnsubscribe)).subscribe(() => this.formService.onValueChange(this.currentPlaceForm, this.formErrors, this.validationMessages));
     this.formService.onValueChange(this.currentPlaceForm, this.formErrors, this.validationMessages);
   }
 
   private init = (() => {
     const groups = (institutionId: string) => {
-      this.groupService.getGroup(institutionId).subscribe(groups => {
+      this.groupService.getGroups(institutionId).pipe(takeUntil(this.ngUnsubscribe)).subscribe(groups => {
         this.groups = groups;
         this.checkGroups();
       });
     }
     const institutions = (institutionType?: number) => {
-      this.institutionService.getInstitutions(institutionType).subscribe(result => {
+      this.institutionService.getInstitutions(institutionType).pipe(takeUntil(this.ngUnsubscribe)).subscribe(result => {
         this.institutions = result;
         this.filteredInstitutions = this.currentPlaceForm.controls.institution.valueChanges.pipe(
           startWith<string | Institution>(''),
@@ -74,7 +77,7 @@ export class EditCurrentEducationPlaceComponent implements OnInit {
     return {
       municipalities: () => {
         let municipalities = () => {
-          this.areaService.getAreas(AreaType["Муниципалитет"]).subscribe(result => {
+          this.areaService.getAreas(AreaType["Муниципалитет"]).pipe(takeUntil(this.ngUnsubscribe)).subscribe(result => {
             this.municipalities = result;
             this.filteredMunicipalities = this.currentPlaceForm.controls.municipality.valueChanges.pipe(
               startWith<string | Area>(''),
@@ -88,7 +91,7 @@ export class EditCurrentEducationPlaceComponent implements OnInit {
             this.currentPlaceForm.patchValue({ municipality: this.municipalities.find(x => x.id == this.currentMunicipality.id) }, { emitEvent: true });
           })
         }
-        this.areaService.getCurrentMunicipality().subscribe(result => {
+        this.areaService.getCurrentMunicipality().pipe(takeUntil(this.ngUnsubscribe)).subscribe(result => {
           this.currentMunicipality = result;
           switch (this.inquiry.type) {
             case inquiryType.preschool:
@@ -105,7 +108,7 @@ export class EditCurrentEducationPlaceComponent implements OnInit {
         });
       },
       institutionTypes: () => {
-        this.institutionService.getTypes().subscribe(result => {
+        this.institutionService.getTypes().pipe(takeUntil(this.ngUnsubscribe)).subscribe(result => {
           const preschoolType = 1;
           const schoolType = 2;
           switch (this.inquiry.type) {
@@ -198,11 +201,10 @@ export class EditCurrentEducationPlaceComponent implements OnInit {
       }
     }
     return {
-      municipality: (change: MatSelectChange) => {
+      municipality: () => {
         reset.institutionsTypes();
         reset.institutions();
         reset.groups();
-
         this.init.institutionTypes();
       },
       institutionType: (change: MatSelectChange) => {

@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Inquiry } from '../../../shared';
+import { Inquiry, inquiryType } from '../../../shared';
 import { EditInstitutionsComponent } from '../../inquiry/shared/components/edit-institutions/edit-institutions.component';
 import { StepBase, WizardStorageService } from '../shared';
 
@@ -26,7 +26,17 @@ export class InstitutionStepComponent implements OnInit, StepBase {
       this.router.navigate(["../inquiryInfoStep"], { relativeTo: this.route });
     },
     next: () => {
-      this.storageService.set(this.inquiryType, { institutions: this.editInstitutionsComponent.selectedInstitutions });
+      const data = (() => {
+        switch (this.inquiry.type) {
+          case inquiryType.preschool:
+            return { institutions: this.editInstitutionsComponent.selectedInstitutions };
+          case inquiryType.school:
+            return { schoolClasses: this.editInstitutionsComponent.selectedInstitutions }
+          default:
+            break;
+        }
+      })();
+      this.storageService.set(this.inquiryType, data);
       this.router.navigate(["../fileAttachmentStep"], { relativeTo: this.route });
     }
   };
