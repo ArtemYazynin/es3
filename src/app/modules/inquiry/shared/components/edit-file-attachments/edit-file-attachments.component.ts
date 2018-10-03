@@ -1,8 +1,9 @@
-import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnDestroy, OnInit, Inject } from '@angular/core';
 import { from, fromEvent, Observable, Subject } from 'rxjs';
 import { filter, map, takeUntil } from 'rxjs/operators';
 import { isNullOrUndefined } from 'util';
 import { ApplicantType, AttachmentType, CommonService, FileAttachment, FileView, Inquiry } from '../../../../../shared';
+import { esConstant } from '../../../../../app.module';
 
 @Component({
   selector: 'app-edit-file-attachments',
@@ -14,7 +15,6 @@ export class EditFileAttachmentsComponent implements OnInit, AfterViewInit, OnDe
   @Input() inquiry: Inquiry;
 
   private ngUnsubscribe: Subject<any> = new Subject();
-  private fileNotChoosen = "Файл не выбран";
 
   attachmentType = AttachmentType;
   maxFilesCount = 10;
@@ -25,7 +25,7 @@ export class EditFileAttachmentsComponent implements OnInit, AfterViewInit, OnDe
     if (!version) return false;
     return version < 9;
   })();
-  constructor(private cdr: ChangeDetectorRef, private commonService: CommonService) { }
+  constructor(private cdr: ChangeDetectorRef, private commonService: CommonService, @Inject(esConstant) private esConstant) { }
 
   ngOnInit() {
     this.initFiles();
@@ -36,7 +36,7 @@ export class EditFileAttachmentsComponent implements OnInit, AfterViewInit, OnDe
       .subscribe(() => {
         if (this.bunchOfFileView.length >= this.maxFilesCount)
           return;
-        this.bunchOfFileView.push(new FileView(this.fileNotChoosen, this.bunchOfFileView.length, new FileAttachment(AttachmentType.Other, null, "")));
+        this.bunchOfFileView.push(new FileView(this.esConstant.fileNotChoosen, this.bunchOfFileView.length, new FileAttachment(AttachmentType.Other)));
         this.cdr.markForCheck();
         setTimeout(() => {
           this.subscribeFileChange();
@@ -108,29 +108,8 @@ export class EditFileAttachmentsComponent implements OnInit, AfterViewInit, OnDe
       .pipe(
         takeUntil(this.ngUnsubscribe),
         map((types: Array<AttachmentType>) => {
-          let result: Array<FileView> = [];
-          types.forEach((type, index) => {
-            if (this.inquiry.filesInfo) {
-              let attachFileIndex = this.inquiry.filesInfo.files.findIndex(file => file.attachmentType == type);
-              if (attachFileIndex >= 0) {
-                result.push(new FileView(this.inquiry.filesInfo.files[attachFileIndex].name, index, this.inquiry.filesInfo.files[attachFileIndex]));
-              }
-              else {
-                result.push(new FileView(this.fileNotChoosen, index, new FileAttachment(type, null, "")));
-              }
-            }
-            else {
-              result.push(new FileView(this.fileNotChoosen, index, new FileAttachment(type, null, "")));
-            }
-          });
-          if (this.inquiry.filesInfo) {
-            let otherFiles = this.inquiry.filesInfo.files.filter(file => file.attachmentType == AttachmentType.Other);
-            if (otherFiles && otherFiles.length != 0)
-              otherFiles.forEach((file, index) => {
-                result.push(new FileView(file.name, types.length + index, file));
-              });
-          }
-          return result;
+          let fileViewCollection: Array<FileView> = this.commonService.getFiles(types, this.inquiry.filesInfo);
+          return fileViewCollection;
         }))
       .subscribe(result => {
         this.bunchOfFileView = result;

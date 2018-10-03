@@ -1,20 +1,21 @@
 import { HashLocationStrategy, LocationStrategy } from '@angular/common';
-import { HttpClientModule } from '@angular/common/http';
-import { NgModule } from '@angular/core';
+import { InjectionToken, NgModule } from '@angular/core';
 import { HttpModule, JsonpModule } from '@angular/http';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MyDatePickerModule } from 'mydatepicker';
 import { AppRoutingModule } from './app-routing-module';
 import { AppComponent } from './app.component';
-import { BaseResolver } from './shared/base-resolver';
-import { HttpInterceptor } from './shared/http-interceptor';
 import { WizardStorageService } from './modules/wizard/shared/wizard-storage.service';
-import { RegisterCompleteResolver } from './shared/register-complete-resolver';
-import { InMemoryWebApiModule } from 'angular-in-memory-web-api';
-import { InMemoryService } from './in-memory-server';
+import { BaseResolver } from './shared/base-resolver';
 import { FormService } from './shared/form.service';
+import { HttpInterceptor } from './shared/http-interceptor';
+import { RegisterCompleteResolver } from './shared/register-complete-resolver';
 
+export const esConstant = new InjectionToken<{fileNotChoosen:string}>("esConstant");
+const constants = {
+  fileNotChoosen: "Файл не выбран"
+}
 @NgModule({
   declarations: [AppComponent],
   imports: [
@@ -24,7 +25,7 @@ import { FormService } from './shared/form.service';
     BrowserAnimationsModule,
     MyDatePickerModule,
     JsonpModule,
-    
+
   ],
   exports: [],
   providers: [
@@ -33,7 +34,11 @@ import { FormService } from './shared/form.service';
     WizardStorageService,
     BaseResolver,
     FormService,
-    RegisterCompleteResolver
+    RegisterCompleteResolver,
+    {
+      provide: esConstant,
+      useValue: constants
+    }
   ],
   entryComponents: [],//динамически добавляемые компоненты ViewContainerRef.createComponent()
   bootstrap: [AppComponent]
