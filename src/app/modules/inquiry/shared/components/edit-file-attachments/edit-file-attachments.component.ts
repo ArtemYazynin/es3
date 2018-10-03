@@ -64,7 +64,7 @@ export class EditFileAttachmentsComponent implements OnInit, AfterViewInit, OnDe
         const updateFileView = (fileView: FileView, value: string | File) => {
           if (typeof (value) == "string") {
             fileView.name = value;
-            fileView.fileAttachment.file = value == this.fileNotChoosen ? null : value;
+            fileView.fileAttachment.file = value == this.esConstant.fileNotChoosen ? null : value;
           }
           else {
             fileView.name = value.name;
@@ -81,7 +81,7 @@ export class EditFileAttachmentsComponent implements OnInit, AfterViewInit, OnDe
 
         } else {
           const fileView = this.bunchOfFileView.find(x => x.fileAttachment.attachmentType == params.attachmentType && x.index == params.index);
-          updateFileView(fileView, this.fileNotChoosen);
+          updateFileView(fileView, this.esConstant.fileNotChoosen);
         }
         this.cdr.markForCheck();
       });
