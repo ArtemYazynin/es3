@@ -37,6 +37,7 @@ export class EditFileAttachmentsComponent implements OnInit, AfterViewInit, OnDe
         if (this.bunchOfFileView.length >= this.maxFilesCount)
           return;
         this.bunchOfFileView.push(new FileView(this.fileNotChoosen, this.bunchOfFileView.length, new FileAttachment(AttachmentType.Other, null, "")));
+        this.cdr.markForCheck();
         setTimeout(() => {
           this.subscribeFileChange();
         }, 0);
@@ -122,6 +123,13 @@ export class EditFileAttachmentsComponent implements OnInit, AfterViewInit, OnDe
               result.push(new FileView(this.fileNotChoosen, index, new FileAttachment(type, null, "")));
             }
           });
+          if (this.inquiry.filesInfo) {
+            let otherFiles = this.inquiry.filesInfo.files.filter(file => file.attachmentType == AttachmentType.Other);
+            if (otherFiles && otherFiles.length != 0)
+              otherFiles.forEach((file, index) => {
+                result.push(new FileView(file.name, types.length + index, file));
+              });
+          }
           return result;
         }))
       .subscribe(result => {

@@ -1,6 +1,6 @@
 import { AfterViewInit, ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ApplicantType, AttachmentType, CitizenshipService, CommonService, DublicatesFinder, FormService, IdentityCard, Inquiry, inquiryType, Parent, InquiryService } from '../../../shared';
+import { ApplicantType, CitizenshipService, CommonService, FormService, Inquiry, InquiryService, inquiryType } from '../../../shared';
 import { EditPersonComponent } from '../../inquiry/shared/components/edit-person/edit-person.component';
 import { StepBase, WizardStorageService } from '../shared';
 
@@ -28,6 +28,8 @@ export class ParentStepComponent implements OnInit, AfterViewInit, StepBase {
 
   ngOnInit() {
     this.inquiry = <Inquiry>this.storageService.get(this.inquiryType);
+    if (this.inquiry)
+      this.agree = true;
   }
 
   ngAfterViewInit(): void {
