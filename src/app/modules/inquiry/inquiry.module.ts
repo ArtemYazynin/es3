@@ -42,18 +42,6 @@ import { EditCurrentEducationPlaceDialogComponent } from './edit-current-educati
     MaterialModule,
     InMemoryWebApiModule.forRoot(InMemoryService)
   ],
-  entryComponents: [
-    EditPrivilegeDialogComponent,
-    EditPersonDialogComponent,
-    EditInquiryInfoDialogComponent,
-    EditContactInfoDialogComponent,
-    EditPreschoolInstitutionDialogComponent,
-    EditCurrentEducationPlaceDialogComponent
-  ],
-  declarations: [
-    InquiryReadComponent,
-    InquiryCommonInfoComponent, RegisterSourcePipe, EditPrivilegeDialogComponent, EditPersonDialogComponent,
-    EditInquiryInfoDialogComponent, EditPreschoolInstitutionDialogComponent, EditContactInfoDialogComponent, EditCurrentEducationPlaceDialogComponent],
   providers: [
     CurrentEducationPlaceStepService,
 
@@ -78,7 +66,6 @@ import { EditCurrentEducationPlaceDialogComponent } from './edit-current-educati
     StatusService
   ],
   declarations: [InquiryReadComponent, InquiryCommonInfoComponent, RegisterSourcePipe, EditPrivilegeDialogComponent, EditPersonDialogComponent, EditInquiryInfoDialogComponent, EditPreschoolInstitutionDialogComponent, EditContactInfoDialogComponent, EditCurrentEducationPlaceDialogComponent, EditFileAttachmentsDialogComponent],
-  providers: [StatusService],
   entryComponents: [EditPrivilegeDialogComponent, EditPersonDialogComponent, EditInquiryInfoDialogComponent, EditPreschoolInstitutionDialogComponent, EditContactInfoDialogComponent, EditCurrentEducationPlaceDialogComponent, EditFileAttachmentsDialogComponent]
 })
 export class InquiryModule { }
