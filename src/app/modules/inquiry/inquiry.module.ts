@@ -16,6 +16,7 @@ import { RegisterSourcePipe } from '../../shared/models/register-source.pipe';
 import { PrivilegeOrderService } from '../../shared/privilege-order.service';
 import { CurrentEducationPlaceStepService, WizardStorageService } from '../wizard/shared';
 import { EditContactInfoDialogComponent } from './edit-contact-info-dialog/edit-contact-info-dialog.component';
+import { EditFileAttachmentsDialogComponent } from './edit-file-attachments-dialog/edit-file-attachments-dialog.component';
 import { EditInquiryInfoDialogComponent } from './edit-inquiry-info-dialog/edit-inquiry-info-dialog.component';
 import { EditPersonDialogComponent } from './edit-person-dialog/edit-person-dialog.component';
 import { EditPreschoolInstitutionDialogComponent } from './edit-preschool-institution-dialog/edit-preschool-institution-dialog.component';
@@ -41,18 +42,6 @@ import { EditCurrentEducationPlaceDialogComponent } from './edit-current-educati
     MaterialModule,
     InMemoryWebApiModule.forRoot(InMemoryService)
   ],
-  entryComponents: [
-    EditPrivilegeDialogComponent,
-    EditPersonDialogComponent,
-    EditInquiryInfoDialogComponent,
-    EditContactInfoDialogComponent,
-    EditPreschoolInstitutionDialogComponent,
-    EditCurrentEducationPlaceDialogComponent
-  ],
-  declarations: [
-    InquiryReadComponent,
-    InquiryCommonInfoComponent, RegisterSourcePipe, EditPrivilegeDialogComponent, EditPersonDialogComponent,
-    EditInquiryInfoDialogComponent, EditPreschoolInstitutionDialogComponent, EditContactInfoDialogComponent, EditCurrentEducationPlaceDialogComponent],
   providers: [
     CurrentEducationPlaceStepService,
 
@@ -76,5 +65,7 @@ import { EditCurrentEducationPlaceDialogComponent } from './edit-current-educati
     InquiryService,
     StatusService
   ],
+  declarations: [InquiryReadComponent, InquiryCommonInfoComponent, RegisterSourcePipe, EditPrivilegeDialogComponent, EditPersonDialogComponent, EditInquiryInfoDialogComponent, EditPreschoolInstitutionDialogComponent, EditContactInfoDialogComponent, EditCurrentEducationPlaceDialogComponent, EditFileAttachmentsDialogComponent],
+  entryComponents: [EditPrivilegeDialogComponent, EditPersonDialogComponent, EditInquiryInfoDialogComponent, EditPreschoolInstitutionDialogComponent, EditContactInfoDialogComponent, EditCurrentEducationPlaceDialogComponent, EditFileAttachmentsDialogComponent]
 })
 export class InquiryModule { }

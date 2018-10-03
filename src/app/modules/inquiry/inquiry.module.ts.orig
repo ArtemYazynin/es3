@@ -13,29 +13,22 @@ import { ShareModule } from '../../share.module';
 import { AddressService, AreaService, CitizenshipService, CommonService, DrawService, FormService, GroupService, IdentityCardService, InquiryService, InstitutionService, PrivilegeService, RelationTypeService, SettingsService, SpecHealthService, SpecificityService, StatusService } from '../../shared';
 import { HttpInterceptor } from '../../shared/http-interceptor';
 import { RegisterSourcePipe } from '../../shared/models/register-source.pipe';
-<<<<<<< HEAD
 import { PrivilegeOrderService } from '../../shared/privilege-order.service';
 import { CurrentEducationPlaceStepService, WizardStorageService } from '../wizard/shared';
 import { EditContactInfoDialogComponent } from './edit-contact-info-dialog/edit-contact-info-dialog.component';
-import { EditInquiryInfoDialogComponent } from './edit-inquiry-info-dialog/edit-inquiry-info-dialog.component';
-import { EditPersonDialogComponent } from './edit-person-dialog/edit-person-dialog.component';
-=======
-import { RegisterCompleteResolver } from '../../shared/register-complete-resolver';
-import { StatusService } from '../../shared/status.service';
-import { EditContactInfoDialogComponent } from './edit-contact-info-dialog/edit-contact-info-dialog.component';
+<<<<<<< HEAD
 import { EditCurrentEducationPlaceDialogComponent } from './edit-current-education-place-dialog/edit-current-education-place-dialog.component';
+import { EditFileAttachmentsDialogComponent } from './edit-file-attachments-dialog/edit-file-attachments-dialog.component';
+=======
+>>>>>>> 5944f5c838ef11865e269a4536d305f4eb164bde
 import { EditInquiryInfoDialogComponent } from './edit-inquiry-info-dialog/edit-inquiry-info-dialog.component';
 import { EditPersonDialogComponent } from './edit-person-dialog/edit-person-dialog.component';
 import { EditPreschoolInstitutionDialogComponent } from './edit-preschool-institution-dialog/edit-preschool-institution-dialog.component';
->>>>>>> abizov
 import { EditPrivilegeDialogComponent } from './edit-privilege-dialog/edit-privilege-dialog.component';
 import { InquiryReadComponent } from './inquiry-read/inquiry-read.component';
 import { InquiryRouting } from './inquiry-routing-module';
 import { InquiryCommonInfoComponent } from './shared/components/inquiry-common-info/inquiry-common-info.component';
-<<<<<<< HEAD
-=======
-
->>>>>>> abizov
+import { EditCurrentEducationPlaceDialogComponent } from './edit-current-education-place-dialog/edit-current-education-place-dialog.component';
 
 @NgModule({
   imports: [
@@ -53,10 +46,21 @@ import { InquiryCommonInfoComponent } from './shared/components/inquiry-common-i
     MaterialModule,
     InMemoryWebApiModule.forRoot(InMemoryService)
   ],
-<<<<<<< HEAD
-  declarations: [InquiryReadComponent, InquiryCommonInfoComponent, RegisterSourcePipe, EditPrivilegeDialogComponent, EditPersonDialogComponent, EditInquiryInfoDialogComponent, EditContactInfoDialogComponent],
+  entryComponents: [
+    EditPrivilegeDialogComponent,
+    EditPersonDialogComponent,
+    EditInquiryInfoDialogComponent,
+    EditContactInfoDialogComponent,
+    EditPreschoolInstitutionDialogComponent,
+    EditCurrentEducationPlaceDialogComponent
+  ],
+  declarations: [
+    InquiryReadComponent,
+    InquiryCommonInfoComponent, RegisterSourcePipe, EditPrivilegeDialogComponent, EditPersonDialogComponent,
+    EditInquiryInfoDialogComponent, EditPreschoolInstitutionDialogComponent, EditContactInfoDialogComponent, EditCurrentEducationPlaceDialogComponent],
   providers: [
     CurrentEducationPlaceStepService,
+
     HttpInterceptor,
     FormService,
     WizardStorageService,
@@ -77,11 +81,11 @@ import { InquiryCommonInfoComponent } from './shared/components/inquiry-common-i
     InquiryService,
     StatusService
   ],
-  entryComponents: [EditPrivilegeDialogComponent, EditPersonDialogComponent, EditInquiryInfoDialogComponent, EditContactInfoDialogComponent]
-=======
-  declarations: [InquiryReadComponent, InquiryCommonInfoComponent, RegisterSourcePipe, EditPrivilegeDialogComponent, EditPersonDialogComponent, EditInquiryInfoDialogComponent, EditPreschoolInstitutionDialogComponent, EditContactInfoDialogComponent, EditCurrentEducationPlaceDialogComponent],
+<<<<<<< HEAD
+  declarations: [InquiryReadComponent, InquiryCommonInfoComponent, RegisterSourcePipe, EditPrivilegeDialogComponent, EditPersonDialogComponent, EditInquiryInfoDialogComponent, EditPreschoolInstitutionDialogComponent, EditContactInfoDialogComponent, EditCurrentEducationPlaceDialogComponent, EditFileAttachmentsDialogComponent],
   providers: [StatusService],
-  entryComponents: [EditPrivilegeDialogComponent, EditPersonDialogComponent, EditInquiryInfoDialogComponent, EditPreschoolInstitutionDialogComponent, EditContactInfoDialogComponent, EditCurrentEducationPlaceDialogComponent]
->>>>>>> abizov
+  entryComponents: [EditPrivilegeDialogComponent, EditPersonDialogComponent, EditInquiryInfoDialogComponent, EditPreschoolInstitutionDialogComponent, EditContactInfoDialogComponent, EditCurrentEducationPlaceDialogComponent, EditFileAttachmentsDialogComponent]
+=======
+>>>>>>> 5944f5c838ef11865e269a4536d305f4eb164bde
 })
 export class InquiryModule { }

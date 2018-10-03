@@ -36,7 +36,7 @@ export class EditFileAttachmentsComponent implements OnInit, AfterViewInit, OnDe
       .subscribe(() => {
         if (this.bunchOfFileView.length >= this.maxFilesCount)
           return;
-        this.bunchOfFileView.push(new FileView(this.fileNotChoosen, this.bunchOfFileView.length, new FileAttachment(AttachmentType.Other, null)));
+        this.bunchOfFileView.push(new FileView(this.fileNotChoosen, this.bunchOfFileView.length, new FileAttachment(AttachmentType.Other, null, "")));
         setTimeout(() => {
           this.subscribeFileChange();
         }, 0);
@@ -57,7 +57,7 @@ export class EditFileAttachmentsComponent implements OnInit, AfterViewInit, OnDe
         }),
         map(event => {
           const files: File[] = event.target["files"];
-          return { file: files[0], attachmentType: event.target["id"], index: event.target["dataset"].index };
+          return { file: files[0], attachmentType: event.target["id"], index: event.target["dataset"].index, name: files[0].name };
         }))
       .subscribe(params => {
         const updateFileView = (fileView: FileView, value: string | File) => {
@@ -109,7 +109,18 @@ export class EditFileAttachmentsComponent implements OnInit, AfterViewInit, OnDe
         map((types: Array<AttachmentType>) => {
           let result: Array<FileView> = [];
           types.forEach((type, index) => {
-            result.push(new FileView(this.fileNotChoosen, index, new FileAttachment(type, null)));
+            if (this.inquiry.filesInfo) {
+              let attachFileIndex = this.inquiry.filesInfo.files.findIndex(file => file.attachmentType == type);
+              if (attachFileIndex >= 0) {
+                result.push(new FileView(this.inquiry.filesInfo.files[attachFileIndex].name, index, this.inquiry.filesInfo.files[attachFileIndex]));
+              }
+              else {
+                result.push(new FileView(this.fileNotChoosen, index, new FileAttachment(type, null, "")));
+              }
+            }
+            else {
+              result.push(new FileView(this.fileNotChoosen, index, new FileAttachment(type, null, "")));
+            }
           });
           return result;
         }))

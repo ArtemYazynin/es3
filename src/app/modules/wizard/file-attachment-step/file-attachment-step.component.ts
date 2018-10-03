@@ -1,10 +1,8 @@
-import { ChangeDetectionStrategy, Component, OnInit, ViewChild, DoCheck, AfterViewChecked, AfterViewInit, ChangeDetectorRef } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { isNullOrUndefined } from 'util';
-import { Inquiry, inquiryType } from '../../../shared';
+import { Inquiry, InquiryService, inquiryType } from '../../../shared';
 import { EditFileAttachmentsComponent } from '../../inquiry/shared/components/edit-file-attachments/edit-file-attachments.component';
 import { StepBase, WizardStorageService } from '../shared';
-import { BehaviorSubject } from 'rxjs';
 
 @Component({
   selector: 'app-file-attachment-step',
@@ -17,11 +15,11 @@ export class FileAttachmentStepComponent implements OnInit, StepBase {
   inquiry: Inquiry;
   inquiryType = this.route.snapshot.data.resolved.inquiryType;
 
-  constructor(private router: Router, private route: ActivatedRoute, private storageService: WizardStorageService, private cdr:ChangeDetectorRef) { }
+  constructor(private router: Router, private route: ActivatedRoute, private storageService: WizardStorageService, private cdr: ChangeDetectorRef, private inquiryService: InquiryService) { }
 
   ngOnInit() {
     this.inquiry = this.storageService.get(this.inquiryType);
-    
+
   }
 
   isValid() {
@@ -45,19 +43,8 @@ export class FileAttachmentStepComponent implements OnInit, StepBase {
       }
     },
     next: () => {
-      const data = this.editFileAttachmentsComponent.bunchOfFileView
-        .filter(x => x.fileAttachment.file != null)
-        .map(fileView => {
-          let data = Object.assign({}, fileView.fileAttachment.file, { name: fileView.fileAttachment.file.name });
-          if (isNullOrUndefined(fileView.fileAttachment.description) || fileView.fileAttachment.description == "") return data;
-          Object.assign(data, { description: fileView.fileAttachment.description })
-          return data;
-        });
-      this.storageService.set(this.inquiryType, {
-        filesInfo: {
-          files: data,
-          haveDigitalSignature: this.editFileAttachmentsComponent.haveDigitalSignature
-        }
+      this.inquiryService.saveFileAttachments(this.editFileAttachmentsComponent, (patch) => {
+        this.storageService.set(this.inquiryType, patch);
       });
       this.router.navigate(["../previewStep"], { relativeTo: this.route });
     }

@@ -7,6 +7,7 @@ import { map, takeUntil } from 'rxjs/operators';
 import { ApplicantType, CitizenshipService, ConfirmationDocument, Country, DrawService, Entity, GroupService, Inquiry, InquiryService, InstitutionService, PrivilegeOrder, PrivilegeOrderService, Specificity, SpecificityService, Status, StatusService } from '../../../shared/index';
 import { EditContactInfoDialogComponent } from '../edit-contact-info-dialog/edit-contact-info-dialog.component';
 import { EditCurrentEducationPlaceDialogComponent } from '../edit-current-education-place-dialog/edit-current-education-place-dialog.component';
+import { EditFileAttachmentsDialogComponent } from '../edit-file-attachments-dialog/edit-file-attachments-dialog.component';
 import { EditInquiryInfoDialogComponent } from '../edit-inquiry-info-dialog/edit-inquiry-info-dialog.component';
 import { EditPersonDialogComponent } from '../edit-person-dialog/edit-person-dialog.component';
 import { EditPreschoolInstitutionDialogComponent } from '../edit-preschool-institution-dialog/edit-preschool-institution-dialog.component';
@@ -125,7 +126,7 @@ export class InquiryReadComponent implements OnInit, OnDestroy {
     }
 
     const fileAttachments = () => {
-
+      this.dialog.open(EditFileAttachmentsDialogComponent, getDefaultConfig());
     }
     return {
       common: common,
