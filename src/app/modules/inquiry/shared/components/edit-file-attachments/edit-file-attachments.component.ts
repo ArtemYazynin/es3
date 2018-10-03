@@ -29,6 +29,8 @@ export class EditFileAttachmentsComponent implements OnInit, AfterViewInit, OnDe
 
   ngOnInit() {
     this.initFiles();
+    if (this.inquiry.filesInfo && this.inquiry.filesInfo.haveDigitalSignature)
+      this.haveDigitalSignature = true;
   }
   ngAfterViewInit(): void {
     fromEvent(document.getElementById("add"), "click")

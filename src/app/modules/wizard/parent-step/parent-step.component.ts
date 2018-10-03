@@ -28,7 +28,7 @@ export class ParentStepComponent implements OnInit, AfterViewInit, StepBase {
 
   ngOnInit() {
     this.inquiry = <Inquiry>this.storageService.get(this.inquiryType);
-    if (this.inquiry)
+    if (this.inquiry.parent)
       this.agree = true;
   }
 
