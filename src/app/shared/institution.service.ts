@@ -2,16 +2,18 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { isNullOrUndefined } from 'util';
-import { Entity } from '.';
 import { HttpInterceptor } from './http-interceptor';
 import { Institution } from './models/institution';
+import { Group } from './models/group';
+import { Entity } from './models/entity';
 
 @Injectable()
 export class InstitutionService {
 
   constructor(private http: HttpInterceptor) { }
   private baseUrl = {
-    institutionTypes: "app/institutionsTypes"
+    institutionTypes: "app/institutionsTypes",
+    institutions: "app/institutions"
   }
   getTypes(id?: number): Observable<Array<Entity<number>>> {
     const url = isNullOrUndefined(id)
@@ -22,11 +24,17 @@ export class InstitutionService {
     }));
   }
   getInstitutions(type?: number): Observable<Array<Institution>> {
-    let url = type ? "app/institutions?institutionType=" + type : "app/institutions";
+    let url = type ? `${this.baseUrl.institutions}?institutionType=${type}` : "app/institutions";
     return this.http.get(url).pipe(map(result => {
       return <Array<Institution>>result.json();
     }));
   }
 
-
+  getById(id: string): Observable<Array<Institution>> {
+    if (!id) return Observable.create();
+    let url = `${this.baseUrl.institutions}?id=${id}`;
+    return this.http.get(url).pipe(map(result => {
+      return <Array<Institution>>result.json();
+    }));
+  }
 }

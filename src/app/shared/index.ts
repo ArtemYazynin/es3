@@ -24,6 +24,7 @@ export * from "./addressBuilder/address-builder-director";
 
 
 export * from "./models/entity";
+export * from "./models/school-class";
 export * from "./models/school-inquiry-info";
 export * from "./models/educ-program";
 export * from "./models/specialization";

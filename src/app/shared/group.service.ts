@@ -10,15 +10,11 @@ export class GroupService {
 
   constructor(private http: HttpInterceptor) { }
 
-  getGroup(institutionId: string, id?: string): Observable<Array<Group>> {
-    let url = isNullOrUndefined(id) || id == ""
-      ? this.getBaseUrl(institutionId)
-      : this.getBaseUrl(institutionId) + "&id=" + id
+  getGroups(institutionId: string): Observable<Array<Group>> {
+    let url = `app/groups`
     return this.http.get(url).pipe(map(result => {
-      return <Array<Group>>result.json();
+      let institutions = <Array<Group>>result.json();
+      return institutions.filter(x => x.institution && x.institution.id == institutionId);
     }));
-  }
-  private getBaseUrl(institutionId: string) {
-    return "app/groups?institutionId=" + institutionId
   }
 }

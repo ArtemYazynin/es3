@@ -1,19 +1,28 @@
 <div [formGroup]="form">
   <div class="form-group">
     <mat-form-field style="min-width: 20%;margin-right: 3%;">
-      <input #institution type="text" placeholder="Образовательная организация" matInput formControlName="institution" [matAutocomplete]="auto">
-      <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn" (optionSelected)="add($event, institution)">
+      <input #institution type="text" placeholder="Образовательная организация" matInput formControlName="institution"
+        [matAutocomplete]="auto">
+      <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn" (optionSelected)="onChange.institution($event, institution)">
         <mat-option *ngFor="let option of filteredInstitution | async" [value]="option">
           {{option.name}}
         </mat-option>
       </mat-autocomplete>
     </mat-form-field>
   </div>
+  <div class="form-group" *ngIf="inquiry.type == inquiryType.school && form.get('institution').value">
+    <mat-form-field class="full-width">
+      <mat-select formControlName="class" placeholder="Класс" (selectionChange)="onChange.class($event)">
+        <mat-option value="">Не выбран</mat-option>
+        <mat-option *ngFor="let item of $classes | async" [value]="item">{{item.name}}</mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
   <div class="form-group">
     <mat-list>
       <div *ngFor="let item of selectedInstitutions;let i = index;let first=first; let last=last;">
         <mat-list-item>
-          {{i+1}}. {{item.name}}
+          {{i+1}}. {{item.institution ? item.institution.name + ' ('+item.name+')' : item.name}}
           <button mat-icon-button color="primary" [disabled]="first" (click)="move.up(i)">
             <i class="fas fa-arrow-up"></i>
           </button>
@@ -30,5 +39,13 @@
   </div>
   <div class="form-group alert alert-danger" *ngIf="form.get('institution').disabled">
     Максимальное количество желаемых ОО {{maxCountWishInstitutions}}
+  </div>
+  <div class="alert-info">
+    <span>
+      <b>{{form.value | json}}</b>
+    </span>
+    <span>form.status:
+      <b>{{form.status | json}}</b>
+    </span>
   </div>
 </div>

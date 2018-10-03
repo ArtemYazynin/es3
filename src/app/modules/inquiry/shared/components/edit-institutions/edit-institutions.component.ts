@@ -1,9 +1,9 @@
-import { Component, Input, OnDestroy, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { MatAutocompleteSelectedEvent } from '@angular/material';
+import { MatAutocompleteSelectedEvent, MatSelectChange } from '@angular/material';
 import { Observable, Subject } from 'rxjs';
 import { map, startWith, takeUntil } from 'rxjs/operators';
-import { CommonService, Inquiry, inquiryType, InquiryType, Institution, InstitutionService, SettingsService } from '../../../../../shared';
+import { CommonService, Group, GroupService, Inquiry, inquiryType, InquiryType, Institution, InstitutionService, SchoolClass, SettingsService } from '../../../../../shared';
 
 @Component({
   selector: 'app-edit-institutions',
@@ -20,10 +20,12 @@ export class EditInstitutionsComponent implements OnInit, OnDestroy {
   maxCountWishInstitutions: number;
   displayFn = this.commonService.displayFn;
   filteredInstitution: Observable<Array<Institution>>
-  selectedInstitutions: Array<Institution> = [];
+  selectedInstitutions: Array<any> = [];
+  $classes: Observable<Array<Group>>;
   private institutions: Array<Institution>;
 
-  constructor(private commonService: CommonService, private institutionService: InstitutionService, private fb: FormBuilder, private settingsService: SettingsService) { }
+  constructor(private commonService: CommonService, private institutionService: InstitutionService, private fb: FormBuilder,
+    private settingsService: SettingsService, private groupService: GroupService) { }
 
   ngOnInit() {
     this.settingsService.get()
@@ -47,22 +49,19 @@ export class EditInstitutionsComponent implements OnInit, OnDestroy {
           startWith<string | Institution>(''),
           map((value: Institution) => typeof value === 'string' ? value : value.name),
           map((name: string) => {
-            return name ? this.commonService.autoCompliteFilter(this.institutions, name) : this.institutions.slice();
+            //this.form.controls.class.patchValue("");
+            if (name) {
+              return this.commonService.autoCompliteFilter(this.institutions, name);
+            }
+
+            return this.institutions.slice();
           })
         );
-        if (this.inquiry.institutions && this.inquiry.institutions.length > 0) {
-          this.inquiry.institutions.forEach(element => {
-            this._add(element);
-          });
-        }
+
+        this.initFromSessionStorage();
       });
 
-    this.form = this.fb.group({
-      "institution": [
-        "",
-        []
-      ]
-    });
+    this.buildForm();
   }
   ngOnDestroy(): void {
     this.ngUnsubscribe.next();
@@ -72,26 +71,62 @@ export class EditInstitutionsComponent implements OnInit, OnDestroy {
   isValid(): boolean {
     return this.selectedInstitutions.length > 0;
   }
-  add(event: MatAutocompleteSelectedEvent, inputElement: any) {
-    if (!event || !event.option || !event.option.value) return;
-    const institution = event.option.value;
-    this._add(institution);
-    /* 
-      angular.material bug 
-      https://github.com/angular/material2/issues/9061
-    */
-    inputElement.blur();//fix
 
+  onChange = {
+    institution: (event: MatAutocompleteSelectedEvent, inputElement: any) => {
+      if (!event || !event.option || !event.option.value) return;
+
+      const institution = event.option.value;
+      switch (this.inquiry.type) {
+        case inquiryType.preschool:
+          this._add(institution);
+          this.blur(inputElement);
+          break;
+        case inquiryType.school:
+          this.$classes = this.groupService.getGroups(institution.id);
+        default:
+          break;
+      }
+    },
+    class: (change: MatSelectChange) => {
+      this._add(change.value);
+    }
   }
 
-  private _add(institution: Institution) {
-    this.selectedInstitutions.push(institution);
+  private initFromSessionStorage() {
+    let array: Array<Institution | SchoolClass> = (() => {
+      const def = [];
+      switch (this.inquiry.type) {
+        case inquiryType.preschool:
+          return this.inquiry.institutions || def;
+        case inquiryType.school:
+          return this.inquiry.schoolClasses || def;
+        default:
+          return def
+      }
+    })();
+    array.forEach(element => {
+      this._add(element);
+    });
+  }
+  private blur(inputElement: any) {
+    /* 
+          angular.material bug 
+          https://github.com/angular/material2/issues/9061
+        */
+    inputElement.blur();//fix
+  }
 
-    (function removeFromInstitutionList(outer) {
-      const index = outer.institutions.findIndex(elem => elem.id == institution.id);
-      outer.institutions.splice(index, 1);
-      outer.form.patchValue({ institution: "" });
-    })(this);
+  private _add(val: Institution | Group) {
+    this.selectedInstitutions.push(val);
+
+    const index = this.institutions.findIndex(elem => {
+      let id = val["institution"] ? val["institution"]["id"] : val.id;
+      return elem.id == id;
+    });
+    this.institutions.splice(index, 1);
+
+    this.form.patchValue({ institution: "" });
 
     (function disableIfMaxCountReceived(outer) {
       if (outer.selectedInstitutions.length >= outer.maxCountWishInstitutions) {
@@ -99,6 +134,7 @@ export class EditInstitutionsComponent implements OnInit, OnDestroy {
       }
     })(this);
   }
+
 
   move = (() => {
     let clone = (index: number) => {
@@ -118,9 +154,9 @@ export class EditInstitutionsComponent implements OnInit, OnDestroy {
       this.selectedInstitutions.splice(index + 1, 0, institution);
     }
     let trash = (index) => {
-      const institution = clone(index);
+      const obj = clone(index);
       removeSelected(index);
-      this.institutions.push(institution);
+      this.institutions.push(obj["institution"] ? obj["institution"] : obj);
       this.form.controls.institution.updateValueAndValidity();
       if (this.form.controls.institution.disabled) this.form.controls.institution.enable();
     }
@@ -130,4 +166,20 @@ export class EditInstitutionsComponent implements OnInit, OnDestroy {
       trash: trash
     }
   })();
+
+  buildForm() {
+    let config = {
+      "institution": [
+        "",
+        []
+      ]
+    }
+    if (this.inquiry.type == inquiryType.school) {
+      config["class"] = [
+        "",
+        []
+      ]
+    }
+    this.form = this.fb.group(config);
+  }
 }
