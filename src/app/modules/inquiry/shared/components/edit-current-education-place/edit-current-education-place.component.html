@@ -1,10 +1,10 @@
 <div class="row">
   <div class="col-md-12">
-    <form [formGroup]="currentPlaceForm" (ngSubmit)="onSubmit()">
+    <form [formGroup]="currentPlaceForm">
       <div class="form-group">
         <mat-form-field class="full-width">
           <input type="text" placeholder="Муниципалитет" matInput formControlName="municipality" [matAutocomplete]="auto">
-          <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn" (optionSelected)="onChange.municipality($event)">
+          <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn" (optionSelected)="onChange.municipality()">
             <mat-option *ngFor="let option of filteredMunicipalities | async" [value]="option">
               {{option.name}}
             </mat-option>

@@ -24,7 +24,7 @@ export class ChildrenStepComponent implements OnInit, AfterViewInit, StepBase {
   @ViewChild(SpecHealthComponent) specHealthComponent: SpecHealthComponent;
   @ViewChild(RfCitizensAddressesComponent) rfAddressesComponent: RfCitizensAddressesComponent;
   @ViewChild(ForeignCitizensAddressesComponent) foreignAddressesComponent: ForeignCitizensAddressesComponent;
-  private inquiry: Inquiry;
+  inquiry: Inquiry;
   components: Array<ComponentRef<ChildComponent>> = [];
   inquiryType = this.route.snapshot.data.resolved.inquiryType;
 
