@@ -68,8 +68,8 @@
               </mat-autocomplete>
             </mat-form-field>
             <button type="button" mat-icon-button color="primary" id="cityToggle" matTooltip="{{customStreet ? 'Выбор' : 'Ручной ввод'}}">
-              <i class="fas fa-list" *ngIf="customStreet"></i>
-              <i class="fas fa-edit" *ngIf="!customStreet"></i>
+              <i class="mdi mdi-view-list" *ngIf="customStreet"></i>
+              <i class="mdi mdi-playlist-edit" *ngIf="!customStreet"></i>
             </button>
           </div>
           <div class="form-group" *ngIf="selected.street()">

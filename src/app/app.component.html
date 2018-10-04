@@ -1,14 +1,16 @@
-<nav class="navbar navbar-default">
-    <div class="container-fluid">
-      <div class="navbar-header">
-        <a class="navbar-brand" routerLink="/">Е-услуги. Образование</a>
-      </div>
-      <ul class="nav navbar-nav">
-        <li class="active"><a routerLink="/">Home</a></li>
-        <li><a routerLink="/wizard/preschool">Регистрация заявления в ДОО</a></li>
-        <li><a routerLink="/wizard/school">Регистрация заявления в ООО</a></li>
-        <li><a routerLink="/wizard/healthCamp">Регистрация заявления на отдых в каникулярное время</a></li>
-      </ul>
-    </div>
-  </nav>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <a class="navbar-brand" routerLink="/">Е-услуги. Образование</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown"
+    aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarNavDropdown">
+    <ul class="navbar-nav">
+      <li class="nav-item"><a class="nav-link" routerLink="/wizard/preschool">Регистрация заявления в ДОО</a></li>
+      <li class="nav-item"><a class="nav-link" routerLink="/wizard/school">Регистрация заявления в ООО</a></li>
+      <li class="nav-item"><a class="nav-link" routerLink="/wizard/healthCamp">Регистрация заявления на отдых в
+          каникулярное время</a></li>
+    </ul>
+  </div>
+</nav>
 <router-outlet></router-outlet>

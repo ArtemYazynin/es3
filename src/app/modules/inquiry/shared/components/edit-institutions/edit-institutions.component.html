@@ -24,13 +24,13 @@
         <mat-list-item>
           {{i+1}}. {{item.institution ? item.institution.name + ' ('+item.name+')' : item.name}}
           <button mat-icon-button color="primary" [disabled]="first" (click)="move.up(i)">
-            <i class="fas fa-arrow-up"></i>
+            <i class="mdi mdi-arrow-up-bold"></i>
           </button>
           <button mat-icon-button color="primary" [disabled]="last" (click)="move.down(i)">
-            <i class="fas fa-arrow-down"></i>
+            <i class="mdi mdi-arrow-down-bold"></i>
           </button>
           <button mat-icon-button color="warn" (click)="move.trash(i)">
-            <i class="fas fa-trash-alt"></i>
+            <i class="mdi mdi-trash-can"></i>
           </button>
         </mat-list-item>
         <mat-divider></mat-divider>
