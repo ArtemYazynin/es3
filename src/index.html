@@ -11,34 +11,42 @@
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
 <body>
+  <app-scope-selector></app-scope-selector>
+  <app-menu></app-menu>
+  <!-- Блок главного заголовка -->
+  <section class="title">
+    <div class="container-fluid pt-2 pb-1">
+      <div class="row">
+        <div class="col-9">
+          <h1>Регистрация заявления в ДОО</h1>
+        </div>
+        <div class="col">
+          <ul class="nav justify-content-end">
+            <li class="nav-item">
+              <form class="form-inline nav-link">
+                <button type="submit" class="btn btn-light btn-sm"><i class="mdi mdi-magnify"></i> Кнопка</button>
+                <button type="submit" class="btn btn-light btn-sm"><i class="mdi mdi-magnify"></i> Кнопка</button>
+              </form>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Блок навигации "хлебные крошки"-->
+  <section class="breadscrumb">
+    <div class="container-fluid">
+      <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="#">Главная</a></li>
+          <li class="breadcrumb-item"><a href="#">Подача заявления</a></li>
+          <li class="breadcrumb-item active" aria-current="page">Регистрация заявления в ДОО</li>
+        </ol>
+      </nav>
+    </div>
+  </section>
   <app-root></app-root>
-  <script>
-    window.addEventListener("load", function () {
-      var toggle = document.getElementById('container');
-      var toggleContainer = document.getElementById('toggle-container');
-      var toggleNumber;
-
-      toggle.addEventListener('click', function () {
-        toggleNumber = !toggleNumber;
-        if (toggleNumber) {
-          toggleContainer.style.clipPath = 'inset(0 0 0 50%)';
-        } else {
-          toggleContainer.style.clipPath = 'inset(0 50% 0 0)';
-        }
-        console.log(toggleNumber)
-      });
-
-      document.getElementsByClassName("region-list")[0].addEventListener("click", function () {
-        document.getElementById("region-list").classList.toggle("on");
-      })
-      var textWhiteCollection = document.getElementsByClassName("text-white");
-      for (let index = 0; index < textWhiteCollection.length; index++) {
-        textWhiteCollection[index].addEventListener("click", function () {
-          document.getElementById("region-list").classList.toggle("on");
-        })
-      }
-    })
-  </script>
 </body>
 
 </html>

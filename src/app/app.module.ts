@@ -11,13 +11,15 @@ import { BaseResolver } from './shared/base-resolver';
 import { FormService } from './shared/form.service';
 import { HttpInterceptor } from './shared/http-interceptor';
 import { RegisterCompleteResolver } from './shared/register-complete-resolver';
+import { ScopeSelectorComponent } from './scope-selector/scope-selector.component';
+import { MenuComponent } from './menu/menu.component';
 
-export const esConstant = new InjectionToken<{fileNotChoosen:string}>("esConstant");
+export const esConstant = new InjectionToken<{ fileNotChoosen: string }>("esConstant");
 const constants = {
   fileNotChoosen: "Файл не выбран"
 }
 @NgModule({
-  declarations: [AppComponent],
+  declarations: [AppComponent, ScopeSelectorComponent, MenuComponent],
   imports: [
     HttpModule,
     BrowserModule,
@@ -41,7 +43,7 @@ const constants = {
     }
   ],
   entryComponents: [],//динамически добавляемые компоненты ViewContainerRef.createComponent()
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent, ScopeSelectorComponent, MenuComponent]
 })
 export class AppModule {
 
