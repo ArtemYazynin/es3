@@ -1,119 +1,106 @@
-<div class="row">
-  <div class="col-md-12">
-    <div *ngIf="mode == modes.read">
-      <div class="form-group">
-        <b>{{title}} </b>{{drawManager.address(address)}}
-        <button id="chooseFile" (click)="mode = modes.edit" mat-raised-button color="primary">Изменить</button>
-      </div>
+<div *ngIf="mode == modes.read">
+  <div class="form-group">
+    <b>{{title}} </b>{{drawManager.address(address)}}
+    <button id="chooseFile" (click)="mode = modes.edit" mat-raised-button color="primary">Изменить</button>
+  </div>
+</div>
+<app-inquiry-info-edit [title]="title" *ngIf="mode == modes.edit">
+  <form [formGroup]="addressForm" (ngSubmit)="onSubmit()">
+    <div class="form-group">
+      <mat-form-field class="full-width">
+        <input type="text" [placeholder]="placeHolder.region()" matInput formControlName="region" [matAutocomplete]="regionAuto">
+        <mat-autocomplete #regionAuto="matAutocomplete" [displayWith]="display.region" (optionSelected)="onChange.region(this)">
+          <mat-option value="">Не выбрано</mat-option>
+          <mat-option *ngFor="let option of regions | async" [value]="option">
+            {{option.typeShort}}.{{option.name}}
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
     </div>
-    <div class="widget-box" *ngIf="mode == modes.edit">
-      <div class="widget-title">
-        <h5>{{title}}</h5>
-      </div>
-      <div class="widget-content">
-        <form [formGroup]="addressForm" (ngSubmit)="onSubmit()">
-          <div class="form-group">
-            <mat-form-field class="full-width">
-              <input type="text" [placeholder]="placeHolder.region()" matInput formControlName="region"
-                [matAutocomplete]="regionAuto">
-              <mat-autocomplete #regionAuto="matAutocomplete" [displayWith]="display.region" (optionSelected)="onChange.region(this)">
-                <mat-option value="">Не выбрано</mat-option>
-                <mat-option *ngFor="let option of regions | async" [value]="option">
-                  {{option.typeShort}}.{{option.name}}
-                </mat-option>
-              </mat-autocomplete>
-            </mat-form-field>
-          </div>
-          <div class="form-group" *ngIf="selected.region()">
-            <mat-form-field class="full-width">
-              <mat-select formControlName="regionChildType" placeholder="Тип" (selectionChange)="onChange.regionChildType(this)">
-                <mat-option value="">Не выбрано</mat-option>
-                <mat-option value="0">Район</mat-option>
-                <mat-option value="1">Город</mat-option>
-              </mat-select>
-            </mat-form-field>
-          </div>
-          <div class="form-group" *ngIf="selected.districtType()">
-            <mat-form-field class="full-width">
-              <input type="text" [placeholder]="placeHolder.district()" matInput formControlName="district"
-                [matAutocomplete]="districtAuto">
-              <mat-autocomplete #districtAuto="matAutocomplete" [displayWith]="display.other" (optionSelected)="onChange.district(this)">
-                <mat-option>Не выбрано</mat-option>
-                <mat-option *ngFor="let option of districts | async" [value]="option">
-                  {{option.typeShort}}.{{option.name}}
-                </mat-option>
-              </mat-autocomplete>
-            </mat-form-field>
-          </div>
-          <div class="form-group" *ngIf="selected.cityTypeOrDistrict()">
-            <mat-form-field class="full-width">
-              <input type="text" [placeholder]="placeHolder.city()" matInput formControlName="city" [matAutocomplete]="cityAuto">
-              <mat-autocomplete #cityAuto="matAutocomplete" [displayWith]="display.other" (optionSelected)="onChange.city(this)">
-                <mat-option>Не выбрано</mat-option>
-                <mat-option *ngFor="let option of cities | async" [value]="option">
-                  {{option.typeShort}}.{{option.name}}
-                </mat-option>
-              </mat-autocomplete>
-            </mat-form-field>
-          </div>
-          <div class="form-group" *ngIf="selected.city()">
-            <mat-form-field class="full-width">
-              <input type="text" [placeholder]="placeHolder.street()" matInput formControlName="street"
-                [matAutocomplete]="streetAuto">
-              <mat-autocomplete #streetAuto="matAutocomplete" [displayWith]="display.other" (optionSelected)="onChange.street(this)">
-                <mat-option>Не выбрано</mat-option>
-                <mat-option *ngFor="let option of streets | async" [value]="option">
-                  {{option.typeShort}}.{{option.name}}
-                </mat-option>
-              </mat-autocomplete>
-            </mat-form-field>
-            <button type="button" mat-icon-button color="primary" id="cityToggle" matTooltip="{{customStreet ? 'Выбор' : 'Ручной ввод'}}">
-              <i class="mdi mdi-view-list" *ngIf="customStreet"></i>
-              <i class="mdi mdi-playlist-edit" *ngIf="!customStreet"></i>
-            </button>
-          </div>
-          <div class="form-group" *ngIf="selected.street()">
-            <mat-form-field class="full-width">
-              <input type="text" [placeholder]="placeHolder.building()" matInput formControlName="building"
-                [matAutocomplete]="buildingAuto">
-              <mat-autocomplete #buildingAuto="matAutocomplete" [displayWith]="display.other" (optionSelected)="onChange.building(this)">
-                <mat-option>Не выбрано</mat-option>
-                <mat-option *ngFor="let option of buildings | async" [value]="option">
-                  {{option.name}}
-                </mat-option>
-              </mat-autocomplete>
-            </mat-form-field>
-          </div>
-          <div class="form-group" *ngIf="selected.building()">
-            <mat-form-field>
-              <input matInput formControlName="flat" placeholder="Квартира">
-            </mat-form-field>
-          </div>
-          <div class="form-group">
-            <mat-form-field class="full-width">
-              <textarea matInput placeholder="Доп. информация" formControlName="additionalInfo"></textarea>
-            </mat-form-field>
-          </div>
-          <div class="row">
-            <div class="col-md-12">
-              <div class="form-actions" style="text-align: center;">
-                <button type="submit" class="btn btn-primary">Принять</button>
-                <button type="button" class="btn btn-inverse" (click)="mode = modes.read">Отмена</button>
-              </div>
-            </div>
-          </div>
-        </form>
-        <div>
-          <span>
-            <b>{{addressForm.value | json}}</b>
-          </span>
-          <br>
-          <span>addressForm.status:
-            <b>{{addressForm.status | json}}</b>
-          </span>
-          <br>
+    <div class="form-group" *ngIf="selected.region()">
+      <mat-form-field class="full-width">
+        <mat-select formControlName="regionChildType" placeholder="Тип" (selectionChange)="onChange.regionChildType(this)">
+          <mat-option value="">Не выбрано</mat-option>
+          <mat-option value="0">Район</mat-option>
+          <mat-option value="1">Город</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <div class="form-group" *ngIf="selected.districtType()">
+      <mat-form-field class="full-width">
+        <input type="text" [placeholder]="placeHolder.district()" matInput formControlName="district" [matAutocomplete]="districtAuto">
+        <mat-autocomplete #districtAuto="matAutocomplete" [displayWith]="display.other" (optionSelected)="onChange.district(this)">
+          <mat-option>Не выбрано</mat-option>
+          <mat-option *ngFor="let option of districts | async" [value]="option">
+            {{option.typeShort}}.{{option.name}}
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
+    </div>
+    <div class="form-group" *ngIf="selected.cityTypeOrDistrict()">
+      <mat-form-field class="full-width">
+        <input type="text" [placeholder]="placeHolder.city()" matInput formControlName="city" [matAutocomplete]="cityAuto">
+        <mat-autocomplete #cityAuto="matAutocomplete" [displayWith]="display.other" (optionSelected)="onChange.city(this)">
+          <mat-option>Не выбрано</mat-option>
+          <mat-option *ngFor="let option of cities | async" [value]="option">
+            {{option.typeShort}}.{{option.name}}
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
+    </div>
+    <div class="form-group" *ngIf="selected.city()">
+      <mat-form-field class="full-width">
+        <input type="text" [placeholder]="placeHolder.street()" matInput formControlName="street" [matAutocomplete]="streetAuto">
+        <mat-autocomplete #streetAuto="matAutocomplete" [displayWith]="display.other" (optionSelected)="onChange.street(this)">
+          <mat-option>Не выбрано</mat-option>
+          <mat-option *ngFor="let option of streets | async" [value]="option">
+            {{option.typeShort}}.{{option.name}}
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
+      <button type="button" mat-icon-button color="primary" id="cityToggle" matTooltip="{{customStreet ? 'Выбор' : 'Ручной ввод'}}">
+        <i class="mdi mdi-view-list" *ngIf="customStreet"></i>
+        <i class="mdi mdi-playlist-edit" *ngIf="!customStreet"></i>
+      </button>
+    </div>
+    <div class="form-group" *ngIf="selected.street()">
+      <mat-form-field class="full-width">
+        <input type="text" [placeholder]="placeHolder.building()" matInput formControlName="building" [matAutocomplete]="buildingAuto">
+        <mat-autocomplete #buildingAuto="matAutocomplete" [displayWith]="display.other" (optionSelected)="onChange.building(this)">
+          <mat-option>Не выбрано</mat-option>
+          <mat-option *ngFor="let option of buildings | async" [value]="option">
+            {{option.name}}
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
+    </div>
+    <div class="form-group" *ngIf="selected.building()">
+      <mat-form-field>
+        <input matInput formControlName="flat" placeholder="Квартира">
+      </mat-form-field>
+    </div>
+    <div class="form-group">
+      <mat-form-field class="full-width">
+        <textarea matInput placeholder="Доп. информация" formControlName="additionalInfo"></textarea>
+      </mat-form-field>
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+        <div class="form-actions" style="text-align: center;">
+          <button type="submit" class="btn btn-primary">Принять</button>
+          <button type="button" class="btn btn-inverse" (click)="mode = modes.read">Отмена</button>
         </div>
       </div>
     </div>
-  </div>
-</div>
+  </form>
+  <!-- <div>
+    <span>
+      <b>{{addressForm.value | json}}</b>
+    </span>
+    <br>
+    <span>addressForm.status:
+      <b>{{addressForm.status | json}}</b>
+    </span>
+    <br>
+  </div> -->
+</app-inquiry-info-edit>

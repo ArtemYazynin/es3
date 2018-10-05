@@ -1,13 +1,11 @@
-<div [hidden]="!show" class="widget-content">
-  <div class="row">
-    <div class="col-md-6">
-      <full-name [person]="child">
-        <app-gender [gender]="child?.gender"></app-gender>
-        <app-snils [snils]="child?.snils"></app-snils>
-      </full-name>
-    </div>
-    <div class="col-md-6">
-      <identity-card [ids]="groupOfIdentityCardTypeId" [model]="child?.identityCard"></identity-card>
-    </div>
+<div class="row" [hidden]="!show">
+  <div class="col">
+    <full-name [person]="child">
+      <app-gender [gender]="child?.gender"></app-gender>
+      <app-snils [snils]="child?.snils"></app-snils>
+    </full-name>
+  </div>
+  <div class="col">
+    <identity-card [ids]="groupOfIdentityCardTypeId" [model]="child?.identityCard"></identity-card>
   </div>
 </div>

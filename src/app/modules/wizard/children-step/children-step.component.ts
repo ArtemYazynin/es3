@@ -1,4 +1,4 @@
-import { AfterViewInit, ChangeDetectorRef, Component, ComponentFactory, ComponentFactoryResolver, ComponentRef, OnInit, ViewChild, ViewContainerRef } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, ComponentFactory, ComponentFactoryResolver, ComponentRef, OnInit, ViewChild, ViewContainerRef, ChangeDetectionStrategy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { isNullOrUndefined } from 'util';
 import { Child, CitizenshipService, ConfirmationDocument, DublicatesFinder, FormService, IdentityCard, Inquiry, Person } from '../../../shared';
@@ -82,7 +82,6 @@ export class ChildrenStepComponent implements OnInit, AfterViewInit, StepBase {
       if (!component) return;
       hideChildren();
       component.instance.show = true;
-
     }
     let add = () => {
       if (!this.components) return;
