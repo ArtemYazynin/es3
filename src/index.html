@@ -1,17 +1,44 @@
 <!doctype html>
 <html lang="en">
+
 <head>
   <meta charset="utf-8">
-  <title>Es3App</title>
+  <title>Е-Услуги. Образование.</title>
   <base href="/">
 
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <link rel="icon" type="image/x-icon" href="favicon.ico">
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
 <body>
   <app-root></app-root>
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+  <script>
+    window.addEventListener("load", function () {
+      var toggle = document.getElementById('container');
+      var toggleContainer = document.getElementById('toggle-container');
+      var toggleNumber;
+
+      toggle.addEventListener('click', function () {
+        toggleNumber = !toggleNumber;
+        if (toggleNumber) {
+          toggleContainer.style.clipPath = 'inset(0 0 0 50%)';
+        } else {
+          toggleContainer.style.clipPath = 'inset(0 50% 0 0)';
+        }
+        console.log(toggleNumber)
+      });
+
+      document.getElementsByClassName("region-list")[0].addEventListener("click", function () {
+        document.getElementById("region-list").classList.toggle("on");
+      })
+      var textWhiteCollection = document.getElementsByClassName("text-white");
+      for (let index = 0; index < textWhiteCollection.length; index++) {
+        textWhiteCollection[index].addEventListener("click", function () {
+          document.getElementById("region-list").classList.toggle("on");
+        })
+      }
+    })
+  </script>
 </body>
+
 </html>
