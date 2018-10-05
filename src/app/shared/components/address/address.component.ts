@@ -1,6 +1,6 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup } from '@angular/forms';
-import { fromEvent, Observable, Subject } from 'rxjs';
+import { BehaviorSubject, fromEvent, Observable, Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged, filter, takeUntil } from 'rxjs/operators';
 import { isNullOrUndefined } from 'util';
 import { Address, AddressService, Applicant, DrawService, Location, locationTypes, Parent } from '../../index';
@@ -16,7 +16,7 @@ export class AddressComponent implements OnInit, OnDestroy {
   @Input() type: number;
   @Input() owner: Parent | Applicant;
 
-  address: Address;
+  $address: BehaviorSubject<Address> = new BehaviorSubject<Address>(null);
   addressTypes = addressTypes;
   modes = { read: 1, edit: 2 }
   mode = this.modes.read;
@@ -148,29 +148,35 @@ export class AddressComponent implements OnInit, OnDestroy {
         }
       }
     })();
-    if (this.owner) this.address = this.owner[this.addressType];
-    if (this.address) this.updateForm();
+    if (this.owner) this.$address.next(this.owner[this.addressType]);
+    if (this.$address.getValue()) this.updateForm();
   }
 
   onSubmit = () => {
     this.mode = this.modes.read;
-    let street: Location = this.addressForm.controls.street.value;
-    let building: Location = this.addressForm.controls.building.value;
-    if (typeof street == "string") {
-      street = new Location();
-      street.name = this.addressForm.controls.street.value;
-      street.typeShort = "";
-      this.addressForm.controls.street.setValue(street);
+    if (!this.addressForm.controls.region.value || this.addressForm.controls.region.value == "") {
+      this.$address.next(undefined);
     }
-    if (typeof building == "string") {
-      building = new Location();
-      building.name = this.addressForm.controls.building.value;
-      this.addressForm.controls.building.setValue(building);
+    else {
+      let street: Location = this.addressForm.controls.street.value;
+      let building: Location = this.addressForm.controls.building.value;
+      if (typeof street == "string") {
+        street = new Location();
+        street.name = this.addressForm.controls.street.value;
+        street.typeShort = "";
+        this.addressForm.controls.street.setValue(street);
+      }
+      if (typeof building == "string") {
+        building = new Location();
+        building.name = this.addressForm.controls.building.value;
+        this.addressForm.controls.building.setValue(building);
+      }
+      //if (!this.addressForm.controls.region.value) return;
+      this.$address.next(new Address(<Location>this.addressForm.controls.region.value, this.addressForm.controls.district.value, this.addressForm.controls.city.value,
+        street, building, this.addressForm.controls.flat.value, this.addressForm.controls.additionalInfo.value, false));
     }
-    //if (!this.addressForm.controls.region.value) return;
-    this.address = new Address(<Location>this.addressForm.controls.region.value, this.addressForm.controls.district.value, this.addressForm.controls.city.value,
-      street, building, this.addressForm.controls.flat.value, this.addressForm.controls.additionalInfo.value, false);
   }
+
   display = {
     region: (entity?: Location) => {
       return entity.fullName || entity.name
@@ -274,14 +280,14 @@ export class AddressComponent implements OnInit, OnDestroy {
 
   private updateForm() {
     this.addressForm.patchValue({
-      region: this.address.region ? this.address.region : undefined,
-      regionChildType: this.address.city ? this.regionChildTypes.city : (this.address.district ? this.regionChildTypes.district : undefined),
-      city: this.address.city ? this.address.city : undefined,
-      district: this.address.district ? this.address.district : undefined,
-      street: this.address.street && typeof this.address.street ? this.address.street : undefined,
-      building: this.address.building && typeof this.address.street ? this.address.building : undefined,
-      flat: this.address.flat ? this.address.flat : undefined,
-      additionalInfo: this.address.additionalInfo ? this.address.additionalInfo : undefined
+      region: this.$address.getValue().region ? this.$address.getValue().region : undefined,
+      regionChildType: this.$address.getValue().city ? this.regionChildTypes.city : (this.$address.getValue().district ? this.regionChildTypes.district : undefined),
+      city: this.$address.getValue().city ? this.$address.getValue().city : undefined,
+      district: this.$address.getValue().district ? this.$address.getValue().district : undefined,
+      street: this.$address.getValue().street && typeof this.$address.getValue().street ? this.$address.getValue().street : undefined,
+      building: this.$address.getValue().building && typeof this.$address.getValue().street ? this.$address.getValue().building : undefined,
+      flat: this.$address.getValue().flat ? this.$address.getValue().flat : undefined,
+      additionalInfo: this.$address.getValue().additionalInfo ? this.$address.getValue().additionalInfo : undefined
     });
   }
 }

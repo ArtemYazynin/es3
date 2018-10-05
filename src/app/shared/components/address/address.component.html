@@ -2,7 +2,7 @@
   <div class="col-md-12">
     <div *ngIf="mode == modes.read">
       <div class="form-group">
-        <b>{{title}} </b>{{drawManager.address(address)}}
+        <b>{{title}} </b>{{drawManager.address($address.getValue())}}
         <button id="chooseFile" (click)="mode = modes.edit" mat-raised-button color="primary">Изменить</button>
       </div>
     </div>

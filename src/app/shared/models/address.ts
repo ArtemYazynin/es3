@@ -1,9 +1,10 @@
-import { Location } from "./location";
 import { isNullOrUndefined } from "util";
+import { Location } from "./location";
+
 export class Address {
-    constructor(public region: Location, public district: Location, public city: Location,
-        public street: Location, public building: Location, public flat: string,
-        public additionalInfo: string, public foreign: boolean) {
+    constructor(public region?: Location, public district?: Location, public city?: Location,
+        public street?: Location, public building?: Location, public flat?: string,
+        public additionalInfo?: string, public foreign?: boolean) {
     }
 
     static build(address: any, foreign: boolean): Address {

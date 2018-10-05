@@ -1,30 +1,34 @@
 <div class="row">
-  <div class="col-md-12">
-    <app-address title="Адрес регистрации" [type]="addressTypes.register" [owner]="owner"></app-address>
-    <div>
-      <div class="form-group">
-        <mat-checkbox (change)="temporaryRegistrationChange($event)" [(ngModel)]="temporaryRegistration">Является
-          адресом временной регистрации</mat-checkbox>
-      </div>
-      <div class="form-group" *ngIf="temporaryRegistration">
-        <mat-form-field (click)="tempRegistrationExpired.open()">
-          <input matInput [matDatepicker]="tempRegistrationExpired" placeholder="Дата окончания временной регистрации"
-            [min]="currentDate" [(ngModel)]="tempRegistrationExpiredDate" required>
-          <mat-datepicker-toggle matSuffix [for]="tempRegistrationExpired"></mat-datepicker-toggle>
-          <mat-datepicker disabled="false" #tempRegistrationExpired></mat-datepicker>
-        </mat-form-field>
-        <div class="alert alert-info">
-          Внимание! Необходимо прикрепить копию временной регистрации на соответствующем шаге мастера регистрации
-          заявлений
+  <form [formGroup]="checkboxesForm" novalidate>
+    <div class="col-md-12">
+      <app-address title="Адрес регистрации" [type]="addressTypes.register" [owner]="owner"></app-address>
+      <div>
+        <div class="form-group">
+          <mat-checkbox id="temporaryRegistration"  (change)="temporaryRegistrationChange($event)" formControlName="temporaryRegistration"
+          [disabled]="!(!!addressesComponents?.first.$address.getValue())">
+            Является адресом временной регистрации</mat-checkbox>
+        </div>
+        <div class="form-group" *ngIf="checkboxesForm.controls.temporaryRegistration.value">
+          <mat-form-field (click)="tempRegistrationExpired.open()">
+            <input matInput [matDatepicker]="tempRegistrationExpired" placeholder="Дата окончания временной регистрации"
+              [min]="currentDate"  formControlName="tempRegistrationExpiredDate" required>
+            <mat-datepicker-toggle matSuffix [for]="tempRegistrationExpired"></mat-datepicker-toggle>
+            <mat-datepicker disabled="false" #tempRegistrationExpired></mat-datepicker>
+          </mat-form-field>
+          <div class="alert alert-info">
+            Внимание! Необходимо прикрепить копию временной регистрации на соответствующем шаге мастера регистрации
+            заявлений
+          </div>
+        </div>
+        <div class="form-group">
+          <mat-checkbox id="registerAddressLikeAsResidentialAddress" (change)="singleAddress($event)" formControlName="registerAddressLikeAsResidentialAddress"
+          [disabled]="!(!!addressesComponents?.first.$address.getValue())"> 
+            Адрес регистрации совпадает с адресом проживания</mat-checkbox>
         </div>
       </div>
-      <div class="form-group">
-        <mat-checkbox (change)="singleAddress($event)" [(ngModel)]="registerAddressLikeAsResidentialAddress">Адрес
-          регистрации совпадает с адресом проживания</mat-checkbox>
-      </div>
     </div>
-  </div>
-  <div class="col-md-12" id="residentialAddressContainer">
-    <app-address title="Адрес проживания" [type]="addressTypes.residential" [owner]="owner"></app-address>
-  </div>
+    <div class="col-md-12" id="residentialAddressContainer">
+      <app-address title="Адрес проживания" [type]="addressTypes.residential" [owner]="owner"></app-address>
+    </div>
+  </form>
 </div>
