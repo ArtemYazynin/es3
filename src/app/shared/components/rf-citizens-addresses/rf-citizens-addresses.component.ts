@@ -1,4 +1,4 @@
-import { Component, Input, OnDestroy, OnInit, QueryList, ViewChildren } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit, QueryList, ViewChildren, ChangeDetectionStrategy } from '@angular/core';
 import { MatCheckboxChange } from '@angular/material';
 import { Subscription } from 'rxjs';
 import { AddressComponent } from '../address/address.component';
@@ -7,7 +7,8 @@ import { Parent, Applicant, Child, addressTypes, CitizenshipService, PersonWithA
 @Component({
   selector: 'app-rf-citizens-addresses',
   templateUrl: './rf-citizens-addresses.component.html',
-  styleUrls: ['./rf-citizens-addresses.component.css']
+  styleUrls: ['./rf-citizens-addresses.component.css'],
+  changeDetection:ChangeDetectionStrategy.OnPush
 })
 export class RfCitizensAddressesComponent implements OnInit, OnDestroy {
   @ViewChildren(AddressComponent) addressesComponents: QueryList<AddressComponent>;

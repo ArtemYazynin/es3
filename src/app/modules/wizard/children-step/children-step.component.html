@@ -2,7 +2,7 @@
   <div class="container-fluid">
     <ul class="nav nav-tabs" id="myTab">
       <li class="nav-item" *ngFor="let component of components; let first = first">
-        <div class="nav-link" (click)="navBarManager.select(component)" [class.child-active]="component.instance.show">
+        <div class="nav-link" (click)="navBarManager.select(component)" [class.child-active]="component.instance.show | async">
           {{navBarManager.getTitle(component)}}
           <button class="btn btn-light" (click)="navBarManager.remove(component)" *ngIf="!first"><i class="mdi mdi-trash-can"></i></button>
         </div>
@@ -29,18 +29,17 @@
               </app-foreign-citizens-addresses>
             </div>
           </ng-container>
-          <div class="alert alert-info" *ngIf="components.length>1">
-            Внимание! Дата рождения, место рождения, гражданство и специализация по здоровью одинаковы для
-            всех
-            детей
-          </div>
           <app-inquiry-info-edit title="Дополнительная информация">
             <birth-info [model]="inquiry?.children ? inquiry.children[0] : undefined">
             </birth-info>
             <app-disability-child [inquiryType]="inquiryType" [childrenComponents]="components"></app-disability-child>
             <app-spec-health [childrenComponents]="components"></app-spec-health>
           </app-inquiry-info-edit>
-
+          <div class="alert alert-info" *ngIf="components.length>1">
+            Внимание! Дата рождения, место рождения, гражданство и специализация по здоровью одинаковы для
+            всех
+            детей
+          </div>
         </div>
         <app-inquiry-info-edit>
           <div class="form-actions" style="text-align: center;">

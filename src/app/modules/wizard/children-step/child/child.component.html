@@ -1,4 +1,4 @@
-<div class="row" [hidden]="!show">
+<div class="row" [hidden]="!(show | async)">
   <div class="col">
     <full-name [person]="child">
       <app-gender [gender]="child?.gender"></app-gender>

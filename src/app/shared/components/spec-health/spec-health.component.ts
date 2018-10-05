@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, QueryList, ViewChildren } from '@angular/core';
+import { Component, Input, OnInit, QueryList, ViewChildren, ChangeDetectionStrategy, AfterViewInit } from '@angular/core';
 import { ConfirmationDocumentComponent } from '../confirmation-document/confirmation-document.component';
 import { Observable } from 'rxjs';
 import { ChildComponent } from '../../../modules/wizard/children-step/child/child.component';
@@ -7,19 +7,26 @@ import { AttachmentType, SpecHealth, SpecHealthService } from '../../index';
 @Component({
   selector: 'app-spec-health',
   templateUrl: './spec-health.component.html',
-  styleUrls: ['./spec-health.component.css']
+  styleUrls: ['./spec-health.component.css'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class SpecHealthComponent implements OnInit {
-
+export class SpecHealthComponent implements OnInit, AfterViewInit {
   @ViewChildren(ConfirmationDocumentComponent) documentComponents: QueryList<ConfirmationDocumentComponent>;
   @Input() childrenComponents: Array<ChildComponent>;
 
   attachmentType = AttachmentType;
   hasDocuments: boolean = false;
-  specHealth: number = 101;
+  specHealth: number;
   specHealths: Observable<Array<SpecHealth>> = this.specHealthService.get();
   constructor(private specHealthService: SpecHealthService) { }
 
-  ngOnInit() { 
+  ngOnInit() {
+    this.specHealth = this.childrenComponents && this.childrenComponents.length > 0
+      ? this.childrenComponents[0]["instance"].child.specHealth
+      : 101;
+  }
+
+  ngAfterViewInit(): void {
+
   }
 }

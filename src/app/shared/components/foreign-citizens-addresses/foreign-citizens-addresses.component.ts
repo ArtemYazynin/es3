@@ -1,4 +1,4 @@
-import { Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit, ViewChild, ChangeDetectionStrategy } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
@@ -8,7 +8,8 @@ import { Parent, Applicant, addressTypes, inquiryType, Country, FormService, Cit
 @Component({
   selector: 'app-foreign-citizens-addresses',
   templateUrl: './foreign-citizens-addresses.component.html',
-  styleUrls: ['./foreign-citizens-addresses.component.css']
+  styleUrls: ['./foreign-citizens-addresses.component.css'],
+  changeDetection:ChangeDetectionStrategy.OnPush
 })
 export class ForeignCitizensAddressesComponent implements OnInit, OnDestroy {
   @ViewChild(AddressComponent) addressComponent: AddressComponent;

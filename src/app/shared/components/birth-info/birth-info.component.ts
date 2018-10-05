@@ -27,6 +27,7 @@ export class BirthInfoComponent implements OnInit {
       });
     }
   }
+
   private buildForm() {
     this.birthInfoForm = this.fb.group({
       "birthDate": [
@@ -43,4 +44,5 @@ export class BirthInfoComponent implements OnInit {
 
     this.formService.onValueChange(this.birthInfoForm, this.formErrors, this.validationMessages);
   }
+  
 }

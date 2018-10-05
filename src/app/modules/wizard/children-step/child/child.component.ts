@@ -4,12 +4,13 @@ import { FullNameComponent } from '../../../../shared/components/full-name/full-
 import { SnilsComponent } from '../../../../shared/components/snils/snils.component';
 import { GenderComponent } from '../../../../shared/components/gender/gender.component';
 import { IdentityCardType, inquiryType, Child, FormService } from '../../../../shared';
+import { BehaviorSubject } from 'rxjs';
 
 @Component({
   selector: 'app-child',
   templateUrl: './child.component.html',
   styleUrls: ['./child.component.css'],
-  //changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ChildComponent implements OnInit, AfterViewInit {
   counter:number = 0;
@@ -29,7 +30,7 @@ export class ChildComponent implements OnInit, AfterViewInit {
   ];
   id: string = Math.random().toString(36).substring(2);
   inquiryType: string;
-  show: boolean = false;
+  show: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
   disabledChild: any;
   child: Child;
 

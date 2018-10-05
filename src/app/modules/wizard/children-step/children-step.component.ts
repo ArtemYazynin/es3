@@ -15,7 +15,7 @@ import { ChildComponent } from './child/child.component';
   selector: 'app-children-step',
   templateUrl: './children-step.component.html',
   styleUrls: ['./children-step.component.css'],
-  //changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ChildrenStepComponent implements OnInit, AfterViewInit, StepBase {
   @ViewChild("childContainer", { read: ViewContainerRef }) viewContainer;
@@ -76,22 +76,22 @@ export class ChildrenStepComponent implements OnInit, AfterViewInit, StepBase {
   navBarManager = (() => {
     let hideChildren = () => {
       if (!this.components) return;
-      this.components.forEach(x => x.instance.show = false);
+      this.components.forEach(x => x.instance.show.next(false));
     }
     let select = (component: ComponentRef<ChildComponent>) => {
       if (!component) return;
       hideChildren();
-      component.instance.show = true;
+      component.instance.show.next(true);
     }
     let add = () => {
       if (!this.components) return;
       hideChildren()
       const factory: ComponentFactory<ChildComponent> = this.resolver.resolveComponentFactory(ChildComponent);
       let componentRef = this.viewContainer.createComponent(factory);
-      componentRef.instance.show = true;
+      componentRef.instance.show.next(true);
       componentRef.instance.inquiryType = this.inquiryType;
       this.components.push(componentRef);
-      this.cdr.detectChanges();
+      //this.cdr.markForCheck();
     }
     let getTitle = (component: ComponentRef<ChildComponent>) => {
       return component && component.instance.fullnameComponent && component.instance.fullnameComponent.fullnameForm
@@ -185,48 +185,22 @@ export class ChildrenStepComponent implements OnInit, AfterViewInit, StepBase {
 
   ngOnInit() {
     this.inquiry = this.storageService.get(this.inquiryType);
+
+    this.inquiry.children.forEach((child, index) => {
+      const factory: ComponentFactory<ChildComponent> = this.resolver.resolveComponentFactory(ChildComponent);
+      let componentRef = <ComponentRef<ChildComponent>>this.viewContainer.createComponent(factory);
+      componentRef.instance.child = child;
+      if (index + 1 == this.inquiry.children.length)
+        componentRef.instance.show.next(true);
+
+      this.components.push(componentRef);
+    });
+    this.cdr.detectChanges();
   }
 
   ngAfterViewInit() {
     if (!this.inquiry || !this.inquiry.children || this.inquiry.children.length == 0) {
       this.navBarManager.add();
-    } else {
-      this.initFromSessionStorage();
     }
-  }
-  private initFromSessionStorage() {
-    const child = this.inquiry.children[0];
-    this.birthInfoComponent.birthInfoForm.patchValue({
-      birthDate: child.birthDate,
-      birthPlace: child.birthPlace
-    });
-    this.specHealthComponent.specHealth = child.specHealth;
-    //this.citizenshipSelectComponent.citizenships = child.citizenships;
-    (() => {//initChildrenComponents
-      this.inquiry.children.forEach((child, index) => {
-        const factory: ComponentFactory<ChildComponent> = this.resolver.resolveComponentFactory(ChildComponent);
-        let componentRef = <ComponentRef<ChildComponent>>this.viewContainer.createComponent(factory);
-        componentRef.instance.child = child;
-        if (index + 1 == this.inquiry.children.length)
-          componentRef.instance.show = true;
-
-        this.components.push(componentRef);
-      });
-      this.cdr.detectChanges();
-    })();
-    (function initSpecHealthDocuments(outer) {
-      if (outer.specHealthComponent.specHealth == 101) return;
-      outer.specHealthComponent.documentComponents.forEach((document, i) => {
-        let child = outer.inquiry.children[i];
-        document.confirmationDocumentForm.patchValue({
-          name: child.specHealthDocument.name,
-          series: child.specHealthDocument.series,
-          number: child.specHealthDocument.number,
-          dateIssue: child.specHealthDocument.dateIssue,
-          dateExpired: child.specHealthDocument.dateExpired
-        });
-      });
-      outer.cdr.detectChanges();
-    })(this);
   }
 }
