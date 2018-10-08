@@ -33,6 +33,7 @@ import { InquiryTypeFriendlyNamePipe } from './shared/inquiry-type.pipe';
 import { AreaTypePipe } from './shared/area-type.pipe';
 import { EditSchoolInquiryInfoComponent } from './shared/components/edit-school-inquiry-info/edit-school-inquiry-info.component';
 import { PreviewSchoolInquiryInfoComponent } from "./modules/wizard/preview/preview-school-inquiry-info/preview-school-inquiry-info.component";
+import { SpecializationService, EducProgramService } from "./shared";
 
 
 
@@ -61,7 +62,8 @@ import { PreviewSchoolInquiryInfoComponent } from "./modules/wizard/preview/prev
         EditFileAttachmentsComponent, EditSchoolInquiryInfoComponent, PreviewSchoolInquiryInfoComponent
     ],
     providers: [
-
+        SpecializationService,
+        EducProgramService
     ]
 })
 export class ShareModule {

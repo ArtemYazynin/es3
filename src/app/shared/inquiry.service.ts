@@ -27,6 +27,8 @@ import { Privilege } from './models/privilege';
 import { RegisterSource } from './models/register-source.enum';
 import { Status } from './models/status';
 import { StayMode } from './models/stay-mode';
+import { EditSchoolInquiryInfoComponent } from './components/edit-school-inquiry-info/edit-school-inquiry-info.component';
+import { SchoolInquiryInfo } from './models/school-inquiry-info';
 
 @Injectable()
 export class InquiryService {
@@ -108,6 +110,13 @@ export class InquiryService {
       return place;
     })();
     update({ currentEducationPlace: currentEducationPlace });
+  }
+
+  saveSchoolInquiryInfo(editSchoolInquiryInfoComponent: EditSchoolInquiryInfoComponent, update: (patch: object) => void): void {
+    const schoolInquiryInfo = new SchoolInquiryInfo(editSchoolInquiryInfoComponent.form.controls.educYear.value,
+      editSchoolInquiryInfoComponent.form.controls.grade.value, editSchoolInquiryInfoComponent.form.controls.specialization.value,
+      editSchoolInquiryInfoComponent.form.controls.program.value.id ? editSchoolInquiryInfoComponent.form.controls.program.value : undefined);
+    update({ schoolInquiryInfo: schoolInquiryInfo });
   }
 
   saveFileAttachments(editFileAttachmentsComponent: EditFileAttachmentsComponent, update: (patch: object) => void) {
