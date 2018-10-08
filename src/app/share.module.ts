@@ -1,5 +1,5 @@
 import { CommonModule } from "@angular/common";
-import { NgModule } from "@angular/core";
+import { NgModule, InjectionToken } from "@angular/core";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { NgSelectModule } from "@ng-select/ng-select";
 import { TextMaskModule } from "angular2-text-mask";
@@ -33,6 +33,8 @@ import { InquiryTypeFriendlyNamePipe } from './shared/inquiry-type.pipe';
 import { AreaTypePipe } from './shared/area-type.pipe';
 import { EditSchoolInquiryInfoComponent } from './shared/components/edit-school-inquiry-info/edit-school-inquiry-info.component';
 
+
+
 @NgModule({
     declarations: [
         PrivilegeEditComponent, ConfirmationDocumentComponent, ApplicantTypePipe, AttachmentTypePipe, InquiryTypeFriendlyNamePipe, FullNameComponent, GenderComponent,
@@ -58,6 +60,7 @@ import { EditSchoolInquiryInfoComponent } from './shared/components/edit-school-
         EditFileAttachmentsComponent, EditSchoolInquiryInfoComponent
     ],
     providers: [
+        
     ]
 })
 export class ShareModule {

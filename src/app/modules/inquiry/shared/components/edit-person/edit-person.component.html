@@ -41,7 +41,7 @@
     <ng-container *ngTemplateOutlet="confirmationDocument; context: applicantRepresentParentDocumentContext"></ng-container>
   </div>
   <div [hidden]="modelType !== applicantTypes.Parent">
-    <app-relation-type [relationType]="model?.relationType">
+    <app-relation-type [relationType]="model ? model['relationType']: undefined">
     </app-relation-type>
   </div>
   <div class="row" [hidden]="!isAvailable.parentRepresentChildren()">

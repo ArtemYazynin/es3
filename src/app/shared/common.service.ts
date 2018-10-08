@@ -1,4 +1,4 @@
-import { Injectable, QueryList } from '@angular/core';
+import { Inject, Injectable, QueryList } from '@angular/core';
 import { EditPersonComponent } from '../modules/inquiry/shared/components/edit-person/edit-person.component';
 import { ApplicantType } from './applicant-type.enum';
 import { CitizenshipService } from './citizenship.service';
@@ -7,15 +7,55 @@ import { Applicant } from './models/applicant';
 import { AttachmentType } from './models/attachment-type.enum';
 import { ConfirmationDocument } from './models/confirmation-document';
 import { Entity } from './models/entity';
+import { FileAttachment } from './models/file-attachment';
+import { FileView } from './models/file-view';
+import { FilesInfo } from './models/files-info';
 import { IdentityCard } from './models/identityCard';
 import { IdentityCardType } from './models/identityCardType';
 import { Parent } from './models/parent';
-import { AreaType } from './models/area-type.enum';
+import { esConstant } from '../app.module';
 
 @Injectable()
 export class CommonService {
 
-  constructor(private citizenshipService: CitizenshipService) { }
+  constructor(@Inject(esConstant) private esConstant, private citizenshipService: CitizenshipService) { }
+
+  getFiles(types: Array<AttachmentType>, filesInfo: FilesInfo) {
+    let fileViewCollection = [];
+    const requiredFiles: Array<FileView> = (() => {
+      let result = [];
+      const getDefaultViewView = (index: number, type: AttachmentType) => {
+        return new FileView(this.esConstant.fileNotChoosen, index, new FileAttachment(type))
+      }
+      types.forEach((type, index) => {
+        if (filesInfo) {
+          let attachFileIndex = filesInfo.files.findIndex(file => file.attachmentType == type);
+          if (attachFileIndex >= 0) {
+            result.push(new FileView(filesInfo.files[attachFileIndex].name, index, filesInfo.files[attachFileIndex]));
+          }
+          else {
+            result.push(getDefaultViewView(index, type));
+          }
+        }
+        else {
+          result.push(getDefaultViewView(index, type));
+        }
+      });
+      return result;
+    })();
+    fileViewCollection = fileViewCollection.concat(requiredFiles);
+
+    (() => {
+      if (filesInfo) {
+        const otherFiles = filesInfo.files.filter(file => file.attachmentType == AttachmentType.Other)
+          .map((file, index) => {
+            return new FileView(file.name, types.length + index, file);
+          });
+        fileViewCollection = fileViewCollection.concat(otherFiles);
+      }
+    })();
+    return fileViewCollection;
+  }
 
   pipeTransform<T extends number>(value: T | Array<T>, getName: (val: T) => string): Array<Entity<number>> | string {
     if (value.constructor == Array) {

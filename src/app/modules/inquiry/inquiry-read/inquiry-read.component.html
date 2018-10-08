@@ -27,7 +27,7 @@
       </div>
     </app-inquiry-info-edit>
   </ng-template>
-  <div class="col-md-12">
+  <div class="row">
     <div class="{{inquiry.applicant ? 'col-md-12' : 'col-md-6'}}">
       <app-inquiry-info-edit title="Заявление {{inquiry.number}}">
         <div class="row">
@@ -67,32 +67,28 @@
       </ng-container>
     </div>
   </div>
-  <div class="col-md-12" *ngIf="inquiry.applicant">
+  <div class="row" *ngIf="inquiry.applicant">
     <div class="col-md-6">
       <app-inquiry-info-edit title="Доверенное лицо законного представителя ребенка" (edit)="edit.person(applicantTypes.Applicant)">
-        <div class="row">
-          <div class="col-md-6">
-            <dl class="dl-horizontal">
-              <dt>ФИО</dt>
-              <dd>{{drawManager.fio(inquiry.applicant)}}</dd>
-              <dt>Документ</dt>
-              <dd>{{drawManager.identityCard(inquiry.applicant.identityCard)}}</dd>
-              <dt>СНИЛС</dt>
-              <dd>{{inquiry.applicant.snils || "-"}}</dd>
-              <dt>Гражданство</dt>
-              <dd>{{drawManager.citizenships(inquiry.applicant.citizenships, countries)}}</dd>
-              <div *ngIf="inquiry.applicant.countryStateApplicantDocument">
-                <dt>Документ, подтверждающий право пребывания доверенного лица законного представителя на территории РФ</dt>
-                <dd>{{getDocumentView(inquiry.applicant.countryStateApplicantDocument)}}</dd>
-              </div>
-              <div>
-                <dt>Документ, подтверждающий полномочие доверенного лица представлять интересы законного представителя
-                  ребенка</dt>
-                <dd>{{getDocumentView(inquiry.applicant.applicantRepresentParentDocument)}}</dd>
-              </div>
-            </dl>
+        <dl class="dl-horizontal">
+          <dt>ФИО</dt>
+          <dd>{{drawManager.fio(inquiry.applicant)}}</dd>
+          <dt>Документ</dt>
+          <dd>{{drawManager.identityCard(inquiry.applicant.identityCard)}}</dd>
+          <dt>СНИЛС</dt>
+          <dd>{{inquiry.applicant.snils || "-"}}</dd>
+          <dt>Гражданство</dt>
+          <dd>{{drawManager.citizenships(inquiry.applicant.citizenships, countries)}}</dd>
+          <div *ngIf="inquiry.applicant.countryStateApplicantDocument">
+            <dt>Документ, подтверждающий право пребывания доверенного лица законного представителя на территории РФ</dt>
+            <dd>{{getDocumentView(inquiry.applicant.countryStateApplicantDocument)}}</dd>
           </div>
-        </div>
+          <div>
+            <dt>Документ, подтверждающий полномочие доверенного лица представлять интересы законного представителя
+              ребенка</dt>
+            <dd>{{getDocumentView(inquiry.applicant.applicantRepresentParentDocument)}}</dd>
+          </div>
+        </dl>
       </app-inquiry-info-edit>
     </div>
     <div class="col-md-6" *ngIf="inquiry.applicant">
@@ -100,115 +96,100 @@
       </ng-container>
     </div>
   </div>
-  <div class="col-md-12">
-    <div class="widget-box">
-      <div class="widget-title">
-        <h5>Ребёнок (дети)</h5>
-        <div class="buttons">
-          <a class="btn "><i class="fas fa-redo"></i></a>
-          <a class="btn "><i class="fas fa-edit"></i></a>
-        </div>
-      </div>
-      <div class="widget-content">
-        <div class="row">
-          <div *ngFor="let child of inquiry.children; let last = last;">
-            <div class="col-md-6">
-              <dl class="dl-horizontal">
-                <dt>ФИО</dt>
-                <dd>{{drawManager.fio(child)}}</dd>
-                <dt>Документ</dt>
-                <dd>{{drawManager.identityCard(child.identityCard)}}</dd>
-                <dt>СНИЛС</dt>
-                <dd>{{child.snils || "-"}}</dd>
-                <div class="widget-box" *ngIf="child.specHealthDocument != null || child.specHealthDocument != undefiend">
-                  <h5>Документ, подтверждающий потребность в группе с ОВЗ</h5>
-                  <div class="widget-content">
-                    <dt>Название </dt>
-                    <dd>{{child.specHealthDocument.name}}</dd>
-                    <dt>Серия </dt>
-                    <dd>{{child.specHealthDocument.series}}</dd>
-                    <dt>Номер </dt>
-                    <dd>{{child.specHealthDocument.number}}</dd>
-                    <dt>Дата выдачи </dt>
-                    <dd>{{child.specHealthDocument.dateIssue | date: 'dd.MM.yyyy'}}</dd>
-                    <dt>Действителен до </dt>
-                    <dd>{{child.specHealthDocument.dateExpired | date: 'dd.MM.yyyy'}}</dd>
-                  </div>
-                </div>
-              </dl>
+  <app-inquiry-info-edit title="Ребёнок (дети)">
+    <div class="row">
+      <div class="col-md-6" *ngFor="let child of inquiry.children; let last = last;">
+        <dl class="dl-horizontal">
+          <dt>ФИО</dt>
+          <dd>{{drawManager.fio(child)}}</dd>
+          <dt>Документ</dt>
+          <dd>{{drawManager.identityCard(child.identityCard)}}</dd>
+          <dt>СНИЛС</dt>
+          <dd>{{child.snils || "-"}}</dd>
+          <div class="widget-box" *ngIf="child.specHealthDocument != null || child.specHealthDocument != undefiend">
+            <h5>Документ, подтверждающий потребность в группе с ОВЗ</h5>
+            <div class="widget-content">
+              <dt>Название </dt>
+              <dd>{{child.specHealthDocument.name}}</dd>
+              <dt>Серия </dt>
+              <dd>{{child.specHealthDocument.series}}</dd>
+              <dt>Номер </dt>
+              <dd>{{child.specHealthDocument.number}}</dd>
+              <dt>Дата выдачи </dt>
+              <dd>{{child.specHealthDocument.dateIssue | date: 'dd.MM.yyyy'}}</dd>
+              <dt>Действителен до </dt>
+              <dd>{{child.specHealthDocument.dateExpired | date: 'dd.MM.yyyy'}}</dd>
             </div>
           </div>
-        </div>
-        <div class="row">
-          <dl class="dl-horizontal">
-            <dt>Пол </dt>
-            <dd>{{inquiry.children[0].gender == 1 ? "Мужской":"Женский"}}</dd>
-            <dt>Дата рождения </dt>
-            <dd>{{inquiry.children[0].birthDate | date: "dd.MM.yyyy"}}</dd>
-            <dt>Место рождения </dt>
-            <dd>{{inquiry.children[0].birthPlace}}</dd>
-            <dt *ngIf="inquiry.children[0].specHealth != 101">Спец. по здоровью: </dt>
-            <dd>{{($specHealth | async)?.name}}</dd>
-            <dt>Гражданство</dt>
-            <dd>{{drawManager.citizenships(inquiry.children[0].citizenships, countries)}}</dd>
-            <dt>Адрес регистрации </dt>
-            <dd>{{drawManager.address(inquiry.children[0].register)}}</dd>
-            <dt>Адрес проживания </dt>
-            <dd>{{drawManager.address(inquiry.children[0].residential)}}</dd>
-          </dl>
-        </div>
+        </dl>
       </div>
     </div>
-  </div>
-  <div class="col-md-12">
-    <app-inquiry-info-edit title="Параметры заявления" (edit)="edit.inquiryInfo()">
-      <div class="row">
-        <div class="col-md-4">
-          <app-inquiry-info-edit title="Параметры комплектования">
-            <div class="row">
-              <dl class="dl-horizontal">
-                <dt>Желаемая дата зачисления </dt>
-                <dd>{{inquiry.inquiryInfo.distributionParams.wishDate}}</dd>
-                <dt>Предпочитаемая специфика группы </dt>
-                <dd>{{(specificity | async)?.name}}</dd>
-              </dl>
-            </div>
-            <ul>
-              <li *ngIf="inquiry.inquiryInfo.distributionParams.offerGeneralGroup"> Предоставлять общеразвивающую
-                группу, если нет мест в группе по нездоровью </li>
-              <li *ngIf="inquiry.inquiryInfo.distributionParams.offerCareGroup"> Согласен получить группу по
-                присмотру и уходу, если не будет других мест </li>
-              <li *ngIf="inquiry.inquiryInfo.distributionParams.isSearchNear"> Предлагать ДОО рядом с
-                предпочитаемым </li>
-              <li *ngIf="inquiry.inquiryInfo.distributionParams.isCanTempEnrolled"> Предлагать временное зачисление
-              </li>
-            </ul>
-          </app-inquiry-info-edit>
-        </div>
-        <div class="col-md-4">
-          <app-inquiry-info-edit title="Режим пребывания">
-            <ul>
-              <li *ngIf="inquiry.inquiryInfo.stayMode.IsFullStay"> Полный день (10,5-12 часов) </li>
-              <li *ngIf="inquiry.inquiryInfo.stayMode.IsNightStay"> Круглосуточного пребывания (24 часа) </li>
-              <li *ngIf="inquiry.inquiryInfo.stayMode.IsShortStay"> Кратковременного пребывания (3-5 часов) </li>
-              <li *ngIf="inquiry.inquiryInfo.stayMode.IsReducedStay"> Сокращенного дня (8-10 часов) </li>
-              <li *ngIf="inquiry.inquiryInfo.stayMode.IsExtendedStay"> Продленного дня (13-14 часов) </li>
-            </ul>
-          </app-inquiry-info-edit>
-        </div>
-        <div class="col-md-4">
-          <app-inquiry-info-edit title="Возрастная группа">
-            <ul>
-              <li *ngIf="inquiry.inquiryInfo.ageGroup.IsSearchYoungerAge"> Младшая возрастная группа </li>
-              <li *ngIf="inquiry.inquiryInfo.ageGroup.IsSearchSelfAge"> Своя возрастная группа </li>
-              <li *ngIf="inquiry.inquiryInfo.ageGroup.IsSearchOlderAge"> Старшая возрастная группа </li>
-            </ul>
-          </app-inquiry-info-edit>
-        </div>
+    <div class="row">
+      <div class="col-md-6">
+        <dl class="dl-horizontal">
+          <dt>Пол </dt>
+          <dd>{{inquiry.children[0].gender == 1 ? "Мужской":"Женский"}}</dd>
+          <dt>Дата рождения </dt>
+          <dd>{{inquiry.children[0].birthDate | date: "dd.MM.yyyy"}}</dd>
+          <dt>Место рождения </dt>
+          <dd>{{inquiry.children[0].birthPlace}}</dd>
+          <dt *ngIf="inquiry.children[0].specHealth != 101">Спец. по здоровью: </dt>
+          <dd>{{($specHealth | async)?.name}}</dd>
+          <dt>Гражданство</dt>
+          <dd>{{drawManager.citizenships(inquiry.children[0].citizenships, countries)}}</dd>
+          <dt>Адрес регистрации </dt>
+          <dd>{{drawManager.address(inquiry.children[0].register)}}</dd>
+          <dt>Адрес проживания </dt>
+          <dd>{{drawManager.address(inquiry.children[0].residential)}}</dd>
+        </dl>
       </div>
-    </app-inquiry-info-edit>
-  </div>
-  <div class="col-md-12">
+    </div>
+  </app-inquiry-info-edit>
+  <app-inquiry-info-edit title="Параметры заявления" (edit)="edit.inquiryInfo()">
+    <div class="row">
+      <div class="col-md-4">
+        <app-inquiry-info-edit title="Параметры комплектования">
+          <dl class="dl-horizontal">
+            <dt>Желаемая дата зачисления </dt>
+            <dd>{{inquiry.inquiryInfo.distributionParams.wishDate}}</dd>
+            <dt>Предпочитаемая специфика группы </dt>
+            <dd>{{(specificity | async)?.name}}</dd>
+          </dl>
+          <ul>
+            <li *ngIf="inquiry.inquiryInfo.distributionParams.offerGeneralGroup"> Предоставлять общеразвивающую
+              группу, если нет мест в группе по нездоровью </li>
+            <li *ngIf="inquiry.inquiryInfo.distributionParams.offerCareGroup"> Согласен получить группу по
+              присмотру и уходу, если не будет других мест </li>
+            <li *ngIf="inquiry.inquiryInfo.distributionParams.isSearchNear"> Предлагать ДОО рядом с
+              предпочитаемым </li>
+            <li *ngIf="inquiry.inquiryInfo.distributionParams.isCanTempEnrolled"> Предлагать временное зачисление
+            </li>
+          </ul>
+        </app-inquiry-info-edit>
+      </div>
+      <div class="col-md-4">
+        <app-inquiry-info-edit title="Режим пребывания">
+          <ul>
+            <li *ngIf="inquiry.inquiryInfo.stayMode.IsFullStay"> Полный день (10,5-12 часов) </li>
+            <li *ngIf="inquiry.inquiryInfo.stayMode.IsNightStay"> Круглосуточного пребывания (24 часа) </li>
+            <li *ngIf="inquiry.inquiryInfo.stayMode.IsShortStay"> Кратковременного пребывания (3-5 часов) </li>
+            <li *ngIf="inquiry.inquiryInfo.stayMode.IsReducedStay"> Сокращенного дня (8-10 часов) </li>
+            <li *ngIf="inquiry.inquiryInfo.stayMode.IsExtendedStay"> Продленного дня (13-14 часов) </li>
+          </ul>
+        </app-inquiry-info-edit>
+      </div>
+      <div class="col-md-4">
+        <app-inquiry-info-edit title="Возрастная группа">
+          <ul>
+            <li *ngIf="inquiry.inquiryInfo.ageGroup.IsSearchYoungerAge"> Младшая возрастная группа </li>
+            <li *ngIf="inquiry.inquiryInfo.ageGroup.IsSearchSelfAge"> Своя возрастная группа </li>
+            <li *ngIf="inquiry.inquiryInfo.ageGroup.IsSearchOlderAge"> Старшая возрастная группа </li>
+          </ul>
+        </app-inquiry-info-edit>
+      </div>
+    </div>
+  </app-inquiry-info-edit>
+  <div class="row">
     <div class="col-md-4">
       <app-inquiry-info-edit title="Контактная информация" (edit)="edit.contactInfo()">
         <ng-container *ngIf="inquiry.contactInfo.dontNotify">
@@ -217,16 +198,14 @@
           </div>
         </ng-container>
         <ng-container *ngIf="!inquiry.contactInfo.dontNotify">
-          <div class="row">
-            <dl class="dl-horizontal">
-              <dt>Email </dt>
-              <dd>{{inquiry.contactInfo.email || "-"}}</dd>
-              <dt>Номер для смс </dt>
-              <dd>{{inquiry.contactInfo.smsPhone || "-"}}</dd>
-              <dt>Телефон(ы) </dt>
-              <dd>{{inquiry.contactInfo.phones || "-"}}</dd>
-            </dl>
-          </div>
+          <dl class="dl-horizontal">
+            <dt>Email </dt>
+            <dd>{{inquiry.contactInfo.email || "-"}}</dd>
+            <dt>Номер для смс </dt>
+            <dd>{{inquiry.contactInfo.smsPhone || "-"}}</dd>
+            <dt>Телефон(ы) </dt>
+            <dd>{{inquiry.contactInfo.phones || "-"}}</dd>
+          </dl>
         </ng-container>
       </app-inquiry-info-edit>
 
@@ -250,52 +229,46 @@
             </div>
           </div>
           <div *ngSwitchCase="false">
-            <div class="row">
-              <dl class="dl-horizontal">
-                <dt>Тип </dt>
-                <dd>{{($institutionType | async)?.name}}</dd>
-                <dt>Образовательная организация </dt>
-                <dd>{{inquiry.currentEducationPlace.institution.name}}</dd>
-                <dt>Группа/класс </dt>
-                <dd>{{inquiry.currentEducationPlace.group?.name || "-" }}</dd>
-              </dl>
-            </div>
+            <dl class="dl-horizontal">
+              <dt>Тип </dt>
+              <dd>{{($institutionType | async)?.name}}</dd>
+              <dt>Образовательная организация </dt>
+              <dd>{{inquiry.currentEducationPlace.institution.name}}</dd>
+              <dt>Группа/класс </dt>
+              <dd>{{inquiry.currentEducationPlace.group?.name || "-" }}</dd>
+            </dl>
           </div>
         </div>
       </app-inquiry-info-edit>
     </div>
   </div>
-  <div class="col-md-12">
+  <div class="row">
     <div class="col-md-4">
       <app-inquiry-info-edit title="Льготная категория" (edit)="edit.privilege()">
-        <div class="row">
-          <dl class="dl-horizontal" *ngIf="inquiry.privilege">
-            <dt>Приоритет льготной категории </dt>
-            <dd>{{inquiry.privilege.privilegeOrder.name}}</dd>
-            <dt>Льготная категория </dt>
-            <dd>{{inquiry.privilege.name}}</dd>
-          </dl>
-          <div class="col-md-6" *ngIf="!inquiry.privilege">
-            Без льготы
-          </div>
+        <dl class="dl-horizontal" *ngIf="inquiry.privilege">
+          <dt>Приоритет льготной категории </dt>
+          <dd>{{inquiry.privilege.privilegeOrder.name}}</dd>
+          <dt>Льготная категория </dt>
+          <dd>{{inquiry.privilege.name}}</dd>
+        </dl>
+        <div class="col-md-6" *ngIf="!inquiry.privilege">
+          Без льготы
         </div>
         <app-inquiry-info-edit title="Документ, подтверждающий наличие льготной категории" *ngIf="inquiry.privilege?.privilegeProofDocument">
-          <div class="row">
-            <dl class="dl-horizontal">
-              <dt>Название документа </dt>
-              <dd>{{inquiry.privilege.privilegeProofDocument.name}}</dd>
-              <dt>Серия документа </dt>
-              <dd>{{inquiry.privilege.privilegeProofDocument.series || "-"}}</dd>
-              <dt>Номер документа </dt>
-              <dd>{{inquiry.privilege.privilegeProofDocument.number}}</dd>
-              <dt>Дата выдачи </dt>
-              <dd>{{inquiry.privilege.privilegeProofDocument.dateIssue | date: 'dd.MM.yyyy'}}</dd>
-              <div class="form-group" *ngIf="inquiry.privilege.privilegeProofDocument.dateExpired">
-                <dt>Действительно до </dt>
-                <dd>{{inquiry.privilege.privilegeProofDocument.dateExpired | date: 'dd.MM.yyyy'}}</dd>
-              </div>
-            </dl>
-          </div>
+          <dl class="dl-horizontal">
+            <dt>Название документа </dt>
+            <dd>{{inquiry.privilege.privilegeProofDocument.name}}</dd>
+            <dt>Серия документа </dt>
+            <dd>{{inquiry.privilege.privilegeProofDocument.series || "-"}}</dd>
+            <dt>Номер документа </dt>
+            <dd>{{inquiry.privilege.privilegeProofDocument.number}}</dd>
+            <dt>Дата выдачи </dt>
+            <dd>{{inquiry.privilege.privilegeProofDocument.dateIssue | date: 'dd.MM.yyyy'}}</dd>
+            <div class="form-group" *ngIf="inquiry.privilege.privilegeProofDocument.dateExpired">
+              <dt>Действительно до </dt>
+              <dd>{{inquiry.privilege.privilegeProofDocument.dateExpired | date: 'dd.MM.yyyy'}}</dd>
+            </div>
+          </dl>
         </app-inquiry-info-edit>
       </app-inquiry-info-edit>
     </div>

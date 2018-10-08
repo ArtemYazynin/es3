@@ -1,7 +1,7 @@
-<div>
+<app-inquiry-info-edit title="Адрес">
   <form [formGroup]="form">
     <div class="form-group">
-      <mat-checkbox formControlName="notHasRfRegistration" (change)="hasRegistrationChange($event)">
+      <mat-checkbox formControlName="notHasRfRegistration" (change)="hasRegistrationChange()">
         Нет регистрации на территории РФ
       </mat-checkbox>
     </div>
@@ -35,4 +35,4 @@
     </div>
   </form>
 
-</div>
+</app-inquiry-info-edit>

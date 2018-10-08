@@ -1,0 +1,62 @@
+<!-- Блок основного меню -->
+<section class="container-fluid head-menu">
+  <div class="logo">
+    <img src="assets/e-uslugi.svg" alt="">
+  </div>
+  <div class="row top-menu">
+    <div class="col-7">
+      <ul class="nav">
+        <li class="nav-item">
+          <a class="nav-link color-link-head active" href="#">Отчеты</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link color-link-head" href="#">Справочники</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link color-link-head" href="#">Реестры</a>
+        </li>
+        <li class="nav-item have-ul-lvl-1">
+          <a class="nav-link color-link-head" href="#">Настройки</a>
+          <ul class="ul-lvl-1">
+            <li><a href="" class="nav-link color-link-head">Ссылка на куда-то еще</a></li>
+            <li><a href="" class="nav-link color-link-head">Ссылка на куда-то еще</a></li>
+            <li class="have-ul-lvl-2">
+              <a href="" class="nav-link color-link-head">Ссылка на куда-то еще</a>
+              <ul class="ul-lvl-2">
+                <li><a href="" class="nav-link color-link-head">Ссылка на куда-то еще</a></li>
+                <li><a href="" class="nav-link color-link-head">Ссылка на куда-то еще</a></li>
+                <li><a href="" class="nav-link color-link-head">Ссылка на куда-то еще</a></li>
+                <li><a href="" class="nav-link color-link-head">Ссылка на куда-то еще</a></li>
+                <li><a href="" class="nav-link color-link-head">Ссылка на куда-то еще</a></li>
+              </ul>
+            </li>
+            <li><a href="" class="nav-link color-link-head">Ссылка на куда-то еще</a></li>
+            <li><a href="" class="nav-link color-link-head">Ссылка на куда-то еще</a></li>
+          </ul>
+        </li>
+        <li class="nav-item have-ul-lvl-1">
+          <a class="nav-link color-link-head" routerLink="/">Подать заявление</a>
+          <ul class="ul-lvl-1">
+            <li><a routerLink="/wizard/preschool" class="nav-link color-link-head">Регистрация заявления в ДОО</a></li>
+            <li><a routerLink="/wizard/school" class="nav-link color-link-head">Регистрация заявления в ООО</a></li>
+            <li><a routerLink="/wizard/healthCamp" class="nav-link color-link-head">Регистрация заявления на отдых в
+                каникулярное время</a></li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+    <div class="col-5">
+      <ul class="nav justify-content-end">
+        <li class="nav-item">
+          <form class="form-inline nav-link pr-0">
+            <input type="text" class="form-control form-control-sm" placeholder="Муниципалитеты">
+            <span class="text-white"> или </span>
+            <input type="text" class="form-control form-control-sm" placeholder="ФИО">
+
+            <button type="submit" class="btn btn-primary btn-sm"><i class="mdi mdi-magnify"></i></button>
+          </form>
+        </li>
+      </ul>
+    </div>
+  </div>
+</section>

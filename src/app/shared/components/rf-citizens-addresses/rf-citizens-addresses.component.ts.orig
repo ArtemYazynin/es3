@@ -1,5 +1,9 @@
-import { Component, Input, OnDestroy, OnInit, QueryList, ViewChildren, ChangeDetectionStrategy, AfterViewInit } from '@angular/core';
+<<<<<<< HEAD
+import { AfterViewInit, Component, Input, OnDestroy, OnInit, QueryList, ViewChildren } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
+=======
+import { Component, Input, OnDestroy, OnInit, QueryList, ViewChildren, ChangeDetectionStrategy } from '@angular/core';
+>>>>>>> master
 import { MatCheckboxChange } from '@angular/material';
 import { Subscription } from 'rxjs';
 import { Address, addressTypes, Applicant, Child, CitizenshipService, Parent, PersonWithAddress } from '../../index';
@@ -19,7 +23,6 @@ export class RfCitizensAddressesComponent implements OnInit, OnDestroy, AfterVie
   addressTypes = addressTypes;
   currentDate = new Date();
   temporaryRegistration: boolean = false;
-  tempRegistrationExpiredDate: Date;
   registerAddressLikeAsResidentialAddress: boolean = false;
   private residentialAddressBackup: Address;
   checkboxesForm: FormGroup;

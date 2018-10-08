@@ -1,5 +1,5 @@
 <div class="row">
-  <div class="col">
+<<<<<<< HEAD
   <form [formGroup]="checkboxesForm" novalidate>
     <div class="col-md-12">
       <app-address title="Адрес регистрации" [type]="addressTypes.register" [owner]="owner"></app-address>
@@ -13,6 +13,20 @@
           <mat-form-field (click)="tempRegistrationExpired.open()">
             <input matInput [matDatepicker]="tempRegistrationExpired" placeholder="Дата окончания временной регистрации"
               [min]="currentDate"  formControlName="tempRegistrationExpiredDate" required>
+=======
+  <div class="col">
+    <app-inquiry-info-edit title="Адрес регистрации">
+      <app-address title="Адрес регистрации" [type]="addressTypes.register" [owner]="owner"></app-address>
+      <div>
+        <div class="form-group">
+          <mat-checkbox (change)="temporaryRegistrationChange($event)" [(ngModel)]="temporaryRegistration">Является
+            адресом временной регистрации</mat-checkbox>
+        </div>
+        <div class="form-group" *ngIf="temporaryRegistration">
+          <mat-form-field (click)="tempRegistrationExpired.open()">
+            <input matInput [matDatepicker]="tempRegistrationExpired" placeholder="Дата окончания временной регистрации"
+              [min]="currentDate" [(ngModel)]="tempRegistrationExpiredDate" required>
+>>>>>>> master
             <mat-datepicker-toggle matSuffix [for]="tempRegistrationExpired"></mat-datepicker-toggle>
             <mat-datepicker disabled="false" #tempRegistrationExpired></mat-datepicker>
           </mat-form-field>
@@ -22,18 +36,29 @@
           </div>
         </div>
         <div class="form-group">
+<<<<<<< HEAD
           <mat-checkbox id="registerAddressLikeAsResidentialAddress" (change)="singleAddress($event)" formControlName="registerAddressLikeAsResidentialAddress"
           [disabled]="!(!!addressesComponents?.first.$address.getValue())"> 
             Адрес регистрации совпадает с адресом проживания</mat-checkbox>
         </div>
       </div>
+    </div>
+    <div class="col-md-12" id="residentialAddressContainer">
+      <app-address title="Адрес проживания" [type]="addressTypes.residential" [owner]="owner"></app-address>
+    </div>
+  </form>
+=======
+          <mat-checkbox (change)="singleAddress($event)" [(ngModel)]="registerAddressLikeAsResidentialAddress">Адрес
+            регистрации совпадает с адресом проживания</mat-checkbox>
+        </div>
+      </div>
     </app-inquiry-info-edit>
 
-    </div>
+  </div>
   <div class="col" id="residentialAddressContainer">
     <app-inquiry-info-edit title="Адрес проживания">
       <app-address title="Адрес проживания" [type]="addressTypes.residential" [owner]="owner"></app-address>
     </app-inquiry-info-edit>
-    </div>
-  </form>
+  </div>
+>>>>>>> master
 </div>

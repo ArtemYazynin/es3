@@ -1,6 +1,15 @@
+<<<<<<< HEAD
+<div class="row">
+  <div class="col-md-12">
+    <div *ngIf="mode == modes.read">
+      <div class="form-group">
+        <b>{{title}} </b>{{drawManager.address($address.getValue())}}
+        <button id="chooseFile" (click)="mode = modes.edit" mat-raised-button color="primary">Изменить</button>
+      </div>
+=======
 <div *ngIf="mode == modes.read">
   <div class="form-group">
-        <b>{{title}} </b>{{drawManager.address($address.getValue())}}
+    <b>{{title}} </b>{{drawManager.address(address)}}
     <button id="chooseFile" (click)="mode = modes.edit" mat-raised-button color="primary">Изменить</button>
   </div>
 </div>
@@ -16,6 +25,7 @@
           </mat-option>
         </mat-autocomplete>
       </mat-form-field>
+>>>>>>> master
     </div>
     <div class="form-group" *ngIf="selected.region()">
       <mat-form-field class="full-width">
