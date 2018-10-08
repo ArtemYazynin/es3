@@ -4,7 +4,7 @@ import { MatDialog, MatDialogConfig } from '@angular/material';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { map, takeUntil } from 'rxjs/operators';
-import { ApplicantType, CitizenshipService, ConfirmationDocument, Country, DrawService, Entity, GroupService, Inquiry, InquiryService, InstitutionService, PrivilegeOrder, PrivilegeOrderService, Specificity, SpecificityService, Status, StatusService } from '../../../shared/index';
+import { ApplicantType, CitizenshipService, ConfirmationDocument, Country, DrawService, Entity, GroupService, Inquiry, InquiryService, InstitutionService, PrivilegeOrder, PrivilegeOrderService, Specificity, SpecificityService, Status, StatusService, inquiryType } from '../../../shared/index';
 import { EditContactInfoDialogComponent } from '../edit-contact-info-dialog/edit-contact-info-dialog.component';
 import { EditCurrentEducationPlaceDialogComponent } from '../edit-current-education-place-dialog/edit-current-education-place-dialog.component';
 import { EditFileAttachmentsDialogComponent } from '../edit-file-attachments-dialog/edit-file-attachments-dialog.component';
@@ -60,7 +60,10 @@ export class InquiryReadComponent implements OnInit, OnDestroy {
       });
     (() => {
       let inquiry = this.$inquiry.getValue();
-      this.specificity = this.specificityService.get(inquiry.inquiryInfo.distributionParams.specificity).pipe(map(specificities => specificities[0]));
+      if (inquiry.type == inquiryType.preschool) {
+        this.specificity = this.specificityService.get(inquiry.inquiryInfo.distributionParams.specificity).pipe(map(specificities => specificities[0]));
+      }
+
       this.$institutionType = this.institutionService.getTypes(inquiry.currentEducationPlace.institutionType)
         .pipe(map(types => types[0]));
     })();
@@ -128,11 +131,15 @@ export class InquiryReadComponent implements OnInit, OnDestroy {
     const fileAttachments = () => {
       this.dialog.open(EditFileAttachmentsDialogComponent, getDefaultConfig());
     }
+    const schoolInquiryInfo = () => {
+      this.dialog.open(EditFileAttachmentsDialogComponent, getDefaultConfig());
+    }
     return {
       common: common,
       privilege: privilege,
       person: person,
       inquiryInfo: inquiryInfo,
+      schoolInquiryInfo: schoolInquiryInfo,
       institutions: institutions,
       contactInfo: contactInfo,
       currentEducationPlace: currentEducationPlace,

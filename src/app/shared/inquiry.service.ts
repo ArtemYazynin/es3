@@ -141,13 +141,13 @@ export class InquiryService {
     inquiry.addInformation = "доп. инфа по заявлению";
     inquiry.portalIdentity = new PortalIdentity(Guid.newGuid(), "123 внешний id");
     inquiry.status = new Status(Guid.newGuid(), "Новое");
-    this.storageService.set("preschool", inquiry);
-    return of(this.storageService.get("preschool"));
+    this.storageService.set(inquiry.type, inquiry);
+    return of(this.storageService.get(inquiry.type));
   }
 
   get(id: string): BehaviorSubject<Inquiry> {
     if (!id) return Observable.create();
-    return new BehaviorSubject<Inquiry>(this.storageService.get("preschool"));
+    return new BehaviorSubject<Inquiry>(this.storageService.get("school"));
     // const url = `${this.baseUrl}?id=${id}`;
     // return this.http.get(url).pipe(map(result => {
     //   const inquiries = <Array<Inquiry>>result.json();

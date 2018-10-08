@@ -73,7 +73,15 @@
       </div>
     </div>
     <div class="row" *ngIf="inquiry.type == inquiryTypes.preschool">
-      <app-preschool-preview-inquiry-info [inquiryInfo]="inquiry.inquiryInfo"></app-preschool-preview-inquiry-info>
+      <div class="col-md-12">
+        <app-preschool-preview-inquiry-info [inquiryInfo]="inquiry.inquiryInfo"></app-preschool-preview-inquiry-info>
+      </div>
+    </div>
+    <div class="row" *ngIf="inquiry.type == inquiryTypes.school">
+      <div class="col-md-6">
+        <app-preview-school-inquiry-info [schoolInquiryInfo]="inquiry.schoolInquiryInfo">
+        </app-preview-school-inquiry-info>
+      </div>
     </div>
     <div class="row">
       <div class="col-md-6">

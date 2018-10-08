@@ -1,27 +1,14 @@
 <div class="container col-md-12">
-  <div class="widget-box">
-    <div class="widget-title">
-      <h5>Регистрация заявления</h5>
-    </div>
-    <div class="widget-content">
-      <div class="row">
-        <div class="col-md-12">
-          <span>Заявление успешно зарегистрировано под номером 46205/ЗЗ/18091115</span>
-        </div>
+  <app-inquiry-info-edit title="Регистрация заявления">
+    <div class="row">
+      <div class="col-md-12">
+        <span>Заявление успешно зарегистрировано под номером 46205/ЗЗ/18091115</span>
       </div>
     </div>
-  </div>
-  <div class="widget-box">
-    <div class="widget-content">
-      <div class="row">
-        <div class="col-md-12">
-          <div class="form-group">
-            <div class="form-actions" style="text-align: center;">
-              <button type="button" class="btn btn-inverse" (click)="goTo.back()">Перейти к заявлению</button>
-              <button type="submit" class="btn btn-primary" (click)="goTo.next()">Зарегистрировать новое</button>
-            </div>
-          </div>
-        </div>
-      </div>
+  </app-inquiry-info-edit>
+  <app-inquiry-info-edit>
+    <div class="form-actions" style="text-align: center;">
+      <button type="button" class="btn btn-inverse" (click)="goTo.back()">Перейти к заявлению</button>
+      <button type="submit" class="btn btn-primary" (click)="goTo.next()">Зарегистрировать новое</button>
     </div>
-  </div>
+  </app-inquiry-info-edit>

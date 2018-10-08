@@ -1,7 +1,7 @@
 <div class="widget-box">
   <div class="widget-title" *ngIf="!!title">
     <h5>{{title || '-'}}</h5>
-    <div class="buttons" *ngIf="edit.observers.length > 0">
+    <div class="buttons" *ngIf="showEdit">
       <a class="btn" (click)="onEdit()"><i class="mdi mdi-lead-pencil"></i></a>
     </div>
   </div>
