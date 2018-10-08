@@ -145,7 +145,15 @@
       </div>
     </div>
   </app-inquiry-info-edit>
-  <app-inquiry-info-edit title="Параметры заявления" (edit)="edit.inquiryInfo()">
+  <div class="row">
+    <div class="col-md-6">
+      <app-preview-school-inquiry-info *ngIf="inquiry.schoolInquiryInfo" [schoolInquiryInfo]="inquiry.schoolInquiryInfo" [editHandler]="edit.schoolInquiryInfo">
+
+      </app-preview-school-inquiry-info>
+    </div>
+  </div>
+
+  <app-inquiry-info-edit title="Параметры заявления" (edit)="edit.inquiryInfo()" *ngIf="inquiry?.inquiryInfo">
     <div class="row">
       <div class="col-md-4">
         <app-inquiry-info-edit title="Параметры комплектования">

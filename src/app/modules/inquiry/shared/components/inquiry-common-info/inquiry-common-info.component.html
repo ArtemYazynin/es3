@@ -1,17 +1,17 @@
 <dl class="dl-horizontal">
-    <dt>Номер</dt>
-    <dd>{{inquiry.number}}</dd>
-    <dt>Зарегистрировано</dt>
-    <dd>{{inquiry.registerDateTime}}</dd>
-    <dt>Источник регистрации</dt>
-    <dd>{{inquiry.registerSource | registerSource}}</dd>
-    <dt>Внешний идентификатор</dt>
-    <dd>{{inquiry.portalIdentity ? inquiry.portalIdentity.name : '-'}}</dd>
-    <dt>Идентификатор в ЕЛК</dt>
-    <dd>{{inquiry.portalIdentity ? inquiry.portalIdentity.name : '-'}}</dd>
-    <dt>Идентификатор в РЛДД</dt>
-    <dd>{{inquiry.portalIdentity ? inquiry.portalIdentity.name : '-'}}</dd>
-    <dt>Статус</dt>
-    <dd>{{inquiry.status.name}}</dd>
-    <ng-content></ng-content>
-  </dl>
+  <dt>Номер</dt>
+  <dd>{{inquiry.number}}</dd>
+  <dt>Зарегистрировано</dt>
+  <dd>{{inquiry.registerDateTime}}</dd>
+  <dt>Источник регистрации</dt>
+  <dd>{{inquiry.registerSource | registerSource}}</dd>
+  <dt>Внешний идентификатор</dt>
+  <dd>{{inquiry?.portalIdentity?.name || '-'}}</dd>
+  <dt>Идентификатор в ЕЛК</dt>
+  <dd>{{inquiry?.portalIdentity?.name || '-'}}</dd>
+  <dt>Идентификатор в РЛДД</dt>
+  <dd>{{inquiry?.portalIdentity?.name || '-'}}</dd>
+  <dt>Статус</dt>
+  <dd>{{inquiry.status.name}}</dd>
+  <ng-content></ng-content>
+</dl>

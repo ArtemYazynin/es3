@@ -23,7 +23,8 @@ export class InstitutionStepComponent implements OnInit, StepBase {
 
   goTo = {
     back: () => {
-      this.router.navigate(["../inquiryInfoStep"], { relativeTo: this.route });
+      const stepName = this.inquiry.type == inquiryType.preschool ? "inquiryInfoStep" : "schoolInquiryInfoStep";
+      this.router.navigate([`../${stepName}`], { relativeTo: this.route });
     },
     next: () => {
       const data = (() => {

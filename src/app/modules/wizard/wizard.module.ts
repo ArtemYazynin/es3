@@ -11,7 +11,7 @@ import { MyDatePickerModule } from 'mydatepicker';
 import { InMemoryService } from '../../in-memory-server';
 import { MaterialModule } from '../../material.module';
 import { ShareModule } from '../../share.module';
-import { AddressService, AreaService, CitizenshipService, CommonService, DrawService, EnumToArrayPipe, FormService, GroupService, IdentityCardService, IdentityCardTypePipe, InquiryService, InstitutionService, PrivilegeOrderService, PrivilegeService, RelationTypeService, SettingsService, SpecHealthService, SpecificityService, SpecializationService, EducProgramService } from '../../shared';
+import { AddressService, AreaService, CitizenshipService, CommonService, DrawService, EnumToArrayPipe, FormService, GroupService, IdentityCardService, IdentityCardTypePipe, InquiryService, InstitutionService, PrivilegeOrderService, PrivilegeService, RelationTypeService, SettingsService, SpecHealthService, SpecificityService } from '../../shared';
 import { ConfirmDialogComponent } from '../../shared/components/confirm-dialog/confirm-dialog.component';
 import { DisabilityChildComponent } from '../../shared/components/disability-child/disability-child.component';
 import { SpecHealthComponent } from '../../shared/components/spec-health/spec-health.component';
@@ -36,7 +36,7 @@ import { CurrentEducationPlaceStepService } from '../wizard/shared/current-educa
 import { PersonViewComponent } from './preview/person-view/person-view.component';
 import { PreviewCurrentEducationPlaceComponent } from './preview/preview-current-education-place/preview-current-education-place.component';
 import { PreviewFilesComponent } from './preview/preview-files/preview-files.component';
-import { PreviewInquiryInfoComponent } from './preview/preview-inquiry-info/preview-inquiry-info.component';
+import { PreviewPreschoolInquiryInfoComponent } from './preview/preview-preschool-inquiry-info/preview-preschool-inquiry-info.component';
 import { PreviewPrivilegeComponent } from './preview/preview-privilege/preview-privilege.component';
 import { RegisterCompleteComponent } from './register-complete/register-complete.component';
 import { PrivilegeStepResolver } from './resolvers/privilege-step-resolver';
@@ -72,7 +72,7 @@ import { WizardRoutingModule } from './wizard-routing-module';
     SpecHealthComponent,
 
 
-    PreviewInquiryInfoComponent,
+    PreviewPreschoolInquiryInfoComponent,
     PreviewCurrentEducationPlaceComponent,
     PreviewPrivilegeComponent,
     PreviewFilesComponent,
@@ -120,9 +120,7 @@ import { WizardRoutingModule } from './wizard-routing-module';
     SettingsService,
     DrawService,
     AddressService,
-    InquiryService,
-    SpecializationService,
-    EducProgramService
+    InquiryService
   ],
   entryComponents: [ChildComponent, ConfirmDialogComponent], //динамически добавляемые компоненты ViewContainerRef.createComponent()
 })

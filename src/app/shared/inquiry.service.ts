@@ -27,6 +27,8 @@ import { Privilege } from './models/privilege';
 import { RegisterSource } from './models/register-source.enum';
 import { Status } from './models/status';
 import { StayMode } from './models/stay-mode';
+import { EditSchoolInquiryInfoComponent } from './components/edit-school-inquiry-info/edit-school-inquiry-info.component';
+import { SchoolInquiryInfo } from './models/school-inquiry-info';
 
 @Injectable()
 export class InquiryService {
@@ -110,6 +112,13 @@ export class InquiryService {
     update({ currentEducationPlace: currentEducationPlace });
   }
 
+  saveSchoolInquiryInfo(editSchoolInquiryInfoComponent: EditSchoolInquiryInfoComponent, update: (patch: object) => void): void {
+    const schoolInquiryInfo = new SchoolInquiryInfo(editSchoolInquiryInfoComponent.form.controls.educYear.value,
+      editSchoolInquiryInfoComponent.form.controls.grade.value, editSchoolInquiryInfoComponent.form.controls.specialization.value,
+      editSchoolInquiryInfoComponent.form.controls.program.value.id ? editSchoolInquiryInfoComponent.form.controls.program.value : undefined);
+    update({ schoolInquiryInfo: schoolInquiryInfo });
+  }
+
   saveFileAttachments(editFileAttachmentsComponent: EditFileAttachmentsComponent, update: (patch: object) => void) {
     const files = editFileAttachmentsComponent.bunchOfFileView
       .filter(x => x.fileAttachment.file != null)
@@ -141,13 +150,13 @@ export class InquiryService {
     inquiry.addInformation = "доп. инфа по заявлению";
     inquiry.portalIdentity = new PortalIdentity(Guid.newGuid(), "123 внешний id");
     inquiry.status = new Status(Guid.newGuid(), "Новое");
-    this.storageService.set("preschool", inquiry);
-    return of(this.storageService.get("preschool"));
+    this.storageService.set(inquiry.type, inquiry);
+    return of(this.storageService.get(inquiry.type));
   }
 
   get(id: string): BehaviorSubject<Inquiry> {
     if (!id) return Observable.create();
-    return new BehaviorSubject<Inquiry>(this.storageService.get("preschool"));
+    return new BehaviorSubject<Inquiry>(this.storageService.get("school"));
     // const url = `${this.baseUrl}?id=${id}`;
     // return this.http.get(url).pipe(map(result => {
     //   const inquiries = <Array<Inquiry>>result.json();

@@ -1,6 +1,6 @@
 import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { CommonService, Inquiry, InquiryService, inquiryType } from '../../../shared';
+import { Inquiry, InquiryService, inquiryType } from '../../../shared';
 import { PrivilegeEditComponent } from '../../../shared/components/privilege-edit/privilege-edit.component';
 import { StepBase, WizardStorageService } from '../shared';
 
@@ -16,7 +16,7 @@ export class PrivilegeStepComponent implements OnInit, AfterViewInit, StepBase {
   inquiryType = this.route.snapshot.data.resolved.inquiryType;
 
   constructor(private storageService: WizardStorageService, private router: Router, private activatedRoute: ActivatedRoute,
-    private commonService: CommonService, private route: ActivatedRoute, private cdr: ChangeDetectorRef, private inquiryService: InquiryService) {
+    private route: ActivatedRoute, private cdr: ChangeDetectorRef, private inquiryService: InquiryService) {
   }
 
   ngOnInit() {

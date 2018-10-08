@@ -8,7 +8,7 @@ const routes: Routes = [
         pathMatch: 'full'
     },
     {
-        path: 'wizard/:type',
+        path: 'wizard',
         loadChildren: 'app/modules/wizard/wizard.module#WizardModule'
     },
     {

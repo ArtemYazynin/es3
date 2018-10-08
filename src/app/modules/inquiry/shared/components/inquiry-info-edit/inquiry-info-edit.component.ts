@@ -9,6 +9,7 @@ import { Component, OnInit, Output, EventEmitter, Input, ChangeDetectionStrategy
 export class InquiryInfoEditComponent implements OnInit {
   @Input() title:string
   @Output() edit = new EventEmitter<void>();
+  showEdit:boolean = false;
 
   onEdit(){
     this.edit.emit();
@@ -16,6 +17,7 @@ export class InquiryInfoEditComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
+    this.showEdit = this.edit.observers.length > 0;
   }
 
 }
