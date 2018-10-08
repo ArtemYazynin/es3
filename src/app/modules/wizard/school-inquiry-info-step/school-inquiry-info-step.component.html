@@ -3,17 +3,9 @@
     <app-edit-school-inquiry-info [schoolInquiryInfo]="inquiry?.schoolInquiryInfo">
     </app-edit-school-inquiry-info>
   </app-inquiry-info-edit>
-  <div class="widget-box">
-    <div class="widget-content">
-      <div class="row">
-        <div class="col-md-12">
-          <div class="form-group">
-            <div class="form-actions" style="text-align: center;">
-              <button type="button" class="btn btn-inverse" (click)="goTo.back()">Назад</button>
-              <button type="submit" class="btn btn-primary" (click)="goTo.next()" [disabled]="!isValid()">Далее</button>
-            </div>
-          </div>
-        </div>
-      </div>
+  <app-inquiry-info-edit>
+    <div class="form-actions" style="text-align: center;">
+      <button type="button" class="btn btn-inverse" (click)="goTo.back()">Назад</button>
+      <button type="submit" class="btn btn-primary" (click)="goTo.next()" [disabled]="!isValid()">Далее</button>
     </div>
-  </div>
+  </app-inquiry-info-edit>

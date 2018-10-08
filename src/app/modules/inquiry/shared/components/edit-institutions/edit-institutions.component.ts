@@ -118,6 +118,7 @@ export class EditInstitutionsComponent implements OnInit, OnDestroy {
   }
 
   private _add(val: Institution | Group) {
+    if(!val) return;
     this.selectedInstitutions.push(val);
 
     const index = this.institutions.findIndex(elem => {

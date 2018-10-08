@@ -1,14 +1,15 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, ChangeDetectionStrategy } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { InquiryInfo, SpecificityService, Specificity } from '../../../../shared';
 
 @Component({
-  selector: 'app-preview-inquiry-info',
-  templateUrl: './preview-inquiry-info.component.html',
-  styleUrls: ['./preview-inquiry-info.component.css']
+  selector: 'app-preschool-preview-inquiry-info',
+  templateUrl: './preview-preschool-inquiry-info.component.html',
+  styleUrls: ['./preview-preschool-inquiry-info.component.css'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class PreviewInquiryInfoComponent implements OnInit {
+export class PreviewPreschoolInquiryInfoComponent implements OnInit {
   @Input() inquiryInfo: InquiryInfo;
 
   constructor(private specificityService: SpecificityService) { }

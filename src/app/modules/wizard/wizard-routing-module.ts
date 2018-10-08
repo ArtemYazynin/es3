@@ -18,104 +18,109 @@ import { RegisterCompleteComponent } from './register-complete/register-complete
 import { RegisterCompleteResolver } from '../../shared/register-complete-resolver';
 
 const routes: Routes = [
+    // {
+    //     path: '',
+    //     redirectTo: '',
+    //     pathMatch: 'full'
+    // },
     {
-        path: '',
-        redirectTo: 'childrenStep',
+        path: ":type",
+        redirectTo:':type/childrenStep',
         pathMatch: 'full'
     },
     {
-        path: "applicantTypeStep",
+        path: ":type/applicantTypeStep",
         component: ApplicantTypeStepComponent,
         resolve: {
             resolved: BaseResolver
         }
     },
     {
-        path: "parentStep",
+        path: ":type/parentStep",
         component: ParentStepComponent,
         resolve: {
             resolved: BaseResolver
         }
     },
     {
-        path: "applicantStep",
+        path: ":type/applicantStep",
         component: ApplicantStepComponent,
         resolve: {
             resolved: BaseResolver
         }
     },
     {
-        path: "childrenStep",
+        path: ":type/childrenStep",
         component: ChildrenStepComponent,
         resolve: {
             resolved: BaseResolver
         }
     },
     {
-        path: "currentEducationPlaceStep",
+        path: ":type/currentEducationPlaceStep",
         component: CurrentEducationPlaceStepComponent,
         resolve: {
             resolved: BaseResolver
         }
     },
     {
-        path: "contactInfoStep",
+        path: ":type/contactInfoStep",
         component: ContactInfoStepComponent,
         resolve: {
             resolved: BaseResolver
         }
     },
     {
-        path: "privilegeStep",
+        path: ":type/privilegeStep",
         component: PrivilegeStepComponent,
         resolve: {
             resolved: PrivilegeStepResolver
         }
     },
     {
-        path: "inquiryInfoStep",
+        path: ":type/inquiryInfoStep",
         component: InquiryInfoStepComponent,
         resolve: {
             resolved: BaseResolver
         }
     },
     {
-        path: "schoolInquiryInfoStep",
+        path: ":type/schoolInquiryInfoStep",
         component: SchoolInquiryInfoStepComponent,
         resolve: {
             resolved: BaseResolver
         }
     },
     {
-        path: "schoolInstitutionStep",
+        path: ":type/schoolInstitutionStep",
         component: InstitutionStepComponent,
         resolve: {
             resolved: BaseResolver
         }
     },
     {
-        path: "preschoolInstitutionStep",
+        path: ":type/preschoolInstitutionStep",
         component: InstitutionStepComponent,
         resolve: {
             resolved: BaseResolver
         }
     },
     {
-        path: "fileAttachmentStep",
+        path: ":type/fileAttachmentStep",
         component: FileAttachmentStepComponent,
         resolve: {
             resolved: BaseResolver
         }
     },
     {
-        path: "previewStep",
+        path: ":type/previewStep",
         component: PreviewStepComponent,
         resolve: {
             resolved: BaseResolver
         }
     },
     {
-        path: "registerComplete/:id",
+        path: ":type/registerComplete/:id",
         component: RegisterCompleteComponent,
         resolve: {
             resolved: RegisterCompleteResolver
