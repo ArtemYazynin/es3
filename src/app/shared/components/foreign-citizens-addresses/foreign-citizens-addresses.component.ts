@@ -1,4 +1,4 @@
-import { Component, Input, OnDestroy, OnInit, ViewChild, ChangeDetectionStrategy } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
@@ -9,7 +9,7 @@ import { AddressComponent } from '../address/address.component';
   selector: 'app-foreign-citizens-addresses',
   templateUrl: './foreign-citizens-addresses.component.html',
   styleUrls: ['./foreign-citizens-addresses.component.css'],
-  changeDetection:ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ForeignCitizensAddressesComponent implements OnInit, OnDestroy {
   @ViewChild(AddressComponent) addressComponent: AddressComponent;
@@ -64,9 +64,8 @@ export class ForeignCitizensAddressesComponent implements OnInit, OnDestroy {
       const additionalInfo = this.form.get("foreignAddress").value;
       if (additionalInfo) result.register = Address.build({ additionalInfo: additionalInfo }, true)
     } else {
-      result.register = this.addressComponent.$address.getValue()
-        ? Address.build(this.addressComponent.$address.getValue(), false)
-        : undefined;
+      let register = this.addressComponent.$address.getValue();
+      result.register = register ? Address.build(register, false) : undefined;
       result.tempRegistrationExpiredDate = this.form.controls.tempRegistrationExpiredDate.value;
     }
     return result;

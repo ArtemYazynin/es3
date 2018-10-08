@@ -1,4 +1,4 @@
-import { Component, Input, OnDestroy, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup } from '@angular/forms';
 import { BehaviorSubject, fromEvent, Observable, Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged, filter, takeUntil } from 'rxjs/operators';
@@ -10,7 +10,7 @@ import { addressTypes } from "../../models/address-type";
   selector: 'app-address',
   templateUrl: './address.component.html',
   styleUrls: ['./address.component.css'],
-  changeDetection:ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AddressComponent implements OnInit, OnDestroy {
   @Input() title: string;
@@ -34,9 +34,15 @@ export class AddressComponent implements OnInit, OnDestroy {
   buildings: Observable<Array<Location>>;
   customStreet = false;
 
-  constructor(private addressService: AddressService, private fb: FormBuilder, private drawService: DrawService) { }
+  constructor(private addressService: AddressService, private fb: FormBuilder, private drawService: DrawService, private cdr: ChangeDetectorRef) { }
 
   drawManager = this.drawService;
+  drawnAddress: string;
+
+  drawAddress() {
+    this.drawnAddress = this.drawManager.address(this.$address.getValue());
+    this.cdr.markForCheck();
+  }
 
   ngOnDestroy(): void {
     this.ngUnsubscribe.next();
@@ -150,13 +156,17 @@ export class AddressComponent implements OnInit, OnDestroy {
       }
     })();
     if (this.owner) this.$address.next(this.owner[this.addressType]);
-    if (this.$address.getValue()) this.updateForm();
+    if (this.$address.getValue()) {
+      this.updateForm();
+      this.drawAddress();
+    }
   }
 
   onSubmit = () => {
     this.mode = this.modes.read;
     if (!this.addressForm.controls.region.value || this.addressForm.controls.region.value == "") {
       this.$address.next(undefined);
+      this.drawAddress();
     }
     else {
       let street: Location = this.addressForm.controls.street.value;
@@ -175,6 +185,8 @@ export class AddressComponent implements OnInit, OnDestroy {
       //if (!this.addressForm.controls.region.value) return;
       this.$address.next(new Address(<Location>this.addressForm.controls.region.value, this.addressForm.controls.district.value, this.addressForm.controls.city.value,
         street, building, this.addressForm.controls.flat.value, this.addressForm.controls.additionalInfo.value, false));
+
+      this.drawAddress();
     }
   }
 
@@ -280,15 +292,16 @@ export class AddressComponent implements OnInit, OnDestroy {
   }
 
   private updateForm() {
+    let address = this.$address.getValue();
     this.addressForm.patchValue({
-      region: this.$address.getValue().region ? this.$address.getValue().region : undefined,
-      regionChildType: this.$address.getValue().city ? this.regionChildTypes.city : (this.$address.getValue().district ? this.regionChildTypes.district : undefined),
-      city: this.$address.getValue().city ? this.$address.getValue().city : undefined,
-      district: this.$address.getValue().district ? this.$address.getValue().district : undefined,
-      street: this.$address.getValue().street && typeof this.$address.getValue().street ? this.$address.getValue().street : undefined,
-      building: this.$address.getValue().building && typeof this.$address.getValue().street ? this.$address.getValue().building : undefined,
-      flat: this.$address.getValue().flat ? this.$address.getValue().flat : undefined,
-      additionalInfo: this.$address.getValue().additionalInfo ? this.$address.getValue().additionalInfo : undefined
+      region: address.region ? address.region : undefined,
+      regionChildType: address.city ? this.regionChildTypes.city : (address.district ? this.regionChildTypes.district : undefined),
+      city: address.city ? address.city : undefined,
+      district: address.district ? address.district : undefined,
+      street: address.street && typeof address.street ? address.street : undefined,
+      building: address.building && typeof address.street ? address.building : undefined,
+      flat: address.flat ? address.flat : undefined,
+      additionalInfo: address.additionalInfo ? address.additionalInfo : undefined
     });
   }
 }
