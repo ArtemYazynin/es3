@@ -23,7 +23,7 @@ export class ApplicantTypeStepComponent implements OnInit, StepBase {
     private route: ActivatedRoute) { }
 
   ngOnInit() {
-    this.applicantTypes = (()=>{
+    this.applicantTypes = (() => {
       const types = [
         ApplicantType.Parent,
         ApplicantType.Applicant
@@ -42,14 +42,23 @@ export class ApplicantTypeStepComponent implements OnInit, StepBase {
     },
     next: () => {
       Object.assign(this.inquiry, { applicantType: this.applicantType });
-      if (this.applicantType == ApplicantType.Applicant) {
-        this.storageService.set(this.inquiryType, this.inquiry)
-        this.router.navigate(["../applicantStep"], { relativeTo: this.route });
-      }
-      else {
-        this.inquiry.applicant = undefined;
-        this.storageService.set(this.inquiryType, this.inquiry)
-        this.router.navigate(["../parentStep"], { relativeTo: this.route });
+      switch (this.applicantType) {
+        case ApplicantType.Applicant:
+          this.storageService.set(this.inquiryType, this.inquiry)
+          this.router.navigate(["../applicantStep"], { relativeTo: this.route });
+          break;
+        case ApplicantType.Parent:
+          this.inquiry.applicant = undefined;
+          this.storageService.set(this.inquiryType, this.inquiry)
+          this.router.navigate(["../parentStep"], { relativeTo: this.route });
+          break;
+        case ApplicantType.Child:
+          this.inquiry.applicant = undefined;
+          this.inquiry.parent = undefined;
+          this.storageService.set(this.inquiryType, this.inquiry);
+          this.router.navigate(["../contactInfoStep"], { relativeTo: this.route });
+        default:
+          break;
       }
     }
   }
