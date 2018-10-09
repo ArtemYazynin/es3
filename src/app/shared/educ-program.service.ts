@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { EducProgramType } from './educ-program-type.enum';
-import { EducProgram } from './models/educ-program';
+import { EducProgram } from './models/educ-program.model';
 import { HttpInterceptor } from './http-interceptor';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';

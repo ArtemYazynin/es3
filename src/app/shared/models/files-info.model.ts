@@ -1,4 +1,4 @@
-import { FileAttachment } from "./file-attachment";
+import { FileAttachment } from "./file-attachment.model";
 
 export class FilesInfo {
     haveDigitalSignature:boolean = false;

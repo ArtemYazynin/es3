@@ -1,4 +1,4 @@
-import { IdentityCard } from "../../../../models/identityCard";
+import { IdentityCard } from "../../../../models/identityCard.model";
 import { FormGroup, ValidatorFn, Validators, FormControl, AbstractControl } from "@angular/forms";
 import { IValidationMessage } from "./IValidationMessage";
 import { ValidationMessage } from "./ValidationMessage";

@@ -1,6 +1,6 @@
 import { Component, OnInit, ChangeDetectionStrategy, Input, AfterViewInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { DistributionParams } from '../../models/distribution-params';
+import { DistributionParams } from '../../models/distribution-params.model';
 import { FormService, Specificity, SpecificityService } from '../..';
 import { Observable } from 'rxjs';
 

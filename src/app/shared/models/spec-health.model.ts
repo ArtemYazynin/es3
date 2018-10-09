@@ -1,4 +1,4 @@
-import { Entity } from "./entity";
+import { Entity } from "./entity.model";
 
 export class SpecHealth extends Entity<string>{
     code: number;

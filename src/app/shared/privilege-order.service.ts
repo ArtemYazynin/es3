@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { PrivilegeOrder } from './models/privilege-order';
+import { PrivilegeOrder } from './models/privilege-order.model';
 import { Observable } from 'rxjs';
 import { HttpInterceptor } from './http-interceptor';
 import { map } from 'rxjs/internal/operators/map';

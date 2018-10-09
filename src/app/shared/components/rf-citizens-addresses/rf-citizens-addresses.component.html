@@ -4,8 +4,7 @@
       <app-inquiry-info-edit title="Адрес регистрации">
         <app-address title="Адрес регистрации" [type]="addressTypes.register" [owner]="owner"></app-address>
         <div class="form-group">
-          <mat-checkbox id="temporaryRegistration" (change)="temporaryRegistrationChange($event)" formControlName="temporaryRegistration"
-            [disabled]="!registerAddress">
+          <mat-checkbox id="temporaryRegistration" (change)="temporaryRegistrationChange($event)" formControlName="temporaryRegistration">
             Является адресом временной регистрации</mat-checkbox>
         </div>
         <div class="form-group" *ngIf="checkboxesForm.controls.temporaryRegistration.value">
@@ -21,12 +20,11 @@
           </div>
         </div>
         <div class="form-group">
-          <mat-checkbox id="registerAddressLikeAsResidentialAddress" (change)="singleAddress($event)" formControlName="registerAddressLikeAsResidentialAddress"
-            [disabled]="!registerAddress">
+          <mat-checkbox id="registerAddressLikeAsResidentialAddress" (change)="singleAddress($event)" formControlName="registerAddressLikeAsResidentialAddress">
             Адрес регистрации совпадает с адресом проживания</mat-checkbox>
         </div>
       </app-inquiry-info-edit>
-      <div class="col" id="residentialAddressContainer">
+      <div id="residentialAddressContainer">
         <app-inquiry-info-edit title="Адрес проживания">
           <app-address title="Адрес проживания" [type]="addressTypes.residential" [owner]="owner"></app-address>
         </app-inquiry-info-edit>

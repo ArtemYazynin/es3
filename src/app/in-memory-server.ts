@@ -1,5 +1,5 @@
 import { InMemoryDbService } from 'angular-in-memory-web-api';
-import { Inquiry } from './shared/models/inquiry';
+import { Inquiry } from './shared/models/inquiry.model';
 import { Area, Countries, Institution, Privilege, PrivilegeOrder, Settings, Specificity, IdentityCardType, RelationType, Entity, Status, Specialization, EducProgram, EducProgramType, Group } from './shared/index';
 import { EnumToArrayPipe } from './shared/enum-to-array-pipe';
 import { Guid } from './shared/models/guid';

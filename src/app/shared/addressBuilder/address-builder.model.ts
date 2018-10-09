@@ -1,5 +1,5 @@
-import { Address } from "../models/address";
-import { Location } from "../models/location";
+import { Address } from "../models/address.model";
+import { Location } from "../models/location.model";
 import { AbstractAddressBuilder } from "./abstract-address-builder";
 
 export class AddressBuilder implements AbstractAddressBuilder {

@@ -1,14 +1,10 @@
-import { Address } from "./address";
-import { Person } from "./person";
-import { IdentityCard } from "./identityCard";
-import { ConfirmationDocument } from "./confirmation-document";
-import { RelationType } from "./relation-type";
-import { PersonWithAddress } from "./person-with-address";
-import { AttachmentType } from "./attachment-type.enum";
-import { ApplicantType } from "../applicant-type.enum";
-import { CommonService } from "../common.service";
 import { FormGroup } from "@angular/forms";
-import { BirthInfoComponent } from "../components/birth-info/birth-info.component";
+import { Address } from "./address.model";
+import { ConfirmationDocument } from "./confirmation-document.model";
+import { IdentityCard } from "./identityCard.model";
+import { Person } from "./person.model";
+import { PersonWithAddress } from "./person-with-address.model";
+import { RelationType } from "./relation-type.model";
 
 export class Parent extends Person implements PersonWithAddress {
     identityCard: IdentityCard;

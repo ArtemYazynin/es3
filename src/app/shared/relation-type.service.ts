@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map } from "rxjs/operators";
 import { HttpInterceptor } from './http-interceptor';
-import { RelationType } from './models/relation-type';
+import { RelationType } from './models/relation-type.model';
 
 @Injectable()
 export class RelationTypeService {

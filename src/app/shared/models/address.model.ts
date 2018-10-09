@@ -1,5 +1,5 @@
 import { isNullOrUndefined } from "util";
-import { Location } from "./location";
+import { Location } from "./location.model";
 
 export class Address {
     constructor(public region?: Location, public district?: Location, public city?: Location,

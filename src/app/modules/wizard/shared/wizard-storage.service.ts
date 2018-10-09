@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { isNullOrUndefined } from 'util';
-import { Inquiry } from '../../../shared/models/inquiry';
+import { Inquiry } from '../../../shared/models/inquiry.model';
 import { inquiryType } from "../../../shared/models/inquiry-type";
 
 @Injectable()

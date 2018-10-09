@@ -1,5 +1,5 @@
-import { Person } from "./person";
-import { IdentityCard } from "./identityCard";
+import { Person } from "./person.model";
+import { IdentityCard } from "./identityCard.model";
 
 export class Client extends Person {
     public IdentityCards: Array<IdentityCard>;

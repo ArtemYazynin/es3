@@ -1,4 +1,4 @@
-import { Group } from "./group";
+import { Group } from "./group.model";
 
 export class CurrentEducationPlace {
     municipality: string;

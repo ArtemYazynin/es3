@@ -1,6 +1,6 @@
-import { Entity } from "./entity";
-import { EducProgram } from "./educ-program";
-import { Group } from "./group";
+import { Entity } from "./entity.model";
+import { EducProgram } from "./educ-program.model";
+import { Group } from "./group.model";
 
 export class Institution extends Entity<string>{
     private _programs: Array<EducProgram>;

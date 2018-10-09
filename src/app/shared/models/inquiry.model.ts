@@ -1,19 +1,19 @@
 import { ApplicantType } from "../applicant-type.enum";
 import { InquiryTypeFriendlyNamePipe } from "../inquiry-type.pipe";
-import { Applicant } from "./applicant";
-import { Child } from "./child";
-import { ContactInfo } from "./contact-info";
-import { CurrentEducationPlace } from "./current-education-place";
-import { FilesInfo } from "./files-info";
-import { InquiryInfo } from "./inquiry-info";
-import { Institution } from "./institution";
-import { Parent } from "./parent";
-import { PortalIdentity } from "./portal-identity";
-import { Privilege } from "./privilege";
+import { Applicant } from "./applicant.model";
+import { Child } from "./child.model";
+import { ContactInfo } from "./contact-info.model";
+import { CurrentEducationPlace } from "./current-education-place.model";
+import { FilesInfo } from "./files-info.model";
+import { InquiryInfo } from "./inquiry-info.model";
+import { Institution } from "./institution.model";
+import { Parent } from "./parent.model";
+import { PortalIdentity } from "./portal-identity.model";
+import { Privilege } from "./privilege.model";
 import { RegisterSource } from "./register-source.enum";
-import { Status } from "./status";
-import { SchoolInquiryInfo } from "./school-inquiry-info";
-import { SchoolClass } from "./school-class";
+import { SchoolClass } from "./school-class.model";
+import { SchoolInquiryInfo } from "./school-inquiry-info.model";
+import { Status } from "./status.model";
 
 export class Inquiry {
     private def = "-";
@@ -55,11 +55,12 @@ export class Inquiry {
     currentEducationPlace: CurrentEducationPlace;
     filesInfo: FilesInfo
     inquiryInfo: InquiryInfo;
-    
+
     contactInfo: ContactInfo;
-    
+
     /** ONLY SCHOOL FUNCTIONALITY */
     schoolClasses: Array<SchoolClass>;
     schoolInquiryInfo: SchoolInquiryInfo;
+    IsLearnEducCenter: boolean;
     /** END */
 }

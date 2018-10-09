@@ -11,24 +11,24 @@ import { WizardStorageService } from '../modules/wizard/shared/wizard-storage.se
 import { CommonService } from '../shared/common.service';
 import { AttachmentType } from '../shared/models/attachment-type.enum';
 import { ApplicantType } from './applicant-type.enum';
+import { EditSchoolInquiryInfoComponent } from './components/edit-school-inquiry-info/edit-school-inquiry-info.component';
 import { PrivilegeEditComponent } from './components/privilege-edit/privilege-edit.component';
 import { DublicatesFinder } from './dublicates-finder';
 import { HttpInterceptor } from './http-interceptor';
-import { AgeGroup } from './models/age-group';
-import { ContactInfo } from './models/contact-info';
-import { CurrentEducationPlace } from './models/current-education-place';
-import { DistributionParams } from './models/distribution-params';
+import { AgeGroup } from './models/age-group.model';
+import { ContactInfo } from './models/contact-info.model';
+import { CurrentEducationPlace } from './models/current-education-place.model';
+import { DistributionParams } from './models/distribution-params.model';
 import { Guid } from './models/guid';
-import { Inquiry } from './models/inquiry';
-import { InquiryInfo } from './models/inquiry-info';
-import { Parent } from './models/parent';
-import { PortalIdentity } from './models/portal-identity';
-import { Privilege } from './models/privilege';
+import { Inquiry } from './models/inquiry.model';
+import { InquiryInfo } from './models/inquiry-info.model';
+import { Parent } from './models/parent.model';
+import { PortalIdentity } from './models/portal-identity.model';
+import { Privilege } from './models/privilege.model';
 import { RegisterSource } from './models/register-source.enum';
-import { Status } from './models/status';
-import { StayMode } from './models/stay-mode';
-import { EditSchoolInquiryInfoComponent } from './components/edit-school-inquiry-info/edit-school-inquiry-info.component';
-import { SchoolInquiryInfo } from './models/school-inquiry-info';
+import { SchoolInquiryInfo } from './models/school-inquiry-info.model';
+import { Status } from './models/status.model';
+import { StayMode } from './models/stay-mode.model';
 
 @Injectable()
 export class InquiryService {
@@ -69,11 +69,18 @@ export class InquiryService {
     update({ inquiryInfo: inquiryInfo });
   }
 
-  saveWishInstitutions(editInstitutionComponent: EditInstitutionsComponent, update: (patch: object) => void): void {
-    const institutions = (() => {
-      return editInstitutionComponent.selectedInstitutions;
+  saveWishInstitutions(editInstitutionsComponent: EditInstitutionsComponent, update: (patch: object) => void): void {
+    const IsLearnEducCenter = (() => {
+      return editInstitutionsComponent.form.controls.IsLearnEducCenter.value;
     })();
-    update({ institutions: institutions });
+    const institutions = (() => {
+      return editInstitutionsComponent.selectedInstitutions;
+    })();
+    if (editInstitutionsComponent.inquiry.type == "preschool")
+      update({ institutions: institutions });
+    else {
+      update({ schoolClasses: editInstitutionsComponent.selectedInstitutions, IsLearnEducCenter: IsLearnEducCenter });
+    }
   }
 
   savePrivilege(privilegeEditComponent: PrivilegeEditComponent, update: (patch: object) => void): void {
