@@ -1,6 +1,6 @@
-import { Component, Input, OnDestroy, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup } from '@angular/forms';
-import { fromEvent, Observable, Subject } from 'rxjs';
+import { BehaviorSubject, fromEvent, Observable, Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged, filter, takeUntil } from 'rxjs/operators';
 import { isNullOrUndefined } from 'util';
 import { Address, AddressService, Applicant, DrawService, Location, locationTypes, Parent } from '../../index';
@@ -10,14 +10,14 @@ import { addressTypes } from "../../models/address-type";
   selector: 'app-address',
   templateUrl: './address.component.html',
   styleUrls: ['./address.component.css'],
-  changeDetection:ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AddressComponent implements OnInit, OnDestroy {
   @Input() title: string;
   @Input() type: number;
   @Input() owner: Parent | Applicant;
 
-  address: Address;
+  $address: BehaviorSubject<Address> = new BehaviorSubject<Address>(null);
   addressTypes = addressTypes;
   modes = { read: 1, edit: 2 }
   mode = this.modes.read;
@@ -34,9 +34,15 @@ export class AddressComponent implements OnInit, OnDestroy {
   buildings: Observable<Array<Location>>;
   customStreet = false;
 
-  constructor(private addressService: AddressService, private fb: FormBuilder, private drawService: DrawService) { }
+  constructor(private addressService: AddressService, private fb: FormBuilder, private drawService: DrawService, private cdr: ChangeDetectorRef) { }
 
   drawManager = this.drawService;
+  drawnAddress: string;
+
+  drawAddress() {
+    this.drawnAddress = this.drawManager.address(this.$address.getValue());
+    this.cdr.markForCheck();
+  }
 
   ngOnDestroy(): void {
     this.ngUnsubscribe.next();
@@ -149,29 +155,41 @@ export class AddressComponent implements OnInit, OnDestroy {
         }
       }
     })();
-    if (this.owner) this.address = this.owner[this.addressType];
-    if (this.address) this.updateForm();
+    if (this.owner) this.$address.next(this.owner[this.addressType]);
+    if (this.$address.getValue()) {
+      this.updateForm();
+      this.drawAddress();
+    }
   }
 
   onSubmit = () => {
     this.mode = this.modes.read;
-    let street: Location = this.addressForm.controls.street.value;
-    let building: Location = this.addressForm.controls.building.value;
-    if (typeof street == "string") {
-      street = new Location();
-      street.name = this.addressForm.controls.street.value;
-      street.typeShort = "";
-      this.addressForm.controls.street.setValue(street);
+    if (!this.addressForm.controls.region.value || this.addressForm.controls.region.value == "") {
+      this.$address.next(undefined);
+      this.drawAddress();
     }
-    if (typeof building == "string") {
-      building = new Location();
-      building.name = this.addressForm.controls.building.value;
-      this.addressForm.controls.building.setValue(building);
+    else {
+      let street: Location = this.addressForm.controls.street.value;
+      let building: Location = this.addressForm.controls.building.value;
+      if (typeof street == "string") {
+        street = new Location();
+        street.name = this.addressForm.controls.street.value;
+        street.typeShort = "";
+        this.addressForm.controls.street.setValue(street);
+      }
+      if (typeof building == "string") {
+        building = new Location();
+        building.name = this.addressForm.controls.building.value;
+        this.addressForm.controls.building.setValue(building);
+      }
+      //if (!this.addressForm.controls.region.value) return;
+      this.$address.next(new Address(<Location>this.addressForm.controls.region.value, this.addressForm.controls.district.value, this.addressForm.controls.city.value,
+        street, building, this.addressForm.controls.flat.value, this.addressForm.controls.additionalInfo.value, false));
+
+      this.drawAddress();
     }
-    //if (!this.addressForm.controls.region.value) return;
-    this.address = new Address(<Location>this.addressForm.controls.region.value, this.addressForm.controls.district.value, this.addressForm.controls.city.value,
-      street, building, this.addressForm.controls.flat.value, this.addressForm.controls.additionalInfo.value, false);
   }
+
   display = {
     region: (entity?: Location) => {
       return entity.fullName || entity.name
@@ -274,15 +292,16 @@ export class AddressComponent implements OnInit, OnDestroy {
   }
 
   private updateForm() {
+    let address = this.$address.getValue();
     this.addressForm.patchValue({
-      region: this.address.region ? this.address.region : undefined,
-      regionChildType: this.address.city ? this.regionChildTypes.city : (this.address.district ? this.regionChildTypes.district : undefined),
-      city: this.address.city ? this.address.city : undefined,
-      district: this.address.district ? this.address.district : undefined,
-      street: this.address.street && typeof this.address.street ? this.address.street : undefined,
-      building: this.address.building && typeof this.address.street ? this.address.building : undefined,
-      flat: this.address.flat ? this.address.flat : undefined,
-      additionalInfo: this.address.additionalInfo ? this.address.additionalInfo : undefined
+      region: address.region ? address.region : undefined,
+      regionChildType: address.city ? this.regionChildTypes.city : (address.district ? this.regionChildTypes.district : undefined),
+      city: address.city ? address.city : undefined,
+      district: address.district ? address.district : undefined,
+      street: address.street && typeof address.street ? address.street : undefined,
+      building: address.building && typeof address.street ? address.building : undefined,
+      flat: address.flat ? address.flat : undefined,
+      additionalInfo: address.additionalInfo ? address.additionalInfo : undefined
     });
   }
 }

@@ -1,6 +1,6 @@
+import { Address } from "../models/address";
 import { Location } from "../models/location";
 import { AbstractAddressBuilder } from "./abstract-address-builder";
-import { Address } from "../models/address";
 
 export class AddressBuilder implements AbstractAddressBuilder {
 
@@ -14,7 +14,7 @@ export class AddressBuilder implements AbstractAddressBuilder {
         this.result = this.address.region.typeShort + "." + this.address.region.name;
     }
     buildDistrict() {
-        if (this.address.district) {
+        if (this.address.district && this.address.district.id) {
             this.result += ", " + this.address.district.typeShort + "." + this.address.district.name;
         }
     }
@@ -24,7 +24,7 @@ export class AddressBuilder implements AbstractAddressBuilder {
         }
     }
     buildStreet() {
-        if (this.address.street) {
+        if (this.address.street && this.address.street.id) {
             this.result += ", ";
             if ((typeof this.address.street) == "object") {
                 const street = this.address.street as Location;
@@ -35,7 +35,7 @@ export class AddressBuilder implements AbstractAddressBuilder {
         }
     }
     buildBuilding() {
-        if (this.address.building) {
+        if (this.address.building && this.address.building.id) {
             this.result += ", ";
             if ((typeof this.address.building) == "object") {
                 const building = this.address.building as Location;
@@ -46,7 +46,8 @@ export class AddressBuilder implements AbstractAddressBuilder {
         }
     }
     buildFlat() {
-        if (this.address.flat) this.result += ", " + this.address.flat;
+        if (this.address.flat && this.address.flat != "")
+            this.result += ", " + this.address.flat;
     }
 
     buildAdditionalInfo() {

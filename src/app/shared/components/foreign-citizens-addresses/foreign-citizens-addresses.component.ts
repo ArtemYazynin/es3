@@ -1,22 +1,22 @@
-import { Component, Input, OnDestroy, OnInit, ViewChild, ChangeDetectionStrategy } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
+import { Address, addressTypes, Applicant, CitizenshipService, Country, FormService, inquiryType, Parent, PersonWithAddress } from '../../index';
 import { AddressComponent } from '../address/address.component';
-import { Parent, Applicant, addressTypes, inquiryType, Country, FormService, CitizenshipService, Child, PersonWithAddress, Address } from '../../index';
 
 @Component({
   selector: 'app-foreign-citizens-addresses',
   templateUrl: './foreign-citizens-addresses.component.html',
   styleUrls: ['./foreign-citizens-addresses.component.css'],
-  changeDetection:ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ForeignCitizensAddressesComponent implements OnInit, OnDestroy {
   @ViewChild(AddressComponent) addressComponent: AddressComponent;
   @Input() owner: Parent | Applicant;
 
   private subscription: Subscription;
-  
+
   addressTypes = addressTypes;
   inquiryTypes = inquiryType;
   form: FormGroup;
@@ -57,24 +57,25 @@ export class ForeignCitizensAddressesComponent implements OnInit, OnDestroy {
         this.form.patchValue(value);
       });
   }
-  getResult(): PersonWithAddress{
-    let result: any = { residential:undefined };
+  getResult(): PersonWithAddress {
+    let result: any = { residential: undefined };
 
     if (this.form.get("notHasRfRegistration").value) {
       const additionalInfo = this.form.get("foreignAddress").value;
       if (additionalInfo) result.register = Address.build({ additionalInfo: additionalInfo }, true)
     } else {
-      result.register = this.addressComponent.address
-        ? Address.build(this.addressComponent.address, false)
-        : undefined;
+      let register = this.addressComponent.$address.getValue();
+      result.register = register ? Address.build(register, false) : undefined;
       result.tempRegistrationExpiredDate = this.form.controls.tempRegistrationExpiredDate.value;
     }
     return result;
   }
+
   hasRegistrationChange() {
     if (!this.addressComponent) return;
-    delete this.addressComponent.address;
+    this.addressComponent.$address.next(undefined);
   }
+
   private buildForm() {
     this.form = this.fb.group({
       notHasRfRegistration: [
@@ -95,6 +96,7 @@ export class ForeignCitizensAddressesComponent implements OnInit, OnDestroy {
 
     this.onValueChange();
   }
+
   private onValueChange(data?: any) {
     this.formService.onValueChange(this.form, this.formErrors, this.validationMessages);
   }
