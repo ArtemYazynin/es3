@@ -29,7 +29,7 @@
       <div class="col-md-6">
         <app-inquiry-info-edit title="Предпочитаемые организации">
           <ng-container *ngIf="inquiry.type == inquiryTypes.preschool">
-            <div class="form-group" *ngFor="let institution of inquiry.institution; let i = indexs">
+            <div class="form-group" *ngFor="let institution of inquiry.institution; let i = index">
               {{i+1}}.{{institution.name}}
             </div>
           </ng-container>

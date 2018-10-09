@@ -35,8 +35,6 @@ export class InquiryReadComponent implements OnInit, OnDestroy {
   drawManager = this.drawService;
   statusForm: FormGroup;
 
-  inquiryTypes = inquiryType;
-
   constructor(private router: Router, private route: ActivatedRoute, private inquiryService: InquiryService,
     private privilegeOrderService: PrivilegeOrderService, private statusService: StatusService, private drawService: DrawService,
     private citizenshipService: CitizenshipService, private fb: FormBuilder, private specificityService: SpecificityService, public dialog: MatDialog,
