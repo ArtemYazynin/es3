@@ -147,7 +147,8 @@
   </app-inquiry-info-edit>
   <div class="row">
     <div class="col-md-6">
-      <app-preview-school-inquiry-info *ngIf="inquiry.schoolInquiryInfo" [schoolInquiryInfo]="inquiry.schoolInquiryInfo" [editHandler]="edit.schoolInquiryInfo">
+      <app-preview-school-inquiry-info *ngIf="inquiry.schoolInquiryInfo" [schoolInquiryInfo]="inquiry.schoolInquiryInfo"
+        [editHandler]="edit.schoolInquiryInfo">
 
       </app-preview-school-inquiry-info>
     </div>
@@ -220,9 +221,19 @@
     </div>
     <div class="col-md-4">
       <app-inquiry-info-edit title="Предпочитаемые организации" (edit)="edit.institutions()">
-        <div class="form-group" *ngFor="let institution of inquiry.institutions; let i = index">
-          {{i+1}}.{{institution.name}}
-        </div>
+        <ng-container *ngIf="inquiry.type == inquiryTypes.preschool">
+          <div class="form-group" *ngFor="let institution of inquiry.institutions; let i = index">
+            {{i+1}}.{{institution.name}}
+          </div>
+        </ng-container>
+        <ng-container *ngIf="inquiry.type == inquiryTypes.school">
+          <div class="form-group">
+            <b>Учился в центре образования(ЦО) </b> {{inquiry.IsLearnEducCenter == true ? "Да" : "Нет"}}
+          </div>
+          <div class="form-group" *ngFor="let schoolClass of inquiry.schoolClasses; let i = index">
+            {{i+1}}.{{schoolClass.institution.name}} ({{schoolClass.name}})
+          </div>
+        </ng-container>
       </app-inquiry-info-edit>
     </div>
     <div class="col-md-4">

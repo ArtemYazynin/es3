@@ -28,6 +28,8 @@ export class EditInstitutionsComponent implements OnInit, OnDestroy {
     private settingsService: SettingsService, private groupService: GroupService) { }
 
   ngOnInit() {
+    this.buildForm();
+
     this.settingsService.get()
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(result => {
@@ -60,8 +62,6 @@ export class EditInstitutionsComponent implements OnInit, OnDestroy {
 
         this.initFromSessionStorage();
       });
-
-    this.buildForm();
   }
   ngOnDestroy(): void {
     this.ngUnsubscribe.next();
@@ -99,8 +99,11 @@ export class EditInstitutionsComponent implements OnInit, OnDestroy {
       switch (this.inquiry.type) {
         case inquiryType.preschool:
           return this.inquiry.institutions || def;
-        case inquiryType.school:
+        case inquiryType.school: {
+          if (this.inquiry.IsLearnEducCenter)
+            this.form.controls.IsLearnEducCenter.setValue(this.inquiry.IsLearnEducCenter);
           return this.inquiry.schoolClasses || def;
+        }
         default:
           return def
       }
@@ -118,7 +121,7 @@ export class EditInstitutionsComponent implements OnInit, OnDestroy {
   }
 
   private _add(val: Institution | Group) {
-    if(!val) return;
+    if (!val) return;
     this.selectedInstitutions.push(val);
 
     const index = this.institutions.findIndex(elem => {
@@ -179,7 +182,11 @@ export class EditInstitutionsComponent implements OnInit, OnDestroy {
       config["class"] = [
         "",
         []
-      ]
+      ];
+      config["IsLearnEducCenter"] = [
+        false,
+        []
+      ];
     }
     this.form = this.fb.group(config);
   }

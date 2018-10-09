@@ -11,6 +11,7 @@ import { WizardStorageService } from '../modules/wizard/shared/wizard-storage.se
 import { CommonService } from '../shared/common.service';
 import { AttachmentType } from '../shared/models/attachment-type.enum';
 import { ApplicantType } from './applicant-type.enum';
+import { EditSchoolInquiryInfoComponent } from './components/edit-school-inquiry-info/edit-school-inquiry-info.component';
 import { PrivilegeEditComponent } from './components/privilege-edit/privilege-edit.component';
 import { DublicatesFinder } from './dublicates-finder';
 import { HttpInterceptor } from './http-interceptor';
@@ -25,10 +26,9 @@ import { Parent } from './models/parent';
 import { PortalIdentity } from './models/portal-identity';
 import { Privilege } from './models/privilege';
 import { RegisterSource } from './models/register-source.enum';
+import { SchoolInquiryInfo } from './models/school-inquiry-info';
 import { Status } from './models/status';
 import { StayMode } from './models/stay-mode';
-import { EditSchoolInquiryInfoComponent } from './components/edit-school-inquiry-info/edit-school-inquiry-info.component';
-import { SchoolInquiryInfo } from './models/school-inquiry-info';
 
 @Injectable()
 export class InquiryService {
@@ -69,11 +69,18 @@ export class InquiryService {
     update({ inquiryInfo: inquiryInfo });
   }
 
-  saveWishInstitutions(editInstitutionComponent: EditInstitutionsComponent, update: (patch: object) => void): void {
-    const institutions = (() => {
-      return editInstitutionComponent.selectedInstitutions;
+  saveWishInstitutions(editInstitutionsComponent: EditInstitutionsComponent, update: (patch: object) => void): void {
+    const IsLearnEducCenter = (() => {
+      return editInstitutionsComponent.form.controls.IsLearnEducCenter.value;
     })();
-    update({ institutions: institutions });
+    const institutions = (() => {
+      return editInstitutionsComponent.selectedInstitutions;
+    })();
+    if (editInstitutionsComponent.inquiry.type == "preschool")
+      update({ institutions: institutions });
+    else {
+      update({ schoolClasses: editInstitutionsComponent.selectedInstitutions, IsLearnEducCenter: IsLearnEducCenter });
+    }
   }
 
   savePrivilege(privilegeEditComponent: PrivilegeEditComponent, update: (patch: object) => void): void {

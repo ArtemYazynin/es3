@@ -11,9 +11,9 @@ import { Parent } from "./parent";
 import { PortalIdentity } from "./portal-identity";
 import { Privilege } from "./privilege";
 import { RegisterSource } from "./register-source.enum";
-import { Status } from "./status";
-import { SchoolInquiryInfo } from "./school-inquiry-info";
 import { SchoolClass } from "./school-class";
+import { SchoolInquiryInfo } from "./school-inquiry-info";
+import { Status } from "./status";
 
 export class Inquiry {
     private def = "-";
@@ -55,11 +55,12 @@ export class Inquiry {
     currentEducationPlace: CurrentEducationPlace;
     filesInfo: FilesInfo
     inquiryInfo: InquiryInfo;
-    
+
     contactInfo: ContactInfo;
-    
+
     /** ONLY SCHOOL FUNCTIONALITY */
     schoolClasses: Array<SchoolClass>;
     schoolInquiryInfo: SchoolInquiryInfo;
+    IsLearnEducCenter: boolean;
     /** END */
 }

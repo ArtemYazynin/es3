@@ -1,4 +1,7 @@
 <div [formGroup]="form">
+  <div class="form-group" *ngIf="inquiry.type == inquiryType.school">
+    <mat-checkbox formControlName="IsLearnEducCenter">Учился в центре образования(ЦО)</mat-checkbox>
+  </div>
   <div class="form-group">
     <mat-form-field style="min-width: 20%;margin-right: 3%;">
       <input #institution type="text" placeholder="Образовательная организация" matInput formControlName="institution"

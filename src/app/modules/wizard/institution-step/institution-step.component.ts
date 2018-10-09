@@ -30,9 +30,14 @@ export class InstitutionStepComponent implements OnInit, StepBase {
       const data = (() => {
         switch (this.inquiry.type) {
           case inquiryType.preschool:
-            return { institutions: this.editInstitutionsComponent.selectedInstitutions };
+            return {
+              institutions: this.editInstitutionsComponent.selectedInstitutions
+            };
           case inquiryType.school:
-            return { schoolClasses: this.editInstitutionsComponent.selectedInstitutions }
+            return {
+              schoolClasses: this.editInstitutionsComponent.selectedInstitutions,
+              IsLearnEducCenter: this.editInstitutionsComponent.form.controls.IsLearnEducCenter.value
+            }
           default:
             break;
         }

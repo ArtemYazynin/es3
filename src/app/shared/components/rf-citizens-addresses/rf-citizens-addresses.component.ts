@@ -1,4 +1,4 @@
-import { AfterViewInit, ChangeDetectionStrategy, Component, Input, OnDestroy, OnInit, QueryList, ViewChildren } from '@angular/core';
+import { AfterViewInit, ChangeDetectionStrategy, Component, Input, OnDestroy, OnInit, QueryList, ViewChildren, ChangeDetectorRef } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { MatCheckboxChange } from '@angular/material';
 import { Subject } from 'rxjs';
@@ -26,7 +26,7 @@ export class RfCitizensAddressesComponent implements OnInit, OnDestroy, AfterVie
   registerAddress: Address;
   residentialAddress: Address;
 
-  constructor(private citizenshipService: CitizenshipService, private fb: FormBuilder) { }
+  constructor(private citizenshipService: CitizenshipService, private fb: FormBuilder, private cdr: ChangeDetectorRef) { }
 
   ngOnInit() {
     this.buildForm();
@@ -60,6 +60,10 @@ export class RfCitizensAddressesComponent implements OnInit, OnDestroy, AfterVie
           this.checkboxesForm.controls.temporaryRegistration.enable();
           this.checkboxesForm.controls.registerAddressLikeAsResidentialAddress.enable();
         }
+        setTimeout(() => {
+          this.cdr.markForCheck();
+        });
+        
       });
 
     this.addressesComponents
