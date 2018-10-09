@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/internal/Observable';
 import { map } from 'rxjs/operators';
 import { HttpInterceptor } from './http-interceptor';
-import { SpecHealth } from './models/spec-health';
+import { SpecHealth } from './models/spec-health.model';
 
 @Injectable()
 export class SpecHealthService {

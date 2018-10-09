@@ -1,6 +1,6 @@
 import { Pipe, PipeTransform } from '@angular/core';
 import { ApplicantType } from './applicant-type.enum';
-import { Entity } from './models/entity';
+import { Entity } from './models/entity.model';
 import { CommonService } from './common.service';
 
 @Pipe({

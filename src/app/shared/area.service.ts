@@ -3,7 +3,7 @@ import { Observable } from 'rxjs';
 import { HttpInterceptor } from './http-interceptor';
 import { map } from 'rxjs/operators';
 import { AreaType } from './models/area-type.enum';
-import { Area } from './models/area';
+import { Area } from './models/area.model';
 
 @Injectable()
 export class AreaService {

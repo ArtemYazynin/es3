@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { FilesInfo } from '../../../../shared/models/files-info';
+import { FilesInfo } from '../../../../shared/models/files-info.model';
 
 @Component({
   selector: 'app-preview-files',

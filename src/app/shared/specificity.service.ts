@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpInterceptor } from './http-interceptor';
 import { Observable } from 'rxjs';
-import { Specificity } from './models/specificity';
+import { Specificity } from './models/specificity.model';
 import { map } from 'rxjs/operators';
 import { isNullOrUndefined } from 'util';
 

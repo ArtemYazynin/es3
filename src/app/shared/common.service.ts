@@ -3,16 +3,16 @@ import { EditPersonComponent } from '../modules/inquiry/shared/components/edit-p
 import { ApplicantType } from './applicant-type.enum';
 import { CitizenshipService } from './citizenship.service';
 import { ConfirmationDocumentComponent } from './components/confirmation-document/confirmation-document.component';
-import { Applicant } from './models/applicant';
+import { Applicant } from './models/applicant.model';
 import { AttachmentType } from './models/attachment-type.enum';
-import { ConfirmationDocument } from './models/confirmation-document';
-import { Entity } from './models/entity';
-import { FileAttachment } from './models/file-attachment';
-import { FileView } from './models/file-view';
-import { FilesInfo } from './models/files-info';
-import { IdentityCard } from './models/identityCard';
+import { ConfirmationDocument } from './models/confirmation-document.model';
+import { Entity } from './models/entity.model';
+import { FileAttachment } from './models/file-attachment.model';
+import { FileView } from './models/file-view.model';
+import { FilesInfo } from './models/files-info.model';
+import { IdentityCard } from './models/identityCard.model';
 import { IdentityCardType } from './models/identityCardType';
-import { Parent } from './models/parent';
+import { Parent } from './models/parent.model';
 import { esConstant } from '../app.module';
 
 @Injectable()

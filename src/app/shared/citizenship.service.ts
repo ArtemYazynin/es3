@@ -3,7 +3,7 @@ import { Observable, of } from 'rxjs';
 import { map } from "rxjs/operators";
 import { isNullOrUndefined } from 'util';
 import { HttpInterceptor } from './http-interceptor';
-import { Country } from './models/country';
+import { Country } from './models/country.model';
 
 @Injectable()
 export class CitizenshipService {

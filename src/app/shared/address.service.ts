@@ -4,7 +4,7 @@ import { Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { isNullOrUndefined } from 'util';
 import { HttpInterceptor } from './http-interceptor';
-import { Location } from "./models/location";
+import { Location } from "./models/location.model";
 import { locationTypes } from "./models/location-type";
 @Injectable()
 export class AddressService {

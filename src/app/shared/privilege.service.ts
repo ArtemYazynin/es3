@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/internal/Observable';
 import { map } from 'rxjs/operators';
 import { HttpInterceptor } from './http-interceptor';
-import { Privilege } from './models/privilege';
+import { Privilege } from './models/privilege.model';
 import { FormGroup } from '@angular/forms';
 
 @Injectable()

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Status } from './models/status';
+import { Status } from './models/status.model';
 import { Observable } from 'rxjs/internal/Observable';
 import { HttpInterceptor } from './http-interceptor';
 import { map } from 'rxjs/operators';

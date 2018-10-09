@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Observable, Subject, zip } from 'rxjs';
 import { map, startWith, takeUntil } from 'rxjs/operators';
 import { CommonService, EducProgram, EducProgramService, EducProgramType, Entity, Specialization, SpecializationService } from '../..';
-import { SchoolInquiryInfo } from '../../models/school-inquiry-info';
+import { SchoolInquiryInfo } from '../../models/school-inquiry-info.model';
 import { FormService } from '../../form.service';
 
 @Component({

@@ -2,7 +2,7 @@ import { Component, Input, OnInit, ChangeDetectionStrategy } from '@angular/core
 import { FormBuilder, FormGroup, ValidatorFn, Validators } from '@angular/forms';
 import { MatCheckboxChange } from '@angular/material';
 import { FormService } from '../../../../../shared';
-import { ControlInfo } from '../../../../../shared/models/controlInfo';
+import { ControlInfo } from '../../../../../shared/models/controlInfo.model';
 import { ContactInfo } from '../../../../wizard/shared';
 
 @Component({

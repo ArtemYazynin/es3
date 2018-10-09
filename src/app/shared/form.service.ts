@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { AbstractControl, FormGroup } from '@angular/forms';
-import { ControlInfo } from './models/controlInfo';
+import { ControlInfo } from './models/controlInfo.model';
 
 @Injectable()
 export class FormService {

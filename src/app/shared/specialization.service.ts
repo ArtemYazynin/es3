@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpInterceptor } from './http-interceptor';
-import { Specialization } from './models/specialization';
+import { Specialization } from './models/specialization.model';
 import { map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 

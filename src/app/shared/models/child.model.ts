@@ -1,8 +1,8 @@
-import { ConfirmationDocument } from "./confirmation-document";
-import { Person } from "./person";
-import { PersonWithAddress } from "./person-with-address";
-import { Address } from "./address";
-import { IdentityCard } from "./identityCard";
+import { ConfirmationDocument } from "./confirmation-document.model";
+import { Person } from "./person.model";
+import { PersonWithAddress } from "./person-with-address.model";
+import { Address } from "./address.model";
+import { IdentityCard } from "./identityCard.model";
 
 export class Child extends Person implements PersonWithAddress {
     identityCard: IdentityCard;

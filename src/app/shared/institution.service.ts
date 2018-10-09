@@ -3,9 +3,9 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { isNullOrUndefined } from 'util';
 import { HttpInterceptor } from './http-interceptor';
-import { Institution } from './models/institution';
-import { Group } from './models/group';
-import { Entity } from './models/entity';
+import { Institution } from './models/institution.model';
+import { Group } from './models/group.model';
+import { Entity } from './models/entity.model';
 
 @Injectable()
 export class InstitutionService {

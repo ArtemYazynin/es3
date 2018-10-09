@@ -1,4 +1,4 @@
-import { Entity } from "./entity";
+import { Entity } from "./entity.model";
 import { EducProgramType } from "../educ-program-type.enum";
 
 export class EducProgram extends Entity<string>{

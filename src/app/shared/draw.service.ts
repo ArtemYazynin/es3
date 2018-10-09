@@ -1,12 +1,12 @@
 import { DatePipe } from "@angular/common";
 import { Injectable } from "@angular/core";
 import { isNullOrUndefined } from "util";
-import { Country } from "./models/country";
-import { Person } from "./models/person";
-import { Address } from "./models/address";
-import { AddressBuilder } from "./addressBuilder/address-builder";
+import { Country } from "./models/country.model";
+import { Person } from "./models/person.model";
+import { Address } from "./models/address.model";
+import { AddressBuilder } from "./addressBuilder/address-builder.model";
 import { AddressBuilderDirector } from "./addressBuilder/address-builder-director";
-import { IdentityCard } from "./models/identityCard";
+import { IdentityCard } from "./models/identityCard.model";
 import { EnumToArrayPipe } from "./enum-to-array-pipe";
 import { IdentityCardType } from "./models/identityCardType";
 
