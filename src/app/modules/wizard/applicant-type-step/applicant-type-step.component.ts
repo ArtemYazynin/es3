@@ -1,8 +1,7 @@
-import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Entity, inquiryType, Inquiry, ApplicantType } from '../../../shared/index';
+import { ApplicantType, Inquiry, inquiryType } from '../../../shared/index';
 import { StepBase, WizardStorageService } from '../shared/index';
-import { ApplicantTypePipe } from '../../../shared/applicant-type.pipe';
 
 @Component({
   selector: 'app-applicant-type-step',
@@ -23,19 +22,19 @@ export class ApplicantTypeStepComponent implements OnInit, StepBase {
     private route: ActivatedRoute) { }
 
   ngOnInit() {
+    this.inquiry = this.storageService.get(this.inquiryType);
     this.applicantTypes = (() => {
       const types = [
         ApplicantType.Parent,
         ApplicantType.Applicant
       ];
-      if (this.inquiryType !== inquiryType.preschool) {
+      if (this.inquiryType === inquiryType.school && this.inquiry.children.length == 1) {
         types.push(ApplicantType.Child);
       }
       return types;
     })();
-    this.inquiry = this.storageService.get(this.inquiryType);
-    this.applicantType = (this.inquiry && this.inquiry.applicantType) || ApplicantType.Parent;
   }
+
   goTo = {
     back: () => {
       this.router.navigate(["../currentEducationPlaceStep"], { relativeTo: this.route });

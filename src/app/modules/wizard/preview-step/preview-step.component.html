@@ -20,7 +20,7 @@
           </app-confirmation-document-view>
         </app-person-view>
       </div>
-      <div [ngClass]="parentWidgetSettings">
+      <div [ngClass]="parentWidgetSettings" *ngIf="inquiry.parent">
         <app-person-view title="Законный представитель" [entity]="inquiry.parent">
           <div class="form-group">
             <b>Гражданство </b> {{drawManager.citizenships(inquiry.parent.citizenships, countries)}}
