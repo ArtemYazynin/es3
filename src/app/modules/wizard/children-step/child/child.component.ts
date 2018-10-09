@@ -52,6 +52,6 @@ export class ChildComponent implements OnInit, AfterViewInit {
   isValid = (): boolean => {
     const fullnameFormIsValid = this.fullnameComponent && this.fullnameComponent.fullnameForm && this.fullnameComponent.fullnameForm.valid;
     const identityCardFormIsValid = this.identityCardComponent && this.identityCardComponent.identityCardForm && this.identityCardComponent.identityCardForm.valid;
-    return fullnameFormIsValid && identityCardFormIsValid;
+    return fullnameFormIsValid && identityCardFormIsValid && this.snilsComponent.isValid();
   }
 }

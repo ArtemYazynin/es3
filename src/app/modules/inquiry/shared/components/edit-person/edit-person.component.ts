@@ -44,7 +44,7 @@ export class EditPersonComponent implements OnInit, AfterViewInit, OnDestroy {
   applicantRepresentParentDocumentContext: ConfirmationDocumentContext;
   parentRepresentChildrenDocumentContext: ConfirmationDocumentContext;
 
-  constructor(private commonService: CommonService, private storageService: WizardStorageService, private citizenshipService: CitizenshipService) { }
+  constructor(private commonService: CommonService, private citizenshipService: CitizenshipService) { }
 
   ngOnInit() {
     this.subscription = this.citizenshipService.getCountries().subscribe(result => this.countries = result);
@@ -164,6 +164,7 @@ export class EditPersonComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
     let result = isValid.fullnameForm
+      && this.snilsComponent.isValid()
       && isValid.identityCardForm
       && isValid.birthInfoForm()
       && isValid.countryStateDocument()

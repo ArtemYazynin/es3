@@ -34,6 +34,11 @@ import { AreaTypePipe } from './shared/area-type.pipe';
 import { EditSchoolInquiryInfoComponent } from './shared/components/edit-school-inquiry-info/edit-school-inquiry-info.component';
 import { PreviewSchoolInquiryInfoComponent } from "./modules/wizard/preview/preview-school-inquiry-info/preview-school-inquiry-info.component";
 import { SpecializationService, EducProgramService } from "./shared";
+import { PersonViewComponent } from "./shared/components/person-view/person-view.component";
+import { ConfirmationDocumentViewComponent } from "./shared/components/confirmation-document-view/confirmation-document-view.component";
+import { AdultCardComponent } from './shared/components/adult-card/adult-card.component';
+import { ChildrenCardComponent } from './shared/components/children-card/children-card.component';
+import { PreviewPreschoolInquiryInfoComponent } from "./modules/wizard/preview/preview-preschool-inquiry-info/preview-preschool-inquiry-info.component";
 
 
 
@@ -44,7 +49,9 @@ import { SpecializationService, EducProgramService } from "./shared";
         BirthInfoComponent, RelationTypeComponent, EditPersonComponent, EditInquiryInfoComponent, AtLeastOneCheckboxShouldBeSelectedComponent, EditInstitutionsComponent,
 
         InquiryInfoEditComponent, DistributionParamsComponent, StayModeComponent, AgeGroupComponent, //inquiryInfo params
-        EditContactInfoComponent, EditCurrentEducationPlaceComponent, EditFileAttachmentsComponent, AreaTypePipe, EditSchoolInquiryInfoComponent, PreviewSchoolInquiryInfoComponent
+        EditContactInfoComponent, EditCurrentEducationPlaceComponent, EditFileAttachmentsComponent, AreaTypePipe, EditSchoolInquiryInfoComponent, PreviewSchoolInquiryInfoComponent,
+        PersonViewComponent, ConfirmationDocumentViewComponent, AdultCardComponent, ChildrenCardComponent,
+        PreviewPreschoolInquiryInfoComponent
     ],
     imports: [
         CommonModule,
@@ -59,7 +66,8 @@ import { SpecializationService, EducProgramService } from "./shared";
         SnilsComponent, IdentityCardComponent, CitizenshipSelectComponent, RfCitizensAddressesComponent, AddressComponent, ForeignCitizensAddressesComponent,
         BirthInfoComponent, RelationTypeComponent, EditPersonComponent, EditInquiryInfoComponent, DistributionParamsComponent, StayModeComponent, AgeGroupComponent,
         InquiryInfoEditComponent, AtLeastOneCheckboxShouldBeSelectedComponent, EditInstitutionsComponent, EditContactInfoComponent, EditCurrentEducationPlaceComponent,
-        EditFileAttachmentsComponent, EditSchoolInquiryInfoComponent, PreviewSchoolInquiryInfoComponent
+        EditFileAttachmentsComponent, EditSchoolInquiryInfoComponent, PreviewSchoolInquiryInfoComponent,PreviewPreschoolInquiryInfoComponent,
+        PersonViewComponent, ConfirmationDocumentViewComponent, AdultCardComponent, ChildrenCardComponent
     ],
     providers: [
         SpecializationService,

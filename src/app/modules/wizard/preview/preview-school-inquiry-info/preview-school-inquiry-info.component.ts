@@ -9,7 +9,7 @@ import { SchoolInquiryInfo } from '../../../../shared';
 })
 export class PreviewSchoolInquiryInfoComponent implements OnInit {
   @Input() schoolInquiryInfo: SchoolInquiryInfo;
-  @Input() editHandler: () => void;
+  @Input() edit: () => void;
 
   templateContext: any;
   title = "Параметры заявления";
@@ -17,6 +17,5 @@ export class PreviewSchoolInquiryInfoComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
-    let s = this;
   }
 }

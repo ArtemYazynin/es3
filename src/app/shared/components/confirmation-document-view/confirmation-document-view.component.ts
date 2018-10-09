@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, ChangeDetectionStrategy } from '@angular/core';
-import { ConfirmationDocument } from '../../../../shared';
+import { ConfirmationDocument } from '../..';
 
 @Component({
   selector: 'app-confirmation-document-view',

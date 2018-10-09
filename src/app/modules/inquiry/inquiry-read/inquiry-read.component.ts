@@ -23,6 +23,7 @@ import { EditSchoolInquiryInfoDialogComponent } from '../edit-school-inquiry-inf
 export class InquiryReadComponent implements OnInit, OnDestroy {
   $inquiry: BehaviorSubject<Inquiry>;
   private ngUnsubscribe: Subject<any> = new Subject();
+  inquiryTypes = inquiryType;
   countries: Array<Country>
   privilegeOrders: Array<PrivilegeOrder>;
   statuses: Array<Status>;

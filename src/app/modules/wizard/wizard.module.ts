@@ -29,14 +29,11 @@ import { InquiryInfoStepComponent } from '../wizard/inquiry-info-step/inquiry-in
 import { ParentStepComponent } from '../wizard/parent-step/parent-step.component';
 import { InstitutionStepComponent } from './institution-step/institution-step.component'
 import { PreviewStepComponent } from '../wizard/preview-step/preview-step.component';
-import { ConfirmationDocumentViewComponent } from '../wizard/preview/confirmation-document-view/confirmation-document-view.component';
 import { PrivilegeStepComponent } from '../wizard/privilege-step/privilege-step.component';
 import { SchoolInquiryInfoStepComponent } from '../wizard/school-inquiry-info-step/school-inquiry-info-step.component';
 import { CurrentEducationPlaceStepService } from '../wizard/shared/current-education-place-step.service';
-import { PersonViewComponent } from './preview/person-view/person-view.component';
 import { PreviewCurrentEducationPlaceComponent } from './preview/preview-current-education-place/preview-current-education-place.component';
 import { PreviewFilesComponent } from './preview/preview-files/preview-files.component';
-import { PreviewPreschoolInquiryInfoComponent } from './preview/preview-preschool-inquiry-info/preview-preschool-inquiry-info.component';
 import { PreviewPrivilegeComponent } from './preview/preview-privilege/preview-privilege.component';
 import { RegisterCompleteComponent } from './register-complete/register-complete.component';
 import { PrivilegeStepResolver } from './resolvers/privilege-step-resolver';
@@ -46,10 +43,6 @@ import { WizardRoutingModule } from './wizard-routing-module';
 
 @NgModule({
   declarations: [
-    //view components//
-    ConfirmationDocumentViewComponent,
-    PersonViewComponent,
-    //end//
     //steps components
     ApplicantTypeStepComponent,
     ParentStepComponent,
@@ -72,7 +65,7 @@ import { WizardRoutingModule } from './wizard-routing-module';
     SpecHealthComponent,
 
 
-    PreviewPreschoolInquiryInfoComponent,
+    
     PreviewCurrentEducationPlaceComponent,
     PreviewPrivilegeComponent,
     PreviewFilesComponent,
