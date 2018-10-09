@@ -25,6 +25,10 @@ export class EditContactInfoComponent implements OnInit {
       this.markControlsByDontNotify(true);
       this.contactsForm.updateValueAndValidity();
     }
+    if (this.contactsForm.controls.bySms.value) {
+      this.contactsForm.controls.email.clearValidators();
+      this.contactsForm.controls.email.updateValueAndValidity();
+    }
   }
 
   isValid() {
