@@ -223,7 +223,7 @@
       <app-inquiry-info-edit title="Предпочитаемые организации" (edit)="edit.institutions()">
         <ng-container *ngIf="inquiry.type == inquiryTypes.preschool">
           <div class="form-group" *ngFor="let institution of inquiry.institutions; let i = index">
-            {{i+1}}.{{institution.name}}
+            {{i+1}}. {{institution.name}}
           </div>
         </ng-container>
         <ng-container *ngIf="inquiry.type == inquiryTypes.school">
@@ -231,7 +231,7 @@
             <b>Учился в центре образования(ЦО) </b> {{inquiry.IsLearnEducCenter == true ? "Да" : "Нет"}}
           </div>
           <div class="form-group" *ngFor="let schoolClass of inquiry.schoolClasses; let i = index">
-            {{i+1}}.{{schoolClass.institution.name}} ({{schoolClass.name}})
+            {{i+1}}. {{schoolClass.institution.name}} ({{schoolClass.name}})
           </div>
         </ng-container>
       </app-inquiry-info-edit>

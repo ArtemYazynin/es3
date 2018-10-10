@@ -71,7 +71,8 @@ export class InquiryService {
 
   saveWishInstitutions(editInstitutionsComponent: EditInstitutionsComponent, update: (patch: object) => void): void {
     const IsLearnEducCenter = (() => {
-      return editInstitutionsComponent.form.controls.IsLearnEducCenter.value;
+      if (editInstitutionsComponent.form.controls.IsLearnEducCenter)
+        return editInstitutionsComponent.form.controls.IsLearnEducCenter.value;
     })();
     const institutions = (() => {
       return editInstitutionsComponent.selectedInstitutions;
@@ -163,7 +164,7 @@ export class InquiryService {
 
   get(id: string): BehaviorSubject<Inquiry> {
     if (!id) return Observable.create();
-    return new BehaviorSubject<Inquiry>(this.storageService.get("school"));
+    return new BehaviorSubject<Inquiry>(this.storageService.get("preschool"));
     // const url = `${this.baseUrl}?id=${id}`;
     // return this.http.get(url).pipe(map(result => {
     //   const inquiries = <Array<Inquiry>>result.json();
