@@ -39,6 +39,7 @@ import { ConfirmationDocumentViewComponent } from "./shared/components/confirmat
 import { AdultCardComponent } from './shared/components/adult-card/adult-card.component';
 import { ChildrenCardComponent } from './shared/components/children-card/children-card.component';
 import { PreviewPreschoolInquiryInfoComponent } from "./modules/wizard/preview/preview-preschool-inquiry-info/preview-preschool-inquiry-info.component";
+import { ContactInfoCardComponent } from './shared/components/contact-info-card/contact-info-card.component';
 
 
 
@@ -51,7 +52,8 @@ import { PreviewPreschoolInquiryInfoComponent } from "./modules/wizard/preview/p
         InquiryInfoEditComponent, DistributionParamsComponent, StayModeComponent, AgeGroupComponent, //inquiryInfo params
         EditContactInfoComponent, EditCurrentEducationPlaceComponent, EditFileAttachmentsComponent, AreaTypePipe, EditSchoolInquiryInfoComponent, PreviewSchoolInquiryInfoComponent,
         PersonViewComponent, ConfirmationDocumentViewComponent, AdultCardComponent, ChildrenCardComponent,
-        PreviewPreschoolInquiryInfoComponent
+        PreviewPreschoolInquiryInfoComponent,
+        ContactInfoCardComponent
     ],
     imports: [
         CommonModule,
@@ -67,7 +69,7 @@ import { PreviewPreschoolInquiryInfoComponent } from "./modules/wizard/preview/p
         BirthInfoComponent, RelationTypeComponent, EditPersonComponent, EditInquiryInfoComponent, DistributionParamsComponent, StayModeComponent, AgeGroupComponent,
         InquiryInfoEditComponent, AtLeastOneCheckboxShouldBeSelectedComponent, EditInstitutionsComponent, EditContactInfoComponent, EditCurrentEducationPlaceComponent,
         EditFileAttachmentsComponent, EditSchoolInquiryInfoComponent, PreviewSchoolInquiryInfoComponent,PreviewPreschoolInquiryInfoComponent,
-        PersonViewComponent, ConfirmationDocumentViewComponent, AdultCardComponent, ChildrenCardComponent
+        PersonViewComponent, ConfirmationDocumentViewComponent, AdultCardComponent, ChildrenCardComponent, ContactInfoCardComponent
     ],
     providers: [
         SpecializationService,

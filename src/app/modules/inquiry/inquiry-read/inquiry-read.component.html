@@ -1,10 +1,6 @@
 <div *ngIf="$inquiry | async as inquiry">
-  <ng-template #parentTemplate>
-    <app-adult-card title="Законный представитель" [entity]="inquiry.parent" [edit]="edit.person">
-    </app-adult-card>
-  </ng-template>
   <div class="row">
-    <div class="{{inquiry.applicant || inquiry.applicantType == applicantTypes.Child ? 'col-md-12' : 'col-md-6'}}">
+    <div class="col-md-12">
       <app-inquiry-info-edit title="Заявление {{inquiry.number}}">
         <div class="row">
           <div class="col-md-6">
@@ -38,10 +34,6 @@
         </div>
       </app-inquiry-info-edit>
     </div>
-    <div class="col-md-6" *ngIf="!inquiry.applicant && inquiry.applicantType != applicantTypes.Child">
-      <ng-container *ngTemplateOutlet="parentTemplate">
-      </ng-container>
-    </div>
   </div>
   <div class="row" *ngIf="inquiry.applicant">
     <div class="col-md-6">
@@ -49,32 +41,17 @@
       </app-adult-card>
     </div>
     <div class="col-md-6" *ngIf="inquiry.applicantType != applicantTypes.Child">
-      <ng-container *ngTemplateOutlet="parentTemplate">
-      </ng-container>
+      <app-adult-card title="Законный представитель" [entity]="inquiry.parent" [edit]="edit.person">
+      </app-adult-card>
     </div>
   </div>
   <app-children-card [children]="inquiry.children"></app-children-card>
-  <app-preview-school-inquiry-info [schoolInquiryInfo]="inquiry.schoolInquiryInfo" [edit]="edit.schoolInquiryInfo" *ngIf="inquiry.schoolInquiryInfo"></app-preview-school-inquiry-info>
+  <app-preview-school-inquiry-info [schoolInquiryInfo]="inquiry.schoolInquiryInfo" [edit]="edit.schoolInquiryInfo"
+    *ngIf="inquiry.schoolInquiryInfo"></app-preview-school-inquiry-info>
   <app-preschool-preview-inquiry-info [inquiryInfo]="inquiry.inquiryInfo" [edit]="edit.inquiryInfo" *ngIf="inquiry.type == inquiryTypes.preschool"></app-preschool-preview-inquiry-info>
   <div class="row">
     <div class="col-md-4">
-      <app-inquiry-info-edit title="Контактная информация" (edit)="edit.contactInfo()">
-        <ng-container *ngIf="inquiry.contactInfo.dontNotify">
-          <div class="form-group">
-            <b>Не оповещать</b>
-          </div>
-        </ng-container>
-        <ng-container *ngIf="!inquiry.contactInfo.dontNotify">
-          <dl class="dl-horizontal">
-            <dt>Email </dt>
-            <dd>{{inquiry.contactInfo.email || "-"}}</dd>
-            <dt>Номер для смс </dt>
-            <dd>{{inquiry.contactInfo.smsPhone || "-"}}</dd>
-            <dt>Телефон(ы) </dt>
-            <dd>{{inquiry.contactInfo.phones || "-"}}</dd>
-          </dl>
-        </ng-container>
-      </app-inquiry-info-edit>
+      <app-contact-info-card [contactInfo]="inquiry.contactInfo" [edit]="edit.contactInfo"></app-contact-info-card>
     </div>
     <div class="col-md-4">
       <app-inquiry-info-edit title="Предпочитаемые организации" (edit)="edit.institutions()">

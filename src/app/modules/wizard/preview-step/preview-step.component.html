@@ -1,30 +1,19 @@
 <div class="container col-md-12">
   <app-inquiry-info-edit title="Предпросмотр заявления">
     <div class="row">
-      <div class="col-6" *ngIf="inquiry.applicant"><app-adult-card title="Доверенное лицо законного представителя ребенка" [entity]="inquiry.applicant"></app-adult-card></div>
-      <div class="col-6" *ngIf="inquiry.parent"><app-adult-card title="Законный представитель" [entity]="inquiry.parent"></app-adult-card></div>
+      <div class="col-6" *ngIf="inquiry.applicant">
+        <app-adult-card title="Доверенное лицо законного представителя ребенка" [entity]="inquiry.applicant"></app-adult-card>
+      </div>
+      <div class="col-6" *ngIf="inquiry.parent">
+        <app-adult-card title="Законный представитель" [entity]="inquiry.parent"></app-adult-card>
+      </div>
     </div>
     <app-children-card [children]="inquiry.children"></app-children-card>
     <app-preschool-preview-inquiry-info [inquiryInfo]="inquiry.inquiryInfo" *ngIf="inquiry.type == inquiryTypes.preschool"></app-preschool-preview-inquiry-info>
     <app-preview-school-inquiry-info [schoolInquiryInfo]="inquiry.schoolInquiryInfo" *ngIf="inquiry.type == inquiryTypes.school"></app-preview-school-inquiry-info>
     <div class="row">
       <div class="col-md-6">
-        <app-inquiry-info-edit title="Контактная информация">
-          <div *ngIf="!inquiry.contactInfo.dontNotify">
-            <div class="form-group">
-              <b>Email </b> {{inquiry.contactInfo.email}}
-            </div>
-            <div class="form-group">
-              <b>Номер для смс </b> {{inquiry.contactInfo.smsPhone}}
-            </div>
-            <div class="form-group">
-              <b>Телефон(ы) </b> {{inquiry.contactInfo.phones}}
-            </div>
-          </div>
-          <div class="form-group" *ngIf="inquiry.contactInfo.dontNotify">
-            <b>Не оповещать</b>
-          </div>
-        </app-inquiry-info-edit>
+        <app-contact-info-card [contactInfo]="inquiry.contactInfo"></app-contact-info-card>
       </div>
       <div class="col-md-6">
         <app-inquiry-info-edit title="Предпочитаемые организации">
