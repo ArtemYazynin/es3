@@ -11,6 +11,7 @@ import { InquiryInfo, SpecificityService, Specificity } from '../../../../shared
 })
 export class PreviewPreschoolInquiryInfoComponent implements OnInit {
   @Input() inquiryInfo: InquiryInfo;
+  @Input() edit: () => void;
 
   constructor(private specificityService: SpecificityService) { }
   specificity: Observable<Specificity>

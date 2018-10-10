@@ -54,9 +54,8 @@
     </div>
   </div>
   <app-children-card [children]="inquiry.children"></app-children-card>
-  <app-preview-school-inquiry-info *ngIf="inquiry.schoolInquiryInfo" [schoolInquiryInfo]="inquiry.schoolInquiryInfo"
-    [edit]="edit.schoolInquiryInfo"> </app-preview-school-inquiry-info>
-  <app-preschool-preview-inquiry-info [inquiryInfo]="inquiry.inquiryInfo" *ngIf="inquiry.type == inquiryTypes.preschool"></app-preschool-preview-inquiry-info>
+  <app-preview-school-inquiry-info [schoolInquiryInfo]="inquiry.schoolInquiryInfo" [edit]="edit.schoolInquiryInfo" *ngIf="inquiry.schoolInquiryInfo"></app-preview-school-inquiry-info>
+  <app-preschool-preview-inquiry-info [inquiryInfo]="inquiry.inquiryInfo" [edit]="edit.inquiryInfo" *ngIf="inquiry.type == inquiryTypes.preschool"></app-preschool-preview-inquiry-info>
   <div class="row">
     <div class="col-md-4">
       <app-inquiry-info-edit title="Контактная информация" (edit)="edit.contactInfo()">

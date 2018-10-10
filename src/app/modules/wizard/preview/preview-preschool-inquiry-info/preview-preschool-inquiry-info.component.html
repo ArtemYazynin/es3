@@ -1,4 +1,4 @@
-<app-inquiry-info-edit title="Параметры заявления">
+<ng-template #fieldsTemplate>
   <div class="row">
     <div class="col-md-4">
       <app-inquiry-info-edit title="Параметры комплектования">
@@ -39,4 +39,22 @@
       </app-inquiry-info-edit>
     </div>
   </div>
-</app-inquiry-info-edit>
+</ng-template>
+
+<ng-template #withEdit>
+  <app-inquiry-info-edit title="Параметры заявления" (edit)="edit()">
+    <ng-container *ngTemplateOutlet="fieldsTemplate">
+    </ng-container>
+  </app-inquiry-info-edit>
+</ng-template>
+
+<ng-template #withoutEdit>
+  <app-inquiry-info-edit title="Параметры заявления">
+    <ng-container *ngTemplateOutlet="fieldsTemplate">
+    </ng-container>
+  </app-inquiry-info-edit>
+</ng-template>
+
+<ng-container *ngTemplateOutlet="edit ? withEdit : withoutEdit">
+
+</ng-container>
