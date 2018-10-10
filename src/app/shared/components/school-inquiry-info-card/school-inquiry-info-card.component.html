@@ -14,7 +14,7 @@
 </ng-template>
 
 <ng-template #withEdit>
-  <app-inquiry-info-edit [title]="title" (edit)="editHandler()">
+  <app-inquiry-info-edit [title]="title" (edit)="edit()">
     <ng-container *ngTemplateOutlet="fieldsTemplate">
     </ng-container>
   </app-inquiry-info-edit>
@@ -27,12 +27,6 @@
   </app-inquiry-info-edit>
 </ng-template>
 
-<ng-container *ngIf="editHandler">
-  <ng-container *ngTemplateOutlet="withEdit">
-  </ng-container>
-</ng-container>
-<ng-container *ngIf="!editHandler">
-  <ng-container *ngTemplateOutlet="withoutEdit">
+<ng-container *ngTemplateOutlet="edit ? withEdit : withoutEdit">
 
-  </ng-container>
 </ng-container>

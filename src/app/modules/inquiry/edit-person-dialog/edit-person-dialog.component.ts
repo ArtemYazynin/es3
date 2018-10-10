@@ -16,8 +16,7 @@ export class EditPersonDialogComponent implements OnInit {
   applicantTypes = ApplicantType;
   constructor(public dialogRef: MatDialogRef<EditPersonDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: { $inquiry: BehaviorSubject<Inquiry>, modelType: ApplicantType },
-    private commonService: CommonService, private storageService: WizardStorageService,
-    private inquiryService: InquiryService) { }
+    private storageService: WizardStorageService, private inquiryService: InquiryService) { }
 
   inquiry: Inquiry;
 

@@ -1,106 +1,19 @@
 <div class="container col-md-12">
   <app-inquiry-info-edit title="Предпросмотр заявления">
     <div class="row">
-      <div class="col-md-6" *ngIf="inquiry.applicant">
-        <app-person-view title="Заявитель" [entity]="inquiry.applicant">
-          <div class="form-group">
-            <b>Гражданство </b> {{drawManager.citizenships(inquiry.applicant.citizenships, countries)}}
-          </div>
-          <div class="form-group">
-            <b>Адрес регистрации </b> {{drawManager.address(inquiry.applicant.register)}}
-          </div>
-          <div class="form-group">
-            <b>Адрес проживания </b> {{drawManager.address(inquiry.applicant.residential)}}
-          </div>
-          <app-confirmation-document-view title="Документ, подтверждающий полномочие доверенного лица представлять интересы законного представителя ребенка"
-            [document]="inquiry.applicant.applicantRepresentParentDocument">
-          </app-confirmation-document-view>
-          <app-confirmation-document-view title="Документ, подтверждающий право пребывания доверенного лица законного представителя на территории РФ"
-            [document]="inquiry.applicant.countryStateApplicantDocument">
-          </app-confirmation-document-view>
-        </app-person-view>
+      <div class="col-6" *ngIf="inquiry.applicant">
+        <app-adult-card title="Доверенное лицо законного представителя ребенка" [entity]="inquiry.applicant"></app-adult-card>
       </div>
-      <div [ngClass]="parentWidgetSettings" *ngIf="inquiry.parent">
-        <app-person-view title="Законный представитель" [entity]="inquiry.parent">
-          <div class="form-group">
-            <b>Гражданство </b> {{drawManager.citizenships(inquiry.parent.citizenships, countries)}}
-          </div>
-          <div class="form-group">
-            <b>Адрес регистрации </b> {{drawManager.address(inquiry.parent.register)}}
-          </div>
-          <div class="form-group">
-            <b>Адрес проживания </b> {{drawManager.address(inquiry.parent.residential)}}
-          </div>
-          <app-confirmation-document-view title="Документ, подтверждающий право пребывания законного представителя на территории РФ"
-            [document]="inquiry.parent.countryStateDocument">
-          </app-confirmation-document-view>
-          <app-confirmation-document-view title="Документ, подтверждающий право законного представителя представлять интересы ребенка"
-            [document]="inquiry.parent.parentRepresentChildrenDocument">
-          </app-confirmation-document-view>
-        </app-person-view>
+      <div class="col-6" *ngIf="inquiry.parent">
+        <app-adult-card title="Законный представитель" [entity]="inquiry.parent"></app-adult-card>
       </div>
     </div>
-    <div class="row">
-      <div class="col-md-12">
-        <app-inquiry-info-edit title="Ребенок/дети">
-          <div *ngFor="let child of inquiry.children; let last = last;">
-            <app-person-view title="Ребенок" [entity]="child"> </app-person-view>
-            <div *ngIf="last">
-              <div class="form-group">
-                <b>Пол</b> {{child.gender == 1 ? "Мужской":"Женский"}}
-              </div>
-              <div class="form-group">
-                <b>Дата рождения</b> {{child.birthDate | date: "dd.MM.yyyy"}}
-              </div>
-              <div class="form-group">
-                <b>Место рождения</b> {{child.birthPlace}}
-              </div>
-              <div class="form-group" *ngIf="child.specHealth != 101">
-                <b>Спец. по здоровью: </b>{{($specHealth | async)?.name}}
-              </div>
-              <div class="form-group">
-                <b>Гражданство </b> {{drawManager.citizenships(child.citizenships, countries)}}
-              </div>
-            </div>
-          </div>
-          <div class="form-group">
-            <b>Адрес регистрации </b> {{drawManager.address(inquiry.children[0].register)}}
-          </div>
-          <div class="form-group">
-            <b>Адрес проживания </b> {{drawManager.address(inquiry.children[0].residential)}}
-          </div>
-        </app-inquiry-info-edit>
-      </div>
-    </div>
-    <div class="row" *ngIf="inquiry.type == inquiryTypes.preschool">
-      <div class="col-md-12">
-        <app-preschool-preview-inquiry-info [inquiryInfo]="inquiry.inquiryInfo"></app-preschool-preview-inquiry-info>
-      </div>
-    </div>
-    <div class="row" *ngIf="inquiry.type == inquiryTypes.school">
-      <div class="col-md-6">
-        <app-preview-school-inquiry-info [schoolInquiryInfo]="inquiry.schoolInquiryInfo">
-        </app-preview-school-inquiry-info>
-      </div>
-    </div>
+    <app-children-card [children]="inquiry.children"></app-children-card>
+    <app-preschool-inquiry-info-card [inquiryInfo]="inquiry.inquiryInfo" *ngIf="inquiry.type == inquiryTypes.preschool"></app-preschool-inquiry-info-card>
+    <app-school-inquiry-info-card [schoolInquiryInfo]="inquiry.schoolInquiryInfo" *ngIf="inquiry.type == inquiryTypes.school"></app-school-inquiry-info-card>
     <div class="row">
       <div class="col-md-6">
-        <app-inquiry-info-edit title="Контактная информация">
-          <div *ngIf="!inquiry.contactInfo.dontNotify">
-            <div class="form-group">
-              <b>Email </b> {{inquiry.contactInfo.email}}
-            </div>
-            <div class="form-group">
-              <b>Номер для смс </b> {{inquiry.contactInfo.smsPhone}}
-            </div>
-            <div class="form-group">
-              <b>Телефон(ы) </b> {{inquiry.contactInfo.phones}}
-            </div>
-          </div>
-          <div class="form-group" *ngIf="inquiry.contactInfo.dontNotify">
-            <b>Не оповещать</b>
-          </div>
-        </app-inquiry-info-edit>
+        <app-contact-info-card [contactInfo]="inquiry.contactInfo"></app-contact-info-card>
       </div>
       <div class="col-md-6">
         <app-inquiry-info-edit title="Предпочитаемые организации">

@@ -1,20 +1,19 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
-import { PreviewPreschoolInquiryInfoComponent } from './preview-preschool-inquiry-info.component';
+import { PreschoolInquiryInfoCardComponent } from '../../../../shared/components/preschool-inquiry-info-card/preschool-inquiry-info-card.component';
 
 describe('PreviewInquiryInfoComponent', () => {
-  let component: PreviewPreschoolInquiryInfoComponent;
-  let fixture: ComponentFixture<PreviewPreschoolInquiryInfoComponent>;
+  let component: PreschoolInquiryInfoCardComponent;
+  let fixture: ComponentFixture<PreschoolInquiryInfoCardComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ PreviewPreschoolInquiryInfoComponent ]
+      declarations: [ PreschoolInquiryInfoCardComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(PreviewPreschoolInquiryInfoComponent);
+    fixture = TestBed.createComponent(PreschoolInquiryInfoCardComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

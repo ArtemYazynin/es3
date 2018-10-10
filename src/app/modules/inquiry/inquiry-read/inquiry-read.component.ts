@@ -23,6 +23,7 @@ import { EditSchoolInquiryInfoDialogComponent } from '../edit-school-inquiry-inf
 export class InquiryReadComponent implements OnInit, OnDestroy {
   $inquiry: BehaviorSubject<Inquiry>;
   private ngUnsubscribe: Subject<any> = new Subject();
+  inquiryTypes = inquiryType;
   countries: Array<Country>
   privilegeOrders: Array<PrivilegeOrder>;
   statuses: Array<Status>;
@@ -33,8 +34,6 @@ export class InquiryReadComponent implements OnInit, OnDestroy {
   applicantTypes = ApplicantType;
   drawManager = this.drawService;
   statusForm: FormGroup;
-
-  inquiryTypes = inquiryType;
 
   constructor(private router: Router, private route: ActivatedRoute, private inquiryService: InquiryService,
     private privilegeOrderService: PrivilegeOrderService, private statusService: StatusService, private drawService: DrawService,

@@ -16,7 +16,7 @@ import { StepBase, WizardStorageService } from '../shared';
 export class PreviewStepComponent implements OnInit, OnDestroy, StepBase {
 
   constructor(private router: Router, private route: ActivatedRoute, private citizenshipService: CitizenshipService,
-    private storageService: WizardStorageService, private drawService: DrawService, private specHealthService: SpecHealthService,
+    private storageService: WizardStorageService, public drawService: DrawService, private specHealthService: SpecHealthService,
     private inquiryService: InquiryService, public dialog: MatDialog) { }
   private ngUnsubscribe: Subject<any> = new Subject();
   $group: Observable<Group>;
@@ -43,7 +43,7 @@ export class PreviewStepComponent implements OnInit, OnDestroy, StepBase {
       })
     }
   };
-  drawManager = this.drawService
+
   isValid(): boolean {
     return true;
   }
