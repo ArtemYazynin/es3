@@ -1,13 +1,13 @@
 import { Component, Input, OnInit, ChangeDetectionStrategy } from '@angular/core';
-import { SchoolInquiryInfo } from '../../../../shared';
+import { SchoolInquiryInfo } from '../../index';
 
 @Component({
-  selector: 'app-preview-school-inquiry-info',
-  templateUrl: './preview-school-inquiry-info.component.html',
-  styleUrls: ['./preview-school-inquiry-info.component.css'],
+  selector: 'app-school-inquiry-info-card',
+  templateUrl: './school-inquiry-info-card.component.html',
+  styleUrls: ['./school-inquiry-info-card.component.css'],
   changeDetection:ChangeDetectionStrategy.OnPush
 })
-export class PreviewSchoolInquiryInfoComponent implements OnInit {
+export class SchoolInquiryInfoCardComponent implements OnInit {
   @Input() schoolInquiryInfo: SchoolInquiryInfo;
   @Input() edit: () => void;
 

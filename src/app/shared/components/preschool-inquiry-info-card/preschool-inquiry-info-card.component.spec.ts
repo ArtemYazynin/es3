@@ -1,5 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { PreschoolInquiryInfoCardComponent } from '../../../../shared/components/preschool-inquiry-info-card/preschool-inquiry-info-card.component';
+
+import { PreschoolInquiryInfoCardComponent } from './preschool-inquiry-info-card.component';
 
 describe('PreviewInquiryInfoComponent', () => {
   let component: PreschoolInquiryInfoCardComponent;

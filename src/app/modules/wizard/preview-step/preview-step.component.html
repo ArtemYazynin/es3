@@ -9,8 +9,8 @@
       </div>
     </div>
     <app-children-card [children]="inquiry.children"></app-children-card>
-    <app-preschool-preview-inquiry-info [inquiryInfo]="inquiry.inquiryInfo" *ngIf="inquiry.type == inquiryTypes.preschool"></app-preschool-preview-inquiry-info>
-    <app-preview-school-inquiry-info [schoolInquiryInfo]="inquiry.schoolInquiryInfo" *ngIf="inquiry.type == inquiryTypes.school"></app-preview-school-inquiry-info>
+    <app-preschool-inquiry-info-card [inquiryInfo]="inquiry.inquiryInfo" *ngIf="inquiry.type == inquiryTypes.preschool"></app-preschool-inquiry-info-card>
+    <app-school-inquiry-info-card [schoolInquiryInfo]="inquiry.schoolInquiryInfo" *ngIf="inquiry.type == inquiryTypes.school"></app-school-inquiry-info-card>
     <div class="row">
       <div class="col-md-6">
         <app-contact-info-card [contactInfo]="inquiry.contactInfo"></app-contact-info-card>
