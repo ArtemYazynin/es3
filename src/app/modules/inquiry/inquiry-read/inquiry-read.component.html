@@ -46,8 +46,7 @@
     </div>
   </div>
   <app-children-card [children]="inquiry.children"></app-children-card>
-  <app-school-inquiry-info-card [schoolInquiryInfo]="inquiry.schoolInquiryInfo" [edit]="edit.schoolInquiryInfo"
-    *ngIf="inquiry.schoolInquiryInfo"></app-school-inquiry-info-card>
+  <app-school-inquiry-info-card [schoolInquiryInfo]="inquiry.schoolInquiryInfo" [edit]="edit.schoolInquiryInfo" *ngIf="inquiry.schoolInquiryInfo"></app-school-inquiry-info-card>
   <app-preschool-inquiry-info-card [inquiryInfo]="inquiry.inquiryInfo" [edit]="edit.inquiryInfo" *ngIf="inquiry.type == inquiryTypes.preschool"></app-preschool-inquiry-info-card>
   <div class="row">
     <div class="col-md-4">
@@ -71,28 +70,7 @@
       </app-inquiry-info-edit>
     </div>
     <div class="col-md-4">
-      <app-inquiry-info-edit title="Текущее место обучения ребенка" (edit)="edit.currentEducationPlace()">
-        <div [ngSwitch]="inquiry.currentEducationPlace.isOther">
-          <div *ngSwitchCase="true">
-            <div class="form-group">
-              <b>Тип </b> Другая
-            </div>
-            <div class="form-group">
-              <b>Образовательная организация </b> {{inquiry.currentEducationPlace.other}}
-            </div>
-          </div>
-          <div *ngSwitchCase="false">
-            <dl class="dl-horizontal">
-              <dt>Тип </dt>
-              <dd>{{($institutionType | async)?.name}}</dd>
-              <dt>Образовательная организация </dt>
-              <dd>{{inquiry.currentEducationPlace.institution.name}}</dd>
-              <dt>Группа/класс </dt>
-              <dd>{{inquiry.currentEducationPlace.group?.name || "-" }}</dd>
-            </dl>
-          </div>
-        </div>
-      </app-inquiry-info-edit>
+      <app-current-education-place-card [currentEducationPlace]="inquiry.currentEducationPlace" [edit]="edit.currentEducationPlace"></app-current-education-place-card>
     </div>
   </div>
   <div class="row">

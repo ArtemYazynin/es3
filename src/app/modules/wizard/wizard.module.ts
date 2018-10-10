@@ -27,12 +27,11 @@ import { CurrentEducationPlaceStepComponent } from '../wizard/current-education-
 import { FileAttachmentStepComponent } from '../wizard/file-attachment-step/file-attachment-step.component';
 import { InquiryInfoStepComponent } from '../wizard/inquiry-info-step/inquiry-info-step.component';
 import { ParentStepComponent } from '../wizard/parent-step/parent-step.component';
-import { InstitutionStepComponent } from './institution-step/institution-step.component'
 import { PreviewStepComponent } from '../wizard/preview-step/preview-step.component';
 import { PrivilegeStepComponent } from '../wizard/privilege-step/privilege-step.component';
 import { SchoolInquiryInfoStepComponent } from '../wizard/school-inquiry-info-step/school-inquiry-info-step.component';
 import { CurrentEducationPlaceStepService } from '../wizard/shared/current-education-place-step.service';
-import { PreviewCurrentEducationPlaceComponent } from './preview/preview-current-education-place/preview-current-education-place.component';
+import { InstitutionStepComponent } from './institution-step/institution-step.component';
 import { PreviewFilesComponent } from './preview/preview-files/preview-files.component';
 import { PreviewPrivilegeComponent } from './preview/preview-privilege/preview-privilege.component';
 import { RegisterCompleteComponent } from './register-complete/register-complete.component';
@@ -65,8 +64,7 @@ import { WizardRoutingModule } from './wizard-routing-module';
     SpecHealthComponent,
 
 
-    
-    PreviewCurrentEducationPlaceComponent,
+
     PreviewPrivilegeComponent,
     PreviewFilesComponent,
     ConfirmDialogComponent,

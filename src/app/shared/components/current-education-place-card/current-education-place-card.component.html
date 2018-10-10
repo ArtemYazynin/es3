@@ -1,4 +1,4 @@
-<app-inquiry-info-edit title="Текущее место обучения ребенка">
+<ng-template #fieldsTemplate>
   <div [ngSwitch]="currentEducationPlace.isOther">
     <div *ngSwitchCase="true">
       <div class="form-group">
@@ -22,4 +22,22 @@
       </div>
     </div>
   </div>
-</app-inquiry-info-edit>
+</ng-template>
+
+<ng-template #withEdit>
+  <app-inquiry-info-edit title="Текущее место обучения ребенка" (edit)="edit()">
+    <ng-container *ngTemplateOutlet="fieldsTemplate">
+    </ng-container>
+  </app-inquiry-info-edit>
+</ng-template>
+
+<ng-template #withoutEdit>
+  <app-inquiry-info-edit title="Текущее место обучения ребенка">
+    <ng-container *ngTemplateOutlet="fieldsTemplate">
+    </ng-container>
+  </app-inquiry-info-edit>
+</ng-template>
+
+<ng-container *ngTemplateOutlet="edit ? withEdit : withoutEdit">
+
+</ng-container>
