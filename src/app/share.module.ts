@@ -32,11 +32,13 @@ import { ForeignCitizensAddressesComponent } from "./shared/components/foreign-c
 import { FullNameComponent } from "./shared/components/full-name/full-name.component";
 import { GenderComponent } from "./shared/components/gender/gender.component";
 import { IdentityCardComponent } from "./shared/components/identity-card/identity-card.component";
+import { InstitutionsCardComponent } from "./shared/components/institutions-card/institutions-card.component";
 import { PersonViewComponent } from "./shared/components/person-view/person-view.component";
 import { PreschoolInquiryInfoCardComponent } from "./shared/components/preschool-inquiry-info-card/preschool-inquiry-info-card.component";
 import { PrivilegeEditComponent } from "./shared/components/privilege-edit/privilege-edit.component";
 import { RelationTypeComponent } from "./shared/components/relation-type/relation-type.component";
 import { RfCitizensAddressesComponent } from "./shared/components/rf-citizens-addresses/rf-citizens-addresses.component";
+import { SchoolClassCardComponent } from "./shared/components/school-classes-card/school-classes-card.component";
 import { SchoolInquiryInfoCardComponent } from "./shared/components/school-inquiry-info-card/school-inquiry-info-card.component";
 import { SnilsComponent } from "./shared/components/snils/snils.component";
 import { StayModeComponent } from "./shared/components/stay-mode/stay-mode.component";
@@ -55,6 +57,8 @@ import { InquiryTypeFriendlyNamePipe } from './shared/inquiry-type.pipe';
         PersonViewComponent, ConfirmationDocumentViewComponent, AdultCardComponent, ChildrenCardComponent,
         PreschoolInquiryInfoCardComponent,
         ContactInfoCardComponent,
+        InstitutionsCardComponent,
+        SchoolClassCardComponent,
         CurrentEducationPlaceCardComponent
     ],
     imports: [
@@ -71,7 +75,7 @@ import { InquiryTypeFriendlyNamePipe } from './shared/inquiry-type.pipe';
         BirthInfoComponent, RelationTypeComponent, EditPersonComponent, EditInquiryInfoComponent, DistributionParamsComponent, StayModeComponent, AgeGroupComponent,
         InquiryInfoEditComponent, AtLeastOneCheckboxShouldBeSelectedComponent, EditInstitutionsComponent, EditContactInfoComponent, EditCurrentEducationPlaceComponent,
         EditFileAttachmentsComponent, EditSchoolInquiryInfoComponent, SchoolInquiryInfoCardComponent, PreschoolInquiryInfoCardComponent,
-        PersonViewComponent, ConfirmationDocumentViewComponent, AdultCardComponent, ChildrenCardComponent, ContactInfoCardComponent, CurrentEducationPlaceCardComponent
+        PersonViewComponent, ConfirmationDocumentViewComponent, AdultCardComponent, ChildrenCardComponent, ContactInfoCardComponent, InstitutionsCardComponent, SchoolClassCardComponent, CurrentEducationPlaceCardComponent
     ],
     providers: [
         SpecializationService,

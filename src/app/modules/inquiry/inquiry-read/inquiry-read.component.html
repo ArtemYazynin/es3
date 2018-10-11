@@ -53,21 +53,9 @@
       <app-contact-info-card [contactInfo]="inquiry.contactInfo" [edit]="edit.contactInfo"></app-contact-info-card>
     </div>
     <div class="col-md-4">
-      <app-inquiry-info-edit title="Предпочитаемые организации" (edit)="edit.institutions()">
-        <ng-container *ngIf="inquiry.type == inquiryTypes.preschool">
-          <div class="form-group" *ngFor="let institution of inquiry.institutions; let i = index">
-            {{i+1}}. {{institution.name}}
-          </div>
-        </ng-container>
-        <ng-container *ngIf="inquiry.type == inquiryTypes.school">
-          <div class="form-group">
-            <b>Учился в центре образования(ЦО) </b> {{inquiry.IsLearnEducCenter == true ? "Да" : "Нет"}}
-          </div>
-          <div class="form-group" *ngFor="let schoolClass of inquiry.schoolClasses; let i = index">
-            {{i+1}}. {{schoolClass.institution.name}} ({{schoolClass.name}})
-          </div>
-        </ng-container>
-      </app-inquiry-info-edit>
+      <app-institutions-card [institutions]="inquiry.institutions" [edit]="edit.institutions" *ngIf="inquiry.type == inquiryTypes.preschool"></app-institutions-card>
+      <app-school-classes-card [schoolClasses]="inquiry.schoolClasses" [IsLearnEducCenter]="inquiry.IsLearnEducCenter"
+        [edit]="edit.institutions" *ngIf="inquiry.type == inquiryTypes.school"></app-school-classes-card>
     </div>
     <div class="col-md-4">
       <app-current-education-place-card [currentEducationPlace]="inquiry.currentEducationPlace" [edit]="edit.currentEducationPlace"></app-current-education-place-card>

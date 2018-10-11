@@ -1,0 +1,26 @@
+<ng-template #fieldsTemplate>
+  <div class="form-group">
+    <b>Учился в центре образования(ЦО) </b> {{IsLearnEducCenter == true ? "Да" : "Нет"}}
+  </div>
+  <div class="form-group" *ngFor="let schoolClass of schoolClasses; let i = index">
+    {{i+1}}. {{schoolClass.institution.name}} ({{schoolClass.name}})
+  </div>
+</ng-template>
+
+<ng-template #withEdit>
+  <app-inquiry-info-edit title="Предпочитаемые организации" (edit)="edit()">
+    <ng-container *ngTemplateOutlet="fieldsTemplate">
+    </ng-container>
+  </app-inquiry-info-edit>
+</ng-template>
+
+<ng-template #withoutEdit>
+  <app-inquiry-info-edit title="Предпочитаемые организации">
+    <ng-container *ngTemplateOutlet="fieldsTemplate">
+    </ng-container>
+  </app-inquiry-info-edit>
+</ng-template>
+
+<ng-container *ngTemplateOutlet="edit ? withEdit : withoutEdit">
+
+</ng-container>
