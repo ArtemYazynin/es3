@@ -26,7 +26,8 @@
         <app-current-education-place-card [currentEducationPlace]="inquiry.currentEducationPlace"></app-current-education-place-card>
       </div>
       <div class="col-md-6">
-        <app-preview-privilege [privilege]="inquiry.privilege"></app-preview-privilege>
+        <app-privilege-card *ngIf="!inquiry.privilege"></app-privilege-card>
+        <app-privilege-card [privilege]="inquiry.privilege" *ngIf="inquiry.privilege"></app-privilege-card>
       </div>
     </div>
     <div class="row">

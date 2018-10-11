@@ -35,6 +35,7 @@ import { IdentityCardComponent } from "./shared/components/identity-card/identit
 import { InstitutionsCardComponent } from "./shared/components/institutions-card/institutions-card.component";
 import { PersonViewComponent } from "./shared/components/person-view/person-view.component";
 import { PreschoolInquiryInfoCardComponent } from "./shared/components/preschool-inquiry-info-card/preschool-inquiry-info-card.component";
+import { PrivilegeCardComponent } from "./shared/components/privilege-card/privilege-card.component";
 import { PrivilegeEditComponent } from "./shared/components/privilege-edit/privilege-edit.component";
 import { RelationTypeComponent } from "./shared/components/relation-type/relation-type.component";
 import { RfCitizensAddressesComponent } from "./shared/components/rf-citizens-addresses/rf-citizens-addresses.component";
@@ -59,7 +60,8 @@ import { InquiryTypeFriendlyNamePipe } from './shared/inquiry-type.pipe';
         ContactInfoCardComponent,
         InstitutionsCardComponent,
         SchoolClassCardComponent,
-        CurrentEducationPlaceCardComponent
+        CurrentEducationPlaceCardComponent,
+        PrivilegeCardComponent
     ],
     imports: [
         CommonModule,
@@ -75,7 +77,8 @@ import { InquiryTypeFriendlyNamePipe } from './shared/inquiry-type.pipe';
         BirthInfoComponent, RelationTypeComponent, EditPersonComponent, EditInquiryInfoComponent, DistributionParamsComponent, StayModeComponent, AgeGroupComponent,
         InquiryInfoEditComponent, AtLeastOneCheckboxShouldBeSelectedComponent, EditInstitutionsComponent, EditContactInfoComponent, EditCurrentEducationPlaceComponent,
         EditFileAttachmentsComponent, EditSchoolInquiryInfoComponent, SchoolInquiryInfoCardComponent, PreschoolInquiryInfoCardComponent,
-        PersonViewComponent, ConfirmationDocumentViewComponent, AdultCardComponent, ChildrenCardComponent, ContactInfoCardComponent, InstitutionsCardComponent, SchoolClassCardComponent, CurrentEducationPlaceCardComponent
+        PersonViewComponent, ConfirmationDocumentViewComponent, AdultCardComponent, ChildrenCardComponent, ContactInfoCardComponent, InstitutionsCardComponent, SchoolClassCardComponent, CurrentEducationPlaceCardComponent,
+        PrivilegeCardComponent
     ],
     providers: [
         SpecializationService,

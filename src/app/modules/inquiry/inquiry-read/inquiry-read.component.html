@@ -63,44 +63,16 @@
   </div>
   <div class="row">
     <div class="col-md-4">
-      <app-inquiry-info-edit title="Льготная категория" (edit)="edit.privilege()">
-        <dl class="dl-horizontal" *ngIf="inquiry.privilege">
-          <dt>Приоритет льготной категории </dt>
-          <dd>{{inquiry.privilege.privilegeOrder.name}}</dd>
-          <dt>Льготная категория </dt>
-          <dd>{{inquiry.privilege.name}}</dd>
-        </dl>
-        <div class="col-md-6" *ngIf="!inquiry.privilege">
-          Без льготы
-        </div>
-        <app-inquiry-info-edit title="Документ, подтверждающий наличие льготной категории" *ngIf="inquiry.privilege?.privilegeProofDocument">
-          <dl class="dl-horizontal">
-            <dt>Название документа </dt>
-            <dd>{{inquiry.privilege.privilegeProofDocument.name}}</dd>
-            <dt>Серия документа </dt>
-            <dd>{{inquiry.privilege.privilegeProofDocument.series || "-"}}</dd>
-            <dt>Номер документа </dt>
-            <dd>{{inquiry.privilege.privilegeProofDocument.number}}</dd>
-            <dt>Дата выдачи </dt>
-            <dd>{{inquiry.privilege.privilegeProofDocument.dateIssue | date: 'dd.MM.yyyy'}}</dd>
-            <div class="form-group" *ngIf="inquiry.privilege.privilegeProofDocument.dateExpired">
-              <dt>Действительно до </dt>
-              <dd>{{inquiry.privilege.privilegeProofDocument.dateExpired | date: 'dd.MM.yyyy'}}</dd>
-            </div>
-          </dl>
-        </app-inquiry-info-edit>
-      </app-inquiry-info-edit>
-    </div>
-    <div class="col-md-4">
-      <app-inquiry-info-edit title="Файлы" (edit)="edit.fileAttachments()">
-        <div class="form-group" *ngFor="let file of inquiry.filesInfo.files">
-          {{file.name}}({{file.description}})
-        </div>
-        <div class="form-group">
-          <b>Документы подписаны электронной подписью</b> {{inquiry.filesInfo.haveDigitalSignature ? "Да" : "Нет"}}
-        </div>
-      </app-inquiry-info-edit>
+      <app-privilege-card [edit]="edit.privilege" *ngIf="!inquiry.privilege"></app-privilege-card>
+      <app-privilege-card [privilege]="inquiry.privilege" [edit]="edit.privilege" *ngIf="inquiry.privilege"></app-privilege-card>
     </div>
   </div>
-
+  <app-inquiry-info-edit title="Файлы" (edit)="edit.fileAttachments()">
+    <div class="form-group" *ngFor="let file of inquiry.filesInfo.files">
+      {{file.name}}({{file.description}})
+    </div>
+    <div class="form-group">
+      <b>Документы подписаны электронной подписью</b> {{inquiry.filesInfo.haveDigitalSignature ? "Да" : "Нет"}}
+    </div>
+  </app-inquiry-info-edit>
 </div>
