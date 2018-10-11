@@ -94,7 +94,7 @@ export class InquiryReadComponent implements OnInit, OnDestroy {
     const getDefaultConfig = (modelType?: ApplicantType) => {
       let config = new MatDialogConfig();
       config.disableClose = true;
-      config.autoFocus = true;
+      config.autoFocus = false;
       config.data = {
         $inquiry: this.$inquiry,
         modelType: modelType
