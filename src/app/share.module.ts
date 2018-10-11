@@ -28,6 +28,7 @@ import { ContactInfoCardComponent } from './shared/components/contact-info-card/
 import { CurrentEducationPlaceCardComponent } from "./shared/components/current-education-place-card/current-education-place-card.component";
 import { DistributionParamsComponent } from "./shared/components/distribution-params/distribution-params.component";
 import { EditSchoolInquiryInfoComponent } from './shared/components/edit-school-inquiry-info/edit-school-inquiry-info.component';
+import { FilesCardComponent } from "./shared/components/files-card/files-card.component";
 import { ForeignCitizensAddressesComponent } from "./shared/components/foreign-citizens-addresses/foreign-citizens-addresses.component";
 import { FullNameComponent } from "./shared/components/full-name/full-name.component";
 import { GenderComponent } from "./shared/components/gender/gender.component";
@@ -44,6 +45,7 @@ import { SchoolInquiryInfoCardComponent } from "./shared/components/school-inqui
 import { SnilsComponent } from "./shared/components/snils/snils.component";
 import { StayModeComponent } from "./shared/components/stay-mode/stay-mode.component";
 import { InquiryTypeFriendlyNamePipe } from './shared/inquiry-type.pipe';
+import { YesNoPipe } from "./shared/yes-no.pipe";
 
 
 
@@ -61,7 +63,10 @@ import { InquiryTypeFriendlyNamePipe } from './shared/inquiry-type.pipe';
         InstitutionsCardComponent,
         SchoolClassCardComponent,
         CurrentEducationPlaceCardComponent,
-        PrivilegeCardComponent
+        PrivilegeCardComponent,
+        FilesCardComponent,
+
+        YesNoPipe
     ],
     imports: [
         CommonModule,
@@ -78,7 +83,7 @@ import { InquiryTypeFriendlyNamePipe } from './shared/inquiry-type.pipe';
         InquiryInfoEditComponent, AtLeastOneCheckboxShouldBeSelectedComponent, EditInstitutionsComponent, EditContactInfoComponent, EditCurrentEducationPlaceComponent,
         EditFileAttachmentsComponent, EditSchoolInquiryInfoComponent, SchoolInquiryInfoCardComponent, PreschoolInquiryInfoCardComponent,
         PersonViewComponent, ConfirmationDocumentViewComponent, AdultCardComponent, ChildrenCardComponent, ContactInfoCardComponent, InstitutionsCardComponent, SchoolClassCardComponent, CurrentEducationPlaceCardComponent,
-        PrivilegeCardComponent
+        PrivilegeCardComponent, FilesCardComponent
     ],
     providers: [
         SpecializationService,

@@ -66,13 +66,6 @@
       <app-privilege-card [edit]="edit.privilege" *ngIf="!inquiry.privilege"></app-privilege-card>
       <app-privilege-card [privilege]="inquiry.privilege" [edit]="edit.privilege" *ngIf="inquiry.privilege"></app-privilege-card>
     </div>
+    <app-files-card [filesInfo]="inquiry.filesInfo" [edit]="edit.fileAttachments"></app-files-card>
   </div>
-  <app-inquiry-info-edit title="Файлы" (edit)="edit.fileAttachments()">
-    <div class="form-group" *ngFor="let file of inquiry.filesInfo.files">
-      {{file.name}}({{file.description}})
-    </div>
-    <div class="form-group">
-      <b>Документы подписаны электронной подписью</b> {{inquiry.filesInfo.haveDigitalSignature ? "Да" : "Нет"}}
-    </div>
-  </app-inquiry-info-edit>
 </div>

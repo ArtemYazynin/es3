@@ -17,7 +17,6 @@ import { DisabilityChildComponent } from '../../shared/components/disability-chi
 import { SpecHealthComponent } from '../../shared/components/spec-health/spec-health.component';
 import { HttpInterceptor } from '../../shared/http-interceptor';
 import { RegisterCompleteResolver } from '../../shared/register-complete-resolver';
-import { YesNoPipe } from '../../shared/yes-no.pipe';
 import { ApplicantStepComponent } from '../wizard/applicant-step/applicant-step.component';
 import { ApplicantTypeStepComponent } from '../wizard/applicant-type-step/applicant-type-step.component';
 import { ChildComponent } from '../wizard/children-step/child/child.component';
@@ -32,8 +31,6 @@ import { PrivilegeStepComponent } from '../wizard/privilege-step/privilege-step.
 import { SchoolInquiryInfoStepComponent } from '../wizard/school-inquiry-info-step/school-inquiry-info-step.component';
 import { CurrentEducationPlaceStepService } from '../wizard/shared/current-education-place-step.service';
 import { InstitutionStepComponent } from './institution-step/institution-step.component';
-import { PreviewFilesComponent } from './preview/preview-files/preview-files.component';
-import { PreviewPrivilegeComponent } from './preview/preview-privilege/preview-privilege.component';
 import { RegisterCompleteComponent } from './register-complete/register-complete.component';
 import { PrivilegeStepResolver } from './resolvers/privilege-step-resolver';
 import { ParentStepService, WizardStorageService } from './shared';
@@ -56,7 +53,6 @@ import { WizardRoutingModule } from './wizard-routing-module';
     FileAttachmentStepComponent,
     PreviewStepComponent,
     //end
-    YesNoPipe,
     IdentityCardTypePipe,
     EnumToArrayPipe,
     ChildComponent,
@@ -64,9 +60,6 @@ import { WizardRoutingModule } from './wizard-routing-module';
     SpecHealthComponent,
 
 
-
-    PreviewPrivilegeComponent,
-    PreviewFilesComponent,
     ConfirmDialogComponent,
     RegisterCompleteComponent
 

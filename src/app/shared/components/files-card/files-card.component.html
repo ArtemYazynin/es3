@@ -1,0 +1,26 @@
+<ng-template #fieldsTemplate>
+  <div class="form-group" *ngFor="let file of filesInfo.files">
+    {{file.name}}({{file.description}})
+  </div>
+  <div class="form-group">
+    <b>Документы подписаны электронной подписью</b> {{filesInfo.haveDigitalSignature | yesNo}}
+  </div>
+</ng-template>
+
+<ng-template #withEdit>
+  <app-inquiry-info-edit title="Файлы" (edit)="edit()">
+    <ng-container *ngTemplateOutlet="fieldsTemplate">
+    </ng-container>
+  </app-inquiry-info-edit>
+</ng-template>
+
+<ng-template #withoutEdit>
+  <app-inquiry-info-edit title="Файлы">
+    <ng-container *ngTemplateOutlet="fieldsTemplate">
+    </ng-container>
+  </app-inquiry-info-edit>
+</ng-template>
+
+<ng-container *ngTemplateOutlet="edit ? withEdit : withoutEdit">
+
+</ng-container>
