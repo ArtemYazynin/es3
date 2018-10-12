@@ -35,8 +35,8 @@
       </app-inquiry-info-edit>
     </div>
   </div>
-  <div class="row" *ngIf="inquiry.applicant">
-    <div class="col-md-6">
+  <div class="row">
+    <div class="col-md-6" *ngIf="inquiry.applicant">
       <app-adult-card title="Доверенное лицо законного представителя ребенка" [entity]="inquiry.applicant" [edit]="edit.person">
       </app-adult-card>
     </div>
