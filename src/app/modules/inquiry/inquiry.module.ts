@@ -26,6 +26,7 @@ import { InquiryRouting } from './inquiry-routing-module';
 import { InquiryCommonInfoComponent } from './shared/components/inquiry-common-info/inquiry-common-info.component';
 import { EditCurrentEducationPlaceDialogComponent } from './edit-current-education-place-dialog/edit-current-education-place-dialog.component';
 import { EditSchoolInquiryInfoDialogComponent } from './edit-school-inquiry-info-dialog/edit-school-inquiry-info-dialog.component';
+import { EditConfirmationDocumentDialogComponent } from './edit-confirmation-document-dialog/edit-confirmation-document-dialog.component';
 
 @NgModule({
   imports: [
@@ -41,7 +42,7 @@ import { EditSchoolInquiryInfoDialogComponent } from './edit-school-inquiry-info
     JsonpModule,
     HttpClientModule,
     MaterialModule,
-    InMemoryWebApiModule.forRoot(InMemoryService)
+    //InMemoryWebApiModule.forRoot(InMemoryService)
   ],
   providers: [
     CurrentEducationPlaceStepService,
@@ -66,7 +67,7 @@ import { EditSchoolInquiryInfoDialogComponent } from './edit-school-inquiry-info
     InquiryService,
     StatusService
   ],
-  declarations: [InquiryReadComponent, InquiryCommonInfoComponent, RegisterSourcePipe, EditPrivilegeDialogComponent, EditPersonDialogComponent, EditInquiryInfoDialogComponent, EditPreschoolInstitutionDialogComponent, EditContactInfoDialogComponent, EditCurrentEducationPlaceDialogComponent, EditFileAttachmentsDialogComponent, EditSchoolInquiryInfoDialogComponent],
+  declarations: [InquiryReadComponent, InquiryCommonInfoComponent, RegisterSourcePipe, EditPrivilegeDialogComponent, EditPersonDialogComponent, EditInquiryInfoDialogComponent, EditPreschoolInstitutionDialogComponent, EditContactInfoDialogComponent, EditCurrentEducationPlaceDialogComponent, EditFileAttachmentsDialogComponent, EditSchoolInquiryInfoDialogComponent, EditConfirmationDocumentDialogComponent],
   entryComponents: [EditPrivilegeDialogComponent, EditPersonDialogComponent, EditInquiryInfoDialogComponent, EditPreschoolInstitutionDialogComponent,
     EditContactInfoDialogComponent, EditCurrentEducationPlaceDialogComponent, EditFileAttachmentsDialogComponent,
     EditSchoolInquiryInfoDialogComponent]

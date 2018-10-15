@@ -1,0 +1,35 @@
+<ng-template #fieldsTemplate>
+  <div class="form-group">
+    <b>Название документа</b> {{document.name}}
+  </div>
+  <div class="form-group">
+    <b>Серия документа</b> {{document.series || "-"}}
+  </div>
+  <div class="form-group">
+    <b>Номер документа</b> {{document.number}}
+  </div>
+  <div class="form-group">
+    <b>Дата выдачи</b> {{document.dateIssue | date: 'dd.MM.yyyy'}}
+  </div>
+  <div class="form-group" *ngIf="document.dateExpired">
+    <b>Действительно до</b> {{document.dateExpired | date: 'dd.MM.yyyy'}}
+  </div>
+</ng-template>
+
+<ng-template #withEdit>
+  <app-inquiry-info-edit [title]="title" (edit)="editConfirmationDocument()" *ngIf="document">
+    <ng-container *ngTemplateOutlet="fieldsTemplate">
+    </ng-container>
+  </app-inquiry-info-edit>
+</ng-template>
+
+<ng-template #withoutEdit>
+  <app-inquiry-info-edit [title]="title" *ngIf="document">
+    <ng-container *ngTemplateOutlet="fieldsTemplate">
+    </ng-container>
+  </app-inquiry-info-edit>
+</ng-template>
+
+<ng-container *ngTemplateOutlet="mode ? withEdit : withoutEdit">
+
+</ng-container>

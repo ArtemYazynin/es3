@@ -1,18 +1,19 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Inject } from '@angular/core';
 import { Observable } from 'rxjs/internal/Observable';
 import { map } from 'rxjs/operators';
 import { HttpInterceptor } from './http-interceptor';
 import { Privilege } from './models/privilege.model';
 import { FormGroup } from '@angular/forms';
+import { SERVER_URL } from '../app.module';
 
 @Injectable()
 export class PrivilegeService {
 
-  constructor(private http: HttpInterceptor) { }
+  constructor(private http: HttpInterceptor, @Inject(SERVER_URL) private serverUrl) { }
 
   get(privilegeOrderId?: string): Observable<Array<Privilege>> {
     let url = (() => {
-      let base = "app/privileges";
+      let base = `${this.serverUrl}/privileges`;
 
       return privilegeOrderId ? base + "?privilegeOrderId=" + privilegeOrderId : base;
     })();

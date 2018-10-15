@@ -1,9 +1,9 @@
-import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnDestroy, OnInit, ChangeDetectorRef } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { MatDialog, MatDialogConfig } from '@angular/material';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
-import { map, takeUntil } from 'rxjs/operators';
+import { map, takeUntil, distinctUntilChanged } from 'rxjs/operators';
 import { ApplicantType, CitizenshipService, ConfirmationDocument, Country, DrawService, Entity, GroupService, Inquiry, InquiryService, inquiryType, InstitutionService, PrivilegeOrder, PrivilegeOrderService, Specificity, SpecificityService, Status, StatusService } from '../../../shared/index';
 import { EditContactInfoDialogComponent } from '../edit-contact-info-dialog/edit-contact-info-dialog.component';
 import { EditCurrentEducationPlaceDialogComponent } from '../edit-current-education-place-dialog/edit-current-education-place-dialog.component';
@@ -13,6 +13,7 @@ import { EditPersonDialogComponent } from '../edit-person-dialog/edit-person-dia
 import { EditPreschoolInstitutionDialogComponent } from '../edit-preschool-institution-dialog/edit-preschool-institution-dialog.component';
 import { EditPrivilegeDialogComponent } from '../edit-privilege-dialog/edit-privilege-dialog.component';
 import { EditSchoolInquiryInfoDialogComponent } from '../edit-school-inquiry-info-dialog/edit-school-inquiry-info-dialog.component';
+import { EditConfirmationDocumentDialogComponent } from '../edit-confirmation-document-dialog/edit-confirmation-document-dialog.component';
 
 @Component({
   selector: 'app-inquiry-read',
@@ -38,7 +39,7 @@ export class InquiryReadComponent implements OnInit, OnDestroy {
   constructor(private router: Router, private route: ActivatedRoute, private inquiryService: InquiryService,
     private privilegeOrderService: PrivilegeOrderService, private statusService: StatusService, private drawService: DrawService,
     private citizenshipService: CitizenshipService, private fb: FormBuilder, private specificityService: SpecificityService, public dialog: MatDialog,
-    private institutionService: InstitutionService, private groupService: GroupService) { }
+    private institutionService: InstitutionService, private groupService: GroupService, private cdr: ChangeDetectorRef) { }
 
   ngOnInit() {
     this.citizenshipService.getCountries()
@@ -52,7 +53,15 @@ export class InquiryReadComponent implements OnInit, OnDestroy {
         this.privilegeOrders = orders;
       });
 
-    this.$inquiry = this.inquiryService.get(this.route.snapshot.data.resolved.inquiryId);
+    this.inquiryService.get(this.route.snapshot.data.resolved.inquiryId)
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe(data => {
+        this.$inquiry = new BehaviorSubject<Inquiry>(data)
+        if (data.type == inquiryType.preschool)
+          this.specificity = this.specificityService.get(data.inquiryInfo.distributionParams.specificity).pipe(map(specificities => specificities[0]));
+        this.$institutionType = this.institutionService.getTypes(data.currentEducationPlace.institutionType).pipe(map(types => types[0]));
+        this.cdr.markForCheck();
+      });
     this.statusService.get()
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(statuses => {
@@ -60,15 +69,6 @@ export class InquiryReadComponent implements OnInit, OnDestroy {
         if (this.statuses.length > 0)
           this.statusForm.controls.status.patchValue(this.statuses[0].id);
       });
-    (() => {
-      let inquiry = this.$inquiry.getValue();
-      if (inquiry.type == inquiryType.preschool) {
-        this.specificity = this.specificityService.get(inquiry.inquiryInfo.distributionParams.specificity).pipe(map(specificities => specificities[0]));
-      }
-
-      this.$institutionType = this.institutionService.getTypes(inquiry.currentEducationPlace.institutionType)
-        .pipe(map(types => types[0]));
-    })();
 
     this.buildForm();
   }
@@ -91,14 +91,25 @@ export class InquiryReadComponent implements OnInit, OnDestroy {
   }
 
   edit = (() => {
-    const getDefaultConfig = (modelType?: ApplicantType) => {
+    // const getDefaultConfig = (modelType?: ApplicantType) => {
+    //   let config = new MatDialogConfig();
+    //   config.disableClose = true;
+    //   config.autoFocus = true;
+    //   config.data = {
+    //     $inquiry: this.$inquiry,
+    //     modelType: modelType
+    //   };
+    //   config.width = "1000px";
+    //   return config;
+    // }
+    const getDefaultConfig = (obj?: object) => {
       let config = new MatDialogConfig();
       config.disableClose = true;
       config.autoFocus = true;
-      config.data = {
-        $inquiry: this.$inquiry,
-        modelType: modelType
-      };
+      config.data = { $inquiry: this.$inquiry };
+      if (obj) {
+        Object.assign(obj, config.data);
+      }
       config.width = "1000px";
       return config;
     }
@@ -106,7 +117,7 @@ export class InquiryReadComponent implements OnInit, OnDestroy {
 
     }
     const person = (modelType: ApplicantType) => {
-      this.dialog.open(EditPersonDialogComponent, getDefaultConfig(modelType));
+      this.dialog.open(EditPersonDialogComponent, getDefaultConfig({ modelType: modelType }));
     }
     const privilege = () => {
       this.dialog.open(EditPrivilegeDialogComponent, getDefaultConfig());
@@ -136,6 +147,9 @@ export class InquiryReadComponent implements OnInit, OnDestroy {
     const schoolInquiryInfo = () => {
       this.dialog.open(EditSchoolInquiryInfoDialogComponent, getDefaultConfig());
     }
+    const confirmationDocument = () => {
+      this.dialog.open(EditConfirmationDocumentDialogComponent, getDefaultConfig(config));
+    }
     return {
       common: common,
       privilege: privilege,
@@ -145,7 +159,8 @@ export class InquiryReadComponent implements OnInit, OnDestroy {
       institutions: institutions,
       contactInfo: contactInfo,
       currentEducationPlace: currentEducationPlace,
-      fileAttachments: fileAttachments
+      fileAttachments: fileAttachments,
+      confirmationDocument: confirmationDocument
     }
   })();
 }

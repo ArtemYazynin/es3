@@ -2,7 +2,6 @@ import { AfterViewInit, ChangeDetectionStrategy, Component, Input, OnDestroy, On
 import { Subscription } from 'rxjs';
 import { BirthInfoComponent } from '../../../../../shared/components/birth-info/birth-info.component';
 import { CitizenshipSelectComponent } from '../../../../../shared/components/citizenship-select/citizenship-select.component';
-import { ConfirmationDocumentComponent } from '../../../../../shared/components/confirmation-document/confirmation-document.component';
 import { ForeignCitizensAddressesComponent } from '../../../../../shared/components/foreign-citizens-addresses/foreign-citizens-addresses.component';
 import { FullNameComponent } from '../../../../../shared/components/full-name/full-name.component';
 import { IdentityCardComponent } from '../../../../../shared/components/identity-card/identity-card.component';
@@ -11,6 +10,7 @@ import { RfCitizensAddressesComponent } from '../../../../../shared/components/r
 import { SnilsComponent } from '../../../../../shared/components/snils/snils.component';
 import { Applicant, ApplicantType, AttachmentType, CitizenshipService, CommonService, ConfirmationDocument, Country, Parent } from '../../../../../shared/index';
 import { WizardStorageService } from '../../../../wizard/shared';
+import { EditConfirmationDocumentComponent } from '../../../../../shared/components/edit-confirmation-document/edit-confirmation-document.component';
 
 @Component({
   selector: 'app-edit-person',
@@ -27,7 +27,7 @@ export class EditPersonComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild(RfCitizensAddressesComponent) rfAddressesComponent: RfCitizensAddressesComponent;
   @ViewChild(ForeignCitizensAddressesComponent) foreignAddressesComponent: ForeignCitizensAddressesComponent;
   @ViewChild(RelationTypeComponent) relationTypeComponent: RelationTypeComponent;
-  @ViewChildren(ConfirmationDocumentComponent) confirmationDocuments: QueryList<ConfirmationDocumentComponent>;
+  @ViewChildren(EditConfirmationDocumentComponent) confirmationDocuments: QueryList<EditConfirmationDocumentComponent>;
 
   @Input() model: Parent | Applicant;
   @Input() modelType: ApplicantType;

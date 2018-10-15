@@ -1,8 +1,22 @@
 import { InMemoryDbService } from 'angular-in-memory-web-api';
 import { Inquiry } from './shared/models/inquiry.model';
-import { Area, Countries, Institution, Privilege, PrivilegeOrder, Settings, Specificity, IdentityCardType, RelationType, Entity, Status, Specialization, EducProgram, EducProgramType, Group } from './shared/index';
 import { EnumToArrayPipe } from './shared/enum-to-array-pipe';
 import { Guid } from './shared/models/guid';
+import { Status } from './shared/models/status.model';
+import { IdentityCardType } from './shared/models/identityCardType';
+import { RelationType } from './shared/models/relation-type.model';
+import { Entity } from './shared/models/entity.model';
+import { Area } from './shared/models/area.model';
+import { Institution } from './shared/models/institution.model';
+import { Group } from './shared/models/group.model';
+import { Privilege } from './shared/models/privilege.model';
+import { PrivilegeOrder } from './shared/models/privilege-order.model';
+import { EducProgram } from './shared/models/educ-program.model';
+import { Specialization } from './shared/models/specialization.model';
+import { Specificity } from './shared/models/specificity.model';
+import { EducProgramType } from './shared/educ-program-type.enum';
+import { Countries } from './shared/models/countries';
+import { Settings } from './shared/models/settings.model';
 
 export class InMemoryService implements InMemoryDbService {
   createDb() {

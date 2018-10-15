@@ -22,11 +22,11 @@ import { AtLeastOneCheckboxShouldBeSelectedComponent } from "./shared/components
 import { BirthInfoComponent } from "./shared/components/birth-info/birth-info.component";
 import { ChildrenCardComponent } from './shared/components/children-card/children-card.component';
 import { CitizenshipSelectComponent } from "./shared/components/citizenship-select/citizenship-select.component";
-import { ConfirmationDocumentViewComponent } from "./shared/components/confirmation-document-view/confirmation-document-view.component";
-import { ConfirmationDocumentComponent } from "./shared/components/confirmation-document/confirmation-document.component";
+import { ConfirmationDocumentCardComponent } from "./shared/components/confirmation-document-card/confirmation-document-card.component";
 import { ContactInfoCardComponent } from './shared/components/contact-info-card/contact-info-card.component';
 import { CurrentEducationPlaceCardComponent } from "./shared/components/current-education-place-card/current-education-place-card.component";
 import { DistributionParamsComponent } from "./shared/components/distribution-params/distribution-params.component";
+import { EditConfirmationDocumentComponent } from "./shared/components/edit-confirmation-document/edit-confirmation-document.component";
 import { EditSchoolInquiryInfoComponent } from './shared/components/edit-school-inquiry-info/edit-school-inquiry-info.component';
 import { ForeignCitizensAddressesComponent } from "./shared/components/foreign-citizens-addresses/foreign-citizens-addresses.component";
 import { FullNameComponent } from "./shared/components/full-name/full-name.component";
@@ -48,13 +48,13 @@ import { InquiryTypeFriendlyNamePipe } from './shared/inquiry-type.pipe';
 
 @NgModule({
     declarations: [
-        PrivilegeEditComponent, ConfirmationDocumentComponent, ApplicantTypePipe, AttachmentTypePipe, InquiryTypeFriendlyNamePipe, FullNameComponent, GenderComponent,
+        PrivilegeEditComponent, EditConfirmationDocumentComponent, ApplicantTypePipe, AttachmentTypePipe, InquiryTypeFriendlyNamePipe, FullNameComponent, GenderComponent,
         SnilsComponent, IdentityCardComponent, CitizenshipSelectComponent, RfCitizensAddressesComponent, AddressComponent, ForeignCitizensAddressesComponent,
         BirthInfoComponent, RelationTypeComponent, EditPersonComponent, EditInquiryInfoComponent, AtLeastOneCheckboxShouldBeSelectedComponent, EditInstitutionsComponent,
 
         InquiryInfoEditComponent, DistributionParamsComponent, StayModeComponent, AgeGroupComponent, //inquiryInfo params
         EditContactInfoComponent, EditCurrentEducationPlaceComponent, EditFileAttachmentsComponent, AreaTypePipe, EditSchoolInquiryInfoComponent, SchoolInquiryInfoCardComponent,
-        PersonViewComponent, ConfirmationDocumentViewComponent, AdultCardComponent, ChildrenCardComponent,
+        PersonViewComponent, ConfirmationDocumentCardComponent, AdultCardComponent, ChildrenCardComponent,
         PreschoolInquiryInfoCardComponent,
         ContactInfoCardComponent,
         InstitutionsCardComponent,
@@ -67,15 +67,16 @@ import { InquiryTypeFriendlyNamePipe } from './shared/inquiry-type.pipe';
         FormsModule,
         ReactiveFormsModule,
         TextMaskModule,
-        NgSelectModule
+        NgSelectModule,
+        
     ],
     exports: [
-        PrivilegeEditComponent, ConfirmationDocumentComponent, ApplicantTypePipe, AttachmentTypePipe, InquiryTypeFriendlyNamePipe, FullNameComponent, GenderComponent,
+        PrivilegeEditComponent, EditConfirmationDocumentComponent, ApplicantTypePipe, AttachmentTypePipe, InquiryTypeFriendlyNamePipe, FullNameComponent, GenderComponent,
         SnilsComponent, IdentityCardComponent, CitizenshipSelectComponent, RfCitizensAddressesComponent, AddressComponent, ForeignCitizensAddressesComponent,
         BirthInfoComponent, RelationTypeComponent, EditPersonComponent, EditInquiryInfoComponent, DistributionParamsComponent, StayModeComponent, AgeGroupComponent,
         InquiryInfoEditComponent, AtLeastOneCheckboxShouldBeSelectedComponent, EditInstitutionsComponent, EditContactInfoComponent, EditCurrentEducationPlaceComponent,
         EditFileAttachmentsComponent, EditSchoolInquiryInfoComponent, SchoolInquiryInfoCardComponent, PreschoolInquiryInfoCardComponent,
-        PersonViewComponent, ConfirmationDocumentViewComponent, AdultCardComponent, ChildrenCardComponent, ContactInfoCardComponent, InstitutionsCardComponent, SchoolClassCardComponent, CurrentEducationPlaceCardComponent
+        PersonViewComponent, ConfirmationDocumentCardComponent, AdultCardComponent, ChildrenCardComponent, ContactInfoCardComponent, InstitutionsCardComponent, SchoolClassCardComponent, CurrentEducationPlaceCardComponent
     ],
     providers: [
         SpecializationService,

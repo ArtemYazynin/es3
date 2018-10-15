@@ -1,7 +1,9 @@
 import { ChangeDetectionStrategy, Component, Input, OnInit, OnDestroy } from '@angular/core';
-import { Subject } from 'rxjs';
+import { Subject, BehaviorSubject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import { Applicant, Child, CitizenshipService, Country, DrawService, Parent } from '../..';
+import { Applicant, Child, CitizenshipService, Country, DrawService, Parent, ConfirmationDocument } from '../..';
+import { EditConfirmationDocumentDialogComponent } from '../../../modules/inquiry/edit-confirmation-document-dialog/edit-confirmation-document-dialog.component';
+import { MatDialog } from '@angular/material';
 
 @Component({
   selector: 'app-adult-card',
@@ -17,7 +19,7 @@ export class AdultCardComponent implements OnInit, OnDestroy {
   private ngUnsubscribe: Subject<any> = new Subject();
   countries: Array<Country> = [];
 
-  constructor(public drawService: DrawService, private citizenshipService: CitizenshipService) { }
+  constructor(public drawService: DrawService, private citizenshipService: CitizenshipService,  ) { }
 
   ngOnInit() {
     this.citizenshipService.getCountries()
@@ -30,4 +32,6 @@ export class AdultCardComponent implements OnInit, OnDestroy {
     this.ngUnsubscribe.next();
     this.ngUnsubscribe.complete();
   }
+
+  
 }

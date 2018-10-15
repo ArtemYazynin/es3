@@ -2,7 +2,7 @@ import { Inject, Injectable, QueryList } from '@angular/core';
 import { EditPersonComponent } from '../modules/inquiry/shared/components/edit-person/edit-person.component';
 import { ApplicantType } from './applicant-type.enum';
 import { CitizenshipService } from './citizenship.service';
-import { ConfirmationDocumentComponent } from './components/confirmation-document/confirmation-document.component';
+import { EditConfirmationDocumentComponent } from './components/edit-confirmation-document/edit-confirmation-document.component';
 import { Applicant } from './models/applicant.model';
 import { AttachmentType } from './models/attachment-type.enum';
 import { ConfirmationDocument } from './models/confirmation-document.model';
@@ -82,7 +82,7 @@ export class CommonService {
     var myNav = navigator.userAgent.toLowerCase();
     return (myNav.indexOf('msie') != -1) ? parseInt(myNav.split('msie')[1]) : undefined;
   }
-  getDocumentByType(components: QueryList<ConfirmationDocumentComponent> | Array<ConfirmationDocumentComponent>, type: AttachmentType) {
+  getDocumentByType(components: QueryList<EditConfirmationDocumentComponent> | Array<EditConfirmationDocumentComponent>, type: AttachmentType) {
     let document = components.find(x => x.type == type);
     if (!document) return undefined
     return new ConfirmationDocument(document.confirmationDocumentForm.controls.name.value,

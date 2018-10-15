@@ -85,7 +85,7 @@ import { WizardRoutingModule } from './wizard-routing-module';
     HttpModule,
     JsonpModule,
     HttpClientModule,
-    InMemoryWebApiModule.forRoot(InMemoryService),
+    //InMemoryWebApiModule.forRoot(InMemoryService),
   ],
   providers: [
     PrivilegeStepResolver,

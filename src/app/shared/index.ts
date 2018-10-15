@@ -4,6 +4,7 @@ export * from "./models/location-type";
 export * from "./models/address-type";
 
 //enums
+export * from "./confirmation-document-mode.enum";
 export * from "./models/register-source.enum";
 export * from "./models/identityCardType";
 export * from "./applicant-type.enum";

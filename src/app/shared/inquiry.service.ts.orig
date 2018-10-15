@@ -130,7 +130,7 @@ export class InquiryService {
   get(id: string): BehaviorSubject<Inquiry> {
     if (!id) return Observable.create();
     return new BehaviorSubject<Inquiry>(this.storageService.get("preschool"));
-    // const url = `${this.baseUrl}?id=${id}`;
+    // const url = `${this.baseUrl}/${id}`;
     // return this.http.get(url).pipe(map(result => {
     //   const inquiries = <Array<Inquiry>>result.json();
     //   return inquiries[0];

@@ -1,5 +1,5 @@
 import { Component, Input, OnInit, QueryList, ViewChildren, ChangeDetectionStrategy, AfterViewInit } from '@angular/core';
-import { ConfirmationDocumentComponent } from '../confirmation-document/confirmation-document.component';
+import { EditConfirmationDocumentComponent } from '../edit-confirmation-document/edit-confirmation-document.component';
 import { Observable } from 'rxjs';
 import { ChildComponent } from '../../../modules/wizard/children-step/child/child.component';
 import { AttachmentType, SpecHealth, SpecHealthService } from '../../index';
@@ -11,7 +11,7 @@ import { AttachmentType, SpecHealth, SpecHealthService } from '../../index';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SpecHealthComponent implements OnInit, AfterViewInit {
-  @ViewChildren(ConfirmationDocumentComponent) documentComponents: QueryList<ConfirmationDocumentComponent>;
+  @ViewChildren(EditConfirmationDocumentComponent) documentComponents: QueryList<EditConfirmationDocumentComponent>;
   @Input() childrenComponents: Array<ChildComponent>;
 
   attachmentType = AttachmentType;

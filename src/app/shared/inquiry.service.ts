@@ -1,6 +1,9 @@
-import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable, of } from 'rxjs';
+import { Inject, Injectable } from '@angular/core';
+import { Headers, RequestOptions } from '@angular/http';
+import { empty, Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { isNullOrUndefined } from 'util';
+import { SERVER_URL } from '../app.module';
 import { EditContactInfoComponent } from '../modules/inquiry/shared/components/edit-contact-info/edit-contact-info.component';
 import { EditCurrentEducationPlaceComponent } from '../modules/inquiry/shared/components/edit-current-education-place/edit-current-education-place.component';
 import { EditFileAttachmentsComponent } from '../modules/inquiry/shared/components/edit-file-attachments/edit-file-attachments.component';
@@ -20,20 +23,21 @@ import { ContactInfo } from './models/contact-info.model';
 import { CurrentEducationPlace } from './models/current-education-place.model';
 import { DistributionParams } from './models/distribution-params.model';
 import { Guid } from './models/guid';
-import { Inquiry } from './models/inquiry.model';
 import { InquiryInfo } from './models/inquiry-info.model';
+import { Inquiry } from './models/inquiry.model';
 import { Parent } from './models/parent.model';
-import { PortalIdentity } from './models/portal-identity.model';
 import { Privilege } from './models/privilege.model';
-import { RegisterSource } from './models/register-source.enum';
 import { SchoolInquiryInfo } from './models/school-inquiry-info.model';
-import { Status } from './models/status.model';
 import { StayMode } from './models/stay-mode.model';
+import { RegisterSource } from './models/register-source.enum';
+import { PortalIdentity } from './models/portal-identity.model';
+import { Status } from './models/status.model';
 
 @Injectable()
 export class InquiryService {
-  private baseUrl = "app/inquiries"
-  constructor(private http: HttpInterceptor, private storageService: WizardStorageService, private commonService: CommonService) { }
+  private baseUrl = `${this.serverUrl}/inquiries`
+  constructor(private http: HttpInterceptor, private storageService: WizardStorageService, private commonService: CommonService,
+    @Inject(SERVER_URL) private serverUrl) { }
 
   saveApplicant(inquiry: Inquiry, editPersonComponent: EditPersonComponent, update: (patch: object) => void): void {
     if (inquiry.applicantType != ApplicantType.Applicant) return;
@@ -145,11 +149,7 @@ export class InquiryService {
     })
   }
   create(inquiry: Inquiry): Observable<Inquiry> {
-    // let options = new RequestOptions({ headers: new Headers({ 'Content-Type': 'application/json' }) });
-    // inquiry.id = Guid.newGuid();
-    // return this.http.post(this.baseUrl, inquiry, options).pipe(map(result => {
-    //   return <Inquiry>result.json();
-    // }));
+    let options = new RequestOptions({ headers: new Headers({ 'Content-Type': 'application/json' }) });
     inquiry.id = Guid.newGuid();
     inquiry.version = new Date();
     inquiry.registerDateTime = new Date();
@@ -158,17 +158,37 @@ export class InquiryService {
     inquiry.addInformation = "доп. инфа по заявлению";
     inquiry.portalIdentity = new PortalIdentity(Guid.newGuid(), "123 внешний id");
     inquiry.status = new Status(Guid.newGuid(), "Новое");
-    this.storageService.set(inquiry.type, inquiry);
-    return of(this.storageService.get(inquiry.type));
+    return this.http.post(this.baseUrl, inquiry, options).pipe(map(result => {
+      return <Inquiry>result.json();
+    }));
+    // inquiry.id = Guid.newGuid();
+    // inquiry.version = new Date();
+    // inquiry.registerDateTime = new Date();
+    // inquiry.number = "46205/ЗЗ/18091213";
+    // inquiry.registerSource = RegisterSource.Ws;
+    // inquiry.addInformation = "доп. инфа по заявлению";
+    // inquiry.portalIdentity = new PortalIdentity(Guid.newGuid(), "123 внешний id");
+    // inquiry.status = new Status(Guid.newGuid(), "Новое");
+    // this.storageService.set(inquiry.type, inquiry);
+    // return of(this.storageService.get(inquiry.type));
   }
 
-  get(id: string): BehaviorSubject<Inquiry> {
-    if (!id) return Observable.create();
-    return new BehaviorSubject<Inquiry>(this.storageService.get("preschool"));
-    // const url = `${this.baseUrl}?id=${id}`;
-    // return this.http.get(url).pipe(map(result => {
-    //   const inquiries = <Array<Inquiry>>result.json();
-    //   return inquiries[0];
-    // }));
+  update(id: string, inquiry: Inquiry): Observable<Inquiry> {
+    if (!id || !inquiry) return empty();
+
+    let options = new RequestOptions({ headers: new Headers({ 'Content-Type': 'application/json' }) });
+    let url = `${this.baseUrl}/${id}`;
+    return this.http.put(url, inquiry, options).pipe(map(result => {
+      return <Inquiry>result.json();
+    }));
+  }
+
+  get(id: string): Observable<Inquiry> {
+    // if (!id) return Observable.create();
+    // return new BehaviorSubject<Inquiry>(this.storageService.get("preschool"));
+    const url = `${this.baseUrl}/${id}`;
+    return this.http.get(url).pipe(map(result => {
+      return new Inquiry(result.json());
+    }));
   }
 }

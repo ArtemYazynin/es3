@@ -4,7 +4,7 @@ import { Observable, Subject } from 'rxjs';
 import { distinctUntilChanged, map, startWith, takeUntil } from 'rxjs/operators';
 import { isNullOrUndefined } from 'util';
 import { AttachmentType, CommonService, FormService, Inquiry, Privilege, PrivilegeOrder, PrivilegeOrderService, PrivilegeService } from '../..';
-import { ConfirmationDocumentComponent } from '../confirmation-document/confirmation-document.component';
+import { EditConfirmationDocumentComponent } from '../edit-confirmation-document/edit-confirmation-document.component';
 
 @Component({
   selector: 'app-privilege-edit',
@@ -14,7 +14,7 @@ import { ConfirmationDocumentComponent } from '../confirmation-document/confirma
 })
 export class PrivilegeEditComponent implements OnInit, AfterViewInit {
   @Input() inquiry: Inquiry;
-  @ViewChild(ConfirmationDocumentComponent) confirmationProofDocumentComponent: ConfirmationDocumentComponent;
+  @ViewChild(EditConfirmationDocumentComponent) confirmationProofDocumentComponent: EditConfirmationDocumentComponent;
   private ngUnsubscribe: Subject<any> = new Subject();
   private privileges: Array<Privilege>;
   formErrors = {

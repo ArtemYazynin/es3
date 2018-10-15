@@ -22,5 +22,4 @@ export class CurrentEducationPlaceCardComponent implements OnInit {
     this.$institutionType = this.institutionService.getTypes(this.currentEducationPlace.institutionType)
       .pipe(map(types => types[0]));
   }
-
 }

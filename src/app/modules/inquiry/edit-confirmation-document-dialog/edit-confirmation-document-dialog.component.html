@@ -1,0 +1,12 @@
+<div *ngIf="data.$document | async as doc">
+  <ng-container *ngIf="data.modelType == applicantTypes.Parent">
+    <h1 mat-dialog-title>Редактирование документа</h1>
+    <div mat-dialog-content>
+      <app-edit-confirmation-document [model]="doc"></app-edit-confirmation-document>
+    </div>
+  </ng-container>
+  <mat-dialog-actions>
+    <button class="btn btn-inverse" [mat-dialog-close]="doc">Закрыть</button>
+    <button class="btn btn-primary" (click)="save()" [disabled]="!isValid()">Сохранить</button>
+  </mat-dialog-actions>
+</div>

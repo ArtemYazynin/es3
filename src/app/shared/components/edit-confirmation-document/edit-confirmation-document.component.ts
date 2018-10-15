@@ -3,19 +3,18 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ConfirmationDocument, AttachmentType, FormService } from '../../index';
 
 @Component({
-  selector: 'app-confirmation-document',
-  templateUrl: './confirmation-document.component.html',
-  styleUrls: ['./confirmation-document.component.css'],
+  selector: 'app-edit-confirmation-document',
+  templateUrl: './edit-confirmation-document.component.html',
+  styleUrls: ['./edit-confirmation-document.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ConfirmationDocumentComponent implements OnInit {
+export class EditConfirmationDocumentComponent implements OnInit {
   currentDate = new Date();
   confirmationDocumentForm: FormGroup;
   formErrors = ConfirmationDocument.formErrorsTemplate;
   validationMessages = ConfirmationDocument.validationMessages;
 
   @Input() title: string = "";
-  @Input() type: AttachmentType;
   @Input() model: ConfirmationDocument;
 
   constructor(private fb: FormBuilder, private formService: FormService) { }

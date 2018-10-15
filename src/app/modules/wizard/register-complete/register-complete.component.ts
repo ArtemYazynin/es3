@@ -1,12 +1,13 @@
-import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
-import { StepBase } from '../shared/models/step-base';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { InquiryService } from '../../../shared';
+import { StepBase } from '../shared/models/step-base';
 
 @Component({
   selector: 'app-register-complete',
   templateUrl: './register-complete.component.html',
   styleUrls: ['./register-complete.component.css'],
-  changeDetection:ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class RegisterCompleteComponent implements OnInit, StepBase {
   inquiryId: string = this.route.snapshot.data.resolved.inquiryId;
@@ -21,7 +22,7 @@ export class RegisterCompleteComponent implements OnInit, StepBase {
     }
   };
 
-  constructor(private router: Router, private route: ActivatedRoute) {
+  constructor(private router: Router, private route: ActivatedRoute, private inquiryService: InquiryService) {
 
   }
 
