@@ -45,7 +45,7 @@
       </app-adult-card>
     </div>
   </div>
-  <app-children-card [children]="inquiry.children"></app-children-card>
+  <app-children-card [children]="inquiry.children" [edit]="edit.children"></app-children-card>
   <app-school-inquiry-info-card [schoolInquiryInfo]="inquiry.schoolInquiryInfo" [edit]="edit.schoolInquiryInfo" *ngIf="inquiry.schoolInquiryInfo"></app-school-inquiry-info-card>
   <app-preschool-inquiry-info-card [inquiryInfo]="inquiry.inquiryInfo" [edit]="edit.inquiryInfo" *ngIf="inquiry.type == inquiryTypes.preschool"></app-preschool-inquiry-info-card>
   <div class="row">

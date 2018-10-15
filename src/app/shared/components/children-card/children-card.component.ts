@@ -1,7 +1,7 @@
-import { Component, OnInit, Input, ChangeDetectionStrategy } from '@angular/core';
-import { DrawService, Child, Country, CitizenshipService } from '../..';
+import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+import { Child, CitizenshipService, Country, DrawService } from '../..';
 
 @Component({
   selector: 'app-children-card',
@@ -11,6 +11,7 @@ import { takeUntil } from 'rxjs/operators';
 })
 export class ChildrenCardComponent implements OnInit {
   @Input() children: Array<Child>;
+  @Input() edit: () => void;
 
   private ngUnsubscribe: Subject<any> = new Subject();
   countries: Array<Country> = [];

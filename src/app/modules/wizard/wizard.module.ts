@@ -13,8 +13,6 @@ import { MaterialModule } from '../../material.module';
 import { ShareModule } from '../../share.module';
 import { AddressService, AreaService, CitizenshipService, CommonService, DrawService, EnumToArrayPipe, FormService, GroupService, IdentityCardService, IdentityCardTypePipe, InquiryService, InstitutionService, PrivilegeOrderService, PrivilegeService, RelationTypeService, SettingsService, SpecHealthService, SpecificityService } from '../../shared';
 import { ConfirmDialogComponent } from '../../shared/components/confirm-dialog/confirm-dialog.component';
-import { DisabilityChildComponent } from '../../shared/components/disability-child/disability-child.component';
-import { SpecHealthComponent } from '../../shared/components/spec-health/spec-health.component';
 import { HttpInterceptor } from '../../shared/http-interceptor';
 import { RegisterCompleteResolver } from '../../shared/register-complete-resolver';
 import { ApplicantStepComponent } from '../wizard/applicant-step/applicant-step.component';
@@ -55,14 +53,9 @@ import { WizardRoutingModule } from './wizard-routing-module';
     //end
     IdentityCardTypePipe,
     EnumToArrayPipe,
-    ChildComponent,
-    DisabilityChildComponent,
-    SpecHealthComponent,
-
 
     ConfirmDialogComponent,
     RegisterCompleteComponent
-
   ],
   exports: [],
   imports: [

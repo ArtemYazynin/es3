@@ -5,6 +5,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { map, takeUntil } from 'rxjs/operators';
 import { ApplicantType, CitizenshipService, ConfirmationDocument, Country, DrawService, Entity, GroupService, Inquiry, InquiryService, inquiryType, InstitutionService, PrivilegeOrder, PrivilegeOrderService, Specificity, SpecificityService, Status, StatusService } from '../../../shared/index';
+import { EditChildrenDialogComponent } from '../edit-children-dialog/edit-children-dialog.component';
 import { EditContactInfoDialogComponent } from '../edit-contact-info-dialog/edit-contact-info-dialog.component';
 import { EditCurrentEducationPlaceDialogComponent } from '../edit-current-education-place-dialog/edit-current-education-place-dialog.component';
 import { EditFileAttachmentsDialogComponent } from '../edit-file-attachments-dialog/edit-file-attachments-dialog.component';
@@ -35,10 +36,10 @@ export class InquiryReadComponent implements OnInit, OnDestroy {
   drawManager = this.drawService;
   statusForm: FormGroup;
 
-  constructor(private router: Router, private route: ActivatedRoute, private inquiryService: InquiryService,
+  constructor(private route: ActivatedRoute, private inquiryService: InquiryService,
     private privilegeOrderService: PrivilegeOrderService, private statusService: StatusService, private drawService: DrawService,
     private citizenshipService: CitizenshipService, private fb: FormBuilder, private specificityService: SpecificityService, public dialog: MatDialog,
-    private institutionService: InstitutionService, private groupService: GroupService) { }
+    private institutionService: InstitutionService) { }
 
   ngOnInit() {
     this.citizenshipService.getCountries()
@@ -108,6 +109,10 @@ export class InquiryReadComponent implements OnInit, OnDestroy {
     const person = (modelType: ApplicantType) => {
       this.dialog.open(EditPersonDialogComponent, getDefaultConfig(modelType));
     }
+
+    const children = () => {
+      this.dialog.open(EditChildrenDialogComponent, getDefaultConfig());
+    }
     const privilege = () => {
       this.dialog.open(EditPrivilegeDialogComponent, getDefaultConfig());
       // const dialogRef = this.dialog.open(EditPrivilegeDialogComponent, config);
@@ -140,6 +145,7 @@ export class InquiryReadComponent implements OnInit, OnDestroy {
       common: common,
       privilege: privilege,
       person: person,
+      children: children,
       inquiryInfo: inquiryInfo,
       schoolInquiryInfo: schoolInquiryInfo,
       institutions: institutions,

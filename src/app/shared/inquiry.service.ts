@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { isNullOrUndefined } from 'util';
+import { EditChildrenComponent } from '../modules/inquiry/shared/components/edit-children/edit-children.component';
 import { EditContactInfoComponent } from '../modules/inquiry/shared/components/edit-contact-info/edit-contact-info.component';
 import { EditCurrentEducationPlaceComponent } from '../modules/inquiry/shared/components/edit-current-education-place/edit-current-education-place.component';
 import { EditFileAttachmentsComponent } from '../modules/inquiry/shared/components/edit-file-attachments/edit-file-attachments.component';
@@ -20,8 +21,8 @@ import { ContactInfo } from './models/contact-info.model';
 import { CurrentEducationPlace } from './models/current-education-place.model';
 import { DistributionParams } from './models/distribution-params.model';
 import { Guid } from './models/guid';
-import { Inquiry } from './models/inquiry.model';
 import { InquiryInfo } from './models/inquiry-info.model';
+import { Inquiry } from './models/inquiry.model';
 import { Parent } from './models/parent.model';
 import { PortalIdentity } from './models/portal-identity.model';
 import { Privilege } from './models/privilege.model';
@@ -57,6 +58,13 @@ export class InquiryService {
       if (DublicatesFinder.betweenParentChildren(parent, inquiry.children)) return;
     }
     if (!!parent) update({ parent: parent });
+  }
+
+  saveChildren(editChildrenComponent: EditChildrenComponent, update: (patch: object) => void): void {
+    let children = editChildrenComponent.getChildren();
+    if (DublicatesFinder.betweenChildren(children)) return;
+
+    update({ children: children });
   }
 
   saveInquiryInfo(editInquiryInfoComponent: EditInquiryInfoComponent, update: (patch: object) => void): void {

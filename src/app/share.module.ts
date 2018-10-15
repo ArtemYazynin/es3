@@ -4,6 +4,7 @@ import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { NgSelectModule } from "@ng-select/ng-select";
 import { TextMaskModule } from "angular2-text-mask";
 import { MaterialModule } from "./material.module";
+import { EditChildrenComponent } from "./modules/inquiry/shared/components/edit-children/edit-children.component";
 import { EditContactInfoComponent } from "./modules/inquiry/shared/components/edit-contact-info/edit-contact-info.component";
 import { EditCurrentEducationPlaceComponent } from "./modules/inquiry/shared/components/edit-current-education-place/edit-current-education-place.component";
 import { EditFileAttachmentsComponent } from "./modules/inquiry/shared/components/edit-file-attachments/edit-file-attachments.component";
@@ -11,6 +12,7 @@ import { EditInquiryInfoComponent } from "./modules/inquiry/shared/components/ed
 import { EditInstitutionsComponent } from "./modules/inquiry/shared/components/edit-institutions/edit-institutions.component";
 import { EditPersonComponent } from "./modules/inquiry/shared/components/edit-person/edit-person.component";
 import { InquiryInfoEditComponent } from "./modules/inquiry/shared/components/inquiry-info-edit/inquiry-info-edit.component";
+import { ChildComponent } from "./modules/wizard/children-step/child/child.component";
 import { EducProgramService, SpecializationService } from "./shared";
 import { ApplicantTypePipe } from "./shared/applicant-type.pipe";
 import { AreaTypePipe } from './shared/area-type.pipe';
@@ -26,6 +28,7 @@ import { ConfirmationDocumentViewComponent } from "./shared/components/confirmat
 import { ConfirmationDocumentComponent } from "./shared/components/confirmation-document/confirmation-document.component";
 import { ContactInfoCardComponent } from './shared/components/contact-info-card/contact-info-card.component';
 import { CurrentEducationPlaceCardComponent } from "./shared/components/current-education-place-card/current-education-place-card.component";
+import { DisabilityChildComponent } from "./shared/components/disability-child/disability-child.component";
 import { DistributionParamsComponent } from "./shared/components/distribution-params/distribution-params.component";
 import { EditSchoolInquiryInfoComponent } from './shared/components/edit-school-inquiry-info/edit-school-inquiry-info.component';
 import { FilesCardComponent } from "./shared/components/files-card/files-card.component";
@@ -43,6 +46,7 @@ import { RfCitizensAddressesComponent } from "./shared/components/rf-citizens-ad
 import { SchoolClassCardComponent } from "./shared/components/school-classes-card/school-classes-card.component";
 import { SchoolInquiryInfoCardComponent } from "./shared/components/school-inquiry-info-card/school-inquiry-info-card.component";
 import { SnilsComponent } from "./shared/components/snils/snils.component";
+import { SpecHealthComponent } from "./shared/components/spec-health/spec-health.component";
 import { StayModeComponent } from "./shared/components/stay-mode/stay-mode.component";
 import { InquiryTypeFriendlyNamePipe } from './shared/inquiry-type.pipe';
 import { YesNoPipe } from "./shared/yes-no.pipe";
@@ -56,7 +60,8 @@ import { YesNoPipe } from "./shared/yes-no.pipe";
         BirthInfoComponent, RelationTypeComponent, EditPersonComponent, EditInquiryInfoComponent, AtLeastOneCheckboxShouldBeSelectedComponent, EditInstitutionsComponent,
 
         InquiryInfoEditComponent, DistributionParamsComponent, StayModeComponent, AgeGroupComponent, //inquiryInfo params
-        EditContactInfoComponent, EditCurrentEducationPlaceComponent, EditFileAttachmentsComponent, AreaTypePipe, EditSchoolInquiryInfoComponent, SchoolInquiryInfoCardComponent,
+        EditChildrenComponent, EditContactInfoComponent, EditCurrentEducationPlaceComponent, EditFileAttachmentsComponent, AreaTypePipe, EditSchoolInquiryInfoComponent, SchoolInquiryInfoCardComponent,
+        DisabilityChildComponent, SpecHealthComponent,
         PersonViewComponent, ConfirmationDocumentViewComponent, AdultCardComponent, ChildrenCardComponent,
         PreschoolInquiryInfoCardComponent,
         ContactInfoCardComponent,
@@ -65,6 +70,7 @@ import { YesNoPipe } from "./shared/yes-no.pipe";
         CurrentEducationPlaceCardComponent,
         PrivilegeCardComponent,
         FilesCardComponent,
+        ChildComponent,
 
         YesNoPipe
     ],
@@ -83,12 +89,14 @@ import { YesNoPipe } from "./shared/yes-no.pipe";
         InquiryInfoEditComponent, AtLeastOneCheckboxShouldBeSelectedComponent, EditInstitutionsComponent, EditContactInfoComponent, EditCurrentEducationPlaceComponent,
         EditFileAttachmentsComponent, EditSchoolInquiryInfoComponent, SchoolInquiryInfoCardComponent, PreschoolInquiryInfoCardComponent,
         PersonViewComponent, ConfirmationDocumentViewComponent, AdultCardComponent, ChildrenCardComponent, ContactInfoCardComponent, InstitutionsCardComponent, SchoolClassCardComponent, CurrentEducationPlaceCardComponent,
-        PrivilegeCardComponent, FilesCardComponent
+        PrivilegeCardComponent, FilesCardComponent, EditChildrenComponent, DisabilityChildComponent, SpecHealthComponent,
+        ChildComponent
     ],
     providers: [
         SpecializationService,
         EducProgramService
-    ]
+    ],
+    entryComponents: [ChildComponent]
 })
 export class ShareModule {
 
