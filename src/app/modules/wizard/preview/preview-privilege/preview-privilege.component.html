@@ -10,7 +10,7 @@
       <div class="form-group">
         <b>Льготная категория</b> {{privilege.name}}
       </div>
-      <app-confirmation-document-card title="Документ, подтверждающий наличие льготной категории" [document]="privilege.privilegeProofDocument">
+      <app-confirmation-document-card title="Документ, подтверждающий наличие льготной категории" [model]="privilege.privilegeProofDocument" [mode]="mode.Read">
       </app-confirmation-document-card>
     </div>
   </div>

@@ -12,15 +12,15 @@
     <b>Адрес проживания </b> {{drawService.address(entity.residential)}}
   </div>
   <app-confirmation-document-card title="Документ, подтверждающий право пребывания законного представителя на территории РФ"
-    [document]="entity.countryStateDocument">
+    [model]="entity.countryStateDocument" [mode]="mode">
   </app-confirmation-document-card>
   <app-confirmation-document-card title="Документ, подтверждающий право законного представителя представлять интересы ребенка"
-    [document]="entity.parentRepresentChildrenDocument">
+    [model]="entity.parentRepresentChildrenDocument" [mode]="mode">
   </app-confirmation-document-card>
   <app-confirmation-document-card title="Документ, подтверждающий право пребывания доверенного лица законного представителя на территории РФ"
-    [document]="entity.countryStateApplicantDocument">
+    [model]="entity.countryStateApplicantDocument" [mode]="mode">
   </app-confirmation-document-card>
   <app-confirmation-document-card title="Документ, подтверждающий полномочие доверенного лица представлять интересы законного представителя"
-    [document]="entity.applicantRepresentParentDocument">
+    [model]="entity.applicantRepresentParentDocument" [mode]="mode">
   </app-confirmation-document-card>
 </app-person-view>

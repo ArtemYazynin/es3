@@ -1,10 +1,11 @@
-import { ChangeDetectionStrategy, Component, OnDestroy, OnInit, ChangeDetectorRef } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { MatDialog, MatDialogConfig } from '@angular/material';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
-import { map, takeUntil, distinctUntilChanged } from 'rxjs/operators';
-import { ApplicantType, CitizenshipService, ConfirmationDocument, Country, DrawService, Entity, GroupService, Inquiry, InquiryService, inquiryType, InstitutionService, PrivilegeOrder, PrivilegeOrderService, Specificity, SpecificityService, Status, StatusService } from '../../../shared/index';
+import { map, takeUntil } from 'rxjs/operators';
+import { ConfirmationDocumentService } from '../../../shared/confirmation-document.service';
+import { ApplicantType, CitizenshipService, ConfirmationDocument, Country, DrawService, Entity, GroupService, Inquiry, InquiryService, inquiryType, InstitutionService, PrivilegeOrder, PrivilegeOrderService, Specificity, SpecificityService, Status, StatusService, ConfirmationDocumentMode } from '../../../shared/index';
 import { EditContactInfoDialogComponent } from '../edit-contact-info-dialog/edit-contact-info-dialog.component';
 import { EditCurrentEducationPlaceDialogComponent } from '../edit-current-education-place-dialog/edit-current-education-place-dialog.component';
 import { EditFileAttachmentsDialogComponent } from '../edit-file-attachments-dialog/edit-file-attachments-dialog.component';
@@ -13,7 +14,6 @@ import { EditPersonDialogComponent } from '../edit-person-dialog/edit-person-dia
 import { EditPreschoolInstitutionDialogComponent } from '../edit-preschool-institution-dialog/edit-preschool-institution-dialog.component';
 import { EditPrivilegeDialogComponent } from '../edit-privilege-dialog/edit-privilege-dialog.component';
 import { EditSchoolInquiryInfoDialogComponent } from '../edit-school-inquiry-info-dialog/edit-school-inquiry-info-dialog.component';
-import { EditConfirmationDocumentDialogComponent } from '../edit-confirmation-document-dialog/edit-confirmation-document-dialog.component';
 
 @Component({
   selector: 'app-inquiry-read',
@@ -35,6 +35,7 @@ export class InquiryReadComponent implements OnInit, OnDestroy {
   applicantTypes = ApplicantType;
   drawManager = this.drawService;
   statusForm: FormGroup;
+  mode = ConfirmationDocumentMode;
 
   constructor(private router: Router, private route: ActivatedRoute, private inquiryService: InquiryService,
     private privilegeOrderService: PrivilegeOrderService, private statusService: StatusService, private drawService: DrawService,
@@ -56,7 +57,7 @@ export class InquiryReadComponent implements OnInit, OnDestroy {
     this.inquiryService.get(this.route.snapshot.data.resolved.inquiryId)
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(data => {
-        this.$inquiry = new BehaviorSubject<Inquiry>(data)
+        this.$inquiry = new BehaviorSubject<Inquiry>(data);
         if (data.type == inquiryType.preschool)
           this.specificity = this.specificityService.get(data.inquiryInfo.distributionParams.specificity).pipe(map(specificities => specificities[0]));
         this.$institutionType = this.institutionService.getTypes(data.currentEducationPlace.institutionType).pipe(map(types => types[0]));
@@ -148,7 +149,7 @@ export class InquiryReadComponent implements OnInit, OnDestroy {
       this.dialog.open(EditSchoolInquiryInfoDialogComponent, getDefaultConfig());
     }
     const confirmationDocument = () => {
-      this.dialog.open(EditConfirmationDocumentDialogComponent, getDefaultConfig(config));
+      //this.dialog.open(EditConfirmationDocumentDialogComponent, getDefaultConfig(config));
     }
     return {
       common: common,

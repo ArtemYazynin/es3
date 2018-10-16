@@ -1,14 +1,13 @@
-import { Component, Input, OnInit, OnDestroy } from '@angular/core';
+import { Component, Input, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { isNullOrUndefined } from 'util';
-import { Applicant, Parent, Child, DrawService, CitizenshipService, Country } from '../../index';
-import { takeUntil } from 'rxjs/operators';
-import { Subject } from 'rxjs';
 import { ApplicantType } from '../../applicant-type.enum';
+import { Applicant, Child, DrawService, Parent } from '../../index';
 
 @Component({
   selector: 'app-person-view',
   templateUrl: './person-view.component.html',
-  styleUrls: ['./person-view.component.css']
+  styleUrls: ['./person-view.component.css'],
+  changeDetection:ChangeDetectionStrategy.OnPush
 })
 export class PersonViewComponent implements OnInit {
   @Input() title: string;

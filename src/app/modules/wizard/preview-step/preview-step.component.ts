@@ -1,11 +1,13 @@
 import { Component, OnDestroy, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { MatDialog } from '@angular/material';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Observable, Subject, timer } from 'rxjs';
+import { Observable, Subject, timer, zip } from 'rxjs';
 import { map, takeUntil } from 'rxjs/operators';
 import { isNullOrUndefined } from 'util';
 import { CitizenshipService, Country, DrawService, Entity, Group, Inquiry, InquiryService, SpecHealth, SpecHealthService, inquiryType } from '../../../shared';
 import { StepBase, WizardStorageService } from '../shared';
+import { Guid } from '../../../shared/models/guid';
+import { ConfirmationDocumentService } from '../../../shared/confirmation-document.service';
 
 @Component({
   selector: 'app-preview-step',
@@ -17,7 +19,7 @@ export class PreviewStepComponent implements OnInit, OnDestroy, StepBase {
 
   constructor(private router: Router, private route: ActivatedRoute, private citizenshipService: CitizenshipService,
     private storageService: WizardStorageService, public drawService: DrawService, private specHealthService: SpecHealthService,
-    private inquiryService: InquiryService, public dialog: MatDialog) { }
+    private inquiryService: InquiryService, public dialog: MatDialog, private confirmationDocumentService: ConfirmationDocumentService) { }
   private ngUnsubscribe: Subject<any> = new Subject();
   $group: Observable<Group>;
   $institutionType: Observable<Entity<number>>
@@ -35,11 +37,13 @@ export class PreviewStepComponent implements OnInit, OnDestroy, StepBase {
       this.router.navigate(["../fileAttachmentStep"], { relativeTo: this.route });
     },
     next: () => {
-      timer(1000).pipe().subscribe((response) => {
+      timer(1000).pipe(takeUntil(this.ngUnsubscribe)).subscribe((response) => {
         this.inquiry.type = this.inquiryType;
-        this.inquiryService.create(this.inquiry).subscribe(inquiry => {
-          this.router.navigate([`../registerComplete/${inquiry.id}`], { relativeTo: this.route });
-        });
+        this.inquiryService.create(this.inquiry)
+          .pipe(takeUntil(this.ngUnsubscribe))
+          .subscribe(inquiry => {
+            this.router.navigate([`../registerComplete/${inquiry.id}`], { relativeTo: this.route });
+          });
       })
     }
   };

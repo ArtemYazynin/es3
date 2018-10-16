@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { Privilege } from '../../../../shared';
+import { Privilege, ConfirmationDocumentMode } from '../../../../shared';
 
 @Component({
   selector: 'app-preview-privilege',
@@ -9,6 +9,7 @@ import { Privilege } from '../../../../shared';
 export class PreviewPrivilegeComponent implements OnInit {
   @Input() privilege: Privilege;
   visibility: boolean = false;
+  mode = ConfirmationDocumentMode;
   constructor() { }
   ngOnInit() {
     this.visibility = this.privilege && Object.keys(this.privilege).length > 0

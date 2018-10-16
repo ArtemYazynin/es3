@@ -43,6 +43,8 @@ import { SchoolInquiryInfoCardComponent } from "./shared/components/school-inqui
 import { SnilsComponent } from "./shared/components/snils/snils.component";
 import { StayModeComponent } from "./shared/components/stay-mode/stay-mode.component";
 import { InquiryTypeFriendlyNamePipe } from './shared/inquiry-type.pipe';
+import { EditConfirmationDocumentDialogComponent } from "./modules/inquiry/edit-confirmation-document-dialog/edit-confirmation-document-dialog.component";
+import { ConfirmationDocumentService } from "./shared/confirmation-document.service";
 
 
 
@@ -59,7 +61,7 @@ import { InquiryTypeFriendlyNamePipe } from './shared/inquiry-type.pipe';
         ContactInfoCardComponent,
         InstitutionsCardComponent,
         SchoolClassCardComponent,
-        CurrentEducationPlaceCardComponent
+        CurrentEducationPlaceCardComponent,EditConfirmationDocumentDialogComponent
     ],
     imports: [
         CommonModule,
@@ -79,9 +81,10 @@ import { InquiryTypeFriendlyNamePipe } from './shared/inquiry-type.pipe';
         PersonViewComponent, ConfirmationDocumentCardComponent, AdultCardComponent, ChildrenCardComponent, ContactInfoCardComponent, InstitutionsCardComponent, SchoolClassCardComponent, CurrentEducationPlaceCardComponent
     ],
     providers: [
-        SpecializationService,
+        SpecializationService,ConfirmationDocumentService,
         EducProgramService
-    ]
+    ],
+    entryComponents:[EditConfirmationDocumentDialogComponent]
 })
 export class ShareModule {
 

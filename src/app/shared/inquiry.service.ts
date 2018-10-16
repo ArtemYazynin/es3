@@ -1,7 +1,6 @@
 import { Inject, Injectable } from '@angular/core';
-import { Headers, RequestOptions } from '@angular/http';
-import { empty, Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { Headers, RequestOptions, Http } from '@angular/http';
+import { empty, Observable, zip, Subscription } from 'rxjs';
 import { isNullOrUndefined } from 'util';
 import { SERVER_URL } from '../app.module';
 import { EditContactInfoComponent } from '../modules/inquiry/shared/components/edit-contact-info/edit-contact-info.component';
@@ -32,12 +31,17 @@ import { StayMode } from './models/stay-mode.model';
 import { RegisterSource } from './models/register-source.enum';
 import { PortalIdentity } from './models/portal-identity.model';
 import { Status } from './models/status.model';
+import { ConfirmationDocumentService } from './confirmation-document.service';
+import { ConfirmationDocument } from './models/confirmation-document.model';
+import { map, takeUntil } from 'rxjs/operators';
+import { environment } from '../../environments/environment';
 
 @Injectable()
 export class InquiryService {
   private baseUrl = `${this.serverUrl}/inquiries`
-  constructor(private http: HttpInterceptor, private storageService: WizardStorageService, private commonService: CommonService,
-    @Inject(SERVER_URL) private serverUrl) { }
+
+  constructor(private http: Http, private storageService: WizardStorageService, private commonService: CommonService,
+    @Inject(SERVER_URL) private serverUrl, private confirmationDocumentService: ConfirmationDocumentService) { }
 
   saveApplicant(inquiry: Inquiry, editPersonComponent: EditPersonComponent, update: (patch: object) => void): void {
     if (inquiry.applicantType != ApplicantType.Applicant) return;
@@ -158,6 +162,30 @@ export class InquiryService {
     inquiry.addInformation = "доп. инфа по заявлению";
     inquiry.portalIdentity = new PortalIdentity(Guid.newGuid(), "123 внешний id");
     inquiry.status = new Status(Guid.newGuid(), "Новое");
+
+    if (inquiry.parent) {
+      if (inquiry.parent.countryStateDocument) {
+        inquiry.parent.countryStateDocument.id = Guid.newGuid();
+      }
+      if (inquiry.parent.parentRepresentChildrenDocument) {
+        inquiry.parent.parentRepresentChildrenDocument.id = Guid.newGuid();
+      }
+    }
+    if (inquiry.applicant) {
+      if (inquiry.applicant.countryStateApplicantDocument) {
+        inquiry.applicant.countryStateApplicantDocument.id = Guid.newGuid();
+      }
+      if (inquiry.applicant.applicantRepresentParentDocument) {
+        inquiry.applicant.applicantRepresentParentDocument.id = Guid.newGuid();
+      }
+    }
+    if (inquiry.privilege && inquiry.privilege.privilegeProofDocument) {
+      inquiry.privilege.privilegeProofDocument.id = Guid.newGuid();
+    }
+    inquiry.children.forEach(child => {
+      if (child.specHealthDocument) child.specHealthDocument.id = Guid.newGuid();
+    })
+
     return this.http.post(this.baseUrl, inquiry, options).pipe(map(result => {
       return <Inquiry>result.json();
     }));
@@ -188,7 +216,35 @@ export class InquiryService {
     // return new BehaviorSubject<Inquiry>(this.storageService.get("preschool"));
     const url = `${this.baseUrl}/${id}`;
     return this.http.get(url).pipe(map(result => {
-      return new Inquiry(result.json());
+      let inquiry = new Inquiry(result.json());
+
+      return inquiry;
     }));
+  }
+
+  updateInquiryPropery(id: string, objProp: { id: string }) {
+    if (!id) return;
+    if (!environment.production) {
+      this.get(id)
+        .subscribe(inquiry => {
+          this.updateInquiry(inquiry, objProp);
+          this.update(inquiry.id, inquiry).subscribe();
+        });
+    }
+  }
+  private updateInquiry(inquiry: Inquiry, inquiryProp: { id: string }) {
+    if (!inquiry || !inquiryProp || !inquiryProp.id) return;
+    for (const key in inquiry) {
+      if (inquiry.hasOwnProperty(key)) {
+        if (typeof inquiry[key] == "string") {
+          if (key.toLowerCase() == "id" && inquiry[key] == inquiryProp.id) {
+            Object.assign(inquiry, inquiryProp);
+            break;
+          }
+        } else {
+          this.updateInquiry(inquiry[key], inquiryProp);//recursivelly
+        }
+      }
+    }
   }
 }

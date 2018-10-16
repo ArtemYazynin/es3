@@ -1,5 +1,5 @@
 <div *ngIf="data.$document | async as doc">
-  <ng-container *ngIf="data.modelType == applicantTypes.Parent">
+  <ng-container>
     <h1 mat-dialog-title>Редактирование документа</h1>
     <div mat-dialog-content>
       <app-edit-confirmation-document [model]="doc"></app-edit-confirmation-document>

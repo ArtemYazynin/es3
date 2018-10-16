@@ -16,6 +16,7 @@ export class EditConfirmationDocumentComponent implements OnInit {
 
   @Input() title: string = "";
   @Input() model: ConfirmationDocument;
+  @Input() type: AttachmentType;
 
   constructor(private fb: FormBuilder, private formService: FormService) { }
 
