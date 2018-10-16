@@ -14,6 +14,7 @@ import { IdentityCard } from './models/identityCard.model';
 import { IdentityCardType } from './models/identityCardType';
 import { Parent } from './models/parent.model';
 import { esConstant } from '../app.module';
+import { MatDialogConfig } from '@angular/material';
 
 @Injectable()
 export class CommonService {
@@ -179,5 +180,14 @@ export class CommonService {
     return result;
   }
 
+  getDialogConfig(obj?: object){
+    let config = new MatDialogConfig();
+    config.disableClose = true;
+    config.autoFocus = true;
+    config.width = "1000px";
+    config.data = {};
+    if (obj) Object.assign(config.data, obj);
 
+    return config;
+  }
 }

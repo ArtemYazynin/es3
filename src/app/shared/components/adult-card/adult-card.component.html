@@ -1,4 +1,5 @@
 <app-person-view [title]="title" [entity]="entity" [edit]="edit" *ngIf="entity">
+  <!-- <app-citizenships-card [model]="entity"></app-citizenships-card> -->
   <div class="form-group">
     <b>Гражданство </b> {{drawService.citizenships(entity.citizenships, countries)}}
   </div>

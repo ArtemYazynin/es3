@@ -1,11 +1,10 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { MatDialog, MatDialogConfig } from '@angular/material';
+import { MatDialog } from '@angular/material';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { map, takeUntil } from 'rxjs/operators';
-import { ConfirmationDocumentService } from '../../../shared/confirmation-document.service';
-import { ApplicantType, CitizenshipService, ConfirmationDocument, Country, DrawService, Entity, GroupService, Inquiry, InquiryService, inquiryType, InstitutionService, PrivilegeOrder, PrivilegeOrderService, Specificity, SpecificityService, Status, StatusService, ConfirmationDocumentMode } from '../../../shared/index';
+import { ApplicantType, CitizenshipService, CommonService, ConfirmationDocument, ConfirmationDocumentMode, Country, DrawService, Entity, Inquiry, InquiryService, inquiryType, InstitutionService, PrivilegeOrder, PrivilegeOrderService, Specificity, SpecificityService, Status, StatusService } from '../../../shared/index';
 import { EditContactInfoDialogComponent } from '../edit-contact-info-dialog/edit-contact-info-dialog.component';
 import { EditCurrentEducationPlaceDialogComponent } from '../edit-current-education-place-dialog/edit-current-education-place-dialog.component';
 import { EditFileAttachmentsDialogComponent } from '../edit-file-attachments-dialog/edit-file-attachments-dialog.component';
@@ -40,7 +39,7 @@ export class InquiryReadComponent implements OnInit, OnDestroy {
   constructor(private router: Router, private route: ActivatedRoute, private inquiryService: InquiryService,
     private privilegeOrderService: PrivilegeOrderService, private statusService: StatusService, private drawService: DrawService,
     private citizenshipService: CitizenshipService, private fb: FormBuilder, private specificityService: SpecificityService, public dialog: MatDialog,
-    private institutionService: InstitutionService, private groupService: GroupService, private cdr: ChangeDetectorRef) { }
+    private institutionService: InstitutionService, private cdr: ChangeDetectorRef, private commonService: CommonService) { }
 
   ngOnInit() {
     this.citizenshipService.getCountries()
@@ -92,67 +91,44 @@ export class InquiryReadComponent implements OnInit, OnDestroy {
   }
 
   edit = (() => {
-    // const getDefaultConfig = (modelType?: ApplicantType) => {
-    //   let config = new MatDialogConfig();
-    //   config.disableClose = true;
-    //   config.autoFocus = true;
-    //   config.data = {
-    //     $inquiry: this.$inquiry,
-    //     modelType: modelType
-    //   };
-    //   config.width = "1000px";
-    //   return config;
-    // }
-    const getDefaultConfig = (obj?: object) => {
-      let config = new MatDialogConfig();
-      config.disableClose = true;
-      config.autoFocus = true;
-      config.data = { $inquiry: this.$inquiry };
-      if (obj) {
-        Object.assign(obj, config.data);
-      }
-      config.width = "1000px";
-      return config;
-    }
-    const common = () => {
+    let getConfig = (addConfig?: object) => {
+      let config = { $inquiry: this.$inquiry };
+      if (addConfig) Object.assign(config, addConfig);
 
+      return this.commonService.getDialogConfig(config);
     }
     const person = (modelType: ApplicantType) => {
-      this.dialog.open(EditPersonDialogComponent, getDefaultConfig({ modelType: modelType }));
+      this.dialog.open(EditPersonDialogComponent, getConfig({ modelType: modelType }));
     }
     const privilege = () => {
-      this.dialog.open(EditPrivilegeDialogComponent, getDefaultConfig());
+      this.dialog.open(EditPrivilegeDialogComponent, getConfig());
       // const dialogRef = this.dialog.open(EditPrivilegeDialogComponent, config);
       // dialogRef.afterClosed().subscribe((result:Inquiry) => {
       //   console.log('The dialog was closed');
       // });
     }
     const inquiryInfo = () => {
-      this.dialog.open(EditInquiryInfoDialogComponent, getDefaultConfig());
+      this.dialog.open(EditInquiryInfoDialogComponent, getConfig());
     }
     const institutions = () => {
-      this.dialog.open(EditPreschoolInstitutionDialogComponent, getDefaultConfig());
+      this.dialog.open(EditPreschoolInstitutionDialogComponent, getConfig());
     }
 
     const contactInfo = () => {
-      this.dialog.open(EditContactInfoDialogComponent, getDefaultConfig());
+      this.dialog.open(EditContactInfoDialogComponent, getConfig());
     }
 
     const currentEducationPlace = () => {
-      this.dialog.open(EditCurrentEducationPlaceDialogComponent, getDefaultConfig());
+      this.dialog.open(EditCurrentEducationPlaceDialogComponent, getConfig());
     }
 
     const fileAttachments = () => {
-      this.dialog.open(EditFileAttachmentsDialogComponent, getDefaultConfig());
+      this.dialog.open(EditFileAttachmentsDialogComponent, getConfig());
     }
     const schoolInquiryInfo = () => {
-      this.dialog.open(EditSchoolInquiryInfoDialogComponent, getDefaultConfig());
-    }
-    const confirmationDocument = () => {
-      //this.dialog.open(EditConfirmationDocumentDialogComponent, getDefaultConfig(config));
+      this.dialog.open(EditSchoolInquiryInfoDialogComponent, getConfig());
     }
     return {
-      common: common,
       privilege: privilege,
       person: person,
       inquiryInfo: inquiryInfo,
@@ -160,8 +136,7 @@ export class InquiryReadComponent implements OnInit, OnDestroy {
       institutions: institutions,
       contactInfo: contactInfo,
       currentEducationPlace: currentEducationPlace,
-      fileAttachments: fileAttachments,
-      confirmationDocument: confirmationDocument
+      fileAttachments: fileAttachments
     }
   })();
 }

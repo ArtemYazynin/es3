@@ -45,6 +45,7 @@ import { StayModeComponent } from "./shared/components/stay-mode/stay-mode.compo
 import { InquiryTypeFriendlyNamePipe } from './shared/inquiry-type.pipe';
 import { EditConfirmationDocumentDialogComponent } from "./modules/inquiry/edit-confirmation-document-dialog/edit-confirmation-document-dialog.component";
 import { ConfirmationDocumentService } from "./shared/confirmation-document.service";
+import { CitizenshipsCardComponent } from './shared/components/citizenships-card/citizenships-card.component';
 
 
 
@@ -61,7 +62,7 @@ import { ConfirmationDocumentService } from "./shared/confirmation-document.serv
         ContactInfoCardComponent,
         InstitutionsCardComponent,
         SchoolClassCardComponent,
-        CurrentEducationPlaceCardComponent,EditConfirmationDocumentDialogComponent
+        CurrentEducationPlaceCardComponent,EditConfirmationDocumentDialogComponent, CitizenshipsCardComponent
     ],
     imports: [
         CommonModule,
