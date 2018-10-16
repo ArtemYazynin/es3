@@ -12,7 +12,6 @@ import { EditInquiryInfoComponent } from "./modules/inquiry/shared/components/ed
 import { EditInstitutionsComponent } from "./modules/inquiry/shared/components/edit-institutions/edit-institutions.component";
 import { EditPersonComponent } from "./modules/inquiry/shared/components/edit-person/edit-person.component";
 import { InquiryInfoEditComponent } from "./modules/inquiry/shared/components/inquiry-info-edit/inquiry-info-edit.component";
-import { ChildComponent } from "./modules/wizard/children-step/child/child.component";
 import { EducProgramService, SpecializationService } from "./shared";
 import { ApplicantTypePipe } from "./shared/applicant-type.pipe";
 import { AreaTypePipe } from './shared/area-type.pipe';
@@ -50,6 +49,7 @@ import { SpecHealthComponent } from "./shared/components/spec-health/spec-health
 import { StayModeComponent } from "./shared/components/stay-mode/stay-mode.component";
 import { InquiryTypeFriendlyNamePipe } from './shared/inquiry-type.pipe';
 import { YesNoPipe } from "./shared/yes-no.pipe";
+import { ChildComponent } from "./shared/components/child/child.component";
 
 
 

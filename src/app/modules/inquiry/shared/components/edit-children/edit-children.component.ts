@@ -6,7 +6,7 @@ import { CitizenshipSelectComponent } from '../../../../../shared/components/cit
 import { ForeignCitizensAddressesComponent } from '../../../../../shared/components/foreign-citizens-addresses/foreign-citizens-addresses.component';
 import { RfCitizensAddressesComponent } from '../../../../../shared/components/rf-citizens-addresses/rf-citizens-addresses.component';
 import { SpecHealthComponent } from '../../../../../shared/components/spec-health/spec-health.component';
-import { ChildComponent } from '../../../../wizard/children-step/child/child.component';
+import { ChildComponent } from '../../../../../shared/components/child/child.component';
 
 
 @Component({

@@ -1,6 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { ChildComponent } from '../../../modules/wizard/children-step/child/child.component';
 import { inquiryType, Entity } from '../../index';
+import { ChildComponent } from '../child/child.component';
 
 @Component({
   selector: 'app-disability-child',

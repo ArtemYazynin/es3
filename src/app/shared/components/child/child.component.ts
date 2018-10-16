@@ -1,10 +1,10 @@
 import { Component, OnInit, ViewChild, ChangeDetectionStrategy, AfterViewInit, DoCheck } from '@angular/core';
-import { IdentityCardComponent } from '../../../../shared/components/identity-card/identity-card.component';
-import { FullNameComponent } from '../../../../shared/components/full-name/full-name.component';
-import { SnilsComponent } from '../../../../shared/components/snils/snils.component';
-import { GenderComponent } from '../../../../shared/components/gender/gender.component';
-import { IdentityCardType, inquiryType, Child, FormService } from '../../../../shared';
 import { BehaviorSubject } from 'rxjs';
+import { IdentityCardComponent } from '../identity-card/identity-card.component';
+import { FullNameComponent } from '../full-name/full-name.component';
+import { SnilsComponent } from '../snils/snils.component';
+import { GenderComponent } from '../gender/gender.component';
+import { FormService, IdentityCardType, Child, inquiryType } from '../..';
 
 @Component({
   selector: 'app-child',
