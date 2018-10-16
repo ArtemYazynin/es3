@@ -2,6 +2,7 @@ import { Component, Input, OnInit, ChangeDetectionStrategy } from '@angular/core
 import { isNullOrUndefined } from 'util';
 import { ApplicantType } from '../../applicant-type.enum';
 import { Applicant, Child, DrawService, Parent } from '../../index';
+import { ConfirmationDocumentMode } from '../../confirmation-document-mode.enum';
 
 @Component({
   selector: 'app-person-view',
@@ -16,6 +17,7 @@ export class PersonViewComponent implements OnInit {
 
   drawManager = this.drawService;
   applicantType: ApplicantType;
+  mode = ConfirmationDocumentMode;
 
   constructor(private drawService: DrawService) { }
 

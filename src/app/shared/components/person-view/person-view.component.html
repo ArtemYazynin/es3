@@ -8,23 +8,12 @@
   <div class="form-group">
     <b>СНИЛС </b> {{entity.snils || "-"}}
   </div>
-  <app-inquiry-info-edit title="Документ, подтверждающий потребность в группе с ОВЗ" *ngIf="isChild()">
-    <div class="form-group">
-      <b>Название </b>{{entity.specHealthDocument.name}}
-    </div>
-    <div class="form-group">
-      <b>Серия </b>{{entity.specHealthDocument.series}}
-    </div>
-    <div class="form-group">
-      <b>Номер </b>{{entity.specHealthDocument.number}}
-    </div>
-    <div class="form-group">
-      <b>Дата выдачи </b>{{entity.specHealthDocument.dateIssue | date: 'dd.MM.yyyy'}}
-    </div>
-    <div class="form-group">
-      <b>Действителен до </b>{{entity.specHealthDocument.dateExpired | date: 'dd.MM.yyyy'}}
-    </div>
-  </app-inquiry-info-edit>
+  <ng-container *ngIf="isChild()">
+    <app-confirmation-document-card title="Документ, подтверждающий потребность в группе с ОВЗ" [model]="entity.specHealthDocument"
+      [mode]="edit ? mode.Edit : mode.Read">
+    </app-confirmation-document-card>
+  </ng-container>
+
   <ng-content></ng-content>
 </ng-template>
 
