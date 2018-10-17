@@ -37,8 +37,19 @@
   </div>
   <div class="row" *ngIf="inquiry.applicant">
     <div class="col-md-6">
-      <app-adult-card title="Доверенное лицо законного представителя ребенка" [entity]="inquiry.applicant" [edit]="edit.person">
-      </app-adult-card>
+      <app-inquiry-info-edit title="Доверенное лицо законного представителя ребенка">
+        <app-person-view title="Персональные данные" [entity]="inquiry.applicant" [mode]="modes.Edit"></app-person-view>
+
+        <app-citizenships-card [model]="inquiry.applicant"></app-citizenships-card>
+        <app-confirmation-document-card title="Документ, подтверждающий право пребывания доверенного лица законного представителя на территории РФ"
+          [model]="inquiry.applicant.countryStateApplicantDocument" [mode]="modes.Edit">
+        </app-confirmation-document-card>
+        <app-confirmation-document-card title="Документ, подтверждающий полномочие доверенного лица представлять интересы законного представителя"
+          [model]="inquiry.applicant.applicantRepresentParentDocument" [mode]="modes.Edit">
+        </app-confirmation-document-card>
+      </app-inquiry-info-edit>
+      <!-- <app-adult-card title="Доверенное лицо законного представителя ребенка" [entity]="inquiry.applicant" [edit]="edit.person">
+      </app-adult-card> -->
     </div>
     <div class="col-md-6" *ngIf="inquiry.applicantType != applicantTypes.Child">
       <app-adult-card title="Законный представитель" [entity]="inquiry.parent" [edit]="edit.person">
@@ -68,10 +79,10 @@
           <dl class="dl-horizontal">
             <dt>Приоритет льготной категории </dt>
             <dd>{{inquiry.privilege.privilegeOrder.name}}</dd>
-            <dt>Льготная категория </dt> 
+            <dt>Льготная категория </dt>
             <dd>{{inquiry.privilege.name}}</dd>
           </dl>
-          <app-confirmation-document-card [model]="inquiry.privilege?.privilegeProofDocument" [mode]="mode.Edit" title="Документ, подтверждающий наличие льготной категории"
+          <app-confirmation-document-card [model]="inquiry.privilege?.privilegeProofDocument" [mode]="modes.Edit" title="Документ, подтверждающий наличие льготной категории"
             *ngIf="inquiry.privilege?.privilegeProofDocument">
           </app-confirmation-document-card>
         </ng-container>

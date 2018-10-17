@@ -16,9 +16,9 @@
       <identity-card [ids]="groupOfIdentityCardTypeId" [model]="model?.identityCard"></identity-card>
     </div>
   </div>
-  <app-citizenship-select [citizenships]="model?.citizenships">
-  </app-citizenship-select>
-  <div *ngIf="isAvailable.addresses()">
+  <!-- <app-citizenship-select [citizenships]="model?.citizenships">
+  </app-citizenship-select> -->
+  <!-- <div *ngIf="isAvailable.addresses()">
     <div *ngIf="isAvailable.hasRfCitizenship()">
       <app-rf-citizens-addresses [owner]="model">
       </app-rf-citizens-addresses>
@@ -27,14 +27,22 @@
       <app-foreign-citizens-addresses [owner]="model">
       </app-foreign-citizens-addresses>
     </div>
-  </div>
-  <div class="row" [hidden]="!isAvailable.childApplicantInfo">
+  </div> -->
+
+
+
+
+
+  <!-- <div class="row" [hidden]="!isAvailable.childApplicantInfo">
     <div class="col-md-12">
       <birth-info [model]="model">
       </birth-info>
     </div>
-  </div>
-  <div class="row" [hidden]="!isAvailable.countryStateDocument()">
+  </div> -->
+
+
+
+  <!-- <div class="row" [hidden]="!isAvailable.countryStateDocument()">
     <ng-container *ngTemplateOutlet="confirmationDocument; context: countryStateDocumentContext"></ng-container>
   </div>
   <div class="row" [hidden]="modelType !== applicantTypes.Applicant">
@@ -46,5 +54,5 @@
   </div>
   <div class="row" [hidden]="!isAvailable.parentRepresentChildren()">
     <ng-container *ngTemplateOutlet="confirmationDocument; context: parentRepresentChildrenDocumentContext"></ng-container>
-  </div>
+  </div> -->
 </ng-container>

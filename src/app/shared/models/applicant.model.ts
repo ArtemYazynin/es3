@@ -10,8 +10,6 @@ export class Applicant extends Person implements PersonWithAddress {
         super(lastname, firstname, middlename, snils, noMiddlename, birthDate, birthPlace, gender);
 
     }
-
-    identityCard: IdentityCard;
     citizenships: Array<number>;
     countryStateApplicantDocument: ConfirmationDocument
     applicantRepresentParentDocument: ConfirmationDocument;

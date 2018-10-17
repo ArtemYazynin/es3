@@ -164,6 +164,7 @@ export class InquiryService {
     inquiry.status = new Status(Guid.newGuid(), "Новое");
 
     if (inquiry.parent) {
+      inquiry.parent.id = Guid.newGuid();
       if (inquiry.parent.countryStateDocument) {
         inquiry.parent.countryStateDocument.id = Guid.newGuid();
       }
@@ -172,6 +173,7 @@ export class InquiryService {
       }
     }
     if (inquiry.applicant) {
+      inquiry.applicant.id = Guid.newGuid();
       if (inquiry.applicant.countryStateApplicantDocument) {
         inquiry.applicant.countryStateApplicantDocument.id = Guid.newGuid();
       }
@@ -183,6 +185,7 @@ export class InquiryService {
       inquiry.privilege.privilegeProofDocument.id = Guid.newGuid();
     }
     inquiry.children.forEach(child => {
+      child.id = Guid.newGuid();
       if (child.specHealthDocument) child.specHealthDocument.id = Guid.newGuid();
     })
 

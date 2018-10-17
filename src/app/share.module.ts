@@ -45,7 +45,7 @@ import { StayModeComponent } from "./shared/components/stay-mode/stay-mode.compo
 import { InquiryTypeFriendlyNamePipe } from './shared/inquiry-type.pipe';
 import { EditConfirmationDocumentDialogComponent } from "./modules/inquiry/edit-confirmation-document-dialog/edit-confirmation-document-dialog.component";
 import { ConfirmationDocumentService } from "./shared/confirmation-document.service";
-import { CitizenshipsCardComponent } from './shared/components/citizenships-card/citizenships-card.component';
+import { PersonService } from "./shared/person.service";
 
 
 
@@ -62,7 +62,7 @@ import { CitizenshipsCardComponent } from './shared/components/citizenships-card
         ContactInfoCardComponent,
         InstitutionsCardComponent,
         SchoolClassCardComponent,
-        CurrentEducationPlaceCardComponent,EditConfirmationDocumentDialogComponent, CitizenshipsCardComponent
+        CurrentEducationPlaceCardComponent, EditConfirmationDocumentDialogComponent
     ],
     imports: [
         CommonModule,
@@ -71,7 +71,7 @@ import { CitizenshipsCardComponent } from './shared/components/citizenships-card
         ReactiveFormsModule,
         TextMaskModule,
         NgSelectModule,
-        
+
     ],
     exports: [
         PrivilegeEditComponent, EditConfirmationDocumentComponent, ApplicantTypePipe, AttachmentTypePipe, InquiryTypeFriendlyNamePipe, FullNameComponent, GenderComponent,
@@ -82,10 +82,10 @@ import { CitizenshipsCardComponent } from './shared/components/citizenships-card
         PersonViewComponent, ConfirmationDocumentCardComponent, AdultCardComponent, ChildrenCardComponent, ContactInfoCardComponent, InstitutionsCardComponent, SchoolClassCardComponent, CurrentEducationPlaceCardComponent
     ],
     providers: [
-        SpecializationService,ConfirmationDocumentService,
-        EducProgramService
+        SpecializationService, ConfirmationDocumentService,
+        EducProgramService, PersonService
     ],
-    entryComponents:[EditConfirmationDocumentDialogComponent]
+    entryComponents: [EditConfirmationDocumentDialogComponent]
 })
 export class ShareModule {
 

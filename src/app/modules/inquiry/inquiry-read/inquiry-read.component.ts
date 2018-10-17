@@ -34,7 +34,7 @@ export class InquiryReadComponent implements OnInit, OnDestroy {
   applicantTypes = ApplicantType;
   drawManager = this.drawService;
   statusForm: FormGroup;
-  mode = ConfirmationDocumentMode;
+  modes = ConfirmationDocumentMode;
 
   constructor(private router: Router, private route: ActivatedRoute, private inquiryService: InquiryService,
     private privilegeOrderService: PrivilegeOrderService, private statusService: StatusService, private drawService: DrawService,
@@ -98,7 +98,7 @@ export class InquiryReadComponent implements OnInit, OnDestroy {
       return this.commonService.getDialogConfig(config);
     }
     const person = (modelType: ApplicantType) => {
-      this.dialog.open(EditPersonDialogComponent, getConfig({ modelType: modelType }));
+      //this.dialog.open(EditPersonDialogComponent, getConfig({ modelType: modelType }));
     }
     const privilege = () => {
       this.dialog.open(EditPrivilegeDialogComponent, getConfig());

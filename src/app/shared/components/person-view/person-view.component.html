@@ -8,17 +8,15 @@
   <div class="form-group">
     <b>СНИЛС </b> {{entity.snils || "-"}}
   </div>
-  <ng-container *ngIf="isChild()">
+  <!-- <ng-container *ngIf="isChild()">
     <app-confirmation-document-card title="Документ, подтверждающий потребность в группе с ОВЗ" [model]="entity.specHealthDocument"
-      [mode]="edit ? mode.Edit : mode.Read">
+      [mode]="mode">
     </app-confirmation-document-card>
-  </ng-container>
-
-  <ng-content></ng-content>
+  </ng-container> -->
 </ng-template>
 
 <ng-template #withEdit>
-  <app-inquiry-info-edit [title]="title" (edit)="edit(applicantType)">
+  <app-inquiry-info-edit [title]="title" (edit)="edit()">
     <ng-container *ngTemplateOutlet="fieldsTemplate">
     </ng-container>
   </app-inquiry-info-edit>
@@ -31,6 +29,6 @@
   </app-inquiry-info-edit>
 </ng-template>
 
-<ng-container *ngTemplateOutlet="edit ? withEdit : withoutEdit">
+<ng-container *ngTemplateOutlet="mode == modes.Edit ? withEdit : withoutEdit">
 
 </ng-container>
