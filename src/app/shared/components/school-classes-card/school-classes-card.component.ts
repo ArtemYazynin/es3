@@ -1,10 +1,11 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
 import { SchoolClass } from '../..';
 
 @Component({
   selector: 'app-school-classes-card',
   templateUrl: './school-classes-card.component.html',
-  styleUrls: ['./school-classes-card.component.css']
+  styleUrls: ['./school-classes-card.component.css'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SchoolClassCardComponent implements OnInit {
   @Input() edit: () => void;

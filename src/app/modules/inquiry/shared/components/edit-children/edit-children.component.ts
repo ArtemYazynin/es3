@@ -1,12 +1,12 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ComponentFactory, ComponentFactoryResolver, ComponentRef, Input, OnInit, ViewChild, ViewContainerRef } from '@angular/core';
 import { isNullOrUndefined } from 'util';
-import { Child, CitizenshipService, ConfirmationDocument, IdentityCard, Inquiry, Person } from '../../../../../shared';
+import { Child, CitizenshipService, ConfirmationDocument, IdentityCard, Person } from '../../../../../shared';
 import { BirthInfoComponent } from '../../../../../shared/components/birth-info/birth-info.component';
+import { ChildComponent } from '../../../../../shared/components/child/child.component';
 import { CitizenshipSelectComponent } from '../../../../../shared/components/citizenship-select/citizenship-select.component';
 import { ForeignCitizensAddressesComponent } from '../../../../../shared/components/foreign-citizens-addresses/foreign-citizens-addresses.component';
 import { RfCitizensAddressesComponent } from '../../../../../shared/components/rf-citizens-addresses/rf-citizens-addresses.component';
 import { SpecHealthComponent } from '../../../../../shared/components/spec-health/spec-health.component';
-import { ChildComponent } from '../../../../../shared/components/child/child.component';
 
 
 @Component({
@@ -23,18 +23,20 @@ export class EditChildrenComponent implements OnInit {
   @ViewChild(RfCitizensAddressesComponent) rfAddressesComponent: RfCitizensAddressesComponent;
   @ViewChild(ForeignCitizensAddressesComponent) foreignAddressesComponent: ForeignCitizensAddressesComponent;
 
-  @Input() inquiry: Inquiry;
+  @Input() children: Array<Child>;
   @Input() inquiryType: any;
+  @Input() owner: any;
+
   components: Array<ComponentRef<ChildComponent>> = [];
 
   constructor(private resolver: ComponentFactoryResolver, private citizenshipService: CitizenshipService, private cdr: ChangeDetectorRef) { }
 
   ngOnInit() {
-    this.inquiry.children.forEach((child, index) => {
+    this.children.forEach((child, index) => {
       const factory: ComponentFactory<ChildComponent> = this.resolver.resolveComponentFactory(ChildComponent);
       let componentRef = <ComponentRef<ChildComponent>>this.viewContainer.createComponent(factory);
       componentRef.instance.child = child;
-      if (index + 1 == this.inquiry.children.length)
+      if (index + 1 == this.children.length)
         componentRef.instance.show.next(true);
 
       this.components.push(componentRef);

@@ -26,13 +26,12 @@
         <app-current-education-place-card [currentEducationPlace]="inquiry.currentEducationPlace"></app-current-education-place-card>
       </div>
       <div class="col-md-6">
-        <app-privilege-card *ngIf="!inquiry.privilege"></app-privilege-card>
-        <app-privilege-card [privilege]="inquiry.privilege" *ngIf="inquiry.privilege"></app-privilege-card>
+        <app-privilege-card [privilege]="inquiry?.privilege"></app-privilege-card>
       </div>
     </div>
     <div class="row">
       <div class="col-md-12">
-          <app-files-card [filesInfo]="inquiry.filesInfo"></app-files-card>
+        <app-files-card [filesInfo]="inquiry.filesInfo"></app-files-card>
       </div>
     </div>
   </app-inquiry-info-edit>

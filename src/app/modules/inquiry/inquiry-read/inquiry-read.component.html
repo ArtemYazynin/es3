@@ -63,8 +63,7 @@
   </div>
   <div class="row">
     <div class="col-md-4">
-      <app-privilege-card [edit]="edit.privilege" *ngIf="!inquiry.privilege"></app-privilege-card>
-      <app-privilege-card [privilege]="inquiry.privilege" [edit]="edit.privilege" *ngIf="inquiry.privilege"></app-privilege-card>
+      <app-privilege-card [privilege]="inquiry?.privilege" [edit]="edit.privilege"></app-privilege-card>
     </div>
     <app-files-card [filesInfo]="inquiry.filesInfo" [edit]="edit.fileAttachments"></app-files-card>
   </div>

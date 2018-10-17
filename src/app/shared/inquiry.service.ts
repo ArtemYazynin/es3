@@ -17,6 +17,7 @@ import { PrivilegeEditComponent } from './components/privilege-edit/privilege-ed
 import { DublicatesFinder } from './dublicates-finder';
 import { HttpInterceptor } from './http-interceptor';
 import { AgeGroup } from './models/age-group.model';
+import { Applicant } from './models/applicant.model';
 import { ContactInfo } from './models/contact-info.model';
 import { CurrentEducationPlace } from './models/current-education-place.model';
 import { DistributionParams } from './models/distribution-params.model';
@@ -62,8 +63,16 @@ export class InquiryService {
 
   saveChildren(editChildrenComponent: EditChildrenComponent, update: (patch: object) => void): void {
     let children = editChildrenComponent.getChildren();
-    if (DublicatesFinder.betweenChildren(children)) return;
-
+    if (editChildrenComponent.owner) {
+      if (editChildrenComponent.owner.relationType) {
+        if (DublicatesFinder.betweenChildren(children) && DublicatesFinder.betweenParentChildren(editChildrenComponent.owner as Parent, children))
+          return;
+      }
+      else {
+        if (DublicatesFinder.betweenChildren(children) && DublicatesFinder.betweenApplicantChildren(editChildrenComponent.owner as Applicant, children))
+          return;
+      }
+    }
     update({ children: children });
   }
 

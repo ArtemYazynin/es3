@@ -1,4 +1,4 @@
-import { AfterViewInit, ChangeDetectorRef, Component, Inject, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, Inject, OnInit, ViewChild } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { BehaviorSubject } from 'rxjs';
 import { Inquiry, InquiryService } from '../../../shared';
@@ -8,7 +8,8 @@ import { EditChildrenComponent } from '../shared/components/edit-children/edit-c
 @Component({
     selector: 'app-edit-children-dialog',
     templateUrl: './edit-children-dialog.component.html',
-    styleUrls: ['./edit-children-dialog.component.css']
+    styleUrls: ['./edit-children-dialog.component.css'],
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 
 export class EditChildrenDialogComponent implements OnInit, AfterViewInit {

@@ -18,20 +18,20 @@
                     <ng-template #childContainer>
                     </ng-template>
                     <div>
-                        <app-citizenship-select [citizenships]="inquiry?.children[0]?.citizenships">
+                        <app-citizenship-select [citizenships]="children[0]?.citizenships">
                         </app-citizenship-select>
                         <ng-container *ngIf="isAvailable.addresses()">
                             <div *ngIf="isAvailable.hasRfCitizenship()">
-                                <app-rf-citizens-addresses [owner]="inquiry.children ? inquiry.children[0] : undefined">
+                                <app-rf-citizens-addresses [owner]="children ? children[0] : undefined">
                                 </app-rf-citizens-addresses>
                             </div>
                             <div *ngIf="!isAvailable.hasRfCitizenship()">
-                                <app-foreign-citizens-addresses [owner]="inquiry.children ? inquiry.children[0] : undefined">
+                                <app-foreign-citizens-addresses [owner]="children ? children[0] : undefined">
                                 </app-foreign-citizens-addresses>
                             </div>
                         </ng-container>
                         <app-inquiry-info-edit title="Дополнительная информация">
-                            <birth-info [model]="inquiry?.children ? inquiry.children[0] : undefined">
+                            <birth-info [model]="children ? children[0] : undefined">
                             </birth-info>
                             <app-disability-child [inquiryType]="inquiryType" [childrenComponents]="components"></app-disability-child>
                             <app-spec-health [childrenComponents]="components"></app-spec-health>

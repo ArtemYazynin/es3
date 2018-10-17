@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Inquiry } from '../../../shared';
 import { EditCurrentEducationPlaceComponent } from '../../inquiry/shared/components/edit-current-education-place/edit-current-education-place.component';
@@ -7,7 +7,8 @@ import { CurrentEducationPlace, StepBase, WizardStorageService } from '../shared
 @Component({
   selector: 'app-curren-education-place-step',
   templateUrl: './current-education-place-step.component.html',
-  styleUrls: ['./current-education-place-step.component.css']
+  styleUrls: ['./current-education-place-step.component.css'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CurrentEducationPlaceStepComponent implements OnInit, StepBase {
   @ViewChild(EditCurrentEducationPlaceComponent) editCurrentEducationPlaceComponent: EditCurrentEducationPlaceComponent;

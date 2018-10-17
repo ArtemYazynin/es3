@@ -1,6 +1,6 @@
 <div class="container col-md-12">
   <app-inquiry-info-edit title="Ребёнок (дети)">
-    <app-edit-children [inquiry]="inquiry" [inquiryType]="inquiryType"></app-edit-children>
+    <app-edit-children [children]="inquiry.children" [inquiryType]="inquiryType" [owner]="inquiry.applicant ? inquiry.applicant: inquiry.parent"></app-edit-children>
   </app-inquiry-info-edit>
   <app-inquiry-info-edit>
     <div class="form-actions" style="text-align: center;">

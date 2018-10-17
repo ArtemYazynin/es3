@@ -2,7 +2,7 @@
   <ng-container>
     <h1 mat-dialog-title>Ребёнок (дети)</h1>
     <div mat-dialog-content>
-      <app-edit-children [inquiry]="inquiry" [inquiryType]="inquiryType"></app-edit-children>
+      <app-edit-children [children]="inquiry.children" [inquiryType]="inquiryType" [owner]="inquiry.applicant ? inquiry.applicant: inquiry.parent"></app-edit-children>
     </div>
   </ng-container>
   <mat-dialog-actions>

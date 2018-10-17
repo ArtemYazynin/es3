@@ -1,6 +1,6 @@
 import { AfterViewInit, ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ApplicantType, CommonService, DublicatesFinder, Inquiry, InquiryService } from '../../../shared/index';
+import { ApplicantType, CommonService, Inquiry, InquiryService } from '../../../shared/index';
 import { EditPersonComponent } from '../../inquiry/shared/components/edit-person/edit-person.component';
 import { StepBase, WizardStorageService } from '../shared/index';
 
