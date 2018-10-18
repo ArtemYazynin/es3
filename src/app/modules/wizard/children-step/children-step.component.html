@@ -1,52 +1,11 @@
-<section class="tabs">
-  <div class="container-fluid">
-    <ul class="nav nav-tabs" id="myTab">
-      <li class="nav-item" *ngFor="let component of components; let first = first">
-        <div class="nav-link" (click)="navBarManager.select(component)" [class.child-active]="component.instance.show | async">
-          {{navBarManager.getTitle(component)}}
-          <button class="btn btn-light" (click)="navBarManager.remove(component)" *ngIf="!first"><i class="mdi mdi-trash-can"></i></button>
-        </div>
-      </li>
-      <button class="btn btn-light" (click)="navBarManager.add()">
-        <i class="mdi mdi-account-multiple-plus"></i>
-      </button>
-    </ul>
-    <div class="tab-content" id="myTabContent">
-      <div class="tab-pane fade show active">
-        <ng-template #childContainer>
-        </ng-template>
-        <div>
-          <app-citizenship-select [citizenships]="inquiry?.children[0]?.citizenships">
-          </app-citizenship-select>
-          <ng-container *ngIf="isAvailable.addresses()">
-            <div *ngIf="isAvailable.hasRfCitizenship()">
-              <app-rf-citizens-addresses [owner]="inquiry.children ? inquiry.children[0] : undefined">
-              </app-rf-citizens-addresses>
-            </div>
-            <div *ngIf="!isAvailable.hasRfCitizenship()">
-              <app-foreign-citizens-addresses [owner]="inquiry.children ? inquiry.children[0] : undefined">
-              </app-foreign-citizens-addresses>
-            </div>
-          </ng-container>
-          <app-inquiry-info-edit title="Дополнительная информация">
-            <birth-info [model]="inquiry?.children ? inquiry.children[0] : undefined">
-            </birth-info>
-            <app-disability-child [inquiryType]="inquiryType" [childrenComponents]="components"></app-disability-child>
-            <app-spec-health [childrenComponents]="components"></app-spec-health>
-          </app-inquiry-info-edit>
-          <div class="alert alert-info" *ngIf="components.length>1">
-            Внимание! Дата рождения, место рождения, гражданство и специализация по здоровью одинаковы для
-            всех
-            детей
-          </div>
-        </div>
-        <app-inquiry-info-edit>
-          <div class="form-actions" style="text-align: center;">
-            <button type="button" class="btn btn-inverse" (click)="goTo.back()">Назад</button>
-            <button type="submit" class="btn btn-primary" (click)="goTo.next()" [disabled]="!isValid()">Далее</button>
-          </div>
-        </app-inquiry-info-edit>
-      </div>
+<div class="container col-md-12">
+  <app-inquiry-info-edit title="Ребёнок (дети)">
+    <app-edit-children [children]="inquiry.children" [inquiryType]="inquiryType" [owner]="inquiry.applicant ? inquiry.applicant: inquiry.parent"></app-edit-children>
+  </app-inquiry-info-edit>
+  <app-inquiry-info-edit>
+    <div class="form-actions" style="text-align: center;">
+      <button type="button" class="btn btn-inverse" (click)="goTo.back()">Назад</button>
+      <button type="submit" class="btn btn-primary" (click)="goTo.next()" [disabled]="!isValid()">Далее</button>
     </div>
-  </div>
-</section>
+  </app-inquiry-info-edit>
+</div>

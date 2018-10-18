@@ -46,6 +46,12 @@ import { InquiryTypeFriendlyNamePipe } from './shared/inquiry-type.pipe';
 import { EditConfirmationDocumentDialogComponent } from "./modules/inquiry/edit-confirmation-document-dialog/edit-confirmation-document-dialog.component";
 import { ConfirmationDocumentService } from "./shared/confirmation-document.service";
 import { PersonService } from "./shared/person.service";
+import { EditChildrenComponent } from "./modules/inquiry/shared/components/edit-children/edit-children.component";
+import { DisabilityChildComponent } from "./shared/components/disability-child/disability-child.component";
+import { SpecHealthComponent } from "./shared/components/spec-health/spec-health.component";
+import { PrivilegeCardComponent } from "./shared/components/privilege-card/privilege-card.component";
+import { FilesCardComponent } from "./shared/components/files-card/files-card.component";
+import { YesNoPipe } from "./shared/yes-no.pipe";
 
 
 
@@ -60,9 +66,11 @@ import { PersonService } from "./shared/person.service";
         PersonViewComponent, ConfirmationDocumentCardComponent, AdultCardComponent, ChildrenCardComponent,
         PreschoolInquiryInfoCardComponent,
         ContactInfoCardComponent,
-        InstitutionsCardComponent,
-        SchoolClassCardComponent,
-        CurrentEducationPlaceCardComponent, EditConfirmationDocumentDialogComponent
+        InstitutionsCardComponent,SpecHealthComponent,
+        SchoolClassCardComponent, EditChildrenComponent,
+        CurrentEducationPlaceCardComponent, EditConfirmationDocumentDialogComponent,
+        DisabilityChildComponent, PrivilegeCardComponent,
+        FilesCardComponent,YesNoPipe
     ],
     imports: [
         CommonModule,
@@ -79,7 +87,9 @@ import { PersonService } from "./shared/person.service";
         BirthInfoComponent, RelationTypeComponent, EditPersonComponent, EditInquiryInfoComponent, DistributionParamsComponent, StayModeComponent, AgeGroupComponent,
         InquiryInfoEditComponent, AtLeastOneCheckboxShouldBeSelectedComponent, EditInstitutionsComponent, EditContactInfoComponent, EditCurrentEducationPlaceComponent,
         EditFileAttachmentsComponent, EditSchoolInquiryInfoComponent, SchoolInquiryInfoCardComponent, PreschoolInquiryInfoCardComponent,
-        PersonViewComponent, ConfirmationDocumentCardComponent, AdultCardComponent, ChildrenCardComponent, ContactInfoCardComponent, InstitutionsCardComponent, SchoolClassCardComponent, CurrentEducationPlaceCardComponent
+        PersonViewComponent, ConfirmationDocumentCardComponent, AdultCardComponent, ChildrenCardComponent, ContactInfoCardComponent, SpecHealthComponent,
+        InstitutionsCardComponent, SchoolClassCardComponent, CurrentEducationPlaceCardComponent, DisabilityChildComponent, EditChildrenComponent,
+        PrivilegeCardComponent, FilesCardComponent, YesNoPipe
     ],
     providers: [
         SpecializationService, ConfirmationDocumentService,

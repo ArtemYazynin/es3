@@ -1,11 +1,12 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
 import { ChildComponent } from '../../../modules/wizard/children-step/child/child.component';
-import { inquiryType, Entity } from '../../index';
+import { inquiryType, Entity } from '../..';
 
 @Component({
   selector: 'app-disability-child',
   templateUrl: './disability-child.component.html',
-  styleUrls: ['./disability-child.component.css']
+  styleUrls: ['./disability-child.component.css'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class DisabilityChildComponent implements OnInit {
   @Input() inquiryType: string;

@@ -1,14 +1,15 @@
-import { Component, OnInit, Inject, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Inject, OnInit, ViewChild } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { BehaviorSubject } from 'rxjs';
-import { Inquiry, CommonService, InquiryService } from '../../../shared';
-import { WizardStorageService } from '../../wizard/shared';
+import { CommonService, Inquiry, InquiryService } from '../../../shared';
 import { EditSchoolInquiryInfoComponent } from '../../../shared/components/edit-school-inquiry-info/edit-school-inquiry-info.component';
+import { WizardStorageService } from '../../wizard/shared';
 
 @Component({
   selector: 'app-edit-school-inquiry-info-dialog',
   templateUrl: './edit-school-inquiry-info-dialog.component.html',
-  styleUrls: ['./edit-school-inquiry-info-dialog.component.css']
+  styleUrls: ['./edit-school-inquiry-info-dialog.component.css'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class EditSchoolInquiryInfoDialogComponent implements OnInit {
   @ViewChild(EditSchoolInquiryInfoComponent) editSchoolInquiryInfoComponent: EditSchoolInquiryInfoComponent;

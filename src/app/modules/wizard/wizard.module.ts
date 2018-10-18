@@ -5,19 +5,14 @@ import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { HttpModule, JsonpModule } from "@angular/http";
 import { DateAdapter } from '@angular/material';
 import { NgSelectModule } from '@ng-select/ng-select';
-import { InMemoryWebApiModule } from 'angular-in-memory-web-api';
 import { TextMaskModule } from 'angular2-text-mask';
 import { MyDatePickerModule } from 'mydatepicker';
-import { InMemoryService } from '../../in-memory-server';
 import { MaterialModule } from '../../material.module';
 import { ShareModule } from '../../share.module';
 import { AddressService, AreaService, CitizenshipService, CommonService, DrawService, EnumToArrayPipe, FormService, GroupService, IdentityCardService, IdentityCardTypePipe, InquiryService, InstitutionService, PrivilegeOrderService, PrivilegeService, RelationTypeService, SettingsService, SpecHealthService, SpecificityService } from '../../shared';
 import { ConfirmDialogComponent } from '../../shared/components/confirm-dialog/confirm-dialog.component';
-import { DisabilityChildComponent } from '../../shared/components/disability-child/disability-child.component';
-import { SpecHealthComponent } from '../../shared/components/spec-health/spec-health.component';
 import { HttpInterceptor } from '../../shared/http-interceptor';
 import { RegisterCompleteResolver } from '../../shared/register-complete-resolver';
-import { YesNoPipe } from '../../shared/yes-no.pipe';
 import { ApplicantStepComponent } from '../wizard/applicant-step/applicant-step.component';
 import { ApplicantTypeStepComponent } from '../wizard/applicant-type-step/applicant-type-step.component';
 import { ChildComponent } from '../wizard/children-step/child/child.component';
@@ -56,12 +51,9 @@ import { WizardRoutingModule } from './wizard-routing-module';
     FileAttachmentStepComponent,
     PreviewStepComponent,
     //end
-    YesNoPipe,
     IdentityCardTypePipe,
     EnumToArrayPipe,
     ChildComponent,
-    DisabilityChildComponent,
-    SpecHealthComponent,
 
 
 

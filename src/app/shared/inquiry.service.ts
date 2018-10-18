@@ -18,6 +18,7 @@ import { PrivilegeEditComponent } from './components/privilege-edit/privilege-ed
 import { DublicatesFinder } from './dublicates-finder';
 import { HttpInterceptor } from './http-interceptor';
 import { AgeGroup } from './models/age-group.model';
+import { Applicant } from './models/applicant.model';
 import { ContactInfo } from './models/contact-info.model';
 import { CurrentEducationPlace } from './models/current-education-place.model';
 import { DistributionParams } from './models/distribution-params.model';
@@ -35,6 +36,7 @@ import { ConfirmationDocumentService } from './confirmation-document.service';
 import { ConfirmationDocument } from './models/confirmation-document.model';
 import { map, takeUntil } from 'rxjs/operators';
 import { environment } from '../../environments/environment';
+import { EditChildrenComponent } from '../modules/inquiry/shared/components/edit-children/edit-children.component';
 
 @Injectable()
 export class InquiryService {
@@ -44,27 +46,42 @@ export class InquiryService {
     @Inject(SERVER_URL) private serverUrl, private confirmationDocumentService: ConfirmationDocumentService) { }
 
   saveApplicant(inquiry: Inquiry, editPersonComponent: EditPersonComponent, update: (patch: object) => void): void {
-    if (inquiry.applicantType != ApplicantType.Applicant) return;
+    // if (inquiry.applicantType != ApplicantType.Applicant) return;
 
-    let applicant = this.commonService.buildApplicant(editPersonComponent, inquiry.applicantType);
-    if (DublicatesFinder.betweenApplicantParent(inquiry.applicant, inquiry.parent)) return;
-    if (DublicatesFinder.betweenApplicantChildren(applicant, inquiry.children)) return;
-    if (DublicatesFinder.betweenChildren(inquiry.children)) return;
-    update({ applicant: applicant });
+    // let applicant = this.commonService.buildApplicant(editPersonComponent, inquiry.applicantType);
+    // if (DublicatesFinder.betweenApplicantParent(inquiry.applicant, inquiry.parent)) return;
+    // if (DublicatesFinder.betweenApplicantChildren(applicant, inquiry.children)) return;
+    // if (DublicatesFinder.betweenChildren(inquiry.children)) return;
+    // update({ applicant: applicant });
   }
 
   saveParent(inquiry: Inquiry, editPersonComponent: EditPersonComponent, update: (patch: object) => void, addCondition: boolean = true): void {
-    let parent: Parent;
-    if (inquiry.applicantType == ApplicantType.Parent && addCondition) {
-      parent = this.commonService.buildParent(editPersonComponent, inquiry.applicantType);
-      if (DublicatesFinder.betweenParentChildren(parent, inquiry.children)) return;
-    } else if (inquiry.applicantType == ApplicantType.Applicant && addCondition) {
-      parent = this.commonService.buildParent(editPersonComponent, inquiry.applicantType);
-      if (DublicatesFinder.betweenApplicantParent(inquiry.applicant, parent)) return;
-      if (DublicatesFinder.betweenApplicantChildren(inquiry.applicant, inquiry.children)) return;
-      if (DublicatesFinder.betweenParentChildren(parent, inquiry.children)) return;
+    // let parent: Parent;
+    // if (inquiry.applicantType == ApplicantType.Parent && addCondition) {
+    //   parent = this.commonService.buildParent(editPersonComponent, inquiry.applicantType);
+    //   if (DublicatesFinder.betweenParentChildren(parent, inquiry.children)) return;
+    // } else if (inquiry.applicantType == ApplicantType.Applicant && addCondition) {
+    //   parent = this.commonService.buildParent(editPersonComponent, inquiry.applicantType);
+    //   if (DublicatesFinder.betweenApplicantParent(inquiry.applicant, parent)) return;
+    //   if (DublicatesFinder.betweenApplicantChildren(inquiry.applicant, inquiry.children)) return;
+    //   if (DublicatesFinder.betweenParentChildren(parent, inquiry.children)) return;
+    // }
+    // if (!!parent) update({ parent: parent });
+  }
+
+saveChildren(editChildrenComponent: EditChildrenComponent, update: (patch: object) => void): void {
+    let children = editChildrenComponent.getChildren();
+    if (editChildrenComponent.owner) {
+      if (editChildrenComponent.owner.relationType) {
+        if (DublicatesFinder.betweenChildren(children) && DublicatesFinder.betweenParentChildren(editChildrenComponent.owner as Parent, children))
+          return;
+      }
+      else {
+        if (DublicatesFinder.betweenChildren(children) && DublicatesFinder.betweenApplicantChildren(editChildrenComponent.owner as Applicant, children))
+          return;
+      }
     }
-    if (!!parent) update({ parent: parent });
+    update({ children: children });
   }
 
   saveInquiryInfo(editInquiryInfoComponent: EditInquiryInfoComponent, update: (patch: object) => void): void {
