@@ -18,7 +18,6 @@ import { PersonService } from '../../person.service';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class PersonCardComponent implements OnInit, OnDestroy {
-  @Input() title: string;
   @Input() entity: Person
   @Input() mode: ConfirmationDocumentMode;
 

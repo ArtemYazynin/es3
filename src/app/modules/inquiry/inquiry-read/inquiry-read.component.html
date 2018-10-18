@@ -38,7 +38,7 @@
   <div class="row" *ngIf="inquiry.applicant">
     <div class="col-md-6">
       <app-inquiry-info-edit title="Доверенное лицо законного представителя ребенка">
-        <app-person-card title="Персональные данные" [entity]="inquiry.applicant" [mode]="modes.Edit"></app-person-card>
+        <app-person-card [entity]="inquiry.applicant" [mode]="modes.Edit"></app-person-card>
 
         <app-citizenships-card [model]="inquiry.applicant"></app-citizenships-card>
         <app-confirmation-document-card title="Документ, подтверждающий право пребывания доверенного лица законного представителя на территории РФ"
@@ -52,8 +52,19 @@
       </app-adult-card> -->
     </div>
     <div class="col-md-6" *ngIf="inquiry.applicantType != applicantTypes.Child">
-      <app-adult-card title="Законный представитель" [entity]="inquiry.parent" [edit]="edit.person">
-      </app-adult-card>
+      <!-- <app-adult-card title="Законный представитель" [entity]="inquiry.parent" [edit]="edit.person">
+      </app-adult-card> -->
+      <app-inquiry-info-edit title="Законный представитель">
+        <app-person-card [entity]="inquiry.parent" [mode]="modes.Edit"></app-person-card>
+
+        <app-citizenships-card [model]="inquiry.parent"></app-citizenships-card>
+        <app-confirmation-document-card title="Документ, подтверждающий право пребывания законного представителя на территории РФ"
+          [model]="inquiry.parent.countryStateDocument" [mode]="modes.Edit">
+        </app-confirmation-document-card>
+        <app-confirmation-document-card title="Документ, подтверждающий право законного представителя представлять интересы ребенка"
+          [model]="inquiry.parent.parentRepresentChildrenDocument" [mode]="modes.Edit">
+        </app-confirmation-document-card>
+      </app-inquiry-info-edit>
     </div>
   </div>
   <app-children-card [children]="inquiry.children"></app-children-card>

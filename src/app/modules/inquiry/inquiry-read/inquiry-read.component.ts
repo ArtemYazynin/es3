@@ -12,6 +12,7 @@ import { EditInquiryInfoDialogComponent } from '../edit-inquiry-info-dialog/edit
 import { EditPreschoolInstitutionDialogComponent } from '../edit-preschool-institution-dialog/edit-preschool-institution-dialog.component';
 import { EditPrivilegeDialogComponent } from '../edit-privilege-dialog/edit-privilege-dialog.component';
 import { EditSchoolInquiryInfoDialogComponent } from '../edit-school-inquiry-info-dialog/edit-school-inquiry-info-dialog.component';
+import { EditPersonDialogComponent } from '../edit-person-dialog/edit-person-dialog.component';
 
 @Component({
   selector: 'app-inquiry-read',
@@ -97,7 +98,7 @@ export class InquiryReadComponent implements OnInit, OnDestroy {
       return this.commonService.getDialogConfig(config);
     }
     const person = (modelType: ApplicantType) => {
-      //this.dialog.open(EditPersonDialogComponent, getConfig({ modelType: modelType }));
+      this.dialog.open(EditPersonDialogComponent, getConfig({ modelType: modelType }));
     }
     const privilege = () => {
       this.dialog.open(EditPrivilegeDialogComponent, getConfig());

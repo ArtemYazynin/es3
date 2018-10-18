@@ -31,7 +31,6 @@ export class EditPersonDialogComponent implements OnInit, OnDestroy {
   }
 
   save() {
-    let s = this;
     const fullnameForm = this.editPersonComponent.fullnameComponent.fullnameForm;
     let person = new Person(fullnameForm.controls.lastname.value, fullnameForm.controls.firstname.value, fullnameForm.controls.middlename.value, this.editPersonComponent.snilsComponent.snils, fullnameForm.controls.noMiddlename.value);
     person.identityCard = new IdentityCard(this.editPersonComponent.identityCardComponent.identityCardForm);
