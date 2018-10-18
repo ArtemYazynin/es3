@@ -1,8 +1,8 @@
 <app-inquiry-info-edit title="Ребёнок (дети)">
   <div class="row">
     <div class="col-md-6" *ngFor="let child of children; let last = last;">
-      <app-person-view [entity]="child">
-      </app-person-view>
+      <app-person-card [entity]="child">
+      </app-person-card>
     </div>
   </div>
   <div class="row">

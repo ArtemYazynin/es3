@@ -33,7 +33,6 @@ import { FullNameComponent } from "./shared/components/full-name/full-name.compo
 import { GenderComponent } from "./shared/components/gender/gender.component";
 import { IdentityCardComponent } from "./shared/components/identity-card/identity-card.component";
 import { InstitutionsCardComponent } from "./shared/components/institutions-card/institutions-card.component";
-import { PersonViewComponent } from "./shared/components/person-view/person-view.component";
 import { PreschoolInquiryInfoCardComponent } from "./shared/components/preschool-inquiry-info-card/preschool-inquiry-info-card.component";
 import { PrivilegeEditComponent } from "./shared/components/privilege-edit/privilege-edit.component";
 import { RelationTypeComponent } from "./shared/components/relation-type/relation-type.component";
@@ -52,6 +51,7 @@ import { SpecHealthComponent } from "./shared/components/spec-health/spec-health
 import { PrivilegeCardComponent } from "./shared/components/privilege-card/privilege-card.component";
 import { FilesCardComponent } from "./shared/components/files-card/files-card.component";
 import { YesNoPipe } from "./shared/yes-no.pipe";
+import { PersonCardComponent } from "./shared/components/person-card/person-card.component";
 
 
 
@@ -63,7 +63,7 @@ import { YesNoPipe } from "./shared/yes-no.pipe";
 
         InquiryInfoEditComponent, DistributionParamsComponent, StayModeComponent, AgeGroupComponent, //inquiryInfo params
         EditContactInfoComponent, EditCurrentEducationPlaceComponent, EditFileAttachmentsComponent, AreaTypePipe, EditSchoolInquiryInfoComponent, SchoolInquiryInfoCardComponent,
-        PersonViewComponent, ConfirmationDocumentCardComponent, AdultCardComponent, ChildrenCardComponent,
+        PersonCardComponent, ConfirmationDocumentCardComponent, AdultCardComponent, ChildrenCardComponent,
         PreschoolInquiryInfoCardComponent,
         ContactInfoCardComponent,
         InstitutionsCardComponent,SpecHealthComponent,
@@ -87,7 +87,7 @@ import { YesNoPipe } from "./shared/yes-no.pipe";
         BirthInfoComponent, RelationTypeComponent, EditPersonComponent, EditInquiryInfoComponent, DistributionParamsComponent, StayModeComponent, AgeGroupComponent,
         InquiryInfoEditComponent, AtLeastOneCheckboxShouldBeSelectedComponent, EditInstitutionsComponent, EditContactInfoComponent, EditCurrentEducationPlaceComponent,
         EditFileAttachmentsComponent, EditSchoolInquiryInfoComponent, SchoolInquiryInfoCardComponent, PreschoolInquiryInfoCardComponent,
-        PersonViewComponent, ConfirmationDocumentCardComponent, AdultCardComponent, ChildrenCardComponent, ContactInfoCardComponent, SpecHealthComponent,
+        PersonCardComponent, ConfirmationDocumentCardComponent, AdultCardComponent, ChildrenCardComponent, ContactInfoCardComponent, SpecHealthComponent,
         InstitutionsCardComponent, SchoolClassCardComponent, CurrentEducationPlaceCardComponent, DisabilityChildComponent, EditChildrenComponent,
         PrivilegeCardComponent, FilesCardComponent, YesNoPipe
     ],

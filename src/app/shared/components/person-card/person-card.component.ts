@@ -1,24 +1,23 @@
-import { ChangeDetectionStrategy, Component, Input, OnInit, OnDestroy, ChangeDetectorRef } from '@angular/core';
-import { isNullOrUndefined } from 'util';
-import { ApplicantType } from '../../applicant-type.enum';
-import { Applicant, Child, DrawService, Parent, Person } from '../../index';
-import { ConfirmationDocumentMode } from '../../confirmation-document-mode.enum';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material';
-import { EditPersonDialogComponent } from '../../../modules/inquiry/edit-person-dialog/edit-person-dialog.component';
-import { CommonService } from '../../common.service';
+import { ActivatedRoute } from '@angular/router';
 import { BehaviorSubject, Subject } from 'rxjs';
 import { skip, takeUntil } from 'rxjs/operators';
+import { EditPersonDialogComponent } from '../../../modules/inquiry/edit-person-dialog/edit-person-dialog.component';
+import { ApplicantType } from '../../applicant-type.enum';
+import { CommonService } from '../../common.service';
+import { ConfirmationDocumentMode } from '../../confirmation-document-mode.enum';
+import { DrawService, Person } from '../../index';
 import { InquiryService } from '../../inquiry.service';
-import { ActivatedRoute } from '@angular/router';
 import { PersonService } from '../../person.service';
 
 @Component({
-  selector: 'app-person-view',
-  templateUrl: './person-view.component.html',
-  styleUrls: ['./person-view.component.css'],
+  selector: 'app-person-card',
+  templateUrl: './person-card.component.html',
+  styleUrls: ['./person-card.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class PersonViewComponent implements OnInit, OnDestroy {
+export class PersonCardComponent implements OnInit, OnDestroy {
   @Input() title: string;
   @Input() entity: Person
   @Input() mode: ConfirmationDocumentMode;

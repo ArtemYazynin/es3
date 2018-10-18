@@ -38,7 +38,7 @@
   <div class="row" *ngIf="inquiry.applicant">
     <div class="col-md-6">
       <app-inquiry-info-edit title="Доверенное лицо законного представителя ребенка">
-        <app-person-view title="Персональные данные" [entity]="inquiry.applicant" [mode]="modes.Edit"></app-person-view>
+        <app-person-card title="Персональные данные" [entity]="inquiry.applicant" [mode]="modes.Edit"></app-person-card>
 
         <app-citizenships-card [model]="inquiry.applicant"></app-citizenships-card>
         <app-confirmation-document-card title="Документ, подтверждающий право пребывания доверенного лица законного представителя на территории РФ"
