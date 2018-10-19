@@ -50,6 +50,9 @@ import { StayModeComponent } from "./shared/components/stay-mode/stay-mode.compo
 import { InquiryTypeFriendlyNamePipe } from './shared/inquiry-type.pipe';
 import { YesNoPipe } from "./shared/yes-no.pipe";
 import { ChildComponent } from "./shared/components/child/child.component";
+import { PetitionCardComponent } from './shared/components/petition-card/petition-card.component';
+import { PetitionTypePipe } from './shared/petition-type.pipe';
+import { FamilyInfoService } from "./shared/family-info.service";
 
 
 
@@ -72,7 +75,11 @@ import { ChildComponent } from "./shared/components/child/child.component";
         FilesCardComponent,
         ChildComponent,
 
-        YesNoPipe
+        YesNoPipe,
+
+        PetitionCardComponent,
+
+        PetitionTypePipe
     ],
     imports: [
         CommonModule,
@@ -90,10 +97,10 @@ import { ChildComponent } from "./shared/components/child/child.component";
         EditFileAttachmentsComponent, EditSchoolInquiryInfoComponent, SchoolInquiryInfoCardComponent, PreschoolInquiryInfoCardComponent,
         PersonViewComponent, ConfirmationDocumentViewComponent, AdultCardComponent, ChildrenCardComponent, ContactInfoCardComponent, InstitutionsCardComponent, SchoolClassCardComponent, CurrentEducationPlaceCardComponent,
         PrivilegeCardComponent, FilesCardComponent, EditChildrenComponent, DisabilityChildComponent, SpecHealthComponent,
-        ChildComponent
+        ChildComponent, PetitionCardComponent, PetitionTypePipe
     ],
     providers: [
-        SpecializationService,
+        SpecializationService, FamilyInfoService,
         EducProgramService
     ],
     entryComponents: [ChildComponent]

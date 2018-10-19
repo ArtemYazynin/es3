@@ -28,6 +28,14 @@
     <div class="form-group">
       <mat-checkbox id="noMiddlename" name="hasMiddlenoMiddlenamename" formControlName="noMiddlename">Нет отчества</mat-checkbox>
     </div>
+    <div class="alert-info" *ngIf="fullnameForm">
+      <span>
+        <b>{{fullnameForm.value | json}}</b>
+      </span>
+      <span>fullnameForm.status:
+        <b>{{fullnameForm.status | json}}</b>
+      </span>
+    </div>
   </form>
   <ng-content></ng-content>
 </app-inquiry-info-edit>

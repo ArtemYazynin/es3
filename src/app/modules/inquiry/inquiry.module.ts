@@ -27,6 +27,7 @@ import { EditSchoolInquiryInfoDialogComponent } from './edit-school-inquiry-info
 import { InquiryReadComponent } from './inquiry-read/inquiry-read.component';
 import { InquiryRouting } from './inquiry-routing-module';
 import { InquiryCommonInfoComponent } from './shared/components/inquiry-common-info/inquiry-common-info.component';
+import { EditPetitionDialogComponent } from './edit-petition-dialog/edit-petition-dialog.component';
 
 @NgModule({
   imports: [
@@ -69,9 +70,9 @@ import { InquiryCommonInfoComponent } from './shared/components/inquiry-common-i
   ],
   declarations: [InquiryReadComponent, InquiryCommonInfoComponent, RegisterSourcePipe, EditPrivilegeDialogComponent, EditPersonDialogComponent,
     EditInquiryInfoDialogComponent, EditPreschoolInstitutionDialogComponent, EditContactInfoDialogComponent, EditCurrentEducationPlaceDialogComponent,
-    EditFileAttachmentsDialogComponent, EditSchoolInquiryInfoDialogComponent, EditChildrenDialogComponent],
+    EditFileAttachmentsDialogComponent, EditSchoolInquiryInfoDialogComponent, EditChildrenDialogComponent, EditPetitionDialogComponent],
   entryComponents: [EditPrivilegeDialogComponent, EditPersonDialogComponent, EditInquiryInfoDialogComponent, EditPreschoolInstitutionDialogComponent,
     EditContactInfoDialogComponent, EditCurrentEducationPlaceDialogComponent, EditFileAttachmentsDialogComponent,
-    EditSchoolInquiryInfoDialogComponent, EditChildrenDialogComponent]
+    EditSchoolInquiryInfoDialogComponent, EditChildrenDialogComponent, EditPetitionDialogComponent]
 })
 export class InquiryModule { }

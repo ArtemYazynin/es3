@@ -1,11 +1,9 @@
 import { IdentityCardType } from "./identityCardType";
 import { FormGroup } from "@angular/forms";
-import { Client } from "./client.model";
 
 export class IdentityCard {
     hashCode: number;
     identityCardType: IdentityCardType;
-    client: Client;
 
     series: string;
     number: string;
