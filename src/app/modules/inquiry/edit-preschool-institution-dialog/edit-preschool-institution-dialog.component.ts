@@ -18,11 +18,11 @@ export class EditPreschoolInstitutionDialogComponent implements OnInit {
     private storageService: WizardStorageService, private inquiryService: InquiryService) { }
 
   inquiry: Inquiry;
-  configs: ConfigsOfRoutingButtons;
+  config: ConfigsOfRoutingButtons;
 
   ngOnInit() {
     this.inquiry = this.data.$inquiry.getValue();
-    this.configs = new ConfigsOfRoutingButtons(ButtonsTitles.Save, ButtonsTitles.Close,
+    this.config = new ConfigsOfRoutingButtons(ButtonsTitles.Save, ButtonsTitles.Close,
       () => {
         this.inquiryService.saveWishInstitutions(this.editInstitutionsComponent, (patch) => {
           this.storageService.set(this.inquiry.type, patch);

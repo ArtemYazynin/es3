@@ -3,5 +3,5 @@
     <app-edit-school-inquiry-info [schoolInquiryInfo]="inquiry?.schoolInquiryInfo">
     </app-edit-school-inquiry-info>
   </app-inquiry-info-edit>
-  <app-routing-buttons [configs]="configs" [isValid]="editSchoolInquiryInfoComponent && editSchoolInquiryInfoComponent.isValid()"></app-routing-buttons>
+  <app-routing-buttons [config]="config" [isValid]=" isValid()"></app-routing-buttons>
 </div>

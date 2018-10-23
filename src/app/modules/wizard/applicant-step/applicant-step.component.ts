@@ -21,11 +21,11 @@ export class ApplicantStepComponent implements OnInit, AfterViewInit, StepBase {
   inquiry: Inquiry;
   inquiryType = this.route.snapshot.data.resolved.inquiryType;
   applicantTypes = ApplicantType;
-  configs: ConfigsOfRoutingButtons;
+  config: ConfigsOfRoutingButtons;
 
   ngOnInit() {
     this.inquiry = <Inquiry>this.storageService.get(this.inquiryType);
-    this.configs = new ConfigsOfRoutingButtons(ButtonsTitles.Next, ButtonsTitles.Back,
+    this.config = new ConfigsOfRoutingButtons(ButtonsTitles.Next, ButtonsTitles.Back,
       () => {
         this.inquiryService.saveApplicant(this.inquiry, this.editPersonComponent, (patch) => {
           this.storageService.set(this.inquiryType, patch);

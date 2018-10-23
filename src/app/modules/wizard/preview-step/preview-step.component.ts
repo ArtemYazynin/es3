@@ -30,7 +30,7 @@ export class PreviewStepComponent implements OnInit, OnDestroy, StepBase {
 
   inquiry: Inquiry;
   inquiryTypes = inquiryType;
-  configs: ConfigsOfRoutingButtons;
+  config: ConfigsOfRoutingButtons;
 
   ngOnInit() {
     this.citizenshipService.getCountries()
@@ -48,7 +48,7 @@ export class PreviewStepComponent implements OnInit, OnDestroy, StepBase {
         : { "col-md-6": true };
     })();
 
-    this.configs = new ConfigsOfRoutingButtons(ButtonsTitles.Register, ButtonsTitles.Back,
+    this.config = new ConfigsOfRoutingButtons(ButtonsTitles.Register, ButtonsTitles.Back,
       () => {
         timer(1000).pipe().subscribe((response) => {
           this.inquiry.type = this.inquiryType;

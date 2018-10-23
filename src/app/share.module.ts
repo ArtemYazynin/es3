@@ -99,9 +99,7 @@ import { FamilyInfoService } from "./shared/family-info.service";
         EditFileAttachmentsComponent, EditSchoolInquiryInfoComponent, SchoolInquiryInfoCardComponent, PreschoolInquiryInfoCardComponent,
         PersonViewComponent, ConfirmationDocumentViewComponent, AdultCardComponent, ChildrenCardComponent, ContactInfoCardComponent, InstitutionsCardComponent, SchoolClassCardComponent, CurrentEducationPlaceCardComponent,
         PrivilegeCardComponent, FilesCardComponent, EditChildrenComponent, DisabilityChildComponent, SpecHealthComponent,
-        ChildComponent, PetitionCardComponent, PetitionTypePipe
-        
-        RoutingButtonsComponent
+        ChildComponent, PetitionCardComponent, PetitionTypePipe, RoutingButtonsComponent
     ],
     providers: [
         SpecializationService, FamilyInfoService,

@@ -15,7 +15,7 @@ export class ApplicantTypeStepComponent implements OnInit, StepBase {
   inquiryType = this.route.snapshot.data.resolved.inquiryType;
   applicantType: ApplicantType = ApplicantType.Parent;
   applicantTypes: Array<ApplicantType> = [];
-  configs: ConfigsOfRoutingButtons;
+  config: ConfigsOfRoutingButtons;
 
   constructor(private storageService: WizardStorageService,
     private router: Router,
@@ -33,7 +33,7 @@ export class ApplicantTypeStepComponent implements OnInit, StepBase {
       }
       return types;
     })();
-    this.configs = new ConfigsOfRoutingButtons(ButtonsTitles.Next, ButtonsTitles.Back,
+    this.config = new ConfigsOfRoutingButtons(ButtonsTitles.Next, ButtonsTitles.Back,
       () => {
         Object.assign(this.inquiry, { applicantType: this.applicantType });
         switch (this.applicantType) {

@@ -18,10 +18,10 @@ export class EditSchoolInquiryInfoDialogComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data: { $inquiry: BehaviorSubject<Inquiry> },
     private storageService: WizardStorageService, private inquiryService: InquiryService) { }
 
-  configs: ConfigsOfRoutingButtons;
+  config: ConfigsOfRoutingButtons;
 
   ngOnInit() {
-    this.configs = new ConfigsOfRoutingButtons(ButtonsTitles.Save, ButtonsTitles.Close,
+    this.config = new ConfigsOfRoutingButtons(ButtonsTitles.Save, ButtonsTitles.Close,
       () => {
         let inquiry = this.data.$inquiry.getValue();
         this.inquiryService.saveSchoolInquiryInfo(this.editSchoolInquiryInfoComponent, (patch) => {

@@ -15,13 +15,13 @@ export class InquiryInfoStepComponent implements OnInit, StepBase {
   @ViewChild(EditInquiryInfoComponent) editInquiryInfoComponent: EditInquiryInfoComponent;
   inquiryType = this.route.snapshot.data.resolved.inquiryType;
   inquiry: Inquiry;
-  configs: ConfigsOfRoutingButtons;
+  config: ConfigsOfRoutingButtons;
 
   constructor(private router: Router, private route: ActivatedRoute, private storageService: WizardStorageService, private inquiryService: InquiryService) { }
 
   ngOnInit() {
     this.inquiry = <Inquiry>this.storageService.get(this.inquiryType);
-    this.configs = new ConfigsOfRoutingButtons(ButtonsTitles.Next, ButtonsTitles.Back,
+    this.config = new ConfigsOfRoutingButtons(ButtonsTitles.Next, ButtonsTitles.Back,
       () => {
         this.inquiryService.saveInquiryInfo(this.editInquiryInfoComponent, (patch) => {
           this.storageService.set(this.inquiryType, patch);

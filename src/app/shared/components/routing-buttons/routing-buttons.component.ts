@@ -8,7 +8,7 @@ import { ConfigsOfRoutingButtons } from '../../configs-of-routing-buttons';
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class RoutingButtonsComponent {
-    @Input() configs: ConfigsOfRoutingButtons;
+    @Input() config: ConfigsOfRoutingButtons;
     @Input() isValid: boolean;
 
     constructor() { }

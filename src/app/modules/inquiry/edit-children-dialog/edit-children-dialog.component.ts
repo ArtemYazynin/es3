@@ -20,7 +20,7 @@ export class EditChildrenDialogComponent implements OnInit, AfterViewInit {
 
     inquiry: Inquiry;
     inquiryType: any;
-    configs: ConfigsOfRoutingButtons;
+    config: ConfigsOfRoutingButtons;
 
     constructor(public dialogRef: MatDialogRef<EditChildrenComponent>,
         @Inject(MAT_DIALOG_DATA) public data: { $inquiry: BehaviorSubject<Inquiry> }, private storageService: WizardStorageService,
@@ -29,7 +29,7 @@ export class EditChildrenDialogComponent implements OnInit, AfterViewInit {
     ngOnInit() {
         this.inquiry = this.data.$inquiry.getValue();
         this.inquiryType = this.inquiry.type;
-        this.configs = new ConfigsOfRoutingButtons(ButtonsTitles.Save, ButtonsTitles.Close,
+        this.config = new ConfigsOfRoutingButtons(ButtonsTitles.Save, ButtonsTitles.Close,
             () => {
                 this.inquiryService.saveChildren(this.editChildrenComponent, (patch) => {
                     this.storageService.set(this.inquiry.type, patch);
