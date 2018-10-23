@@ -8,16 +8,5 @@
       <app-edit-person [model]="inquiry?.applicant"></app-edit-person>
     </div>
   </div>
-  <div class="widget-box">
-    <div class="widget-content">
-      <div class="row">
-        <div class="col-md-12">
-          <div class="form-actions" style="text-align: center;">
-            <button type="button" class="btn btn-inverse" (click)="goTo.back()">Назад</button>
-            <button type="submit" class="btn btn-primary" (click)="goTo.next()" [disabled]="!isValid()">Далее</button>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
+  <app-routing-buttons [config]="config" [isValid]="editPersonComponent.isValid()"></app-routing-buttons>
 </div>

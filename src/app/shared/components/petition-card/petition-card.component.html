@@ -1,0 +1,21 @@
+<ng-container>
+  <app-inquiry-info-edit title="Ходатайства" (edit)="edit()">
+    <ng-container *ngIf="model">
+      <div class="form-group">
+        <b>Дата: </b> {{model.dateCreate}}
+      </div>
+      <div class="form-group">
+        <b>Номер: </b> {{model.number}}
+      </div>
+      <div class="form-group">
+        <b>Организация: </b> {{model.organizationName}}
+      </div>
+      <div class="form-group">
+        <b>Доп. инф. о семье:</b> {{model.familyInfo.name}}
+      </div>
+      <div class="form-group">
+        <b>Комментарий: </b> {{model.comment}}
+      </div>
+    </ng-container>
+  </app-inquiry-info-edit>
+</ng-container>

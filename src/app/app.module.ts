@@ -18,6 +18,7 @@ import { InMemoryWebApiModule } from 'angular-in-memory-web-api/in-memory-web-ap
 
 export const esConstant = new InjectionToken<{ fileNotChoosen: string }>("esConstant");
 export const SERVER_URL = new InjectionToken<string>("SERVER_URL");
+
 const constants = {
   fileNotChoosen: "Файл не выбран"
 }
@@ -45,6 +46,7 @@ const constants = {
       useValue: constants
     },
     { provide: SERVER_URL, useValue: "http://localhost:3500" }
+
   ],
   entryComponents: [],//динамически добавляемые компоненты ViewContainerRef.createComponent()
   bootstrap: [AppComponent, ScopeSelectorComponent, MenuComponent]

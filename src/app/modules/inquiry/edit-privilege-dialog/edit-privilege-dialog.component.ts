@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, Inject, OnInit, ViewChild } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { BehaviorSubject } from 'rxjs';
-import { CommonService, Inquiry, InquiryService } from '../../../shared';
+import { ButtonsTitles, ConfigsOfRoutingButtons, Inquiry, InquiryService } from '../../../shared';
 import { PrivilegeEditComponent } from '../../../shared/components/privilege-edit/privilege-edit.component';
 import { WizardStorageService } from '../../wizard/shared';
 
@@ -15,25 +15,23 @@ export class EditPrivilegeDialogComponent implements OnInit {
   @ViewChild(PrivilegeEditComponent) privilegeEditComponent: PrivilegeEditComponent;
   constructor(public dialogRef: MatDialogRef<EditPrivilegeDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: { $inquiry: BehaviorSubject<Inquiry> },
-    private commonService: CommonService, private storageService: WizardStorageService, private inquiryService: InquiryService) { }
+    private storageService: WizardStorageService, private inquiryService: InquiryService) { }
 
   inquiry: Inquiry;
+  config: ConfigsOfRoutingButtons;
 
   ngOnInit() {
     this.inquiry = this.data.$inquiry.getValue();
-  }
+    this.config = new ConfigsOfRoutingButtons(ButtonsTitles.Save, ButtonsTitles.Close,
+      () => {
+        this.inquiryService.savePrivilege(this.privilegeEditComponent, (patch) => {
+          this.storageService.set(this.inquiry.type, patch);
 
-  save() {
-    this.inquiryService.savePrivilege(this.privilegeEditComponent, (patch) => {
-      this.storageService.set(this.inquiry.type, patch);
-
-      Object.assign(this.inquiry, patch);
-      this.data.$inquiry.next(this.inquiry);
-    });
-    this.dialogRef.close();
-  }
-
-  isValid = (): boolean => {
-    return !!this.privilegeEditComponent && this.privilegeEditComponent.isValid();
+          Object.assign(this.inquiry, patch);
+          this.data.$inquiry.next(this.inquiry);
+        });
+        this.dialogRef.close();
+      }
+    );
   }
 }

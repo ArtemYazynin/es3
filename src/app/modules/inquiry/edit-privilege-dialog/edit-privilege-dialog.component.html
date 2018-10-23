@@ -7,7 +7,6 @@
     </div>
   </div>
   <mat-dialog-actions>
-    <button class="btn btn-inverse" [mat-dialog-close]="inquiry">Закрыть</button>
-    <button class="btn btn-primary" (click)="save()" [disabled]="!isValid()">Сохранить</button>
+    <app-routing-buttons [config]="config" [isValid]="privilegeEditComponent && privilegeEditComponent.isValid()"></app-routing-buttons>
   </mat-dialog-actions>
 </div>

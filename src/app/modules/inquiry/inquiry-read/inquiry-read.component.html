@@ -104,15 +104,12 @@
       </app-inquiry-info-edit>
     </div>
     <div class="col-md-4">
-      <app-inquiry-info-edit title="Файлы" (edit)="edit.fileAttachments()">
-        <div class="form-group" *ngFor="let file of inquiry.filesInfo.files">
-          {{file.name}}({{file.description}})
-        </div>
-        <div class="form-group">
-          <b>Документы подписаны электронной подписью</b> {{inquiry.filesInfo.haveDigitalSignature ? "Да" : "Нет"}}
-        </div>
-      </app-inquiry-info-edit>
+      <app-petition-card [model]="inquiry.petition"></app-petition-card>
+    </div>
+    <div class="col-md-4">
+      <app-files-card [filesInfo]="inquiry.filesInfo" [edit]="edit.fileAttachments"></app-files-card>
     </div>
   </div>
+
 
 </div>

@@ -104,4 +104,8 @@ export class IdentityCardComponent implements OnInit, OnDestroy {
         changeHandler.Do(parseInt(type));
       });
   }
+
+  isValid(){
+    return this.identityCardForm && this.identityCardForm.valid;
+  }
 }

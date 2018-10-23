@@ -2,6 +2,7 @@
 export * from "./models/inquiry-type";
 export * from "./models/location-type";
 export * from "./models/address-type";
+export * from "./buttons-titles";
 
 //enums
 export * from "./confirmation-document-mode.enum";
@@ -25,6 +26,9 @@ export * from "./addressBuilder/address-builder-director";
 
 
 export * from "./models/entity.model";
+export * from "./models/preschool-inquiry.model";
+export * from "./models/petition.model";
+export * from "./models/family-info.model";
 export * from "./models/school-class.model";
 export * from "./models/school-inquiry-info.model";
 export * from "./models/educ-program.model";
@@ -47,6 +51,7 @@ export * from "./models/applicant.model";
 export * from "./models/file-view.model"
 export * from "./models/file-attachment.model";
 export * from "./models/settings.model";
+export * from "./configs-of-routing-buttons";
 export * from "./models/privilege.model";
 export * from "./models/specificity.model";
 export * from "./models/privilege-order.model";
@@ -57,7 +62,6 @@ export * from "./models/child.model";
 export * from "./models/spec-health.model";
 export * from "./models/country.model";
 export * from "./models/identityCard.model";
-export * from "./models/client.model";
 export * from "./models/confirmation-document.model";
 export * from "./models/person.model";
 export * from "./models/parent.model";

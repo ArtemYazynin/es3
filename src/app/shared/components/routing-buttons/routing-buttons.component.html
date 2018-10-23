@@ -1,0 +1,22 @@
+<ng-template #buttons>
+    <button type="submit" class="btn btn-primary" (click)="config.primaryAction()" [disabled]="!(isValid)">{{config.primaryTitle}}</button>
+</ng-template>
+
+<ng-template #master>
+    <app-inquiry-info-edit>
+        <div class="form-actions" style="text-align: center;">
+            <button type="button" class="btn btn-inverse" (click)="config.inverseAction()">{{config.inverseTitle}}</button>
+            <ng-container *ngTemplateOutlet="buttons"></ng-container>
+        </div>
+    </app-inquiry-info-edit>
+</ng-template>
+
+<ng-template #edit>
+    <button type="button" class="btn btn-inverse" [mat-dialog-close]="inquiry">{{config.inverseTitle}}</button>
+    <ng-container *ngTemplateOutlet="buttons">
+    </ng-container>
+</ng-template>
+
+<ng-container *ngTemplateOutlet="config.inverseAction ? master : edit">
+
+</ng-container>

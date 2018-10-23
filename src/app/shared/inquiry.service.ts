@@ -102,7 +102,7 @@ saveChildren(editChildrenComponent: EditChildrenComponent, update: (patch: objec
     const institutions = (() => {
       return editInstitutionsComponent.selectedInstitutions;
     })();
-    if (editInstitutionsComponent.inquiry.type == "preschool")
+    if (editInstitutionsComponent.inquiry.type == "school")
       update({ institutions: institutions });
     else {
       update({ schoolClasses: editInstitutionsComponent.selectedInstitutions, IsLearnEducCenter: IsLearnEducCenter });

@@ -14,6 +14,7 @@ import { RegisterSource } from "./register-source.enum";
 import { SchoolClass } from "./school-class.model";
 import { SchoolInquiryInfo } from "./school-inquiry-info.model";
 import { Status } from "./status.model";
+import { Petition } from "./petition.model";
 
 export class Inquiry {
     private def = "-";
@@ -57,6 +58,7 @@ export class Inquiry {
     inquiryInfo: InquiryInfo;
 
     contactInfo: ContactInfo;
+    petition:Petition;
 
     /** ONLY SCHOOL FUNCTIONALITY */
     schoolClasses: Array<SchoolClass>;

@@ -152,7 +152,13 @@ export class InMemoryService implements InMemoryDbService {
       new EducProgram("653E48EA-2C61-4F29-B4AD-A452002D605E", "Программы «Воспитание и обучение глухих детей дошкольного возраста», авторы Л.П. Носкова, Л.А. Головчиц, М., 1991 г.",
         "Носкова воспитание", EducProgramType.Preschool)
     ];
+    let familiesInfos = [
+      { id:"516C3D30-8FF2-4163-BBA8-A452002EC33A", name: "Особое семейное положение" },
+      { id:"9BA6F6A5-5A0F-4682-B8C0-A5D301025E87", name: "Многодетная семья" },
+      { id:"43E16DBB-3AC0-420E-8F1C-A71A00CF37C6", name: "Малоимущие" }
+  ]
     return {
+      familiesInfos:familiesInfos,
       heroes: heroes,
       countries: Countries,
       relationTypes: relationTypes,

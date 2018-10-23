@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, Inject, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { BehaviorSubject, Subject } from 'rxjs';
-import { ApplicantType, InquiryService, Person, IdentityCard } from '../../../shared';
+import { ApplicantType, ButtonsTitles, ConfigsOfRoutingButtons, Inquiry, InquiryService, Person, IdentityCard } from '../../../shared';
 import { WizardStorageService } from '../../wizard/shared';
 import { EditPersonComponent } from '../shared/components/edit-person/edit-person.component';
 
@@ -16,10 +16,11 @@ export class EditPersonDialogComponent implements OnInit, OnDestroy {
   @ViewChild(EditPersonComponent) editPersonComponent: EditPersonComponent;
   applicantTypes = ApplicantType;
   constructor(public dialogRef: MatDialogRef<EditPersonDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: { $person: BehaviorSubject<Person>},
+    @Inject(MAT_DIALOG_DATA) public data: { $person: BehaviorSubject<Person> },
     private storageService: WizardStorageService, private inquiryService: InquiryService) { }
 
   person: Person;
+  config: ConfigsOfRoutingButtons;
 
   ngOnInit() {
     this.person = this.data.$person.getValue();
@@ -29,7 +30,6 @@ export class EditPersonDialogComponent implements OnInit, OnDestroy {
     this.ngUnsubscribe.next();
     this.ngUnsubscribe.complete();
   }
-
   save() {
     const fullnameForm = this.editPersonComponent.fullnameComponent.fullnameForm;
     let person = new Person(fullnameForm.controls.lastname.value, fullnameForm.controls.firstname.value, fullnameForm.controls.middlename.value, this.editPersonComponent.snilsComponent.snils, fullnameForm.controls.noMiddlename.value);
@@ -57,3 +57,4 @@ export class EditPersonDialogComponent implements OnInit, OnDestroy {
     return this.editPersonComponent && this.editPersonComponent.isValid();
   }
 }
+

@@ -52,6 +52,9 @@ import { PrivilegeCardComponent } from "./shared/components/privilege-card/privi
 import { FilesCardComponent } from "./shared/components/files-card/files-card.component";
 import { YesNoPipe } from "./shared/yes-no.pipe";
 import { PersonCardComponent } from "./shared/components/person-card/person-card.component";
+import { RoutingButtonsComponent } from "./shared/components/routing-buttons/routing-buttons.component";
+import { PetitionTypePipe } from './shared/petition-type.pipe';
+import { FamilyInfoService } from "./shared/family-info.service";
 
 
 
@@ -66,11 +69,13 @@ import { PersonCardComponent } from "./shared/components/person-card/person-card
         PersonCardComponent, ConfirmationDocumentCardComponent, AdultCardComponent, ChildrenCardComponent,
         PreschoolInquiryInfoCardComponent,
         ContactInfoCardComponent,
-        InstitutionsCardComponent,SpecHealthComponent,
+        InstitutionsCardComponent, SpecHealthComponent,
         SchoolClassCardComponent, EditChildrenComponent,
         CurrentEducationPlaceCardComponent, EditConfirmationDocumentDialogComponent,
         DisabilityChildComponent, PrivilegeCardComponent,
-        FilesCardComponent,YesNoPipe
+        FilesCardComponent, YesNoPipe,
+        RoutingButtonsComponent, 
+        
     ],
     imports: [
         CommonModule,
@@ -89,10 +94,10 @@ import { PersonCardComponent } from "./shared/components/person-card/person-card
         EditFileAttachmentsComponent, EditSchoolInquiryInfoComponent, SchoolInquiryInfoCardComponent, PreschoolInquiryInfoCardComponent,
         PersonCardComponent, ConfirmationDocumentCardComponent, AdultCardComponent, ChildrenCardComponent, ContactInfoCardComponent, SpecHealthComponent,
         InstitutionsCardComponent, SchoolClassCardComponent, CurrentEducationPlaceCardComponent, DisabilityChildComponent, EditChildrenComponent,
-        PrivilegeCardComponent, FilesCardComponent, YesNoPipe
+        PrivilegeCardComponent, FilesCardComponent, YesNoPipe, RoutingButtonsComponent
     ],
     providers: [
-        SpecializationService, ConfirmationDocumentService,
+        SpecializationService, ConfirmationDocumentService, FamilyInfoService,
         EducProgramService, PersonService
     ],
     entryComponents: [EditConfirmationDocumentDialogComponent]

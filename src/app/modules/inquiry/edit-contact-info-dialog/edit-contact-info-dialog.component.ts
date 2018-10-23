@@ -1,7 +1,7 @@
 import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, Inject, OnInit, ViewChild } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { BehaviorSubject } from 'rxjs';
-import { CommonService, Inquiry, InquiryService } from '../../../shared';
+import { ButtonsTitles, ConfigsOfRoutingButtons, Inquiry, InquiryService } from '../../../shared';
 import { WizardStorageService } from '../../wizard/shared';
 import { EditContactInfoComponent } from '../shared/components/edit-contact-info/edit-contact-info.component';
 
@@ -12,18 +12,32 @@ import { EditContactInfoComponent } from '../shared/components/edit-contact-info
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class EditContactInfoDialogComponent implements OnInit, AfterViewInit {
-  ngAfterViewInit(): void {
-    this.cdr.detectChanges();
-  }
+
   @ViewChild(EditContactInfoComponent) editContactInfoComponent: EditContactInfoComponent;
   inquiry: Inquiry;
+  config: ConfigsOfRoutingButtons;
+
   constructor(public dialogRef: MatDialogRef<EditContactInfoDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: { $inquiry: BehaviorSubject<Inquiry> },
-    private commonService: CommonService, private storageService: WizardStorageService,
+    private storageService: WizardStorageService,
     private inquiryService: InquiryService, private cdr: ChangeDetectorRef) { }
 
   ngOnInit() {
     this.inquiry = this.data.$inquiry.getValue();
+    this.config = new ConfigsOfRoutingButtons(ButtonsTitles.Save, ButtonsTitles.Close,
+      () => {
+        this.inquiryService.saveContactInfo(this.editContactInfoComponent, (patch) => {
+          this.storageService.set(this.inquiry.type, patch);
+          Object.assign(this.inquiry, patch);
+          this.data.$inquiry.next(this.inquiry);
+        })
+        this.dialogRef.close();
+      }
+    );
+  }
+
+  ngAfterViewInit(): void {
+    this.cdr.detectChanges();
   }
 
   save() {
@@ -33,8 +47,5 @@ export class EditContactInfoDialogComponent implements OnInit, AfterViewInit {
       this.data.$inquiry.next(this.inquiry);
     })
     this.dialogRef.close();
-  }
-  isValid() {
-    return this.editContactInfoComponent && this.editContactInfoComponent.isValid();
   }
 }

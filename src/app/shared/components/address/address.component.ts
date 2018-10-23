@@ -109,6 +109,7 @@ export class AddressComponent implements OnInit, OnDestroy {
         filter(x => (typeof x) != "object"))
       .subscribe(value => {
         this.regions = this.addressService.getRegions(value);
+        this.cdr.markForCheck();
       });
     this.addressForm.controls.city.valueChanges
       .pipe(
@@ -120,6 +121,7 @@ export class AddressComponent implements OnInit, OnDestroy {
           ? this.addressForm.controls.district.value
           : this.addressForm.controls.region.value
         this.cities = this.addressService.getCities(control, value);
+        this.cdr.markForCheck();
       });
     this.addressForm.controls.district.valueChanges
       .pipe(
@@ -128,6 +130,7 @@ export class AddressComponent implements OnInit, OnDestroy {
         debounceTime(this.debounceTime))
       .subscribe(value => {
         this.districts = this.addressService.getDistricts(this.addressForm.controls.region.value, value);
+        this.cdr.markForCheck();
       });
     this.addressForm.controls.street.valueChanges
       .pipe(
@@ -136,6 +139,7 @@ export class AddressComponent implements OnInit, OnDestroy {
         debounceTime(this.debounceTime))
       .subscribe(value => {
         this.streets = this.addressService.getStreets(this.addressForm.controls.city.value, value);
+        this.cdr.markForCheck();
       });
     this.addressForm.controls.building.valueChanges
       .pipe(
@@ -144,6 +148,7 @@ export class AddressComponent implements OnInit, OnDestroy {
         debounceTime(this.debounceTime))
       .subscribe(value => {
         this.buildings = this.addressService.getBuildings(this.addressForm.controls.street.value, value);
+        this.cdr.markForCheck();
       });
     this.addressType = (() => {
       for (const key in addressTypes) {

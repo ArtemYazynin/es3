@@ -1,6 +1,6 @@
 import { AfterViewInit, ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ApplicantType, CommonService, Inquiry, InquiryService } from '../../../shared/index';
+import { ApplicantType, ButtonsTitles, CommonService, ConfigsOfRoutingButtons, Inquiry, InquiryService } from '../../../shared/index';
 import { EditPersonComponent } from '../../inquiry/shared/components/edit-person/edit-person.component';
 import { StepBase, WizardStorageService } from '../shared/index';
 
@@ -21,30 +21,28 @@ export class ApplicantStepComponent implements OnInit, AfterViewInit, StepBase {
   inquiry: Inquiry;
   inquiryType = this.route.snapshot.data.resolved.inquiryType;
   applicantTypes = ApplicantType;
+  config: ConfigsOfRoutingButtons;
 
   ngOnInit() {
     this.inquiry = <Inquiry>this.storageService.get(this.inquiryType);
+    this.config = new ConfigsOfRoutingButtons(ButtonsTitles.Next, ButtonsTitles.Back,
+      () => {
+        this.inquiryService.saveApplicant(this.inquiry, this.editPersonComponent, (patch) => {
+          this.storageService.set(this.inquiryType, patch);
+        });
+
+        if (this.inquiry.applicantType == ApplicantType.Parent) {
+          this.router.navigate(["../contactInfoStep"], { relativeTo: this.route });
+        } else {
+          this.router.navigate(["../parentStep"], { relativeTo: this.route });
+        }
+      },
+      () => {
+        this.router.navigate(["../applicantTypeStep"], { relativeTo: this.route });
+      }
+    );
   }
   ngAfterViewInit(): void {
     this.cdr.detectChanges();
-  }
-  isValid(): boolean {
-    return this.editPersonComponent.isValid();
-  }
-  goTo = {
-    back: () => {
-      this.router.navigate(["../applicantTypeStep"], { relativeTo: this.route });
-    },
-    next: () => {
-      this.inquiryService.saveApplicant(this.inquiry, this.editPersonComponent, (patch) => {
-        this.storageService.set(this.inquiryType, patch);
-      });
-
-      if (this.inquiry.applicantType == ApplicantType.Parent) {
-        this.router.navigate(["../contactInfoStep"], { relativeTo: this.route });
-      } else {
-        this.router.navigate(["../parentStep"], { relativeTo: this.route });
-      }
-    }
   }
 }

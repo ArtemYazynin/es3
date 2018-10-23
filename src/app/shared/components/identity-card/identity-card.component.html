@@ -102,6 +102,14 @@
                         {{ formErrors.actRecordPlace }}
                     </div>
                 </div>
+                <div class="alert-info" *ngIf="identityCardForm">
+                    <span>
+                        <b>{{identityCardForm.value | json}}</b>
+                    </span>
+                    <span>identityCardForm.status:
+                        <b>{{identityCardForm.status | json}}</b>
+                    </span>
+                </div>
             </div>
         </form>
     </div>

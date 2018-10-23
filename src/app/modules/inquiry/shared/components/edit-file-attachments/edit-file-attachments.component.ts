@@ -1,9 +1,9 @@
-import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnDestroy, OnInit, Inject } from '@angular/core';
+import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, Inject, Input, OnDestroy, OnInit } from '@angular/core';
 import { from, fromEvent, Observable, Subject } from 'rxjs';
 import { filter, map, takeUntil } from 'rxjs/operators';
 import { isNullOrUndefined } from 'util';
-import { ApplicantType, AttachmentType, CommonService, FileAttachment, FileView, Inquiry } from '../../../../../shared';
 import { esConstant } from '../../../../../app.module';
+import { ApplicantType, AttachmentType, CommonService, FileAttachment, FileView, Inquiry } from '../../../../../shared';
 
 @Component({
   selector: 'app-edit-file-attachments',
@@ -59,36 +59,45 @@ export class EditFileAttachmentsComponent implements OnInit, AfterViewInit, OnDe
         }),
         map(event => {
           const files: File[] = event.target["files"];
-          return { file: files[0], attachmentType: event.target["id"], index: event.target["dataset"].index, name: files[0].name };
+          if (files.length > 0)
+            return { file: files[0], attachmentType: event.target["id"], index: event.target["dataset"].index, name: files[0].name };
+          else
+            return { file: undefined, attachmentType: event.target["id"], index: event.target["dataset"].index, name: this.esConstant.fileNotChoosen };
         }))
       .subscribe(params => {
-        const updateFileView = (fileView: FileView, value: string | File) => {
-          if (typeof (value) == "string") {
-            fileView.name = value;
-            fileView.fileAttachment.file = value == this.esConstant.fileNotChoosen ? null : value;
-          }
-          else {
-            fileView.name = value.name;
-            fileView.fileAttachment.file = value;
-          }
-        }
+
         if (params.file) {
           if (!this.fileSizeIsValid(params.file)) {
             alert("Размер файла не должен превышать 5мб.");
             return;
           }
           const fileView = this.bunchOfFileView.find(x => x.index == params.index);
-          updateFileView(fileView, params.file);
+          this.updateFileView(fileView, params.file);
 
         } else {
           const fileView = this.bunchOfFileView.find(x => x.fileAttachment.attachmentType == params.attachmentType && x.index == params.index);
-          updateFileView(fileView, this.esConstant.fileNotChoosen);
+          this.updateFileView(fileView, this.esConstant.fileNotChoosen);
         }
         this.cdr.markForCheck();
       });
   }
 
+  updateFileView(fileView: FileView, value: string | File) {
+    if (typeof (value) == "string") {
+      fileView.name = value;
+      fileView.fileAttachment.file = undefined;
+      fileView.fileAttachment.description = undefined;
+      fileView.fileAttachment.name = "";
+    }
+    else {
+      fileView.name = value.name;
+      fileView.fileAttachment.file = value;
+    }
+  }
+
   chooseFile(fileView: FileView) {
+    this.updateFileView(fileView, this.esConstant.fileNotChoosen);
+    this.cdr.markForCheck();
     const elements = document.querySelectorAll("[data-index='" + fileView.index + "']")
     elements[0]["click"]();
   }
