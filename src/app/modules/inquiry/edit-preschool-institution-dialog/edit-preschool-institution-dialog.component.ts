@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, Inject, OnInit, ViewChild } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { BehaviorSubject } from 'rxjs';
-import { Inquiry, InquiryService } from '../../../shared';
+import { ButtonsTitles, ConfigsOfRoutingButtons, Inquiry, InquiryService } from '../../../shared';
 import { WizardStorageService } from '../../wizard/shared';
 import { EditInstitutionsComponent } from '../shared/components/edit-institutions/edit-institutions.component';
 
@@ -18,22 +18,20 @@ export class EditPreschoolInstitutionDialogComponent implements OnInit {
     private storageService: WizardStorageService, private inquiryService: InquiryService) { }
 
   inquiry: Inquiry;
+  configs: ConfigsOfRoutingButtons;
 
   ngOnInit() {
     this.inquiry = this.data.$inquiry.getValue();
-  }
+    this.configs = new ConfigsOfRoutingButtons(ButtonsTitles.Save, ButtonsTitles.Close,
+      () => {
+        this.inquiryService.saveWishInstitutions(this.editInstitutionsComponent, (patch) => {
+          this.storageService.set(this.inquiry.type, patch);
 
-  save() {
-    this.inquiryService.saveWishInstitutions(this.editInstitutionsComponent, (patch) => {
-      this.storageService.set(this.inquiry.type, patch);
-
-      Object.assign(this.inquiry, patch);
-      this.data.$inquiry.next(this.inquiry);
-    })
-    this.dialogRef.close();
-  }
-
-  isValid = (): boolean => {
-    return !!this.editInstitutionsComponent && this.editInstitutionsComponent.isValid();
+          Object.assign(this.inquiry, patch);
+          this.data.$inquiry.next(this.inquiry);
+        })
+        this.dialogRef.close();
+      }
+    );
   }
 }

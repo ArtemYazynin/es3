@@ -2,12 +2,11 @@
   <h1 mat-dialog-title>Параметры заявления</h1>
   <div mat-dialog-content>
     <div>
-        <app-edit-school-inquiry-info [schoolInquiryInfo]="inquiry.schoolInquiryInfo">
-          </app-edit-school-inquiry-info>
+      <app-edit-school-inquiry-info [schoolInquiryInfo]="inquiry.schoolInquiryInfo">
+      </app-edit-school-inquiry-info>
     </div>
   </div>
   <mat-dialog-actions>
-    <button class="btn btn-inverse" [mat-dialog-close]="inquiry">Закрыть</button>
-    <button class="btn btn-primary" (click)="save()" [disabled]="!isValid()">Сохранить</button>
+    <app-routing-buttons [configs]="configs" [isValid]="editSchoolInquiryInfoComponent && editSchoolInquiryInfoComponent.isValid()"></app-routing-buttons>
   </mat-dialog-actions>
 </div>

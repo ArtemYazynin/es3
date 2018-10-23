@@ -2,6 +2,7 @@
 export * from "./models/inquiry-type";
 export * from "./models/location-type";
 export * from "./models/address-type";
+export * from "./buttons-titles";
 
 //enums
 export * from "./models/register-source.enum";
@@ -49,6 +50,7 @@ export * from "./models/applicant.model";
 export * from "./models/file-view.model"
 export * from "./models/file-attachment.model";
 export * from "./models/settings.model";
+export * from "./configs-of-routing-buttons";
 export * from "./models/privilege.model";
 export * from "./models/specificity.model";
 export * from "./models/privilege-order.model";

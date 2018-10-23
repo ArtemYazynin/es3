@@ -1,7 +1,7 @@
-import { Component, OnInit, Inject, ViewChild, AfterViewInit, ChangeDetectorRef, ChangeDetectionStrategy } from '@angular/core';
+import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, Inject, OnInit, ViewChild } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { BehaviorSubject } from 'rxjs';
-import { Inquiry, ApplicantType, CommonService, InquiryService, DistributionParams, StayMode, AgeGroup, InquiryInfo } from '../../../shared';
+import { ButtonsTitles, ConfigsOfRoutingButtons, Inquiry, InquiryService } from '../../../shared';
 import { WizardStorageService } from '../../wizard/shared';
 import { EditInquiryInfoComponent } from '../shared/components/edit-inquiry-info/edit-inquiry-info.component';
 
@@ -13,31 +13,30 @@ import { EditInquiryInfoComponent } from '../shared/components/edit-inquiry-info
 })
 export class EditInquiryInfoDialogComponent implements OnInit, AfterViewInit {
   @ViewChild(EditInquiryInfoComponent) editInquiryInfoComponent: EditInquiryInfoComponent;
+  configs: ConfigsOfRoutingButtons;
 
   constructor(public dialogRef: MatDialogRef<EditInquiryInfoDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: { $inquiry: BehaviorSubject<Inquiry> },
-    private commonService: CommonService, private storageService: WizardStorageService,
+    private storageService: WizardStorageService,
     private inquiryService: InquiryService, private cdr: ChangeDetectorRef) { }
 
   ngOnInit() {
+    this.configs = new ConfigsOfRoutingButtons(ButtonsTitles.Save, ButtonsTitles.Close,
+      () => {
+        this.inquiryService.saveInquiryInfo(this.editInquiryInfoComponent, (patch) => {
+          this.storageService.set(this.data.$inquiry.getValue().type, patch);
+
+          let inquiry = this.data.$inquiry.getValue();
+          Object.assign(inquiry, patch);
+          this.data.$inquiry.next(inquiry);
+
+        })
+        this.dialogRef.close();
+      }
+    );
   }
+
   ngAfterViewInit(): void {
     this.cdr.detectChanges();
-  }
-
-  save() {
-    this.inquiryService.saveInquiryInfo(this.editInquiryInfoComponent, (patch) => {
-      this.storageService.set(this.data.$inquiry.getValue().type, patch);
-      
-      let inquiry = this.data.$inquiry.getValue();
-      Object.assign(inquiry, patch);
-      this.data.$inquiry.next(inquiry);
-      
-    })
-    this.dialogRef.close();
-  }
-
-  isValid() {
-    return this.editInquiryInfoComponent && this.editInquiryInfoComponent.isValid();
   }
 }

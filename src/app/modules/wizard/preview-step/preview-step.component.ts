@@ -1,10 +1,10 @@
-import { Component, OnDestroy, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Observable, Subject, timer } from 'rxjs';
 import { map, takeUntil } from 'rxjs/operators';
 import { isNullOrUndefined } from 'util';
-import { CitizenshipService, Country, DrawService, Entity, Group, Inquiry, InquiryService, SpecHealth, SpecHealthService, inquiryType } from '../../../shared';
+import { ButtonsTitles, CitizenshipService, ConfigsOfRoutingButtons, Country, DrawService, Entity, Group, Inquiry, InquiryService, inquiryType, SpecHealth, SpecHealthService } from '../../../shared';
 import { StepBase, WizardStorageService } from '../shared';
 
 @Component({
@@ -18,6 +18,7 @@ export class PreviewStepComponent implements OnInit, OnDestroy, StepBase {
   constructor(private router: Router, private route: ActivatedRoute, private citizenshipService: CitizenshipService,
     private storageService: WizardStorageService, public drawService: DrawService, private specHealthService: SpecHealthService,
     private inquiryService: InquiryService, public dialog: MatDialog) { }
+
   private ngUnsubscribe: Subject<any> = new Subject();
   $group: Observable<Group>;
   $institutionType: Observable<Entity<number>>
@@ -29,24 +30,7 @@ export class PreviewStepComponent implements OnInit, OnDestroy, StepBase {
 
   inquiry: Inquiry;
   inquiryTypes = inquiryType;
-
-  goTo = {
-    back: () => {
-      this.router.navigate(["../fileAttachmentStep"], { relativeTo: this.route });
-    },
-    next: () => {
-      timer(1000).pipe().subscribe((response) => {
-        this.inquiry.type = this.inquiryType;
-        this.inquiryService.create(this.inquiry).subscribe(inquiry => {
-          this.router.navigate([`../registerComplete/${inquiry.id}`], { relativeTo: this.route });
-        });
-      })
-    }
-  };
-
-  isValid(): boolean {
-    return true;
-  }
+  configs: ConfigsOfRoutingButtons;
 
   ngOnInit() {
     this.citizenshipService.getCountries()
@@ -63,6 +47,24 @@ export class PreviewStepComponent implements OnInit, OnDestroy, StepBase {
         ? { "col-md-12": true }
         : { "col-md-6": true };
     })();
+
+    this.configs = new ConfigsOfRoutingButtons(ButtonsTitles.Register, ButtonsTitles.Back,
+      () => {
+        timer(1000).pipe().subscribe((response) => {
+          this.inquiry.type = this.inquiryType;
+          this.inquiryService.create(this.inquiry).subscribe(inquiry => {
+            this.router.navigate([`../registerComplete/${inquiry.id}`], { relativeTo: this.route });
+          });
+        })
+      },
+      () => {
+        this.router.navigate(["../fileAttachmentStep"], { relativeTo: this.route });
+      }
+    );
+  }
+
+  isValid(): boolean {
+    return true;
   }
 
   ngOnDestroy(): void {

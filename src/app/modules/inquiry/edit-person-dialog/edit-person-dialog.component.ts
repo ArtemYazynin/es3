@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, Inject, OnInit, ViewChild } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { BehaviorSubject } from 'rxjs';
-import { ApplicantType, CommonService, Inquiry, InquiryService } from '../../../shared';
+import { ApplicantType, ButtonsTitles, ConfigsOfRoutingButtons, Inquiry, InquiryService } from '../../../shared';
 import { WizardStorageService } from '../../wizard/shared';
 import { EditPersonComponent } from '../shared/components/edit-person/edit-person.component';
 
@@ -19,26 +19,24 @@ export class EditPersonDialogComponent implements OnInit {
     private storageService: WizardStorageService, private inquiryService: InquiryService) { }
 
   inquiry: Inquiry;
+  configs: ConfigsOfRoutingButtons;
 
   ngOnInit() {
     this.inquiry = this.data.$inquiry.getValue();
-  }
+    this.configs = new ConfigsOfRoutingButtons(ButtonsTitles.Save, ButtonsTitles.Close,
+      () => {
+        const update = (patch: object) => {
+          this.storageService.set(this.inquiry.type, patch);
+          Object.assign(this.inquiry, patch);
+          this.data.$inquiry.next(this.inquiry);
+        }
 
-  save() {
-    const update = (patch: object) => {
-      this.storageService.set(this.inquiry.type, patch);
-      Object.assign(this.inquiry, patch);
-      this.data.$inquiry.next(this.inquiry);
-    }
-
-    this.inquiryService.saveParent(this.inquiry, this.editPersonComponent, update, this.data.modelType == ApplicantType.Parent);
-    if (this.data.modelType == ApplicantType.Applicant) {
-      this.inquiryService.saveApplicant(this.inquiry, this.editPersonComponent, update);
-    }
-    this.dialogRef.close();
-  }
-
-  isValid = (): boolean => {
-    return this.editPersonComponent && this.editPersonComponent.isValid();
+        this.inquiryService.saveParent(this.inquiry, this.editPersonComponent, update, this.data.modelType == ApplicantType.Parent);
+        if (this.data.modelType == ApplicantType.Applicant) {
+          this.inquiryService.saveApplicant(this.inquiry, this.editPersonComponent, update);
+        }
+        this.dialogRef.close();
+      }
+    );
   }
 }

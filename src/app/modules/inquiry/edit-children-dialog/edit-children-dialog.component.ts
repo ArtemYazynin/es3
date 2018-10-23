@@ -1,7 +1,7 @@
 import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, Inject, OnInit, ViewChild } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { BehaviorSubject } from 'rxjs';
-import { Inquiry, InquiryService } from '../../../shared';
+import { ButtonsTitles, ConfigsOfRoutingButtons, Inquiry, InquiryService } from '../../../shared';
 import { WizardStorageService } from '../../wizard/shared';
 import { EditChildrenComponent } from '../shared/components/edit-children/edit-children.component';
 
@@ -20,6 +20,7 @@ export class EditChildrenDialogComponent implements OnInit, AfterViewInit {
 
     inquiry: Inquiry;
     inquiryType: any;
+    configs: ConfigsOfRoutingButtons;
 
     constructor(public dialogRef: MatDialogRef<EditChildrenComponent>,
         @Inject(MAT_DIALOG_DATA) public data: { $inquiry: BehaviorSubject<Inquiry> }, private storageService: WizardStorageService,
@@ -28,17 +29,15 @@ export class EditChildrenDialogComponent implements OnInit, AfterViewInit {
     ngOnInit() {
         this.inquiry = this.data.$inquiry.getValue();
         this.inquiryType = this.inquiry.type;
-    }
-
-    save() {
-        this.inquiryService.saveChildren(this.editChildrenComponent, (patch) => {
-            this.storageService.set(this.inquiry.type, patch);
-            Object.assign(this.inquiry, patch);
-            this.data.$inquiry.next(this.inquiry);
-        })
-        this.dialogRef.close();
-    }
-    isValid() {
-        return this.editChildrenComponent && this.editChildrenComponent.isValid();
+        this.configs = new ConfigsOfRoutingButtons(ButtonsTitles.Save, ButtonsTitles.Close,
+            () => {
+                this.inquiryService.saveChildren(this.editChildrenComponent, (patch) => {
+                    this.storageService.set(this.inquiry.type, patch);
+                    Object.assign(this.inquiry, patch);
+                    this.data.$inquiry.next(this.inquiry);
+                })
+                this.dialogRef.close();
+            }
+        );
     }
 }

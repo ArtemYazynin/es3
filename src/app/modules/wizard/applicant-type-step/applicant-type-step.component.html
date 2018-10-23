@@ -7,9 +7,6 @@
         </mat-radio-button>
       </mat-radio-group>
     </div>
-    <div class="form-actions" style="text-align: center;">
-      <button type="button" class="btn btn-inverse" (click)="goTo.back()">Назад</button>
-      <button class="btn btn-primary" (click)="goTo.next()">Далее</button>
-    </div>
   </app-inquiry-info-edit>
 </div>
+  <app-routing-buttons [configs]="configs" [isValid]="isValid()"></app-routing-buttons>

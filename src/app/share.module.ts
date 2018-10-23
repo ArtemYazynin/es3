@@ -51,6 +51,7 @@ import { InquiryTypeFriendlyNamePipe } from './shared/inquiry-type.pipe';
 import { YesNoPipe } from "./shared/yes-no.pipe";
 import { ChildComponent } from "./shared/components/child/child.component";
 import { PetitionCardComponent } from './shared/components/petition-card/petition-card.component';
+import { RoutingButtonsComponent } from "./shared/components/routing-buttons/routing-buttons.component";
 import { PetitionTypePipe } from './shared/petition-type.pipe';
 import { FamilyInfoService } from "./shared/family-info.service";
 
@@ -74,6 +75,7 @@ import { FamilyInfoService } from "./shared/family-info.service";
         PrivilegeCardComponent,
         FilesCardComponent,
         ChildComponent,
+        RoutingButtonsComponent,
 
         YesNoPipe,
 
@@ -98,6 +100,8 @@ import { FamilyInfoService } from "./shared/family-info.service";
         PersonViewComponent, ConfirmationDocumentViewComponent, AdultCardComponent, ChildrenCardComponent, ContactInfoCardComponent, InstitutionsCardComponent, SchoolClassCardComponent, CurrentEducationPlaceCardComponent,
         PrivilegeCardComponent, FilesCardComponent, EditChildrenComponent, DisabilityChildComponent, SpecHealthComponent,
         ChildComponent, PetitionCardComponent, PetitionTypePipe
+        
+        RoutingButtonsComponent
     ],
     providers: [
         SpecializationService, FamilyInfoService,
