@@ -1,3 +1,5 @@
+import { IdentityCard } from "./identityCard.model";
+
 export class Person {
     lastname: string;
     firstname: string;
@@ -8,7 +10,7 @@ export class Person {
     birthDate: Date;
     birthPlace: string;
     gender: number = 1;
-
+    identityCard: IdentityCard;
     constructor(lastname: string, firstname: string, middlename: string, snils: string, noMiddlename: boolean, birthDate: Date, birthPlace: string, gender: number) {
         this.lastname = lastname;
         this.firstname = firstname;

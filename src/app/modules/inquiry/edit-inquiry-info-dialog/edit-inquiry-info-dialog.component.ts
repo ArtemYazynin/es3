@@ -13,7 +13,7 @@ import { EditInquiryInfoComponent } from '../shared/components/edit-inquiry-info
 })
 export class EditInquiryInfoDialogComponent implements OnInit, AfterViewInit {
   @ViewChild(EditInquiryInfoComponent) editInquiryInfoComponent: EditInquiryInfoComponent;
-  configs: ConfigsOfRoutingButtons;
+  config: ConfigsOfRoutingButtons;
 
   constructor(public dialogRef: MatDialogRef<EditInquiryInfoDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: { $inquiry: BehaviorSubject<Inquiry> },
@@ -21,7 +21,7 @@ export class EditInquiryInfoDialogComponent implements OnInit, AfterViewInit {
     private inquiryService: InquiryService, private cdr: ChangeDetectorRef) { }
 
   ngOnInit() {
-    this.configs = new ConfigsOfRoutingButtons(ButtonsTitles.Save, ButtonsTitles.Close,
+    this.config = new ConfigsOfRoutingButtons(ButtonsTitles.Save, ButtonsTitles.Close,
       () => {
         this.inquiryService.saveInquiryInfo(this.editInquiryInfoComponent, (patch) => {
           this.storageService.set(this.data.$inquiry.getValue().type, patch);

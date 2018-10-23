@@ -14,7 +14,7 @@ export class PrivilegeStepComponent implements OnInit, AfterViewInit, StepBase {
   @ViewChild(PrivilegeEditComponent) privilegeEditComponent: PrivilegeEditComponent;
   inquiry: Inquiry;
   inquiryType = this.route.snapshot.data.resolved.inquiryType;
-  configs: ConfigsOfRoutingButtons;
+  config: ConfigsOfRoutingButtons;
 
   constructor(private storageService: WizardStorageService, private router: Router, private activatedRoute: ActivatedRoute,
     private route: ActivatedRoute, private cdr: ChangeDetectorRef, private inquiryService: InquiryService) {
@@ -22,7 +22,7 @@ export class PrivilegeStepComponent implements OnInit, AfterViewInit, StepBase {
 
   ngOnInit() {
     this.inquiry = <Inquiry>this.storageService.get(this.inquiryType);
-    this.configs = new ConfigsOfRoutingButtons(ButtonsTitles.Next, ButtonsTitles.Back,
+    this.config = new ConfigsOfRoutingButtons(ButtonsTitles.Next, ButtonsTitles.Back,
       () => {
         this.inquiryService.savePrivilege(this.privilegeEditComponent, (patch) => {
           this.storageService.set(this.inquiry.type, patch);

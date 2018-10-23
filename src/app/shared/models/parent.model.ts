@@ -1,14 +1,11 @@
 import { FormGroup } from "@angular/forms";
 import { Address } from "./address.model";
 import { ConfirmationDocument } from "./confirmation-document.model";
-import { IdentityCard } from "./identityCard.model";
-import { Person } from "./person.model";
 import { PersonWithAddress } from "./person-with-address.model";
+import { Person } from "./person.model";
 import { RelationType } from "./relation-type.model";
 
 export class Parent extends Person implements PersonWithAddress {
-    identityCard: IdentityCard;
-
     citizenships: Array<number>;
     countryStateDocument: ConfirmationDocument
 

@@ -15,7 +15,7 @@ export class EditContactInfoDialogComponent implements OnInit, AfterViewInit {
 
   @ViewChild(EditContactInfoComponent) editContactInfoComponent: EditContactInfoComponent;
   inquiry: Inquiry;
-  configs: ConfigsOfRoutingButtons;
+  config: ConfigsOfRoutingButtons;
 
   constructor(public dialogRef: MatDialogRef<EditContactInfoDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: { $inquiry: BehaviorSubject<Inquiry> },
@@ -24,7 +24,7 @@ export class EditContactInfoDialogComponent implements OnInit, AfterViewInit {
 
   ngOnInit() {
     this.inquiry = this.data.$inquiry.getValue();
-    this.configs = new ConfigsOfRoutingButtons(ButtonsTitles.Save, ButtonsTitles.Close,
+    this.config = new ConfigsOfRoutingButtons(ButtonsTitles.Save, ButtonsTitles.Close,
       () => {
         this.inquiryService.saveContactInfo(this.editContactInfoComponent, (patch) => {
           this.storageService.set(this.inquiry.type, patch);

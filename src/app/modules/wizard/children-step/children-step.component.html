@@ -2,5 +2,5 @@
   <app-inquiry-info-edit title="Ребёнок (дети)">
     <app-edit-children [children]="inquiry.children" [inquiryType]="inquiryType" [owner]="inquiry.applicant ? inquiry.applicant: inquiry.parent"></app-edit-children>
   </app-inquiry-info-edit>
-  <app-routing-buttons [configs]="configs" [isValid]="editChildrenComponent.isValid()"></app-routing-buttons>
+  <app-routing-buttons [config]="config" [isValid]="editChildrenComponent.isValid()"></app-routing-buttons>
 </div>

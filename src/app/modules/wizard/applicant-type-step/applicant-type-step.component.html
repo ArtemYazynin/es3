@@ -1,17 +1,12 @@
 <div class="container col-md-12">
-  <div class="widget-box">
-    <div class="widget-title">
-      <h5>Тип заявителя</h5>
+  <app-inquiry-info-edit title="Тип заявителя">
+    <div class="form-group">
+      <mat-radio-group class="radio-group" [(ngModel)]="applicantType">
+        <mat-radio-button class="radio-button" *ngFor="let type of applicantTypes | applicantType" [value]="type.id">
+          {{type.name}}
+        </mat-radio-button>
+      </mat-radio-group>
     </div>
-    <div class="widget-content">
-      <div class="form-group">
-        <mat-radio-group class="radio-group" [(ngModel)]="applicantType">
-          <mat-radio-button class="radio-button" *ngFor="let type of applicantTypes | applicantType" [value]="type.id">
-            {{type.name}}
-          </mat-radio-button>
-        </mat-radio-group>
-      </div>
-    </div>
-  </div>
-  <app-routing-buttons [configs]="configs" [isValid]="isValid()"></app-routing-buttons>
+  </app-inquiry-info-edit>
 </div>
+  <app-routing-buttons [config]="config" [isValid]="isValid()"></app-routing-buttons>

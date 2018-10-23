@@ -94,7 +94,7 @@ export class InquiryService {
     const institutions = (() => {
       return editInstitutionsComponent.selectedInstitutions;
     })();
-    if (editInstitutionsComponent.inquiry.type == "preschool")
+    if (editInstitutionsComponent.inquiry.type == "school")
       update({ institutions: institutions });
     else {
       update({ schoolClasses: editInstitutionsComponent.selectedInstitutions, IsLearnEducCenter: IsLearnEducCenter });
@@ -181,7 +181,7 @@ export class InquiryService {
 
   get(id: string): BehaviorSubject<Inquiry> {
     if (!id) return Observable.create();
-    return new BehaviorSubject<Inquiry>(this.storageService.get("preschool"));
+    return new BehaviorSubject<Inquiry>(this.storageService.get("school"));
     // const url = `${this.baseUrl}?id=${id}`;
     // return this.http.get(url).pipe(map(result => {
     //   const inquiries = <Array<Inquiry>>result.json();

@@ -14,13 +14,13 @@ export class InstitutionStepComponent implements OnInit, StepBase {
   @ViewChild(EditInstitutionsComponent) editInstitutionsComponent: EditInstitutionsComponent;
   inquiryType = this.route.snapshot.data.resolved.inquiryType;
   inquiry: Inquiry;
-  configs: ConfigsOfRoutingButtons;
+  config: ConfigsOfRoutingButtons;
 
   constructor(private router: Router, private route: ActivatedRoute, private storageService: WizardStorageService) { }
 
   ngOnInit() {
     this.inquiry = <Inquiry>this.storageService.get(this.inquiryType);
-    this.configs = new ConfigsOfRoutingButtons(ButtonsTitles.Next, ButtonsTitles.Back,
+    this.config = new ConfigsOfRoutingButtons(ButtonsTitles.Next, ButtonsTitles.Back,
       () => {
         const data = (() => {
           switch (this.inquiry.type) {

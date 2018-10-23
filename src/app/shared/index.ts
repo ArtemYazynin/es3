@@ -25,6 +25,9 @@ export * from "./addressBuilder/address-builder-director";
 
 
 export * from "./models/entity.model";
+export * from "./models/preschool-inquiry.model";
+export * from "./models/petition.model";
+export * from "./models/family-info.model";
 export * from "./models/school-class.model";
 export * from "./models/school-inquiry-info.model";
 export * from "./models/educ-program.model";
@@ -58,7 +61,6 @@ export * from "./models/child.model";
 export * from "./models/spec-health.model";
 export * from "./models/country.model";
 export * from "./models/identityCard.model";
-export * from "./models/client.model";
 export * from "./models/confirmation-document.model";
 export * from "./models/person.model";
 export * from "./models/parent.model";

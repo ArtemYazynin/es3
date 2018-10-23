@@ -5,7 +5,6 @@ import { Address } from "./address.model";
 import { IdentityCard } from "./identityCard.model";
 
 export class Child extends Person implements PersonWithAddress {
-    identityCard: IdentityCard;
     citizenships: Array<number>;
     specHealth: number;
     specHealthDocument: ConfirmationDocument

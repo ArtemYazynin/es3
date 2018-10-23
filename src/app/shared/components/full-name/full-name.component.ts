@@ -97,4 +97,8 @@ export class FullNameComponent implements OnInit {
   ngOnDestroy() {
     this.noMiddlenameSubscription.unsubscribe();
   }
+
+  isValid(){
+    return this.fullnameForm && this.fullnameForm.valid;
+  }
 }
