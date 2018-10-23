@@ -2,10 +2,5 @@
   <app-inquiry-info-edit title="Контактная информация">
     <app-edit-contact-info [contactInfo]="inquiry?.contactInfo"></app-edit-contact-info>
   </app-inquiry-info-edit>
-  <app-inquiry-info-edit>
-    <div class="form-actions" style="text-align: center;">
-      <button type="button" class="btn btn-inverse" (click)="goTo.back()">Назад</button>
-      <button type="submit" class="btn btn-primary" (click)="goTo.next()" [disabled]="!isValid()">Далее</button>
-    </div>
-  </app-inquiry-info-edit>
+  <app-routing-buttons [configs]="configs" [isValid]="editContactInfoComponent.isValid()"></app-routing-buttons>
 </div>

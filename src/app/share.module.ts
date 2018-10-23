@@ -50,6 +50,7 @@ import { StayModeComponent } from "./shared/components/stay-mode/stay-mode.compo
 import { InquiryTypeFriendlyNamePipe } from './shared/inquiry-type.pipe';
 import { YesNoPipe } from "./shared/yes-no.pipe";
 import { ChildComponent } from "./shared/components/child/child.component";
+import { RoutingButtonsComponent } from "./shared/components/routing-buttons/routing-buttons.component";
 
 
 
@@ -71,6 +72,7 @@ import { ChildComponent } from "./shared/components/child/child.component";
         PrivilegeCardComponent,
         FilesCardComponent,
         ChildComponent,
+        RoutingButtonsComponent,
 
         YesNoPipe
     ],
@@ -90,7 +92,8 @@ import { ChildComponent } from "./shared/components/child/child.component";
         EditFileAttachmentsComponent, EditSchoolInquiryInfoComponent, SchoolInquiryInfoCardComponent, PreschoolInquiryInfoCardComponent,
         PersonViewComponent, ConfirmationDocumentViewComponent, AdultCardComponent, ChildrenCardComponent, ContactInfoCardComponent, InstitutionsCardComponent, SchoolClassCardComponent, CurrentEducationPlaceCardComponent,
         PrivilegeCardComponent, FilesCardComponent, EditChildrenComponent, DisabilityChildComponent, SpecHealthComponent,
-        ChildComponent
+        ChildComponent,
+        RoutingButtonsComponent
     ],
     providers: [
         SpecializationService,

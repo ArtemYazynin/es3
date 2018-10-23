@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Inquiry } from '../../../shared';
+import { ButtonsTitles, ConfigsOfRoutingButtons, Inquiry } from '../../../shared';
 import { EditCurrentEducationPlaceComponent } from '../../inquiry/shared/components/edit-current-education-place/edit-current-education-place.component';
 import { CurrentEducationPlace, StepBase, WizardStorageService } from '../shared';
 
@@ -14,31 +14,24 @@ export class CurrentEducationPlaceStepComponent implements OnInit, StepBase {
   @ViewChild(EditCurrentEducationPlaceComponent) editCurrentEducationPlaceComponent: EditCurrentEducationPlaceComponent;
   inquiry: Inquiry;
   inquiryType = this.route.snapshot.data.resolved.inquiryType;
+  configs: ConfigsOfRoutingButtons;
 
   constructor(private route: ActivatedRoute, private router: Router, private storageService: WizardStorageService) { }
 
-  isValid() {
-    return this.editCurrentEducationPlaceComponent.isValid();
-  }
-
-
   ngOnInit() {
     this.inquiry = <Inquiry>this.storageService.get(this.inquiryType);
-  }
-
-  goTo = (() => {
-    return {
-      back: () => {
-        this.router.navigate(["../childrenStep"], { relativeTo: this.route });
-      },
-      next: () => {
+    this.configs = new ConfigsOfRoutingButtons(ButtonsTitles.Next, ButtonsTitles.Back,
+      () => {
         const place = new CurrentEducationPlace(this.editCurrentEducationPlaceComponent.currentPlaceForm.value["municipality"],
           this.editCurrentEducationPlaceComponent.currentPlaceForm.value["institutionType"], this.editCurrentEducationPlaceComponent.currentPlaceForm.value["institution"],
           this.editCurrentEducationPlaceComponent.currentPlaceForm.value["isOther"], this.editCurrentEducationPlaceComponent.currentPlaceForm.value["other"],
           this.editCurrentEducationPlaceComponent.groups.find(group => group.id == this.editCurrentEducationPlaceComponent.currentPlaceForm.value["group"]));
         this.storageService.set(this.inquiryType, { currentEducationPlace: place });
         this.router.navigate(["../applicantTypeStep"], { relativeTo: this.route });
+      },
+      () => {
+        this.router.navigate(["../childrenStep"], { relativeTo: this.route });
       }
-    }
-  })();
+    );
+  }
 }

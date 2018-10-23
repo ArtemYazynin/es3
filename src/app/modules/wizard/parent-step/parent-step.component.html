@@ -5,30 +5,20 @@
     </div>
     <div class="widget-content">
       <app-edit-person [model]="inquiry?.parent" [modelType]="applicantTypes.Parent" [applicantType]="inquiry.applicantType"></app-edit-person>
-    </div>
-  </div>
-  <div class="widget-box">
-    <div class="widget-content">
-      <div class="row">
-        <div class="col-md-12">
-          <div class="form-group">
-            <label class="control-label"></label>
-            <div class="controls">
-              <div class="checkbox">
-                <mat-checkbox [(ngModel)]="agree">Заявителем дано согласие на обработку персональных данных</mat-checkbox>
-                <b style="color: red;">*</b>
-                <a title="Печать согласия на обработку персональных данных">
-                  <i class="mdi mdi-printer"></i>
-                </a>
-              </div>
-            </div>
-          </div>
-          <div class="form-actions" style="text-align: center;">
-            <button type="button" class="btn btn-inverse" (click)="goTo.back()">Назад</button>
-            <button type="submit" class="btn btn-primary" (click)="goTo.next()" [disabled]="!isValid()">Далее</button>
+
+      <div class="form-group">
+        <label class="control-label"></label>
+        <div class="controls">
+          <div class="checkbox">
+            <mat-checkbox [(ngModel)]="agree">Заявителем дано согласие на обработку персональных данных</mat-checkbox>
+            <b style="color: red;">*</b>
+            <a title="Печать согласия на обработку персональных данных">
+              <i class="mdi mdi-printer"></i>
+            </a>
           </div>
         </div>
       </div>
     </div>
   </div>
+  <app-routing-buttons [configs]="configs" [isValid]="agree && editPersonComponent.isValid()"></app-routing-buttons>
 </div>
