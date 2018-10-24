@@ -69,7 +69,7 @@ import { PetitionTypePipe } from '../../shared/petition-type.pipe';
     InquiryService,
     StatusService
   ],
-  declarations: [ PetitionCardComponent, InquiryReadComponent, CitizenshipsCardComponent, InquiryCommonInfoComponent, RegisterSourcePipe,
+  declarations: [ PetitionCardComponent, InquiryReadComponent, InquiryCommonInfoComponent, RegisterSourcePipe,
     EditPrivilegeDialogComponent, EditPersonDialogComponent, EditInquiryInfoDialogComponent, EditPreschoolInstitutionDialogComponent, 
     EditContactInfoDialogComponent, EditCurrentEducationPlaceDialogComponent, EditSchoolInquiryInfoDialogComponent,
     EditFileAttachmentsDialogComponent, EditChildrenDialogComponent, EditPetitionDialogComponent,PetitionTypePipe

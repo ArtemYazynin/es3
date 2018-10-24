@@ -57,7 +57,7 @@
       <app-inquiry-info-edit title="Законный представитель">
         <app-person-card [entity]="inquiry.parent" [mode]="modes.Edit"></app-person-card>
 
-        <app-citizenships-card [model]="inquiry.parent"></app-citizenships-card>
+        <app-citizenships-card [model]="inquiry.parent" [mode]="modes.Edit"></app-citizenships-card>
         <app-confirmation-document-card title="Документ, подтверждающий право пребывания законного представителя на территории РФ"
           [model]="inquiry.parent.countryStateDocument" [mode]="modes.Edit">
         </app-confirmation-document-card>

@@ -5,7 +5,7 @@
         <app-inquiry-info-edit title="Доверенное лицо законного представителя ребенка">
           <app-person-card [entity]="inquiry.applicant" [mode]="modes.Read"></app-person-card>
 
-          <app-citizenships-card [model]="inquiry.applicant"></app-citizenships-card>
+          <app-citizenships-card [model]="inquiry.applicant" [mode]="modes.Read"></app-citizenships-card>
           <app-confirmation-document-card title="Документ, подтверждающий право пребывания доверенного лица законного представителя на территории РФ"
             [model]="inquiry.applicant.countryStateApplicantDocument" [mode]="modes.Read">
           </app-confirmation-document-card>

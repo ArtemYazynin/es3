@@ -57,6 +57,7 @@ import { PetitionTypePipe } from './shared/petition-type.pipe';
 import { FamilyInfoService } from "./shared/family-info.service";
 import { EditCitizenshipsDialogComponent } from "./modules/inquiry/edit-citizenships-dialog/edit-citizenships-dialog.component";
 import { EditCitizenshipsComponent } from './modules/inquiry/shared/components/edit-citizenships/edit-citizenships.component';
+import { CitizenshipsCardComponent } from "./shared/components/citizenships-card/citizenships-card.component";
 
 
 
@@ -75,7 +76,7 @@ import { EditCitizenshipsComponent } from './modules/inquiry/shared/components/e
         SchoolClassCardComponent, EditChildrenComponent,
         CurrentEducationPlaceCardComponent, EditConfirmationDocumentDialogComponent,
         DisabilityChildComponent, PrivilegeCardComponent,
-        FilesCardComponent, YesNoPipe,
+        FilesCardComponent, YesNoPipe, CitizenshipsCardComponent,
         RoutingButtonsComponent, EditCitizenshipsDialogComponent, EditCitizenshipsComponent
 
     ],
@@ -96,7 +97,7 @@ import { EditCitizenshipsComponent } from './modules/inquiry/shared/components/e
         EditFileAttachmentsComponent, EditSchoolInquiryInfoComponent, SchoolInquiryInfoCardComponent, PreschoolInquiryInfoCardComponent,
         PersonCardComponent, ConfirmationDocumentCardComponent, AdultCardComponent, ChildrenCardComponent, ContactInfoCardComponent, SpecHealthComponent,
         InstitutionsCardComponent, SchoolClassCardComponent, CurrentEducationPlaceCardComponent, DisabilityChildComponent, EditChildrenComponent,
-        PrivilegeCardComponent, FilesCardComponent, YesNoPipe, RoutingButtonsComponent, EditCitizenshipsComponent
+        PrivilegeCardComponent, FilesCardComponent, YesNoPipe, RoutingButtonsComponent, EditCitizenshipsComponent, CitizenshipsCardComponent
     ],
     providers: [
         SpecializationService, ConfirmationDocumentService, FamilyInfoService,

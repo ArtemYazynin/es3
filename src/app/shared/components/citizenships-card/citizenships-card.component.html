@@ -1,4 +1,4 @@
-<app-inquiry-info-edit title="Гражданства и адреса" (edit)="edit()">
+<ng-template #fieldsTemplate>
   <div class="form-group">
     <b>Гражданство </b> {{drawService.citizenships(model.citizenships, countries)}}
   </div>
@@ -8,4 +8,17 @@
   <div class="form-group" *ngIf="model.residential">
     <b>Адрес проживания </b> {{drawService.address(model.residential)}}
   </div>
-</app-inquiry-info-edit>
+</ng-template>
+
+<ng-template #withEdit>
+  <app-inquiry-info-edit title="Гражданства и адреса" (edit)="edit()">
+    <ng-container *ngTemplateOutlet="fieldsTemplate"></ng-container>
+  </app-inquiry-info-edit>
+</ng-template>
+<ng-template #withoutEdit>
+  <app-inquiry-info-edit title="Гражданства и адреса">
+    <ng-container *ngTemplateOutlet="fieldsTemplate"></ng-container>
+  </app-inquiry-info-edit>
+</ng-template>
+
+<ng-container *ngTemplateOutlet="mode == modes.Edit ? withEdit : withoutEdit"></ng-container>
