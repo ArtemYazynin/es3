@@ -61,12 +61,17 @@ export class ForeignCitizensAddressesComponent implements OnInit, OnDestroy {
   getResult(): PersonWithAddress {
     let result: any = { residential: undefined };
 
-    if (this.form.get("notHasRfRegistration").value) {
-      const additionalInfo = this.form.get("foreignAddress").value;
+    if (this.form.controls.notHasRfRegistration.value) {
+      const additionalInfo = this.form.controls.foreignAddress.value;
       if (additionalInfo) result.register = Address.build({ additionalInfo: additionalInfo }, true)
     } else {
       result.register = this.commonService.getAddressFromComponents(this.addressComponent);
-      result.tempRegistrationExpiredDate = this.form.controls.tempRegistrationExpiredDate.value;
+      if(result.register){
+        result.tempRegistrationExpiredDate = this.form.controls.tempRegistrationExpiredDate.value;
+      }else{
+        delete result.tempRegistrationExpiredDate;
+      }
+      
     }
     return result;
   }

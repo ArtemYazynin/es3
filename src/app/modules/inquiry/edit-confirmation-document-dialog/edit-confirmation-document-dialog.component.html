@@ -6,7 +6,8 @@
     </div>
   </ng-container>
   <mat-dialog-actions>
-    <button class="btn btn-inverse" [mat-dialog-close]="doc">Закрыть</button>
-    <button class="btn btn-primary" (click)="save()" [disabled]="!isValid()">Сохранить</button>
+    <div class="col-md-12">
+      <app-routing-buttons [config]="config" [isValid]="isValid()"></app-routing-buttons>
+    </div>
   </mat-dialog-actions>
 </div>

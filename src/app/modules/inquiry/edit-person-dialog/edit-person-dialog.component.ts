@@ -1,8 +1,7 @@
-import { ChangeDetectionStrategy, Component, Inject, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Inject, OnInit, ViewChild } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
-import { BehaviorSubject, Subject } from 'rxjs';
-import { ApplicantType, ButtonsTitles, ConfigsOfRoutingButtons, Inquiry, InquiryService, Person, IdentityCard } from '../../../shared';
-import { WizardStorageService } from '../../wizard/shared';
+import { BehaviorSubject } from 'rxjs';
+import { ApplicantType, ConfigsOfRoutingButtons, IdentityCard, Person } from '../../../shared';
 import { EditPersonComponent } from '../shared/components/edit-person/edit-person.component';
 
 @Component({
@@ -11,46 +10,32 @@ import { EditPersonComponent } from '../shared/components/edit-person/edit-perso
   styleUrls: ['./edit-person-dialog.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class EditPersonDialogComponent implements OnInit, OnDestroy {
-  private ngUnsubscribe: Subject<any> = new Subject();
+export class EditPersonDialogComponent implements OnInit {
   @ViewChild(EditPersonComponent) editPersonComponent: EditPersonComponent;
   applicantTypes = ApplicantType;
-  constructor(public dialogRef: MatDialogRef<EditPersonDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: { $person: BehaviorSubject<Person> },
-    private storageService: WizardStorageService, private inquiryService: InquiryService) { }
+  constructor(public dialogRef: MatDialogRef<EditPersonDialogComponent>, @Inject(MAT_DIALOG_DATA) public data: { $person: BehaviorSubject<Person> }) { }
 
   person: Person;
   config: ConfigsOfRoutingButtons;
 
   ngOnInit() {
     this.person = this.data.$person.getValue();
-  }
+    this.config = {
+      primaryTitle: "Сохранить",
+      inverseTitle: "Закрыть",
+      primaryAction: () => {
+        const fullnameForm = this.editPersonComponent.fullnameComponent.fullnameForm;
+        let person = new Person(fullnameForm.controls.lastname.value, fullnameForm.controls.firstname.value, fullnameForm.controls.middlename.value, this.editPersonComponent.snilsComponent.snils, fullnameForm.controls.noMiddlename.value);
+        person.identityCard = new IdentityCard(this.editPersonComponent.identityCardComponent.identityCardForm);
+        person.id = this.person.id;
+        this.data.$person.next(person);
+        this.dialogRef.close();
 
-  ngOnDestroy(): void {
-    this.ngUnsubscribe.next();
-    this.ngUnsubscribe.complete();
-  }
-  save() {
-    const fullnameForm = this.editPersonComponent.fullnameComponent.fullnameForm;
-    let person = new Person(fullnameForm.controls.lastname.value, fullnameForm.controls.firstname.value, fullnameForm.controls.middlename.value, this.editPersonComponent.snilsComponent.snils, fullnameForm.controls.noMiddlename.value);
-    person.identityCard = new IdentityCard(this.editPersonComponent.identityCardComponent.identityCardForm);
-    person.id = this.person.id;
-    this.data.$person.next(person);
-    this.dialogRef.close();
-    // const update = (patch: object) => {
-    //   Object.assign(this.person, patch);
-    //   this.data.$person.subscribe(inquiry => {
-    //     this.inquiryService.update(inquiry.id, inquiry)
-    //       .pipe(takeUntil(this.ngUnsubscribe))
-    //       .subscribe(x => this.data.$person.next(this.person));
-    //   }).unsubscribe();
-    // }
-
-    // this.inquiryService.saveParent(this.person, this.editPersonComponent, update, this.data.modelType == ApplicantType.Parent);
-    // if (this.data.modelType == ApplicantType.Applicant) {
-    //   this.inquiryService.saveApplicant(this.person, this.editPersonComponent, update);
-    // }
-    this.dialogRef.close();
+      },
+      inverseAction: () => {
+        this.dialogRef.close();
+      }
+    }
   }
 
   isValid = (): boolean => {

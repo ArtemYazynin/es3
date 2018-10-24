@@ -1,10 +1,10 @@
 <div *ngIf="data.$person | async as pers">
-    <ng-container>
-        <h1 mat-dialog-title>Диалоговое окно</h1>
-        <div mat-dialog-content>
-          <app-edit-person [model]="pers"></app-edit-person>
-        </div>
-      </ng-container>
+  <ng-container>
+    <h1 mat-dialog-title>Диалоговое окно</h1>
+    <div mat-dialog-content>
+      <app-edit-person [model]="pers"></app-edit-person>
+    </div>
+  </ng-container>
   <!-- <ng-container *ngIf="data.modelType == applicantTypes.Parent">
     <h1 mat-dialog-title>Законный представитель</h1>
     <div mat-dialog-content>
@@ -18,6 +18,8 @@
     </div>
   </ng-container> -->
   <mat-dialog-actions>
-    <app-routing-buttons [config]="config" [isValid]="editPersonComponent && editPersonComponent.isValid()"></app-routing-buttons>
+    <div class="col-md-12">
+      <app-routing-buttons [config]="config" [isValid]="editPersonComponent && editPersonComponent.isValid()"></app-routing-buttons>
+    </div>
   </mat-dialog-actions>
 </div>

@@ -87,14 +87,16 @@ export class RfCitizensAddressesComponent implements OnInit, OnDestroy, AfterVie
   getResult(): PersonWithAddress {
     let result: any = {};
 
-
+    result.registerAddressLikeAsResidentialAddress = this.checkboxesForm.controls.registerAddressLikeAsResidentialAddress.value;
     this.addressesComponents.forEach(component => {
       switch (component.type) {
         case addressTypes.register:
           result.register = this.commonService.getAddressFromComponents(component);
           break;
         case addressTypes.residential:
-          result.residential = this.commonService.getAddressFromComponents(component);
+          result.residential = result.registerAddressLikeAsResidentialAddress 
+            ? result.register
+            : this.commonService.getAddressFromComponents(component)
           break;
         default:
           break;
@@ -102,7 +104,7 @@ export class RfCitizensAddressesComponent implements OnInit, OnDestroy, AfterVie
     });
 
     result.tempRegistrationExpiredDate = this.checkboxesForm.controls.tempRegistrationExpiredDate.value;
-    result.registerAddressLikeAsResidentialAddress = this.checkboxesForm.controls.registerAddressLikeAsResidentialAddress.value;
+
     return result;
   }
 

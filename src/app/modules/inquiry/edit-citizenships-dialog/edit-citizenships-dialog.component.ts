@@ -27,7 +27,8 @@ export class EditCitizenshipsDialogComponent implements OnInit, OnDestroy, After
       if(this.editCitizenshipsComponent.isAvailable.hasRfCitizenship()){
         patchAddress(this.editCitizenshipsComponent.rfCitizensAddressesComponent.getResult());
       } else if(this.editCitizenshipsComponent.isAvailable.hasForeignCitizenship()){
-        patchAddress(this.editCitizenshipsComponent.foreignCitizensAddressesComponent.getResult())
+        let patch = this.editCitizenshipsComponent.foreignCitizensAddressesComponent.getResult();
+        patchAddress(patch);
       }
       this.data.$person.next(data);
       this.dialogRef.close();
