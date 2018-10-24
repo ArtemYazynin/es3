@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ButtonsTitles, ConfigsOfRoutingButtons, Inquiry, InquiryService, inquiryType } from '../../../shared';
+import { ButtonsTitles, ConfigsOfRoutingButtons, Inquiry } from '../../../shared';
+import { ActionsButtonsService } from '../../../shared/actions-buttons.service';
 import { EditContactInfoComponent } from '../../inquiry/shared/components/edit-contact-info/edit-contact-info.component';
 import { StepBase, WizardStorageService } from '../shared';
 
@@ -16,25 +17,14 @@ export class ContactInfoStepComponent implements OnInit, StepBase {
   inquiry: Inquiry;
   config: ConfigsOfRoutingButtons;
 
-  constructor(private inquiryService: InquiryService, private router: Router, private route: ActivatedRoute,
-    private storageService: WizardStorageService) { }
+  constructor(private router: Router, private route: ActivatedRoute, private storageService: WizardStorageService,
+    private actionsButtonsService: ActionsButtonsService) { }
 
   ngOnInit() {
     this.inquiry = <Inquiry>this.storageService.get(this.inquiryType);
     this.config = new ConfigsOfRoutingButtons(ButtonsTitles.Next, ButtonsTitles.Back,
-      () => {
-        this.inquiryService.saveContactInfo(this.editContactInfoComponent, (patch) => {
-          this.storageService.set(this.inquiryType, patch);
-        })
-        if (this.inquiryType == inquiryType.healthCamp) {
-          this.router.navigate(["../jobInfoStep"], { relativeTo: this.route });
-        } else {
-          this.router.navigate(["../privilegeStep"], { relativeTo: this.route });
-        }
-      },
-      () => {
-        this.router.navigate(["../parentStep"], { relativeTo: this.route });
-      }
+      this.actionsButtonsService.primaryActionContactInfoStep(this.editContactInfoComponent, this.inquiryType, this.router, this.route),
+      this.actionsButtonsService.inverseActionContactInfoStep(this.router, this.route)
     );
   }
 }

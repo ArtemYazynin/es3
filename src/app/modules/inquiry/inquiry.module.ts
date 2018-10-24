@@ -28,6 +28,7 @@ import { InquiryReadComponent } from './inquiry-read/inquiry-read.component';
 import { InquiryRouting } from './inquiry-routing-module';
 import { InquiryCommonInfoComponent } from './shared/components/inquiry-common-info/inquiry-common-info.component';
 import { EditPetitionDialogComponent } from './edit-petition-dialog/edit-petition-dialog.component';
+import { ActionsButtonsService } from '../../shared/actions-buttons.service';
 
 @NgModule({
   imports: [
@@ -66,7 +67,8 @@ import { EditPetitionDialogComponent } from './edit-petition-dialog/edit-petitio
     DrawService,
     AddressService,
     InquiryService,
-    StatusService
+    StatusService,
+    ActionsButtonsService
   ],
   declarations: [InquiryReadComponent, InquiryCommonInfoComponent, RegisterSourcePipe, EditPrivilegeDialogComponent, EditPersonDialogComponent,
     EditInquiryInfoDialogComponent, EditPreschoolInstitutionDialogComponent, EditContactInfoDialogComponent, EditCurrentEducationPlaceDialogComponent,

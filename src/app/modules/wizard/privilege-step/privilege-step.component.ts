@@ -1,6 +1,7 @@
 import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ButtonsTitles, ConfigsOfRoutingButtons, Inquiry, InquiryService, inquiryType } from '../../../shared';
+import { ButtonsTitles, ConfigsOfRoutingButtons, Inquiry } from '../../../shared';
+import { ActionsButtonsService } from '../../../shared/actions-buttons.service';
 import { PrivilegeEditComponent } from '../../../shared/components/privilege-edit/privilege-edit.component';
 import { StepBase, WizardStorageService } from '../shared';
 
@@ -17,38 +18,14 @@ export class PrivilegeStepComponent implements OnInit, AfterViewInit, StepBase {
   config: ConfigsOfRoutingButtons;
 
   constructor(private storageService: WizardStorageService, private router: Router, private activatedRoute: ActivatedRoute,
-    private route: ActivatedRoute, private cdr: ChangeDetectorRef, private inquiryService: InquiryService) {
+    private route: ActivatedRoute, private cdr: ChangeDetectorRef, private actionsButtonsService: ActionsButtonsService) {
   }
 
   ngOnInit() {
     this.inquiry = <Inquiry>this.storageService.get(this.inquiryType);
     this.config = new ConfigsOfRoutingButtons(ButtonsTitles.Next, ButtonsTitles.Back,
-      () => {
-        this.inquiryService.savePrivilege(this.privilegeEditComponent, (patch) => {
-          this.storageService.set(this.inquiry.type, patch);
-        });
-
-        switch (this.inquiryType) {
-          case inquiryType.profEducation:
-            this.router.navigate(["../educDocumentInfoStep"], { relativeTo: this.activatedRoute });
-            break;
-          case inquiryType.preschool:
-            this.router.navigate(["../inquiryInfoStep"], { relativeTo: this.activatedRoute });
-            break;
-          case inquiryType.school:
-            this.router.navigate(["../schoolInquiryInfoStep"], { relativeTo: this.activatedRoute });
-            break;
-          default:
-            break;
-        }
-      },
-      () => {
-        if (this.inquiryType == inquiryType.healthCamp) {
-          this.router.navigate(["../jobInfoStep"], { relativeTo: this.activatedRoute });
-        } else {
-          this.router.navigate(["../contactInfoStep"], { relativeTo: this.activatedRoute });
-        }
-      }
+      this.actionsButtonsService.primaryActionPrivilegeStep(this.privilegeEditComponent, this.inquiry, this.inquiryType, this.router, this.activatedRoute),
+      this.actionsButtonsService.inverseActionPrivilegeStep(this.inquiryType, this.router, this.activatedRoute)
     );
   }
 

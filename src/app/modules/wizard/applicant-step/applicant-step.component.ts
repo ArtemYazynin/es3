@@ -1,6 +1,7 @@
 import { AfterViewInit, ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ApplicantType, ButtonsTitles, CommonService, ConfigsOfRoutingButtons, Inquiry, InquiryService } from '../../../shared/index';
+import { ActionsButtonsService } from '../../../shared/actions-buttons.service';
+import { ApplicantType, ButtonsTitles, ConfigsOfRoutingButtons, Inquiry } from '../../../shared/index';
 import { EditPersonComponent } from '../../inquiry/shared/components/edit-person/edit-person.component';
 import { StepBase, WizardStorageService } from '../shared/index';
 
@@ -14,9 +15,8 @@ export class ApplicantStepComponent implements OnInit, AfterViewInit, StepBase {
 
   @ViewChild(EditPersonComponent) editPersonComponent: EditPersonComponent;
 
-  constructor(private router: Router, private inquiryService: InquiryService,
-    private route: ActivatedRoute, private storageService: WizardStorageService,
-    private commonService: CommonService, private cdr: ChangeDetectorRef) { }
+  constructor(private router: Router, private route: ActivatedRoute, private storageService: WizardStorageService,
+    private cdr: ChangeDetectorRef, private actionsButtonsService: ActionsButtonsService) { }
 
   inquiry: Inquiry;
   inquiryType = this.route.snapshot.data.resolved.inquiryType;
@@ -26,20 +26,8 @@ export class ApplicantStepComponent implements OnInit, AfterViewInit, StepBase {
   ngOnInit() {
     this.inquiry = <Inquiry>this.storageService.get(this.inquiryType);
     this.config = new ConfigsOfRoutingButtons(ButtonsTitles.Next, ButtonsTitles.Back,
-      () => {
-        this.inquiryService.saveApplicant(this.inquiry, this.editPersonComponent, (patch) => {
-          this.storageService.set(this.inquiryType, patch);
-        });
-
-        if (this.inquiry.applicantType == ApplicantType.Parent) {
-          this.router.navigate(["../contactInfoStep"], { relativeTo: this.route });
-        } else {
-          this.router.navigate(["../parentStep"], { relativeTo: this.route });
-        }
-      },
-      () => {
-        this.router.navigate(["../applicantTypeStep"], { relativeTo: this.route });
-      }
+      this.actionsButtonsService.primaryActionApplicantStep(this.editPersonComponent, this.inquiry, this.inquiryType, this.router, this.route),
+      this.actionsButtonsService.inverseActionApplicantStep(this.router, this.route)
     );
   }
   ngAfterViewInit(): void {

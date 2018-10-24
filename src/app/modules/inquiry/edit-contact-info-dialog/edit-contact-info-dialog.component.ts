@@ -2,6 +2,7 @@ import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, I
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { BehaviorSubject } from 'rxjs';
 import { ButtonsTitles, ConfigsOfRoutingButtons, Inquiry, InquiryService } from '../../../shared';
+import { ActionsButtonsService } from '../../../shared/actions-buttons.service';
 import { WizardStorageService } from '../../wizard/shared';
 import { EditContactInfoComponent } from '../shared/components/edit-contact-info/edit-contact-info.component';
 
@@ -20,7 +21,8 @@ export class EditContactInfoDialogComponent implements OnInit, AfterViewInit {
   constructor(public dialogRef: MatDialogRef<EditContactInfoDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: { $inquiry: BehaviorSubject<Inquiry> },
     private storageService: WizardStorageService,
-    private inquiryService: InquiryService, private cdr: ChangeDetectorRef) { }
+    private inquiryService: InquiryService, private cdr: ChangeDetectorRef,
+    private actionsButtonsService: ActionsButtonsService) { }
 
   ngOnInit() {
     this.inquiry = this.data.$inquiry.getValue();
@@ -35,17 +37,9 @@ export class EditContactInfoDialogComponent implements OnInit, AfterViewInit {
       }
     );
   }
-
   ngAfterViewInit(): void {
     this.cdr.detectChanges();
-  }
+    this.config.primaryAction = this.actionsButtonsService.primaryActionContactInfoDialog(this.editContactInfoComponent, this.inquiry, this.data, this.dialogRef);
 
-  save() {
-    this.inquiryService.saveContactInfo(this.editContactInfoComponent, (patch) => {
-      this.storageService.set(this.inquiry.type, patch);
-      Object.assign(this.inquiry, patch);
-      this.data.$inquiry.next(this.inquiry);
-    })
-    this.dialogRef.close();
   }
 }

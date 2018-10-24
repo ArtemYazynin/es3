@@ -1,8 +1,8 @@
-import { ChangeDetectionStrategy, Component, Inject, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, ChangeDetectionStrategy, Component, Inject, OnInit, ViewChild } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { BehaviorSubject } from 'rxjs';
-import { ButtonsTitles, ConfigsOfRoutingButtons, Inquiry, InquiryService } from '../../../shared';
-import { WizardStorageService } from '../../wizard/shared';
+import { ButtonsTitles, ConfigsOfRoutingButtons, Inquiry } from '../../../shared';
+import { ActionsButtonsService } from '../../../shared/actions-buttons.service';
 import { EditFileAttachmentsComponent } from '../shared/components/edit-file-attachments/edit-file-attachments.component';
 
 @Component({
@@ -11,26 +11,21 @@ import { EditFileAttachmentsComponent } from '../shared/components/edit-file-att
   styleUrls: ['./edit-file-attachments-dialog.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class EditFileAttachmentsDialogComponent implements OnInit {
+export class EditFileAttachmentsDialogComponent implements OnInit, AfterViewInit {
   @ViewChild(EditFileAttachmentsComponent) fileAttachmentsEditComponent: EditFileAttachmentsComponent;
   constructor(public dialogRef: MatDialogRef<EditFileAttachmentsDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: { $inquiry: BehaviorSubject<Inquiry> },
-    private storageService: WizardStorageService, private inquiryService: InquiryService) { }
+    private actionsButtonsService: ActionsButtonsService) { }
 
   inquiry: Inquiry;
   config: ConfigsOfRoutingButtons;
 
   ngOnInit() {
     this.inquiry = this.data.$inquiry.getValue();
-    this.config = new ConfigsOfRoutingButtons(ButtonsTitles.Save, ButtonsTitles.Close,
-      () => {
-        this.inquiryService.saveFileAttachments(this.fileAttachmentsEditComponent, (patch) => {
-          this.storageService.set(this.inquiry.type, patch);
-          Object.assign(this.inquiry, patch);
-          this.data.$inquiry.next(this.inquiry);
-        });
-        this.dialogRef.close();
-      }
-    );
+    this.config = new ConfigsOfRoutingButtons(ButtonsTitles.Save, ButtonsTitles.Close);
+  }
+
+  ngAfterViewInit(): void {
+    this.config.primaryAction = this.actionsButtonsService.primaryActionFileAttachmentsDialog(this.fileAttachmentsEditComponent, this.inquiry, this.data, this.dialogRef);
   }
 }

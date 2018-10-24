@@ -1,10 +1,11 @@
 import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Observable, Subject, timer } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { map, takeUntil } from 'rxjs/operators';
 import { isNullOrUndefined } from 'util';
-import { ButtonsTitles, CitizenshipService, ConfigsOfRoutingButtons, Country, DrawService, Entity, Group, Inquiry, InquiryService, inquiryType, SpecHealth, SpecHealthService } from '../../../shared';
+import { ButtonsTitles, CitizenshipService, ConfigsOfRoutingButtons, Country, DrawService, Entity, Group, Inquiry, inquiryType, SpecHealth, SpecHealthService } from '../../../shared';
+import { ActionsButtonsService } from '../../../shared/actions-buttons.service';
 import { StepBase, WizardStorageService } from '../shared';
 
 @Component({
@@ -17,7 +18,7 @@ export class PreviewStepComponent implements OnInit, OnDestroy, StepBase {
 
   constructor(private router: Router, private route: ActivatedRoute, private citizenshipService: CitizenshipService,
     private storageService: WizardStorageService, public drawService: DrawService, private specHealthService: SpecHealthService,
-    private inquiryService: InquiryService, public dialog: MatDialog) { }
+    public dialog: MatDialog, private actionsButtonsService: ActionsButtonsService) { }
 
   private ngUnsubscribe: Subject<any> = new Subject();
   $group: Observable<Group>;
@@ -49,17 +50,8 @@ export class PreviewStepComponent implements OnInit, OnDestroy, StepBase {
     })();
 
     this.config = new ConfigsOfRoutingButtons(ButtonsTitles.Register, ButtonsTitles.Back,
-      () => {
-        timer(1000).pipe().subscribe((response) => {
-          this.inquiry.type = this.inquiryType;
-          this.inquiryService.create(this.inquiry).subscribe(inquiry => {
-            this.router.navigate([`../registerComplete/${inquiry.id}`], { relativeTo: this.route });
-          });
-        })
-      },
-      () => {
-        this.router.navigate(["../fileAttachmentStep"], { relativeTo: this.route });
-      }
+      this.actionsButtonsService.primaryActionPreviewStep(this.inquiry, this.inquiryType, this.router, this.route),
+      this.actionsButtonsService.inverseActionPreviewStep(this.router, this.route)
     );
   }
 

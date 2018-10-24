@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { ActionsButtonsService } from '../../../shared/actions-buttons.service';
 import { ApplicantType, ButtonsTitles, ConfigsOfRoutingButtons, Inquiry, inquiryType } from '../../../shared/index';
 import { StepBase, WizardStorageService } from '../shared/index';
 
@@ -17,9 +18,8 @@ export class ApplicantTypeStepComponent implements OnInit, StepBase {
   applicantTypes: Array<ApplicantType> = [];
   config: ConfigsOfRoutingButtons;
 
-  constructor(private storageService: WizardStorageService,
-    private router: Router,
-    private route: ActivatedRoute) { }
+  constructor(private storageService: WizardStorageService, private router: Router, private route: ActivatedRoute,
+    private actionsButtonsService: ActionsButtonsService) { }
 
   ngOnInit() {
     this.inquiry = this.storageService.get(this.inquiryType);
@@ -34,30 +34,8 @@ export class ApplicantTypeStepComponent implements OnInit, StepBase {
       return types;
     })();
     this.config = new ConfigsOfRoutingButtons(ButtonsTitles.Next, ButtonsTitles.Back,
-      () => {
-        Object.assign(this.inquiry, { applicantType: this.applicantType });
-        switch (this.applicantType) {
-          case ApplicantType.Applicant:
-            this.storageService.set(this.inquiryType, this.inquiry)
-            this.router.navigate(["../applicantStep"], { relativeTo: this.route });
-            break;
-          case ApplicantType.Parent:
-            this.inquiry.applicant = undefined;
-            this.storageService.set(this.inquiryType, this.inquiry)
-            this.router.navigate(["../parentStep"], { relativeTo: this.route });
-            break;
-          case ApplicantType.Child:
-            this.inquiry.applicant = undefined;
-            this.inquiry.parent = undefined;
-            this.storageService.set(this.inquiryType, this.inquiry);
-            this.router.navigate(["../contactInfoStep"], { relativeTo: this.route });
-          default:
-            break;
-        }
-      },
-      () => {
-        this.router.navigate(["../currentEducationPlaceStep"], { relativeTo: this.route });
-      }
+      this.actionsButtonsService.primaryActionApplicantTypeStep(this.inquiry, this.inquiryType, this.applicantType, this.router, this.route),
+      this.actionsButtonsService.inverseActionApplicantTypeStep(this.router, this.route)
     );
   }
 }

@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ButtonsTitles, ConfigsOfRoutingButtons } from '../../../shared';
+import { ActionsButtonsService } from '../../../shared/actions-buttons.service';
 import { StepBase } from '../shared/models/step-base';
 
 @Component({
@@ -16,16 +17,12 @@ export class RegisterCompleteComponent implements OnInit, StepBase {
   isValid(): boolean { return; }
   config: ConfigsOfRoutingButtons;
 
-  constructor(private router: Router, private route: ActivatedRoute) { }
+  constructor(private router: Router, private route: ActivatedRoute, private actionsButtonsService: ActionsButtonsService) { }
 
   ngOnInit() {
     this.config = new ConfigsOfRoutingButtons(ButtonsTitles.RegisterNew, ButtonsTitles.GoToInquiry,
-      () => {
-        this.router.navigate(["../../childrenStep"], { relativeTo: this.route });
-      },
-      () => {
-        this.router.navigate(["inquiry", this.inquiryId]);
-      }
+      this.actionsButtonsService.primaryActionRegisterComplete(this.router, this.route),
+      this.actionsButtonsService.inverseActionRegisterComplete(this.inquiryId, this.router)
     );
   }
 }

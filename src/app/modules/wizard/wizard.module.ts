@@ -12,6 +12,8 @@ import { InMemoryService } from '../../in-memory-server';
 import { MaterialModule } from '../../material.module';
 import { ShareModule } from '../../share.module';
 import { AddressService, AreaService, CitizenshipService, CommonService, DrawService, EnumToArrayPipe, FormService, GroupService, IdentityCardService, IdentityCardTypePipe, InquiryService, InstitutionService, PrivilegeOrderService, PrivilegeService, RelationTypeService, SettingsService, SpecHealthService, SpecificityService } from '../../shared';
+import { ActionsButtonsService } from '../../shared/actions-buttons.service';
+import { ChildComponent } from '../../shared/components/child/child.component';
 import { ConfirmDialogComponent } from '../../shared/components/confirm-dialog/confirm-dialog.component';
 import { HttpInterceptor } from '../../shared/http-interceptor';
 import { RegisterCompleteResolver } from '../../shared/register-complete-resolver';
@@ -32,7 +34,6 @@ import { RegisterCompleteComponent } from './register-complete/register-complete
 import { PrivilegeStepResolver } from './resolvers/privilege-step-resolver';
 import { ParentStepService, WizardStorageService } from './shared';
 import { WizardRoutingModule } from './wizard-routing-module';
-import { ChildComponent } from '../../shared/components/child/child.component';
 
 
 @NgModule({
@@ -97,7 +98,8 @@ import { ChildComponent } from '../../shared/components/child/child.component';
     SettingsService,
     DrawService,
     AddressService,
-    InquiryService
+    InquiryService,
+    ActionsButtonsService
   ],
   entryComponents: [ChildComponent, ConfirmDialogComponent], //динамически добавляемые компоненты ViewContainerRef.createComponent()
 })
