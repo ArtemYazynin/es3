@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { MatCheckboxChange } from '@angular/material';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import { Address, addressTypes, Applicant, Child, CitizenshipService, Parent, PersonWithAddress } from '../../index';
+import { Address, addressTypes, Applicant, Child, CitizenshipService, Parent, PersonWithAddress, CommonService } from '../../index';
 import { AddressComponent } from '../address/address.component';
 
 @Component({
@@ -26,7 +26,7 @@ export class RfCitizensAddressesComponent implements OnInit, OnDestroy, AfterVie
   registerAddress: Address;
   residentialAddress: Address;
 
-  constructor(private citizenshipService: CitizenshipService, private fb: FormBuilder, private cdr: ChangeDetectorRef) { }
+  constructor(private citizenshipService: CitizenshipService, private fb: FormBuilder, private cdr: ChangeDetectorRef, private commonService: CommonService) { }
 
   ngOnInit() {
     this.buildForm();
@@ -63,7 +63,7 @@ export class RfCitizensAddressesComponent implements OnInit, OnDestroy, AfterVie
         setTimeout(() => {
           this.cdr.markForCheck();
         });
-        
+
       });
 
     this.addressesComponents
@@ -87,8 +87,19 @@ export class RfCitizensAddressesComponent implements OnInit, OnDestroy, AfterVie
   getResult(): PersonWithAddress {
     let result: any = {};
 
-    result.register = this.registerAddress;
-    result.residential = !this.residentialAddress || !this.residentialAddress.region ? undefined : this.residentialAddress;
+
+    this.addressesComponents.forEach(component => {
+      switch (component.type) {
+        case addressTypes.register:
+          result.register = this.commonService.getAddressFromComponents(component);
+          break;
+        case addressTypes.residential:
+          result.residential = this.commonService.getAddressFromComponents(component);
+          break;
+        default:
+          break;
+      }
+    });
 
     result.tempRegistrationExpiredDate = this.checkboxesForm.controls.tempRegistrationExpiredDate.value;
     result.registerAddressLikeAsResidentialAddress = this.checkboxesForm.controls.registerAddressLikeAsResidentialAddress.value;

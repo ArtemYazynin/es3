@@ -2,8 +2,9 @@ import { ChangeDetectionStrategy, Component, Input, OnDestroy, OnInit, ViewChild
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
-import { Address, addressTypes, Applicant, CitizenshipService, Country, FormService, inquiryType, Parent, PersonWithAddress } from '../../index';
+import { Address, addressTypes, Applicant, CitizenshipService, Country, FormService, inquiryType, Parent, PersonWithAddress, CommonService } from '../../index';
 import { AddressComponent } from '../address/address.component';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-foreign-citizens-addresses',
@@ -39,7 +40,7 @@ export class ForeignCitizensAddressesComponent implements OnInit, OnDestroy {
   }
 
   constructor(private route: ActivatedRoute, private fb: FormBuilder, private formService: FormService,
-    private citizenshipService: CitizenshipService) { }
+    private citizenshipService: CitizenshipService, private commonService: CommonService) { }
 
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
@@ -64,8 +65,7 @@ export class ForeignCitizensAddressesComponent implements OnInit, OnDestroy {
       const additionalInfo = this.form.get("foreignAddress").value;
       if (additionalInfo) result.register = Address.build({ additionalInfo: additionalInfo }, true)
     } else {
-      let register = this.addressComponent.$address.getValue();
-      result.register = register ? Address.build(register, false) : undefined;
+      result.register = this.commonService.getAddressFromComponents(this.addressComponent);
       result.tempRegistrationExpiredDate = this.form.controls.tempRegistrationExpiredDate.value;
     }
     return result;

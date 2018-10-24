@@ -15,12 +15,18 @@ import { IdentityCardType } from './models/identityCardType';
 import { Parent } from './models/parent.model';
 import { esConstant } from '../app.module';
 import { MatDialogConfig } from '@angular/material';
+import { AddressComponent } from './components/address/address.component';
+import { Address } from './models/address.model';
 
 @Injectable()
 export class CommonService {
 
   constructor(@Inject(esConstant) private esConstant, private citizenshipService: CitizenshipService) { }
 
+  getAddressFromComponents(component: AddressComponent) {
+    const data = component.$address.getValue();
+    return data ? Address.build(data, false) : undefined;
+  }
   getFiles(types: Array<AttachmentType>, filesInfo: FilesInfo) {
     let fileViewCollection = [];
     const requiredFiles: Array<FileView> = (() => {
@@ -180,7 +186,7 @@ export class CommonService {
     //return result;
   }
 
-  getDialogConfig(obj?: object){
+  getDialogConfig(obj?: object) {
     let config = new MatDialogConfig();
     config.disableClose = true;
     config.autoFocus = true;

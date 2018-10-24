@@ -35,8 +35,8 @@
       </app-inquiry-info-edit>
     </div>
   </div>
-  <div class="row" *ngIf="inquiry.applicant">
-    <div class="col-md-6">
+  <div class="row" >
+    <div class="col-md-6" *ngIf="inquiry.applicantType == applicantTypes.Applicant">
       <app-inquiry-info-edit title="Доверенное лицо законного представителя ребенка">
         <app-person-card [entity]="inquiry.applicant" [mode]="modes.Edit"></app-person-card>
 
@@ -51,7 +51,7 @@
       <!-- <app-adult-card title="Доверенное лицо законного представителя ребенка" [entity]="inquiry.applicant" [edit]="edit.person">
       </app-adult-card> -->
     </div>
-    <div class="col-md-6" *ngIf="inquiry.applicantType != applicantTypes.Child">
+    <div class="col-md-6" *ngIf="inquiry.applicantType == applicantTypes.Parent">
       <!-- <app-adult-card title="Законный представитель" [entity]="inquiry.parent" [edit]="edit.person">
       </app-adult-card> -->
       <app-inquiry-info-edit title="Законный представитель">

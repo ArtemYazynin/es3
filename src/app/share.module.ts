@@ -55,6 +55,8 @@ import { PersonCardComponent } from "./shared/components/person-card/person-card
 import { RoutingButtonsComponent } from "./shared/components/routing-buttons/routing-buttons.component";
 import { PetitionTypePipe } from './shared/petition-type.pipe';
 import { FamilyInfoService } from "./shared/family-info.service";
+import { EditCitizenshipsDialogComponent } from "./modules/inquiry/edit-citizenships-dialog/edit-citizenships-dialog.component";
+import { EditCitizenshipsComponent } from './modules/inquiry/shared/components/edit-citizenships/edit-citizenships.component';
 
 
 
@@ -74,8 +76,8 @@ import { FamilyInfoService } from "./shared/family-info.service";
         CurrentEducationPlaceCardComponent, EditConfirmationDocumentDialogComponent,
         DisabilityChildComponent, PrivilegeCardComponent,
         FilesCardComponent, YesNoPipe,
-        RoutingButtonsComponent, 
-        
+        RoutingButtonsComponent, EditCitizenshipsDialogComponent, EditCitizenshipsComponent
+
     ],
     imports: [
         CommonModule,
@@ -94,13 +96,13 @@ import { FamilyInfoService } from "./shared/family-info.service";
         EditFileAttachmentsComponent, EditSchoolInquiryInfoComponent, SchoolInquiryInfoCardComponent, PreschoolInquiryInfoCardComponent,
         PersonCardComponent, ConfirmationDocumentCardComponent, AdultCardComponent, ChildrenCardComponent, ContactInfoCardComponent, SpecHealthComponent,
         InstitutionsCardComponent, SchoolClassCardComponent, CurrentEducationPlaceCardComponent, DisabilityChildComponent, EditChildrenComponent,
-        PrivilegeCardComponent, FilesCardComponent, YesNoPipe, RoutingButtonsComponent
+        PrivilegeCardComponent, FilesCardComponent, YesNoPipe, RoutingButtonsComponent, EditCitizenshipsComponent
     ],
     providers: [
         SpecializationService, ConfirmationDocumentService, FamilyInfoService,
         EducProgramService, PersonService
     ],
-    entryComponents: [EditConfirmationDocumentDialogComponent]
+    entryComponents: [EditConfirmationDocumentDialogComponent, EditCitizenshipsDialogComponent]
 })
 export class ShareModule {
 
