@@ -22,7 +22,6 @@ export class PersonCardComponent implements OnInit, OnDestroy {
   @Input() mode: ConfirmationDocumentMode;
 
   drawManager = this.drawService;
-  applicantType: ApplicantType;
   modes = ConfirmationDocumentMode;
   private ngUnsubscribe: Subject<any> = new Subject();
 
@@ -30,7 +29,6 @@ export class PersonCardComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute, private personService: PersonService) { }
 
   ngOnInit() {
-    this.applicantType = "relationType" in this.entity ? ApplicantType.Parent : ApplicantType.Applicant;
   }
 
   ngOnDestroy(): void {

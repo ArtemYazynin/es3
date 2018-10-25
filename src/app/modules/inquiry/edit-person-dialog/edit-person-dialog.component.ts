@@ -29,19 +29,8 @@ export class EditPersonDialogComponent implements OnInit {
         let person = new Person(fullnameForm.controls.lastname.value, fullnameForm.controls.firstname.value, fullnameForm.controls.middlename.value, this.editPersonComponent.snilsComponent.snils, fullnameForm.controls.noMiddlename.value);
         person.identityCard = new IdentityCard(this.editPersonComponent.identityCardComponent.identityCardForm);
         person.id = this.person.id;
-        //this.relationTypeService.setRelationType(this.editPersonComponent, <Parent>person);
-        if (this.editPersonComponent.relationTypeComponent.owner.relationType) {
-          person["relationType"] = this.editPersonComponent.relationTypeComponent.owner.relationType;
-          (() => {
-            const docKey = "parentRepresentChildrenDocument";
-            person[docKey] = this.editPersonComponent.relationTypeComponent.owner.relationType.confirmationDocument
-              ? this.editPersonComponent.relationTypeComponent.editConfirmationDocumentComponent.getResult()
-              : undefined;
-          })();
-        }
         this.data.$person.next(person);
         this.dialogRef.close();
-
       },
       inverseAction: () => {
         this.dialogRef.close();

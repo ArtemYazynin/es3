@@ -1,6 +1,6 @@
 import { Inject, Injectable, ChangeDetectorRef } from '@angular/core';
 import { Headers, RequestOptions, Http } from '@angular/http';
-import { empty, Observable, zip, Subscription, forkJoin } from 'rxjs';
+import { empty, Observable, zip, Subscription, forkJoin, BehaviorSubject } from 'rxjs';
 import { isNullOrUndefined } from 'util';
 import { SERVER_URL } from '../app.module';
 import { EditContactInfoComponent } from '../modules/inquiry/shared/components/edit-contact-info/edit-contact-info.component';
@@ -232,14 +232,14 @@ export class InquiryService {
   }
 
   get(id: string): Observable<Inquiry> {
-    // if (!id) return Observable.create();
-    // return new BehaviorSubject<Inquiry>(this.storageService.get("preschool"));
-    const url = `${this.baseUrl}/${id}`;
-    return this.http.get(url).pipe(map(result => {
-      let inquiry = new Inquiry(result.json());
+    if (!id) return Observable.create();
+    return new BehaviorSubject<Inquiry>(this.storageService.get("preschool"));
+    // const url = `${this.baseUrl}/${id}`;
+    // return this.http.get(url).pipe(map(result => {
+    //   let inquiry = new Inquiry(result.json());
 
-      return inquiry;
-    }));
+    //   return inquiry;
+    // }));
   }
 
   updateInquiryPropery(id: string, objProp: { id: string }) {
@@ -263,8 +263,7 @@ export class InquiryService {
       if (inquiry.hasOwnProperty(key)) {
         if (typeof inquiry[key] == "string") {
           if (key.toLowerCase() == "id" && inquiry[key] == inquiryProp.id) {
-            inquiry = Object.assign({}, inquiry, inquiryProp);
-            //result = Object.assign({}, result, { form: form });
+            Object.assign(inquiry, inquiryProp);
             break;
           }
         } else {

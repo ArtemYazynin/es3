@@ -58,6 +58,7 @@ import { FamilyInfoService } from "./shared/family-info.service";
 import { EditCitizenshipsDialogComponent } from "./modules/inquiry/edit-citizenships-dialog/edit-citizenships-dialog.component";
 import { EditCitizenshipsComponent } from './modules/inquiry/shared/components/edit-citizenships/edit-citizenships.component';
 import { CitizenshipsCardComponent } from "./shared/components/citizenships-card/citizenships-card.component";
+import { RelationTypeCardComponent } from './shared/components/relation-type-card/relation-type-card.component';
 
 
 
@@ -77,7 +78,7 @@ import { CitizenshipsCardComponent } from "./shared/components/citizenships-card
         CurrentEducationPlaceCardComponent, EditConfirmationDocumentDialogComponent,
         DisabilityChildComponent, PrivilegeCardComponent,
         FilesCardComponent, YesNoPipe, CitizenshipsCardComponent,
-        RoutingButtonsComponent, EditCitizenshipsDialogComponent, EditCitizenshipsComponent
+        RoutingButtonsComponent, EditCitizenshipsDialogComponent, EditCitizenshipsComponent, RelationTypeCardComponent
 
     ],
     imports: [
@@ -97,7 +98,7 @@ import { CitizenshipsCardComponent } from "./shared/components/citizenships-card
         EditFileAttachmentsComponent, EditSchoolInquiryInfoComponent, SchoolInquiryInfoCardComponent, PreschoolInquiryInfoCardComponent,
         PersonCardComponent, ConfirmationDocumentCardComponent, AdultCardComponent, ChildrenCardComponent, ContactInfoCardComponent, SpecHealthComponent,
         InstitutionsCardComponent, SchoolClassCardComponent, CurrentEducationPlaceCardComponent, DisabilityChildComponent, EditChildrenComponent,
-        PrivilegeCardComponent, FilesCardComponent, YesNoPipe, RoutingButtonsComponent, EditCitizenshipsComponent, CitizenshipsCardComponent
+        PrivilegeCardComponent, FilesCardComponent, YesNoPipe, RoutingButtonsComponent, EditCitizenshipsComponent, CitizenshipsCardComponent, RelationTypeCardComponent
     ],
     providers: [
         SpecializationService, ConfirmationDocumentService, FamilyInfoService,

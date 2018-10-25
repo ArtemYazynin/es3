@@ -29,6 +29,7 @@ import { InquiryRouting } from './inquiry-routing-module';
 import { InquiryCommonInfoComponent } from './shared/components/inquiry-common-info/inquiry-common-info.component';
 import { PetitionCardComponent } from '../../shared/components/petition-card/petition-card.component';
 import { PetitionTypePipe } from '../../shared/petition-type.pipe';
+import { RelationTypeDialogComponent } from './relation-type-dialog/relation-type-dialog.component';
 
 @NgModule({
   imports: [
@@ -72,10 +73,10 @@ import { PetitionTypePipe } from '../../shared/petition-type.pipe';
   declarations: [ PetitionCardComponent, InquiryReadComponent, InquiryCommonInfoComponent, RegisterSourcePipe,
     EditPrivilegeDialogComponent, EditPersonDialogComponent, EditInquiryInfoDialogComponent, EditPreschoolInstitutionDialogComponent, 
     EditContactInfoDialogComponent, EditCurrentEducationPlaceDialogComponent, EditSchoolInquiryInfoDialogComponent,
-    EditFileAttachmentsDialogComponent, EditChildrenDialogComponent, EditPetitionDialogComponent,PetitionTypePipe
+    EditFileAttachmentsDialogComponent, EditChildrenDialogComponent, EditPetitionDialogComponent,PetitionTypePipe, RelationTypeDialogComponent
   ],
   entryComponents: [EditPrivilegeDialogComponent, EditPersonDialogComponent, EditInquiryInfoDialogComponent, EditPreschoolInstitutionDialogComponent,
     EditContactInfoDialogComponent, EditCurrentEducationPlaceDialogComponent,
-    EditSchoolInquiryInfoDialogComponent, EditPetitionDialogComponent]
+    EditSchoolInquiryInfoDialogComponent, EditPetitionDialogComponent, RelationTypeDialogComponent]
 })
 export class InquiryModule { }

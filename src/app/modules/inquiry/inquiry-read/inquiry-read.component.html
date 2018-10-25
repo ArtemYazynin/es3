@@ -56,14 +56,14 @@
       </app-adult-card> -->
       <app-inquiry-info-edit title="Законный представитель">
         <app-person-card [entity]="inquiry.parent" [mode]="modes.Edit"></app-person-card>
-
+        <app-relation-type-card [model]="inquiry.parent" [mode]="modes.Edit"></app-relation-type-card>
         <app-citizenships-card [model]="inquiry.parent" [mode]="modes.Edit"></app-citizenships-card>
         <app-confirmation-document-card title="Документ, подтверждающий право пребывания законного представителя на территории РФ"
           [model]="inquiry.parent.countryStateDocument" [mode]="modes.Edit">
         </app-confirmation-document-card>
-        <app-confirmation-document-card title="Документ, подтверждающий право законного представителя представлять интересы ребенка"
+        <!-- <app-confirmation-document-card title="Документ, подтверждающий право законного представителя представлять интересы ребенка"
           [model]="inquiry.parent.parentRepresentChildrenDocument" [mode]="modes.Edit">
-        </app-confirmation-document-card>
+        </app-confirmation-document-card> -->
       </app-inquiry-info-edit>
     </div>
   </div>

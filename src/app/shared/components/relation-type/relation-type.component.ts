@@ -16,7 +16,6 @@ export class RelationTypeComponent implements OnInit, OnDestroy {
   @ViewChild(EditConfirmationDocumentComponent) editConfirmationDocumentComponent:EditConfirmationDocumentComponent;
   private subscription: Subscription;
   relationTypes: Array<RelationType> = [];
-  //relationType: RelationType;
   attachmentTypes = AttachmentType;
 
   constructor(private relationTypeService: RelationTypeService, private cdr: ChangeDetectorRef) { }

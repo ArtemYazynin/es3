@@ -1,0 +1,32 @@
+<ng-template #fieldsTemplate>
+  <div class="form-group">
+    <b>Родственная связь </b>{{model.relationType.name}}
+  </div>
+  <ng-container class="form-group" *ngIf="model.relationType.confirmationDocument">
+    <app-confirmation-document-card title="Документ, подтверждающий право законного представителя представлять интересы ребенка"
+      [model]="model.parentRepresentChildrenDocument" [mode]="modes.Edit">
+    </app-confirmation-document-card>
+  </ng-container>
+</ng-template>
+
+<ng-template #withEdit>
+  <app-inquiry-info-edit [title]="title" (edit)="edit()">
+    <ng-container *ngTemplateOutlet="fieldsTemplate">
+    </ng-container>
+  </app-inquiry-info-edit>
+</ng-template>
+
+<ng-template #withoutEdit>
+  <app-inquiry-info-edit [title]="title">
+    <ng-container *ngTemplateOutlet="fieldsTemplate">
+    </ng-container>
+  </app-inquiry-info-edit>
+</ng-template>
+
+<ng-container>
+  <ng-container *ngTemplateOutlet="mode == modes.Edit ? withEdit : withoutEdit"></ng-container>
+</ng-container>
+
+<div class="alert-info">
+    model.relationType: {{model.relationType | json}}
+</div>
