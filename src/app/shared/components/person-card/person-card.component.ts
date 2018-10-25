@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnDestroy, OnInit, Output, EventEmitter } from '@angular/core';
 import { MatDialog } from '@angular/material';
 import { ActivatedRoute } from '@angular/router';
 import { BehaviorSubject, Subject } from 'rxjs';
@@ -7,7 +7,7 @@ import { EditPersonDialogComponent } from '../../../modules/inquiry/edit-person-
 import { ApplicantType } from '../../applicant-type.enum';
 import { CommonService } from '../../common.service';
 import { ConfirmationDocumentMode } from '../../confirmation-document-mode.enum';
-import { DrawService, Person } from '../../index';
+import { DrawService, Person, Inquiry } from '../../index';
 import { InquiryService } from '../../inquiry.service';
 import { PersonService } from '../../person.service';
 

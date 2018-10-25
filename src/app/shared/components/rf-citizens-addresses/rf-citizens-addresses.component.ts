@@ -1,10 +1,11 @@
 import { AfterViewInit, ChangeDetectionStrategy, Component, Input, OnDestroy, OnInit, QueryList, ViewChildren, ChangeDetectorRef } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatCheckboxChange } from '@angular/material';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import { Address, addressTypes, Applicant, Child, CitizenshipService, Parent, PersonWithAddress, CommonService } from '../../index';
+import { Address, addressTypes, Applicant, Child, CitizenshipService, Parent, PersonWithAddress, CommonService, FormService } from '../../index';
 import { AddressComponent } from '../address/address.component';
+import { ControlInfo } from '../../models/controlInfo.model';
 
 @Component({
   selector: 'app-rf-citizens-addresses',
@@ -26,7 +27,8 @@ export class RfCitizensAddressesComponent implements OnInit, OnDestroy, AfterVie
   registerAddress: Address;
   residentialAddress: Address;
 
-  constructor(private citizenshipService: CitizenshipService, private fb: FormBuilder, private cdr: ChangeDetectorRef, private commonService: CommonService) { }
+  constructor(private citizenshipService: CitizenshipService, private fb: FormBuilder, private cdr: ChangeDetectorRef, private commonService: CommonService,
+      private formService:FormService) { }
 
   ngOnInit() {
     this.buildForm();
@@ -111,6 +113,9 @@ export class RfCitizensAddressesComponent implements OnInit, OnDestroy, AfterVie
   temporaryRegistrationChange = (change: MatCheckboxChange) => {
     if (!change.checked) {
       this.checkboxesForm.controls.tempRegistrationExpiredDate.setValue(undefined);
+      this.formService.updateValidators(this.checkboxesForm, [new ControlInfo("tempRegistrationExpiredDate", [])])
+    }else{
+      this.formService.updateValidators(this.checkboxesForm, [new ControlInfo("tempRegistrationExpiredDate", [Validators.required])])
     }
   }
 

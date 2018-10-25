@@ -99,6 +99,9 @@ export class InquiryReadComponent implements OnInit, OnDestroy {
     }
     const person = (modelType: ApplicantType) => {
       this.dialog.open(EditPersonDialogComponent, getConfig({ modelType: modelType }));
+      this.dialog.afterAllClosed.subscribe(x=>{
+
+      });
     }
     const privilege = () => {
       this.dialog.open(EditPrivilegeDialogComponent, getConfig());

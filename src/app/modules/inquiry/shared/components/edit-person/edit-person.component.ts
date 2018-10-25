@@ -26,7 +26,7 @@ export class EditPersonComponent implements OnInit, AfterViewInit, OnDestroy {
   // @ViewChild(CitizenshipSelectComponent) citizenshipSelectComponent: CitizenshipSelectComponent;
   // @ViewChild(RfCitizensAddressesComponent) rfAddressesComponent: RfCitizensAddressesComponent;
   // @ViewChild(ForeignCitizensAddressesComponent) foreignAddressesComponent: ForeignCitizensAddressesComponent;
-  // @ViewChild(RelationTypeComponent) relationTypeComponent: RelationTypeComponent;
+  @ViewChild(RelationTypeComponent) relationTypeComponent: RelationTypeComponent;
   // @ViewChildren(EditConfirmationDocumentComponent) confirmationDocuments: QueryList<EditConfirmationDocumentComponent>;
 
   @Input() model: Parent | Applicant;
@@ -121,6 +121,11 @@ export class EditPersonComponent implements OnInit, AfterViewInit, OnDestroy {
   isValid(): boolean {
     //const isApplicant = this.applicantType == ApplicantType.Applicant && this.modelType == ApplicantType.Applicant;
     let isValid = {
+      relationType: (()=>{
+        const isParent = !!this.model["relationType"]
+        if(!isParent) return true;
+        return this.relationTypeComponent && this.relationTypeComponent.isValid();
+      })(),
       identityCardForm: !!this.identityCardComponent && !!this.identityCardComponent.identityCardForm && this.identityCardComponent.identityCardForm.valid,
       fullnameForm: !!this.fullnameComponent && !!this.fullnameComponent.fullnameForm && this.fullnameComponent.fullnameForm.valid,
       // birthInfoForm: () => {
@@ -166,6 +171,7 @@ export class EditPersonComponent implements OnInit, AfterViewInit, OnDestroy {
     let result = isValid.fullnameForm
       && this.snilsComponent.isValid()
       && isValid.identityCardForm
+      && isValid.relationType
       //&& isValid.birthInfoForm()
       // && isValid.countryStateDocument()
       // && isValid.relationType()

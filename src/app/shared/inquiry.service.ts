@@ -1,6 +1,6 @@
-import { Inject, Injectable } from '@angular/core';
+import { Inject, Injectable, ChangeDetectorRef } from '@angular/core';
 import { Headers, RequestOptions, Http } from '@angular/http';
-import { empty, Observable, zip, Subscription } from 'rxjs';
+import { empty, Observable, zip, Subscription, forkJoin } from 'rxjs';
 import { isNullOrUndefined } from 'util';
 import { SERVER_URL } from '../app.module';
 import { EditContactInfoComponent } from '../modules/inquiry/shared/components/edit-contact-info/edit-contact-info.component';
@@ -34,7 +34,7 @@ import { PortalIdentity } from './models/portal-identity.model';
 import { Status } from './models/status.model';
 import { ConfirmationDocumentService } from './confirmation-document.service';
 import { ConfirmationDocument } from './models/confirmation-document.model';
-import { map, takeUntil } from 'rxjs/operators';
+import { map, takeUntil, tap, mergeMap } from 'rxjs/operators';
 import { environment } from '../../environments/environment';
 import { EditChildrenComponent } from '../modules/inquiry/shared/components/edit-children/edit-children.component';
 
@@ -69,7 +69,7 @@ export class InquiryService {
     // if (!!parent) update({ parent: parent });
   }
 
-saveChildren(editChildrenComponent: EditChildrenComponent, update: (patch: object) => void): void {
+  saveChildren(editChildrenComponent: EditChildrenComponent, update: (patch: object) => void): void {
     let children = editChildrenComponent.getChildren();
     if (editChildrenComponent.owner) {
       if (editChildrenComponent.owner.relationType) {
@@ -245,6 +245,11 @@ saveChildren(editChildrenComponent: EditChildrenComponent, update: (patch: objec
   updateInquiryPropery(id: string, objProp: { id: string }) {
     if (!id) return;
     if (!environment.production) {
+      // return this.get(id)
+      //   .pipe(mergeMap(inquiry => {
+      //     this.updateInquiry(inquiry, objProp);
+      //     return this.update(inquiry.id, inquiry)
+      //   }))
       this.get(id)
         .subscribe(inquiry => {
           this.updateInquiry(inquiry, objProp);
@@ -252,13 +257,14 @@ saveChildren(editChildrenComponent: EditChildrenComponent, update: (patch: objec
         });
     }
   }
-  private updateInquiry(inquiry: Inquiry, inquiryProp: { id: string }) {
+  updateInquiry(inquiry: Inquiry, inquiryProp: { id: string }) {
     if (!inquiry || !inquiryProp || !inquiryProp.id) return;
     for (const key in inquiry) {
       if (inquiry.hasOwnProperty(key)) {
         if (typeof inquiry[key] == "string") {
           if (key.toLowerCase() == "id" && inquiry[key] == inquiryProp.id) {
-            Object.assign(inquiry, inquiryProp);
+            inquiry = Object.assign({}, inquiry, inquiryProp);
+            //result = Object.assign({}, result, { form: form });
             break;
           }
         } else {

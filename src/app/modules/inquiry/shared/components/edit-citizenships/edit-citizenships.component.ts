@@ -59,6 +59,11 @@ export class EditCitizenshipsComponent implements OnInit, OnDestroy {
   }
 
   isValid(): boolean {
+    if(this.isAvailable.hasRfCitizenship()){
+      return this.rfCitizensAddressesComponent && this.rfCitizensAddressesComponent.checkboxesForm.valid;
+    } else if(this.isAvailable.hasForeignCitizenship()){
+      return this.foreignCitizensAddressesComponent.form.valid && this.editConfirmationDocumentComponent.confirmationDocumentForm.valid;
+    }
     return true;
   }
 }

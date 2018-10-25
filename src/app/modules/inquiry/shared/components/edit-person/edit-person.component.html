@@ -16,6 +16,11 @@
       <identity-card [ids]="groupOfIdentityCardTypeId" [model]="model?.identityCard"></identity-card>
     </div>
   </div>
+  <div class="row" *ngIf="model.relationType">
+    <div class="col-md-12">
+      <app-relation-type [owner]="model"></app-relation-type>
+    </div>
+  </div>
   <!-- <app-citizenship-select [citizenships]="model?.citizenships">
   </app-citizenship-select> -->
   <!-- <div *ngIf="isAvailable.addresses()">

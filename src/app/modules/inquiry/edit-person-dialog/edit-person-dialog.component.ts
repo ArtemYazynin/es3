@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, Inject, OnInit, ViewChild } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { BehaviorSubject } from 'rxjs';
-import { ApplicantType, ConfigsOfRoutingButtons, IdentityCard, Person } from '../../../shared';
+import { ApplicantType, ConfigsOfRoutingButtons, IdentityCard, Person, Parent, RelationTypeService } from '../../../shared';
 import { EditPersonComponent } from '../shared/components/edit-person/edit-person.component';
 
 @Component({
@@ -13,9 +13,10 @@ import { EditPersonComponent } from '../shared/components/edit-person/edit-perso
 export class EditPersonDialogComponent implements OnInit {
   @ViewChild(EditPersonComponent) editPersonComponent: EditPersonComponent;
   applicantTypes = ApplicantType;
-  constructor(public dialogRef: MatDialogRef<EditPersonDialogComponent>, @Inject(MAT_DIALOG_DATA) public data: { $person: BehaviorSubject<Person> }) { }
+  constructor(public dialogRef: MatDialogRef<EditPersonDialogComponent>, @Inject(MAT_DIALOG_DATA) public data: { $person: BehaviorSubject<Person> },
+    private relationTypeService: RelationTypeService) { }
 
-  person: Person;
+  private person: Person;
   config: ConfigsOfRoutingButtons;
 
   ngOnInit() {
@@ -28,6 +29,16 @@ export class EditPersonDialogComponent implements OnInit {
         let person = new Person(fullnameForm.controls.lastname.value, fullnameForm.controls.firstname.value, fullnameForm.controls.middlename.value, this.editPersonComponent.snilsComponent.snils, fullnameForm.controls.noMiddlename.value);
         person.identityCard = new IdentityCard(this.editPersonComponent.identityCardComponent.identityCardForm);
         person.id = this.person.id;
+        //this.relationTypeService.setRelationType(this.editPersonComponent, <Parent>person);
+        if (this.editPersonComponent.relationTypeComponent.owner.relationType) {
+          person["relationType"] = this.editPersonComponent.relationTypeComponent.owner.relationType;
+          (() => {
+            const docKey = "parentRepresentChildrenDocument";
+            person[docKey] = this.editPersonComponent.relationTypeComponent.owner.relationType.confirmationDocument
+              ? this.editPersonComponent.relationTypeComponent.editConfirmationDocumentComponent.getResult()
+              : undefined;
+          })();
+        }
         this.data.$person.next(person);
         this.dialogRef.close();
 
