@@ -2,6 +2,7 @@ import { Component, OnInit, Input, ChangeDetectionStrategy } from '@angular/core
 import { DrawService, Child, Country, CitizenshipService } from '../..';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+import { PersonType } from '../../person-type.enum';
 
 @Component({
   selector: 'app-children-card',
@@ -14,6 +15,7 @@ export class ChildrenCardComponent implements OnInit {
 
   private ngUnsubscribe: Subject<any> = new Subject();
   countries: Array<Country> = [];
+  personTypes = PersonType;
   constructor(public drawService: DrawService, private citizenshipService: CitizenshipService) { }
 
   ngOnInit() {

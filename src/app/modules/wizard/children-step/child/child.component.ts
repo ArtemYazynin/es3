@@ -1,10 +1,8 @@
-import { Component, OnInit, ViewChild, ChangeDetectionStrategy, AfterViewInit, DoCheck } from '@angular/core';
-import { IdentityCardComponent } from '../../../../shared/components/identity-card/identity-card.component';
-import { FullNameComponent } from '../../../../shared/components/full-name/full-name.component';
-import { SnilsComponent } from '../../../../shared/components/snils/snils.component';
-import { GenderComponent } from '../../../../shared/components/gender/gender.component';
-import { IdentityCardType, inquiryType, Child, FormService } from '../../../../shared';
+import { AfterViewInit, ChangeDetectionStrategy, Component, OnInit, ViewChild } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
+import { Child, inquiryType } from '../../../../shared';
+import { PersonType } from '../../../../shared/person-type.enum';
+import { EditPersonComponent } from '../../../inquiry/shared/components/edit-person/edit-person.component';
 
 @Component({
   selector: 'app-child',
@@ -13,21 +11,12 @@ import { BehaviorSubject } from 'rxjs';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ChildComponent implements OnInit, AfterViewInit {
-  counter:number = 0;
-  @ViewChild(IdentityCardComponent) identityCardComponent: IdentityCardComponent;
-  @ViewChild(FullNameComponent) fullnameComponent: FullNameComponent;
-  @ViewChild(SnilsComponent) snilsComponent: SnilsComponent;
-  @ViewChild(GenderComponent) genderComponent: GenderComponent;
+  counter: number = 0;
+  @ViewChild(EditPersonComponent) editPersonComponent: EditPersonComponent;
 
-  constructor(private formService: FormService) { }
+  constructor() { }
 
-
-  groupOfIdentityCardTypeId: Array<number> = [
-    IdentityCardType["Паспорт РФ"],
-    IdentityCardType["Свидетельство о рождении РФ"],
-    IdentityCardType["Свидетельство о рождении, выданное уполномоченным органом иностранного государства"],
-    IdentityCardType["Иностранный паспорт"]
-  ];
+  personTypes = PersonType;
   id: string = Math.random().toString(36).substring(2);
   inquiryType: string;
   show: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
@@ -50,8 +39,12 @@ export class ChildComponent implements OnInit, AfterViewInit {
   }
 
   isValid = (): boolean => {
-    const fullnameFormIsValid = this.fullnameComponent && this.fullnameComponent.fullnameForm && this.fullnameComponent.fullnameForm.valid;
-    const identityCardFormIsValid = this.identityCardComponent && this.identityCardComponent.identityCardForm && this.identityCardComponent.identityCardForm.valid;
-    return fullnameFormIsValid && identityCardFormIsValid && this.snilsComponent.isValid();
+    const fullnameFormIsValid = this.editPersonComponent.fullnameComponent
+      && this.editPersonComponent.fullnameComponent.fullnameForm
+      && this.editPersonComponent.fullnameComponent.fullnameForm.valid;
+    const identityCardFormIsValid = this.editPersonComponent.identityCardComponent
+      && this.editPersonComponent.identityCardComponent.identityCardForm
+      && this.editPersonComponent.identityCardComponent.identityCardForm.valid;
+    return fullnameFormIsValid && identityCardFormIsValid && this.editPersonComponent.snilsComponent.isValid();
   }
 }

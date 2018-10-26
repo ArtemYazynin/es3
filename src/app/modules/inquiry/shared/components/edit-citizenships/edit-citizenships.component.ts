@@ -6,6 +6,7 @@ import { Subject } from 'rxjs';
 import { RfCitizensAddressesComponent } from '../../../../../shared/components/rf-citizens-addresses/rf-citizens-addresses.component';
 import { ForeignCitizensAddressesComponent } from '../../../../../shared/components/foreign-citizens-addresses/foreign-citizens-addresses.component';
 import { EditConfirmationDocumentComponent } from '../../../../../shared/components/edit-confirmation-document/edit-confirmation-document.component';
+import { PersonType } from '../../../../../shared/person-type.enum';
 
 @Component({
   selector: 'app-edit-citizenships',
@@ -15,6 +16,7 @@ import { EditConfirmationDocumentComponent } from '../../../../../shared/compone
 })
 export class EditCitizenshipsComponent implements OnInit, OnDestroy {
   @Input() model: Parent | Applicant | Child;
+  @Input() personType:PersonType; 
 
   @ViewChild(CitizenshipSelectComponent) citizenshipSelectComponent: CitizenshipSelectComponent;
   @ViewChild(RfCitizensAddressesComponent) rfCitizensAddressesComponent:RfCitizensAddressesComponent;
@@ -24,6 +26,7 @@ export class EditCitizenshipsComponent implements OnInit, OnDestroy {
   private ngUnsubscribe: Subject<any> = new Subject();
   countries: Array<Country>
   documentConfig: any;
+  personTypes = PersonType;
   constructor(private citizenshipService: CitizenshipService) { }
 
   ngOnInit() {
@@ -32,13 +35,14 @@ export class EditCitizenshipsComponent implements OnInit, OnDestroy {
       .subscribe(countries => {
         this.countries = countries;
       });
-    const isParent = !!this.model["countryStateDocument"];
+    if (this.personType == PersonType.Child) return;
+    //const isParent = !!this.model["countryStateDocument"];
     this.documentConfig = {
-      title: isParent
+      title: this.personType == PersonType.Parent
         ? "Документ, подтверждающий право пребывания законного представителя на территории РФ"
         : "Документ, подтверждающий полномочие доверенного лица представлять интересы законного представителя ребенка",
-      type: isParent ? AttachmentType.CountryStateDocument : AttachmentType.CountryStateApplicantDocument,
-      model: isParent ? this.model["countryStateDocument"] : this.model["countryStateApplicantDocument"]
+      type: this.personType == PersonType.Parent ? AttachmentType.CountryStateDocument : AttachmentType.CountryStateApplicantDocument,
+      model: this.personType == PersonType.Parent ? this.model["countryStateDocument"] : this.model["countryStateApplicantDocument"]
     }
   }
   ngOnDestroy(): void {
@@ -62,7 +66,8 @@ export class EditCitizenshipsComponent implements OnInit, OnDestroy {
     if(this.isAvailable.hasRfCitizenship()){
       return this.rfCitizensAddressesComponent && this.rfCitizensAddressesComponent.checkboxesForm.valid;
     } else if(this.isAvailable.hasForeignCitizenship()){
-      return this.foreignCitizensAddressesComponent.form.valid && this.editConfirmationDocumentComponent.confirmationDocumentForm.valid;
+      return this.foreignCitizensAddressesComponent && this.foreignCitizensAddressesComponent.form.valid 
+        && this.editConfirmationDocumentComponent.confirmationDocumentForm.valid;
     }
     return true;
   }

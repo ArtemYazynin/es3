@@ -34,4 +34,8 @@ export class CitizenshipSelectComponent implements OnInit {
       }
     }
   }
+  hasRfCitizenship(){
+    return this.citizenships.indexOf(643) >= 0;
+  }
+
 }

@@ -11,7 +11,7 @@
       </app-foreign-citizens-addresses>
     </div>
   </div>
-  <ng-container *ngIf="!isAvailable.hasRfCitizenship()">
+  <ng-container *ngIf="!isAvailable.hasRfCitizenship() && personType !== personTypes.Child">
     <app-edit-confirmation-document [title]="documentConfig.title" [type]="documentConfig.type" [model]="documentConfig.model"> </app-edit-confirmation-document>
   </ng-container>
 </ng-container>

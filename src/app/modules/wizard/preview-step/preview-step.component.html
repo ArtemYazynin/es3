@@ -3,9 +3,9 @@
     <div class="row">
       <div class="col-6" *ngIf="inquiry.applicant">
         <app-inquiry-info-edit title="Доверенное лицо законного представителя ребенка">
-          <app-person-card [entity]="inquiry.applicant" [mode]="modes.Read"></app-person-card>
+          <app-person-card [entity]="inquiry.applicant" [personType]="personTypes.Applicant" [mode]="modes.Read"></app-person-card>
 
-          <app-citizenships-card [model]="inquiry.applicant" [mode]="modes.Read"></app-citizenships-card>
+          <app-citizenships-card [model]="inquiry.applicant" [personType]="personTypes.Applicant" [mode]="modes.Read"></app-citizenships-card>
           <app-confirmation-document-card title="Документ, подтверждающий право пребывания доверенного лица законного представителя на территории РФ"
             [model]="inquiry.applicant.countryStateApplicantDocument" [mode]="modes.Read">
           </app-confirmation-document-card>
@@ -18,9 +18,9 @@
       <div class="col-6" *ngIf="inquiry.parent">
         <!-- <app-adult-card title="Законный представитель" [entity]="inquiry.parent"></app-adult-card> -->
         <app-inquiry-info-edit title="Законный представитель">
-          <app-person-card [entity]="inquiry.parent" [mode]="modes.Read"></app-person-card>
+          <app-person-card [entity]="inquiry.parent" [personType]="personTypes.Parent" [mode]="modes.Read"></app-person-card>
 
-          <app-citizenships-card [model]="inquiry.parent"></app-citizenships-card>
+          <app-citizenships-card [model]="inquiry.parent" [personType]="personTypes.Parent"></app-citizenships-card>
           <app-confirmation-document-card title="Документ, подтверждающий право пребывания законного представителя на территории РФ"
             [model]="inquiry.parent.countryStateDocument" [mode]="modes.Read">
           </app-confirmation-document-card>

@@ -5,6 +5,7 @@ import { Applicant, Child, InquiryService, Parent, ConfigsOfRoutingButtons, Pers
 import { WizardStorageService } from '../../wizard/shared';
 import { EditCitizenshipsComponent } from '../shared/components/edit-citizenships/edit-citizenships.component';
 import { Guid } from '../../../shared/models/guid';
+import { PersonType } from '../../../shared/person-type.enum';
 
 @Component({
   selector: 'app-edit-citizenships-dialog',
@@ -18,7 +19,7 @@ export class EditCitizenshipsDialogComponent implements OnInit, OnDestroy, After
   config: ConfigsOfRoutingButtons;
 
   constructor(public dialogRef: MatDialogRef<EditCitizenshipsDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: { $person: BehaviorSubject<Parent | Applicant | Child> },
+    @Inject(MAT_DIALOG_DATA) public data: { $person: BehaviorSubject<Parent | Applicant | Child>, personType: PersonType },
     private storageService: WizardStorageService, private inquiryService: InquiryService, private cdr: ChangeDetectorRef) { }
 
   ngOnInit() {
@@ -33,7 +34,20 @@ export class EditCitizenshipsDialogComponent implements OnInit, OnDestroy, After
         let data = this.data.$person.getValue();
         data.citizenships = this.editCitizenshipsComponent.citizenshipSelectComponent.citizenships;
         if (this.editCitizenshipsComponent.isAvailable.hasRfCitizenship()) {
-          delete data["countryStateDocument"] || data["countryStateApplicantDocument"];
+          switch (this.data.personType) {
+            case PersonType.Applicant:
+              data["countryStateApplicantDocument"] = undefined;
+              break;
+            case PersonType.Parent:
+              data["countryStateDocument"] = undefined;
+              break;
+            case PersonType.Child:
+
+              break;
+
+            default:
+              break;
+          }
           patchAddress(this.editCitizenshipsComponent.rfCitizensAddressesComponent.getResult());
         } else if (this.editCitizenshipsComponent.isAvailable.hasForeignCitizenship()) {
           let patch = this.editCitizenshipsComponent.foreignCitizensAddressesComponent.getResult();
@@ -42,8 +56,7 @@ export class EditCitizenshipsDialogComponent implements OnInit, OnDestroy, After
             const controls = this.editCitizenshipsComponent.editConfirmationDocumentComponent.confirmationDocumentForm.controls;
             const document = new ConfirmationDocument(controls.name.value, controls.series.value, controls.number.value,
               controls.dateIssue.value, controls.dateExpired.value, Guid.newGuid())
-            const isParent = !!data["relationType"];
-            data[isParent ? "countryStateDocument" : "countryStateApplicantDocument"] = document;
+            data[this.data.personType === PersonType.Parent ? "countryStateDocument" : "countryStateApplicantDocument"] = document;
           })();
         }
         this.data.$person.next(data);

@@ -8,6 +8,7 @@ import { ButtonsTitles, CitizenshipService, ConfigsOfRoutingButtons, Country, Dr
 import { StepBase, WizardStorageService } from '../shared';
 import { Guid } from '../../../shared/models/guid';
 import { ConfirmationDocumentService } from '../../../shared/confirmation-document.service';
+import { PersonType } from '../../../shared/person-type.enum';
 
 @Component({
   selector: 'app-preview-step',
@@ -23,6 +24,7 @@ export class PreviewStepComponent implements OnInit, OnDestroy, StepBase {
 
   private ngUnsubscribe: Subject<any> = new Subject();
   modes = ConfirmationDocumentMode;
+  personTypes = PersonType;
   $group: Observable<Group>;
   $institutionType: Observable<Entity<number>>
   $specHealth: Observable<SpecHealth>

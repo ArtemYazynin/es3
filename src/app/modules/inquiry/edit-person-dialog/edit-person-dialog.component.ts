@@ -3,6 +3,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { BehaviorSubject } from 'rxjs';
 import { ApplicantType, ConfigsOfRoutingButtons, IdentityCard, Person, Parent, RelationTypeService } from '../../../shared';
 import { EditPersonComponent } from '../shared/components/edit-person/edit-person.component';
+import { PersonType } from '../../../shared/person-type.enum';
 
 @Component({
   selector: 'app-edit-person-dialog',
@@ -13,7 +14,7 @@ import { EditPersonComponent } from '../shared/components/edit-person/edit-perso
 export class EditPersonDialogComponent implements OnInit {
   @ViewChild(EditPersonComponent) editPersonComponent: EditPersonComponent;
   applicantTypes = ApplicantType;
-  constructor(public dialogRef: MatDialogRef<EditPersonDialogComponent>, @Inject(MAT_DIALOG_DATA) public data: { $person: BehaviorSubject<Person> },
+  constructor(public dialogRef: MatDialogRef<EditPersonDialogComponent>, @Inject(MAT_DIALOG_DATA) public data: { $person: BehaviorSubject<Person>, personType: PersonType },
     private relationTypeService: RelationTypeService) { }
 
   private person: Person;

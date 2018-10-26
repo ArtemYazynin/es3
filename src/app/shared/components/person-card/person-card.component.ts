@@ -10,6 +10,7 @@ import { ConfirmationDocumentMode } from '../../confirmation-document-mode.enum'
 import { DrawService, Person, Inquiry } from '../../index';
 import { InquiryService } from '../../inquiry.service';
 import { PersonService } from '../../person.service';
+import { PersonType } from '../../person-type.enum';
 
 @Component({
   selector: 'app-person-card',
@@ -20,6 +21,7 @@ import { PersonService } from '../../person.service';
 export class PersonCardComponent implements OnInit, OnDestroy {
   @Input() entity: Person
   @Input() mode: ConfirmationDocumentMode;
+  @Input() personType: PersonType;
 
   drawManager = this.drawService;
   modes = ConfirmationDocumentMode;
@@ -42,7 +44,7 @@ export class PersonCardComponent implements OnInit, OnDestroy {
   // }
 
   edit() {
-    let config = { $person: new BehaviorSubject<Person>(this.entity) };
+    let config = { $person: new BehaviorSubject<Person>(this.entity), personType:this.personType };
     config.$person
       .pipe(skip(1), takeUntil(this.ngUnsubscribe))
       .subscribe((person: Person) => {

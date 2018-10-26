@@ -8,9 +8,11 @@ import { IdentityCardComponent } from '../../../../../shared/components/identity
 import { RelationTypeComponent } from '../../../../../shared/components/relation-type/relation-type.component';
 import { RfCitizensAddressesComponent } from '../../../../../shared/components/rf-citizens-addresses/rf-citizens-addresses.component';
 import { SnilsComponent } from '../../../../../shared/components/snils/snils.component';
-import { Applicant, ApplicantType, AttachmentType, CitizenshipService, CommonService, ConfirmationDocument, Country, Parent } from '../../../../../shared/index';
+import { Applicant, ApplicantType, AttachmentType, CitizenshipService, CommonService, ConfirmationDocument, Country, Parent, IdentityCardType } from '../../../../../shared/index';
 import { WizardStorageService } from '../../../../wizard/shared';
 import { EditConfirmationDocumentComponent } from '../../../../../shared/components/edit-confirmation-document/edit-confirmation-document.component';
+import { PersonType } from '../../../../../shared/person-type.enum';
+import { GenderComponent } from '../../../../../shared/components/gender/gender.component';
 
 @Component({
   selector: 'app-edit-person',
@@ -23,6 +25,7 @@ export class EditPersonComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild(SnilsComponent) snilsComponent: SnilsComponent;
   @ViewChild(IdentityCardComponent) identityCardComponent: IdentityCardComponent;
   @ViewChild(FullNameComponent) fullnameComponent: FullNameComponent;
+  @ViewChild(GenderComponent) genderComponent:GenderComponent;
   // @ViewChild(CitizenshipSelectComponent) citizenshipSelectComponent: CitizenshipSelectComponent;
   // @ViewChild(RfCitizensAddressesComponent) rfAddressesComponent: RfCitizensAddressesComponent;
   // @ViewChild(ForeignCitizensAddressesComponent) foreignAddressesComponent: ForeignCitizensAddressesComponent;
@@ -30,12 +33,14 @@ export class EditPersonComponent implements OnInit, AfterViewInit, OnDestroy {
   // @ViewChildren(EditConfirmationDocumentComponent) confirmationDocuments: QueryList<EditConfirmationDocumentComponent>;
 
   @Input() model: Parent | Applicant;
+  @Input() personType: PersonType;
   //@Input() modelType: ApplicantType;
   //@Input() applicantType: ApplicantType;
 
   private subscription: Subscription;
   applicantTypes = ApplicantType;
   attachmentTypes = AttachmentType;
+  personTypes = PersonType;
   groupOfIdentityCardTypeId: Array<number> = [];
   countries: Array<Country> = [];
 
@@ -48,6 +53,19 @@ export class EditPersonComponent implements OnInit, AfterViewInit, OnDestroy {
 
   ngOnInit() {
     this.subscription = this.citizenshipService.getCountries().subscribe(result => this.countries = result);
+    switch (this.personType) {
+      case PersonType.Child:
+        this.groupOfIdentityCardTypeId = [
+          IdentityCardType["Паспорт РФ"],
+          IdentityCardType["Свидетельство о рождении РФ"],
+          IdentityCardType["Свидетельство о рождении, выданное уполномоченным органом иностранного государства"],
+          IdentityCardType["Иностранный паспорт"]
+        ];
+        break;
+    
+      default:
+        break;
+    }
     // switch (this.modelType) {
     //   case ApplicantType.Parent:
     //     this.groupOfIdentityCardTypeId = this.commonService.getParentDocumentTypes();

@@ -1,11 +1,3 @@
-<div class="row" [hidden]="!(show | async)">
-  <div class="col">
-    <full-name [person]="child">
-      <app-gender [gender]="child?.gender"></app-gender>
-      <app-snils [snils]="child?.snils"></app-snils>
-    </full-name>
-  </div>
-  <div class="col">
-    <identity-card [ids]="groupOfIdentityCardTypeId" [model]="child?.identityCard"></identity-card>
-  </div>
+<div [hidden]="!(show | async)">
+  <app-edit-person [model]="child" [personType]="personTypes.Child"></app-edit-person>
 </div>

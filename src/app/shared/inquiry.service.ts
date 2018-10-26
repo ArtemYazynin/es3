@@ -232,14 +232,14 @@ export class InquiryService {
   }
 
   get(id: string): Observable<Inquiry> {
-    if (!id) return Observable.create();
-    return new BehaviorSubject<Inquiry>(this.storageService.get("preschool"));
-    // const url = `${this.baseUrl}/${id}`;
-    // return this.http.get(url).pipe(map(result => {
-    //   let inquiry = new Inquiry(result.json());
+    // if (!id) return Observable.create();
+    // return new BehaviorSubject<Inquiry>(this.storageService.get("preschool"));
+    const url = `${this.baseUrl}/${id}`;
+    return this.http.get(url).pipe(map(result => {
+      let inquiry = new Inquiry(result.json());
 
-    //   return inquiry;
-    // }));
+      return inquiry;
+    }));
   }
 
   updateInquiryPropery(id: string, objProp: { id: string }) {

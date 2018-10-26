@@ -8,6 +8,7 @@ import { MatDialog } from '@angular/material';
 import { EditCitizenshipsDialogComponent } from '../../../modules/inquiry/edit-citizenships-dialog/edit-citizenships-dialog.component';
 import { CommonService } from '../../common.service';
 import { ActivatedRoute } from '@angular/router';
+import { PersonType } from '../../person-type.enum';
 
 @Component({
   selector: 'app-citizenships-card',
@@ -18,6 +19,7 @@ import { ActivatedRoute } from '@angular/router';
 export class CitizenshipsCardComponent implements OnInit {
   @Input() model: Parent | Applicant | Child;
   @Input() mode: ConfirmationDocumentMode;
+  @Input() personType: PersonType;
   private ngUnsubscribe: Subject<any> = new Subject();
   countries: Array<Country> = [];
   modes = ConfirmationDocumentMode;
@@ -35,7 +37,10 @@ export class CitizenshipsCardComponent implements OnInit {
   }
 
   edit() {
-    let config = { $person: new BehaviorSubject<Parent | Applicant | Child>(this.model) };
+    let config = { 
+      $person: new BehaviorSubject<Parent | Applicant | Child>(this.model),
+      personType: this.personType
+    };
     config.$person
       .pipe(skip(1), takeUntil(this.ngUnsubscribe))
       .subscribe((person: Parent | Applicant | Child) => {

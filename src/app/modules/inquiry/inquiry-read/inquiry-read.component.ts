@@ -13,6 +13,7 @@ import { EditPreschoolInstitutionDialogComponent } from '../edit-preschool-insti
 import { EditPrivilegeDialogComponent } from '../edit-privilege-dialog/edit-privilege-dialog.component';
 import { EditSchoolInquiryInfoDialogComponent } from '../edit-school-inquiry-info-dialog/edit-school-inquiry-info-dialog.component';
 import { EditPersonDialogComponent } from '../edit-person-dialog/edit-person-dialog.component';
+import { PersonType } from '../../../shared/person-type.enum';
 
 @Component({
   selector: 'app-inquiry-read',
@@ -24,6 +25,7 @@ export class InquiryReadComponent implements OnInit, OnDestroy {
   $inquiry: BehaviorSubject<Inquiry>;
   private ngUnsubscribe: Subject<any> = new Subject();
   inquiryTypes = inquiryType;
+  personTypes = PersonType;
   countries: Array<Country>
   privilegeOrders: Array<PrivilegeOrder>;
   statuses: Array<Status>;
