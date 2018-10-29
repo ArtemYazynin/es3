@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ComponentFactory, ComponentFactoryResolver, ComponentRef, Input, OnInit, ViewChild, ViewContainerRef } from "@angular/core";
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ComponentFactory, ComponentFactoryResolver, ComponentRef, Input, OnInit, ViewChild, ViewContainerRef, AfterViewInit } from "@angular/core";
 import { isNullOrUndefined } from "util";
 import { Child, CitizenshipService, ConfirmationDocument, IdentityCard, Person } from "../../../../../shared";
 import { BirthInfoComponent } from "../../../../../shared/components/birth-info/birth-info.component";
@@ -15,7 +15,7 @@ import { EditCitizenshipsComponent } from "../edit-citizenships/edit-citizenship
   styleUrls: ['./edit-children.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class EditChildrenComponent implements OnInit {
+export class EditChildrenComponent implements OnInit, AfterViewInit {
   @ViewChild("childContainer", { read: ViewContainerRef }) viewContainer;
   @ViewChild(EditCitizenshipsComponent) editCitizenshipsComponent: EditCitizenshipsComponent;
   @ViewChild(BirthInfoComponent) birthInfoComponent: BirthInfoComponent;
@@ -41,6 +41,10 @@ export class EditChildrenComponent implements OnInit {
       this.components.push(componentRef);
     });
     this.cdr.detectChanges();
+  }
+
+  ngAfterViewInit(): void {
+    this.cdr.markForCheck();
   }
 
   private hasCitizenships() {

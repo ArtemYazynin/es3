@@ -1,18 +1,12 @@
-import { AfterViewInit, ChangeDetectionStrategy, Component, Input, OnDestroy, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
+import { AfterViewInit, ChangeDetectionStrategy, Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Subscription } from 'rxjs';
-import { BirthInfoComponent } from '../../../../../shared/components/birth-info/birth-info.component';
-import { CitizenshipSelectComponent } from '../../../../../shared/components/citizenship-select/citizenship-select.component';
-import { ForeignCitizensAddressesComponent } from '../../../../../shared/components/foreign-citizens-addresses/foreign-citizens-addresses.component';
 import { FullNameComponent } from '../../../../../shared/components/full-name/full-name.component';
+import { GenderComponent } from '../../../../../shared/components/gender/gender.component';
 import { IdentityCardComponent } from '../../../../../shared/components/identity-card/identity-card.component';
 import { RelationTypeComponent } from '../../../../../shared/components/relation-type/relation-type.component';
-import { RfCitizensAddressesComponent } from '../../../../../shared/components/rf-citizens-addresses/rf-citizens-addresses.component';
 import { SnilsComponent } from '../../../../../shared/components/snils/snils.component';
-import { Applicant, ApplicantType, AttachmentType, CitizenshipService, CommonService, ConfirmationDocument, Country, Parent, IdentityCardType } from '../../../../../shared/index';
-import { WizardStorageService } from '../../../../wizard/shared';
-import { EditConfirmationDocumentComponent } from '../../../../../shared/components/edit-confirmation-document/edit-confirmation-document.component';
+import { Applicant, ApplicantType, AttachmentType, CitizenshipService, CommonService, ConfirmationDocument, Country, IdentityCardType, Parent } from '../../../../../shared/index';
 import { PersonType } from '../../../../../shared/person-type.enum';
-import { GenderComponent } from '../../../../../shared/components/gender/gender.component';
 
 @Component({
   selector: 'app-edit-person',
@@ -140,8 +134,7 @@ export class EditPersonComponent implements OnInit, AfterViewInit, OnDestroy {
     //const isApplicant = this.applicantType == ApplicantType.Applicant && this.modelType == ApplicantType.Applicant;
     let isValid = {
       relationType: (()=>{
-        const isParent = !!this.model["relationType"]
-        if(!isParent) return true;
+        if(!this.model || this.personType != PersonType.Parent) return true;
         return this.relationTypeComponent && this.relationTypeComponent.isValid();
       })(),
       identityCardForm: !!this.identityCardComponent && !!this.identityCardComponent.identityCardForm && this.identityCardComponent.identityCardForm.valid,

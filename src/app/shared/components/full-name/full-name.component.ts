@@ -33,6 +33,15 @@ export class FullNameComponent implements OnInit {
     }
   }
 
+  getResult():{ lastname:string, firstname:string, middlename:string, noMiddlename:boolean}{
+    return {
+      lastname:this.fullnameForm.controls.lastname.value,
+      firstname:this.fullnameForm.controls.firstname.value,
+      middlename:this.fullnameForm.controls.middlename.value,
+      noMiddlename:this.fullnameForm.controls.noMiddlename.value,
+    }
+  }
+
   private buildForm() {
     this.fullnameForm = this.fb.group({
       "lastname": [

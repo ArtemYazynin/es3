@@ -66,7 +66,7 @@ export class IdentityCardComponent implements OnInit, OnDestroy {
         actRecordDate: this.model.actRecordDate,
         actRecordPlace: this.model.actRecordPlace,
       });
-    }else{
+    } else {
       this.identityCardForm.controls.identityCardType.patchValue(IdentityCardType["Паспорт РФ"]);
     }
   }
@@ -105,7 +105,11 @@ export class IdentityCardComponent implements OnInit, OnDestroy {
       });
   }
 
-  isValid(){
+  isValid() {
     return this.identityCardForm && this.identityCardForm.valid;
+  }
+
+  getResult(): IdentityCard {
+    return new IdentityCard(this.identityCardForm);
   }
 }

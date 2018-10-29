@@ -37,6 +37,8 @@ import { ConfirmationDocument } from './models/confirmation-document.model';
 import { map, takeUntil, tap, mergeMap } from 'rxjs/operators';
 import { environment } from '../../environments/environment';
 import { EditChildrenComponent } from '../modules/inquiry/shared/components/edit-children/edit-children.component';
+import { EditCitizenshipsComponent } from '../modules/inquiry/shared/components/edit-citizenships/edit-citizenships.component';
+import { EditConfirmationDocumentComponent } from './components/edit-confirmation-document/edit-confirmation-document.component';
 
 @Injectable()
 export class InquiryService {
@@ -45,14 +47,32 @@ export class InquiryService {
   constructor(private http: Http, private storageService: WizardStorageService, private commonService: CommonService,
     @Inject(SERVER_URL) private serverUrl, private confirmationDocumentService: ConfirmationDocumentService) { }
 
-  saveApplicant(inquiry: Inquiry, editPersonComponent: EditPersonComponent, update: (patch: object) => void): void {
-    // if (inquiry.applicantType != ApplicantType.Applicant) return;
+  saveApplicant(inquiry: Inquiry, editPersonComponent: EditPersonComponent, editCitizenshipsComponent: EditCitizenshipsComponent,
+    editConfirmationDocumentComponent: EditConfirmationDocumentComponent): Inquiry {
+    const fullnameResult = editPersonComponent.fullnameComponent.getResult();
+    const applicant = new Applicant(fullnameResult.lastname, fullnameResult.firstname, fullnameResult.middlename,
+      editPersonComponent.snilsComponent.snils, fullnameResult.noMiddlename, undefined, undefined, undefined);
+    applicant.identityCard = editPersonComponent.identityCardComponent.getResult();
+    applicant.applicantRepresentParentDocument = editConfirmationDocumentComponent.getResult();
+    applicant.countryStateApplicantDocument = editCitizenshipsComponent.editConfirmationDocumentComponent
+      ? editCitizenshipsComponent.editConfirmationDocumentComponent.getResult()
+      : undefined;
 
-    // let applicant = this.commonService.buildApplicant(editPersonComponent, inquiry.applicantType);
-    // if (DublicatesFinder.betweenApplicantParent(inquiry.applicant, inquiry.parent)) return;
-    // if (DublicatesFinder.betweenApplicantChildren(applicant, inquiry.children)) return;
-    // if (DublicatesFinder.betweenChildren(inquiry.children)) return;
-    // update({ applicant: applicant });
+    const citizenshipsWithAddresses = editCitizenshipsComponent.getResult();
+    applicant.citizenships = citizenshipsWithAddresses.citizenships;
+    Object.assign(applicant, citizenshipsWithAddresses.addresses);
+
+    if (DublicatesFinder.betweenApplicantParent(inquiry.applicant, inquiry.parent)
+      || DublicatesFinder.betweenApplicantChildren(applicant, inquiry.children)
+      || DublicatesFinder.betweenChildren(inquiry.children))
+      return;
+
+    if (inquiry.applicant) {
+      Object.assign(inquiry.applicant, applicant);
+    } else {
+      inquiry.applicant = applicant;
+    }
+    return inquiry;
   }
 
   saveParent(inquiry: Inquiry, editPersonComponent: EditPersonComponent, update: (patch: object) => void, addCondition: boolean = true): void {

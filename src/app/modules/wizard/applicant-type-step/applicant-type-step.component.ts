@@ -33,6 +33,7 @@ export class ApplicantTypeStepComponent implements OnInit, StepBase {
       }
       return types;
     })();
+    this.applicantType = this.inquiry.applicantType || this.applicantTypes[0];
     this.config = new ConfigsOfRoutingButtons(ButtonsTitles.Next, ButtonsTitles.Back,
       () => {
         Object.assign(this.inquiry, { applicantType: this.applicantType });
