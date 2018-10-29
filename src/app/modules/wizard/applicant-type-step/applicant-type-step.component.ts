@@ -37,8 +37,17 @@ export class ApplicantTypeStepComponent implements OnInit, StepBase {
     this.config = new ConfigsOfRoutingButtons(ButtonsTitles.Next, ButtonsTitles.Back,
       () => {
         Object.assign(this.inquiry, { applicantType: this.applicantType });
+        const clearAddressInfo = () => {
+          if (this.inquiry.parent) {
+            this.inquiry.parent.register = undefined;
+            this.inquiry.parent.residential = undefined;
+            this.inquiry.parent.tempRegistrationExpiredDate = undefined;
+            this.inquiry.parent.registerAddressLikeAsResidentialAddress = undefined;
+          }
+        }
         switch (this.applicantType) {
           case ApplicantType.Applicant:
+            clearAddressInfo();
             this.storageService.set(this.inquiryType, this.inquiry)
             this.router.navigate(["../applicantStep"], { relativeTo: this.route });
             break;

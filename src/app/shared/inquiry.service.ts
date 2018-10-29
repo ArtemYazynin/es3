@@ -54,11 +54,10 @@ export class InquiryService {
       editPersonComponent.snilsComponent.snils, fullnameResult.noMiddlename, undefined, undefined, undefined);
     applicant.identityCard = editPersonComponent.identityCardComponent.getResult();
     applicant.applicantRepresentParentDocument = editConfirmationDocumentComponent.getResult();
-    applicant.countryStateApplicantDocument = editCitizenshipsComponent.editConfirmationDocumentComponent
-      ? editCitizenshipsComponent.editConfirmationDocumentComponent.getResult()
-      : undefined;
+   
 
     const citizenshipsWithAddresses = editCitizenshipsComponent.getResult();
+    applicant.countryStateApplicantDocument = citizenshipsWithAddresses.document;
     applicant.citizenships = citizenshipsWithAddresses.citizenships;
     Object.assign(applicant, citizenshipsWithAddresses.addresses);
 

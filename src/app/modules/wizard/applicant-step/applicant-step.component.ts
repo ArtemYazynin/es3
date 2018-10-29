@@ -19,23 +19,22 @@ export class ApplicantStepComponent implements OnInit, AfterViewInit, StepBase {
   @ViewChild(EditConfirmationDocumentComponent) editConfirmationDocumentComponent: EditConfirmationDocumentComponent;
 
   constructor(private router: Router, private inquiryService: InquiryService,
-    private route: ActivatedRoute, private storageService: WizardStorageService,
-    private commonService: CommonService, private cdr: ChangeDetectorRef) { }
+    private route: ActivatedRoute, private storageService: WizardStorageService, private cdr: ChangeDetectorRef) { }
 
   inquiry: Inquiry;
   inquiryType = this.route.snapshot.data.resolved.inquiryType;
-  applicantTypes = ApplicantType;
   config: ConfigsOfRoutingButtons;
   personTypes = PersonType;
   attachmentTypes = AttachmentType;
+  applicantTypes = ApplicantType;
 
   ngOnInit() {
     this.inquiry = <Inquiry>this.storageService.get(this.inquiryType);
     this.config = new ConfigsOfRoutingButtons(ButtonsTitles.Next, ButtonsTitles.Back,
       () => {
         const inquiry = this.inquiryService.saveApplicant(this.inquiry, this.editPersonComponent, this.editCitizenshipsComponent, this.editConfirmationDocumentComponent);
+        if (!inquiry) return;
         this.storageService.set(this.inquiryType, inquiry);
-
         if (this.inquiry.applicantType == ApplicantType.Parent) {
           this.router.navigate(["../contactInfoStep"], { relativeTo: this.route });
         } else {

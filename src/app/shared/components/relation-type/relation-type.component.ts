@@ -13,7 +13,7 @@ import { EditConfirmationDocumentComponent } from '../edit-confirmation-document
 })
 export class RelationTypeComponent implements OnInit, OnDestroy {
   @Input() owner: Parent;
-  @ViewChild(EditConfirmationDocumentComponent) editConfirmationDocumentComponent:EditConfirmationDocumentComponent;
+  @ViewChild(EditConfirmationDocumentComponent) editConfirmationDocumentComponent: EditConfirmationDocumentComponent;
   private subscription: Subscription;
   relationTypes: Array<RelationType> = [];
   attachmentTypes = AttachmentType;
@@ -21,6 +21,7 @@ export class RelationTypeComponent implements OnInit, OnDestroy {
   constructor(private relationTypeService: RelationTypeService, private cdr: ChangeDetectorRef) { }
 
   ngOnInit() {
+    if (!this.owner) this.owner = new Parent(undefined, undefined, undefined, undefined, false, undefined, undefined, undefined);
     this.subscription = this.relationTypeService.get().subscribe(result => {
       this.relationTypes = result;
       if (this.owner.relationType) {
@@ -33,8 +34,9 @@ export class RelationTypeComponent implements OnInit, OnDestroy {
     this.subscription.unsubscribe();
   }
 
-  isValid(){
-    if(!this.owner.relationType.confirmationDocument) return true
+  isValid() {
+    if (!this.owner.relationType) return false;
+    if (!this.owner.relationType.confirmationDocument) return true
     return this.editConfirmationDocumentComponent && this.editConfirmationDocumentComponent.confirmationDocumentForm.valid;
   }
 }

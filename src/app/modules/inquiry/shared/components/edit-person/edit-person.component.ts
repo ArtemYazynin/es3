@@ -14,22 +14,15 @@ import { PersonType } from '../../../../../shared/person-type.enum';
   styleUrls: ['./edit-person.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class EditPersonComponent implements OnInit, AfterViewInit, OnDestroy {
+export class EditPersonComponent implements OnInit, OnDestroy {
   //@ViewChild(BirthInfoComponent) birthInfoComponent: BirthInfoComponent;
   @ViewChild(SnilsComponent) snilsComponent: SnilsComponent;
   @ViewChild(IdentityCardComponent) identityCardComponent: IdentityCardComponent;
   @ViewChild(FullNameComponent) fullnameComponent: FullNameComponent;
   @ViewChild(GenderComponent) genderComponent:GenderComponent;
-  // @ViewChild(CitizenshipSelectComponent) citizenshipSelectComponent: CitizenshipSelectComponent;
-  // @ViewChild(RfCitizensAddressesComponent) rfAddressesComponent: RfCitizensAddressesComponent;
-  // @ViewChild(ForeignCitizensAddressesComponent) foreignAddressesComponent: ForeignCitizensAddressesComponent;
-  @ViewChild(RelationTypeComponent) relationTypeComponent: RelationTypeComponent;
-  // @ViewChildren(EditConfirmationDocumentComponent) confirmationDocuments: QueryList<EditConfirmationDocumentComponent>;
 
   @Input() model: Parent | Applicant;
   @Input() personType: PersonType;
-  //@Input() modelType: ApplicantType;
-  //@Input() applicantType: ApplicantType;
 
   private subscription: Subscription;
   applicantTypes = ApplicantType;
@@ -43,7 +36,7 @@ export class EditPersonComponent implements OnInit, AfterViewInit, OnDestroy {
   applicantRepresentParentDocumentContext: ConfirmationDocumentContext;
   parentRepresentChildrenDocumentContext: ConfirmationDocumentContext;
 
-  constructor(private commonService: CommonService, private citizenshipService: CitizenshipService) { }
+  constructor(private citizenshipService: CitizenshipService) { }
 
   ngOnInit() {
     this.subscription = this.citizenshipService.getCountries().subscribe(result => this.countries = result);
@@ -95,48 +88,14 @@ export class EditPersonComponent implements OnInit, AfterViewInit, OnDestroy {
     // }
   }
 
-  ngAfterViewInit(): void {
-    //this.isAvailable.childApplicantInfo = this.modelType === ApplicantType.Child;
-  }
-
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
   }
 
-  isAvailable = (() => {
-    // const hasForeignCitizenship = () => {
-    //   return this.citizenshipSelectComponent && this.citizenshipService.hasForeignCitizenship(this.citizenshipSelectComponent.citizenships, this.countries);
-    // }
-    // const hasRfCitizenship = () => {
-    //   return this.citizenshipSelectComponent && this.citizenshipSelectComponent.citizenships.indexOf(643) >= 0;
-    // }
-    // const parentRepresentChildren = () => {
-    //   return this.relationTypeComponent
-    //     && this.relationTypeComponent.relationType
-    //     && this.relationTypeComponent.relationType.confirmationDocument;
-    // };
-    // const addresses = () => {
-    //   const hasCitizenships = this.citizenshipSelectComponent && this.citizenshipSelectComponent.citizenships.length > 0;
-    //   return hasCitizenships
-    //     && ((this.applicantType == ApplicantType.Parent && this.modelType == ApplicantType.Parent)
-    //       || (this.applicantType == ApplicantType.Applicant && this.modelType == ApplicantType.Applicant));
-    // }
-    return {
-      // addresses: addresses,
-      // hasRfCitizenship: hasRfCitizenship,
-      // countryStateDocument: hasForeignCitizenship,
-      // parentRepresentChildren: parentRepresentChildren,
-      //childApplicantInfo: false,
-    }
-  })();
 
   isValid(): boolean {
     //const isApplicant = this.applicantType == ApplicantType.Applicant && this.modelType == ApplicantType.Applicant;
     let isValid = {
-      relationType: (()=>{
-        if(!this.model || this.personType != PersonType.Parent) return true;
-        return this.relationTypeComponent && this.relationTypeComponent.isValid();
-      })(),
       identityCardForm: !!this.identityCardComponent && !!this.identityCardComponent.identityCardForm && this.identityCardComponent.identityCardForm.valid,
       fullnameForm: !!this.fullnameComponent && !!this.fullnameComponent.fullnameForm && this.fullnameComponent.fullnameForm.valid,
       // birthInfoForm: () => {
@@ -182,12 +141,6 @@ export class EditPersonComponent implements OnInit, AfterViewInit, OnDestroy {
     let result = isValid.fullnameForm
       && this.snilsComponent.isValid()
       && isValid.identityCardForm
-      && isValid.relationType
-      //&& isValid.birthInfoForm()
-      // && isValid.countryStateDocument()
-      // && isValid.relationType()
-      // && isValid.countryStateApplicantDocument()
-      // && isValid.applicantRepresentParentDocument();
     return result;
   }
 }

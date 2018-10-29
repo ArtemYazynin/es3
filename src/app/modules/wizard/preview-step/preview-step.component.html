@@ -5,7 +5,7 @@
         <app-inquiry-info-edit title="Доверенное лицо законного представителя ребенка">
           <app-person-card [entity]="inquiry.applicant" [personType]="personTypes.Applicant" [mode]="modes.Read"></app-person-card>
 
-          <app-citizenships-card [model]="inquiry.applicant" [personType]="personTypes.Applicant" [mode]="modes.Read"></app-citizenships-card>
+          <app-citizenships-card [model]="inquiry.applicant" [personType]="personTypes.Applicant" [mode]="modes.Read" [applicantType]="applicantTypes.Applicant"></app-citizenships-card>
           <app-confirmation-document-card title="Документ, подтверждающий право пребывания доверенного лица законного представителя на территории РФ"
             [model]="inquiry.applicant.countryStateApplicantDocument" [mode]="modes.Read">
           </app-confirmation-document-card>
@@ -20,7 +20,7 @@
         <app-inquiry-info-edit title="Законный представитель">
           <app-person-card [entity]="inquiry.parent" [personType]="personTypes.Parent" [mode]="modes.Read"></app-person-card>
 
-          <app-citizenships-card [model]="inquiry.parent" [personType]="personTypes.Parent"></app-citizenships-card>
+          <app-citizenships-card [model]="inquiry.parent" [personType]="personTypes.Parent" [applicantType]="applicantTypes.Parent"></app-citizenships-card>
           <app-confirmation-document-card title="Документ, подтверждающий право пребывания законного представителя на территории РФ"
             [model]="inquiry.parent.countryStateDocument" [mode]="modes.Read">
           </app-confirmation-document-card>

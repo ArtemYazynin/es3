@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ComponentFactory, ComponentFactoryResolver, ComponentRef, Input, OnInit, ViewChild, ViewContainerRef, AfterViewInit } from "@angular/core";
 import { isNullOrUndefined } from "util";
-import { Child, CitizenshipService, ConfirmationDocument, IdentityCard, Person } from "../../../../../shared";
+import { Child, CitizenshipService, ConfirmationDocument, IdentityCard, Person, ApplicantType } from "../../../../../shared";
 import { BirthInfoComponent } from "../../../../../shared/components/birth-info/birth-info.component";
 import { SpecHealthComponent } from "../../../../../shared/components/spec-health/spec-health.component";
 import { PersonType } from "../../../../../shared/person-type.enum";
@@ -27,6 +27,7 @@ export class EditChildrenComponent implements OnInit, AfterViewInit {
 
   components: Array<ComponentRef<ChildComponent>> = [];
   personTypes = PersonType;
+  applicantTypes = ApplicantType;
 
   constructor(private resolver: ComponentFactoryResolver, private citizenshipService: CitizenshipService, private cdr: ChangeDetectorRef) { }
 
@@ -167,8 +168,8 @@ export class EditChildrenComponent implements OnInit, AfterViewInit {
 
       (() => {
         Object.assign(child, this.citizenshipService.hasRfCitizenship(child.citizenships, this.editCitizenshipsComponent.citizenshipSelectComponent.countries)
-          ? this.editCitizenshipsComponent.rfCitizensAddressesComponent.getResult()
-          : this.editCitizenshipsComponent.foreignCitizensAddressesComponent.getResult());
+          ? this.editCitizenshipsComponent.rfCitizensAddressesComponent && this.editCitizenshipsComponent.rfCitizensAddressesComponent.getResult()
+          : this.editCitizenshipsComponent.foreignCitizensAddressesComponent && this.editCitizenshipsComponent.foreignCitizensAddressesComponent.getResult());
       })();
       result.push(child);
 

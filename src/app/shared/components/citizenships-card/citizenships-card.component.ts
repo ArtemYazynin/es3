@@ -9,6 +9,7 @@ import { EditCitizenshipsDialogComponent } from '../../../modules/inquiry/edit-c
 import { CommonService } from '../../common.service';
 import { ActivatedRoute } from '@angular/router';
 import { PersonType } from '../../person-type.enum';
+import { ApplicantType } from '../../applicant-type.enum';
 
 @Component({
   selector: 'app-citizenships-card',
@@ -20,6 +21,8 @@ export class CitizenshipsCardComponent implements OnInit {
   @Input() model: Parent | Applicant | Child;
   @Input() mode: ConfirmationDocumentMode;
   @Input() personType: PersonType;
+  @Input() applicantType: ApplicantType;
+
   private ngUnsubscribe: Subject<any> = new Subject();
   countries: Array<Country> = [];
   modes = ConfirmationDocumentMode;
@@ -37,20 +40,16 @@ export class CitizenshipsCardComponent implements OnInit {
   }
 
   edit() {
-    let config = { 
+    let config = {
       $person: new BehaviorSubject<Parent | Applicant | Child>(this.model),
-      personType: this.personType
+      personType: this.personType,
+      applicantType: this.applicantType
     };
     config.$person
       .pipe(skip(1), takeUntil(this.ngUnsubscribe))
       .subscribe((person: Parent | Applicant | Child) => {
         this.inquiryService.updateInquiryPropery(this.route.snapshot.data.resolved.inquiryId, person);
         this.cdr.markForCheck();
-        // this.personService.update(person).subscribe(newPerson => {
-        //   this.entity = newPerson;
-        //   this.inquiryService.updateInquiryPropery(this.route.snapshot.data.resolved.inquiryId, this.entity);
-        //   this.cdr.markForCheck();
-        // });
       });
     this.dialog.open(EditCitizenshipsDialogComponent, this.commonService.getDialogConfig(config));
   }

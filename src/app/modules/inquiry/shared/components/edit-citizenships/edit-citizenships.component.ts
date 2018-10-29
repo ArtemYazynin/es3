@@ -17,6 +17,7 @@ import { PersonType } from '../../../../../shared/person-type.enum';
 export class EditCitizenshipsComponent implements OnInit, OnDestroy {
   @Input() model: Parent | Applicant | Child;
   @Input() personType: PersonType;
+  @Input() applicantType: ApplicantType;
 
   @ViewChild(CitizenshipSelectComponent) citizenshipSelectComponent: CitizenshipSelectComponent;
   @ViewChild(RfCitizensAddressesComponent) rfCitizensAddressesComponent: RfCitizensAddressesComponent;
@@ -36,7 +37,6 @@ export class EditCitizenshipsComponent implements OnInit, OnDestroy {
         this.countries = countries;
       });
     if (this.personType == PersonType.Child) return;
-    //const isParent = !!this.model["countryStateDocument"];
     this.documentConfig = {
       title: this.personType == PersonType.Parent
         ? "Документ, подтверждающий право пребывания законного представителя на территории РФ"
@@ -60,7 +60,8 @@ export class EditCitizenshipsComponent implements OnInit, OnDestroy {
       return this.citizenshipSelectComponent && this.citizenshipSelectComponent.hasRfCitizenship();
     },
     addresses: () => {
-      return this.citizenshipSelectComponent.citizenships.length > 0;
+      return this.citizenshipSelectComponent.citizenships.length > 0
+        && (this.applicantType == ApplicantType.Applicant && this.personType == PersonType.Applicant || this.applicantType == ApplicantType.Parent && this.personType == PersonType.Parent);
     },
     hasCitizenships: () => {
       return this.citizenshipSelectComponent && this.citizenshipSelectComponent.citizenships.length > 0;
@@ -68,11 +69,16 @@ export class EditCitizenshipsComponent implements OnInit, OnDestroy {
   }
 
   isValid(): boolean {
+    const editParent = this.applicantType == ApplicantType.Applicant && this.personType == PersonType.Parent;
     if (this.isAvailable.hasRfCitizenship()) {
-      return this.rfCitizensAddressesComponent && this.rfCitizensAddressesComponent.checkboxesForm.valid;
+      return editParent
+        ? this.citizenshipSelectComponent.citizenships.length > 0
+        : this.rfCitizensAddressesComponent && this.rfCitizensAddressesComponent.checkboxesForm.valid;
     } else if (this.isAvailable.hasForeignCitizenship()) {
-      return this.foreignCitizensAddressesComponent && this.foreignCitizensAddressesComponent.form.valid
-        && this.editConfirmationDocumentComponent.confirmationDocumentForm.valid;
+      const isValidDocument = this.editConfirmationDocumentComponent && this.editConfirmationDocumentComponent.confirmationDocumentForm.valid;
+      return editParent
+        ? this.citizenshipSelectComponent.citizenships.length > 0 && isValidDocument
+        : this.foreignCitizensAddressesComponent && this.foreignCitizensAddressesComponent.form.valid && isValidDocument
     }
     return false;
   }
@@ -81,10 +87,15 @@ export class EditCitizenshipsComponent implements OnInit, OnDestroy {
     let result = {
       citizenships: this.citizenshipSelectComponent.citizenships,
       document: this.editConfirmationDocumentComponent ? this.editConfirmationDocumentComponent.getResult() : undefined,
-      addresses: this.citizenshipSelectComponent.hasRfCitizenship()
-        ? this.rfCitizensAddressesComponent.getResult()
-        : this.foreignCitizensAddressesComponent.getResult()
+      addresses: undefined
     }
+    if (this.personType == PersonType.Parent && this.applicantType == ApplicantType.Applicant) {
+      return result;
+    }
+    result.addresses = this.citizenshipSelectComponent.hasRfCitizenship()
+      ? this.rfCitizensAddressesComponent.getResult()
+      : this.foreignCitizensAddressesComponent.getResult()
     return result;
+
   }
 }

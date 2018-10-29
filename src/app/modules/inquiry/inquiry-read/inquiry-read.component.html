@@ -40,7 +40,8 @@
       <app-inquiry-info-edit title="Доверенное лицо законного представителя ребенка">
         <app-person-card [entity]="inquiry.applicant" [personType]="personTypes.Applicant" [mode]="modes.Edit"></app-person-card>
 
-        <app-citizenships-card [model]="inquiry.applicant" [personType]="personTypes.Applicant"></app-citizenships-card>
+        <app-citizenships-card [model]="inquiry.applicant" [mode]="modes.Edit" [personType]="personTypes.Applicant" [applicantType]="applicantTypes.Applicant">
+        </app-citizenships-card>
         <app-confirmation-document-card title="Документ, подтверждающий право пребывания доверенного лица законного представителя на территории РФ"
           [model]="inquiry.applicant.countryStateApplicantDocument" [mode]="modes.Edit">
         </app-confirmation-document-card>
@@ -57,7 +58,8 @@
       <app-inquiry-info-edit title="Законный представитель">
         <app-person-card [entity]="inquiry.parent" [personType]="personTypes.Parent" [mode]="modes.Edit"></app-person-card>
         <app-relation-type-card [model]="inquiry.parent" [mode]="modes.Edit"></app-relation-type-card>
-        <app-citizenships-card [model]="inquiry.parent" [mode]="modes.Edit" [personType]="personTypes.Parent"></app-citizenships-card>
+        <app-citizenships-card [model]="inquiry.parent" [mode]="modes.Edit" [personType]="personTypes.Parent" [applicantType]="applicantTypes.Parent">
+        </app-citizenships-card>
         <app-confirmation-document-card title="Документ, подтверждающий право пребывания законного представителя на территории РФ"
           [model]="inquiry.parent.countryStateDocument" [mode]="modes.Edit">
         </app-confirmation-document-card>

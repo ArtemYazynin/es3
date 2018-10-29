@@ -4,7 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Observable, Subject, timer, zip } from 'rxjs';
 import { map, takeUntil } from 'rxjs/operators';
 import { isNullOrUndefined } from 'util';
-import { ButtonsTitles, CitizenshipService, ConfigsOfRoutingButtons, Country, DrawService, Entity, Group, Inquiry, InquiryService, inquiryType, SpecHealth, SpecHealthService, ConfirmationDocumentMode } from '../../../shared';
+import { ButtonsTitles, CitizenshipService, ConfigsOfRoutingButtons, Country, DrawService, Entity, Group, Inquiry, InquiryService, inquiryType, SpecHealth, SpecHealthService, ConfirmationDocumentMode, ApplicantType } from '../../../shared';
 import { StepBase, WizardStorageService } from '../shared';
 import { Guid } from '../../../shared/models/guid';
 import { ConfirmationDocumentService } from '../../../shared/confirmation-document.service';
@@ -35,6 +35,7 @@ export class PreviewStepComponent implements OnInit, OnDestroy, StepBase {
 
   inquiry: Inquiry;
   inquiryTypes = inquiryType;
+  applicantTypes = ApplicantType;
   config: ConfigsOfRoutingButtons;
     
 

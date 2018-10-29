@@ -1,7 +1,7 @@
 import { Component, Inject, OnDestroy, OnInit, ViewChild, AfterViewInit, ChangeDetectorRef, ChangeDetectionStrategy } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { BehaviorSubject, Subject } from 'rxjs';
-import { Applicant, Child, InquiryService, Parent, ConfigsOfRoutingButtons, PersonWithAddress, ConfirmationDocument } from '../../../shared';
+import { Applicant, Child, InquiryService, Parent, ConfigsOfRoutingButtons, PersonWithAddress, ConfirmationDocument, ApplicantType } from '../../../shared';
 import { WizardStorageService } from '../../wizard/shared';
 import { EditCitizenshipsComponent } from '../shared/components/edit-citizenships/edit-citizenships.component';
 import { Guid } from '../../../shared/models/guid';
@@ -18,9 +18,8 @@ export class EditCitizenshipsDialogComponent implements OnInit, OnDestroy, After
   private ngUnsubscribe: Subject<any> = new Subject();
   config: ConfigsOfRoutingButtons;
 
-  constructor(public dialogRef: MatDialogRef<EditCitizenshipsDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: { $person: BehaviorSubject<Parent | Applicant | Child>, personType: PersonType },
-    private storageService: WizardStorageService, private inquiryService: InquiryService, private cdr: ChangeDetectorRef) { }
+  constructor(public dialogRef: MatDialogRef<EditCitizenshipsDialogComponent>, private cdr: ChangeDetectorRef,
+    @Inject(MAT_DIALOG_DATA) public data: { $person: BehaviorSubject<Parent | Applicant | Child>, personType: PersonType, applicantType: ApplicantType }) { }
 
   ngOnInit() {
     this.config = {
