@@ -10,12 +10,12 @@ import { MyDatePickerModule } from 'mydatepicker';
 import { MaterialModule } from '../../material.module';
 import { ShareModule } from '../../share.module';
 import { AddressService, AreaService, CitizenshipService, CommonService, DrawService, EnumToArrayPipe, FormService, GroupService, IdentityCardService, IdentityCardTypePipe, InquiryService, InstitutionService, PrivilegeOrderService, PrivilegeService, RelationTypeService, SettingsService, SpecHealthService, SpecificityService } from '../../shared';
+import { ActionsButtonsService } from '../../shared/actions-buttons.service';
 import { ConfirmDialogComponent } from '../../shared/components/confirm-dialog/confirm-dialog.component';
 import { HttpInterceptor } from '../../shared/http-interceptor';
 import { RegisterCompleteResolver } from '../../shared/register-complete-resolver';
 import { ApplicantStepComponent } from '../wizard/applicant-step/applicant-step.component';
 import { ApplicantTypeStepComponent } from '../wizard/applicant-type-step/applicant-type-step.component';
-import { ChildComponent } from '../wizard/children-step/child/child.component';
 import { ChildrenStepComponent } from '../wizard/children-step/children-step.component';
 import { ContactInfoStepComponent } from '../wizard/contact-info-step/contact-info-step.component';
 import { CurrentEducationPlaceStepComponent } from '../wizard/current-education-place-step/current-education-place-step.component';
@@ -33,6 +33,7 @@ import { RegisterCompleteComponent } from './register-complete/register-complete
 import { PrivilegeStepResolver } from './resolvers/privilege-step-resolver';
 import { ParentStepService, WizardStorageService } from './shared';
 import { WizardRoutingModule } from './wizard-routing-module';
+import { ChildComponent } from './children-step/child/child.component';
 
 
 @NgModule({
@@ -103,7 +104,8 @@ import { WizardRoutingModule } from './wizard-routing-module';
     SettingsService,
     DrawService,
     AddressService,
-    InquiryService
+    InquiryService,
+    ActionsButtonsService
   ],
   entryComponents: [ChildComponent, ConfirmDialogComponent], //динамически добавляемые компоненты ViewContainerRef.createComponent()
 })

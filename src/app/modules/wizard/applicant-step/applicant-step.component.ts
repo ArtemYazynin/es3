@@ -1,11 +1,12 @@
-import { AfterViewInit, ChangeDetectorRef, Component, OnInit, ViewChild, ChangeDetectionStrategy } from '@angular/core';
+import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ApplicantType, ButtonsTitles, CommonService, ConfigsOfRoutingButtons, Inquiry, InquiryService, AttachmentType, Applicant, DublicatesFinder } from '../../../shared/index';
-import { EditPersonComponent } from '../../inquiry/shared/components/edit-person/edit-person.component';
-import { StepBase, WizardStorageService } from '../shared/index';
+import { ApplicantType, AttachmentType, ButtonsTitles, ConfigsOfRoutingButtons, Inquiry, InquiryService } from '../../../shared';
+import { ActionsButtonsService } from '../../../shared/actions-buttons.service';
+import { EditConfirmationDocumentComponent } from '../../../shared/components/edit-confirmation-document/edit-confirmation-document.component';
 import { PersonType } from '../../../shared/person-type.enum';
 import { EditCitizenshipsComponent } from '../../inquiry/shared/components/edit-citizenships/edit-citizenships.component';
-import { EditConfirmationDocumentComponent } from '../../../shared/components/edit-confirmation-document/edit-confirmation-document.component';
+import { EditPersonComponent } from '../../inquiry/shared/components/edit-person/edit-person.component';
+import { StepBase, WizardStorageService } from '../shared/index';
 
 @Component({
   selector: 'app-applicant-step',
@@ -18,8 +19,8 @@ export class ApplicantStepComponent implements OnInit, AfterViewInit, StepBase {
   @ViewChild(EditCitizenshipsComponent) editCitizenshipsComponent: EditCitizenshipsComponent;
   @ViewChild(EditConfirmationDocumentComponent) editConfirmationDocumentComponent: EditConfirmationDocumentComponent;
 
-  constructor(private router: Router, private inquiryService: InquiryService,
-    private route: ActivatedRoute, private storageService: WizardStorageService, private cdr: ChangeDetectorRef) { }
+  constructor(private router: Router, private route: ActivatedRoute, private storageService: WizardStorageService,
+    private cdr: ChangeDetectorRef, private actionsButtonsService: ActionsButtonsService, private inquiryService: InquiryService) { }
 
   inquiry: Inquiry;
   inquiryType = this.route.snapshot.data.resolved.inquiryType;

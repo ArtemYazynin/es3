@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ButtonsTitles, ConfigsOfRoutingButtons, Inquiry, InquiryService, inquiryType } from '../../../shared';
+import { ButtonsTitles, ConfigsOfRoutingButtons, Inquiry } from '../../../shared';
+import { ActionsButtonsService } from '../../../shared/actions-buttons.service';
 import { EditInquiryInfoComponent } from '../../inquiry/shared/components/edit-inquiry-info/edit-inquiry-info.component';
 import { StepBase, WizardStorageService } from '../shared';
 
@@ -17,24 +18,14 @@ export class InquiryInfoStepComponent implements OnInit, StepBase {
   inquiry: Inquiry;
   config: ConfigsOfRoutingButtons;
 
-  constructor(private router: Router, private route: ActivatedRoute, private storageService: WizardStorageService, private inquiryService: InquiryService) { }
+  constructor(private router: Router, private route: ActivatedRoute, private storageService: WizardStorageService,
+    private actionsButtonsService: ActionsButtonsService) { }
 
   ngOnInit() {
     this.inquiry = <Inquiry>this.storageService.get(this.inquiryType);
     this.config = new ConfigsOfRoutingButtons(ButtonsTitles.Next, ButtonsTitles.Back,
-      () => {
-        this.inquiryService.saveInquiryInfo(this.editInquiryInfoComponent, (patch) => {
-          this.storageService.set(this.inquiryType, patch);
-        })
-        this.router.navigate(["../preschoolInstitutionStep"], { relativeTo: this.route });
-      },
-      () => {
-        if (this.inquiryType == inquiryType.profEducation) {
-          this.router.navigate(["../marksStep"], { relativeTo: this.route });
-        } else {
-          this.router.navigate(["../privilegeStep"], { relativeTo: this.route });
-        }
-      }
+      this.actionsButtonsService.primaryActionInquiryInfoStep(this.editInquiryInfoComponent, this.inquiryType, this.router, this.route),
+      this.actionsButtonsService.inverseActionInquiryInfoStep(this.inquiryType, this.router, this.route)
     );
   }
 }

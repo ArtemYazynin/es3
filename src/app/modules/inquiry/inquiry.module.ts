@@ -29,6 +29,7 @@ import { InquiryRouting } from './inquiry-routing-module';
 import { InquiryCommonInfoComponent } from './shared/components/inquiry-common-info/inquiry-common-info.component';
 import { PetitionCardComponent } from '../../shared/components/petition-card/petition-card.component';
 import { PetitionTypePipe } from '../../shared/petition-type.pipe';
+import { ActionsButtonsService } from '../../shared/actions-buttons.service';
 import { RelationTypeDialogComponent } from './relation-type-dialog/relation-type-dialog.component';
 
 @NgModule({
@@ -68,7 +69,8 @@ import { RelationTypeDialogComponent } from './relation-type-dialog/relation-typ
     DrawService,
     AddressService,
     InquiryService,
-    StatusService
+    StatusService,
+    ActionsButtonsService
   ],
   declarations: [ PetitionCardComponent, InquiryReadComponent, InquiryCommonInfoComponent, RegisterSourcePipe,
     EditPrivilegeDialogComponent, EditPersonDialogComponent, EditInquiryInfoDialogComponent, EditPreschoolInstitutionDialogComponent, 

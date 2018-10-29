@@ -121,7 +121,7 @@ export class InquiryService {
     const institutions = (() => {
       return editInstitutionsComponent.selectedInstitutions;
     })();
-    if (editInstitutionsComponent.inquiry.type == "school")
+    if (editInstitutionsComponent.inquiry.type == "preschool")
       update({ institutions: institutions });
     else {
       update({ schoolClasses: editInstitutionsComponent.selectedInstitutions, IsLearnEducCenter: IsLearnEducCenter });

@@ -1,8 +1,8 @@
 import { ChangeDetectionStrategy, Component, Inject, OnInit, ViewChild } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { BehaviorSubject } from 'rxjs';
-import { ButtonsTitles, ConfigsOfRoutingButtons, Inquiry, InquiryService } from '../../../shared';
-import { WizardStorageService } from '../../wizard/shared';
+import { ButtonsTitles, ConfigsOfRoutingButtons, Inquiry } from '../../../shared';
+import { ActionsButtonsService } from '../../../shared/actions-buttons.service';
 import { EditInstitutionsComponent } from '../shared/components/edit-institutions/edit-institutions.component';
 
 @Component({
@@ -15,23 +15,18 @@ export class EditPreschoolInstitutionDialogComponent implements OnInit {
   @ViewChild(EditInstitutionsComponent) editInstitutionsComponent: EditInstitutionsComponent;
   constructor(public dialogRef: MatDialogRef<EditPreschoolInstitutionDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: { $inquiry: BehaviorSubject<Inquiry> },
-    private storageService: WizardStorageService, private inquiryService: InquiryService) { }
+    private actionsButtonsService: ActionsButtonsService) { }
 
   inquiry: Inquiry;
   config: ConfigsOfRoutingButtons;
 
   ngOnInit() {
     this.inquiry = this.data.$inquiry.getValue();
-    this.config = new ConfigsOfRoutingButtons(ButtonsTitles.Save, ButtonsTitles.Close,
-      () => {
-        this.inquiryService.saveWishInstitutions(this.editInstitutionsComponent, (patch) => {
-          this.storageService.set(this.inquiry.type, patch);
+    this.config = new ConfigsOfRoutingButtons(ButtonsTitles.Save, ButtonsTitles.Close);
+  }
 
-          Object.assign(this.inquiry, patch);
-          this.data.$inquiry.next(this.inquiry);
-        })
-        this.dialogRef.close();
-      }
-    );
+  ngAfterViewInit(): void {
+    this.config.primaryAction =
+      this.actionsButtonsService.primaryActionPreschoolInstitutionDialog(this.editInstitutionsComponent, this.inquiry, this.data, this.dialogRef);
   }
 }

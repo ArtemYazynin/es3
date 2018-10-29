@@ -1,9 +1,10 @@
-import { ChangeDetectionStrategy, Component, Inject, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, ChangeDetectionStrategy, Component, Inject, OnInit, ViewChild } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { BehaviorSubject } from 'rxjs';
 import { ApplicantType, ConfigsOfRoutingButtons, IdentityCard, Person, Parent, RelationTypeService } from '../../../shared';
 import { EditPersonComponent } from '../shared/components/edit-person/edit-person.component';
 import { PersonType } from '../../../shared/person-type.enum';
+import { ActionsButtonsService } from '../../../shared/actions-buttons.service';
 
 @Component({
   selector: 'app-edit-person-dialog',
@@ -11,11 +12,12 @@ import { PersonType } from '../../../shared/person-type.enum';
   styleUrls: ['./edit-person-dialog.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class EditPersonDialogComponent implements OnInit {
+export class EditPersonDialogComponent implements OnInit, AfterViewInit {
   @ViewChild(EditPersonComponent) editPersonComponent: EditPersonComponent;
   applicantTypes = ApplicantType;
   constructor(public dialogRef: MatDialogRef<EditPersonDialogComponent>, @Inject(MAT_DIALOG_DATA) public data: { $person: BehaviorSubject<Person>, personType: PersonType },
-    private relationTypeService: RelationTypeService) { }
+    private relationTypeService: RelationTypeService, private actionsButtonsService: ActionsButtonsService) { }
+    
 
   private person: Person;
   config: ConfigsOfRoutingButtons;
@@ -41,6 +43,10 @@ export class EditPersonDialogComponent implements OnInit {
 
   isValid = (): boolean => {
     return this.editPersonComponent && this.editPersonComponent.isValid();
+  }
+  
+  ngAfterViewInit(): void {
+    //this.config.primaryAction = this.actionsButtonsService.primaryActionPersonDialog(this.editPersonComponent, this.inquiry, this.data, this.dialogRef);
   }
 }
 

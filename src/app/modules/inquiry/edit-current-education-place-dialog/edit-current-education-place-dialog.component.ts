@@ -1,8 +1,8 @@
-import { ChangeDetectionStrategy, Component, Inject, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, ChangeDetectionStrategy, Component, Inject, OnInit, ViewChild } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { BehaviorSubject } from 'rxjs';
-import { ButtonsTitles, ConfigsOfRoutingButtons, Inquiry, InquiryService } from '../../../shared';
-import { WizardStorageService } from '../../wizard/shared';
+import { ButtonsTitles, ConfigsOfRoutingButtons, Inquiry } from '../../../shared';
+import { ActionsButtonsService } from '../../../shared/actions-buttons.service';
 import { EditCurrentEducationPlaceComponent } from '../shared/components/edit-current-education-place/edit-current-education-place.component';
 
 @Component({
@@ -12,26 +12,21 @@ import { EditCurrentEducationPlaceComponent } from '../shared/components/edit-cu
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 
-export class EditCurrentEducationPlaceDialogComponent implements OnInit {
+export class EditCurrentEducationPlaceDialogComponent implements OnInit, AfterViewInit {
   @ViewChild(EditCurrentEducationPlaceComponent) currentEducationPlaceEditComponent: EditCurrentEducationPlaceComponent;
   constructor(public dialogRef: MatDialogRef<EditCurrentEducationPlaceDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: { $inquiry: BehaviorSubject<Inquiry> },
-    private storageService: WizardStorageService, private inquiryService: InquiryService) { }
+    private actionsButtonsService: ActionsButtonsService) { }
 
   inquiry: Inquiry;
   config: ConfigsOfRoutingButtons;
 
   ngOnInit() {
     this.inquiry = this.data.$inquiry.getValue();
-    this.config = new ConfigsOfRoutingButtons(ButtonsTitles.Save, ButtonsTitles.Close,
-      () => {
-        this.inquiryService.saveCurrentEducationPlace(this.currentEducationPlaceEditComponent, (patch) => {
-          this.storageService.set(this.inquiry.type, patch);
-          Object.assign(this.inquiry, patch);
-          this.data.$inquiry.next(this.inquiry);
-        });
-        this.dialogRef.close();
-      }
-    );
+    this.config = new ConfigsOfRoutingButtons(ButtonsTitles.Save, ButtonsTitles.Close);
+  }
+
+  ngAfterViewInit(): void {
+    this.config.primaryAction = this.actionsButtonsService.primaryActionCurrentEducationsDialog(this.currentEducationPlaceEditComponent, this.inquiry, this.data, this.dialogRef);
   }
 }
