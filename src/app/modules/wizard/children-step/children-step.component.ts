@@ -1,5 +1,5 @@
 import { AfterViewInit, ChangeDetectionStrategy, Component, OnInit, ViewChild } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { ButtonsTitles, ConfigsOfRoutingButtons, Inquiry } from '../../../shared';
 import { ActionsButtonsService } from '../../../shared/actions-buttons.service';
 import { StepBase, WizardStorageService } from '../shared';
@@ -8,6 +8,7 @@ import { EditChildrenComponent } from './../../inquiry/shared/components/edit-ch
 
 @Component({
   selector: 'app-children-step',
+  providers: [ActionsButtonsService],
   templateUrl: './children-step.component.html',
   styleUrls: ['./children-step.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush
@@ -19,13 +20,13 @@ export class ChildrenStepComponent implements OnInit, AfterViewInit, StepBase {
   inquiryType = this.route.snapshot.data.resolved.inquiryType;
   config: ConfigsOfRoutingButtons;
 
-  constructor(private route: ActivatedRoute, private router: Router, private storageService: WizardStorageService, private actionsButtonsService: ActionsButtonsService) { }
+  constructor(private route: ActivatedRoute, private storageService: WizardStorageService, private actionsButtonsService: ActionsButtonsService) { }
 
   ngOnInit() {
     this.inquiry = this.storageService.get(this.inquiryType);
     this.config = new ConfigsOfRoutingButtons(ButtonsTitles.Next, ButtonsTitles.Back,
-      this.actionsButtonsService.primaryActionChildrenStep(this.editChildrenComponent, this.inquiryType, this.router, this.route),
-      this.actionsButtonsService.inverseActionChildrenStep(this.router)
+      this.actionsButtonsService.primaryActionChildrenStep(this.editChildrenComponent, this.inquiryType),
+      this.actionsButtonsService.inverseActionChildrenStep()
     );
   }
 

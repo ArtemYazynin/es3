@@ -10,6 +10,7 @@ import { StepBase, WizardStorageService } from '../shared/index';
 
 @Component({
   selector: 'app-applicant-step',
+  providers:[ActionsButtonsService],
   templateUrl: './applicant-step.component.html',
   styleUrls: ['./applicant-step.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush

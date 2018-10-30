@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { MatDialogRef } from '@angular/material';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BehaviorSubject, timer } from 'rxjs';
-import { InquiryService, inquiryType } from '.';
+import { InquiryService, inquiryType, DublicatesFinder, Parent } from '.';
 import { EditContactInfoDialogComponent } from '../modules/inquiry/edit-contact-info-dialog/edit-contact-info-dialog.component';
 import { EditCurrentEducationPlaceDialogComponent } from '../modules/inquiry/edit-current-education-place-dialog/edit-current-education-place-dialog.component';
 import { EditFileAttachmentsDialogComponent } from '../modules/inquiry/edit-file-attachments-dialog/edit-file-attachments-dialog.component';
@@ -23,69 +23,104 @@ import { ApplicantType } from './applicant-type.enum';
 import { EditSchoolInquiryInfoComponent } from './components/edit-school-inquiry-info/edit-school-inquiry-info.component';
 import { PrivilegeEditComponent } from './components/privilege-edit/privilege-edit.component';
 import { Inquiry } from './models/inquiry.model';
+import { EditCitizenshipsComponent } from '../modules/inquiry/shared/components/edit-citizenships/edit-citizenships.component';
+import { RelationTypeComponent } from './components/relation-type/relation-type.component';
 
 @Injectable()
 export class ActionsButtonsService {
+    constructor(private storageService: WizardStorageService, private inquiryService: InquiryService, private router: Router, private route: ActivatedRoute) { }
 
-    constructor(private storageService: WizardStorageService, private inquiryService: InquiryService) { }
-
-    primaryActionChildrenStep(editChildrenComponent: EditChildrenComponent, inquiryType: any, router: Router, route: ActivatedRoute) {
+    primaryActionChildrenStep(editChildrenComponent: EditChildrenComponent, inquiryType: any) {
         return () => {
             this.inquiryService.saveChildren(editChildrenComponent, (patch) => {
                 this.storageService.set(inquiryType, patch);
             })
-            router.navigate(["../currentEducationPlaceStep"], { relativeTo: route });
+            this.router.navigate(["../currentEducationPlaceStep"], { relativeTo: this.route });
         }
     }
-    inverseActionChildrenStep(router: Router) {
+    inverseActionChildrenStep() {
         return () => {
-            router.navigate(["/"]);
+            this.router.navigate(["/"]);
         }
     }
 
-    primaryActionApplicantTypeStep(inquiry: Inquiry, inquiryType: any, applicantType: ApplicantType, router: Router, route: ActivatedRoute) {
+    primaryActionApplicantTypeStep(inquiry: Inquiry, applicantType: ApplicantType, route: ActivatedRoute) {
         return () => {
             Object.assign(inquiry, { applicantType: applicantType });
+            const clearAddressInfo = () => {
+                if (inquiry.parent) {
+                    inquiry.parent.register = undefined;
+                    inquiry.parent.residential = undefined;
+                    inquiry.parent.tempRegistrationExpiredDate = undefined;
+                    inquiry.parent.registerAddressLikeAsResidentialAddress = undefined;
+                }
+            }
             switch (applicantType) {
                 case ApplicantType.Applicant:
-                    this.storageService.set(inquiryType, inquiry)
-                    router.navigate(["../applicantStep"], { relativeTo: route });
+                    clearAddressInfo();
+                    this.storageService.set(inquiry.type, inquiry)
+                    this.router.navigate(["../applicantStep"], { relativeTo: route });
                     break;
                 case ApplicantType.Parent:
                     inquiry.applicant = undefined;
-                    this.storageService.set(inquiryType, inquiry)
-                    router.navigate(["../parentStep"], { relativeTo: route });
+                    this.storageService.set(inquiry.type, inquiry)
+                    this.router.navigate(["../parentStep"], { relativeTo: route });
                     break;
                 case ApplicantType.Child:
                     inquiry.applicant = undefined;
                     inquiry.parent = undefined;
-                    this.storageService.set(inquiryType, inquiry);
-                    router.navigate(["../contactInfoStep"], { relativeTo: route });
+                    this.storageService.set(inquiry.type, inquiry);
+                    this.router.navigate(["../contactInfoStep"], { relativeTo: route });
                 default:
                     break;
             }
         }
     }
-    inverseActionApplicantTypeStep(router: Router, route: ActivatedRoute) {
+    inverseActionApplicantTypeStep(route: ActivatedRoute) {
         return () => {
-            router.navigate(["../currentEducationPlaceStep"], { relativeTo: route });
+            this.router.navigate(["../currentEducationPlaceStep"], { relativeTo: route });
         }
     }
 
-    primaryActionParentStep(editPersonComponent: EditPersonComponent, inquiry: Inquiry, inquiryType: any, router: Router, route: ActivatedRoute) {
+    primaryActionParentStep(editCitizenshipsComponent: EditCitizenshipsComponent, editPersonComponent: EditPersonComponent, relationTypeComponent: RelationTypeComponent, inquiry: Inquiry) {
         return () => {
-            this.inquiryService.saveParent(inquiry, editPersonComponent, (patch) => {
-                this.storageService.set(inquiryType, patch);
-            })
-            router.navigate(["../contactInfoStep"], { relativeTo: route });
+            const fullnameResult = editPersonComponent.fullnameComponent.getResult();
+            const parent = new Parent(fullnameResult.lastname, fullnameResult.firstname, fullnameResult.middlename, editPersonComponent.snilsComponent.snils,
+                fullnameResult.noMiddlename, undefined, undefined, undefined);
+            parent.identityCard = editPersonComponent.identityCardComponent.getResult();
+
+            const citizenshipsWithAddresses = editCitizenshipsComponent.getResult();
+            parent.countryStateDocument = citizenshipsWithAddresses.document;
+            parent.citizenships = citizenshipsWithAddresses.citizenships;
+            parent.relationType = relationTypeComponent.owner.relationType;
+            parent.parentRepresentChildrenDocument = relationTypeComponent.editConfirmationDocumentComponent
+                ? relationTypeComponent.editConfirmationDocumentComponent.getResult()
+                : undefined;
+            Object.assign(parent, citizenshipsWithAddresses.addresses);
+            if (inquiry.applicantType == ApplicantType.Parent && DublicatesFinder.betweenParentChildren(parent, inquiry.children)) {
+                return;
+            } else if (inquiry.applicantType == ApplicantType.Applicant
+                && (DublicatesFinder.betweenApplicantParent(inquiry.applicant, parent)
+                    || DublicatesFinder.betweenApplicantChildren(inquiry.applicant, inquiry.children)
+                    || DublicatesFinder.betweenParentChildren(parent, inquiry.children))) {
+                return;
+            }
+            if (inquiry.parent) {
+                Object.assign(inquiry.parent, parent);
+            } else {
+                inquiry.parent = parent;
+            }
+
+            this.storageService.set(inquiry.type, inquiry);
+            this.router.navigate(["../contactInfoStep"], { relativeTo: this.route });
         }
     }
-    inverseActionParentStep(inquiry: Inquiry, router: Router, route: ActivatedRoute) {
+    inverseActionParentStep(applicantType: ApplicantType) {
         return () => {
-            if (inquiry.applicantType == ApplicantType.Applicant) {
-                router.navigate(["../applicantStep"], { relativeTo: route });
+            if (applicantType == ApplicantType.Applicant) {
+                this.router.navigate(["../applicantStep"], { relativeTo: this.route });
             } else {
-                router.navigate(["../applicantTypeStep"], { relativeTo: route });
+                this.router.navigate(["../applicantTypeStep"], { relativeTo: this.route });
             }
         }
     }
@@ -103,25 +138,6 @@ export class ActionsButtonsService {
     inverseActionCurrentEducationPlaceStep(router: Router, route: ActivatedRoute) {
         return () => {
             router.navigate(["../childrenStep"], { relativeTo: route });
-        }
-    }
-
-    primaryActionApplicantStep(editPersonComponent: EditPersonComponent, inquiry: Inquiry, inquiryType: any, router: Router, route: ActivatedRoute) {
-        return () => {
-            // this.inquiryService.saveApplicant(inquiry, editPersonComponent, (patch) => {
-            //     this.storageService.set(inquiryType, patch);
-            // });
-
-            if (inquiry.applicantType == ApplicantType.Parent) {
-                router.navigate(["../contactInfoStep"], { relativeTo: route });
-            } else {
-                router.navigate(["../parentStep"], { relativeTo: route });
-            }
-        }
-    }
-    inverseActionApplicantStep(router: Router, route: ActivatedRoute) {
-        return () => {
-            router.navigate(["../applicantTypeStep"], { relativeTo: route });
         }
     }
 
