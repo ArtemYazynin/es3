@@ -1,0 +1,313 @@
+{
+    "menu": {
+        "reports": "Отчеты",
+        "directories": "Справочники",
+        "registries": "Реестры",
+        "settings": "Настройки",
+        "or": "или",
+        "placeholders": {
+            "placeholder_municipalities": "Муниципалитеты",
+            "placeholder_fio": "ФИО"
+        },
+        "post_inquiries": {
+            "post_inquiry_preschool": "Регистрация заявления в ДОО",
+            "post_inquiry_school": "Регистрация заявления в ООО",
+            "post_inquiry_holidays": "Регистрация заявления на отдых в каникулярное время"
+        }
+    },
+    "inquiry": {
+        "shared": {
+            "componenets": {
+                "children": {
+                    "additional_Information": "Дополнительная информация",
+                    "children-more-one": "Внимание! Дата рождения, место рождения, гражданство и специализация по здоровью одинаковы для всех детей"
+                },
+                "contact_info": {
+                    "by_email": "По электронной почте",
+                    "by_sms": "По смс",
+                    "dont_notify": "Не оповещать",
+                    "email": "Email",
+                    "sms_phone": "Номер для смс",
+                    "phones": "Телефон(ы)",
+                    "validationMessages": {
+                        "byEmail": {
+                            "required": "Не выбран тип оповещения."
+                        },
+                        "bySms": {
+                            "required": "Не выбран тип оповещения."
+                        },
+                        "email": {
+                            "required": "Обязательное поле.",
+                            "email": "Введите адрес в формате mail@mail.ru"
+                        },
+                        "smsPhone": {
+                            "required": "Обязательное поле.",
+                            "pattern": "Введите номер в формате +9 999 999 99 99"
+                        },
+                        "phones": {
+                            "pattern": "Введите телефон(ы) через запятую в формате 10 цифр без пробелов и иных символов.",
+                            "maxlength": "Максимальная длина - 250 символов."
+                        }
+                    }
+                },
+                "current_place": {
+                    "no_select": "Не выбрано",
+                    "municipality": "Муниципалитет",
+                    "type_institution": "Тип образовательной организации",
+                    "institution": "Образовательная организация",
+                    "group_class": "Группа/Класс",
+                    "no_institution": "Нужной образовательной организации нет в списке",
+                    "placeholder_title_inst": "Название организации"
+                },
+                "file_attachments": {
+                    "necessary_copies_documents": "Необходимо прикрепить копии документов: <p>- Документ, удостоверяющий личность заявителя;</p> <p>- Документ, удостоверяющий личность законного представителя ребёнка (если заявитель не является законным представителем ребёнка); </p><p>- Документ, подтверждающий полномочие заявителя представлять интересы законного представителя (если заявитель не является законным представителем ребёнка);</p><p>- Документ, подтверждающий полномочие законного представителя представлять интересы ребёнка (если законный представитель является опекуном ребёнка или усыновителем и т.п.);</p><p>- Документ, подтверждающий право пребывания заявителя на территории РФ (при наличии у заявителя иностранного гражданства). </p><p>- Свидетельство о рождении ребенка;</p><p>- Регистрация ребёнка по месту проживания;</p><p>- Документ, подтверждающий наличие льготы на внеочередное или первоочередное зачисление ребенка в ДОО (при наличиильготы);</p><p>- Документ, подтверждающий потребность предоставления ребенку места в группе с ОВЗ (при наличии потребности).</p>",
+                    "file": "Файл",
+                    "select": "Выберите файл",
+                    "remove": "Удалить",
+                    "description": "Описание",
+                    "have_digital_signature": "Документы подписаны электронной подписью",
+                    "size_file_more_five": "Размер одного файла не должен превышать 5мб.",
+                    "add": "Добавить"
+                },
+                "institutions": {
+                    "is_learn_educ_center": "Учился в центре образования(ЦО)",
+                    "institution": "Образовательная организация",
+                    "class": "Класс",
+                    "max_count_wish_institutions": "Максимальное количество желаемых ОО",
+                    "default": "Не выбран"
+                },
+                "person": {
+                    "countryStateDocumentContextParent": "Документ, подтверждающий право пребывания законного представителя на территории РФ",
+                    "countryStateDocumentContextParentApplicant": "Документ, подтверждающий право пребывания доверенного лица законного представителя на территории РФ",
+                    "parentRepresentChildrenDocumentContext": "Документ, подтверждающий право законного представителя представлять интересы ребенка",
+                    "applicantRepresentParentDocumentContext": "Документ, подтверждающий полномочие доверенного лица представлять интересы законного представителя ребенка"
+                },
+                "inquiry-common-info": {
+                    "number": "Номер",
+                    "registerDateTime": "Зарегистрировано",
+                    "registerSource": "Источник регистрации",
+                    "portalIdentity": "Внешний идентификатор",
+                    "elkIdentity": "Идентификатор в ЕЛК",
+                    "rlddIdentity": "Идентификатор в РЛДД",
+                    "status": "Статус"
+                }
+            }
+        }
+    },
+    "wizard_steps": {
+        "application_step": {
+            "title": "Доверенное лицо законного представителя ребенка"
+        },
+        "application_type": {
+            "title": "Тип заявителя",
+            "parent": "Законный представитель ребенка",
+            "applicant": "Доверенное лицо законного представителя ребенка",
+            "child": "Ребенок-заявитель"
+        },
+        "children_step": {
+            "title": "Ребёнок (дети)"
+        },
+        "current_education_place_step": {
+            "title": "Текущее место обучения ребенка"
+        },
+        "file_attachment_step": {
+            "title": "Копии документов"
+        },
+        "institutions_step": {
+            "title": "Выбор ОО"
+        },
+        "parent_step": {
+            "title": "Законный представитель",
+            "agree": "Заявителем дано согласие на обработку персональных данных",
+            "print": "Печать согласия на обработку персональных данных"
+        },
+        "preview_step": {
+            "title": "Предпросмотр заявления",
+            "adult-card-applicant": "Доверенное лицо законного представителя ребенка",
+            "adult-card-parent": "Законный представитель"
+        },
+        "privilege_step": {
+            "title": "Льготная категория"
+        },
+        "register-complete_step": {
+            "title": "Регистрация заявления",
+            "complete": "Заявление успешно зарегистрировано под номером "
+        },
+        "school-inquiry-info_step": {
+            "title": "Параметры заявления"
+        }
+    },
+    "shared": {
+        "address": {
+            "choose_address": "Изменить",
+            "rf_citizen_addresses": {
+                "registration_address": {
+                    "title": "Адрес регистрации",
+                    "temporary_registration": "Является адресом временной регистрации",
+                    "registerAddressLikeAsResidentialAddress": "Адрес регистрации совпадает с адресом проживания"
+                },
+                "residential_address": {
+                    "title": "Адрес проживания"
+                }
+            },
+            "foreign_citizen_addresses": {
+                "title": "Адрес",
+                "label": "Адрес регистрации по месту пребывания/жительства",
+                "alert_info": "Является временным адресом",
+                "placeholder": "Действителен до",
+                "choose_address": "Изменить"
+            },
+            "edit": {
+                "accept": "Принять",
+                "cancel": "Отмена",
+                "no_select": "Не выбрано",
+                "custom": "Ручной ввод",
+                "select": "Выбор",
+                "region": "Область",
+                "region_child_type": "Тип",
+                "region_child_types": {
+                    "city": "Город",
+                    "district": "Район"
+                },
+                "street": "Улица",
+                "building": "Дом",
+                "flat": "Квартира",
+                "additional_info": "Доп. информация"
+            }
+        },
+        "adult-card": {
+            "citizenships": "Гражданство ",
+            "relationType": "Родственная связь ",
+            "addressRegister": "Адрес регистрации ",
+            "addressResidential": "Адрес проживания ",
+            "countryStateParentDocument": "Документ, подтверждающий право пребывания законного представителя на территории РФ",
+            "parentRepresentChildrenDocument": "Документ, подтверждающий право законного представителя представлять интересы ребенка",
+            "countryStateApplicantDocument": "Документ, подтверждающий право пребывания доверенного лица законного представителя на территории РФ",
+            "applicantRepresentParentDocument": "Документ, подтверждающий полномочие доверенного лица представлять интересы законного представителя"
+        },
+        "age-group": {
+            "title": "Возрастная группа",
+            "message": "Выберите хотя бы 1 возрастную группу",
+            "items": {
+                "IsSearchYoungerAge": "Младшая возрастная группа",
+                "IsSearchSelfAge": "Своя возрастная группа",
+                "IsSearchOlderAge": "Старшая возрастная группа"
+            }
+        },
+        "birth_info": {
+            "placeholders": {
+                "birthDate": "Дата рождения",
+                "birthPlace": "Место рождения"
+            }
+        },
+        "child": {
+            "placeholders": {
+                "birthDate": "Дата рождения",
+                "birthPlace": "Место рождения"
+            }
+        },
+        "children-card": {
+            "gender": "Пол ",
+            "male": "Мужской",
+            "female": "Женский",
+            "birthDate": "Дата рождения ",
+            "birthPlace": "Место рождения ",
+            "specHealth": "Спец. по здоровью ",
+            "citizenships": "Гражданство ",
+            "register": "Адрес регистрации ",
+            "residential": "Адрес проживания "
+        },
+        "citizenship": {
+            "title": "Гражданство",
+            "no_select": "Не выбрано"
+        },
+        "confirm-dialog": {
+            "title": "Заявление успешно зарегистрировано под номером ",
+            "no_select": "Не выбрано"
+        },
+        "confirmation-document": {
+            "name": "Название документа",
+            "series": "Серия документа",
+            "number": "Номер документа",
+            "date_issue": "Дата выдачи",
+            "date_expired": "Действительно до"
+        },
+        "contact-info-card": {
+            "title": "Контактная информация",
+            "email": "Email ",
+            "smsPhone": "Номер для смс ",
+            "phones": "Телефон(ы) ",
+            "dontNotify": "Не оповещать"
+        },
+        "fullname": {
+            "title": "ФИО",
+            "genders": {
+                "title": "Пол",
+                "male": "Мужской",
+                "female": "Женский"
+            },
+            "placeholders": {
+                "secondname": "Фамилия",
+                "firstname": "Имя",
+                "middlename": "Отчество",
+                "snils": "СНИЛС"
+            },
+            "no_middlename": "Нет отчества"
+        },
+        "identity_card": {
+            "title": "Удостоверение личности",
+            "type_card": "Тип документа",
+            "types_card": {
+                "inn": "ИНН",
+                "other_document": "Другой документ, удостоверяющий личность",
+                "birth_certificate": "Свидетельство о рождении РФ",
+                "passport_rf": "Паспорт РФ",
+                "internat_passport": "Загранпаспорт гражданина РФ",
+                "officer_card": "Удостоверение офицера",
+                "military_card": "Военный билет",
+                "temporary_military_card": "Временное удостоверение, выданное взамен военного билета",
+                "temporary_identity_card": "Временное удостоверение личности гражданина РФ",
+                "passport_of_foreign_country": "Иностранный паспорт",
+                "identity_card_of_stateless_person": "Удостоверение личности лица без гражданства в РФ",
+                "identity_card_of_certain_categories_of_persons": "Удостоверение личности отдельных категорий лиц, находящихся на территории РФ,подавших заявление о признании гражданами РФ или о приеме в гражданство РФ",
+                "refugee_certificate": "Удостоверение беженца",
+                "identity_card_of_person_applying_for_recognition_as_refugee": "Удостоверение личности лица, ходатайствующего о признании беженцем на территории РФ",
+                "identity_card_of_person_who_received_temporary_refuge": "Удостоверение личности лица, получившего временное убежище на территории РФ",
+                "residence_permit": "Вид на жительство.",
+                "permit_for_temporary_residence": "Разрешение на временное проживание в РФ",
+                "certificate_of_consideration_petition": "Свидетельство о рассмотрении ходатайства о признании лица беженцем на территории РФ по существу",
+                "certificate_of_temporary_refuge": "Свидетельство о предоставлении временного убежища на территории Российской Федерации",
+                "birth_certificate_foreign_country": "Свидетельство о рождении, выданное уполномоченным органом иностранного государства"
+            },
+            "placeholders": {
+                "series": "Серия",
+                "number": "Номер",
+                "issued_by": "Выдан",
+                "date_of_issue": "Дата выдачи",
+                "current_date": "Действительно до",
+                "department_code": "Код подразделения",
+                "act_record_number": "Номер актовой записи",
+                "act_record_date": "Дата создания актовой записи",
+                "act_record_place": "Место гос регистрации (отдел ЗАГС)"
+            }
+        },
+        "spec_health": {
+            "birthDate": "Наличие ОВЗ",
+            "spec_healths": {
+                "no_spec": "Без ограничений",
+                "speech_underdevel": "Общее недоразвитие речи (ОНР)",
+                "disruption_of_vision": "Нарушение зрения",
+                "disruption_of_brain": "Нарушения интеллекта"
+            }
+        },
+        "relation_type": {
+            "placeholder": "Родственная связь",
+            "types": {
+                "father": "Отец",
+                "mother": "Мать",
+                "guardian": "Опекун",
+                "legal_representative": "Законный представитель"
+            }
+        }
+    }
+}
