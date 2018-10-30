@@ -1,18 +1,18 @@
 import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Observable, Subject, timer, zip } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { map, takeUntil } from 'rxjs/operators';
 import { isNullOrUndefined } from 'util';
-import { ButtonsTitles, CitizenshipService, ConfigsOfRoutingButtons, Country, DrawService, Entity, Group, Inquiry, InquiryService, inquiryType, SpecHealth, SpecHealthService, ConfirmationDocumentMode, ApplicantType } from '../../../shared';
+import { ApplicantType, ButtonsTitles, CitizenshipService, ConfigsOfRoutingButtons, ConfirmationDocumentMode, Country, DrawService, Entity, Group, Inquiry, InquiryService, inquiryType, SpecHealth, SpecHealthService } from '../../../shared';
 import { ActionsButtonsService } from '../../../shared/actions-buttons.service';
-import { StepBase, WizardStorageService } from '../shared';
-import { Guid } from '../../../shared/models/guid';
 import { ConfirmationDocumentService } from '../../../shared/confirmation-document.service';
 import { PersonType } from '../../../shared/person-type.enum';
+import { StepBase, WizardStorageService } from '../shared';
 
 @Component({
   selector: 'app-preview-step',
+  providers:[ActionsButtonsService],
   templateUrl: './preview-step.component.html',
   styleUrls: ['./preview-step.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush
@@ -21,7 +21,7 @@ export class PreviewStepComponent implements OnInit, OnDestroy, StepBase {
 
   constructor(private router: Router, private route: ActivatedRoute, private citizenshipService: CitizenshipService,
     private storageService: WizardStorageService, public drawService: DrawService, private specHealthService: SpecHealthService,
-    private inquiryService: InquiryService, public dialog: MatDialog, private confirmationDocumentService: ConfirmationDocumentService, private actionsButtonsService: ActionsButtonsService) { }
+    public dialog: MatDialog, private actionsButtonsService: ActionsButtonsService) { }
 
   private ngUnsubscribe: Subject<any> = new Subject();
   modes = ConfirmationDocumentMode;
