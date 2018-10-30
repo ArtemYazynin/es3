@@ -1,14 +1,14 @@
 import { DatePipe } from "@angular/common";
+import { Entity } from "./entity.model";
 
-export class ConfirmationDocument {
-  public name: string;
+export class ConfirmationDocument extends Entity<string>{
   public series: string;
   public number: string;
   public dateIssue: Date;
   public dateExpired: Date
 
-  constructor(name: string, series: string, number: string, dateIssue: Date, dateExpired: Date) {
-    this.name = name;
+  constructor(name: string, series: string, number: string, dateIssue: Date, dateExpired: Date, id?: string) {
+    super(id || "", name)
     this.series = series;
     this.number = number;
     this.dateIssue = dateIssue;
@@ -37,15 +37,15 @@ export class ConfirmationDocument {
     }
   }
 
-  static toString(document:ConfirmationDocument): string {
-    if(!document) return "-";
+  static toString(document: ConfirmationDocument): string {
+    if (!document) return "-";
     let pipe = new DatePipe('en-US');
     let result = "";
     result += document.name ? `${document.name}; ` : "";
     result += document.series ? `${document.series}; ` : "";
     result += document.number ? `${document.number}; ` : "";
-    result += document.dateIssue ? `Дата выдачи: ${pipe.transform(document.dateIssue,"dd.MM.yyyy")} ` : "";
-    result += document.dateExpired ? `Действителен до: ${pipe.transform(document.dateExpired,"dd.MM.yyyy")} ` : "";
+    result += document.dateIssue ? `Дата выдачи: ${pipe.transform(document.dateIssue, "dd.MM.yyyy")} ` : "";
+    result += document.dateExpired ? `Действителен до: ${pipe.transform(document.dateExpired, "dd.MM.yyyy")} ` : "";
     return result;
   }
 }

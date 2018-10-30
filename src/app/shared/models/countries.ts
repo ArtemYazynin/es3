@@ -34,10 +34,6 @@ export const Countries = [
     {
         "id": 12,
         "name": "Алжир"
-
-
-
-
     },
     {
         "id": 16,

@@ -13,6 +13,8 @@ import { HttpInterceptor } from './shared/http-interceptor';
 import { RegisterCompleteResolver } from './shared/register-complete-resolver';
 import { ScopeSelectorComponent } from './scope-selector/scope-selector.component';
 import { MenuComponent } from './menu/menu.component';
+import { InMemoryService } from './in-memory-server';
+import { InMemoryWebApiModule } from 'angular-in-memory-web-api/in-memory-web-api.module';
 
 export const esConstant = new InjectionToken<{ fileNotChoosen: string }>("esConstant");
 export const SERVER_URL = new InjectionToken<string>("SERVER_URL");
@@ -29,7 +31,7 @@ const constants = {
     BrowserAnimationsModule,
     MyDatePickerModule,
     JsonpModule,
-
+    
   ],
   exports: [],
   providers: [

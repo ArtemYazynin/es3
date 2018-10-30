@@ -5,7 +5,8 @@ import { PersonWithAddress } from "./person-with-address.model";
 import { Person } from "./person.model";
 import { RelationType } from "./relation-type.model";
 
-export class Parent extends Person implements PersonWithAddress {
+export class Parent extends Person implements PersonWithAddress{
+    
     citizenships: Array<number>;
     countryStateDocument: ConfirmationDocument
 

@@ -1,8 +1,8 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ActionsButtonsService } from '../../../shared/actions-buttons.service';
 import { ApplicantType, ButtonsTitles, ConfigsOfRoutingButtons, Inquiry, inquiryType } from '../../../shared/index';
 import { StepBase, WizardStorageService } from '../shared/index';
+import { ActionsButtonsService } from '../../../shared/actions-buttons.service';
 
 @Component({
   selector: 'app-applicant-type-step',
@@ -18,8 +18,9 @@ export class ApplicantTypeStepComponent implements OnInit, StepBase {
   applicantTypes: Array<ApplicantType> = [];
   config: ConfigsOfRoutingButtons;
 
-  constructor(private storageService: WizardStorageService, private router: Router, private route: ActivatedRoute,
-    private actionsButtonsService: ActionsButtonsService) { }
+  constructor(private storageService: WizardStorageService, private actionButtonService: ActionsButtonsService,
+    private router: Router,
+    private route: ActivatedRoute) { }
 
   ngOnInit() {
     this.inquiry = this.storageService.get(this.inquiryType);
@@ -33,9 +34,10 @@ export class ApplicantTypeStepComponent implements OnInit, StepBase {
       }
       return types;
     })();
+    this.applicantType = this.inquiry.applicantType || this.applicantTypes[0];
     this.config = new ConfigsOfRoutingButtons(ButtonsTitles.Next, ButtonsTitles.Back,
-      this.actionsButtonsService.primaryActionApplicantTypeStep(this.inquiry, this.inquiryType, this.applicantType, this.router, this.route),
-      this.actionsButtonsService.inverseActionApplicantTypeStep(this.router, this.route)
+      this.actionButtonService.primaryActionApplicantTypeStep(this.inquiry,this.applicantType,this.route),
+      this.actionButtonService.inverseActionApplicantTypeStep(this.route)
     );
   }
 }

@@ -1,0 +1,17 @@
+<div *ngIf="visibility">
+  <div class="widget-box">
+    <div class="widget-title">
+      <h5>Льготная категория</h5>
+    </div>
+    <div class="widget-content">
+      <div class="form-group">
+        <b>Приоритет льготной категории</b> {{privilege.privilegeOrder.name}}
+      </div>
+      <div class="form-group">
+        <b>Льготная категория</b> {{privilege.name}}
+      </div>
+      <app-confirmation-document-card title="Документ, подтверждающий наличие льготной категории" [model]="privilege.privilegeProofDocument" [mode]="mode.Read">
+      </app-confirmation-document-card>
+    </div>
+  </div>
+</div>

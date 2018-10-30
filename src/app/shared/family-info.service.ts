@@ -7,7 +7,7 @@ import { FamilyInfo } from './models/family-info.model';
 
 @Injectable()
 export class FamilyInfoService {
-  private baseUrl = `app/familiesInfos`;
+  private baseUrl = `${this.serverUrl}/familiesInfos`;
 
   constructor(private http: Http, @Inject(SERVER_URL) private serverUrl) { }
 

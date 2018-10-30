@@ -1,0 +1,17 @@
+<ng-container>
+  <app-citizenship-select [citizenships]="model?.citizenships">
+  </app-citizenship-select>
+  <div *ngIf="isAvailable.addresses()">
+    <div *ngIf="isAvailable.hasRfCitizenship()">
+      <app-rf-citizens-addresses [owner]="model">
+      </app-rf-citizens-addresses>
+    </div>
+    <div *ngIf="!isAvailable.hasRfCitizenship()">
+      <app-foreign-citizens-addresses [owner]="model">
+      </app-foreign-citizens-addresses>
+    </div>
+  </div>
+  <ng-container *ngIf="isAvailable.hasCitizenships() && !isAvailable.hasRfCitizenship() && personType !== personTypes.Child">
+    <app-edit-confirmation-document [title]="documentConfig.title" [type]="documentConfig.type" [model]="documentConfig.model"> </app-edit-confirmation-document>
+  </ng-container>
+</ng-container>

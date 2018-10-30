@@ -4,7 +4,6 @@ import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { NgSelectModule } from "@ng-select/ng-select";
 import { TextMaskModule } from "angular2-text-mask";
 import { MaterialModule } from "./material.module";
-import { EditChildrenComponent } from "./modules/inquiry/shared/components/edit-children/edit-children.component";
 import { EditContactInfoComponent } from "./modules/inquiry/shared/components/edit-contact-info/edit-contact-info.component";
 import { EditCurrentEducationPlaceComponent } from "./modules/inquiry/shared/components/edit-current-education-place/edit-current-education-place.component";
 import { EditFileAttachmentsComponent } from "./modules/inquiry/shared/components/edit-file-attachments/edit-file-attachments.component";
@@ -23,65 +22,64 @@ import { AtLeastOneCheckboxShouldBeSelectedComponent } from "./shared/components
 import { BirthInfoComponent } from "./shared/components/birth-info/birth-info.component";
 import { ChildrenCardComponent } from './shared/components/children-card/children-card.component';
 import { CitizenshipSelectComponent } from "./shared/components/citizenship-select/citizenship-select.component";
-import { ConfirmationDocumentViewComponent } from "./shared/components/confirmation-document-view/confirmation-document-view.component";
-import { ConfirmationDocumentComponent } from "./shared/components/confirmation-document/confirmation-document.component";
+import { ConfirmationDocumentCardComponent } from "./shared/components/confirmation-document-card/confirmation-document-card.component";
 import { ContactInfoCardComponent } from './shared/components/contact-info-card/contact-info-card.component';
 import { CurrentEducationPlaceCardComponent } from "./shared/components/current-education-place-card/current-education-place-card.component";
-import { DisabilityChildComponent } from "./shared/components/disability-child/disability-child.component";
 import { DistributionParamsComponent } from "./shared/components/distribution-params/distribution-params.component";
+import { EditConfirmationDocumentComponent } from "./shared/components/edit-confirmation-document/edit-confirmation-document.component";
 import { EditSchoolInquiryInfoComponent } from './shared/components/edit-school-inquiry-info/edit-school-inquiry-info.component';
-import { FilesCardComponent } from "./shared/components/files-card/files-card.component";
 import { ForeignCitizensAddressesComponent } from "./shared/components/foreign-citizens-addresses/foreign-citizens-addresses.component";
 import { FullNameComponent } from "./shared/components/full-name/full-name.component";
 import { GenderComponent } from "./shared/components/gender/gender.component";
 import { IdentityCardComponent } from "./shared/components/identity-card/identity-card.component";
 import { InstitutionsCardComponent } from "./shared/components/institutions-card/institutions-card.component";
-import { PersonViewComponent } from "./shared/components/person-view/person-view.component";
 import { PreschoolInquiryInfoCardComponent } from "./shared/components/preschool-inquiry-info-card/preschool-inquiry-info-card.component";
-import { PrivilegeCardComponent } from "./shared/components/privilege-card/privilege-card.component";
 import { PrivilegeEditComponent } from "./shared/components/privilege-edit/privilege-edit.component";
 import { RelationTypeComponent } from "./shared/components/relation-type/relation-type.component";
 import { RfCitizensAddressesComponent } from "./shared/components/rf-citizens-addresses/rf-citizens-addresses.component";
 import { SchoolClassCardComponent } from "./shared/components/school-classes-card/school-classes-card.component";
 import { SchoolInquiryInfoCardComponent } from "./shared/components/school-inquiry-info-card/school-inquiry-info-card.component";
 import { SnilsComponent } from "./shared/components/snils/snils.component";
-import { SpecHealthComponent } from "./shared/components/spec-health/spec-health.component";
 import { StayModeComponent } from "./shared/components/stay-mode/stay-mode.component";
 import { InquiryTypeFriendlyNamePipe } from './shared/inquiry-type.pipe';
+import { EditConfirmationDocumentDialogComponent } from "./modules/inquiry/edit-confirmation-document-dialog/edit-confirmation-document-dialog.component";
+import { ConfirmationDocumentService } from "./shared/confirmation-document.service";
+import { PersonService } from "./shared/person.service";
+import { EditChildrenComponent } from "./modules/inquiry/shared/components/edit-children/edit-children.component";
+import { DisabilityChildComponent } from "./shared/components/disability-child/disability-child.component";
+import { SpecHealthComponent } from "./shared/components/spec-health/spec-health.component";
+import { PrivilegeCardComponent } from "./shared/components/privilege-card/privilege-card.component";
+import { FilesCardComponent } from "./shared/components/files-card/files-card.component";
 import { YesNoPipe } from "./shared/yes-no.pipe";
-import { ChildComponent } from "./shared/components/child/child.component";
-import { PetitionCardComponent } from './shared/components/petition-card/petition-card.component';
+import { PersonCardComponent } from "./shared/components/person-card/person-card.component";
 import { RoutingButtonsComponent } from "./shared/components/routing-buttons/routing-buttons.component";
 import { PetitionTypePipe } from './shared/petition-type.pipe';
 import { FamilyInfoService } from "./shared/family-info.service";
+import { EditCitizenshipsDialogComponent } from "./modules/inquiry/edit-citizenships-dialog/edit-citizenships-dialog.component";
+import { EditCitizenshipsComponent } from './modules/inquiry/shared/components/edit-citizenships/edit-citizenships.component';
+import { CitizenshipsCardComponent } from "./shared/components/citizenships-card/citizenships-card.component";
+import { RelationTypeCardComponent } from './shared/components/relation-type-card/relation-type-card.component';
 
 
 
 @NgModule({
     declarations: [
-        PrivilegeEditComponent, ConfirmationDocumentComponent, ApplicantTypePipe, AttachmentTypePipe, InquiryTypeFriendlyNamePipe, FullNameComponent, GenderComponent,
+        PrivilegeEditComponent, EditConfirmationDocumentComponent, ApplicantTypePipe, AttachmentTypePipe, InquiryTypeFriendlyNamePipe, FullNameComponent, GenderComponent,
         SnilsComponent, IdentityCardComponent, CitizenshipSelectComponent, RfCitizensAddressesComponent, AddressComponent, ForeignCitizensAddressesComponent,
         BirthInfoComponent, RelationTypeComponent, EditPersonComponent, EditInquiryInfoComponent, AtLeastOneCheckboxShouldBeSelectedComponent, EditInstitutionsComponent,
 
         InquiryInfoEditComponent, DistributionParamsComponent, StayModeComponent, AgeGroupComponent, //inquiryInfo params
-        EditChildrenComponent, EditContactInfoComponent, EditCurrentEducationPlaceComponent, EditFileAttachmentsComponent, AreaTypePipe, EditSchoolInquiryInfoComponent, SchoolInquiryInfoCardComponent,
-        DisabilityChildComponent, SpecHealthComponent,
-        PersonViewComponent, ConfirmationDocumentViewComponent, AdultCardComponent, ChildrenCardComponent,
+        EditContactInfoComponent, EditCurrentEducationPlaceComponent, EditFileAttachmentsComponent, AreaTypePipe, EditSchoolInquiryInfoComponent, SchoolInquiryInfoCardComponent,
+        PersonCardComponent, ConfirmationDocumentCardComponent, AdultCardComponent, ChildrenCardComponent,
         PreschoolInquiryInfoCardComponent,
         ContactInfoCardComponent,
-        InstitutionsCardComponent,
-        SchoolClassCardComponent,
-        CurrentEducationPlaceCardComponent,
-        PrivilegeCardComponent,
-        FilesCardComponent,
-        ChildComponent,
-        RoutingButtonsComponent,
+        InstitutionsCardComponent, SpecHealthComponent,
+        SchoolClassCardComponent, EditChildrenComponent,
+        CurrentEducationPlaceCardComponent, EditConfirmationDocumentDialogComponent,
+        DisabilityChildComponent, PrivilegeCardComponent,
+        FilesCardComponent, YesNoPipe, CitizenshipsCardComponent,
+        RoutingButtonsComponent, EditCitizenshipsDialogComponent, EditCitizenshipsComponent, RelationTypeCardComponent
 
-        YesNoPipe,
-
-        PetitionCardComponent,
-
-        PetitionTypePipe
     ],
     imports: [
         CommonModule,
@@ -89,23 +87,24 @@ import { FamilyInfoService } from "./shared/family-info.service";
         FormsModule,
         ReactiveFormsModule,
         TextMaskModule,
-        NgSelectModule
+        NgSelectModule,
+
     ],
     exports: [
-        PrivilegeEditComponent, ConfirmationDocumentComponent, ApplicantTypePipe, AttachmentTypePipe, InquiryTypeFriendlyNamePipe, FullNameComponent, GenderComponent,
+        PrivilegeEditComponent, EditConfirmationDocumentComponent, ApplicantTypePipe, AttachmentTypePipe, InquiryTypeFriendlyNamePipe, FullNameComponent, GenderComponent,
         SnilsComponent, IdentityCardComponent, CitizenshipSelectComponent, RfCitizensAddressesComponent, AddressComponent, ForeignCitizensAddressesComponent,
         BirthInfoComponent, RelationTypeComponent, EditPersonComponent, EditInquiryInfoComponent, DistributionParamsComponent, StayModeComponent, AgeGroupComponent,
         InquiryInfoEditComponent, AtLeastOneCheckboxShouldBeSelectedComponent, EditInstitutionsComponent, EditContactInfoComponent, EditCurrentEducationPlaceComponent,
         EditFileAttachmentsComponent, EditSchoolInquiryInfoComponent, SchoolInquiryInfoCardComponent, PreschoolInquiryInfoCardComponent,
-        PersonViewComponent, ConfirmationDocumentViewComponent, AdultCardComponent, ChildrenCardComponent, ContactInfoCardComponent, InstitutionsCardComponent, SchoolClassCardComponent, CurrentEducationPlaceCardComponent,
-        PrivilegeCardComponent, FilesCardComponent, EditChildrenComponent, DisabilityChildComponent, SpecHealthComponent,
-        ChildComponent, PetitionCardComponent, PetitionTypePipe, RoutingButtonsComponent
+        PersonCardComponent, ConfirmationDocumentCardComponent, AdultCardComponent, ChildrenCardComponent, ContactInfoCardComponent, SpecHealthComponent,
+        InstitutionsCardComponent, SchoolClassCardComponent, CurrentEducationPlaceCardComponent, DisabilityChildComponent, EditChildrenComponent,
+        PrivilegeCardComponent, FilesCardComponent, YesNoPipe, RoutingButtonsComponent, EditCitizenshipsComponent, CitizenshipsCardComponent, RelationTypeCardComponent
     ],
     providers: [
-        SpecializationService, FamilyInfoService,
-        EducProgramService
+        SpecializationService, ConfirmationDocumentService, FamilyInfoService,
+        EducProgramService, PersonService
     ],
-    entryComponents: [ChildComponent]
+    entryComponents: [EditConfirmationDocumentDialogComponent, EditCitizenshipsDialogComponent]
 })
 export class ShareModule {
 

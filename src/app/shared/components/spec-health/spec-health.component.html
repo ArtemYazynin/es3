@@ -8,9 +8,9 @@
 <div class="row" *ngIf="specHealth != 101">
   <div *ngFor="let childComponent of childrenComponents">
     <div class="col-md-12" [hidden]="!(childComponent.instance.show | async)">
-      <app-confirmation-document type="attachmentType.SpecHealthDocument" title="Документ, подтверждающий потребность в группе с ОВЗ"
+      <app-edit-confirmation-document type="attachmentType.SpecHealthDocument" title="Документ, подтверждающий потребность в группе с ОВЗ"
         [model]="childComponent.instance.child?.specHealthDocument">
-      </app-confirmation-document>
+      </app-edit-confirmation-document>
     </div>
   </div>
 </div>

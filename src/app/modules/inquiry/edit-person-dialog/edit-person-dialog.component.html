@@ -1,17 +1,25 @@
-<div *ngIf="data.$inquiry | async as inquiry">
-  <ng-container *ngIf="data.modelType == applicantTypes.Parent">
+<div *ngIf="data.$person | async as pers">
+  <ng-container>
+    <h1 mat-dialog-title>Диалоговое окно</h1>
+    <div mat-dialog-content>
+      <app-edit-person [model]="pers" [personType]="data.personType"></app-edit-person>
+    </div>
+  </ng-container>
+  <!-- <ng-container *ngIf="data.modelType == applicantTypes.Parent">
     <h1 mat-dialog-title>Законный представитель</h1>
     <div mat-dialog-content>
-      <app-edit-person [model]="inquiry.parent" [modelType]="data.modelType" [applicantType]="inquiry.applicantType"></app-edit-person>
+      <app-edit-person [model]="inq.parent" [modelType]="data.modelType" [applicantType]="inq.applicantType"></app-edit-person>
     </div>
   </ng-container>
   <ng-container *ngIf="data.modelType == applicantTypes.Applicant">
     <h1 mat-dialog-title>Доверенное лицо законного представителя ребенка</h1>
     <div mat-dialog-content>
-      <app-edit-person [model]="inquiry.applicant" [modelType]="data.modelType" [applicantType]="inquiry.applicantType"></app-edit-person>
+      <app-edit-person [model]="inq.applicant" [modelType]="data.modelType" [applicantType]="inq.applicantType"></app-edit-person>
     </div>
-  </ng-container>
+  </ng-container> -->
   <mat-dialog-actions>
-    <app-routing-buttons [config]="config" [isValid]="editPersonComponent && editPersonComponent.isValid()"></app-routing-buttons>
+    <div class="col-md-12">
+      <app-routing-buttons [config]="config" [isValid]="editPersonComponent && editPersonComponent.isValid()"></app-routing-buttons>
+    </div>
   </mat-dialog-actions>
 </div>

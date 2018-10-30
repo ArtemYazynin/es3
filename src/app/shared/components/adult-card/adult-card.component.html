@@ -1,26 +1,18 @@
-<app-person-view [title]="title" [entity]="entity" [edit]="edit" *ngIf="entity">
-  <div class="form-group">
-    <b>Гражданство </b> {{drawService.citizenships(entity.citizenships, countries)}}
-  </div>
+<!-- <app-person-card [title]="title" [entity]="entity" [edit]="edit" *ngIf="entity">
+  <app-citizenships-card [model]="entity"></app-citizenships-card>
   <div class="form-group" *ngIf="entity.relationType">
     <b>Родственная связь </b>{{entity.relationType.name}}
   </div>
-  <div class="form-group" *ngIf="entity.register">
-    <b>Адрес регистрации </b> {{drawService.address(entity.register)}}
-  </div>
-  <div class="form-group" *ngIf="entity.residential">
-    <b>Адрес проживания </b> {{drawService.address(entity.residential)}}
-  </div>
-  <app-confirmation-document-view title="Документ, подтверждающий право пребывания законного представителя на территории РФ"
-    [document]="entity.countryStateDocument">
-  </app-confirmation-document-view>
-  <app-confirmation-document-view title="Документ, подтверждающий право законного представителя представлять интересы ребенка"
-    [document]="entity.parentRepresentChildrenDocument">
-  </app-confirmation-document-view>
-  <app-confirmation-document-view title="Документ, подтверждающий право пребывания доверенного лица законного представителя на территории РФ"
-    [document]="entity.countryStateApplicantDocument">
-  </app-confirmation-document-view>
-  <app-confirmation-document-view title="Документ, подтверждающий полномочие доверенного лица представлять интересы законного представителя"
-    [document]="entity.applicantRepresentParentDocument">
-  </app-confirmation-document-view>
-</app-person-view>
+  <app-confirmation-document-card title="Документ, подтверждающий право пребывания законного представителя на территории РФ"
+    [model]="entity.countryStateDocument" [mode]="mode">
+  </app-confirmation-document-card>
+  <app-confirmation-document-card title="Документ, подтверждающий право законного представителя представлять интересы ребенка"
+    [model]="entity.parentRepresentChildrenDocument" [mode]="mode">
+  </app-confirmation-document-card>
+  <app-confirmation-document-card title="Документ, подтверждающий право пребывания доверенного лица законного представителя на территории РФ"
+    [model]="entity.countryStateApplicantDocument" [mode]="mode">
+  </app-confirmation-document-card>
+  <app-confirmation-document-card title="Документ, подтверждающий полномочие доверенного лица представлять интересы законного представителя"
+    [model]="entity.applicantRepresentParentDocument" [mode]="mode">
+  </app-confirmation-document-card>
+</app-person-card> -->

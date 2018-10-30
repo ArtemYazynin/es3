@@ -4,12 +4,15 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Observable, Subject } from 'rxjs';
 import { map, takeUntil } from 'rxjs/operators';
 import { isNullOrUndefined } from 'util';
-import { ButtonsTitles, CitizenshipService, ConfigsOfRoutingButtons, Country, DrawService, Entity, Group, Inquiry, inquiryType, SpecHealth, SpecHealthService } from '../../../shared';
+import { ApplicantType, ButtonsTitles, CitizenshipService, ConfigsOfRoutingButtons, ConfirmationDocumentMode, Country, DrawService, Entity, Group, Inquiry, InquiryService, inquiryType, SpecHealth, SpecHealthService } from '../../../shared';
 import { ActionsButtonsService } from '../../../shared/actions-buttons.service';
+import { ConfirmationDocumentService } from '../../../shared/confirmation-document.service';
+import { PersonType } from '../../../shared/person-type.enum';
 import { StepBase, WizardStorageService } from '../shared';
 
 @Component({
   selector: 'app-preview-step',
+  providers:[ActionsButtonsService],
   templateUrl: './preview-step.component.html',
   styleUrls: ['./preview-step.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush
@@ -21,6 +24,8 @@ export class PreviewStepComponent implements OnInit, OnDestroy, StepBase {
     public dialog: MatDialog, private actionsButtonsService: ActionsButtonsService) { }
 
   private ngUnsubscribe: Subject<any> = new Subject();
+  modes = ConfirmationDocumentMode;
+  personTypes = PersonType;
   $group: Observable<Group>;
   $institutionType: Observable<Entity<number>>
   $specHealth: Observable<SpecHealth>
@@ -31,7 +36,9 @@ export class PreviewStepComponent implements OnInit, OnDestroy, StepBase {
 
   inquiry: Inquiry;
   inquiryTypes = inquiryType;
+  applicantTypes = ApplicantType;
   config: ConfigsOfRoutingButtons;
+    
 
   ngOnInit() {
     this.citizenshipService.getCountries()

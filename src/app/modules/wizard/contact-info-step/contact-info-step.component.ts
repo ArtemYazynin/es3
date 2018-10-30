@@ -1,9 +1,10 @@
 import { ChangeDetectionStrategy, Component, OnInit, ViewChild } from '@angular/core';
+import { FormBuilder } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ButtonsTitles, ConfigsOfRoutingButtons, Inquiry } from '../../../shared';
+import { ButtonsTitles, ConfigsOfRoutingButtons, Inquiry, InquiryService, inquiryType, FormService } from '../../../shared';
 import { ActionsButtonsService } from '../../../shared/actions-buttons.service';
 import { EditContactInfoComponent } from '../../inquiry/shared/components/edit-contact-info/edit-contact-info.component';
-import { StepBase, WizardStorageService } from '../shared';
+import { ContactInfo, StepBase, WizardStorageService } from '../shared';
 
 @Component({
   selector: 'app-contact-info-step',
@@ -17,8 +18,8 @@ export class ContactInfoStepComponent implements OnInit, StepBase {
   inquiry: Inquiry;
   config: ConfigsOfRoutingButtons;
 
-  constructor(private router: Router, private route: ActivatedRoute, private storageService: WizardStorageService,
-    private actionsButtonsService: ActionsButtonsService) { }
+  constructor(private formService: FormService, private fb: FormBuilder, private inquiryService:InquiryService,
+    private router: Router, private route: ActivatedRoute, private storageService: WizardStorageService, private actionsButtonsService:ActionsButtonsService) { }
 
   ngOnInit() {
     this.inquiry = <Inquiry>this.storageService.get(this.inquiryType);

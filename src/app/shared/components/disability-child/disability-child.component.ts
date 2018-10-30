@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
-import { Entity, inquiryType } from '../../index';
-import { ChildComponent } from '../child/child.component';
+import { ChildComponent } from '../../../modules/wizard/children-step/child/child.component';
+import { inquiryType, Entity } from '../..';
 
 @Component({
   selector: 'app-disability-child',

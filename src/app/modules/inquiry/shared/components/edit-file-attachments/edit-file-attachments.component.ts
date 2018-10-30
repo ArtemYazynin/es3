@@ -19,7 +19,7 @@ export class EditFileAttachmentsComponent implements OnInit, AfterViewInit, OnDe
   attachmentType = AttachmentType;
   maxFilesCount = 10;
   haveDigitalSignature = false;
-  bunchOfFileView: Array<FileView>;
+  bunchOfFileView: Array<FileView> = [];
   isOldBrowser: boolean = (() => {
     const version = this.commonService.getIeVersion()
     if (!version) return false;

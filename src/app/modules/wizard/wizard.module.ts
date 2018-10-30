@@ -5,15 +5,12 @@ import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { HttpModule, JsonpModule } from "@angular/http";
 import { DateAdapter } from '@angular/material';
 import { NgSelectModule } from '@ng-select/ng-select';
-import { InMemoryWebApiModule } from 'angular-in-memory-web-api';
 import { TextMaskModule } from 'angular2-text-mask';
 import { MyDatePickerModule } from 'mydatepicker';
-import { InMemoryService } from '../../in-memory-server';
 import { MaterialModule } from '../../material.module';
 import { ShareModule } from '../../share.module';
 import { AddressService, AreaService, CitizenshipService, CommonService, DrawService, EnumToArrayPipe, FormService, GroupService, IdentityCardService, IdentityCardTypePipe, InquiryService, InstitutionService, PrivilegeOrderService, PrivilegeService, RelationTypeService, SettingsService, SpecHealthService, SpecificityService } from '../../shared';
 import { ActionsButtonsService } from '../../shared/actions-buttons.service';
-import { ChildComponent } from '../../shared/components/child/child.component';
 import { ConfirmDialogComponent } from '../../shared/components/confirm-dialog/confirm-dialog.component';
 import { HttpInterceptor } from '../../shared/http-interceptor';
 import { RegisterCompleteResolver } from '../../shared/register-complete-resolver';
@@ -30,10 +27,13 @@ import { PrivilegeStepComponent } from '../wizard/privilege-step/privilege-step.
 import { SchoolInquiryInfoStepComponent } from '../wizard/school-inquiry-info-step/school-inquiry-info-step.component';
 import { CurrentEducationPlaceStepService } from '../wizard/shared/current-education-place-step.service';
 import { InstitutionStepComponent } from './institution-step/institution-step.component';
+import { PreviewFilesComponent } from './preview/preview-files/preview-files.component';
+import { PreviewPrivilegeComponent } from './preview/preview-privilege/preview-privilege.component';
 import { RegisterCompleteComponent } from './register-complete/register-complete.component';
 import { PrivilegeStepResolver } from './resolvers/privilege-step-resolver';
 import { ParentStepService, WizardStorageService } from './shared';
 import { WizardRoutingModule } from './wizard-routing-module';
+import { ChildComponent } from './children-step/child/child.component';
 
 
 @NgModule({
@@ -54,9 +54,15 @@ import { WizardRoutingModule } from './wizard-routing-module';
     //end
     IdentityCardTypePipe,
     EnumToArrayPipe,
+    ChildComponent,
 
+
+
+    PreviewPrivilegeComponent,
+    PreviewFilesComponent,
     ConfirmDialogComponent,
     RegisterCompleteComponent
+
   ],
   exports: [],
   imports: [
@@ -72,7 +78,7 @@ import { WizardRoutingModule } from './wizard-routing-module';
     HttpModule,
     JsonpModule,
     HttpClientModule,
-    InMemoryWebApiModule.forRoot(InMemoryService),
+    //InMemoryWebApiModule.forRoot(InMemoryService),
   ],
   providers: [
     PrivilegeStepResolver,

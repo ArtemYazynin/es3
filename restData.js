@@ -2001,8 +2001,6 @@
         let countryStateDocuments = [
             
         ];
-
-        let petitions = [];
         let familiesInfos = [
             { id:"516C3D30-8FF2-4163-BBA8-A452002EC33A", name: "Особое семейное положение" },
             { id:"516C3D30-8FF2-4163-BBA8-A452002EC33A", name: "Многодетная семья" },
@@ -2010,7 +2008,6 @@
         ]
         return {
             familiesInfos:familiesInfos,
-            petitions:petitions,
             countryStateDocuments:countryStateDocuments,
             inquiries: inquiries,
             countries: Countries,

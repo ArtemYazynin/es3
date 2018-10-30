@@ -3,20 +3,20 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ConfirmationDocument, AttachmentType, FormService } from '../../index';
 
 @Component({
-  selector: 'app-confirmation-document',
-  templateUrl: './confirmation-document.component.html',
-  styleUrls: ['./confirmation-document.component.css'],
+  selector: 'app-edit-confirmation-document',
+  templateUrl: './edit-confirmation-document.component.html',
+  styleUrls: ['./edit-confirmation-document.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ConfirmationDocumentComponent implements OnInit {
+export class EditConfirmationDocumentComponent implements OnInit {
   currentDate = new Date();
   confirmationDocumentForm: FormGroup;
   formErrors = ConfirmationDocument.formErrorsTemplate;
   validationMessages = ConfirmationDocument.validationMessages;
 
   @Input() title: string = "";
-  @Input() type: AttachmentType;
   @Input() model: ConfirmationDocument;
+  @Input() type: AttachmentType;
 
   constructor(private fb: FormBuilder, private formService: FormService) { }
 
@@ -31,6 +31,12 @@ export class ConfirmationDocumentComponent implements OnInit {
         dateExpired: this.model.dateExpired,
       });
     }
+  }
+
+  getResult() {
+    return new ConfirmationDocument(this.confirmationDocumentForm.controls.name.value, this.confirmationDocumentForm.controls.series.value,
+      this.confirmationDocumentForm.controls.number.value, this.confirmationDocumentForm.controls.dateIssue.value,
+      this.confirmationDocumentForm.controls.dateExpired.value, this.model ? this.model.id : undefined);
   }
 
   private buildForm(): any {
@@ -49,5 +55,7 @@ export class ConfirmationDocumentComponent implements OnInit {
   private onValueChange(data?: any) {
     this.formService.onValueChange(this.confirmationDocumentForm, this.formErrors, this.validationMessages);
   }
-
+  isValid(){
+    return this.confirmationDocumentForm && this.confirmationDocumentForm.valid;
+  }
 }

@@ -1,0 +1,34 @@
+<ng-template #fieldsTemplate>
+  <div class="form-group">
+    <b>ФИО </b>{{drawManager.fio(entity)}}
+  </div>
+  <div class="form-group">
+    <b>Документ </b> {{drawManager.identityCard(entity.identityCard)}}
+  </div>
+  <div class="form-group">
+    <b>СНИЛС </b> {{entity.snils || "-"}}
+  </div>
+  <!-- <ng-container *ngIf="isChild()">
+    <app-confirmation-document-card title="Документ, подтверждающий потребность в группе с ОВЗ" [model]="entity.specHealthDocument"
+      [mode]="mode">
+    </app-confirmation-document-card>
+  </ng-container> -->
+</ng-template>
+
+<ng-template #withEdit>
+  <app-inquiry-info-edit title="Персональные данные" (edit)="edit()">
+    <ng-container *ngTemplateOutlet="fieldsTemplate">
+    </ng-container>
+  </app-inquiry-info-edit>
+</ng-template>
+
+<ng-template #withoutEdit>
+  <app-inquiry-info-edit title="Персональные данные">
+    <ng-container *ngTemplateOutlet="fieldsTemplate">
+    </ng-container>
+  </app-inquiry-info-edit>
+</ng-template>
+
+<ng-container *ngTemplateOutlet="mode == modes.Edit ? withEdit : withoutEdit">
+
+</ng-container>

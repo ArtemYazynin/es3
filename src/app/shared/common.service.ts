@@ -2,7 +2,7 @@ import { Inject, Injectable, QueryList } from '@angular/core';
 import { EditPersonComponent } from '../modules/inquiry/shared/components/edit-person/edit-person.component';
 import { ApplicantType } from './applicant-type.enum';
 import { CitizenshipService } from './citizenship.service';
-import { ConfirmationDocumentComponent } from './components/confirmation-document/confirmation-document.component';
+import { EditConfirmationDocumentComponent } from './components/edit-confirmation-document/edit-confirmation-document.component';
 import { Applicant } from './models/applicant.model';
 import { AttachmentType } from './models/attachment-type.enum';
 import { ConfirmationDocument } from './models/confirmation-document.model';
@@ -14,12 +14,19 @@ import { IdentityCard } from './models/identityCard.model';
 import { IdentityCardType } from './models/identityCardType';
 import { Parent } from './models/parent.model';
 import { esConstant } from '../app.module';
+import { MatDialogConfig } from '@angular/material';
+import { AddressComponent } from './components/address/address.component';
+import { Address } from './models/address.model';
 
 @Injectable()
 export class CommonService {
 
   constructor(@Inject(esConstant) private esConstant, private citizenshipService: CitizenshipService) { }
 
+  getAddressFromComponents(component: AddressComponent) {
+    const data = component.$address.getValue();
+    return data ? Address.build(data, false) : undefined;
+  }
   getFiles(types: Array<AttachmentType>, filesInfo: FilesInfo) {
     let fileViewCollection = [];
     const requiredFiles: Array<FileView> = (() => {
@@ -82,7 +89,7 @@ export class CommonService {
     var myNav = navigator.userAgent.toLowerCase();
     return (myNav.indexOf('msie') != -1) ? parseInt(myNav.split('msie')[1]) : undefined;
   }
-  getDocumentByType(components: QueryList<ConfirmationDocumentComponent> | Array<ConfirmationDocumentComponent>, type: AttachmentType) {
+  getDocumentByType(components: QueryList<EditConfirmationDocumentComponent> | Array<EditConfirmationDocumentComponent>, type: AttachmentType) {
     let document = components.find(x => x.type == type);
     if (!document) return undefined
     return new ConfirmationDocument(document.confirmationDocumentForm.controls.name.value,
@@ -119,65 +126,74 @@ export class CommonService {
     ];
   }
 
-  buildParent(editParentComponent: EditPersonComponent, applicantType: ApplicantType): Parent {
-    let birthInfo = (() => {
-      if (!editParentComponent.birthInfoComponent) return {};
-      return {
-        birthDate: editParentComponent.birthInfoComponent.birthInfoForm.controls.birthDate.value,
-        birthPlace: editParentComponent.birthInfoComponent.birthInfoForm.controls.birthPlace.value
-      }
-    })();
-    let result = new Parent(editParentComponent.fullnameComponent.fullnameForm.controls.lastname.value,
-      editParentComponent.fullnameComponent.fullnameForm.controls.firstname.value,
-      editParentComponent.fullnameComponent.fullnameForm.controls.middlename.value,
-      editParentComponent.snilsComponent.snils,
-      editParentComponent.fullnameComponent.fullnameForm.controls.noMiddlename.value,
-      birthInfo.birthDate,
-      birthInfo.birthPlace, 1);
-    result.identityCard = new IdentityCard(editParentComponent.identityCardComponent.identityCardForm);
-    result.citizenships = editParentComponent.citizenshipSelectComponent.citizenships;
+  buildParent(editParentComponent: EditPersonComponent, applicantType: ApplicantType) {
+    // let birthInfo = (() => {
+    //   if (!editParentComponent.birthInfoComponent) return {};
+    //   return {
+    //     birthDate: editParentComponent.birthInfoComponent.birthInfoForm.controls.birthDate.value,
+    //     birthPlace: editParentComponent.birthInfoComponent.birthInfoForm.controls.birthPlace.value
+    //   }
+    // })();
+    // let result = new Parent(editParentComponent.fullnameComponent.fullnameForm.controls.lastname.value,
+    //   editParentComponent.fullnameComponent.fullnameForm.controls.firstname.value,
+    //   editParentComponent.fullnameComponent.fullnameForm.controls.middlename.value,
+    //   editParentComponent.snilsComponent.snils,
+    //   editParentComponent.fullnameComponent.fullnameForm.controls.noMiddlename.value,
+    //   birthInfo.birthDate,
+    //   birthInfo.birthPlace, 1);
+    // result.identityCard = new IdentityCard(editParentComponent.identityCardComponent.identityCardForm);
+    // result.citizenships = editParentComponent.citizenshipSelectComponent.citizenships;
 
-    if (this.citizenshipService.hasForeignCitizenship(result.citizenships, editParentComponent.countries)) {
-      result.countryStateDocument = this.getDocumentByType(editParentComponent.confirmationDocuments, AttachmentType.CountryStateDocument);
-    }
+    // if (this.citizenshipService.hasForeignCitizenship(result.citizenships, editParentComponent.countries)) {
+    //   result.countryStateDocument = this.getDocumentByType(editParentComponent.confirmationDocuments, AttachmentType.CountryStateDocument);
+    // }
 
-    result.relationType = editParentComponent.relationTypeComponent.relationType;
-    if (result.relationType.confirmationDocument)
-      result.parentRepresentChildrenDocument = this.getDocumentByType(editParentComponent.confirmationDocuments, AttachmentType.ParentRepresentChildren);
+    // result.relationType = editParentComponent.relationTypeComponent.relationType;
+    // if (result.relationType.confirmationDocument)
+    //   result.parentRepresentChildrenDocument = this.getDocumentByType(editParentComponent.confirmationDocuments, AttachmentType.ParentRepresentChildren);
 
-    if (applicantType == ApplicantType.Parent) {
-      Object.assign(result, this.citizenshipService.hasRfCitizenship(result.citizenships, editParentComponent.countries)
-        ? editParentComponent.rfAddressesComponent.getResult()
-        : editParentComponent.foreignAddressesComponent.getResult());
-    }
-    return result;
+    // if (applicantType == ApplicantType.Parent) {
+    //   Object.assign(result, this.citizenshipService.hasRfCitizenship(result.citizenships, editParentComponent.countries)
+    //     ? editParentComponent.rfAddressesComponent.getResult()
+    //     : editParentComponent.foreignAddressesComponent.getResult());
+    // }
+    // return result;
   }
 
-  buildApplicant(editParentComponent: EditPersonComponent, applicantType: ApplicantType): Applicant {
-    let result = new Applicant(editParentComponent.fullnameComponent.fullnameForm.controls.lastname.value,
-      editParentComponent.fullnameComponent.fullnameForm.controls.firstname.value,
-      editParentComponent.fullnameComponent.fullnameForm.controls.middlename.value,
-      editParentComponent.snilsComponent.snils,
-      editParentComponent.fullnameComponent.fullnameForm.controls.noMiddlename.value,
-      null, null, null);
-    result.identityCard = new IdentityCard(editParentComponent.identityCardComponent.identityCardForm);
-    result.citizenships = editParentComponent.citizenshipSelectComponent.citizenships;
+  buildApplicant(editParentComponent: EditPersonComponent, applicantType: ApplicantType) {
+    // let result = new Applicant(editParentComponent.fullnameComponent.fullnameForm.controls.lastname.value,
+    //   editParentComponent.fullnameComponent.fullnameForm.controls.firstname.value,
+    //   editParentComponent.fullnameComponent.fullnameForm.controls.middlename.value,
+    //   editParentComponent.snilsComponent.snils,
+    //   editParentComponent.fullnameComponent.fullnameForm.controls.noMiddlename.value,
+    //   null, null, null);
+    // result.identityCard = new IdentityCard(editParentComponent.identityCardComponent.identityCardForm);
+    // result.citizenships = editParentComponent.citizenshipSelectComponent.citizenships;
 
-    if (this.citizenshipService.hasForeignCitizenship(result.citizenships, editParentComponent.countries)) {
-      result.countryStateApplicantDocument = this.getDocumentByType(editParentComponent.confirmationDocuments, AttachmentType.CountryStateApplicantDocument);
-    }
-    result.applicantRepresentParentDocument = this.getDocumentByType(editParentComponent.confirmationDocuments, AttachmentType.ApplicantRepresentParent);
+    // if (this.citizenshipService.hasForeignCitizenship(result.citizenships, editParentComponent.countries)) {
+    //   result.countryStateApplicantDocument = this.getDocumentByType(editParentComponent.confirmationDocuments, AttachmentType.CountryStateApplicantDocument);
+    // }
+    // result.applicantRepresentParentDocument = this.getDocumentByType(editParentComponent.confirmationDocuments, AttachmentType.ApplicantRepresentParent);
 
-    if (applicantType == ApplicantType.Applicant) {
-      //--addresses
-      Object.assign(result, this.citizenshipService.hasRfCitizenship(result.citizenships, editParentComponent.countries)
-        ? editParentComponent.rfAddressesComponent.getResult()
-        : editParentComponent.foreignAddressesComponent.getResult());
-      //--
-    }
+    // if (applicantType == ApplicantType.Applicant) {
+    //   //--addresses
+    //   Object.assign(result, this.citizenshipService.hasRfCitizenship(result.citizenships, editParentComponent.countries)
+    //     ? editParentComponent.rfAddressesComponent.getResult()
+    //     : editParentComponent.foreignAddressesComponent.getResult());
+    //   //--
+    //}
 
-    return result;
+    //return result;
   }
 
+  getDialogConfig(obj?: object) {
+    let config = new MatDialogConfig();
+    config.disableClose = true;
+    config.autoFocus = true;
+    config.width = "1000px";
+    config.data = {};
+    if (obj) Object.assign(config.data, obj);
 
+    return config;
+  }
 }

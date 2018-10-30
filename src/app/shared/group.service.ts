@@ -1,18 +1,18 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Inject } from '@angular/core';
 import { Observable } from 'rxjs/internal/Observable';
 import { map } from 'rxjs/operators';
 import { isNullOrUndefined } from 'util';
 import { Group } from './models/group.model';
 import { HttpInterceptor } from './http-interceptor';
+import { SERVER_URL } from '../app.module';
 
 @Injectable()
 export class GroupService {
 
-  constructor(private http: HttpInterceptor) { }
+  constructor(private http: HttpInterceptor, @Inject(SERVER_URL) private serverUrl) { }
 
   getGroups(institutionId: string): Observable<Array<Group>> {
-    let url = `app/groups`
-    return this.http.get(url).pipe(map(result => {
+    return this.http.get(`${this.serverUrl}/groups`).pipe(map(result => {
       let institutions = <Array<Group>>result.json();
       return institutions.filter(x => x.institution && x.institution.id == institutionId);
     }));

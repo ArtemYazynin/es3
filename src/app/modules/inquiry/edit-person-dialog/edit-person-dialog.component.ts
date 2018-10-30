@@ -1,9 +1,10 @@
 import { AfterViewInit, ChangeDetectionStrategy, Component, Inject, OnInit, ViewChild } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { BehaviorSubject } from 'rxjs';
-import { ApplicantType, ButtonsTitles, ConfigsOfRoutingButtons, Inquiry } from '../../../shared';
-import { ActionsButtonsService } from '../../../shared/actions-buttons.service';
+import { ApplicantType, ConfigsOfRoutingButtons, IdentityCard, Person, Parent, RelationTypeService } from '../../../shared';
 import { EditPersonComponent } from '../shared/components/edit-person/edit-person.component';
+import { PersonType } from '../../../shared/person-type.enum';
+import { ActionsButtonsService } from '../../../shared/actions-buttons.service';
 
 @Component({
   selector: 'app-edit-person-dialog',
@@ -14,19 +15,38 @@ import { EditPersonComponent } from '../shared/components/edit-person/edit-perso
 export class EditPersonDialogComponent implements OnInit, AfterViewInit {
   @ViewChild(EditPersonComponent) editPersonComponent: EditPersonComponent;
   applicantTypes = ApplicantType;
-  constructor(public dialogRef: MatDialogRef<EditPersonDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: { $inquiry: BehaviorSubject<Inquiry>, modelType: ApplicantType },
-    private actionsButtonsService: ActionsButtonsService) { }
+  constructor(public dialogRef: MatDialogRef<EditPersonDialogComponent>, @Inject(MAT_DIALOG_DATA) public data: { $person: BehaviorSubject<Person>, personType: PersonType },
+    private relationTypeService: RelationTypeService, private actionsButtonsService: ActionsButtonsService) { }
+    
 
-  inquiry: Inquiry;
+  private person: Person;
   config: ConfigsOfRoutingButtons;
 
   ngOnInit() {
-    this.inquiry = this.data.$inquiry.getValue();
-    this.config = new ConfigsOfRoutingButtons(ButtonsTitles.Save, ButtonsTitles.Close);
+    this.person = this.data.$person.getValue();
+    this.config = {
+      primaryTitle: "Сохранить",
+      inverseTitle: "Закрыть",
+      primaryAction: () => {
+        const fullnameForm = this.editPersonComponent.fullnameComponent.fullnameForm;
+        let person = new Person(fullnameForm.controls.lastname.value, fullnameForm.controls.firstname.value, fullnameForm.controls.middlename.value, this.editPersonComponent.snilsComponent.snils, fullnameForm.controls.noMiddlename.value);
+        person.identityCard = new IdentityCard(this.editPersonComponent.identityCardComponent.identityCardForm);
+        person.id = this.person.id;
+        this.data.$person.next(person);
+        this.dialogRef.close();
+      },
+      inverseAction: () => {
+        this.dialogRef.close();
+      }
+    }
   }
 
+  isValid = (): boolean => {
+    return this.editPersonComponent && this.editPersonComponent.isValid();
+  }
+  
   ngAfterViewInit(): void {
-    this.config.primaryAction = this.actionsButtonsService.primaryActionPersonDialog(this.editPersonComponent, this.inquiry, this.data, this.dialogRef);
+    //this.config.primaryAction = this.actionsButtonsService.primaryActionPersonDialog(this.editPersonComponent, this.inquiry, this.data, this.dialogRef);
   }
 }
+

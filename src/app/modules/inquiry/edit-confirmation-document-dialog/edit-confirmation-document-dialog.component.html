@@ -1,0 +1,13 @@
+<div *ngIf="data.$document | async as doc">
+  <ng-container>
+    <h1 mat-dialog-title>Редактирование документа</h1>
+    <div mat-dialog-content>
+      <app-edit-confirmation-document [model]="doc"></app-edit-confirmation-document>
+    </div>
+  </ng-container>
+  <mat-dialog-actions>
+    <div class="col-md-12">
+      <app-routing-buttons [config]="config" [isValid]="isValid()"></app-routing-buttons>
+    </div>
+  </mat-dialog-actions>
+</div>
