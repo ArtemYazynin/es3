@@ -109,8 +109,4 @@ import { ChildComponent } from './children-step/child/child.component';
   ],
   entryComponents: [ChildComponent, ConfirmDialogComponent], //динамически добавляемые компоненты ViewContainerRef.createComponent()
 })
-export class WizardModule {
-  constructor(dateAdapter: DateAdapter<Date>) {
-    dateAdapter.setLocale('ru-RU'); // DD/MM/YYYY
-  }
-}
+export class WizardModule {}
