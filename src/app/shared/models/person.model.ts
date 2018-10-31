@@ -24,28 +24,40 @@ export class Person {
         if (birthPlace) this.birthPlace = birthPlace;
         if (gender) this.gender = gender;
     }
-
-    static getFormErrorsTemplate() {
-        return {
+    private static keys = {
+        middlename: "middlename"
+    }
+    static getFormErrorsTemplate(uniqueSign?: string) {
+        let result = {
             lastname: "",
             firstname: "",
-            middlename: "",
             birthDate: "",
             birthPlace: "",
         };
+        if (uniqueSign) {
+            result[this.keys.middlename.concat(uniqueSign)] = "";
+        } else {
+            result[this.keys.middlename] = "";
+        }
+        return result;
     }
-    static getvalidationMessages() {
+    static getvalidationMessages(uniqueSign?: string) {
         let fioValidationObj = {
             required: "Обязательное поле.",
             maxlength: "Значение не должно быть больше 50 символов.",
             pattern: "Имя может состоять только из букв русского алфавита, пробела и дефиса"
         }
-        return {
+        let result = {
             lastname: fioValidationObj,
             firstname: fioValidationObj,
-            middlename: fioValidationObj,
             birthDate: { "required": "Обязательное поле." },
             birthPlace: { "required": "Обязательное поле." },
         }
+        if (uniqueSign) {
+            result[this.keys.middlename.concat(uniqueSign)] = fioValidationObj;
+        } else {
+            result[this.keys.middlename] = fioValidationObj;
+        }
+        return result;
     }
 }
