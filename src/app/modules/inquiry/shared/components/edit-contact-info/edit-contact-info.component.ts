@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, ValidatorFn, Validators } from '@angular/forms';
 import { MatCheckboxChange } from '@angular/material';
 import { FormService } from '../../../../../shared';
@@ -20,31 +20,10 @@ export class EditContactInfoComponent implements OnInit {
   ngOnInit() {
     this.buildForm();
     this.updateForm();
-    if (this.contactsForm.controls.dontNotify.value) {
-      this.contactsForm.controls.email.clearValidators();
-      this.markControlsByDontNotify(true);
-      this.contactsForm.updateValueAndValidity();
-    }
-    if (this.contactsForm.controls.bySms.value) {
-      this.contactsForm.controls.email.clearValidators();
-      this.contactsForm.controls.email.updateValueAndValidity();
-    }
   }
 
   isValid() {
     return this.contactsForm && this.contactsForm.valid;
-  }
-
-  markControlsByDontNotify(dontNotify: boolean): void {
-    if (dontNotify) {
-      this.contactsForm.controls.email.disable();
-      this.contactsForm.controls.smsPhone.disable();
-      this.contactsForm.controls.phones.disable();
-    } else {
-      this.contactsForm.controls.email.enable();
-      this.contactsForm.controls.smsPhone.enable();
-      this.contactsForm.controls.phones.enable();
-    }
   }
 
   masks = { smsPhone: ["+", /\d/, "(", /\d/, /\d/, /\d/, ")", /\d/, /\d/, /\d/, "-", /\d/, /\d/, "-", /\d/, /\d/] }
@@ -56,7 +35,6 @@ export class EditContactInfoComponent implements OnInit {
           this.formService.updateValidators(this.contactsForm,
             [new ControlInfo("email", this.emailValidators), new ControlInfo("bySms", [])]);
           this.contactsForm.controls.dontNotify.setValue(false);
-          this.markControlsByDontNotify(false);
         } else {
           this.formService.updateValidators(this.contactsForm,
             [new ControlInfo("email", []), new ControlInfo("bySms", [Validators.requiredTrue])]);
@@ -67,23 +45,9 @@ export class EditContactInfoComponent implements OnInit {
           this.formService.updateValidators(this.contactsForm,
             [new ControlInfo("smsPhone", [Validators.required, Validators.pattern(smsPhonePattern)]), new ControlInfo("byEmail", [])]);
           this.contactsForm.controls.dontNotify.setValue(false);
-          this.markControlsByDontNotify(false);
         } else {
           this.formService.updateValidators(this.contactsForm,
             [new ControlInfo("smsPhone", []), new ControlInfo("byEmail", [Validators.requiredTrue])]);
-        }
-      },
-      dontNotify: (change: MatCheckboxChange) => {
-        if (change.checked) {
-          this.formService.updateValidators(this.contactsForm,
-            [new ControlInfo("bySms", []), new ControlInfo("byEmail", []), new ControlInfo("email", []), new ControlInfo("smsPhone", [])]);
-          this.contactsForm.patchValue({
-            byEmail: false, bySms: false, email: "", smsPhone: "", phones: ""
-          });
-          this.markControlsByDontNotify(true);
-        } else {
-          this.formService.updateValidators(this.contactsForm,
-            [new ControlInfo("bySms", [Validators.requiredTrue]), new ControlInfo("byEmail", [Validators.requiredTrue])]);
         }
       }
     }
