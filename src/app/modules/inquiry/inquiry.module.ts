@@ -9,9 +9,11 @@ import { MyDatePickerModule } from 'mydatepicker';
 import { MaterialModule } from '../../material.module';
 import { ShareModule } from '../../share.module';
 import { AddressService, AreaService, CitizenshipService, CommonService, DrawService, FormService, GroupService, IdentityCardService, InquiryService, InstitutionService, PrivilegeService, RelationTypeService, SettingsService, SpecHealthService, SpecificityService, StatusService } from '../../shared';
-import { CitizenshipsCardComponent } from '../../shared/components/citizenships-card/citizenships-card.component';
+import { ActionsButtonsService } from '../../shared/actions-buttons.service';
+import { PetitionCardComponent } from '../../shared/components/petition-card/petition-card.component';
 import { HttpInterceptor } from '../../shared/http-interceptor';
 import { RegisterSourcePipe } from '../../shared/models/register-source.pipe';
+import { PetitionTypePipe } from '../../shared/petition-type.pipe';
 import { PrivilegeOrderService } from '../../shared/privilege-order.service';
 import { CurrentEducationPlaceStepService, WizardStorageService } from '../wizard/shared';
 import { EditChildrenDialogComponent } from './edit-children-dialog/edit-children-dialog.component';
@@ -26,11 +28,8 @@ import { EditPrivilegeDialogComponent } from './edit-privilege-dialog/edit-privi
 import { EditSchoolInquiryInfoDialogComponent } from './edit-school-inquiry-info-dialog/edit-school-inquiry-info-dialog.component';
 import { InquiryReadComponent } from './inquiry-read/inquiry-read.component';
 import { InquiryRouting } from './inquiry-routing-module';
-import { InquiryCommonInfoComponent } from './shared/components/inquiry-common-info/inquiry-common-info.component';
-import { PetitionCardComponent } from '../../shared/components/petition-card/petition-card.component';
-import { PetitionTypePipe } from '../../shared/petition-type.pipe';
-import { ActionsButtonsService } from '../../shared/actions-buttons.service';
 import { RelationTypeDialogComponent } from './relation-type-dialog/relation-type-dialog.component';
+import { InquiryCommonInfoComponent } from './shared/components/inquiry-common-info/inquiry-common-info.component';
 
 @NgModule({
   imports: [
@@ -81,4 +80,4 @@ import { RelationTypeDialogComponent } from './relation-type-dialog/relation-typ
     EditContactInfoDialogComponent, EditCurrentEducationPlaceDialogComponent,
     EditSchoolInquiryInfoDialogComponent, EditPetitionDialogComponent, RelationTypeDialogComponent]
 })
-export class InquiryModule { }
+export class InquiryModule {}

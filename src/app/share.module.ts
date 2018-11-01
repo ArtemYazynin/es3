@@ -16,7 +16,6 @@ import { ApplicantTypePipe } from "./shared/applicant-type.pipe";
 import { AreaTypePipe } from './shared/area-type.pipe';
 import { AttachmentTypePipe } from "./shared/attachment-type.pipe";
 import { AddressComponent } from "./shared/components/address/address.component";
-import { AdultCardComponent } from './shared/components/adult-card/adult-card.component';
 import { AgeGroupComponent } from "./shared/components/age-group/age-group.component";
 import { AtLeastOneCheckboxShouldBeSelectedComponent } from "./shared/components/at-least-one-checkbox-should-be-selected/at-least-one-checkbox-should-be-selected.component";
 import { BirthInfoComponent } from "./shared/components/birth-info/birth-info.component";
@@ -59,6 +58,7 @@ import { EditCitizenshipsDialogComponent } from "./modules/inquiry/edit-citizens
 import { EditCitizenshipsComponent } from './modules/inquiry/shared/components/edit-citizenships/edit-citizenships.component';
 import { CitizenshipsCardComponent } from "./shared/components/citizenships-card/citizenships-card.component";
 import { RelationTypeCardComponent } from './shared/components/relation-type-card/relation-type-card.component';
+import { DateAdapter } from "@angular/material";
 
 
 
@@ -70,7 +70,7 @@ import { RelationTypeCardComponent } from './shared/components/relation-type-car
 
         InquiryInfoEditComponent, DistributionParamsComponent, StayModeComponent, AgeGroupComponent, //inquiryInfo params
         EditContactInfoComponent, EditCurrentEducationPlaceComponent, EditFileAttachmentsComponent, AreaTypePipe, EditSchoolInquiryInfoComponent, SchoolInquiryInfoCardComponent,
-        PersonCardComponent, ConfirmationDocumentCardComponent, AdultCardComponent, ChildrenCardComponent,
+        PersonCardComponent, ConfirmationDocumentCardComponent, ChildrenCardComponent,
         PreschoolInquiryInfoCardComponent,
         ContactInfoCardComponent,
         InstitutionsCardComponent, SpecHealthComponent,
@@ -96,7 +96,7 @@ import { RelationTypeCardComponent } from './shared/components/relation-type-car
         BirthInfoComponent, RelationTypeComponent, EditPersonComponent, EditInquiryInfoComponent, DistributionParamsComponent, StayModeComponent, AgeGroupComponent,
         InquiryInfoEditComponent, AtLeastOneCheckboxShouldBeSelectedComponent, EditInstitutionsComponent, EditContactInfoComponent, EditCurrentEducationPlaceComponent,
         EditFileAttachmentsComponent, EditSchoolInquiryInfoComponent, SchoolInquiryInfoCardComponent, PreschoolInquiryInfoCardComponent,
-        PersonCardComponent, ConfirmationDocumentCardComponent, AdultCardComponent, ChildrenCardComponent, ContactInfoCardComponent, SpecHealthComponent,
+        PersonCardComponent, ConfirmationDocumentCardComponent, ChildrenCardComponent, ContactInfoCardComponent, SpecHealthComponent,
         InstitutionsCardComponent, SchoolClassCardComponent, CurrentEducationPlaceCardComponent, DisabilityChildComponent, EditChildrenComponent,
         PrivilegeCardComponent, FilesCardComponent, YesNoPipe, RoutingButtonsComponent, EditCitizenshipsComponent, CitizenshipsCardComponent, RelationTypeCardComponent
     ],
@@ -107,5 +107,7 @@ import { RelationTypeCardComponent } from './shared/components/relation-type-car
     entryComponents: [EditConfirmationDocumentDialogComponent, EditCitizenshipsDialogComponent]
 })
 export class ShareModule {
-
+    constructor(dateAdapter: DateAdapter<Date>) {
+        dateAdapter.setLocale('ru-RU'); // DD/MM/YYYY
+      }
 }

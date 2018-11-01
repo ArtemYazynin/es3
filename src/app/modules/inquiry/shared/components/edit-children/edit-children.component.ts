@@ -1,6 +1,6 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ComponentFactory, ComponentFactoryResolver, ComponentRef, Input, OnInit, ViewChild, ViewContainerRef, AfterViewInit } from "@angular/core";
+import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, ComponentFactory, ComponentFactoryResolver, ComponentRef, Input, OnInit, ViewChild, ViewContainerRef } from "@angular/core";
 import { isNullOrUndefined } from "util";
-import { Child, CitizenshipService, ConfirmationDocument, IdentityCard, Person, ApplicantType } from "../../../../../shared";
+import { ApplicantType, Child, CitizenshipService, ConfirmationDocument, IdentityCard, Person } from "../../../../../shared";
 import { BirthInfoComponent } from "../../../../../shared/components/birth-info/birth-info.component";
 import { SpecHealthComponent } from "../../../../../shared/components/spec-health/spec-health.component";
 import { PersonType } from "../../../../../shared/person-type.enum";
@@ -99,12 +99,11 @@ export class EditChildrenComponent implements OnInit, AfterViewInit {
       componentRef.instance.show.next(true);
       componentRef.instance.inquiryType = this.inquiryType;
       this.components.push(componentRef);
-      //this.cdr.markForCheck();
     }
-    let getTitle = (component: ComponentRef<ChildComponent>) => {
-      const hasForm = component && component.instance.editPersonComponent.fullnameComponent && component.instance.editPersonComponent.fullnameComponent.fullnameForm;
-      return hasForm && component.instance.editPersonComponent.fullnameComponent.fullnameForm.controls.firstname.value
-        ? component.instance.editPersonComponent.fullnameComponent.fullnameForm.controls.firstname.value
+    let getTitle = (componentRef: ComponentRef<ChildComponent>) => {
+      const hasForm = componentRef && componentRef.instance.editPersonComponent && componentRef.instance.editPersonComponent.fullnameComponent && componentRef.instance.editPersonComponent.fullnameComponent.fullnameForm;
+      return hasForm && componentRef.instance.editPersonComponent.fullnameComponent.fullnameForm.controls.firstname.value
+        ? componentRef.instance.editPersonComponent.fullnameComponent.fullnameForm.controls.firstname.value
         : "Ребёнок";
     }
 
