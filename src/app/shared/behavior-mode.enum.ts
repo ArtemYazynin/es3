@@ -1,4 +1,4 @@
-export enum Mode {
+export enum BehaviorMode {
     Read = 1,
     Edit = 2
 }

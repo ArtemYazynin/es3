@@ -6,7 +6,7 @@ import { skip, takeUntil } from 'rxjs/operators';
 import { ConfirmationDocument, InquiryService } from '../..';
 import { EditConfirmationDocumentDialogComponent } from '../../../modules/inquiry/edit-confirmation-document-dialog/edit-confirmation-document-dialog.component';
 import { CommonService } from '../../common.service';
-import { Mode } from '../../confirmation-document-mode.enum';
+import { BehaviorMode } from '../../behavior-mode.enum';
 import { ConfirmationDocumentService } from '../../confirmation-document.service';
 
 @Component({
@@ -18,10 +18,10 @@ import { ConfirmationDocumentService } from '../../confirmation-document.service
 export class ConfirmationDocumentCardComponent implements OnInit, OnDestroy {
   @Input() model: BehaviorSubject<ConfirmationDocument>;
   @Input() title: string;
-  @Input() mode: Mode;
+  @Input() mode: BehaviorMode;
 
   private ngUnsubscribe: Subject<any> = new Subject();
-  modes = Mode;
+  modes = BehaviorMode;
   constructor(public dialog: MatDialog, private confirmationDocumentService: ConfirmationDocumentService, private cdr: ChangeDetectorRef, private route: ActivatedRoute, private inquiryService: InquiryService,
     private commonService: CommonService) { }
 

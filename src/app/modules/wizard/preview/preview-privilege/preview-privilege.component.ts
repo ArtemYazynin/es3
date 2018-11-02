@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { Privilege, Mode } from '../../../../shared';
+import { Privilege, BehaviorMode } from '../../../../shared';
 
 @Component({
   selector: 'app-preview-privilege',
@@ -9,7 +9,7 @@ import { Privilege, Mode } from '../../../../shared';
 export class PreviewPrivilegeComponent implements OnInit {
   @Input() privilege: Privilege;
   visibility: boolean = false;
-  mode = Mode;
+  mode = BehaviorMode;
   constructor() { }
   ngOnInit() {
     this.visibility = this.privilege && Object.keys(this.privilege).length > 0

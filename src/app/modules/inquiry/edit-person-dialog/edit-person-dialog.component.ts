@@ -29,7 +29,10 @@ export class EditPersonDialogComponent implements OnInit, AfterViewInit {
       inverseTitle: "Закрыть",
       primaryAction: () => {
         const fullnameForm = this.editPersonComponent.fullnameComponent.fullnameForm;
-        let person = new Person(fullnameForm.controls.lastname.value, fullnameForm.controls.firstname.value, fullnameForm.controls.middlename.value, this.editPersonComponent.snilsComponent.snils, fullnameForm.controls.noMiddlename.value);
+        let person = new Person(fullnameForm.controls.lastname.value, fullnameForm.controls.firstname.value, 
+          fullnameForm.controls["middlename".concat(this.editPersonComponent.fullnameComponent.id)].value, 
+          this.editPersonComponent.snilsComponent.snils, 
+          fullnameForm.controls["noMiddlename".concat(this.editPersonComponent.fullnameComponent.id)].value);
         person.identityCard = new IdentityCard(this.editPersonComponent.identityCardComponent.identityCardForm);
         person.id = this.person.id;
         this.data.$person.next(person);

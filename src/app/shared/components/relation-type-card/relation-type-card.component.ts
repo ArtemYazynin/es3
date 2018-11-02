@@ -1,5 +1,5 @@
 import { Component, OnInit, ChangeDetectionStrategy, Input, ChangeDetectorRef, OnDestroy } from '@angular/core';
-import { Parent, CommonService, InquiryService, ConfirmationDocument, Mode } from '../..';
+import { Parent, CommonService, InquiryService, ConfirmationDocument, BehaviorMode } from '../..';
 import { Subject, BehaviorSubject } from 'rxjs';
 import { skip, takeUntil } from 'rxjs/operators';
 import { EditPersonDialogComponent } from '../../../modules/inquiry/edit-person-dialog/edit-person-dialog.component';
@@ -16,11 +16,11 @@ import { RelationTypeDialogComponent } from '../../../modules/inquiry/relation-t
 })
 export class RelationTypeCardComponent implements OnInit, OnDestroy {
   @Input() model: Parent;
-  @Input() mode: Mode;
+  @Input() mode: BehaviorMode;
 
   private ngUnsubscribe: Subject<any> = new Subject();
   title = "Родственная связь";
-  modes = Mode;
+  modes = BehaviorMode;
   $parentRepresentChildrenDocument: BehaviorSubject<ConfirmationDocument>;
 
   constructor(private route: ActivatedRoute, private dialog: MatDialog, private cdr: ChangeDetectorRef, private commonService: CommonService,

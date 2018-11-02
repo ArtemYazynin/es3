@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, ChangeDetectionStrategy } from '@angular/core';
-import { DrawService, Child, Country, CitizenshipService, SpecHealth, Mode } from '../..';
+import { DrawService, Child, Country, CitizenshipService, SpecHealth, BehaviorMode } from '../..';
 import { Subject, Observable } from 'rxjs';
 import { takeUntil, map } from 'rxjs/operators';
 import { PersonType } from '../../person-type.enum';
@@ -15,7 +15,7 @@ export class ChildrenCardComponent implements OnInit {
   @Input() children: Array<Child>;
 
   private ngUnsubscribe: Subject<any> = new Subject();
-  modes = Mode;
+  modes = BehaviorMode;
   $specHealth: Observable<SpecHealth>;
   countries: Array<Country> = [];
   personTypes = PersonType;

@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, Input, OnInit, OnDestroy, ChangeDetectorRef } from '@angular/core';
 import { Privilege, CommonService, ConfirmationDocument, InquiryService, Inquiry } from '../..';
-import { Mode } from '../../confirmation-document-mode.enum';
+import { BehaviorMode } from '../../behavior-mode.enum';
 import { MatDialog } from '@angular/material';
 import { EditPrivilegeDialogComponent } from '../../../modules/inquiry/edit-privilege-dialog/edit-privilege-dialog.component';
 import { BehaviorSubject, Subject, Observable } from 'rxjs';
@@ -14,11 +14,11 @@ import { ActivatedRoute } from '@angular/router';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class PrivilegeCardComponent implements OnInit, OnDestroy {
-  @Input() mode: Mode;
+  @Input() mode: BehaviorMode;
   @Input() model: Privilege;
 
   private ngUnsubscribe: Subject<any> = new Subject();
-  modes = Mode;
+  modes = BehaviorMode;
   title = "Льготная категория";
   $document: BehaviorSubject<ConfirmationDocument>;
 

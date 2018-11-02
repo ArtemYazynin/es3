@@ -4,7 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Observable, Subject, BehaviorSubject } from 'rxjs';
 import { map, takeUntil } from 'rxjs/operators';
 import { isNullOrUndefined } from 'util';
-import { ApplicantType, ButtonsTitles, CitizenshipService, ConfigsOfRoutingButtons, Mode, Country, DrawService, Entity, Group, Inquiry, InquiryService, inquiryType, SpecHealth, SpecHealthService, ConfirmationDocument } from '../../../shared';
+import { ApplicantType, ButtonsTitles, CitizenshipService, ConfigsOfRoutingButtons, BehaviorMode, Country, DrawService, Entity, Group, Inquiry, InquiryService, inquiryType, SpecHealth, SpecHealthService, ConfirmationDocument } from '../../../shared';
 import { ActionsButtonsService } from '../../../shared/actions-buttons.service';
 import { ConfirmationDocumentService } from '../../../shared/confirmation-document.service';
 import { PersonType } from '../../../shared/person-type.enum';
@@ -24,7 +24,7 @@ export class PreviewStepComponent implements OnInit, OnDestroy, StepBase {
     public dialog: MatDialog, private actionsButtonsService: ActionsButtonsService) { }
 
   private ngUnsubscribe: Subject<any> = new Subject();
-  modes = Mode;
+  modes = BehaviorMode;
   personTypes = PersonType;
   $group: Observable<Group>;
   $institutionType: Observable<Entity<number>>

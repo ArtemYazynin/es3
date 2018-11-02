@@ -7,7 +7,7 @@ import { EditCitizenshipsDialogComponent } from '../../../modules/inquiry/edit-c
 import { ApplicantType } from '../../applicant-type.enum';
 import { CommonService } from '../../common.service';
 import { DrawService } from '../../draw.service';
-import { Applicant, CitizenshipService, Mode, Country, InquiryService, Parent } from '../../index';
+import { Applicant, CitizenshipService, BehaviorMode, Country, InquiryService, Parent } from '../../index';
 import { Child } from '../../models/child.model';
 import { ConfirmationDocument } from '../../models/confirmation-document.model';
 import { PersonType } from '../../person-type.enum';
@@ -20,7 +20,7 @@ import { PersonType } from '../../person-type.enum';
 })
 export class CitizenshipsCardComponent implements OnInit, OnDestroy {
   @Input() model: Parent | Applicant | Child;
-  @Input() mode: Mode;
+  @Input() mode: BehaviorMode;
   @Input() personType: PersonType;
   @Input() applicantType: ApplicantType;
 
@@ -28,7 +28,7 @@ export class CitizenshipsCardComponent implements OnInit, OnDestroy {
 
   $document: BehaviorSubject<ConfirmationDocument>;
   countries: Array<Country> = [];
-  modes = Mode;
+  modes = BehaviorMode;
   personTypes = PersonType;
   documentTitle: string;
 
