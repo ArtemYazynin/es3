@@ -45,7 +45,6 @@ import { EditConfirmationDocumentDialogComponent } from "./modules/inquiry/edit-
 import { ConfirmationDocumentService } from "./shared/confirmation-document.service";
 import { PersonService } from "./shared/person.service";
 import { EditChildrenComponent } from "./modules/inquiry/shared/components/edit-children/edit-children.component";
-import { DisabilityChildComponent } from "./shared/components/disability-child/disability-child.component";
 import { SpecHealthComponent } from "./shared/components/spec-health/spec-health.component";
 import { PrivilegeCardComponent } from "./shared/components/privilege-card/privilege-card.component";
 import { FilesCardComponent } from "./shared/components/files-card/files-card.component";
@@ -76,7 +75,7 @@ import { DateAdapter } from "@angular/material";
         InstitutionsCardComponent, SpecHealthComponent,
         SchoolClassCardComponent, EditChildrenComponent,
         CurrentEducationPlaceCardComponent, EditConfirmationDocumentDialogComponent,
-        DisabilityChildComponent, PrivilegeCardComponent,
+        PrivilegeCardComponent,
         FilesCardComponent, YesNoPipe, CitizenshipsCardComponent,
         RoutingButtonsComponent, EditCitizenshipsDialogComponent, EditCitizenshipsComponent, RelationTypeCardComponent
 
@@ -97,7 +96,7 @@ import { DateAdapter } from "@angular/material";
         InquiryInfoEditComponent, AtLeastOneCheckboxShouldBeSelectedComponent, EditInstitutionsComponent, EditContactInfoComponent, EditCurrentEducationPlaceComponent,
         EditFileAttachmentsComponent, EditSchoolInquiryInfoComponent, SchoolInquiryInfoCardComponent, PreschoolInquiryInfoCardComponent,
         PersonCardComponent, ConfirmationDocumentCardComponent, ChildrenCardComponent, ContactInfoCardComponent, SpecHealthComponent,
-        InstitutionsCardComponent, SchoolClassCardComponent, CurrentEducationPlaceCardComponent, DisabilityChildComponent, EditChildrenComponent,
+        InstitutionsCardComponent, SchoolClassCardComponent, CurrentEducationPlaceCardComponent, EditChildrenComponent,
         PrivilegeCardComponent, FilesCardComponent, YesNoPipe, RoutingButtonsComponent, EditCitizenshipsComponent, CitizenshipsCardComponent, RelationTypeCardComponent
     ],
     providers: [
