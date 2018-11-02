@@ -142,8 +142,8 @@ export class EditChildrenComponent implements OnInit, AfterViewInit {
       const birthInfoForm = this.birthInfoComponent.birthInfoForm;
       return new Person(personForm.value["lastname"],
         personForm.value["firstname"],
-        personForm.value["middlename"],
-        component.instance.editPersonComponent.snilsComponent.snils, personForm.value["noMiddlename"],
+        personForm.value["middlename".concat(component.instance.editPersonComponent.fullnameComponent.id)],
+        component.instance.editPersonComponent.snilsComponent.snils, personForm.value["noMiddlename".concat(component.instance.editPersonComponent.fullnameComponent.id)],
         birthInfoForm.value["birthDate"],
         birthInfoForm.value["birthPlace"],
         component.instance.editPersonComponent.genderComponent.gender);
@@ -155,8 +155,7 @@ export class EditChildrenComponent implements OnInit, AfterViewInit {
         ? null
         : (() => {
           const form = this.specHealthComponent.documentComponents["_results"][i].confirmationDocumentForm;
-          return new ConfirmationDocument(form.value["name"], form.value["series"], form.value["number"],
-            form.value["dateIssue"], form.value["dateExpired"])
+          return ConfirmationDocument.construct(form);
         })();
       const person = buildPerson(x);
       const identityCard = new IdentityCard(x.instance.editPersonComponent.identityCardComponent.identityCardForm);

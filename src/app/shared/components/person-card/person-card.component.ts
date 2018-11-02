@@ -6,7 +6,7 @@ import { skip, takeUntil } from 'rxjs/operators';
 import { EditPersonDialogComponent } from '../../../modules/inquiry/edit-person-dialog/edit-person-dialog.component';
 import { ApplicantType } from '../../applicant-type.enum';
 import { CommonService } from '../../common.service';
-import { ConfirmationDocumentMode } from '../../confirmation-document-mode.enum';
+import { BehaviorMode } from '../../behavior-mode.enum';
 import { DrawService, Person, Inquiry } from '../../index';
 import { InquiryService } from '../../inquiry.service';
 import { PersonService } from '../../person.service';
@@ -20,11 +20,11 @@ import { PersonType } from '../../person-type.enum';
 })
 export class PersonCardComponent implements OnInit, OnDestroy {
   @Input() entity: Person
-  @Input() mode: ConfirmationDocumentMode;
+  @Input() mode: BehaviorMode;
   @Input() personType: PersonType;
 
   drawManager = this.drawService;
-  modes = ConfirmationDocumentMode;
+  modes = BehaviorMode;
   private ngUnsubscribe: Subject<any> = new Subject();
 
   constructor(private drawService: DrawService, private dialog: MatDialog, private commonService: CommonService, private cdr: ChangeDetectorRef, private inquiryService: InquiryService,

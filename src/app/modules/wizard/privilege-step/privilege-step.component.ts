@@ -7,6 +7,7 @@ import { StepBase, WizardStorageService } from '../shared';
 
 @Component({
   selector: 'app-privilege-step',
+  providers:[ActionsButtonsService],
   templateUrl: './privilege-step.component.html',
   styleUrls: ['./privilege-step.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush
@@ -24,7 +25,7 @@ export class PrivilegeStepComponent implements OnInit, AfterViewInit, StepBase {
   ngOnInit() {
     this.inquiry = <Inquiry>this.storageService.get(this.inquiryType);
     this.config = new ConfigsOfRoutingButtons(ButtonsTitles.Next, ButtonsTitles.Back,
-      this.actionsButtonsService.primaryActionPrivilegeStep(this.privilegeEditComponent, this.inquiry, this.inquiryType, this.router, this.activatedRoute),
+      this.actionsButtonsService.primaryActionPrivilegeStep(this.privilegeEditComponent, this.inquiry, this.activatedRoute),
       this.actionsButtonsService.inverseActionPrivilegeStep(this.inquiryType, this.router, this.activatedRoute)
     );
   }

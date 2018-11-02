@@ -1,5 +1,5 @@
 import { Component, OnInit, ChangeDetectionStrategy, Input, ChangeDetectorRef, OnDestroy } from '@angular/core';
-import { Parent, ConfirmationDocumentMode, CommonService, InquiryService } from '../..';
+import { Parent, CommonService, InquiryService, ConfirmationDocument, BehaviorMode } from '../..';
 import { Subject, BehaviorSubject } from 'rxjs';
 import { skip, takeUntil } from 'rxjs/operators';
 import { EditPersonDialogComponent } from '../../../modules/inquiry/edit-person-dialog/edit-person-dialog.component';
@@ -16,16 +16,25 @@ import { RelationTypeDialogComponent } from '../../../modules/inquiry/relation-t
 })
 export class RelationTypeCardComponent implements OnInit, OnDestroy {
   @Input() model: Parent;
-  @Input() mode: ConfirmationDocumentMode;
+  @Input() mode: BehaviorMode;
 
   private ngUnsubscribe: Subject<any> = new Subject();
   title = "Родственная связь";
-  modes = ConfirmationDocumentMode;
+  modes = BehaviorMode;
+  $parentRepresentChildrenDocument: BehaviorSubject<ConfirmationDocument>;
 
-  constructor(private route: ActivatedRoute,private dialog: MatDialog, private cdr:ChangeDetectorRef, private commonService: CommonService,
+  constructor(private route: ActivatedRoute, private dialog: MatDialog, private cdr: ChangeDetectorRef, private commonService: CommonService,
     private personService: PersonService, private inquiryService: InquiryService) { }
 
   ngOnInit() {
+    this.$parentRepresentChildrenDocument = new BehaviorSubject<ConfirmationDocument>(this.model.parentRepresentChildrenDocument);
+    this.$parentRepresentChildrenDocument
+      .pipe(skip(1), takeUntil(this.ngUnsubscribe))
+      .subscribe(doc => {
+        this.model.parentRepresentChildrenDocument = doc;
+        this.inquiryService.updateInquiryPropery(this.route.snapshot.data.resolved.inquiryId, this.model);
+        this.cdr.markForCheck();
+      });
   }
 
   ngOnDestroy(): void {
@@ -38,8 +47,9 @@ export class RelationTypeCardComponent implements OnInit, OnDestroy {
     config.$parent
       .pipe(skip(1), takeUntil(this.ngUnsubscribe))
       .subscribe((person: Parent) => {
-        this.personService.update(person).subscribe((newPerson:Parent) => {
+        this.personService.update(person).subscribe((newPerson: Parent) => {
           this.model = newPerson;
+          this.$parentRepresentChildrenDocument.next(this.model.parentRepresentChildrenDocument);
           this.inquiryService.updateInquiryPropery(this.route.snapshot.data.resolved.inquiryId, this.model);
           this.cdr.markForCheck();
         });

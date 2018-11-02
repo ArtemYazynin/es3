@@ -10,8 +10,12 @@
       <div class="form-group"><b>Пол </b> {{children[0].gender == 1 ? "Мужской":"Женский"}}</div>
       <div class="form-group"><b>Дата рождения </b> {{children[0].birthDate | date: "dd.MM.yyyy"}}</div>
       <div class="form-group"><b>Место рождения </b> {{children[0].birthPlace}}</div>
-      <div class="form-group" *ngIf="children[0].specHealth != 101"><b>Спец. по здоровью </b> {{($specHealth |
-        async)?.name}}</div>
+      <ng-container *ngIf="children[0].specHealth != 101">
+        <div class="form-group">
+          <b>Спец. по здоровью </b> {{($specHealth | async)?.name}}
+        </div>
+      </ng-container>
+
       <div class="form-group"><b>Гражданство </b> {{drawService.citizenships(children[0].citizenships, countries)}}</div>
       <div class="form-group" *ngIf="children[0].register"><b>Адрес регистрации </b>
         {{drawService.address(children[0].register)}}</div>

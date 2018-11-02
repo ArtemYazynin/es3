@@ -14,9 +14,9 @@ export class ApplicantTypeStepComponent implements OnInit, StepBase {
   isValid(): boolean { return true; }
   inquiry: Inquiry;
   inquiryType = this.route.snapshot.data.resolved.inquiryType;
-  applicantType: ApplicantType = ApplicantType.Parent;
+  applicantType: ApplicantType;
   applicantTypes: Array<ApplicantType> = [];
-  config: ConfigsOfRoutingButtons;
+  buttonsTitles = ButtonsTitles;
 
   constructor(private storageService: WizardStorageService, private actionButtonService: ActionsButtonsService,
     private router: Router,
@@ -35,9 +35,12 @@ export class ApplicantTypeStepComponent implements OnInit, StepBase {
       return types;
     })();
     this.applicantType = this.inquiry.applicantType || this.applicantTypes[0];
-    this.config = new ConfigsOfRoutingButtons(ButtonsTitles.Next, ButtonsTitles.Back,
-      this.actionButtonService.primaryActionApplicantTypeStep(this.inquiry,this.applicantType,this.route),
-      this.actionButtonService.inverseActionApplicantTypeStep(this.route)
-    );
+  }
+
+  next() {
+    this.actionButtonService.primaryActionApplicantTypeStep(this.inquiry, this.applicantType, this.route)
+  }
+  back() {
+    this.actionButtonService.inverseActionApplicantTypeStep(this.route)
   }
 }
