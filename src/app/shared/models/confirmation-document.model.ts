@@ -1,5 +1,7 @@
 import { DatePipe } from "@angular/common";
 import { Entity } from "./entity.model";
+import { FormGroup } from "@angular/forms";
+import { Guid } from "./guid";
 
 export class ConfirmationDocument extends Entity<string>{
   public series: string;
@@ -14,6 +16,16 @@ export class ConfirmationDocument extends Entity<string>{
     this.dateIssue = dateIssue;
     this.dateExpired = dateExpired;
   }
+
+  static construct(form: FormGroup, id?:string) {
+    return new ConfirmationDocument(form.controls.name.value,
+      form.controls.series.value,
+      form.controls.number.value,
+      form.controls.dateIssue.value,
+      form.controls.dateExpired.value, 
+      id ? id : Guid.newGuid());
+  }
+
   static formErrorsTemplate = {
     "name": "",
     "series": "",

@@ -25,6 +25,7 @@ import { PrivilegeEditComponent } from './components/privilege-edit/privilege-ed
 import { Inquiry } from './models/inquiry.model';
 import { EditCitizenshipsComponent } from '../modules/inquiry/shared/components/edit-citizenships/edit-citizenships.component';
 import { RelationTypeComponent } from './components/relation-type/relation-type.component';
+import { Privilege } from './models/privilege.model';
 
 @Injectable()
 export class ActionsButtonsService {
@@ -45,35 +46,33 @@ export class ActionsButtonsService {
     }
 
     primaryActionApplicantTypeStep(inquiry: Inquiry, applicantType: ApplicantType, route: ActivatedRoute) {
-        return () => {
-            Object.assign(inquiry, { applicantType: applicantType });
-            const clearAddressInfo = () => {
-                if (inquiry.parent) {
-                    inquiry.parent.register = undefined;
-                    inquiry.parent.residential = undefined;
-                    inquiry.parent.tempRegistrationExpiredDate = undefined;
-                    inquiry.parent.registerAddressLikeAsResidentialAddress = undefined;
-                }
+        Object.assign(inquiry, { applicantType: applicantType });
+        const clearAddressInfo = () => {
+            if (inquiry.parent) {
+                inquiry.parent.register = undefined;
+                inquiry.parent.residential = undefined;
+                inquiry.parent.tempRegistrationExpiredDate = undefined;
+                inquiry.parent.registerAddressLikeAsResidentialAddress = undefined;
             }
-            switch (applicantType) {
-                case ApplicantType.Applicant:
-                    clearAddressInfo();
-                    this.storageService.set(inquiry.type, inquiry)
-                    this.router.navigate(["../applicantStep"], { relativeTo: route });
-                    break;
-                case ApplicantType.Parent:
-                    inquiry.applicant = undefined;
-                    this.storageService.set(inquiry.type, inquiry)
-                    this.router.navigate(["../parentStep"], { relativeTo: route });
-                    break;
-                case ApplicantType.Child:
-                    inquiry.applicant = undefined;
-                    inquiry.parent = undefined;
-                    this.storageService.set(inquiry.type, inquiry);
-                    this.router.navigate(["../contactInfoStep"], { relativeTo: route });
-                default:
-                    break;
-            }
+        }
+        switch (applicantType) {
+            case ApplicantType.Applicant:
+                clearAddressInfo();
+                this.storageService.set(inquiry.type, inquiry)
+                this.router.navigate(["../applicantStep"], { relativeTo: route });
+                break;
+            case ApplicantType.Parent:
+                inquiry.applicant = undefined;
+                this.storageService.set(inquiry.type, inquiry)
+                this.router.navigate(["../parentStep"], { relativeTo: route });
+                break;
+            case ApplicantType.Child:
+                inquiry.applicant = undefined;
+                inquiry.parent = undefined;
+                this.storageService.set(inquiry.type, inquiry);
+                this.router.navigate(["../contactInfoStep"], { relativeTo: route });
+            default:
+                break;
         }
     }
     inverseActionApplicantTypeStep(route: ActivatedRoute) {
@@ -159,20 +158,20 @@ export class ActionsButtonsService {
         }
     }
 
-    primaryActionPrivilegeStep(privilegeEditComponent: PrivilegeEditComponent, inquiry: Inquiry, inquiryCurrentType: any, router: Router, route: ActivatedRoute) {
+    primaryActionPrivilegeStep(privilegeEditComponent: PrivilegeEditComponent, inquiry: Inquiry, route: ActivatedRoute) {
         return () => {
             this.inquiryService.savePrivilege(privilegeEditComponent, (patch) => {
                 this.storageService.set(inquiry.type, patch);
             });
-            switch (inquiryCurrentType) {
+            switch (inquiry.type) {
                 case inquiryType.profEducation:
-                    router.navigate(["../educDocumentInfoStep"], { relativeTo: route });
+                    this.router.navigate(["../educDocumentInfoStep"], { relativeTo: route });
                     break;
                 case inquiryType.preschool:
-                    router.navigate(["../inquiryInfoStep"], { relativeTo: route });
+                this.router.navigate(["../inquiryInfoStep"], { relativeTo: route });
                     break;
                 case inquiryType.school:
-                    router.navigate(["../schoolInquiryInfoStep"], { relativeTo: route });
+                this.router.navigate(["../schoolInquiryInfoStep"], { relativeTo: route });
                     break;
                 default:
                     break;
@@ -365,13 +364,14 @@ export class ActionsButtonsService {
         }
     }
 
-    primaryActionPrivilegeDialog(privilegeEditComponent: PrivilegeEditComponent, inquiry: Inquiry,
-        data: { $inquiry: BehaviorSubject<Inquiry> }, dialogRef: MatDialogRef<EditPrivilegeDialogComponent>) {
-        return () => {
-            this.inquiryService.savePrivilege(privilegeEditComponent,
-                (patch) => this.update(inquiry, patch, data));
-            dialogRef.close();
-        }
+    primaryActionPrivilegeDialog(privilegeEditComponent: PrivilegeEditComponent, privilege: Privilege,
+        data: { $privilege: BehaviorSubject<Privilege> }, dialogRef: MatDialogRef<EditPrivilegeDialogComponent>) {
+        return () => { };
+        // return () => {
+        //     this.inquiryService.savePrivilege(privilegeEditComponent,
+        //         (patch) => this.update(inquiry, patch, data));
+        //     dialogRef.close();
+        // }
     }
 
     primaryActionSchoolInquiryInfoDialog(editSchoolInquiryInfoComponent: EditSchoolInquiryInfoComponent, inquiry: Inquiry,

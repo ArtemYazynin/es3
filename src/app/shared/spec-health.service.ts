@@ -12,7 +12,6 @@ export class SpecHealthService {
 
   get(code?: string | number): Observable<Array<SpecHealth>> {
     let url = code ? this.baseUrl + "?code=" + code : this.baseUrl;
-
     return this.http.get(url).pipe(map(response => {
       return <Array<SpecHealth>>response.json();
     }));

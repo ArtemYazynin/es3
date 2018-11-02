@@ -34,9 +34,7 @@ export class EditConfirmationDocumentComponent implements OnInit {
   }
 
   getResult() {
-    return new ConfirmationDocument(this.confirmationDocumentForm.controls.name.value, this.confirmationDocumentForm.controls.series.value,
-      this.confirmationDocumentForm.controls.number.value, this.confirmationDocumentForm.controls.dateIssue.value,
-      this.confirmationDocumentForm.controls.dateExpired.value, this.model ? this.model.id : undefined);
+    return ConfirmationDocument.construct(this.confirmationDocumentForm, this.model ? this.model.id : undefined);
   }
 
   private buildForm(): any {

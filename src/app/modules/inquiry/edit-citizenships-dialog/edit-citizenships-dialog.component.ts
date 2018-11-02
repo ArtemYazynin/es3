@@ -52,9 +52,7 @@ export class EditCitizenshipsDialogComponent implements OnInit, OnDestroy, After
           let patch = this.editCitizenshipsComponent.foreignCitizensAddressesComponent.getResult();
           patchAddress(patch);
           (() => {
-            const controls = this.editCitizenshipsComponent.editConfirmationDocumentComponent.confirmationDocumentForm.controls;
-            const document = new ConfirmationDocument(controls.name.value, controls.series.value, controls.number.value,
-              controls.dateIssue.value, controls.dateExpired.value, Guid.newGuid())
+            const document = ConfirmationDocument.construct(this.editCitizenshipsComponent.editConfirmationDocumentComponent.confirmationDocumentForm)
             data[this.data.personType === PersonType.Parent ? "countryStateDocument" : "countryStateApplicantDocument"] = document;
           })();
         }

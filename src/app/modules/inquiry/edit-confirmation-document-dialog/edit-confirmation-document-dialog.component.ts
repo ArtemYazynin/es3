@@ -3,6 +3,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { BehaviorSubject } from 'rxjs';
 import { ConfirmationDocument, ConfigsOfRoutingButtons } from '../../../shared';
 import { EditConfirmationDocumentComponent } from '../../../shared/components/edit-confirmation-document/edit-confirmation-document.component';
+import { Guid } from '../../../shared/models/guid';
 
 @Component({
   selector: 'app-edit-confirmation-document-dialog',
@@ -21,12 +22,8 @@ export class EditConfirmationDocumentDialogComponent implements OnInit {
       primaryTitle: "Сохранить",
       inverseTitle: "Закрыть",
       primaryAction: () => {
-        let document = new ConfirmationDocument(this.confirmationProofDocumentComponent.confirmationDocumentForm.value["name"],
-          this.confirmationProofDocumentComponent.confirmationDocumentForm.value["series"],
-          this.confirmationProofDocumentComponent.confirmationDocumentForm.value["number"],
-          this.confirmationProofDocumentComponent.confirmationDocumentForm.value["dateIssue"],
-          this.confirmationProofDocumentComponent.confirmationDocumentForm.value["dateExpired"],
-          this.data.$document.getValue().id)
+        const oldDocument = this.data.$document.getValue();
+        let document = ConfirmationDocument.construct(this.confirmationProofDocumentComponent.confirmationDocumentForm, oldDocument ? oldDocument.id : Guid.newGuid());
         this.data.$document.next(document);
         this.dialogRef.close();
 

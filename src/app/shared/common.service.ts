@@ -17,6 +17,7 @@ import { esConstant } from '../app.module';
 import { MatDialogConfig } from '@angular/material';
 import { AddressComponent } from './components/address/address.component';
 import { Address } from './models/address.model';
+import { Guid } from './models/guid';
 
 @Injectable()
 export class CommonService {
@@ -90,13 +91,12 @@ export class CommonService {
     return (myNav.indexOf('msie') != -1) ? parseInt(myNav.split('msie')[1]) : undefined;
   }
   getDocumentByType(components: QueryList<EditConfirmationDocumentComponent> | Array<EditConfirmationDocumentComponent>, type: AttachmentType) {
-    let document = components.find(x => x.type == type);
-    if (!document) return undefined
-    return new ConfirmationDocument(document.confirmationDocumentForm.controls.name.value,
-      document.confirmationDocumentForm.controls.series.value,
-      document.confirmationDocumentForm.controls.number.value,
-      document.confirmationDocumentForm.controls.dateIssue.value,
-      document.confirmationDocumentForm.controls.dateExpired.value)
+    let component = components.find(x => x.type == type);
+    if (!component) return undefined
+
+    let document = ConfirmationDocument.construct(component.confirmationDocumentForm);
+    document.id = component.model ? component.model.id : Guid.newGuid();
+    return document;
   }
   compareObjects(o1: any, o2: any): boolean {
     return (o1 && o1.id) === (o2 && o2.id);

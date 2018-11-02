@@ -1,6 +1,7 @@
 import { ConfirmationDocument } from "./confirmation-document.model";
 import { Entity } from "./entity.model";
 import { PrivilegeOrder } from "./privilege-order.model";
+import { FormGroup } from "@angular/forms";
 
 export class Privilege extends Entity<string> {
     constructor(id?: string, name?: string, privilegeOrder?: PrivilegeOrder) {
@@ -9,4 +10,12 @@ export class Privilege extends Entity<string> {
     }
     privilegeOrder: PrivilegeOrder;
     privilegeProofDocument: ConfirmationDocument;
+
+    static construct(form: FormGroup) {
+        let result = new Privilege();
+        result.id = form.controls.privilege.value.id;
+        result.name = form.controls.privilege.value.name;
+        result.privilegeOrder = form.controls.privilegeOrder.value;
+        return result;
+    }
 }

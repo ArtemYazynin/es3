@@ -8,6 +8,8 @@
   <div class="form-group" *ngIf="model.residential">
     <b>Адрес проживания </b> {{drawService.address(model.residential)}}
   </div>
+  <app-confirmation-document-card [title]="documentTitle" [model]="$document" [mode]="mode">
+  </app-confirmation-document-card>
 </ng-template>
 
 <ng-template #withEdit>

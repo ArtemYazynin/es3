@@ -7,10 +7,10 @@
 
           <app-citizenships-card [model]="inquiry.applicant" [personType]="personTypes.Applicant" [mode]="modes.Read" [applicantType]="applicantTypes.Applicant"></app-citizenships-card>
           <app-confirmation-document-card title="Документ, подтверждающий право пребывания доверенного лица законного представителя на территории РФ"
-            [model]="inquiry.applicant.countryStateApplicantDocument" [mode]="modes.Read">
+            [model]="$countryStateApplicantDocument" [mode]="modes.Read">
           </app-confirmation-document-card>
           <app-confirmation-document-card title="Документ, подтверждающий полномочие доверенного лица представлять интересы законного представителя"
-            [model]="inquiry.applicant.applicantRepresentParentDocument" [mode]="modes.Read">
+            [model]="$applicantRepresentParentDocument" [mode]="modes.Read">
           </app-confirmation-document-card>
         </app-inquiry-info-edit>
       </div>
@@ -20,10 +20,10 @@
 
           <app-citizenships-card [model]="inquiry.parent" [personType]="personTypes.Parent" [applicantType]="applicantTypes.Parent"></app-citizenships-card>
           <app-confirmation-document-card title="Документ, подтверждающий право пребывания законного представителя на территории РФ"
-            [model]="inquiry.parent.countryStateDocument" [mode]="modes.Read">
+            [model]="$countryStateDocument" [mode]="modes.Read">
           </app-confirmation-document-card>
           <app-confirmation-document-card title="Документ, подтверждающий право законного представителя представлять интересы ребенка"
-            [model]="inquiry.parent.parentRepresentChildrenDocument" [mode]="modes.Read">
+            [model]="$parentRepresentChildrenDocument" [mode]="modes.Read">
           </app-confirmation-document-card>
         </app-inquiry-info-edit>
       </div>
@@ -46,7 +46,7 @@
         <app-current-education-place-card [currentEducationPlace]="inquiry.currentEducationPlace"></app-current-education-place-card>
       </div>
       <div class="col-md-6">
-        <app-privilege-card [privilege]="inquiry?.privilege"></app-privilege-card>
+        <app-privilege-card [model]="inquiry?.privilege"></app-privilege-card>
       </div>
     </div>
     <div class="row">

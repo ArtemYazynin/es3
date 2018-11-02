@@ -1,12 +1,12 @@
-<div *ngIf="data.$inquiry | async as inquiry">
+<div>
   <h1 mat-dialog-title>Выбор льготы</h1>
   <div mat-dialog-content>
     <div>
-      <app-privilege-edit [inquiry]="inquiry">
+      <app-privilege-edit [privilege]="privilege">
       </app-privilege-edit>
     </div>
   </div>
   <mat-dialog-actions>
-    <app-routing-buttons [config]="config" [isValid]="privilegeEditComponent && privilegeEditComponent.isValid()"></app-routing-buttons>
+    <app-routing-buttons [config]="config" [isValid]="isValid()"></app-routing-buttons>
   </mat-dialog-actions>
 </div>

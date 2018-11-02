@@ -13,8 +13,9 @@ import { EditConfirmationDocumentComponent } from '../edit-confirmation-document
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class PrivilegeEditComponent implements OnInit, AfterViewInit {
-  @Input() inquiry: Inquiry;
+  @Input() privilege: Privilege;
   @ViewChild(EditConfirmationDocumentComponent) confirmationProofDocumentComponent: EditConfirmationDocumentComponent;
+
   private ngUnsubscribe: Subject<any> = new Subject();
   private privileges: Array<Privilege>;
   formErrors = {
@@ -45,12 +46,12 @@ export class PrivilegeEditComponent implements OnInit, AfterViewInit {
     this.subscribeOnPrivilegeOrder();
     this.privilegeOrders = this.privilegeOrderService.get();
 
-    if (!this.inquiry.privilege) {
+    if (!this.privilege) {
       this.privilegeForm.patchValue({ withoutPrivilege: true });
     } else {
       this.privilegeForm.patchValue({
-        privilegeOrder: this.inquiry.privilege.privilegeOrder,
-        privilege: this.inquiry.privilege
+        privilegeOrder: this.privilege.privilegeOrder,
+        privilege: this.privilege
       });
     }
   }
@@ -59,9 +60,9 @@ export class PrivilegeEditComponent implements OnInit, AfterViewInit {
     this.ngUnsubscribe.complete();
   }
   ngAfterViewInit(): void {
-    if (this.inquiry && this.inquiry.privilege && this.inquiry.privilege.privilegeProofDocument
+    if (this.privilege && this.privilege.privilegeProofDocument
       && this.confirmationProofDocumentComponent && this.confirmationProofDocumentComponent.confirmationDocumentForm) {
-      this.confirmationProofDocumentComponent.confirmationDocumentForm.patchValue(this.inquiry.privilege.privilegeProofDocument);
+      this.confirmationProofDocumentComponent.confirmationDocumentForm.patchValue(this.privilege.privilegeProofDocument);
       this.cdr.detectChanges();
     }
   }

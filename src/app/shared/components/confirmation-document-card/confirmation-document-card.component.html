@@ -1,19 +1,22 @@
 <ng-template #fieldsTemplate>
-  <div class="form-group">
-    <b>Название документа</b> {{model.name}}
-  </div>
-  <div class="form-group">
-    <b>Серия документа</b> {{model.series || "-"}}
-  </div>
-  <div class="form-group">
-    <b>Номер документа</b> {{model.number}}
-  </div>
-  <div class="form-group">
-    <b>Дата выдачи</b> {{model.dateIssue | date: 'dd.MM.yyyy'}}
-  </div>
-  <div class="form-group" *ngIf="model.dateExpired">
-    <b>Действительно до</b> {{model.dateExpired | date: 'dd.MM.yyyy'}}
-  </div>
+  <ng-container *ngIf="model | async as doc">
+      <div class="form-group">
+          <b>Название документа</b> {{doc.name}}
+        </div>
+        <div class="form-group">
+          <b>Серия документа</b> {{doc.series || "-"}}
+        </div>
+        <div class="form-group">
+          <b>Номер документа</b> {{doc.number}}
+        </div>
+        <div class="form-group">
+          <b>Дата выдачи</b> {{doc.dateIssue | date: 'dd.MM.yyyy'}}
+        </div>
+        <div class="form-group" *ngIf="doc.dateExpired">
+          <b>Действительно до</b> {{doc.dateExpired | date: 'dd.MM.yyyy'}}
+        </div>
+  </ng-container>
+  
 </ng-template>
 
 <ng-template #withEdit>
@@ -30,6 +33,6 @@
   </app-inquiry-info-edit>
 </ng-template>
 
-<ng-container *ngIf="model">
+<ng-container *ngIf="model | async">
   <ng-container *ngTemplateOutlet="mode == modes.Edit ? withEdit : withoutEdit"></ng-container>
 </ng-container>
