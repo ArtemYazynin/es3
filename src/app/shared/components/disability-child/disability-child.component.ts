@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
 import { ChildComponent } from '../../../modules/wizard/children-step/child/child.component';
 import { inquiryType, Entity } from '../..';
+import { Child } from '../../models/child.model';
 
 @Component({
   selector: 'app-disability-child',
@@ -10,7 +11,7 @@ import { inquiryType, Entity } from '../..';
 })
 export class DisabilityChildComponent implements OnInit {
   @Input() inquiryType: string;
-  @Input() childrenComponents: Array<ChildComponent>;
+  @Input() child:Child;
 
   constructor() { }
 
