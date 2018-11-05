@@ -8,7 +8,7 @@ import { TextMaskModule } from 'angular2-text-mask';
 import { MyDatePickerModule } from 'mydatepicker';
 import { MaterialModule } from '../../material.module';
 import { ShareModule } from '../../share.module';
-import { AddressService, AreaService, CitizenshipService, CommonService, DrawService, FormService, GroupService, IdentityCardService, InquiryService, InstitutionService, PrivilegeService, RelationTypeService, SettingsService, SpecHealthService, SpecificityService, StatusService } from '../../shared';
+import { AddressService, AreaService, CitizenshipService, CommonService, DrawService, FormService, GroupService, IdentityCardService, InstitutionService, PrivilegeService, RelationTypeService, SettingsService, SpecHealthService, SpecificityService, StatusService } from '../../shared';
 import { ActionsButtonsService } from '../../shared/actions-buttons.service';
 import { PetitionCardComponent } from '../../shared/components/petition-card/petition-card.component';
 import { HttpInterceptor } from '../../shared/http-interceptor';
@@ -58,7 +58,6 @@ import { InquiryCommonInfoComponent } from './shared/components/inquiry-common-i
     IdentityCardService,
     SpecHealthService,
     AreaService,
-    InstitutionService,
     GroupService,
     CommonService,
     PrivilegeOrderService,
@@ -67,17 +66,16 @@ import { InquiryCommonInfoComponent } from './shared/components/inquiry-common-i
     SettingsService,
     DrawService,
     AddressService,
-    InquiryService,
     StatusService,
     ActionsButtonsService
   ],
-  declarations: [ PetitionCardComponent, InquiryReadComponent, InquiryCommonInfoComponent, RegisterSourcePipe,
-    EditPrivilegeDialogComponent, EditPersonDialogComponent, EditInquiryInfoDialogComponent, EditPreschoolInstitutionDialogComponent, 
+  declarations: [PetitionCardComponent, InquiryReadComponent, InquiryCommonInfoComponent, RegisterSourcePipe,
+    EditPrivilegeDialogComponent, EditPersonDialogComponent, EditInquiryInfoDialogComponent, EditPreschoolInstitutionDialogComponent,
     EditContactInfoDialogComponent, EditCurrentEducationPlaceDialogComponent, EditSchoolInquiryInfoDialogComponent,
-    EditFileAttachmentsDialogComponent, EditChildrenDialogComponent, EditPetitionDialogComponent,PetitionTypePipe, RelationTypeDialogComponent
+    EditFileAttachmentsDialogComponent, EditChildrenDialogComponent, EditPetitionDialogComponent, PetitionTypePipe, RelationTypeDialogComponent
   ],
   entryComponents: [EditPrivilegeDialogComponent, EditPersonDialogComponent, EditInquiryInfoDialogComponent, EditPreschoolInstitutionDialogComponent,
     EditContactInfoDialogComponent, EditCurrentEducationPlaceDialogComponent,
     EditSchoolInquiryInfoDialogComponent, EditPetitionDialogComponent, RelationTypeDialogComponent]
 })
-export class InquiryModule {}
+export class InquiryModule { }

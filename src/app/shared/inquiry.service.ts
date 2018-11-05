@@ -1,22 +1,22 @@
-import { Inject, Injectable, ChangeDetectorRef } from '@angular/core';
-import { Headers, RequestOptions, Http } from '@angular/http';
-import { empty, Observable, zip, Subscription, forkJoin, BehaviorSubject } from 'rxjs';
+import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
 import { isNullOrUndefined } from 'util';
-import { SERVER_URL } from '../app.module';
+import { environment } from '../../environments/environment';
+import { EditChildrenComponent } from '../modules/inquiry/shared/components/edit-children/edit-children.component';
+import { EditCitizenshipsComponent } from '../modules/inquiry/shared/components/edit-citizenships/edit-citizenships.component';
 import { EditContactInfoComponent } from '../modules/inquiry/shared/components/edit-contact-info/edit-contact-info.component';
 import { EditCurrentEducationPlaceComponent } from '../modules/inquiry/shared/components/edit-current-education-place/edit-current-education-place.component';
 import { EditFileAttachmentsComponent } from '../modules/inquiry/shared/components/edit-file-attachments/edit-file-attachments.component';
 import { EditInquiryInfoComponent } from '../modules/inquiry/shared/components/edit-inquiry-info/edit-inquiry-info.component';
 import { EditInstitutionsComponent } from '../modules/inquiry/shared/components/edit-institutions/edit-institutions.component';
 import { EditPersonComponent } from '../modules/inquiry/shared/components/edit-person/edit-person.component';
-import { WizardStorageService } from '../modules/wizard/shared/wizard-storage.service';
 import { CommonService } from '../shared/common.service';
 import { AttachmentType } from '../shared/models/attachment-type.enum';
-import { ApplicantType } from './applicant-type.enum';
+import { EditConfirmationDocumentComponent } from './components/edit-confirmation-document/edit-confirmation-document.component';
 import { EditSchoolInquiryInfoComponent } from './components/edit-school-inquiry-info/edit-school-inquiry-info.component';
 import { PrivilegeEditComponent } from './components/privilege-edit/privilege-edit.component';
 import { DublicatesFinder } from './dublicates-finder';
-import { HttpInterceptor } from './http-interceptor';
+import { InquiryDataSourceService } from './inquiry-data-source.service';
 import { AgeGroup } from './models/age-group.model';
 import { Applicant } from './models/applicant.model';
 import { ContactInfo } from './models/contact-info.model';
@@ -26,26 +26,16 @@ import { Guid } from './models/guid';
 import { InquiryInfo } from './models/inquiry-info.model';
 import { Inquiry } from './models/inquiry.model';
 import { Parent } from './models/parent.model';
-import { Privilege } from './models/privilege.model';
-import { SchoolInquiryInfo } from './models/school-inquiry-info.model';
-import { StayMode } from './models/stay-mode.model';
-import { RegisterSource } from './models/register-source.enum';
 import { PortalIdentity } from './models/portal-identity.model';
+import { Privilege } from './models/privilege.model';
+import { RegisterSource } from './models/register-source.enum';
+import { SchoolInquiryInfo } from './models/school-inquiry-info.model';
 import { Status } from './models/status.model';
-import { ConfirmationDocumentService } from './confirmation-document.service';
-import { ConfirmationDocument } from './models/confirmation-document.model';
-import { map, takeUntil, tap, mergeMap } from 'rxjs/operators';
-import { environment } from '../../environments/environment';
-import { EditChildrenComponent } from '../modules/inquiry/shared/components/edit-children/edit-children.component';
-import { EditCitizenshipsComponent } from '../modules/inquiry/shared/components/edit-citizenships/edit-citizenships.component';
-import { EditConfirmationDocumentComponent } from './components/edit-confirmation-document/edit-confirmation-document.component';
+import { StayMode } from './models/stay-mode.model';
 
 @Injectable()
 export class InquiryService {
-  private baseUrl = `${this.serverUrl}/inquiries`
-
-  constructor(private http: Http, private storageService: WizardStorageService, private commonService: CommonService,
-    @Inject(SERVER_URL) private serverUrl, private confirmationDocumentService: ConfirmationDocumentService) { }
+  constructor(private commonService: CommonService, private dataSource: InquiryDataSourceService) { }
 
   saveApplicant(inquiry: Inquiry, editPersonComponent: EditPersonComponent, editCitizenshipsComponent: EditCitizenshipsComponent,
     editConfirmationDocumentComponent: EditConfirmationDocumentComponent): Inquiry {
@@ -54,7 +44,7 @@ export class InquiryService {
       editPersonComponent.snilsComponent.snils, fullnameResult.noMiddlename, undefined, undefined, undefined);
     applicant.identityCard = editPersonComponent.identityCardComponent.getResult();
     applicant.applicantRepresentParentDocument = editConfirmationDocumentComponent.getResult();
-   
+
 
     const citizenshipsWithAddresses = editCitizenshipsComponent.getResult();
     applicant.countryStateApplicantDocument = citizenshipsWithAddresses.document;
@@ -72,20 +62,6 @@ export class InquiryService {
       inquiry.applicant = applicant;
     }
     return inquiry;
-  }
-
-  saveParent(inquiry: Inquiry, editPersonComponent: EditPersonComponent, update: (patch: object) => void, addCondition: boolean = true): void {
-    // let parent: Parent;
-    // if (inquiry.applicantType == ApplicantType.Parent && addCondition) {
-    //   parent = this.commonService.buildParent(editPersonComponent, inquiry.applicantType);
-    //   if (DublicatesFinder.betweenParentChildren(parent, inquiry.children)) return;
-    // } else if (inquiry.applicantType == ApplicantType.Applicant && addCondition) {
-    //   parent = this.commonService.buildParent(editPersonComponent, inquiry.applicantType);
-    //   if (DublicatesFinder.betweenApplicantParent(inquiry.applicant, parent)) return;
-    //   if (DublicatesFinder.betweenApplicantChildren(inquiry.applicant, inquiry.children)) return;
-    //   if (DublicatesFinder.betweenParentChildren(parent, inquiry.children)) return;
-    // }
-    // if (!!parent) update({ parent: parent });
   }
 
   saveChildren(editChildrenComponent: EditChildrenComponent, update: (patch: object) => void): void {
@@ -189,86 +165,57 @@ export class InquiryService {
     })
   }
   create(inquiry: Inquiry): Observable<Inquiry> {
-    let options = new RequestOptions({ headers: new Headers({ 'Content-Type': 'application/json' }) });
-    inquiry.id = Guid.newGuid();
-    inquiry.version = new Date();
-    inquiry.registerDateTime = new Date();
-    inquiry.number = "46205/ЗЗ/18091213";
-    inquiry.registerSource = RegisterSource.Ws;
-    inquiry.addInformation = "доп. инфа по заявлению";
-    inquiry.portalIdentity = new PortalIdentity(Guid.newGuid(), "123 внешний id");
-    inquiry.status = new Status(Guid.newGuid(), "Новое");
+    if (!environment.production) {
+      inquiry.id = Guid.newGuid();
+      inquiry.version = new Date();
+      inquiry.registerDateTime = new Date();
+      inquiry.number = "46205/ЗЗ/18091213";
+      inquiry.registerSource = RegisterSource.Ws;
+      inquiry.addInformation = "доп. инфа по заявлению";
+      inquiry.portalIdentity = new PortalIdentity(Guid.newGuid(), "123 внешний id");
+      inquiry.status = new Status(Guid.newGuid(), "Новое");
 
-    if (inquiry.parent) {
-      inquiry.parent.id = Guid.newGuid();
-      if (inquiry.parent.countryStateDocument) {
-        inquiry.parent.countryStateDocument.id = Guid.newGuid();
+      if (inquiry.parent) {
+        inquiry.parent.id = Guid.newGuid();
+        if (inquiry.parent.countryStateDocument) {
+          inquiry.parent.countryStateDocument.id = Guid.newGuid();
+        }
+        if (inquiry.parent.parentRepresentChildrenDocument) {
+          inquiry.parent.parentRepresentChildrenDocument.id = Guid.newGuid();
+        }
       }
-      if (inquiry.parent.parentRepresentChildrenDocument) {
-        inquiry.parent.parentRepresentChildrenDocument.id = Guid.newGuid();
+      if (inquiry.applicant) {
+        inquiry.applicant.id = Guid.newGuid();
+        if (inquiry.applicant.countryStateApplicantDocument) {
+          inquiry.applicant.countryStateApplicantDocument.id = Guid.newGuid();
+        }
+        if (inquiry.applicant.applicantRepresentParentDocument) {
+          inquiry.applicant.applicantRepresentParentDocument.id = Guid.newGuid();
+        }
       }
+      if (inquiry.privilege && inquiry.privilege.privilegeProofDocument) {
+        inquiry.privilege.privilegeProofDocument.id = Guid.newGuid();
+      }
+      inquiry.children.forEach(child => {
+        child.id = Guid.newGuid();
+        if (child.specHealthDocument) child.specHealthDocument.id = Guid.newGuid();
+      })
     }
-    if (inquiry.applicant) {
-      inquiry.applicant.id = Guid.newGuid();
-      if (inquiry.applicant.countryStateApplicantDocument) {
-        inquiry.applicant.countryStateApplicantDocument.id = Guid.newGuid();
-      }
-      if (inquiry.applicant.applicantRepresentParentDocument) {
-        inquiry.applicant.applicantRepresentParentDocument.id = Guid.newGuid();
-      }
-    }
-    if (inquiry.privilege && inquiry.privilege.privilegeProofDocument) {
-      inquiry.privilege.privilegeProofDocument.id = Guid.newGuid();
-    }
-    inquiry.children.forEach(child => {
-      child.id = Guid.newGuid();
-      if (child.specHealthDocument) child.specHealthDocument.id = Guid.newGuid();
-    })
 
-    return this.http.post(this.baseUrl, inquiry, options).pipe(map(result => {
-      return <Inquiry>result.json();
-    }));
-    // inquiry.id = Guid.newGuid();
-    // inquiry.version = new Date();
-    // inquiry.registerDateTime = new Date();
-    // inquiry.number = "46205/ЗЗ/18091213";
-    // inquiry.registerSource = RegisterSource.Ws;
-    // inquiry.addInformation = "доп. инфа по заявлению";
-    // inquiry.portalIdentity = new PortalIdentity(Guid.newGuid(), "123 внешний id");
-    // inquiry.status = new Status(Guid.newGuid(), "Новое");
-    // this.storageService.set(inquiry.type, inquiry);
-    // return of(this.storageService.get(inquiry.type));
+    return this.dataSource.post(inquiry);
   }
 
   update(id: string, inquiry: Inquiry): Observable<Inquiry> {
-    if (!id || !inquiry) return empty();
-
-    let options = new RequestOptions({ headers: new Headers({ 'Content-Type': 'application/json' }) });
-    let url = `${this.baseUrl}/${id}`;
-    return this.http.put(url, inquiry, options).pipe(map(result => {
-      return <Inquiry>result.json();
-    }));
+    return this.dataSource.put(id, inquiry);
   }
 
   get(id: string): Observable<Inquiry> {
-    // if (!id) return Observable.create();
-    // return new BehaviorSubject<Inquiry>(this.storageService.get("preschool"));
-    const url = `${this.baseUrl}/${id}`;
-    return this.http.get(url).pipe(map(result => {
-      let inquiry = new Inquiry(result.json());
-
-      return inquiry;
-    }));
+    return this.dataSource.get(id);
   }
 
   updateInquiryPropery(id: string, objProp: { id: string }) {
     if (!id) return;
     if (!environment.production) {
-      // return this.get(id)
-      //   .pipe(mergeMap(inquiry => {
-      //     this.updateInquiry(inquiry, objProp);
-      //     return this.update(inquiry.id, inquiry)
-      //   }))
       this.get(id)
         .subscribe(inquiry => {
           this.updateInquiry(inquiry, objProp);

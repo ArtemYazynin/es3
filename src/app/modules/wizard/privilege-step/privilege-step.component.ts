@@ -24,7 +24,7 @@ export class PrivilegeStepComponent implements OnInit, AfterViewInit, StepBase {
 
   ngOnInit() {
     this.inquiry = <Inquiry>this.storageService.get(this.inquiryType);
-    this.config = new ConfigsOfRoutingButtons(ButtonsTitles.Next, ButtonsTitles.Back,
+  this.config = new ConfigsOfRoutingButtons(ButtonsTitles.Next, ButtonsTitles.Back,
       this.actionsButtonsService.primaryActionPrivilegeStep(this.privilegeEditComponent, this.inquiry, this.activatedRoute),
       this.actionsButtonsService.inverseActionPrivilegeStep(this.inquiryType, this.router, this.activatedRoute)
     );
