@@ -103,7 +103,7 @@ import { DateAdapter } from "@angular/material";
         SpecializationService, ConfirmationDocumentService, FamilyInfoService,
         EducProgramService, PersonService
     ],
-    entryComponents: [EditConfirmationDocumentDialogComponent, EditCitizenshipsDialogComponent]
+    entryComponents: [EditConfirmationDocumentDialogComponent,EditChildrenComponent, EditCitizenshipsDialogComponent]
 })
 export class ShareModule {
     constructor(dateAdapter: DateAdapter<Date>) {

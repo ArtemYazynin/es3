@@ -34,6 +34,7 @@ import { PrivilegeStepResolver } from './resolvers/privilege-step-resolver';
 import { ParentStepService, WizardStorageService } from './shared';
 import { WizardRoutingModule } from './wizard-routing-module';
 import { ChildComponent } from './children-step/child/child.component';
+import { EditChildrenComponent } from '../inquiry/shared/components/edit-children/edit-children.component';
 
 
 @NgModule({
