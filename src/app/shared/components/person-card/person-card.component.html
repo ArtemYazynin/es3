@@ -8,8 +8,11 @@
   <div class="form-group">
     <b>СНИЛС </b> {{entity.snils || "-"}}
   </div>
-  <div class="form-group">
-    <b>СНИЛС </b> {{entity | json}}
+  <div class="form-group" *ngIf="entity.disabledChild">
+    <b>Ребенок-инвалид </b> {{entity.disabledChild ? 'Да' : 'Нет'}}
+  </div>
+  <div class="form-group" *ngIf="entity.disabilityType">
+    <b>Группа инвалидности </b> {{entity.disabilityType.name}}
   </div>
   <!-- <ng-container *ngIf="isChild()">
     <app-confirmation-document-card title="Документ, подтверждающий потребность в группе с ОВЗ" [model]="entity.specHealthDocument"

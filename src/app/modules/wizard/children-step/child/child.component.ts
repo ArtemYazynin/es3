@@ -24,14 +24,11 @@ export class ChildComponent implements OnInit, AfterViewInit {
   disabledChild: boolean = false;;
   disabilityType: DisabilityType;
   child: Child;
-  // disabilityTypes: Array<DisabilityType> = [
-  //   new DisabilityType("", "Нет"),
-  // ];
   disabilities: Array<DisabilityType>;
 
   ngOnInit() {
-    this.disabilityService.get().subscribe(x => {
-      this.disabilities = x;
+    this.disabilityService.get().subscribe(data => {
+      this.disabilities = data;
       if (this.child) {
         this.disabledChild = this.child.disabledChild;
         if (this.child.disabilityType) this.disabilityType = this.disabilities.find(x => x.id == this.child.disabilityType.id);

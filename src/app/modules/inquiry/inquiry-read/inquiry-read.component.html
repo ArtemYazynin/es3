@@ -43,11 +43,8 @@
         <app-citizenships-card [model]="inquiry.applicant" [mode]="modes.Edit" [personType]="personTypes.Applicant"
           [applicantType]="applicantTypes.Applicant">
         </app-citizenships-card>
-        <app-confirmation-document-card title="Документ, подтверждающий право пребывания доверенного лица законного представителя на территории РФ"
-          [model]="inquiry.applicant.countryStateApplicantDocument" [mode]="modes.Edit">
-        </app-confirmation-document-card>
         <app-confirmation-document-card title="Документ, подтверждающий полномочие доверенного лица представлять интересы законного представителя"
-          [model]="inquiry.applicant.applicantRepresentParentDocument" [mode]="modes.Edit">
+          [model]="$applicantRepresentParentDocument" [mode]="modes.Edit">
         </app-confirmation-document-card>
       </app-inquiry-info-edit>
     </div>

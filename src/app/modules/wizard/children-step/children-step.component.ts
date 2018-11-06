@@ -13,7 +13,7 @@ import { EditChildrenComponent } from './../../inquiry/shared/components/edit-ch
   styleUrls: ['./children-step.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ChildrenStepComponent implements OnInit, StepBase {
+export class ChildrenStepComponent implements OnInit {
   @ViewChild("children", { read: ViewContainerRef }) viewContainer;
   component: EditChildrenComponent;
   inquiry: Inquiry;
