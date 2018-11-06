@@ -23,14 +23,22 @@ export class PersonCardComponent implements OnInit, OnDestroy {
   @Input() mode: BehaviorMode;
   @Input() personType: PersonType;
 
-  drawManager = this.drawService;
   modes = BehaviorMode;
   private ngUnsubscribe: Subject<any> = new Subject();
 
-  constructor(private drawService: DrawService, private dialog: MatDialog, private commonService: CommonService, private cdr: ChangeDetectorRef, private inquiryService: InquiryService,
+  constructor(public drawService: DrawService, private dialog: MatDialog, private commonService: CommonService, 
+    private cdr: ChangeDetectorRef, private inquiryService: InquiryService,
     private route: ActivatedRoute, private personService: PersonService) { }
 
   ngOnInit() {
+    switch (this.personType) {
+      case PersonType.Child:
+        
+        break;
+    
+      default:
+        break;
+    }
   }
 
   ngOnDestroy(): void {

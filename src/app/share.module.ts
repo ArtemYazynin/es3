@@ -58,6 +58,7 @@ import { EditCitizenshipsComponent } from './modules/inquiry/shared/components/e
 import { CitizenshipsCardComponent } from "./shared/components/citizenships-card/citizenships-card.component";
 import { RelationTypeCardComponent } from './shared/components/relation-type-card/relation-type-card.component';
 import { DateAdapter } from "@angular/material";
+import { DisabilityService } from "./shared/disability.service";
 
 
 
@@ -101,7 +102,7 @@ import { DateAdapter } from "@angular/material";
     ],
     providers: [
         SpecializationService, ConfirmationDocumentService, FamilyInfoService,
-        EducProgramService, PersonService
+        EducProgramService, PersonService,DisabilityService
     ],
     entryComponents: [EditConfirmationDocumentDialogComponent, EditCitizenshipsDialogComponent]
 })
