@@ -26,6 +26,7 @@ export * from "./addressBuilder/address-builder-director";
 
 
 export * from "./models/entity.model";
+export * from "./models/disability-type.model";
 export * from "./models/preschool-inquiry.model";
 export * from "./models/petition.model";
 export * from "./models/family-info.model";
@@ -84,6 +85,7 @@ export * from "./educ-program.service";
 export * from "./spec-health.service";
 export * from "./group.service";
 export * from "./common.service";
+export * from "./disability.service";
 export * from "./specificity.service";
 export * from "./privilege-order.service";
 

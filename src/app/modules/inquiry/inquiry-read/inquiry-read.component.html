@@ -39,25 +39,19 @@
     <div class="col-md-6" *ngIf="inquiry.applicantType == applicantTypes.Applicant">
       <app-inquiry-info-edit title="Доверенное лицо законного представителя ребенка">
         <app-person-card [entity]="inquiry.applicant" [personType]="personTypes.Applicant" [mode]="modes.Edit"></app-person-card>
-
         <app-citizenships-card [model]="inquiry.applicant" [mode]="modes.Edit" [personType]="personTypes.Applicant"
           [applicantType]="applicantTypes.Applicant">
         </app-citizenships-card>
-        <app-confirmation-document-card title="Документ, подтверждающий право пребывания доверенного лица законного представителя на территории РФ"
-          [model]="inquiry.applicant.countryStateApplicantDocument" [mode]="modes.Edit">
-        </app-confirmation-document-card>
         <app-confirmation-document-card title="Документ, подтверждающий полномочие доверенного лица представлять интересы законного представителя"
-          [model]="inquiry.applicant.applicantRepresentParentDocument" [mode]="modes.Edit">
+          [model]="$applicantRepresentParentDocument" [mode]="modes.Edit">
         </app-confirmation-document-card>
       </app-inquiry-info-edit>
     </div>
-    <div class="col-md-6" *ngIf="inquiry.applicantType == applicantTypes.Parent">
+    <div class="col-md-6" *ngIf="inquiry.applicantType == applicantTypes.Applicant || inquiry.applicantType == applicantTypes.Parent">
       <app-inquiry-info-edit title="Законный представитель">
         <app-person-card [entity]="inquiry.parent" [personType]="personTypes.Parent" [mode]="modes.Edit"></app-person-card>
+        <app-citizenships-card [model]="inquiry.parent" [mode]="modes.Edit" [personType]="personTypes.Parent" [applicantType]="applicantTypes.Parent"> </app-citizenships-card>
         <app-relation-type-card [model]="inquiry.parent" [mode]="modes.Edit"></app-relation-type-card>
-        <app-citizenships-card [model]="inquiry.parent" [mode]="modes.Edit" [personType]="personTypes.Parent"
-          [applicantType]="applicantTypes.Parent">
-        </app-citizenships-card>
       </app-inquiry-info-edit>
     </div>
   </div>

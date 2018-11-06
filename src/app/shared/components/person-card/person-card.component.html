@@ -1,12 +1,18 @@
 <ng-template #fieldsTemplate>
   <div class="form-group">
-    <b>ФИО </b>{{drawManager.fio(entity)}}
+    <b>ФИО </b>{{drawService.fio(entity)}}
   </div>
   <div class="form-group">
-    <b>Документ </b> {{drawManager.identityCard(entity.identityCard)}}
+    <b>Документ </b> {{drawService.identityCard(entity.identityCard)}}
   </div>
   <div class="form-group">
     <b>СНИЛС </b> {{entity.snils || "-"}}
+  </div>
+  <div class="form-group" *ngIf="entity.disabledChild">
+    <b>Ребенок-инвалид </b> {{entity.disabledChild ? 'Да' : 'Нет'}}
+  </div>
+  <div class="form-group" *ngIf="entity.disabilityType">
+    <b>Группа инвалидности </b> {{entity.disabilityType.name}}
   </div>
   <!-- <ng-container *ngIf="isChild()">
     <app-confirmation-document-card title="Документ, подтверждающий потребность в группе с ОВЗ" [model]="entity.specHealthDocument"

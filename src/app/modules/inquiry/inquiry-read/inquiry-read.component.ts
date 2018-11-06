@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
-import { map, takeUntil } from 'rxjs/operators';
+import { map, takeUntil, skip } from 'rxjs/operators';
 import { ApplicantType, CitizenshipService, CommonService, ConfirmationDocument, BehaviorMode, Country, DrawService, Entity, Inquiry, InquiryService, inquiryType, InstitutionService, PrivilegeOrder, PrivilegeOrderService, Specificity, SpecificityService, Status, StatusService } from '../../../shared/index';
 import { EditContactInfoDialogComponent } from '../edit-contact-info-dialog/edit-contact-info-dialog.component';
 import { EditCurrentEducationPlaceDialogComponent } from '../edit-current-education-place-dialog/edit-current-education-place-dialog.component';
@@ -13,7 +13,7 @@ import { EditPreschoolInstitutionDialogComponent } from '../edit-preschool-insti
 import { EditPrivilegeDialogComponent } from '../edit-privilege-dialog/edit-privilege-dialog.component';
 import { EditSchoolInquiryInfoDialogComponent } from '../edit-school-inquiry-info-dialog/edit-school-inquiry-info-dialog.component';
 import { EditPersonDialogComponent } from '../edit-person-dialog/edit-person-dialog.component';
-import { PersonType } from '../../../shared/person-type.enum'; 
+import { PersonType } from '../../../shared/person-type.enum';
 
 @Component({
   selector: 'app-inquiry-read',
@@ -34,12 +34,12 @@ export class InquiryReadComponent implements OnInit, OnDestroy {
 
   inquiryTypeFriendlyName: string;
   applicantTypes = ApplicantType;
-  drawManager = this.drawService;
   statusForm: FormGroup;
   modes = BehaviorMode;
+  $applicantRepresentParentDocument: BehaviorSubject<ConfirmationDocument>;
 
-  constructor(private router: Router, private route: ActivatedRoute, private inquiryService: InquiryService,
-    private privilegeOrderService: PrivilegeOrderService, private statusService: StatusService, private drawService: DrawService,
+  constructor(private route: ActivatedRoute, private inquiryService: InquiryService,
+    private privilegeOrderService: PrivilegeOrderService, private statusService: StatusService,
     private citizenshipService: CitizenshipService, private fb: FormBuilder, private specificityService: SpecificityService, public dialog: MatDialog,
     private institutionService: InstitutionService, private cdr: ChangeDetectorRef, private commonService: CommonService) { }
 
@@ -57,11 +57,23 @@ export class InquiryReadComponent implements OnInit, OnDestroy {
 
     this.inquiryService.get(this.route.snapshot.data.resolved.inquiryId)
       .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe(data => {
-        this.$inquiry = new BehaviorSubject<Inquiry>(data);
-        if (data.type == inquiryType.preschool)
-          this.specificity = this.specificityService.get(data.inquiryInfo.distributionParams.specificity).pipe(map(specificities => specificities[0]));
-        this.$institutionType = this.institutionService.getTypes(data.currentEducationPlace.institutionType).pipe(map(types => types[0]));
+      .subscribe(inquiry => {
+        this.$inquiry = new BehaviorSubject<Inquiry>(inquiry);
+        if (inquiry.applicant && inquiry.applicant.applicantRepresentParentDocument) {
+          this.$applicantRepresentParentDocument = new BehaviorSubject<ConfirmationDocument>(inquiry.applicant.applicantRepresentParentDocument);
+          this.$applicantRepresentParentDocument
+            .pipe(skip(1), takeUntil(this.ngUnsubscribe))
+            .subscribe(doc => {
+              let inquiry = this.$inquiry.getValue();
+              inquiry.applicant.applicantRepresentParentDocument = doc;
+              this.inquiryService.updateInquiryPropery(inquiry.id, inquiry.applicant.applicantRepresentParentDocument);
+              this.$inquiry.next(inquiry);
+              this.cdr.markForCheck();
+            });
+        }
+        if (inquiry.type == inquiryType.preschool)
+          this.specificity = this.specificityService.get(inquiry.inquiryInfo.distributionParams.specificity).pipe(map(specificities => specificities[0]));
+        this.$institutionType = this.institutionService.getTypes(inquiry.currentEducationPlace.institutionType).pipe(map(types => types[0]));
         this.cdr.markForCheck();
       });
     this.statusService.get()
@@ -101,7 +113,7 @@ export class InquiryReadComponent implements OnInit, OnDestroy {
     }
     const person = (modelType: ApplicantType) => {
       this.dialog.open(EditPersonDialogComponent, getConfig({ modelType: modelType }));
-      this.dialog.afterAllClosed.subscribe(x=>{
+      this.dialog.afterAllClosed.subscribe(x => {
 
       });
     }

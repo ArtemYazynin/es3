@@ -36,6 +36,7 @@ export class EditChildrenComponent implements OnInit, AfterViewInit {
       const factory: ComponentFactory<ChildComponent> = this.resolver.resolveComponentFactory(ChildComponent);
       let componentRef = <ComponentRef<ChildComponent>>this.viewContainer.createComponent(factory);
       componentRef.instance.child = child;
+      componentRef.instance.inquiryType = this.inquiryType;
       if (index + 1 == this.children.length)
         componentRef.instance.show.next(true);
 
@@ -162,7 +163,9 @@ export class EditChildrenComponent implements OnInit, AfterViewInit {
       let child = new Child(person.lastname, person.firstname, person.middlename, person.snils, person.noMiddlename, person.birthDate, person.birthPlace,
         person.gender, this.editCitizenshipsComponent.citizenshipSelectComponent.citizenships, this.specHealthComponent.specHealth,
         specHealthDocument,
-        identityCard, x.instance.disabledChild);
+        identityCard);
+      child.disabledChild = x.instance.disabledChild;
+      child.disabilityType = x.instance.disabilityType;
 
       (() => {
         Object.assign(child, this.citizenshipService.hasRfCitizenship(child.citizenships, this.editCitizenshipsComponent.citizenshipSelectComponent.countries)

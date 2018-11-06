@@ -59,6 +59,7 @@ import { PersonService } from "./shared/person.service";
 import { YesNoPipe } from "./shared/yes-no.pipe";
 import { InstitutionDataSourceService } from "./shared/institution-data-source.service";
 import { InquiryDataSourceService } from "./shared/inquiry-data-source.service";
+import { DisabilityService } from "./shared/disability.service";
 
 
 
@@ -102,7 +103,7 @@ import { InquiryDataSourceService } from "./shared/inquiry-data-source.service";
     ],
     providers: [
         SpecializationService, ConfirmationDocumentService, FamilyInfoService,
-        EducProgramService, PersonService, InquiryDataSourceService, InquiryService,
+        EducProgramService, PersonService, InquiryDataSourceService, InquiryService,DisabilityService,
         InstitutionService, InstitutionDataSourceService
     ],
     entryComponents: [EditConfirmationDocumentDialogComponent, EditChildrenComponent, EditCitizenshipsDialogComponent]
