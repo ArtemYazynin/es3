@@ -22,8 +22,10 @@ export class PersonCardComponent implements OnInit, OnDestroy {
   @Input() entity: Person
   @Input() mode: BehaviorMode;
   @Input() personType: PersonType;
+  @Input() inquiryType : string;
 
   modes = BehaviorMode;
+  personTypes = PersonType;
   private ngUnsubscribe: Subject<any> = new Subject();
 
   constructor(public drawService: DrawService, private dialog: MatDialog, private commonService: CommonService, 
@@ -52,7 +54,7 @@ export class PersonCardComponent implements OnInit, OnDestroy {
   // }
 
   edit() {
-    let config = { $person: new BehaviorSubject<Person>(this.entity), personType:this.personType };
+    let config = { $person: new BehaviorSubject<Person>(this.entity), personType:this.personType, inquiryType: this.inquiryType };
     config.$person
       .pipe(skip(1), takeUntil(this.ngUnsubscribe))
       .subscribe((person: Person) => {

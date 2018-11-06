@@ -2,21 +2,13 @@
   <ng-container>
     <h1 mat-dialog-title>Диалоговое окно</h1>
     <div mat-dialog-content>
-      <app-edit-person [model]="pers" [personType]="data.personType"></app-edit-person>
+      <app-edit-person [model]="pers" [personType]="data.personType">
+        <ng-container *ngIf="data.personType == personTypes.Child">
+            <app-disability [inquiryType]="data.inquiryType" [model]="pers"></app-disability>
+        </ng-container>
+      </app-edit-person>
     </div>
   </ng-container>
-  <!-- <ng-container *ngIf="data.modelType == applicantTypes.Parent">
-    <h1 mat-dialog-title>Законный представитель</h1>
-    <div mat-dialog-content>
-      <app-edit-person [model]="inq.parent" [modelType]="data.modelType" [applicantType]="inq.applicantType"></app-edit-person>
-    </div>
-  </ng-container>
-  <ng-container *ngIf="data.modelType == applicantTypes.Applicant">
-    <h1 mat-dialog-title>Доверенное лицо законного представителя ребенка</h1>
-    <div mat-dialog-content>
-      <app-edit-person [model]="inq.applicant" [modelType]="data.modelType" [applicantType]="inq.applicantType"></app-edit-person>
-    </div>
-  </ng-container> -->
   <mat-dialog-actions>
     <div class="col-md-12">
       <app-routing-buttons [config]="config" [isValid]="editPersonComponent && editPersonComponent.isValid()"></app-routing-buttons>

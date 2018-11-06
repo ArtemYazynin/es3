@@ -60,6 +60,7 @@ import { YesNoPipe } from "./shared/yes-no.pipe";
 import { InstitutionDataSourceService } from "./shared/institution-data-source.service";
 import { InquiryDataSourceService } from "./shared/inquiry-data-source.service";
 import { DisabilityService } from "./shared/disability.service";
+import { DisabilityComponent } from './shared/components/disability/disability.component';
 
 
 
@@ -79,7 +80,7 @@ import { DisabilityService } from "./shared/disability.service";
         CurrentEducationPlaceCardComponent, EditConfirmationDocumentDialogComponent,
         PrivilegeCardComponent,
         FilesCardComponent, YesNoPipe, CitizenshipsCardComponent,
-        RoutingButtonsComponent, EditCitizenshipsDialogComponent, EditCitizenshipsComponent, RelationTypeCardComponent
+        RoutingButtonsComponent, EditCitizenshipsDialogComponent, EditCitizenshipsComponent, RelationTypeCardComponent, DisabilityComponent
 
     ],
     imports: [
@@ -99,7 +100,8 @@ import { DisabilityService } from "./shared/disability.service";
         EditFileAttachmentsComponent, EditSchoolInquiryInfoComponent, SchoolInquiryInfoCardComponent, PreschoolInquiryInfoCardComponent,
         PersonCardComponent, ConfirmationDocumentCardComponent, ChildrenCardComponent, ContactInfoCardComponent, SpecHealthComponent,
         InstitutionsCardComponent, SchoolClassCardComponent, CurrentEducationPlaceCardComponent, EditChildrenComponent,
-        PrivilegeCardComponent, FilesCardComponent, YesNoPipe, RoutingButtonsComponent, EditCitizenshipsComponent, CitizenshipsCardComponent, RelationTypeCardComponent
+        PrivilegeCardComponent, FilesCardComponent, YesNoPipe, RoutingButtonsComponent, EditCitizenshipsComponent, CitizenshipsCardComponent, RelationTypeCardComponent,
+        DisabilityComponent
     ],
     providers: [
         SpecializationService, ConfirmationDocumentService, FamilyInfoService,

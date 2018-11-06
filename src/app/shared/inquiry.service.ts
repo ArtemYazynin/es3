@@ -32,6 +32,7 @@ import { RegisterSource } from './models/register-source.enum';
 import { SchoolInquiryInfo } from './models/school-inquiry-info.model';
 import { Status } from './models/status.model';
 import { StayMode } from './models/stay-mode.model';
+import { map } from 'rxjs/operators';
 
 @Injectable()
 export class InquiryService {
@@ -210,7 +211,7 @@ export class InquiryService {
   }
 
   get(id: string): Observable<Inquiry> {
-    return this.dataSource.get(id);
+    return this.dataSource.get(id).pipe(map(x=>new Inquiry(x)));
   }
 
   updateInquiryPropery(id: string, objProp: { id: string }) {

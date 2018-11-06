@@ -139,15 +139,10 @@ export class EditChildrenComponent implements OnInit, AfterViewInit {
 
   getChildren(): Array<Child> {
     let buildPerson = (component: ComponentRef<ChildComponent>): Person => {
-      const personForm = component.instance.editPersonComponent.fullnameComponent.fullnameForm;
-      const birthInfoForm = this.birthInfoComponent.birthInfoForm;
-      return new Person(personForm.value["lastname"],
-        personForm.value["firstname"],
-        personForm.value["middlename".concat(component.instance.editPersonComponent.fullnameComponent.id)],
-        component.instance.editPersonComponent.snilsComponent.snils, personForm.value["noMiddlename".concat(component.instance.editPersonComponent.fullnameComponent.id)],
-        birthInfoForm.value["birthDate"],
-        birthInfoForm.value["birthPlace"],
-        component.instance.editPersonComponent.genderComponent.gender);
+      let person = component.instance.editPersonComponent.getResult();
+      person.birthDate = this.birthInfoComponent.birthInfoForm.controls.birthDate.value;
+      person.birthPlace = this.birthInfoComponent.birthInfoForm.controls.birthPlace.value;
+      return person;
     }
     let result = [];
 
@@ -164,8 +159,8 @@ export class EditChildrenComponent implements OnInit, AfterViewInit {
         person.gender, this.editCitizenshipsComponent.citizenshipSelectComponent.citizenships, this.specHealthComponent.specHealth,
         specHealthDocument,
         identityCard);
-      child.disabledChild = x.instance.disabledChild;
-      child.disabilityType = x.instance.disabilityType;
+      child.disabledChild = x.instance.disabilityComponent.disabledChild;
+      child.disabilityType = x.instance.disabilityComponent.disabilityType;
 
       (() => {
         Object.assign(child, this.citizenshipService.hasRfCitizenship(child.citizenships, this.editCitizenshipsComponent.citizenshipSelectComponent.countries)

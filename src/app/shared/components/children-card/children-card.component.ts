@@ -13,6 +13,8 @@ import { SpecHealthService } from '../../spec-health.service';
 })
 export class ChildrenCardComponent implements OnInit {
   @Input() children: Array<Child>;
+  @Input() mode: BehaviorMode;
+  @Input() inquiryType:string;
 
   private ngUnsubscribe: Subject<any> = new Subject();
   modes = BehaviorMode;

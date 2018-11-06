@@ -18,7 +18,7 @@
         </app-inquiry-info-edit>
       </div>
     </div>
-    <app-children-card [children]="inquiry.children"></app-children-card>
+    <app-children-card [children]="inquiry.children" [mode]="modes.Read" [inquiryType]="inquiry.type"></app-children-card>
     <app-preschool-inquiry-info-card [inquiryInfo]="inquiry.inquiryInfo" *ngIf="inquiry.type == inquiryTypes.preschool"></app-preschool-inquiry-info-card>
     <app-school-inquiry-info-card [schoolInquiryInfo]="inquiry.schoolInquiryInfo" *ngIf="inquiry.type == inquiryTypes.school"></app-school-inquiry-info-card>
     <div class="row">

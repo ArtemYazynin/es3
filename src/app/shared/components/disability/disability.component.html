@@ -1,0 +1,15 @@
+<ng-container>
+  <div class="form-group" *ngIf="inquiryType == inquiryTypes.preschool">
+    <mat-checkbox [(ngModel)]="disabledChild">Ребенок-инвалид</mat-checkbox>
+  </div>
+  <mat-form-field class="citizenship-select" *ngIf="inquiryType != inquiryTypes.preschool">
+    <mat-select [(ngModel)]="disabilityType" placeholder="Ребенок-инвалид">
+      <mat-option value="">Нет</mat-option>
+      <mat-option *ngFor="let item of disabilities" [value]="item">{{item.name}}</mat-option>
+    </mat-select>
+  </mat-form-field>
+  <div class="alert-info">
+    <p>disabledChild: {{disabledChild}}</p>
+    <p>disabilityType: {{disabilityType | json}}</p>
+  </div>
+</ng-container>
