@@ -49,6 +49,16 @@ export class EditContactInfoComponent implements OnInit {
           this.formService.updateValidators(this.contactsForm,
             [new ControlInfo("smsPhone", []), new ControlInfo("byEmail", [Validators.requiredTrue])]);
         }
+      },
+      dontNotify: (change: MatCheckboxChange) => {
+        if (change.checked) {
+          this.formService.updateValidators(this.contactsForm,
+            [new ControlInfo("bySms", []), new ControlInfo("byEmail", []), new ControlInfo("smsPhone", []), new ControlInfo("email", [])]);
+          this.contactsForm.patchValue({ byEmail: false, bySms: false });
+        } else {
+          this.formService.updateValidators(this.contactsForm,
+            [new ControlInfo("byEmail", [Validators.requiredTrue]), new ControlInfo("bySms", [Validators.requiredTrue])]);
+        }
       }
     }
   })();
@@ -125,5 +135,9 @@ export class EditContactInfoComponent implements OnInit {
       smsPhone: this.contactInfo.smsPhone,
       phones: this.contactInfo.phones
     });
+    if (this.contactsForm.controls.dontNotify.value) {
+      this.contactsForm.controls.email.clearValidators();
+      this.contactsForm.controls.email.updateValueAndValidity();
+    }
   }
 }
