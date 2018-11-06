@@ -3,13 +3,12 @@ import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { HttpModule, JsonpModule } from "@angular/http";
-import { DateAdapter } from '@angular/material';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { TextMaskModule } from 'angular2-text-mask';
 import { MyDatePickerModule } from 'mydatepicker';
 import { MaterialModule } from '../../material.module';
 import { ShareModule } from '../../share.module';
-import { AddressService, AreaService, CitizenshipService, CommonService, DrawService, EnumToArrayPipe, FormService, GroupService, IdentityCardService, IdentityCardTypePipe, InquiryService, InstitutionService, PrivilegeOrderService, PrivilegeService, RelationTypeService, SettingsService, SpecHealthService, SpecificityService } from '../../shared';
+import { AddressService, AreaService, CitizenshipService, CommonService, DrawService, EnumToArrayPipe, FormService, GroupService, IdentityCardService, IdentityCardTypePipe, InstitutionService, PrivilegeOrderService, PrivilegeService, RelationTypeService, SettingsService, SpecHealthService, SpecificityService } from '../../shared';
 import { ActionsButtonsService } from '../../shared/actions-buttons.service';
 import { ConfirmDialogComponent } from '../../shared/components/confirm-dialog/confirm-dialog.component';
 import { HttpInterceptor } from '../../shared/http-interceptor';
@@ -26,6 +25,7 @@ import { PreviewStepComponent } from '../wizard/preview-step/preview-step.compon
 import { PrivilegeStepComponent } from '../wizard/privilege-step/privilege-step.component';
 import { SchoolInquiryInfoStepComponent } from '../wizard/school-inquiry-info-step/school-inquiry-info-step.component';
 import { CurrentEducationPlaceStepService } from '../wizard/shared/current-education-place-step.service';
+import { ChildComponent } from './children-step/child/child.component';
 import { InstitutionStepComponent } from './institution-step/institution-step.component';
 import { PreviewFilesComponent } from './preview/preview-files/preview-files.component';
 import { PreviewPrivilegeComponent } from './preview/preview-privilege/preview-privilege.component';
@@ -33,7 +33,6 @@ import { RegisterCompleteComponent } from './register-complete/register-complete
 import { PrivilegeStepResolver } from './resolvers/privilege-step-resolver';
 import { ParentStepService, WizardStorageService } from './shared';
 import { WizardRoutingModule } from './wizard-routing-module';
-import { ChildComponent } from './children-step/child/child.component';
 
 
 @NgModule({
@@ -95,7 +94,6 @@ import { ChildComponent } from './children-step/child/child.component';
     IdentityCardService,
     SpecHealthService,
     AreaService,
-    InstitutionService,
     GroupService,
     CommonService,
     PrivilegeOrderService,
@@ -104,9 +102,8 @@ import { ChildComponent } from './children-step/child/child.component';
     SettingsService,
     DrawService,
     AddressService,
-    InquiryService,
     ActionsButtonsService
   ],
   entryComponents: [ChildComponent, ConfirmDialogComponent], //динамически добавляемые компоненты ViewContainerRef.createComponent()
 })
-export class WizardModule {}
+export class WizardModule { }

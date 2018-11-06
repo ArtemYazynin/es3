@@ -1,6 +1,7 @@
 <div class="container col-md-12">
   <app-inquiry-info-edit title="Ребёнок (дети)">
-    <app-edit-children [children]="inquiry.children" [inquiryType]="inquiryType" [owner]="inquiry.applicant ? inquiry.applicant: inquiry.parent"></app-edit-children>
+    <ng-template #children>
+    </ng-template>
   </app-inquiry-info-edit>
-  <app-routing-buttons [config]="config" [isValid]="editChildrenComponent.isValid()"></app-routing-buttons>
+  <app-routing-buttons [config]="config" [isValid]="component && component.isValid()"></app-routing-buttons>
 </div>

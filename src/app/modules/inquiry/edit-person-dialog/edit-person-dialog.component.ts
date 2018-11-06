@@ -12,7 +12,7 @@ import { ActionsButtonsService } from '../../../shared/actions-buttons.service';
   styleUrls: ['./edit-person-dialog.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class EditPersonDialogComponent implements OnInit, AfterViewInit {
+export class EditPersonDialogComponent implements OnInit {
   @ViewChild(EditPersonComponent) editPersonComponent: EditPersonComponent;
   applicantTypes = ApplicantType;
   constructor(public dialogRef: MatDialogRef<EditPersonDialogComponent>, @Inject(MAT_DIALOG_DATA) public data: { $person: BehaviorSubject<Person>, personType: PersonType },
@@ -46,10 +46,6 @@ export class EditPersonDialogComponent implements OnInit, AfterViewInit {
 
   isValid = (): boolean => {
     return this.editPersonComponent && this.editPersonComponent.isValid();
-  }
-  
-  ngAfterViewInit(): void {
-    //this.config.primaryAction = this.actionsButtonsService.primaryActionPersonDialog(this.editPersonComponent, this.inquiry, this.data, this.dialogRef);
   }
 }
 

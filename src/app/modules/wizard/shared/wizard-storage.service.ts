@@ -11,7 +11,9 @@ export class WizardStorageService {
   get(type: string): Inquiry {
     const key = this.prefix + "/" + type;
     const inquiryData = JSON.parse(sessionStorage.getItem(key));
-    return new Inquiry(inquiryData);
+    const inquiry = new Inquiry(inquiryData);
+    inquiry.type = inquiry.type || type;
+    return inquiry;
   }
   set(type: string, data?: object | Array<any>) {
     if (!inquiryType || !inquiryType[type]) return;
