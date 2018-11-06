@@ -60,8 +60,8 @@ export class EditCitizenshipsComponent implements OnInit, OnDestroy {
       return this.citizenshipSelectComponent && this.citizenshipSelectComponent.hasRfCitizenship();
     },
     addresses: () => {
-      return this.citizenshipSelectComponent.citizenships.length > 0
-        && (this.applicantType == ApplicantType.Applicant && this.personType == PersonType.Applicant || this.applicantType == ApplicantType.Parent && this.personType == PersonType.Parent);
+      const hasCitizenships = this.citizenshipSelectComponent.citizenships.length > 0;
+      return hasCitizenships && ((this.applicantType == ApplicantType.Applicant && this.personType == PersonType.Applicant) || (this.applicantType == ApplicantType.Parent && this.personType == PersonType.Parent))
     },
     hasCitizenships: () => {
       return this.citizenshipSelectComponent && this.citizenshipSelectComponent.citizenships.length > 0;

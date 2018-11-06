@@ -4,7 +4,7 @@
       <div class="col-6" *ngIf="inquiry.applicant">
         <app-inquiry-info-edit title="Доверенное лицо законного представителя ребенка">
           <app-person-card [entity]="inquiry.applicant" [personType]="personTypes.Applicant" [mode]="modes.Read"></app-person-card>
-          <app-citizenships-card [model]="inquiry.applicant" [personType]="personTypes.Applicant" [mode]="modes.Read" [applicantType]="applicantTypes.Applicant"></app-citizenships-card>
+          <app-citizenships-card [model]="inquiry.applicant" [personType]="personTypes.Applicant" [mode]="modes.Read" [applicantType]="inquiry.applicantType"></app-citizenships-card>
           <app-confirmation-document-card title="Документ, подтверждающий полномочие доверенного лица представлять интересы законного представителя"
             [model]="$applicantRepresentParentDocument" [mode]="modes.Read">
           </app-confirmation-document-card>
@@ -13,11 +13,8 @@
       <div class="col-6" *ngIf="inquiry.parent">
         <app-inquiry-info-edit title="Законный представитель">
           <app-person-card [entity]="inquiry.parent" [personType]="personTypes.Parent" [mode]="modes.Read"></app-person-card>
-          <app-citizenships-card [model]="inquiry.parent" [personType]="personTypes.Parent" [applicantType]="applicantTypes.Parent"></app-citizenships-card>
+          <app-citizenships-card [model]="inquiry.parent" [personType]="personTypes.Parent" [applicantType]="inquiry.applicantType"></app-citizenships-card>
           <app-relation-type-card [model]="inquiry.parent" [mode]="modes.Read"></app-relation-type-card>
-          <app-confirmation-document-card title="Документ, подтверждающий право законного представителя представлять интересы ребенка"
-            [model]="$parentRepresentChildrenDocument" [mode]="modes.Read">
-          </app-confirmation-document-card>
         </app-inquiry-info-edit>
       </div>
     </div>
@@ -48,5 +45,5 @@
       </div>
     </div>
   </app-inquiry-info-edit>
-  <app-routing-buttons [config]="config" [isValid]="isValid()"></app-routing-buttons>
+  <app-routing-buttons [config]="config" [isValid]="true"></app-routing-buttons>
 </div>

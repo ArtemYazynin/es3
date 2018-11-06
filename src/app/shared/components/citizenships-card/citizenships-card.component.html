@@ -10,9 +10,13 @@
   </div>
   <div class="form-group" *ngIf="model.tempRegistrationExpiredDate">
     <b>Дата окончания временно регистрации </b> {{model.tempRegistrationExpiredDate | date: "dd.MM.yyyy"}}
-  <app-confirmation-document-card [title]="documentTitle" [model]="$document" [mode]="mode">
-  </app-confirmation-document-card>
   </div>
+  <ng-container *ngIf="$document">
+    <app-confirmation-document-card [title]="documentTitle" [model]="$document" [mode]="mode">
+    </app-confirmation-document-card>
+  </ng-container>
+
+
 </ng-template>
 
 <ng-template #withEdit>
