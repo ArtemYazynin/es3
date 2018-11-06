@@ -34,8 +34,8 @@ export class ChildComponent implements OnInit, AfterViewInit {
       this.disabilities = x;
       if (this.child) {
         this.disabledChild = this.child.disabledChild;
-        this.disabilityType = this.disabilities.find(x => x.id == this.child.disabilityType.id);
-        this.cdr.markForCheck() 
+        if (this.child.disabilityType) this.disabilityType = this.disabilities.find(x => x.id == this.child.disabilityType.id);
+        this.cdr.markForCheck()
       }
     });
   }
