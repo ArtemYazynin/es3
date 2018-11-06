@@ -16,14 +16,14 @@ export class SpecHealthComponent implements OnInit, AfterViewInit {
 
   attachmentType = AttachmentType;
   hasDocuments: boolean = false;
-  specHealth: number;
+  specHealth: number = 101;
   specHealths: Observable<Array<SpecHealth>> = this.specHealthService.get();
   constructor(private specHealthService: SpecHealthService) { }
 
   ngOnInit() {
-    this.specHealth = this.childrenComponents && this.childrenComponents.length > 0
-      ? this.childrenComponents[0]["instance"].child.specHealth
-      : 101;
+    if (this.childrenComponents && this.childrenComponents.length > 0 && this.childrenComponents[0]["instance"].child) {
+      this.specHealth = this.childrenComponents[0]["instance"].child.specHealth
+    }
   }
 
   ngAfterViewInit(): void {

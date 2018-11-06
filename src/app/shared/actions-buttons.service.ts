@@ -75,11 +75,6 @@ export class ActionsButtonsService {
                 break;
         }
     }
-    inverseActionApplicantTypeStep(route: ActivatedRoute) {
-        return () => {
-            this.router.navigate(["../currentEducationPlaceStep"], { relativeTo: route });
-        }
-    }
 
     primaryActionParentStep(editCitizenshipsComponent: EditCitizenshipsComponent, editPersonComponent: EditPersonComponent, relationTypeComponent: RelationTypeComponent, inquiry: Inquiry) {
         return () => {
@@ -334,23 +329,6 @@ export class ActionsButtonsService {
         return () => {
             this.inquiryService.saveInquiryInfo(editInquiryInfoComponent,
                 (patch) => this.update(inquiry, patch, data));
-            dialogRef.close();
-        }
-    }
-
-    primaryActionPersonDialog(editPersonComponent: EditPersonComponent, inquiry: Inquiry,
-        data: { $inquiry: BehaviorSubject<Inquiry>, modelType: ApplicantType }, dialogRef: MatDialogRef<EditPersonDialogComponent>) {
-        return () => {
-            const update = (patch: object) => {
-                this.storageService.set(inquiry.type, patch);
-                Object.assign(inquiry, patch);
-                data.$inquiry.next(inquiry);
-            }
-
-            this.inquiryService.saveParent(inquiry, editPersonComponent, update, data.modelType == ApplicantType.Parent);
-            if (data.modelType == ApplicantType.Applicant) {
-                //this.inquiryService.saveApplicant(inquiry, editPersonComponent, update);
-            }
             dialogRef.close();
         }
     }

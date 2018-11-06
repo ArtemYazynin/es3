@@ -6,6 +6,7 @@ import { ActionsButtonsService } from '../../../shared/actions-buttons.service';
 
 @Component({
   selector: 'app-applicant-type-step',
+  providers: [ActionsButtonsService],
   templateUrl: './applicant-type-step.component.html',
   styleUrls: ['./applicant-type-step.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush
@@ -41,6 +42,6 @@ export class ApplicantTypeStepComponent implements OnInit, StepBase {
     this.actionButtonService.primaryActionApplicantTypeStep(this.inquiry, this.applicantType, this.route)
   }
   back() {
-    this.actionButtonService.inverseActionApplicantTypeStep(this.route)
+    this.router.navigate(["../currentEducationPlaceStep"], { relativeTo: this.route });
   }
 }

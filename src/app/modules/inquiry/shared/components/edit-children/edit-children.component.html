@@ -21,7 +21,6 @@
                         <app-inquiry-info-edit title="Дополнительная информация">
                             <birth-info [model]="children ? children[0] : undefined">
                             </birth-info>
-                            <app-disability-child [inquiryType]="inquiryType" [childrenComponents]="components"></app-disability-child>
                             <app-spec-health [childrenComponents]="components"></app-spec-health>
                         </app-inquiry-info-edit>
                         <div class="alert alert-info" *ngIf="components.length>1">
