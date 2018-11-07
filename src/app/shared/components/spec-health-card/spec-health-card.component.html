@@ -1,0 +1,28 @@
+<ng-container>
+  <ng-container *ngTemplateOutlet="mode == modes.Edit ? withEdit : withoutEdit"></ng-container>
+</ng-container>
+
+<ng-template #withEdit>
+  <app-inquiry-info-edit [title]="title" (edit)="edit()">
+    <ng-container *ngTemplateOutlet="fieldsTemplate">
+    </ng-container>
+  </app-inquiry-info-edit>
+</ng-template>
+
+<ng-template #withoutEdit>
+  <app-inquiry-info-edit [title]="title">
+    <ng-container *ngTemplateOutlet="fieldsTemplate">
+    </ng-container>
+  </app-inquiry-info-edit>
+</ng-template>
+
+<ng-template #fieldsTemplate>
+    <div class="form-group">
+      {{($model | async)?.name}}
+    </div>
+    <ng-container class="form-group" *ngIf="document">
+      <app-confirmation-document-card title="Документ, подтверждающий потребность в группе с ОВЗ"
+        [model]="$document" [mode]="mode">
+      </app-confirmation-document-card>
+    </ng-container>
+  </ng-template>

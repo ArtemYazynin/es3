@@ -46,7 +46,7 @@ export class PreviewStepComponent implements OnInit, OnDestroy, StepBase {
       .subscribe(data => {
         this.countries = data;
       });
-    this.$specHealth = this.specHealthService.get(this.inquiry.children[0].specHealth).pipe(takeUntil(this.ngUnsubscribe), map(x => x[0]));
+    this.$specHealth = this.specHealthService.gets(this.inquiry.children[0].specHealth).pipe(takeUntil(this.ngUnsubscribe), map(x => x[0]));
 
     this.config = new ConfigsOfRoutingButtons(ButtonsTitles.Register, ButtonsTitles.Back,
       this.actionsButtonsService.primaryActionPreviewStep(this.inquiry, this.inquiryType, this.router, this.route),

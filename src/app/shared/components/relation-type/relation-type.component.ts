@@ -1,8 +1,7 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnDestroy, OnInit, AfterViewInit, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Subscription } from 'rxjs';
-import { RelationType, RelationTypeService, Parent } from '../../index';
+import { Parent, RelationType, RelationTypeService } from '../../index';
 import { AttachmentType } from '../../models/attachment-type.enum';
-import { MatSelectChange } from '@angular/material';
 import { EditConfirmationDocumentComponent } from '../edit-confirmation-document/edit-confirmation-document.component';
 
 @Component({

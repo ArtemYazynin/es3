@@ -24,7 +24,7 @@ export class ChildrenCardComponent implements OnInit {
   constructor(public drawService: DrawService, private citizenshipService: CitizenshipService, private specHealthService: SpecHealthService) { }
 
   ngOnInit() {
-    this.$specHealth = this.specHealthService.get(this.children[0].specHealth).pipe(takeUntil(this.ngUnsubscribe), map(x=>x[0]));
+    this.$specHealth = this.specHealthService.gets(this.children[0].specHealth).pipe(takeUntil(this.ngUnsubscribe), map(x=>x[0]));
     this.citizenshipService.getCountries()
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(data => {

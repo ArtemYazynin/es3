@@ -17,7 +17,7 @@ export class SpecHealthComponent implements OnInit, AfterViewInit {
   attachmentType = AttachmentType;
   hasDocuments: boolean = false;
   specHealth: number = 101;
-  specHealths: Observable<Array<SpecHealth>> = this.specHealthService.get();
+  specHealths: Observable<Array<SpecHealth>> = this.specHealthService.gets();
   constructor(private specHealthService: SpecHealthService) { }
 
   ngOnInit() {

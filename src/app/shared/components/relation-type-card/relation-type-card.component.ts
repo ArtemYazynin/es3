@@ -2,7 +2,6 @@ import { Component, OnInit, ChangeDetectionStrategy, Input, ChangeDetectorRef, O
 import { Parent, CommonService, InquiryService, ConfirmationDocument, BehaviorMode } from '../..';
 import { Subject, BehaviorSubject } from 'rxjs';
 import { skip, takeUntil } from 'rxjs/operators';
-import { EditPersonDialogComponent } from '../../../modules/inquiry/edit-person-dialog/edit-person-dialog.component';
 import { ActivatedRoute } from '@angular/router';
 import { MatDialog } from '@angular/material';
 import { PersonService } from '../../person.service';

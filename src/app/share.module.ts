@@ -61,6 +61,8 @@ import { InstitutionDataSourceService } from "./shared/institution-data-source.s
 import { InquiryDataSourceService } from "./shared/inquiry-data-source.service";
 import { DisabilityService } from "./shared/disability.service";
 import { DisabilityComponent } from './shared/components/disability/disability.component';
+import { SpecHealthDataSourceService } from "./shared/spec-health-data-source.service";
+import { SpecHealthCardComponent } from './shared/components/spec-health-card/spec-health-card.component';
 
 
 
@@ -80,7 +82,7 @@ import { DisabilityComponent } from './shared/components/disability/disability.c
         CurrentEducationPlaceCardComponent, EditConfirmationDocumentDialogComponent,
         PrivilegeCardComponent,
         FilesCardComponent, YesNoPipe, CitizenshipsCardComponent,
-        RoutingButtonsComponent, EditCitizenshipsDialogComponent, EditCitizenshipsComponent, RelationTypeCardComponent, DisabilityComponent
+        RoutingButtonsComponent, EditCitizenshipsDialogComponent, EditCitizenshipsComponent, RelationTypeCardComponent, DisabilityComponent, SpecHealthCardComponent
 
     ],
     imports: [
@@ -101,11 +103,11 @@ import { DisabilityComponent } from './shared/components/disability/disability.c
         PersonCardComponent, ConfirmationDocumentCardComponent, ChildrenCardComponent, ContactInfoCardComponent, SpecHealthComponent,
         InstitutionsCardComponent, SchoolClassCardComponent, CurrentEducationPlaceCardComponent, EditChildrenComponent,
         PrivilegeCardComponent, FilesCardComponent, YesNoPipe, RoutingButtonsComponent, EditCitizenshipsComponent, CitizenshipsCardComponent, RelationTypeCardComponent,
-        DisabilityComponent
+        DisabilityComponent, SpecHealthCardComponent
     ],
     providers: [
         SpecializationService, ConfirmationDocumentService, FamilyInfoService,
-        EducProgramService, PersonService, InquiryDataSourceService, InquiryService,DisabilityService,
+        EducProgramService, PersonService, InquiryDataSourceService, InquiryService, DisabilityService, SpecHealthDataSourceService,
         InstitutionService, InstitutionDataSourceService
     ],
     entryComponents: [EditConfirmationDocumentDialogComponent, EditChildrenComponent, EditCitizenshipsDialogComponent]
