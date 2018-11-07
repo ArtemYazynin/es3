@@ -16,8 +16,7 @@ export class RelationTypeDialogComponent implements OnInit {
   config: ConfigsOfRoutingButtons;
   parent: Parent;
 
-  constructor(public dialogRef: MatDialogRef<RelationTypeDialogComponent>, @Inject(MAT_DIALOG_DATA) public data: { $parent: BehaviorSubject<Parent> },
-    private relationTypeService: RelationTypeService) { }
+  constructor(public dialogRef: MatDialogRef<RelationTypeDialogComponent>, @Inject(MAT_DIALOG_DATA) public data: { $parent: BehaviorSubject<Parent> }) { }
 
   ngOnInit() {
     this.parent = this.data.$parent.getValue();

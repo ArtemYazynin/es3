@@ -5,6 +5,7 @@ import { ApplicantType, ConfigsOfRoutingButtons, IdentityCard, Person, Child } f
 import { PersonType } from '../../../shared/person-type.enum';
 import { EditPersonComponent } from '../shared/components/edit-person/edit-person.component';
 import { DisabilityComponent } from '../../../shared/components/disability/disability.component';
+import { BirthInfoComponent } from '../../../shared/components/birth-info/birth-info.component';
 
 @Component({
   selector: 'app-edit-person-dialog',
@@ -15,6 +16,8 @@ import { DisabilityComponent } from '../../../shared/components/disability/disab
 export class EditPersonDialogComponent implements OnInit {
   @ViewChild(EditPersonComponent) editPersonComponent: EditPersonComponent;
   @ViewChild(DisabilityComponent) disabilityComponent: DisabilityComponent;
+  @ViewChild(BirthInfoComponent) birthInfoComponent:BirthInfoComponent;
+
   applicantTypes = ApplicantType;
   personTypes = PersonType;
   constructor(public dialogRef: MatDialogRef<EditPersonDialogComponent>,
@@ -33,6 +36,8 @@ export class EditPersonDialogComponent implements OnInit {
         let person = (() => {
           let result = this.editPersonComponent.getResult();
           if (this.data.personType == PersonType.Child) {
+            (result as Child).birthDate = this.birthInfoComponent.birthInfoForm.controls.birthDate.value;
+            (result as Child).birthPlace = this.birthInfoComponent.birthInfoForm.controls.birthPlace.value;
             (result as Child).disabledChild = this.disabilityComponent.disabledChild;
             (result as Child).disabilityType = this.disabilityComponent.disabilityType || undefined;
           }
@@ -49,7 +54,11 @@ export class EditPersonDialogComponent implements OnInit {
   }
 
   isValid = (): boolean => {
-    return this.editPersonComponent && this.editPersonComponent.isValid();
+    const isValidPerson = this.editPersonComponent && this.editPersonComponent.isValid();
+    if (this.data.personType == PersonType.Child) {
+      return isValidPerson && this.birthInfoComponent && this.birthInfoComponent.birthInfoForm.valid;
+    }
+    return isValidPerson
   }
 }
 

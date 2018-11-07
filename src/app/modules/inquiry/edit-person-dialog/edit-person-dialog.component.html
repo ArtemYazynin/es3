@@ -1,17 +1,18 @@
-<div *ngIf="data.$person | async as pers">
+<div *ngIf="data.$person | async as person">
   <ng-container>
     <h1 mat-dialog-title>Диалоговое окно</h1>
     <div mat-dialog-content>
-      <app-edit-person [model]="pers" [personType]="data.personType">
+      <app-edit-person [model]="person" [personType]="data.personType">
         <ng-container *ngIf="data.personType == personTypes.Child">
-            <app-disability [inquiryType]="data.inquiryType" [model]="pers"></app-disability>
+          <birth-info [model]="person"></birth-info>
+          <app-disability [inquiryType]="data.inquiryType" [model]="person"></app-disability>
         </ng-container>
       </app-edit-person>
     </div>
   </ng-container>
   <mat-dialog-actions>
     <div class="col-md-12">
-      <app-routing-buttons [config]="config" [isValid]="editPersonComponent && editPersonComponent.isValid()"></app-routing-buttons>
+      <app-routing-buttons [config]="config" [isValid]="isValid()"></app-routing-buttons>
     </div>
   </mat-dialog-actions>
 </div>

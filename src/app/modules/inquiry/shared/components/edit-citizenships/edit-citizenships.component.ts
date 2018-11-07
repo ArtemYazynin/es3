@@ -7,6 +7,7 @@ import { RfCitizensAddressesComponent } from '../../../../../shared/components/r
 import { ForeignCitizensAddressesComponent } from '../../../../../shared/components/foreign-citizens-addresses/foreign-citizens-addresses.component';
 import { EditConfirmationDocumentComponent } from '../../../../../shared/components/edit-confirmation-document/edit-confirmation-document.component';
 import { PersonType } from '../../../../../shared/person-type.enum';
+import { isNullOrUndefined } from 'util';
 
 @Component({
   selector: 'app-edit-citizenships',
@@ -69,15 +70,20 @@ export class EditCitizenshipsComponent implements OnInit, OnDestroy {
   }
 
   isValid(): boolean {
+    const hasCitizenships = this.citizenshipSelectComponent.citizenships.length > 0;
+    const editChildren = this.personType == PersonType.Child && isNullOrUndefined(this.applicantType);
+    if (editChildren) {
+      return hasCitizenships;
+    }
     const editParent = this.applicantType == ApplicantType.Applicant && this.personType == PersonType.Parent;
     if (this.isAvailable.hasRfCitizenship()) {
       return editParent
-        ? this.citizenshipSelectComponent.citizenships.length > 0
+        ? hasCitizenships
         : this.rfCitizensAddressesComponent && this.rfCitizensAddressesComponent.checkboxesForm.valid;
     } else if (this.isAvailable.hasForeignCitizenship()) {
       const isValidDocument = this.editConfirmationDocumentComponent && this.editConfirmationDocumentComponent.confirmationDocumentForm.valid;
       return editParent
-        ? this.citizenshipSelectComponent.citizenships.length > 0 && isValidDocument
+        ? hasCitizenships && isValidDocument
         : this.foreignCitizensAddressesComponent && this.foreignCitizensAddressesComponent.form.valid && isValidDocument
     }
     return false;
