@@ -26,7 +26,9 @@ export class SpecHealthComponent implements OnInit, AfterViewInit, OnDestroy {
   ngOnInit() {
     this.subscription = this.specHealthService.gets().subscribe(specHealths=>{
       this.specHealths = specHealths;
-      this.specHealth = this.specHealths.find(x=>x.code == this.specHealth.code);
+      this.specHealth = this.specHealth 
+        ? this.specHealths.find(x=>x.code == this.specHealth.code)
+        :  this.specHealths.find(x=>x.code == this.esConstant.noRestrictions);
       setTimeout(() => {
         this.cdr.markForCheck();
       });
