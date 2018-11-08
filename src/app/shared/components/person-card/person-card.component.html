@@ -1,28 +1,30 @@
 <ng-template #fieldsTemplate>
-  <div class="form-group">
-    <b>ФИО </b>{{drawService.fio(entity)}}
-  </div>
-  <div class="form-group">
-    <b>Документ </b> {{drawService.identityCard(entity.identityCard)}}
-  </div>
-  <div class="form-group">
-    <b>СНИЛС </b> {{entity.snils || "-"}}
-  </div>
-  <ng-container *ngIf="personType == personTypes.Child">
+  <ng-container *ngIf="entity | async as person">
     <div class="form-group">
-      <b>Дата рождения </b>{{entity.birthDate | date: "dd.MM.yyyy"}}
+      <b>ФИО </b>{{drawService.fio(person)}}
     </div>
     <div class="form-group">
-      <b>Место рождения </b>{{entity.birthPlace}}
+      <b>Документ </b> {{drawService.identityCard(person.identityCard)}}
     </div>
-    <div class="form-group" *ngIf="!entity.disabilityType">
-      <b>Ребенок-инвалид </b> {{entity.disabledChild ? 'Да' : 'Нет'}}
+    <div class="form-group">
+      <b>СНИЛС </b> {{person.snils || "-"}}
     </div>
-    <div class="form-group" *ngIf="entity.disabilityType">
-      <b>Группа инвалидности </b> {{entity.disabilityType.name}}
-    </div>
+    <ng-container *ngIf="personType == personTypes.Child">
+      <div class="form-group">
+        <b>Дата рождения </b>{{person.birthDate | date: "dd.MM.yyyy"}}
+      </div>
+      <div class="form-group">
+        <b>Место рождения </b>{{person.birthPlace}}
+      </div>
+      <div class="form-group" *ngIf="!person.disabilityType">
+        <b>Ребенок-инвалид </b> {{person.disabledChild ? 'Да' : 'Нет'}}
+      </div>
+      <div class="form-group" *ngIf="person.disabilityType">
+        <b>Группа инвалидности </b> {{person.disabilityType.name}}
+      </div>
+    </ng-container>
+    <ng-content></ng-content>
   </ng-container>
-  <ng-content></ng-content>
 </ng-template>
 
 <ng-template #withEdit>

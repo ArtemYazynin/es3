@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
-import { Subject, BehaviorSubject } from 'rxjs';
+import { Subject, BehaviorSubject, Observable } from 'rxjs';
 import { BehaviorMode, Child, DrawService } from '../..';
 import { PersonType } from '../../person-type.enum';
 import { SpecHealthService } from '../../spec-health.service';
@@ -12,7 +12,7 @@ import { SpecHealth } from '../../models/spec-health.model';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ChildrenCardComponent implements OnInit {
-  @Input() children: Array<Child>;
+  @Input() children: Array<Observable<Child>>;
   @Input() mode: BehaviorMode;
   @Input() inquiryType:string;
   @Input() specHealth: SpecHealth;

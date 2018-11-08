@@ -1,8 +1,8 @@
 <app-inquiry-info-edit title="Ребёнок (дети)">
   <div class="row">
-    <div class="col-md-6" *ngFor="let child of children; let last = last;">
-      <app-person-card [entity]="child" [personType]="personTypes.Child" [mode]="mode" [inquiryType]="inquiryType">
-        <app-citizenships-card [model]="child" [mode]="mode" [personType]="personTypes.Child">
+    <div class="col-md-6" *ngFor="let $child of children; let last = last;">
+      <app-person-card [entity]="$child" [personType]="personTypes.Child" [mode]="mode" [inquiryType]="inquiryType">
+        <app-citizenships-card [model]="$child | async" [mode]="mode" [personType]="personTypes.Child">
         </app-citizenships-card>
       </app-person-card>
     </div>

@@ -38,7 +38,7 @@
   <div class="row">
     <div class="col-md-6" *ngIf="inquiry.applicant">
       <app-inquiry-info-edit title="Доверенное лицо законного представителя ребенка">
-        <app-person-card [entity]="inquiry.applicant" [personType]="personTypes.Applicant" [mode]="modes.Edit"></app-person-card>
+        <app-person-card [entity]="$applicant" [personType]="personTypes.Applicant" [mode]="modes.Edit"></app-person-card>
         <app-citizenships-card [model]="inquiry.applicant" [mode]="modes.Edit" [personType]="personTypes.Applicant"
           [applicantType]="inquiry.applicantType">
         </app-citizenships-card>
@@ -49,13 +49,13 @@
     </div>
     <div class="col-md-6" *ngIf="inquiry.parent">
       <app-inquiry-info-edit title="Законный представитель">
-        <app-person-card [entity]="inquiry.parent" [personType]="personTypes.Parent" [mode]="modes.Edit"></app-person-card>
+        <app-person-card [entity]="$parent" [personType]="personTypes.Parent" [mode]="modes.Edit"></app-person-card>
         <app-citizenships-card [model]="inquiry.parent" [mode]="modes.Edit" [personType]="personTypes.Parent" [applicantType]="inquiry.applicantType"> </app-citizenships-card>
         <app-relation-type-card [model]="inquiry.parent" [mode]="modes.Edit"></app-relation-type-card>
       </app-inquiry-info-edit>
     </div>
   </div>
-  <app-children-card [children]="inquiry.children" [mode]="modes.Edit" [inquiryType]="inquiry.type" [specHealth]="inquiry.specHealth"></app-children-card>
+  <app-children-card [children]="children" [mode]="modes.Edit" [inquiryType]="inquiry.type" [specHealth]="inquiry.specHealth"></app-children-card>
   <app-school-inquiry-info-card [schoolInquiryInfo]="inquiry.schoolInquiryInfo" [edit]="edit.schoolInquiryInfo" *ngIf="inquiry.schoolInquiryInfo"></app-school-inquiry-info-card>
   <app-preschool-inquiry-info-card [inquiryInfo]="inquiry.inquiryInfo" [edit]="edit.inquiryInfo" *ngIf="inquiry.type == inquiryTypes.preschool"></app-preschool-inquiry-info-card>
   <div class="row">
