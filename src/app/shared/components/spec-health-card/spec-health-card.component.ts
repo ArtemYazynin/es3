@@ -1,6 +1,6 @@
 import { Component, OnInit, ChangeDetectionStrategy, OnDestroy, AfterViewInit, Input, ChangeDetectorRef } from '@angular/core';
 import { Subject, Observable, BehaviorSubject } from 'rxjs';
-import { BehaviorMode, Child, SpecHealthService, SpecHealth, InquiryService } from '../..';
+import { BehaviorMode, Child, SpecHealthService, SpecHealth, InquiryService, Person } from '../..';
 import { takeUntil, map, skip } from 'rxjs/operators';
 import { ConfirmationDocument } from '../../models/confirmation-document.model';
 import { ActivatedRoute } from '@angular/router';
@@ -13,29 +13,27 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class SpecHealthCardComponent implements OnInit, OnDestroy, AfterViewInit {
   @Input() mode: BehaviorMode;
-  @Input() code: number;
-  @Input() document: ConfirmationDocument;
+  @Input() children: Array<Child>;
 
-  $model: Observable<SpecHealth>;
-  $document: BehaviorSubject<ConfirmationDocument>;
-  modes = BehaviorMode;
   private ngUnsubscribe: Subject<any> = new Subject();
+  private noRestrictions = 101;
+  model: ScModel;
+  modes = BehaviorMode;
   title = "Специализация по здоровью"
-  constructor(private specHealthService: SpecHealthService, private inquiryService: InquiryService,private route: ActivatedRoute,
+
+  constructor(private specHealthService: SpecHealthService, private inquiryService: InquiryService, private route: ActivatedRoute,
     private cdr: ChangeDetectorRef) { }
 
   ngOnInit() {
-    this.$model = this.specHealthService.gets(this.code).pipe(takeUntil(this.ngUnsubscribe), map(x => x[0]));
-    if (this.document) {
-      this.$document = new BehaviorSubject<ConfirmationDocument>(this.document);
-      this.$document
-        .pipe(skip(1), takeUntil(this.ngUnsubscribe))
-        .subscribe(doc => {
-          this.document = doc;
-          this.inquiryService.updateInquiryPropery(this.route.snapshot.data.resolved.inquiryId, this.document);
-          this.cdr.markForCheck();
-        });
-    }
+    let $specHealth = this.specHealthService.gets(this.children[0].specHealth).pipe(takeUntil(this.ngUnsubscribe), map(x => x[0]));
+    this.model = new ScModel($specHealth, (() => {
+      let result = [];
+      this.children.forEach(child => {
+        result.push(this.getScChild(child));
+      });
+      return result;
+    })());
+
 
   }
 
@@ -50,5 +48,30 @@ export class SpecHealthCardComponent implements OnInit, OnDestroy, AfterViewInit
 
   edit() {
 
+  }
+
+  private getScChild(child: Child): ScChild {
+    let scChild = new ScChild(child);
+    if (child.specHealth != this.noRestrictions) {
+      scChild.$specHealthDocument = new BehaviorSubject<ConfirmationDocument>(child.specHealthDocument);
+    }
+    scChild.$specHealthDocument
+      .pipe(skip(1), takeUntil(this.ngUnsubscribe))
+      .subscribe(doc => {
+        this.inquiryService.updateInquiryPropery(this.route.snapshot.data.resolved.inquiryId, doc);
+        this.cdr.markForCheck();
+      });
+    return scChild;
+  }
+}
+
+class ScChild extends Person {
+  constructor(person: Person, public $specHealthDocument?: BehaviorSubject<ConfirmationDocument>) {
+    super(person.lastname, person.firstname, person.middlename, person.snils, person.noMiddlename, person.birthDate, person.birthPlace, person.gender)
+  }
+}
+
+class ScModel {
+  constructor(public $specHealth: Observable<SpecHealth>, public $children: Array<BehaviorSubject<ConfirmationDocument>> = []) {
   }
 }

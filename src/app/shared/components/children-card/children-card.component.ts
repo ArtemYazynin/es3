@@ -1,7 +1,6 @@
-import { Component, OnInit, Input, ChangeDetectionStrategy } from '@angular/core';
-import { DrawService, Child, Country, CitizenshipService, SpecHealth, BehaviorMode } from '../..';
-import { Subject, Observable } from 'rxjs';
-import { takeUntil, map } from 'rxjs/operators';
+import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
+import { Subject, BehaviorSubject } from 'rxjs';
+import { BehaviorMode, Child, DrawService } from '../..';
 import { PersonType } from '../../person-type.enum';
 import { SpecHealthService } from '../../spec-health.service';
 
@@ -17,14 +16,11 @@ export class ChildrenCardComponent implements OnInit {
   @Input() inquiryType:string;
 
   private ngUnsubscribe: Subject<any> = new Subject();
-  modes = BehaviorMode;
-  $specHealth: Observable<SpecHealth>;
-  
   personTypes = PersonType;
-  constructor(public drawService: DrawService, private specHealthService: SpecHealthService) { }
+
+  constructor(public drawService: DrawService) { }
 
   ngOnInit() {
-    this.$specHealth = this.specHealthService.gets(this.children[0].specHealth).pipe(takeUntil(this.ngUnsubscribe), map(x=>x[0]));
     
   }
   ngOnDestroy(): void {

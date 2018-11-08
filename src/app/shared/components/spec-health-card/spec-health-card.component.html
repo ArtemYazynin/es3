@@ -17,12 +17,13 @@
 </ng-template>
 
 <ng-template #fieldsTemplate>
-    <div class="form-group">
-      {{($model | async)?.name}}
-    </div>
-    <ng-container class="form-group" *ngIf="document">
-      <app-confirmation-document-card title="Документ, подтверждающий потребность в группе с ОВЗ"
-        [model]="$document" [mode]="mode">
-      </app-confirmation-document-card>
-    </ng-container>
-  </ng-template>
+  <div class="form-group">
+    {{($specHealth | async)?.name}}
+  </div>
+
+  <ng-container *ngFor="let child of model.$children">
+    <app-confirmation-document-card title="Документ, подтверждающий потребность в группе с ОВЗ({{child.firstname}})"
+      [model]="child.$specHealthDocument" [mode]="mode">
+    </app-confirmation-document-card>
+  </ng-container>
+</ng-template>
