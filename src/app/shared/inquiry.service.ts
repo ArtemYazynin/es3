@@ -33,6 +33,8 @@ import { SchoolInquiryInfo } from './models/school-inquiry-info.model';
 import { Status } from './models/status.model';
 import { StayMode } from './models/stay-mode.model';
 import { map } from 'rxjs/operators';
+import { SpecHealth } from './models/spec-health.model';
+import { Child } from './models/child.model';
 
 @Injectable()
 export class InquiryService {
@@ -65,19 +67,19 @@ export class InquiryService {
     return inquiry;
   }
 
-  saveChildren(editChildrenComponent: EditChildrenComponent, update: (patch: object) => void): void {
-    let children = editChildrenComponent.getChildren();
+  saveChildren(editChildrenComponent: EditChildrenComponent, update: (patch: { children:Array<Child>, specHealth:SpecHealth }) => void): void {
+    let result = editChildrenComponent.getResult();
     if (editChildrenComponent.owner) {
       if (editChildrenComponent.owner.relationType) {
-        if (DublicatesFinder.betweenChildren(children) && DublicatesFinder.betweenParentChildren(editChildrenComponent.owner as Parent, children))
+        if (DublicatesFinder.betweenChildren(result.children) && DublicatesFinder.betweenParentChildren(editChildrenComponent.owner as Parent, result.children))
           return;
       }
       else {
-        if (DublicatesFinder.betweenChildren(children) && DublicatesFinder.betweenApplicantChildren(editChildrenComponent.owner as Applicant, children))
+        if (DublicatesFinder.betweenChildren(result.children) && DublicatesFinder.betweenApplicantChildren(editChildrenComponent.owner as Applicant, result.children))
           return;
       }
     }
-    update({ children: children });
+    update(result);
   }
 
   saveInquiryInfo(editInquiryInfoComponent: EditInquiryInfoComponent, update: (patch: object) => void): void {
@@ -202,7 +204,6 @@ export class InquiryService {
         if (child.specHealthDocument) child.specHealthDocument.id = Guid.newGuid();
       })
     }
-
     return this.dataSource.post(inquiry);
   }
 

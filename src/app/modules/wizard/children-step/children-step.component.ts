@@ -23,7 +23,6 @@ export class ChildrenStepComponent implements OnInit {
     private cdr: ChangeDetectorRef) { }
 
   ngOnInit() {
-
     this.activatedRoute.params.subscribe(x => {
       if (!x) return;
       this.inquiry = this.storageService.get(x[this.typeSegment]);
@@ -54,6 +53,7 @@ export class ChildrenStepComponent implements OnInit {
     componentRef.instance.owner = this.inquiry.applicant ? this.inquiry.applicant : this.inquiry.parent;
     componentRef.instance.children = this.inquiry.children;
     componentRef.instance.inquiryType = this.inquiry.type;
+    componentRef.instance.specHealth = this.inquiry.specHealth; 
     this.component = componentRef.instance;
   }
 }

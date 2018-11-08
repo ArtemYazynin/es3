@@ -1,9 +1,10 @@
-import { Component, OnInit, ChangeDetectionStrategy, OnDestroy, AfterViewInit, Input, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy, OnDestroy, AfterViewInit, Input, ChangeDetectorRef, Inject } from '@angular/core';
 import { Subject, Observable, BehaviorSubject } from 'rxjs';
 import { BehaviorMode, Child, SpecHealthService, SpecHealth, InquiryService, Person } from '../..';
 import { takeUntil, map, skip } from 'rxjs/operators';
 import { ConfirmationDocument } from '../../models/confirmation-document.model';
 import { ActivatedRoute } from '@angular/router';
+import { esConstant } from '../../../app.module';
 
 @Component({
   selector: 'app-spec-health-card',
@@ -14,18 +15,18 @@ import { ActivatedRoute } from '@angular/router';
 export class SpecHealthCardComponent implements OnInit, OnDestroy, AfterViewInit {
   @Input() mode: BehaviorMode;
   @Input() children: Array<Child>;
+  @Input() specHealth:SpecHealth;
 
   private ngUnsubscribe: Subject<any> = new Subject();
-  private noRestrictions = 101;
   model: ScModel;
   modes = BehaviorMode;
   title = "Специализация по здоровью"
 
   constructor(private specHealthService: SpecHealthService, private inquiryService: InquiryService, private route: ActivatedRoute,
-    private cdr: ChangeDetectorRef) { }
+    private cdr: ChangeDetectorRef, @Inject(esConstant) private esConstant) { }
 
   ngOnInit() {
-    let $specHealth = this.specHealthService.gets(this.children[0].specHealth).pipe(takeUntil(this.ngUnsubscribe), map(x => x[0]));
+    let $specHealth = this.specHealthService.gets(this.specHealth.code).pipe(takeUntil(this.ngUnsubscribe), map(x => x[0]));
     this.model = new ScModel($specHealth, (() => {
       let result = [];
       this.children.forEach(child => {
@@ -52,7 +53,7 @@ export class SpecHealthCardComponent implements OnInit, OnDestroy, AfterViewInit
 
   private getScChild(child: Child): ScChild {
     let scChild = new ScChild(child);
-    if (child.specHealth != this.noRestrictions) {
+    if (this.specHealth.code != this.esConstant.noRestrictions) {
       scChild.$specHealthDocument = new BehaviorSubject<ConfirmationDocument>(child.specHealthDocument);
     }
     scChild.$specHealthDocument

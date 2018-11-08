@@ -3,6 +3,7 @@ import { Subject, BehaviorSubject } from 'rxjs';
 import { BehaviorMode, Child, DrawService } from '../..';
 import { PersonType } from '../../person-type.enum';
 import { SpecHealthService } from '../../spec-health.service';
+import { SpecHealth } from '../../models/spec-health.model';
 
 @Component({
   selector: 'app-children-card',
@@ -14,6 +15,7 @@ export class ChildrenCardComponent implements OnInit {
   @Input() children: Array<Child>;
   @Input() mode: BehaviorMode;
   @Input() inquiryType:string;
+  @Input() specHealth: SpecHealth;
 
   private ngUnsubscribe: Subject<any> = new Subject();
   personTypes = PersonType;

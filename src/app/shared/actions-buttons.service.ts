@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { MatDialogRef } from '@angular/material';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BehaviorSubject, timer } from 'rxjs';
-import { InquiryService, inquiryType, DublicatesFinder, Parent } from '.';
+import { InquiryService, inquiryType, DublicatesFinder, Parent, Child, SpecHealth } from '.';
 import { EditContactInfoDialogComponent } from '../modules/inquiry/edit-contact-info-dialog/edit-contact-info-dialog.component';
 import { EditCurrentEducationPlaceDialogComponent } from '../modules/inquiry/edit-current-education-place-dialog/edit-current-education-place-dialog.component';
 import { EditFileAttachmentsDialogComponent } from '../modules/inquiry/edit-file-attachments-dialog/edit-file-attachments-dialog.component';
@@ -33,7 +33,7 @@ export class ActionsButtonsService {
 
     primaryActionChildrenStep(editChildrenComponent: EditChildrenComponent, inquiryType: any) {
         return () => {
-            this.inquiryService.saveChildren(editChildrenComponent, (patch) => {
+            this.inquiryService.saveChildren(editChildrenComponent, (patch: { children:Array<Child>, specHealth:SpecHealth }) => {
                 this.storageService.set(inquiryType, patch);
             })
             this.router.navigate(["../currentEducationPlaceStep"], { relativeTo: this.route });
@@ -292,7 +292,7 @@ export class ActionsButtonsService {
         data: { $inquiry: BehaviorSubject<Inquiry> }, dialogRef: MatDialogRef<EditChildrenComponent>) {
         return () => {
             this.inquiryService.saveChildren(editChildrenComponent,
-                (patch) => this.update(inquiry, patch, data));
+                (patch: { children:Array<Child>, specHealth:SpecHealth }) => this.update(inquiry, patch, data));
             dialogRef.close();
         }
     }
