@@ -6,4 +6,9 @@ export class SpecHealth extends Entity<string>{
         super(id, name);
         this.code = code;
     }
+
+    equals(sc:SpecHealth):boolean{
+        if(!sc) return false;
+        return this.code == sc.code;
+    }
 }

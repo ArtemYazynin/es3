@@ -63,6 +63,7 @@ import { DisabilityService } from "./shared/disability.service";
 import { DisabilityComponent } from './shared/components/disability/disability.component';
 import { SpecHealthDataSourceService } from "./shared/spec-health-data-source.service";
 import { SpecHealthCardComponent } from './shared/components/spec-health-card/spec-health-card.component';
+import { EditSpecHealthComponent } from './shared/components/edit-spec-health/edit-spec-health.component';
 
 
 
@@ -82,7 +83,7 @@ import { SpecHealthCardComponent } from './shared/components/spec-health-card/sp
         CurrentEducationPlaceCardComponent, EditConfirmationDocumentDialogComponent,
         PrivilegeCardComponent,
         FilesCardComponent, YesNoPipe, CitizenshipsCardComponent,
-        RoutingButtonsComponent, EditCitizenshipsDialogComponent, EditCitizenshipsComponent, RelationTypeCardComponent, DisabilityComponent, SpecHealthCardComponent
+        RoutingButtonsComponent, EditCitizenshipsDialogComponent, EditCitizenshipsComponent, RelationTypeCardComponent, DisabilityComponent, SpecHealthCardComponent, EditSpecHealthComponent
 
     ],
     imports: [
@@ -103,7 +104,7 @@ import { SpecHealthCardComponent } from './shared/components/spec-health-card/sp
         PersonCardComponent, ConfirmationDocumentCardComponent, ChildrenCardComponent, ContactInfoCardComponent, SpecHealthComponent,
         InstitutionsCardComponent, SchoolClassCardComponent, CurrentEducationPlaceCardComponent, EditChildrenComponent,
         PrivilegeCardComponent, FilesCardComponent, YesNoPipe, RoutingButtonsComponent, EditCitizenshipsComponent, CitizenshipsCardComponent, RelationTypeCardComponent,
-        DisabilityComponent, SpecHealthCardComponent
+        DisabilityComponent, SpecHealthCardComponent, EditSpecHealthComponent
     ],
     providers: [
         SpecializationService, ConfirmationDocumentService, FamilyInfoService,

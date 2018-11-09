@@ -14,21 +14,21 @@ import { esConstant } from '../../../app.module';
 export class SpecHealthComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChildren(EditConfirmationDocumentComponent) documentComponents: QueryList<EditConfirmationDocumentComponent>;
   @Input() childrenComponents: Array<ChildComponent>;
-  @Input() specHealth:SpecHealth;
+  @Input() specHealth: SpecHealth;
 
   attachmentType = AttachmentType;
   specHealths: Array<SpecHealth>;
-  subscription:Subscription;
+  subscription: Subscription;
 
-  constructor(private specHealthService: SpecHealthService, private cdr:ChangeDetectorRef,
+  constructor(private specHealthService: SpecHealthService, private cdr: ChangeDetectorRef,
     @Inject(esConstant) private esConstant) { }
 
   ngOnInit() {
-    this.subscription = this.specHealthService.gets().subscribe(specHealths=>{
+    this.subscription = this.specHealthService.gets().subscribe(specHealths => {
       this.specHealths = specHealths;
-      this.specHealth = this.specHealth 
-        ? this.specHealths.find(x=>x.code == this.specHealth.code)
-        :  this.specHealths.find(x=>x.code == this.esConstant.noRestrictions);
+      this.specHealth = this.specHealth
+        ? this.specHealths.find(x => x.code == this.specHealth.code)
+        : this.specHealths.find(x => x.code == this.esConstant.noRestrictions);
       setTimeout(() => {
         this.cdr.markForCheck();
       });

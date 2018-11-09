@@ -60,4 +60,14 @@ export class ConfirmationDocument extends Entity<string>{
     result += document.dateExpired ? `Действителен до: ${pipe.transform(document.dateExpired, "dd.MM.yyyy")} ` : "";
     return result;
   }
+
+  equals(doc:ConfirmationDocument){
+    return this.id == doc.id && this.name == doc.name && this.series == doc.series && this.number == doc.number 
+      && this.dateIssue 
+        ? this.dateIssue == doc.dateIssue
+        : true 
+      && this.dateExpired 
+        ? this.dateExpired == doc.dateExpired
+        : true;
+  }
 }
