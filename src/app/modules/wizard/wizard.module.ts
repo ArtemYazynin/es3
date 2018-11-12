@@ -8,7 +8,7 @@ import { TextMaskModule } from 'angular2-text-mask';
 import { MyDatePickerModule } from 'mydatepicker';
 import { MaterialModule } from '../../material.module';
 import { ShareModule } from '../../share.module';
-import { AddressService, AreaService, CitizenshipService, CommonService, DrawService, EnumToArrayPipe, FormService, GroupService, IdentityCardService, IdentityCardTypePipe, InstitutionService, PrivilegeOrderService, PrivilegeService, RelationTypeService, SettingsService, SpecHealthService, SpecificityService } from '../../shared';
+import { FiasService, AreaService, CitizenshipService, CommonService, DrawService, EnumToArrayPipe, FormService, GroupService, IdentityCardService, IdentityCardTypePipe, InstitutionService, PrivilegeOrderService, PrivilegeService, RelationTypeService, SettingsService, SpecHealthService, SpecificityService } from '../../shared';
 import { ActionsButtonsService } from '../../shared/actions-buttons.service';
 import { ConfirmDialogComponent } from '../../shared/components/confirm-dialog/confirm-dialog.component';
 import { HttpInterceptor } from '../../shared/http-interceptor';
@@ -101,7 +101,7 @@ import { WizardRoutingModule } from './wizard-routing-module';
     SpecificityService,
     SettingsService,
     DrawService,
-    AddressService,
+    FiasService,
     ActionsButtonsService
   ],
   entryComponents: [ChildComponent, ConfirmDialogComponent], //динамически добавляемые компоненты ViewContainerRef.createComponent()

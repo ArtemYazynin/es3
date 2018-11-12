@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { isNullOrUndefined } from 'util';
 import { environment } from '../../environments/environment';
 import { EditChildrenComponent } from '../modules/inquiry/shared/components/edit-children/edit-children.component';
@@ -24,7 +24,7 @@ import { FromPlace } from './models/from-place.model';
 import { DistributionParams } from './models/distribution-params.model';
 import { Guid } from './models/guid';
 import { InquiryInfoRequest } from './models/inquiry-info-request.model';
-import { InquiryRequest } from './models/inquiry-request.model';
+import { InquiryRequest, Inquiry } from './models/inquiry-request.model';
 import { Parent } from './models/parent.model';
 import { PortalIdentity } from './models/portal-identity.model';
 import { Privilege } from './models/privilege.model';
@@ -32,13 +32,18 @@ import { RegisterSource } from './models/register-source.enum';
 import { SchoolInquiryInfo } from './models/school-inquiry-info.model';
 import { Status } from './models/status.model';
 import { StayMode } from './models/stay-mode.model';
-import { map } from 'rxjs/operators';
+import { map, flatMap } from 'rxjs/operators';
 import { SpecHealth } from './models/spec-health.model';
 import { Child } from './models/child.model';
+import { ConfirmationDocumentService } from './confirmation-document.service';
+import { ParentInfo } from './models/parent-info.model';
+import { ConfirmationDocument } from './models/confirmation-document.model';
+import { CitizenshipService } from './citizenship.service';
 
 @Injectable()
 export class InquiryService {
-  constructor(private commonService: CommonService, private dataSource: InquiryDataSourceService) { }
+  constructor(private commonService: CommonService, private dataSource: InquiryDataSourceService, private confirmationDocumentService: ConfirmationDocumentService,
+    private citizenshipService:CitizenshipService) { }
 
   saveApplicant(inquiry: InquiryRequest, editPersonComponent: EditPersonComponent, editCitizenshipsComponent: EditCitizenshipsComponent,
     editConfirmationDocumentComponent: EditConfirmationDocumentComponent): InquiryRequest {
@@ -67,7 +72,7 @@ export class InquiryService {
     return inquiry;
   }
 
-  saveChildren(editChildrenComponent: EditChildrenComponent, update: (patch: { children:Array<Child>, specHealth:SpecHealth }) => void): void {
+  saveChildren(editChildrenComponent: EditChildrenComponent, update: (patch: { children: Array<Child>, specHealth: SpecHealth }) => void): void {
     let result = editChildrenComponent.getResult();
     if (editChildrenComponent.owner) {
       if (editChildrenComponent.owner.relationType) {
@@ -178,9 +183,34 @@ export class InquiryService {
       inquiry.portalIdentity = new PortalIdentity(Guid.newGuid(), "123 внешний id");
       inquiry.status = new Status(Guid.newGuid(), "Новое");
 
-      if (inquiry.parent && inquiry.parent.countryStateDocument) {
+      let parent: any = {};
+      Observable.create(() => {
+        console.log("run inquiry create operation...")
+      }).pipe(flatMap(() => {
+        if (inquiry.parent && inquiry.parent.countryStateDocument) {
+          return this.confirmationDocumentService.create(inquiry.parent.countryStateDocument);
+        } else {
+          of();
+        }
+      }), flatMap((countryStateDocument: ConfirmationDocument) => {
+        if (countryStateDocument) {
+          parent.countryStateDocumentId = countryStateDocument.id;
+        }
+        if (inquiry.parent && inquiry.parent.parentRepresentChildrenDocument) {
+          return this.confirmationDocumentService.create(inquiry.parent.parentRepresentChildrenDocument);
+        } else {
+          of();
+        }
+      }), flatMap((parentRepresentChildrenDocument:ConfirmationDocument)=>{
+        if(parentRepresentChildrenDocument){
+          parent.parentRepresentChildrenDocument = parentRepresentChildrenDocument.id;
+        }
+        return of()
+      }), flatMap(()=>{
+        return of();
+      })).subscribe(x=>{
         
-      }
+      });
 
       if (inquiry.parent) {
         inquiry.parent.id = Guid.newGuid();
@@ -216,7 +246,7 @@ export class InquiryService {
   }
 
   get(id: string): Observable<InquiryRequest> {
-    return this.dataSource.get(id).pipe(map(x=>new InquiryRequest(x)));
+    return this.dataSource.get(id).pipe(map(x => new InquiryRequest(x)));
   }
 
   updateInquiryPropery(id: string, objProp: { id: string }) {

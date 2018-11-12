@@ -3,7 +3,7 @@ import { MatDialog } from '@angular/material';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BehaviorSubject, Observable, Subject, of } from 'rxjs';
 import { map, takeUntil } from 'rxjs/operators';
-import { ApplicantType, BehaviorMode, ButtonsTitles, CitizenshipService, ConfigsOfRoutingButtons, ConfirmationDocument, Country, DrawService, Entity, Group, InquiryRequest, inquiryType, SpecHealth, SpecHealthService, Child, Applicant, Parent } from '../../../shared';
+import { ApplicantType, BehaviorMode, ButtonsTitles, CitizenshipService, ConfigsOfRoutingButtons, ConfirmationDocument, Country, DrawService, Entity, Group, InquiryRequest, inquiryType, SpecHealth, SpecHealthService, Child, Applicant, Parent, CountryService } from '../../../shared';
 import { ActionsButtonsService } from '../../../shared/actions-buttons.service';
 import { PersonType } from '../../../shared/person-type.enum';
 import { StepBase, WizardStorageService } from '../shared';
@@ -19,7 +19,7 @@ export class PreviewStepComponent implements OnInit, OnDestroy, StepBase {
 
   constructor(private router: Router, private route: ActivatedRoute, private citizenshipService: CitizenshipService,
     private storageService: WizardStorageService, public drawService: DrawService, private specHealthService: SpecHealthService,
-    public dialog: MatDialog, private actionsButtonsService: ActionsButtonsService) { }
+    public dialog: MatDialog, private actionsButtonsService: ActionsButtonsService, private countryService:CountryService) { }
 
   private ngUnsubscribe: Subject<any> = new Subject();
   modes = BehaviorMode;
@@ -48,7 +48,7 @@ export class PreviewStepComponent implements OnInit, OnDestroy, StepBase {
     if (this.inquiry.applicant) {
       this.$applicantRepresentParentDocument = new BehaviorSubject<ConfirmationDocument>(this.inquiry.applicant.applicantRepresentParentDocument);
     }
-    this.citizenshipService.getCountries()
+    this.countryService.gets()
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(data => {
         this.countries = data;

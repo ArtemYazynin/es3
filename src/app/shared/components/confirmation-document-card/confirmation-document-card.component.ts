@@ -38,7 +38,7 @@ export class ConfirmationDocumentCardComponent implements OnInit, OnDestroy {
     config.$document
       .pipe(skip(1), takeUntil(this.ngUnsubscribe))
       .subscribe((doc: ConfirmationDocument) => {
-        this.confirmationDocumentService.update(doc).subscribe(newDoc => {
+        this.confirmationDocumentService.update(doc.id,doc).subscribe(newDoc => {
           this.model.next(newDoc);
         });
       });

@@ -26,6 +26,7 @@ export * from "./addressBuilder/address-builder-director";
 
 
 export * from "./models/entity.model";
+export * from "./models/citizenship.model";
 export * from "./models/wish-institution.model";
 export * from "./models/disability-type.model";
 export * from "./models/preschool-inquiry.model";
@@ -67,10 +68,15 @@ export * from "./models/identityCard.model";
 export * from "./models/confirmation-document.model";
 export * from "./models/person.model";
 export * from "./models/parent.model";
+export * from "./country-data-source.service"
+export * from "./location-data-source.service"
+export * from './location.service'
+export * from "./address-data-source.service"
+export * from "./country.service"
 export * from "./specialization.service";
 export * from "./status.service"
 export * from "./area.service";
-export * from "./address.service";
+export * from "./fias.service";
 export * from "./inquiry.service";
 export * from "./form.service";
 export * from "./draw.service";

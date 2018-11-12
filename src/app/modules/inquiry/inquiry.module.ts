@@ -8,7 +8,7 @@ import { TextMaskModule } from 'angular2-text-mask';
 import { MyDatePickerModule } from 'mydatepicker';
 import { MaterialModule } from '../../material.module';
 import { ShareModule } from '../../share.module';
-import { AddressService, AreaService, CitizenshipService, CommonService, DrawService, FormService, GroupService, IdentityCardService, InstitutionService, PrivilegeService, RelationTypeService, SettingsService, SpecHealthService, SpecificityService, StatusService } from '../../shared';
+import { FiasService, AreaService, CitizenshipService, CommonService, DrawService, FormService, GroupService, IdentityCardService, InstitutionService, PrivilegeService, RelationTypeService, SettingsService, SpecHealthService, SpecificityService, StatusService } from '../../shared';
 import { ActionsButtonsService } from '../../shared/actions-buttons.service';
 import { PetitionCardComponent } from '../../shared/components/petition-card/petition-card.component';
 import { HttpInterceptor } from '../../shared/http-interceptor';
@@ -66,7 +66,7 @@ import { SpecHealthDialogComponent } from './spec-health-dialog/spec-health-dial
     SpecificityService,
     SettingsService,
     DrawService,
-    AddressService,
+    FiasService,
     StatusService,
     ActionsButtonsService
   ],

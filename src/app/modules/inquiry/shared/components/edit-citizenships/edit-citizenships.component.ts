@@ -1,13 +1,13 @@
-import { Component, OnInit, Input, ChangeDetectionStrategy, ViewChild, OnDestroy } from '@angular/core';
-import { AttachmentType, Parent, Applicant, Child, CitizenshipService, ApplicantType, Country, ConfirmationDocument, PersonWithAddress } from '../../../../../shared';
-import { CitizenshipSelectComponent } from '../../../../../shared/components/citizenship-select/citizenship-select.component';
-import { takeUntil } from 'rxjs/operators';
+import { ChangeDetectionStrategy, Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Subject } from 'rxjs';
-import { RfCitizensAddressesComponent } from '../../../../../shared/components/rf-citizens-addresses/rf-citizens-addresses.component';
-import { ForeignCitizensAddressesComponent } from '../../../../../shared/components/foreign-citizens-addresses/foreign-citizens-addresses.component';
-import { EditConfirmationDocumentComponent } from '../../../../../shared/components/edit-confirmation-document/edit-confirmation-document.component';
-import { PersonType } from '../../../../../shared/person-type.enum';
+import { takeUntil } from 'rxjs/operators';
 import { isNullOrUndefined } from 'util';
+import { Applicant, ApplicantType, AttachmentType, Child, ConfirmationDocument, Country, CountryService, Parent, PersonWithAddress } from '../../../../../shared';
+import { CitizenshipSelectComponent } from '../../../../../shared/components/citizenship-select/citizenship-select.component';
+import { EditConfirmationDocumentComponent } from '../../../../../shared/components/edit-confirmation-document/edit-confirmation-document.component';
+import { ForeignCitizensAddressesComponent } from '../../../../../shared/components/foreign-citizens-addresses/foreign-citizens-addresses.component';
+import { RfCitizensAddressesComponent } from '../../../../../shared/components/rf-citizens-addresses/rf-citizens-addresses.component';
+import { PersonType } from '../../../../../shared/person-type.enum';
 
 @Component({
   selector: 'app-edit-citizenships',
@@ -29,10 +29,10 @@ export class EditCitizenshipsComponent implements OnInit, OnDestroy {
   countries: Array<Country>
   documentConfig: any;
   personTypes = PersonType;
-  constructor(private citizenshipService: CitizenshipService) { }
+  constructor(private countryService: CountryService) { }
 
   ngOnInit() {
-    this.citizenshipService.getCountries()
+    this.countryService.gets()
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(countries => {
         this.countries = countries;

@@ -2021,10 +2021,15 @@
         let inquiryInfos = [];
         let contactInfos = [];
         let parentInfos = [];
+        let persons = [];
+        let citizenships = [];
+        let addresses = [];
+        let locations = [];
         return {
-
+            addresses: addresses,
             applicants: applicants,
             contactInfos: contactInfos,
+            citizenships: citizenships,
             confirmationDocuments: confirmationDocuments,
             countries: Countries,
             countryStateDocuments: countryStateDocuments,
@@ -2032,17 +2037,18 @@
             disabilities: disabilities,
             familiesInfos: familiesInfos,
             fileAttachments: fileAttachments,
-            
+
             inquiries: inquiries,
             inquiryInfos: inquiryInfos,
-            
+            locations:locations,
             relationTypes: relationTypes,
             specHealths: specHealths,
             municipalities: municipalities,
             institutionsTypes: institutionsTypes,
-            
+
             institutions: institutions,
-            parentInfos:parentInfos,
+            parentInfos: parentInfos,
+            persons: persons,
             privilegeOrders: privilegeOrders,
             privileges: privileges,
             specificities: specificities,

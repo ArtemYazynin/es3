@@ -7,7 +7,7 @@ import { EditCitizenshipsDialogComponent } from '../../../modules/inquiry/edit-c
 import { ApplicantType } from '../../applicant-type.enum';
 import { CommonService } from '../../common.service';
 import { DrawService } from '../../draw.service';
-import { Applicant, CitizenshipService, BehaviorMode, Country, InquiryService, Parent } from '../../index';
+import { Applicant, CitizenshipService, BehaviorMode, Country, InquiryService, Parent, CountryService } from '../../index';
 import { Child } from '../../models/child.model';
 import { ConfirmationDocument } from '../../models/confirmation-document.model';
 import { PersonType } from '../../person-type.enum';
@@ -34,7 +34,7 @@ export class CitizenshipsCardComponent implements OnInit, OnDestroy {
 
   constructor(public drawService: DrawService, private citizenshipService: CitizenshipService, private dialog: MatDialog,
     private commonService: CommonService, private inquiryService: InquiryService, private route: ActivatedRoute,
-    private cdr: ChangeDetectorRef) { }
+    private cdr: ChangeDetectorRef, private countryService:CountryService) { }
 
   ngOnInit() {
     switch (this.personType) {
@@ -68,7 +68,7 @@ export class CitizenshipsCardComponent implements OnInit, OnDestroy {
         });
     }
 
-    this.citizenshipService.getCountries()
+    this.countryService.gets()
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(data => {
         this.countries = data;

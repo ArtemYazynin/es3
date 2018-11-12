@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatCheckboxChange } from '@angular/material';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import { Address, addressTypes, Applicant, Child, CitizenshipService, Parent, PersonWithAddress, CommonService, FormService } from '../../index';
+import { Address, addressTypes, Applicant, Child, CitizenshipService, Parent, PersonWithAddress, CommonService, FormService, CountryService } from '../../index';
 import { AddressComponent } from '../address/address.component';
 import { ControlInfo } from '../../models/controlInfo.model';
 
@@ -28,13 +28,13 @@ export class RfCitizensAddressesComponent implements OnInit, OnDestroy, AfterVie
   residentialAddress: Address;
 
   constructor(private citizenshipService: CitizenshipService, private fb: FormBuilder, private cdr: ChangeDetectorRef, private commonService: CommonService,
-      private formService:FormService) { }
+      private formService:FormService, private countryService:CountryService) { }
 
   ngOnInit() {
     this.buildForm();
     this.checkboxesForm.controls.registerAddressLikeAsResidentialAddress.setValue(this.owner && this.owner.registerAddressLikeAsResidentialAddress);
 
-    this.citizenshipService.getCountries()
+    this.countryService.gets()
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(countries => {
         if (this.owner && this.owner.citizenships && this.citizenshipService.hasRfCitizenship(this.owner.citizenships, countries)) {
