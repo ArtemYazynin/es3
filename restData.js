@@ -2016,21 +2016,33 @@
         let applicants = [];
         let portalIdentities = [];
         let fromPlaces = [];
+        let fileAttachments = [];
+        let wishInstitutions = [];
+        let inquiryInfos = [];
+        let contactInfos = [];
+        let parentInfos = [];
         return {
 
             applicants: applicants,
+            contactInfos: contactInfos,
             confirmationDocuments: confirmationDocuments,
+            countries: Countries,
+            countryStateDocuments: countryStateDocuments,
+            currentMunicipality: currentMunicipality,
             disabilities: disabilities,
             familiesInfos: familiesInfos,
-            countryStateDocuments: countryStateDocuments,
+            fileAttachments: fileAttachments,
+            
             inquiries: inquiries,
-            countries: Countries,
+            inquiryInfos: inquiryInfos,
+            
             relationTypes: relationTypes,
             specHealths: specHealths,
             municipalities: municipalities,
             institutionsTypes: institutionsTypes,
-            currentMunicipality: currentMunicipality,
+            
             institutions: institutions,
+            parentInfos:parentInfos,
             privilegeOrders: privilegeOrders,
             privileges: privileges,
             specificities: specificities,
@@ -2040,7 +2052,8 @@
             educPrograms: educPrograms,
             groups: groups,
             portalIdentities: portalIdentities,
-            fromPlaces: fromPlaces
+            fromPlaces: fromPlaces,
+            wishInstitutions: wishInstitutions
         }
     };
 })();

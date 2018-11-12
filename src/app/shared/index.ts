@@ -26,6 +26,7 @@ export * from "./addressBuilder/address-builder-director";
 
 
 export * from "./models/entity.model";
+export * from "./models/wish-institution.model";
 export * from "./models/disability-type.model";
 export * from "./models/preschool-inquiry.model";
 export * from "./models/petition.model";
@@ -44,7 +45,7 @@ export * from "./models/address.model";
 export * from "./dublicates-finder";
 export * from "./models/location.model";
 export * from "./models/files-info.model";
-export * from "./models/inquiry-info.model";
+export * from "./models/inquiry-info-request.model";
 export * from "./models/age-group.model";
 export * from "./models/distribution-params.model";
 export * from "./models/stay-mode.model";
