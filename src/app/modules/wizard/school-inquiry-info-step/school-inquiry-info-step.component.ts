@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { EditSchoolInquiryInfoComponent } from '../../../shared/components/edit-school-inquiry-info/edit-school-inquiry-info.component';
-import { ButtonsTitles, ConfigsOfRoutingButtons, Inquiry, InquiryService } from '../../../shared/index';
+import { ButtonsTitles, ConfigsOfRoutingButtons, InquiryRequest, InquiryService } from '../../../shared/index';
 import { StepBase, WizardStorageService } from '../shared/index';
 
 @Component({
@@ -12,7 +12,7 @@ import { StepBase, WizardStorageService } from '../shared/index';
 })
 export class SchoolInquiryInfoStepComponent implements OnInit, StepBase {
   @ViewChild(EditSchoolInquiryInfoComponent) editSchoolInquiryInfoComponent: EditSchoolInquiryInfoComponent
-  inquiry: Inquiry;
+  inquiry: InquiryRequest;
   inquiryType = this.route.snapshot.data.resolved.inquiryType;
   config: ConfigsOfRoutingButtons;
 

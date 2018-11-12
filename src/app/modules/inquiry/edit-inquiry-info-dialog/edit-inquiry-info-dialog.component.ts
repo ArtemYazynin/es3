@@ -1,7 +1,7 @@
 import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, Inject, OnInit, ViewChild } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { BehaviorSubject } from 'rxjs';
-import { ButtonsTitles, ConfigsOfRoutingButtons, Inquiry } from '../../../shared';
+import { ButtonsTitles, ConfigsOfRoutingButtons, InquiryRequest } from '../../../shared';
 import { ActionsButtonsService } from '../../../shared/actions-buttons.service';
 import { EditInquiryInfoComponent } from '../shared/components/edit-inquiry-info/edit-inquiry-info.component';
 
@@ -16,7 +16,7 @@ export class EditInquiryInfoDialogComponent implements OnInit, AfterViewInit {
   config: ConfigsOfRoutingButtons;
 
   constructor(public dialogRef: MatDialogRef<EditInquiryInfoDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: { $inquiry: BehaviorSubject<Inquiry> },
+    @Inject(MAT_DIALOG_DATA) public data: { $inquiry: BehaviorSubject<InquiryRequest> },
     private cdr: ChangeDetectorRef, private actionsButtonsService: ActionsButtonsService) { }
 
   ngOnInit() {

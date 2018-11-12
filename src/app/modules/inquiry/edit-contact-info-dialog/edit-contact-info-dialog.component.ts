@@ -1,7 +1,7 @@
 import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, Inject, OnInit, ViewChild } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { BehaviorSubject } from 'rxjs';
-import { ButtonsTitles, ConfigsOfRoutingButtons, Inquiry, InquiryService } from '../../../shared';
+import { ButtonsTitles, ConfigsOfRoutingButtons, InquiryRequest, InquiryService } from '../../../shared';
 import { ActionsButtonsService } from '../../../shared/actions-buttons.service';
 import { WizardStorageService } from '../../wizard/shared';
 import { EditContactInfoComponent } from '../shared/components/edit-contact-info/edit-contact-info.component';
@@ -15,11 +15,11 @@ import { EditContactInfoComponent } from '../shared/components/edit-contact-info
 export class EditContactInfoDialogComponent implements OnInit, AfterViewInit {
 
   @ViewChild(EditContactInfoComponent) editContactInfoComponent: EditContactInfoComponent;
-  inquiry: Inquiry;
+  inquiry: InquiryRequest;
   config: ConfigsOfRoutingButtons;
 
   constructor(public dialogRef: MatDialogRef<EditContactInfoDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: { $inquiry: BehaviorSubject<Inquiry> },
+    @Inject(MAT_DIALOG_DATA) public data: { $inquiry: BehaviorSubject<InquiryRequest> },
     private storageService: WizardStorageService,
     private inquiryService: InquiryService, private cdr: ChangeDetectorRef,
     private actionsButtonsService: ActionsButtonsService) { }

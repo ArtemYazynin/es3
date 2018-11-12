@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ComponentFactory, ComponentFactoryResolver, ComponentRef, OnInit, ViewChild, ViewContainerRef } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { ButtonsTitles, ConfigsOfRoutingButtons, Inquiry } from '../../../shared';
+import { ButtonsTitles, ConfigsOfRoutingButtons, InquiryRequest } from '../../../shared';
 import { ActionsButtonsService } from '../../../shared/actions-buttons.service';
 import { StepBase, WizardStorageService } from '../shared';
 import { EditChildrenComponent } from './../../inquiry/shared/components/edit-children/edit-children.component';
@@ -16,7 +16,7 @@ import { EditChildrenComponent } from './../../inquiry/shared/components/edit-ch
 export class ChildrenStepComponent implements OnInit {
   @ViewChild("children", { read: ViewContainerRef }) viewContainer;
   component: EditChildrenComponent;
-  inquiry: Inquiry;
+  inquiry: InquiryRequest;
   config: ConfigsOfRoutingButtons;
   private typeSegment = "type"
   constructor(private resolver: ComponentFactoryResolver, private activatedRoute: ActivatedRoute, private storageService: WizardStorageService, private actionsButtonsService: ActionsButtonsService,

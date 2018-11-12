@@ -1,6 +1,6 @@
 import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { ApplicantType, ButtonsTitles, ConfigsOfRoutingButtons, Inquiry, inquiryType } from '../../../shared';
+import { ApplicantType, ButtonsTitles, ConfigsOfRoutingButtons, InquiryRequest, inquiryType } from '../../../shared';
 import { ActionsButtonsService } from '../../../shared/actions-buttons.service';
 import { RelationTypeComponent } from '../../../shared/components/relation-type/relation-type.component';
 import { PersonType } from '../../../shared/person-type.enum';
@@ -19,7 +19,7 @@ export class ParentStepComponent implements OnInit, AfterViewInit, StepBase {
   @ViewChild(EditPersonComponent) editPersonComponent: EditPersonComponent;
   @ViewChild(EditCitizenshipsComponent) editCitizenshipsComponent: EditCitizenshipsComponent;
   @ViewChild(RelationTypeComponent) relationTypeComponent: RelationTypeComponent;
-  inquiry: Inquiry;
+  inquiry: InquiryRequest;
   agree: boolean = false;
 
   personTypes = PersonType;
@@ -32,7 +32,7 @@ export class ParentStepComponent implements OnInit, AfterViewInit, StepBase {
     private route: ActivatedRoute, private actionsButtonsService: ActionsButtonsService) { }
 
   ngOnInit() {
-    this.inquiry = <Inquiry>this.storageService.get(this.inquiryType);
+    this.inquiry = <InquiryRequest>this.storageService.get(this.inquiryType);
     this.config = new ConfigsOfRoutingButtons(ButtonsTitles.Next, ButtonsTitles.Back,
       this.actionsButtonsService.primaryActionParentStep(this.editCitizenshipsComponent, this.editPersonComponent, this.relationTypeComponent, this.inquiry),
       this.actionsButtonsService.inverseActionParentStep(this.inquiry.applicantType)

@@ -20,11 +20,11 @@ import { InquiryDataSourceService } from './inquiry-data-source.service';
 import { AgeGroup } from './models/age-group.model';
 import { Applicant } from './models/applicant.model';
 import { ContactInfo } from './models/contact-info.model';
-import { CurrentEducationPlace } from './models/current-education-place.model';
+import { FromPlace } from './models/from-place.model';
 import { DistributionParams } from './models/distribution-params.model';
 import { Guid } from './models/guid';
 import { InquiryInfo } from './models/inquiry-info.model';
-import { Inquiry } from './models/inquiry.model';
+import { InquiryRequest } from './models/inquiry-request.model';
 import { Parent } from './models/parent.model';
 import { PortalIdentity } from './models/portal-identity.model';
 import { Privilege } from './models/privilege.model';
@@ -40,8 +40,8 @@ import { Child } from './models/child.model';
 export class InquiryService {
   constructor(private commonService: CommonService, private dataSource: InquiryDataSourceService) { }
 
-  saveApplicant(inquiry: Inquiry, editPersonComponent: EditPersonComponent, editCitizenshipsComponent: EditCitizenshipsComponent,
-    editConfirmationDocumentComponent: EditConfirmationDocumentComponent): Inquiry {
+  saveApplicant(inquiry: InquiryRequest, editPersonComponent: EditPersonComponent, editCitizenshipsComponent: EditCitizenshipsComponent,
+    editConfirmationDocumentComponent: EditConfirmationDocumentComponent): InquiryRequest {
     const fullnameResult = editPersonComponent.fullnameComponent.getResult();
     const applicant = new Applicant(fullnameResult.lastname, fullnameResult.firstname, fullnameResult.middlename,
       editPersonComponent.snilsComponent.snils, fullnameResult.noMiddlename, undefined, undefined, undefined);
@@ -133,8 +133,8 @@ export class InquiryService {
   }
 
   saveCurrentEducationPlace(editCurrentEducationPlaceComponent: EditCurrentEducationPlaceComponent, update: (patch: object) => void): void {
-    const currentEducationPlace: CurrentEducationPlace = (() => {
-      const place = new CurrentEducationPlace(editCurrentEducationPlaceComponent.currentPlaceForm.value["municipality"],
+    const currentEducationPlace: FromPlace = (() => {
+      const place = new FromPlace(editCurrentEducationPlaceComponent.currentPlaceForm.value["municipality"],
         editCurrentEducationPlaceComponent.currentPlaceForm.value["institutionType"], editCurrentEducationPlaceComponent.currentPlaceForm.value["institution"],
         editCurrentEducationPlaceComponent.currentPlaceForm.value["isOther"], editCurrentEducationPlaceComponent.currentPlaceForm.value["other"],
         editCurrentEducationPlaceComponent.groups.find(group => group.id == editCurrentEducationPlaceComponent.currentPlaceForm.value["group"]));
@@ -167,7 +167,7 @@ export class InquiryService {
       }
     })
   }
-  create(inquiry: Inquiry): Observable<Inquiry> {
+  create(inquiry: InquiryRequest): Observable<InquiryRequest> {
     if (!environment.production) {
       inquiry.id = Guid.newGuid();
       inquiry.version = new Date();
@@ -207,12 +207,12 @@ export class InquiryService {
     return this.dataSource.post(inquiry);
   }
 
-  update(id: string, inquiry: Inquiry): Observable<Inquiry> {
+  update(id: string, inquiry: InquiryRequest): Observable<InquiryRequest> {
     return this.dataSource.put(id, inquiry);
   }
 
-  get(id: string): Observable<Inquiry> {
-    return this.dataSource.get(id).pipe(map(x=>new Inquiry(x)));
+  get(id: string): Observable<InquiryRequest> {
+    return this.dataSource.get(id).pipe(map(x=>new InquiryRequest(x)));
   }
 
   updateInquiryPropery(id: string, objProp: { id: string }) {
@@ -225,7 +225,7 @@ export class InquiryService {
         });
     }
   }
-  updateInquiry(inquiry: Inquiry, inquiryProp: { id: string }) {
+  updateInquiry(inquiry: InquiryRequest, inquiryProp: { id: string }) {
     if (!inquiry || !inquiryProp || !inquiryProp.id) return;
     for (const key in inquiry) {
       if (inquiry.hasOwnProperty(key)) {

@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ApplicantType, ButtonsTitles, ConfigsOfRoutingButtons, Inquiry, inquiryType } from '../../../shared/index';
+import { ApplicantType, ButtonsTitles, ConfigsOfRoutingButtons, InquiryRequest, inquiryType } from '../../../shared/index';
 import { StepBase, WizardStorageService } from '../shared/index';
 import { ActionsButtonsService } from '../../../shared/actions-buttons.service';
 
@@ -13,7 +13,7 @@ import { ActionsButtonsService } from '../../../shared/actions-buttons.service';
 })
 export class ApplicantTypeStepComponent implements OnInit, StepBase {
   isValid(): boolean { return true; }
-  inquiry: Inquiry;
+  inquiry: InquiryRequest;
   inquiryType = this.route.snapshot.data.resolved.inquiryType;
   applicantType: ApplicantType;
   applicantTypes: Array<ApplicantType> = [];

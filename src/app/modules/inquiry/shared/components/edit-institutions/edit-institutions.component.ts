@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { MatAutocompleteSelectedEvent, MatSelectChange } from '@angular/material';
 import { Observable, Subject } from 'rxjs';
 import { map, startWith, takeUntil } from 'rxjs/operators';
-import { CommonService, Group, GroupService, Inquiry, inquiryType, InquiryType, Institution, InstitutionService, SchoolClass, SettingsService } from '../../../../../shared';
+import { CommonService, Group, GroupService, InquiryRequest, inquiryType, InquiryType, Institution, InstitutionService, SchoolClass, SettingsService } from '../../../../../shared';
 
 @Component({
   selector: 'app-edit-institutions',
@@ -12,7 +12,7 @@ import { CommonService, Group, GroupService, Inquiry, inquiryType, InquiryType, 
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class EditInstitutionsComponent implements OnInit, OnDestroy {
-  @Input() inquiry: Inquiry;
+  @Input() inquiry: InquiryRequest;
 
   private ngUnsubscribe: Subject<any> = new Subject();
   form: FormGroup;

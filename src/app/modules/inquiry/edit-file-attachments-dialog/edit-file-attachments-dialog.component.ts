@@ -1,7 +1,7 @@
 import { AfterViewInit, ChangeDetectionStrategy, Component, Inject, OnInit, ViewChild } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { BehaviorSubject } from 'rxjs';
-import { ButtonsTitles, ConfigsOfRoutingButtons, Inquiry } from '../../../shared';
+import { ButtonsTitles, ConfigsOfRoutingButtons, InquiryRequest } from '../../../shared';
 import { ActionsButtonsService } from '../../../shared/actions-buttons.service';
 import { EditFileAttachmentsComponent } from '../shared/components/edit-file-attachments/edit-file-attachments.component';
 
@@ -14,10 +14,10 @@ import { EditFileAttachmentsComponent } from '../shared/components/edit-file-att
 export class EditFileAttachmentsDialogComponent implements OnInit, AfterViewInit {
   @ViewChild(EditFileAttachmentsComponent) fileAttachmentsEditComponent: EditFileAttachmentsComponent;
   constructor(public dialogRef: MatDialogRef<EditFileAttachmentsDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: { $inquiry: BehaviorSubject<Inquiry> },
+    @Inject(MAT_DIALOG_DATA) public data: { $inquiry: BehaviorSubject<InquiryRequest> },
     private actionsButtonsService: ActionsButtonsService) { }
 
-  inquiry: Inquiry;
+  inquiry: InquiryRequest;
   config: ConfigsOfRoutingButtons;
 
   ngOnInit() {

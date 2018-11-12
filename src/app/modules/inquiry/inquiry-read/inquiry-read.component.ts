@@ -4,7 +4,7 @@ import { MatDialog } from '@angular/material';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { map, takeUntil, skip } from 'rxjs/operators';
-import { ApplicantType, CitizenshipService, CommonService, ConfirmationDocument, BehaviorMode, Country, DrawService, Entity, Inquiry, InquiryService, inquiryType, InstitutionService, PrivilegeOrder, PrivilegeOrderService, Specificity, SpecificityService, Status, StatusService, Child, Applicant, Parent, Person } from '../../../shared/index';
+import { ApplicantType, CitizenshipService, CommonService, ConfirmationDocument, BehaviorMode, Country, DrawService, Entity, InquiryRequest, InquiryService, inquiryType, InstitutionService, PrivilegeOrder, PrivilegeOrderService, Specificity, SpecificityService, Status, StatusService, Child, Applicant, Parent, Person } from '../../../shared/index';
 import { EditContactInfoDialogComponent } from '../edit-contact-info-dialog/edit-contact-info-dialog.component';
 import { EditCurrentEducationPlaceDialogComponent } from '../edit-current-education-place-dialog/edit-current-education-place-dialog.component';
 import { EditFileAttachmentsDialogComponent } from '../edit-file-attachments-dialog/edit-file-attachments-dialog.component';
@@ -22,7 +22,7 @@ import { PersonType } from '../../../shared/person-type.enum';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class InquiryReadComponent implements OnInit, OnDestroy {
-  $inquiry: BehaviorSubject<Inquiry>;
+  $inquiry: BehaviorSubject<InquiryRequest>;
   private ngUnsubscribe: Subject<any> = new Subject();
   inquiryTypes = inquiryType;
   personTypes = PersonType;
@@ -61,7 +61,7 @@ export class InquiryReadComponent implements OnInit, OnDestroy {
     this.inquiryService.get(this.route.snapshot.data.resolved.inquiryId)
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(inquiry => {
-        this.$inquiry = new BehaviorSubject<Inquiry>(inquiry);
+        this.$inquiry = new BehaviorSubject<InquiryRequest>(inquiry);
         this.$applicant = new BehaviorSubject<Applicant>(inquiry.applicant);
         this.$parent = new BehaviorSubject<Parent>(inquiry.parent);
         this.children = inquiry.children.map(x=>new BehaviorSubject<Child>(x));

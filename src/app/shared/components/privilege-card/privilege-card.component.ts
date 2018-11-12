@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, Input, OnInit, OnDestroy, ChangeDetectorRef } from '@angular/core';
-import { Privilege, CommonService, ConfirmationDocument, InquiryService, Inquiry } from '../..';
+import { Privilege, CommonService, ConfirmationDocument, InquiryService, InquiryRequest } from '../..';
 import { BehaviorMode } from '../../behavior-mode.enum';
 import { MatDialog } from '@angular/material';
 import { EditPrivilegeDialogComponent } from '../../../modules/inquiry/edit-privilege-dialog/edit-privilege-dialog.component';
@@ -47,11 +47,11 @@ export class PrivilegeCardComponent implements OnInit, OnDestroy {
       .subscribe(privilege => {
         const inquiryId = this.route.snapshot.data.resolved.inquiryId;
         let observableInquiry = this.inquiryService.get(inquiryId);
-        const updateFn = (inquiry: Inquiry, privilege: Privilege): Observable<Inquiry> => {
+        const updateFn = (inquiry: InquiryRequest, privilege: Privilege): Observable<InquiryRequest> => {
           Object.assign(inquiry, { privilege: privilege });
           return this.inquiryService.update(inquiryId, inquiry);
         }
-        const subscribeFn = (inquiry: Inquiry) => {
+        const subscribeFn = (inquiry: InquiryRequest) => {
           this.model = inquiry.privilege;
           this.cdr.markForCheck();
         }

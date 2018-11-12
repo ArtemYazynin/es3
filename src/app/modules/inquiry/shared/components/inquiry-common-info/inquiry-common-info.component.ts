@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, ChangeDetectionStrategy } from '@angular/core';
-import { Inquiry } from '../../../../../shared';
+import { InquiryRequest } from '../../../../../shared';
 
 @Component({
   selector: 'app-inquiry-common-info',
@@ -8,7 +8,7 @@ import { Inquiry } from '../../../../../shared';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class InquiryCommonInfoComponent implements OnInit {
-  @Input() inquiry:Inquiry;
+  @Input() inquiry:InquiryRequest;
 
   constructor() { }
 

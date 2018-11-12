@@ -1,5 +1,5 @@
 import { InMemoryDbService } from 'angular-in-memory-web-api';
-import { Inquiry } from './shared/models/inquiry.model';
+import { InquiryRequest } from './shared/models/inquiry-request.model';
 import { EnumToArrayPipe } from './shared/enum-to-array-pipe';
 import { Guid } from './shared/models/guid';
 import { Status } from './shared/models/status.model';
@@ -20,7 +20,7 @@ import { Settings } from './shared/models/settings.model';
 
 export class InMemoryService implements InMemoryDbService {
   createDb() {
-    let inquiries: Array<Inquiry> = [];
+    let inquiries: Array<InquiryRequest> = [];
     let statuses: Array<Status> = [
       new Status("935F8E2C-69F5-46EF-975F-A452002D5F40", "Новое"),
       new Status("81E1C045-4357-4031-9856-A452002D5FFB", "Очередник"),
