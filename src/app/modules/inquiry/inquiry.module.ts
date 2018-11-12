@@ -29,6 +29,7 @@ import { InquiryReadComponent } from './inquiry-read/inquiry-read.component';
 import { InquiryRouting } from './inquiry-routing-module';
 import { RelationTypeDialogComponent } from './relation-type-dialog/relation-type-dialog.component';
 import { InquiryCommonInfoComponent } from './shared/components/inquiry-common-info/inquiry-common-info.component';
+import { SpecHealthDialogComponent } from './spec-health-dialog/spec-health-dialog.component';
 
 @NgModule({
   imports: [
@@ -75,6 +76,6 @@ import { InquiryCommonInfoComponent } from './shared/components/inquiry-common-i
   ],
   entryComponents: [EditPrivilegeDialogComponent, EditPersonDialogComponent, EditInquiryInfoDialogComponent, EditPreschoolInstitutionDialogComponent,
     EditContactInfoDialogComponent, EditCurrentEducationPlaceDialogComponent,
-    EditSchoolInquiryInfoDialogComponent, EditPetitionDialogComponent, RelationTypeDialogComponent]
+    EditSchoolInquiryInfoDialogComponent, EditPetitionDialogComponent, RelationTypeDialogComponent, SpecHealthDialogComponent]
 })
 export class InquiryModule { }

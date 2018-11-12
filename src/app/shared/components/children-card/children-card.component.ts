@@ -1,9 +1,9 @@
-import { Component, OnInit, Input, ChangeDetectionStrategy } from '@angular/core';
-import { DrawService, Child, Country, CitizenshipService, SpecHealth, BehaviorMode } from '../..';
-import { Subject, Observable } from 'rxjs';
-import { takeUntil, map } from 'rxjs/operators';
+import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
+import { Subject, BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorMode, Child, DrawService } from '../..';
 import { PersonType } from '../../person-type.enum';
 import { SpecHealthService } from '../../spec-health.service';
+import { SpecHealth } from '../../models/spec-health.model';
 
 @Component({
   selector: 'app-children-card',
@@ -12,22 +12,18 @@ import { SpecHealthService } from '../../spec-health.service';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ChildrenCardComponent implements OnInit {
-  @Input() children: Array<Child>;
+  @Input() children: Array<Observable<Child>>;
+  @Input() mode: BehaviorMode;
+  @Input() inquiryType:string;
+  @Input() specHealth: SpecHealth;
 
   private ngUnsubscribe: Subject<any> = new Subject();
-  modes = BehaviorMode;
-  $specHealth: Observable<SpecHealth>;
-  countries: Array<Country> = [];
   personTypes = PersonType;
-  constructor(public drawService: DrawService, private citizenshipService: CitizenshipService, private specHealthService: SpecHealthService) { }
+
+  constructor(public drawService: DrawService) { }
 
   ngOnInit() {
-    this.$specHealth = this.specHealthService.get(this.children[0].specHealth).pipe(takeUntil(this.ngUnsubscribe), map(x=>x[0]));
-    this.citizenshipService.getCountries()
-      .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe(data => {
-        this.countries = data;
-      });
+    
   }
   ngOnDestroy(): void {
     this.ngUnsubscribe.next();

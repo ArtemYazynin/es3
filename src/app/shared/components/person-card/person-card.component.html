@@ -1,24 +1,30 @@
 <ng-template #fieldsTemplate>
-  <div class="form-group">
-    <b>ФИО </b>{{drawService.fio(entity)}}
-  </div>
-  <div class="form-group">
-    <b>Документ </b> {{drawService.identityCard(entity.identityCard)}}
-  </div>
-  <div class="form-group">
-    <b>СНИЛС </b> {{entity.snils || "-"}}
-  </div>
-  <div class="form-group" *ngIf="entity.disabledChild">
-    <b>Ребенок-инвалид </b> {{entity.disabledChild ? 'Да' : 'Нет'}}
-  </div>
-  <div class="form-group" *ngIf="entity.disabilityType">
-    <b>Группа инвалидности </b> {{entity.disabilityType.name}}
-  </div>
-  <!-- <ng-container *ngIf="isChild()">
-    <app-confirmation-document-card title="Документ, подтверждающий потребность в группе с ОВЗ" [model]="entity.specHealthDocument"
-      [mode]="mode">
-    </app-confirmation-document-card>
-  </ng-container> -->
+  <ng-container *ngIf="entity | async as person">
+    <div class="form-group">
+      <b>ФИО </b>{{drawService.fio(person)}}
+    </div>
+    <div class="form-group">
+      <b>Документ </b> {{drawService.identityCard(person.identityCard)}}
+    </div>
+    <div class="form-group">
+      <b>СНИЛС </b> {{person.snils || "-"}}
+    </div>
+    <ng-container *ngIf="personType == personTypes.Child">
+      <div class="form-group">
+        <b>Дата рождения </b>{{person.birthDate | date: "dd.MM.yyyy"}}
+      </div>
+      <div class="form-group">
+        <b>Место рождения </b>{{person.birthPlace}}
+      </div>
+      <div class="form-group" *ngIf="!person.disabilityType">
+        <b>Ребенок-инвалид </b> {{person.disabledChild ? 'Да' : 'Нет'}}
+      </div>
+      <div class="form-group" *ngIf="person.disabilityType">
+        <b>Группа инвалидности </b> {{person.disabilityType.name}}
+      </div>
+    </ng-container>
+    <ng-content></ng-content>
+  </ng-container>
 </ng-template>
 
 <ng-template #withEdit>

@@ -14,8 +14,11 @@
   <div class="form-group" *ngIf="model.tempRegistrationExpiredDate && model.citizenships != 643">
     <b>Действителен до </b> {{model.tempRegistrationExpiredDate | date: "dd.MM.yyyy"}}
   </div>
-  <app-confirmation-document-card [title]="documentTitle" [model]="$document" [mode]="mode">
-  </app-confirmation-document-card>
+  <ng-container *ngIf="$document">
+    <app-confirmation-document-card [title]="documentTitle" [model]="$document" [mode]="mode">
+    </app-confirmation-document-card>
+  </ng-container>
+
 
 </ng-template>
 

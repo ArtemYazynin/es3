@@ -23,6 +23,7 @@ export class DrawService {
   }
   citizenships(countryCodes: Array<number>, countries: Array<Country>) {
     let result = [];
+    if(!countryCodes) return result;
     countryCodes.forEach(code => {
       const country = countries.find(x => x.id == code);
       if (country) result.push(country.name);

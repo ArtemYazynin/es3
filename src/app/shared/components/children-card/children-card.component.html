@@ -1,26 +1,15 @@
 <app-inquiry-info-edit title="Ребёнок (дети)">
   <div class="row">
-    <div class="col-md-6" *ngFor="let child of children; let last = last;">
-      <app-person-card [entity]="child" [personType]="personTypes.Child">
+    <div class="col-md-6" *ngFor="let $child of children; let last = last;">
+      <app-person-card [entity]="$child" [personType]="personTypes.Child" [mode]="mode" [inquiryType]="inquiryType">
+        <app-citizenships-card [model]="$child | async" [mode]="mode" [personType]="personTypes.Child">
+        </app-citizenships-card>
       </app-person-card>
     </div>
   </div>
   <div class="row">
     <div class="col-md-6">
-      <div class="form-group"><b>Пол </b> {{children[0].gender == 1 ? "Мужской":"Женский"}}</div>
-      <div class="form-group"><b>Дата рождения </b> {{children[0].birthDate | date: "dd.MM.yyyy"}}</div>
-      <div class="form-group"><b>Место рождения </b> {{children[0].birthPlace}}</div>
-      <ng-container *ngIf="children[0].specHealth != 101">
-        <div class="form-group">
-          <b>Спец. по здоровью </b> {{($specHealth | async)?.name}}
-        </div>
-      </ng-container>
-
-      <div class="form-group"><b>Гражданство </b> {{drawService.citizenships(children[0].citizenships, countries)}}</div>
-      <div class="form-group" *ngIf="children[0].register"><b>Адрес регистрации </b>
-        {{drawService.address(children[0].register)}}</div>
-      <div class="form-group" *ngIf="children[0].residential"><b>Адрес проживания </b>
-        {{drawService.address(children[0].residential)}}</div>
+      <app-spec-health-card [mode]="mode" [children]="children" [specHealth]="specHealth"></app-spec-health-card>
     </div>
   </div>
 </app-inquiry-info-edit>

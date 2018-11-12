@@ -36,6 +36,9 @@ import { Status } from './models/status.model';
 import { StayMode } from './models/stay-mode.model';
 import { PetitionType } from './petition-type.enum';
 import { Person } from './models/person.model';
+import { map } from 'rxjs/operators';
+import { SpecHealth } from './models/spec-health.model';
+import { Child } from './models/child.model';
 
 @Injectable()
 export class InquiryService {
@@ -68,19 +71,19 @@ export class InquiryService {
     return inquiry;
   }
 
-  saveChildren(editChildrenComponent: EditChildrenComponent, update: (patch: object) => void): void {
-    let children = editChildrenComponent.getChildren();
+  saveChildren(editChildrenComponent: EditChildrenComponent, update: (patch: { children:Array<Child>, specHealth:SpecHealth }) => void): void {
+    let result = editChildrenComponent.getResult();
     if (editChildrenComponent.owner) {
       if (editChildrenComponent.owner.relationType) {
-        if (DublicatesFinder.betweenChildren(children) && DublicatesFinder.betweenParentChildren(editChildrenComponent.owner as Parent, children))
+        if (DublicatesFinder.betweenChildren(result.children) && DublicatesFinder.betweenParentChildren(editChildrenComponent.owner as Parent, result.children))
           return;
       }
       else {
-        if (DublicatesFinder.betweenChildren(children) && DublicatesFinder.betweenApplicantChildren(editChildrenComponent.owner as Applicant, children))
+        if (DublicatesFinder.betweenChildren(result.children) && DublicatesFinder.betweenApplicantChildren(editChildrenComponent.owner as Applicant, result.children))
           return;
       }
     }
-    update({ children: children });
+    update(result);
   }
 
   saveInquiryInfo(editInquiryInfoComponent: EditInquiryInfoComponent, update: (patch: object) => void): void {
@@ -229,7 +232,7 @@ export class InquiryService {
   }
 
   get(id: string): Observable<Inquiry> {
-    return this.dataSource.get(id);
+    return this.dataSource.get(id).pipe(map(x=>new Inquiry(x)));
   }
 
   updateInquiryPropery(id: string, objProp: { id: string }) {

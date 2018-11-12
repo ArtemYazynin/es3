@@ -1,11 +1,9 @@
-import { Component, Inject, OnDestroy, OnInit, ViewChild, AfterViewInit, ChangeDetectorRef, ChangeDetectionStrategy } from '@angular/core';
+import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, Inject, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { BehaviorSubject, Subject } from 'rxjs';
-import { Applicant, Child, InquiryService, Parent, ConfigsOfRoutingButtons, PersonWithAddress, ConfirmationDocument, ApplicantType } from '../../../shared';
-import { WizardStorageService } from '../../wizard/shared';
-import { EditCitizenshipsComponent } from '../shared/components/edit-citizenships/edit-citizenships.component';
-import { Guid } from '../../../shared/models/guid';
+import { Applicant, ApplicantType, Child, ConfigsOfRoutingButtons, ConfirmationDocument, Parent, PersonWithAddress } from '../../../shared';
 import { PersonType } from '../../../shared/person-type.enum';
+import { EditCitizenshipsComponent } from '../shared/components/edit-citizenships/edit-citizenships.component';
 
 @Component({
   selector: 'app-edit-citizenships-dialog',
@@ -47,13 +45,20 @@ export class EditCitizenshipsDialogComponent implements OnInit, OnDestroy, After
             default:
               break;
           }
-          patchAddress(this.editCitizenshipsComponent.rfCitizensAddressesComponent.getResult());
+          const patch = this.editCitizenshipsComponent.rfCitizensAddressesComponent
+            ? this.editCitizenshipsComponent.rfCitizensAddressesComponent.getResult()
+            : undefined;
+          patchAddress(patch);
         } else if (this.editCitizenshipsComponent.isAvailable.hasForeignCitizenship()) {
-          let patch = this.editCitizenshipsComponent.foreignCitizensAddressesComponent.getResult();
+          let patch = this.editCitizenshipsComponent.foreignCitizensAddressesComponent
+            ? this.editCitizenshipsComponent.foreignCitizensAddressesComponent.getResult()
+            : undefined;
           patchAddress(patch);
           (() => {
-            const document = ConfirmationDocument.construct(this.editCitizenshipsComponent.editConfirmationDocumentComponent.confirmationDocumentForm)
-            data[this.data.personType === PersonType.Parent ? "countryStateDocument" : "countryStateApplicantDocument"] = document;
+            if (this.editCitizenshipsComponent.editConfirmationDocumentComponent) {
+              const document = ConfirmationDocument.construct(this.editCitizenshipsComponent.editConfirmationDocumentComponent.confirmationDocumentForm)
+              data[this.data.personType === PersonType.Parent ? "countryStateDocument" : "countryStateApplicantDocument"] = document;
+            }
           })();
         }
         this.data.$person.next(data);

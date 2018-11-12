@@ -49,22 +49,24 @@ export class CitizenshipsCardComponent implements OnInit, OnDestroy {
       default:
         break;
     }
-    this.$document
-      .pipe(skip(1), takeUntil(this.ngUnsubscribe))
-      .subscribe(doc => {
-        switch (this.personType) {
-          case PersonType.Parent:
-            (this.model as Parent).countryStateDocument = doc;
-            break;
-          case PersonType.Applicant:
-            (this.model as Applicant).countryStateApplicantDocument = doc;
-            break;
-          default:
-            break;
-        }
-        this.inquiryService.updateInquiryPropery(this.route.snapshot.data.resolved.inquiryId, this.model);
-        this.cdr.markForCheck();
-      });
+    if (this.$document) {
+      this.$document
+        .pipe(skip(1), takeUntil(this.ngUnsubscribe))
+        .subscribe(doc => {
+          switch (this.personType) {
+            case PersonType.Parent:
+              (this.model as Parent).countryStateDocument = doc;
+              break;
+            case PersonType.Applicant:
+              (this.model as Applicant).countryStateApplicantDocument = doc;
+              break;
+            default:
+              break;
+          }
+          this.inquiryService.updateInquiryPropery(this.route.snapshot.data.resolved.inquiryId, this.model);
+          this.cdr.markForCheck();
+        });
+    }
 
     this.citizenshipService.getCountries()
       .pipe(takeUntil(this.ngUnsubscribe))

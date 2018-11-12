@@ -15,6 +15,7 @@ import { SchoolClass } from "./school-class.model";
 import { SchoolInquiryInfo } from "./school-inquiry-info.model";
 import { Status } from "./status.model";
 import { Petition } from "./petition.model";
+import { SpecHealth } from "./spec-health.model";
 
 export class Inquiry {
     private def = "-";
@@ -56,6 +57,7 @@ export class Inquiry {
     currentEducationPlace: CurrentEducationPlace;
     filesInfo: FilesInfo
     inquiryInfo: InquiryInfo;
+    specHealth: SpecHealth;
 
     contactInfo: ContactInfo;
     petition:Petition;

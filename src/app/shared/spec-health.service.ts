@@ -1,19 +1,18 @@
-import { Injectable, Inject } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/internal/Observable';
 import { map } from 'rxjs/operators';
-import { HttpInterceptor } from './http-interceptor';
 import { SpecHealth } from './models/spec-health.model';
-import { SERVER_URL } from '../app.module';
+import { SpecHealthDataSourceService } from './spec-health-data-source.service';
 
 @Injectable()
 export class SpecHealthService {
-  private baseUrl = `${this.serverUrl}/specHealths`;
-  constructor(private http: HttpInterceptor, @Inject(SERVER_URL) private serverUrl) { }
+  constructor(private dataSource: SpecHealthDataSourceService) { }
 
-  get(code?: string | number): Observable<Array<SpecHealth>> {
-    let url = code ? this.baseUrl + "?code=" + code : this.baseUrl;
-    return this.http.get(url).pipe(map(response => {
-      return <Array<SpecHealth>>response.json();
-    }));
+  gets(code?: string | number): Observable<Array<SpecHealth>> {
+    const queryParams = code ? `code=${code}` : undefined;
+    return this.dataSource.gets(queryParams);
+  }
+  get(id: string): Observable<SpecHealth> {
+    return this.dataSource.get(id).pipe(map(x => new SpecHealth(x.id, x.name, x.code)));
   }
 }

@@ -7,7 +7,7 @@ export abstract class DataSourceService<T>{
   constructor(private http: Http) {
   }
 
-  gets(queryParams: string): Observable<Array<T>> {
+  gets(queryParams?: string): Observable<Array<T>> {
     let url = queryParams ? `${this.api}?${queryParams}` : this.api;
     return this.sendRequest(RequestMethod.Get, url);
   }

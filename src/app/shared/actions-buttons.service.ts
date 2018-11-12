@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { MatDialogRef } from '@angular/material';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BehaviorSubject, timer } from 'rxjs';
-import { DublicatesFinder, InquiryService, inquiryType, Parent } from '.';
+import { InquiryService, inquiryType, DublicatesFinder, Parent, Child, SpecHealth } from '.';
 import { EditContactInfoDialogComponent } from '../modules/inquiry/edit-contact-info-dialog/edit-contact-info-dialog.component';
 import { EditCurrentEducationPlaceDialogComponent } from '../modules/inquiry/edit-current-education-place-dialog/edit-current-education-place-dialog.component';
 import { EditFileAttachmentsDialogComponent } from '../modules/inquiry/edit-file-attachments-dialog/edit-file-attachments-dialog.component';
@@ -24,6 +24,8 @@ import { CurrentEducationPlace, WizardStorageService } from '../modules/wizard/s
 import { ApplicantType } from './applicant-type.enum';
 import { EditSchoolInquiryInfoComponent } from './components/edit-school-inquiry-info/edit-school-inquiry-info.component';
 import { PrivilegeEditComponent } from './components/privilege-edit/privilege-edit.component';
+import { Inquiry } from './models/inquiry.model';
+import { EditCitizenshipsComponent } from '../modules/inquiry/shared/components/edit-citizenships/edit-citizenships.component';
 import { RelationTypeComponent } from './components/relation-type/relation-type.component';
 import { Inquiry } from './models/inquiry.model';
 import { Privilege } from './models/privilege.model';
@@ -34,7 +36,7 @@ export class ActionsButtonsService {
 
     primaryActionChildrenStep(editChildrenComponent: EditChildrenComponent, inquiryType: any) {
         return () => {
-            this.inquiryService.saveChildren(editChildrenComponent, (patch) => {
+            this.inquiryService.saveChildren(editChildrenComponent, (patch: { children:Array<Child>, specHealth:SpecHealth }) => {
                 this.storageService.set(inquiryType, patch);
             })
             this.router.navigate(["../currentEducationPlaceStep"], { relativeTo: this.route });
@@ -293,7 +295,7 @@ export class ActionsButtonsService {
         data: { $inquiry: BehaviorSubject<Inquiry> }, dialogRef: MatDialogRef<EditChildrenComponent>) {
         return () => {
             this.inquiryService.saveChildren(editChildrenComponent,
-                (patch) => this.update(inquiry, patch, data));
+                (patch: { children:Array<Child>, specHealth:SpecHealth }) => this.update(inquiry, patch, data));
             dialogRef.close();
         }
     }

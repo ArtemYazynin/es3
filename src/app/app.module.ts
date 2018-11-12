@@ -20,7 +20,8 @@ export const esConstant = new InjectionToken<{ fileNotChoosen: string }>("esCons
 export const SERVER_URL = new InjectionToken<string>("SERVER_URL");
 
 const constants = {
-  fileNotChoosen: "Файл не выбран"
+  fileNotChoosen: "Файл не выбран",
+  noRestrictions: 101
 }
 @NgModule({
   declarations: [AppComponent, ScopeSelectorComponent, MenuComponent],

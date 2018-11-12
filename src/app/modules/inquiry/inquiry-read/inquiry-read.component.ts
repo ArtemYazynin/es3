@@ -4,7 +4,7 @@ import { MatDialog } from '@angular/material';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { map, takeUntil, skip } from 'rxjs/operators';
-import { ApplicantType, CitizenshipService, CommonService, ConfirmationDocument, BehaviorMode, Country, DrawService, Entity, Inquiry, InquiryService, inquiryType, InstitutionService, PrivilegeOrder, PrivilegeOrderService, Specificity, SpecificityService, Status, StatusService } from '../../../shared/index';
+import { ApplicantType, CitizenshipService, CommonService, ConfirmationDocument, BehaviorMode, Country, DrawService, Entity, Inquiry, InquiryService, inquiryType, InstitutionService, PrivilegeOrder, PrivilegeOrderService, Specificity, SpecificityService, Status, StatusService, Child, Applicant, Parent, Person } from '../../../shared/index';
 import { EditContactInfoDialogComponent } from '../edit-contact-info-dialog/edit-contact-info-dialog.component';
 import { EditCurrentEducationPlaceDialogComponent } from '../edit-current-education-place-dialog/edit-current-education-place-dialog.component';
 import { EditFileAttachmentsDialogComponent } from '../edit-file-attachments-dialog/edit-file-attachments-dialog.component';
@@ -38,6 +38,9 @@ export class InquiryReadComponent implements OnInit, OnDestroy {
   statusForm: FormGroup;
   modes = BehaviorMode;
   $applicantRepresentParentDocument: BehaviorSubject<ConfirmationDocument>;
+  $applicant:BehaviorSubject<Applicant>;
+  $parent: BehaviorSubject<Parent>;
+  children: Array<BehaviorSubject<Child>> = [];
 
   constructor(private route: ActivatedRoute, private inquiryService: InquiryService,
     private privilegeOrderService: PrivilegeOrderService, private statusService: StatusService,
@@ -60,6 +63,9 @@ export class InquiryReadComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(inquiry => {
         this.$inquiry = new BehaviorSubject<Inquiry>(inquiry);
+        this.$applicant = new BehaviorSubject<Applicant>(inquiry.applicant);
+        this.$parent = new BehaviorSubject<Parent>(inquiry.parent);
+        this.children = inquiry.children.map(x=>new BehaviorSubject<Child>(x));
         if (inquiry.applicant && inquiry.applicant.applicantRepresentParentDocument) {
           this.$applicantRepresentParentDocument = new BehaviorSubject<ConfirmationDocument>(inquiry.applicant.applicantRepresentParentDocument);
           this.$applicantRepresentParentDocument
@@ -113,7 +119,7 @@ export class InquiryReadComponent implements OnInit, OnDestroy {
       return this.commonService.getDialogConfig(config);
     }
     const person = (modelType: ApplicantType) => {
-      this.dialog.open(EditPersonDialogComponent, getConfig({ modelType: modelType }));
+      this.dialog.open(EditPersonDialogComponent, getConfig({ modelType: modelType, inquiryType: this.$inquiry.getValue().type }));
       this.dialog.afterAllClosed.subscribe(x => {
 
       });

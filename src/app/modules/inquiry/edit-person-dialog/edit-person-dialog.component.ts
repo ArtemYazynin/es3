@@ -1,10 +1,11 @@
-import { AfterViewInit, ChangeDetectionStrategy, Component, Inject, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Inject, OnInit, ViewChild } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { BehaviorSubject } from 'rxjs';
-import { ApplicantType, ConfigsOfRoutingButtons, IdentityCard, Person, Parent, RelationTypeService } from '../../../shared';
-import { EditPersonComponent } from '../shared/components/edit-person/edit-person.component';
+import { ApplicantType, ConfigsOfRoutingButtons, IdentityCard, Person, Child } from '../../../shared';
 import { PersonType } from '../../../shared/person-type.enum';
-import { ActionsButtonsService } from '../../../shared/actions-buttons.service';
+import { EditPersonComponent } from '../shared/components/edit-person/edit-person.component';
+import { DisabilityComponent } from '../../../shared/components/disability/disability.component';
+import { BirthInfoComponent } from '../../../shared/components/birth-info/birth-info.component';
 
 @Component({
   selector: 'app-edit-person-dialog',
@@ -14,10 +15,14 @@ import { ActionsButtonsService } from '../../../shared/actions-buttons.service';
 })
 export class EditPersonDialogComponent implements OnInit {
   @ViewChild(EditPersonComponent) editPersonComponent: EditPersonComponent;
+  @ViewChild(DisabilityComponent) disabilityComponent: DisabilityComponent;
+  @ViewChild(BirthInfoComponent) birthInfoComponent:BirthInfoComponent;
+
   applicantTypes = ApplicantType;
-  constructor(public dialogRef: MatDialogRef<EditPersonDialogComponent>, @Inject(MAT_DIALOG_DATA) public data: { $person: BehaviorSubject<Person>, personType: PersonType },
-    private relationTypeService: RelationTypeService, private actionsButtonsService: ActionsButtonsService) { }
-    
+  personTypes = PersonType;
+  constructor(public dialogRef: MatDialogRef<EditPersonDialogComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: { $person: BehaviorSubject<Person>, personType: PersonType, inquiryType: string }) { }
+
 
   private person: Person;
   config: ConfigsOfRoutingButtons;
@@ -28,13 +33,17 @@ export class EditPersonDialogComponent implements OnInit {
       primaryTitle: "Сохранить",
       inverseTitle: "Закрыть",
       primaryAction: () => {
-        const fullnameForm = this.editPersonComponent.fullnameComponent.fullnameForm;
-        let person = new Person(fullnameForm.controls.lastname.value, fullnameForm.controls.firstname.value, 
-          fullnameForm.controls["middlename".concat(this.editPersonComponent.fullnameComponent.id)].value, 
-          this.editPersonComponent.snilsComponent.snils, 
-          fullnameForm.controls["noMiddlename".concat(this.editPersonComponent.fullnameComponent.id)].value);
-        person.identityCard = new IdentityCard(this.editPersonComponent.identityCardComponent.identityCardForm);
-        person.id = this.person.id;
+        let person = (() => {
+          let result = this.editPersonComponent.getResult();
+          if (this.data.personType == PersonType.Child) {
+            (result as Child).birthDate = this.birthInfoComponent.birthInfoForm.controls.birthDate.value;
+            (result as Child).birthPlace = this.birthInfoComponent.birthInfoForm.controls.birthPlace.value;
+            (result as Child).disabledChild = this.disabilityComponent.disabledChild;
+            (result as Child).disabilityType = this.disabilityComponent.disabilityType || undefined;
+          }
+          return result;
+        })();
+
         this.data.$person.next(person);
         this.dialogRef.close();
       },
@@ -45,7 +54,11 @@ export class EditPersonDialogComponent implements OnInit {
   }
 
   isValid = (): boolean => {
-    return this.editPersonComponent && this.editPersonComponent.isValid();
+    const isValidPerson = this.editPersonComponent && this.editPersonComponent.isValid();
+    if (this.data.personType == PersonType.Child) {
+      return isValidPerson && this.birthInfoComponent && this.birthInfoComponent.birthInfoForm.valid;
+    }
+    return isValidPerson
   }
 }
 

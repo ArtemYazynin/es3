@@ -1,6 +1,6 @@
 import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, ComponentFactory, ComponentFactoryResolver, ComponentRef, Input, OnInit, ViewChild, ViewContainerRef } from "@angular/core";
 import { isNullOrUndefined } from "util";
-import { ApplicantType, Child, CitizenshipService, ConfirmationDocument, IdentityCard, Person } from "../../../../../shared";
+import { ApplicantType, Child, CitizenshipService, ConfirmationDocument, IdentityCard, Person, SpecHealth } from "../../../../../shared";
 import { BirthInfoComponent } from "../../../../../shared/components/birth-info/birth-info.component";
 import { SpecHealthComponent } from "../../../../../shared/components/spec-health/spec-health.component";
 import { PersonType } from "../../../../../shared/person-type.enum";
@@ -24,6 +24,7 @@ export class EditChildrenComponent implements OnInit, AfterViewInit {
   @Input() children: Array<Child>;
   @Input() inquiryType: any;
   @Input() owner: any;
+  @Input() specHealth:SpecHealth;
 
   components: Array<ComponentRef<ChildComponent>> = [];
   personTypes = PersonType;
@@ -71,7 +72,7 @@ export class EditChildrenComponent implements OnInit, AfterViewInit {
             && this.specHealthComponent.documentComponents.length == this.components.length
             && isNullOrUndefined(this.specHealthComponent.documentComponents.find(x => !x.confirmationDocumentForm.valid));
         }
-        if (this.specHealthComponent && this.specHealthComponent.specHealth == 101) {
+        if (this.specHealthComponent && this.specHealthComponent.specHealth && this.specHealthComponent.specHealth.code == 101) {
           return true;
         } else if (specHealthsDocumentsValid()) {
           return true;
@@ -137,22 +138,17 @@ export class EditChildrenComponent implements OnInit, AfterViewInit {
     };
   })();
 
-  getChildren(): Array<Child> {
+  getResult(): { children:Array<Child>, specHealth:SpecHealth } {
     let buildPerson = (component: ComponentRef<ChildComponent>): Person => {
-      const personForm = component.instance.editPersonComponent.fullnameComponent.fullnameForm;
-      const birthInfoForm = this.birthInfoComponent.birthInfoForm;
-      return new Person(personForm.value["lastname"],
-        personForm.value["firstname"],
-        personForm.value["middlename".concat(component.instance.editPersonComponent.fullnameComponent.id)],
-        component.instance.editPersonComponent.snilsComponent.snils, personForm.value["noMiddlename".concat(component.instance.editPersonComponent.fullnameComponent.id)],
-        birthInfoForm.value["birthDate"],
-        birthInfoForm.value["birthPlace"],
-        component.instance.editPersonComponent.genderComponent.gender);
+      let person = component.instance.editPersonComponent.getResult();
+      person.birthDate = this.birthInfoComponent.birthInfoForm.controls.birthDate.value;
+      person.birthPlace = this.birthInfoComponent.birthInfoForm.controls.birthPlace.value;
+      return person;
     }
-    let result = [];
+    let result = { children:[], specHealth: undefined };
 
     this.components.forEach((x, i) => {
-      const specHealthDocument = this.specHealthComponent.specHealth == 101
+      const specHealthDocument = this.specHealthComponent.specHealth.code == 101
         ? null
         : (() => {
           const form = this.specHealthComponent.documentComponents["_results"][i].confirmationDocumentForm;
@@ -161,20 +157,19 @@ export class EditChildrenComponent implements OnInit, AfterViewInit {
       const person = buildPerson(x);
       const identityCard = new IdentityCard(x.instance.editPersonComponent.identityCardComponent.identityCardForm);
       let child = new Child(person.lastname, person.firstname, person.middlename, person.snils, person.noMiddlename, person.birthDate, person.birthPlace,
-        person.gender, this.editCitizenshipsComponent.citizenshipSelectComponent.citizenships, this.specHealthComponent.specHealth,
-        specHealthDocument,
-        identityCard);
-      child.disabledChild = x.instance.disabledChild;
-      child.disabilityType = x.instance.disabilityType;
+        person.gender, this.editCitizenshipsComponent.citizenshipSelectComponent.citizenships, specHealthDocument, identityCard);
+      child.disabledChild = x.instance.disabilityComponent.disabledChild;
+      child.disabilityType = x.instance.disabilityComponent.disabilityType;
 
       (() => {
         Object.assign(child, this.citizenshipService.hasRfCitizenship(child.citizenships, this.editCitizenshipsComponent.citizenshipSelectComponent.countries)
           ? this.editCitizenshipsComponent.rfCitizensAddressesComponent && this.editCitizenshipsComponent.rfCitizensAddressesComponent.getResult()
           : this.editCitizenshipsComponent.foreignCitizensAddressesComponent && this.editCitizenshipsComponent.foreignCitizensAddressesComponent.getResult());
       })();
-      result.push(child);
+      result.children.push(child);
 
     });
+    result.specHealth = this.specHealthComponent.specHealth;
     return result;
   }
 }

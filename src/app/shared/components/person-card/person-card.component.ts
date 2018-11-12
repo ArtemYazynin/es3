@@ -1,16 +1,15 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnDestroy, OnInit, Output, EventEmitter } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material';
 import { ActivatedRoute } from '@angular/router';
 import { BehaviorSubject, Subject } from 'rxjs';
 import { skip, takeUntil } from 'rxjs/operators';
 import { EditPersonDialogComponent } from '../../../modules/inquiry/edit-person-dialog/edit-person-dialog.component';
-import { ApplicantType } from '../../applicant-type.enum';
-import { CommonService } from '../../common.service';
 import { BehaviorMode } from '../../behavior-mode.enum';
-import { DrawService, Person, Inquiry } from '../../index';
+import { CommonService } from '../../common.service';
+import { DrawService, Person, ConfirmationDocument, Child } from '../../index';
 import { InquiryService } from '../../inquiry.service';
-import { PersonService } from '../../person.service';
 import { PersonType } from '../../person-type.enum';
+import { PersonService } from '../../person.service';
 
 @Component({
   selector: 'app-person-card',
@@ -19,26 +18,20 @@ import { PersonType } from '../../person-type.enum';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class PersonCardComponent implements OnInit, OnDestroy {
-  @Input() entity: Person
+  @Input() entity: BehaviorSubject<Person>;
   @Input() mode: BehaviorMode;
   @Input() personType: PersonType;
+  @Input() inquiryType: string;
 
   modes = BehaviorMode;
+  personTypes = PersonType;
   private ngUnsubscribe: Subject<any> = new Subject();
 
-  constructor(public drawService: DrawService, private dialog: MatDialog, private commonService: CommonService, 
+  constructor(public drawService: DrawService, private dialog: MatDialog, private commonService: CommonService,
     private cdr: ChangeDetectorRef, private inquiryService: InquiryService,
     private route: ActivatedRoute, private personService: PersonService) { }
 
   ngOnInit() {
-    switch (this.personType) {
-      case PersonType.Child:
-        
-        break;
-    
-      default:
-        break;
-    }
   }
 
   ngOnDestroy(): void {
@@ -46,19 +39,14 @@ export class PersonCardComponent implements OnInit, OnDestroy {
     this.ngUnsubscribe.complete();
   }
 
-
-  // isChild = () => {
-  //   return ("specHealthDocument" in this.entity) && !isNullOrUndefined(this.entity.specHealthDocument);
-  // }
-
   edit() {
-    let config = { $person: new BehaviorSubject<Person>(this.entity), personType:this.personType };
+    let config = { $person: this.entity, personType: this.personType, inquiryType: this.inquiryType };
     config.$person
       .pipe(skip(1), takeUntil(this.ngUnsubscribe))
       .subscribe((person: Person) => {
         this.personService.update(person).subscribe(newPerson => {
-          this.entity = newPerson;
-          this.inquiryService.updateInquiryPropery(this.route.snapshot.data.resolved.inquiryId, this.entity);
+          //this.entity = newPerson;
+          this.inquiryService.updateInquiryPropery(this.route.snapshot.data.resolved.inquiryId, this.entity.getValue());
           this.cdr.markForCheck();
         });
       });

@@ -6,19 +6,22 @@
           <div class="col-md-6">
             <h4>Заявление в {{inquiry.typeFriendlyName}}</h4>
             <app-inquiry-common-info [inquiry]="inquiry">
-              <dt>Заявление на перевод</dt>
-              <dd>Нет</dd>
-              <div *ngIf="inquiry && inquiry.privilege && inquiry.privilege.privilegeOrder">
-                <dt>Льгота</dt>
-                <dd>
-                  {{inquiry.privilege.privilegeOrder.name}}<br>
-                  <i>{{inquiry.privilege.name}}</i>
-                </dd>
-                <dt>Документ, подтверждающий льготу</dt>
-                <dd>{{getDocumentView(inquiry.privilege.privilegeProofDocument)}}</dd>
+              <div class="form-group">
+                <b>Заявление на перевод</b>Нет
               </div>
-              <dt>Доп. информация</dt>
-              <dd>{{inquiry.addInformation}}</dd>
+              <div *ngIf="inquiry && inquiry.privilege && inquiry.privilege.privilegeOrder">
+                <div class="form-group">
+                  <b>Льгота</b> {{inquiry.privilege.privilegeOrder.name}}
+                  <br>
+                  <i>{{inquiry.privilege.name}}</i>
+                </div>
+                <div class="form-group">
+                  <b>Документ, подтверждающий льготу</b> {{getDocumentView(inquiry.privilege.privilegeProofDocument)}}
+                </div>
+              </div>
+              <div class="form-group">
+                <b>Доп. информация</b>{{inquiry.addInformation}}
+              </div>
             </app-inquiry-common-info>
           </div>
         </div>
@@ -36,27 +39,27 @@
     </div>
   </div>
   <div class="row">
-    <div class="col-md-6" *ngIf="inquiry.applicantType == applicantTypes.Applicant">
+    <div class="col-md-6" *ngIf="inquiry.applicant">
       <app-inquiry-info-edit title="Доверенное лицо законного представителя ребенка">
-        <app-person-card [entity]="inquiry.applicant" [personType]="personTypes.Applicant" [mode]="modes.Edit"></app-person-card>
+        <app-person-card [entity]="$applicant" [personType]="personTypes.Applicant" [mode]="modes.Edit"></app-person-card>
         <app-citizenships-card [model]="inquiry.applicant" [mode]="modes.Edit" [personType]="personTypes.Applicant"
-          [applicantType]="applicantTypes.Applicant">
+          [applicantType]="inquiry.applicantType">
         </app-citizenships-card>
         <app-confirmation-document-card title="Документ, подтверждающий полномочие доверенного лица представлять интересы законного представителя"
           [model]="$applicantRepresentParentDocument" [mode]="modes.Edit">
         </app-confirmation-document-card>
       </app-inquiry-info-edit>
     </div>
-    <div class="col-md-6" *ngIf="inquiry.applicantType == applicantTypes.Applicant || inquiry.applicantType == applicantTypes.Parent">
+    <div class="col-md-6" *ngIf="inquiry.parent">
       <app-inquiry-info-edit title="Законный представитель">
-        <app-person-card [entity]="inquiry.parent" [personType]="personTypes.Parent" [mode]="modes.Edit"></app-person-card>
+        <app-person-card [entity]="$parent" [personType]="personTypes.Parent" [mode]="modes.Edit"></app-person-card>
         <app-citizenships-card [model]="inquiry.parent" [mode]="modes.Edit" [personType]="personTypes.Parent"
-          [applicantType]="applicantTypes.Parent"> </app-citizenships-card>
+          [applicantType]="inquiry.applicantType"> </app-citizenships-card>
         <app-relation-type-card [model]="inquiry.parent" [mode]="modes.Edit"></app-relation-type-card>
       </app-inquiry-info-edit>
     </div>
   </div>
-  <app-children-card [children]="inquiry.children"></app-children-card>
+  <app-children-card [children]="children" [mode]="modes.Edit" [inquiryType]="inquiry.type" [specHealth]="inquiry.specHealth"></app-children-card>
   <app-school-inquiry-info-card [schoolInquiryInfo]="inquiry.schoolInquiryInfo" [edit]="edit.schoolInquiryInfo" *ngIf="inquiry.schoolInquiryInfo"></app-school-inquiry-info-card>
   <app-preschool-inquiry-info-card [inquiryInfo]="inquiry.inquiryInfo" [edit]="edit.inquiryInfo" *ngIf="inquiry.type == inquiryTypes.preschool"></app-preschool-inquiry-info-card>
   <div class="row">

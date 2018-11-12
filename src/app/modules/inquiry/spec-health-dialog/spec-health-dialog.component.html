@@ -1,0 +1,14 @@
+<ng-container>
+  <ng-container>
+    <h1 mat-dialog-title>Диалоговое окно</h1>
+    <div mat-dialog-content>
+      <h1>Content</h1>
+      <app-edit-spec-health [$specHealth]="data.$specHealth" [children]="data.$children"></app-edit-spec-health>
+    </div>
+  </ng-container>
+  <mat-dialog-actions>
+    <div class="col-md-12">
+      <app-routing-buttons [config]="config" [isValid]="isValid()"></app-routing-buttons>
+    </div>
+  </mat-dialog-actions>
+  <ng-container>
