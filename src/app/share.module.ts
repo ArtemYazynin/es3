@@ -70,6 +70,7 @@ import { CountryDataSourceService } from "./shared/country-data-source.service";
 import { CountryService } from "./shared/country.service";
 import { LocationDataSourceService } from "./shared/location-data-source.service";
 import { AddressDataSourceService } from "./shared/address-data-source.service";
+import { PersonDataSourceService } from "./shared/person-data-source.service";
 
 
 
@@ -115,8 +116,8 @@ import { AddressDataSourceService } from "./shared/address-data-source.service";
     providers: [
         SpecializationService, ConfirmationDocumentService, FamilyInfoService,
         EducProgramService, PersonService, InquiryDataSourceService, InquiryService, DisabilityService, SpecHealthDataSourceService,
-        InstitutionService, InstitutionDataSourceService,ConfirmationDocumentDataSourceService,CitizenshipDataSourceService,CountryDataSourceService,
-        CountryService,LocationDataSourceService,AddressDataSourceService,LocationService
+        InstitutionService, InstitutionDataSourceService, ConfirmationDocumentDataSourceService, CitizenshipDataSourceService, CountryDataSourceService,
+        CountryService, LocationDataSourceService, AddressDataSourceService, LocationService, PersonDataSourceService
     ],
     entryComponents: [EditConfirmationDocumentDialogComponent, EditChildrenComponent, EditCitizenshipsDialogComponent]
 })

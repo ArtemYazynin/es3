@@ -69,6 +69,7 @@ export * from "./models/confirmation-document.model";
 export * from "./models/person.model";
 export * from "./models/parent.model";
 export * from "./country-data-source.service"
+export * from "./person-data-source.service"
 export * from "./location-data-source.service"
 export * from './location.service'
 export * from "./address-data-source.service"
