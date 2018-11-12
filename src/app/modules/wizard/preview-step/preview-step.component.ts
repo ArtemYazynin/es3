@@ -35,7 +35,7 @@ export class PreviewStepComponent implements OnInit, OnDestroy, StepBase {
   applicantTypes = ApplicantType;
   config: ConfigsOfRoutingButtons;
 
-  children: Array<Observable<Child>> = [];
+  children: Array<BehaviorSubject<Child>> = [];
   $applicant:BehaviorSubject<Applicant>;
   $parent: BehaviorSubject<Parent>;
 
@@ -43,7 +43,7 @@ export class PreviewStepComponent implements OnInit, OnDestroy, StepBase {
     this.inquiry = this.storageService.get(this.inquiryType);
     this.$applicant = new BehaviorSubject<Applicant>(this.inquiry.applicant);
     this.$parent = new BehaviorSubject<Parent>(this.inquiry.parent);
-    this.children = this.inquiry.children.map(x=>of(x));
+    this.children = this.inquiry.children.map(x=>new BehaviorSubject<Child>(x));
 
     if (this.inquiry.applicant) {
       this.$applicantRepresentParentDocument = new BehaviorSubject<ConfirmationDocument>(this.inquiry.applicant.applicantRepresentParentDocument);

@@ -1,7 +1,7 @@
-import { Component, OnInit, ChangeDetectionStrategy, Inject, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Inject, OnInit, ViewChild } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
-import { BehaviorSubject, Observable } from 'rxjs';
-import { Parent, SpecHealth, ConfirmationDocument, ConfigsOfRoutingButtons, Child } from '../../../shared';
+import { BehaviorSubject } from 'rxjs';
+import { Child, ConfigsOfRoutingButtons, SpecHealth } from '../../../shared';
 import { EditSpecHealthComponent } from '../../../shared/components/edit-spec-health/edit-spec-health.component';
 
 @Component({
@@ -22,13 +22,20 @@ export class SpecHealthDialogComponent implements OnInit {
       primaryTitle: "Сохранить",
       inverseTitle: "Закрыть",
       primaryAction: () => {
-        this.data.$specHealth.next(this.editSpecHealthComponent.specHealth);
+        if (this.editSpecHealthComponent.$specHealth.getValue().id != this.editSpecHealthComponent.specHealth.id) {
+          this.data.$specHealth.next(this.editSpecHealthComponent.specHealth);
+        }
+
         this.data.$children.forEach(subject => {
           let child = subject.getValue();
           if (this.editSpecHealthComponent.editConfirmationDocimentComponents.length > 0) {
-            child.specHealthDocument = this.editSpecHealthComponent.editConfirmationDocimentComponents.find(x => x.model.id == child.specHealthDocument.id).getResult();
+            const newdoc = this.editSpecHealthComponent.editConfirmationDocimentComponents.find(x => x.model.id == child.specHealthDocument.id).getResult();
+            if (!newdoc.equals(child.specHealthDocument)) {
+              child.specHealthDocument = newdoc;
+              subject.next(child);
+            }
           }
-          subject.next(child);
+
         });
         this.dialogRef.close();
 

@@ -27,18 +27,21 @@ export class SpecHealthCardComponent implements OnInit, OnDestroy, AfterViewInit
     private cdr: ChangeDetectorRef, @Inject(esConstant) private esConstant, private dialog: MatDialog, private commonService: CommonService) { }
 
   ngOnInit() {
-    this.$specHealth = new BehaviorSubject<SpecHealth>(this.specHealth);
-    this.children.forEach(x => {
-      let child = x.getValue();
-      child["$specHealthDocument"] = new BehaviorSubject<ConfirmationDocument>(child.specHealthDocument);
-      child["$specHealthDocument"]
-        .pipe(skip(1), takeUntil(this.ngUnsubscribe))
-        .subscribe(doc => {
-          this.inquiryService.updateInquiryPropery(this.route.snapshot.data.resolved.inquiryId, doc);
-          this.cdr.markForCheck();
-        });
-      x = new BehaviorSubject<Child>(child);
-    });
+    if (this.mode == BehaviorMode.Edit) {
+      this.$specHealth = new BehaviorSubject<SpecHealth>(this.specHealth);
+      this.children.forEach(x => {
+        let child = x.getValue();
+        child["$specHealthDocument"] = new BehaviorSubject<ConfirmationDocument>(child.specHealthDocument);
+        child["$specHealthDocument"]
+          .pipe(skip(1), takeUntil(this.ngUnsubscribe))
+          .subscribe(doc => {
+            this.inquiryService.updateInquiryPropery(this.route.snapshot.data.resolved.inquiryId, doc);
+            this.cdr.markForCheck();
+          });
+        x = new BehaviorSubject<Child>(child);
+      });
+    }
+
   }
 
   ngOnDestroy(): void {
@@ -77,7 +80,7 @@ export class SpecHealthCardComponent implements OnInit, OnDestroy, AfterViewInit
           if (sc.code == this.esConstant.noRestrictions) {
             x.specHealthDocument = undefined;
           }
-          let child = this.children.find(c=>c.getValue().id == x.id);
+          let child = this.children.find(c => c.getValue().id == x.id);
           let val = child.getValue();
           val["$specHealthDocument"].next(x.specHealthDocument);
           //child["$specHealthDocument"].next(x.specHealthDocument);

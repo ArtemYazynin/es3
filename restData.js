@@ -1,9 +1,9 @@
 (() => {
     "use strict"
     module.exports = () => {
-        
+
         let inquiries = [
-            
+
         ];
 
 
@@ -2000,22 +2000,24 @@
             }
         ];
         let countryStateDocuments = [
-            
+
         ];
         let familiesInfos = [
-            { id:"516C3D30-8FF2-4163-BBA8-A452002EC33A", name: "Особое семейное положение" },
-            { id:"516C3D30-8FF2-4163-BBA8-A452002EC33A", name: "Многодетная семья" },
-            { id:"516C3D30-8FF2-4163-BBA8-A452002EC33A", name: "Малоимущие" }
+            { id: "516C3D30-8FF2-4163-BBA8-A452002EC33A", name: "Особое семейное положение" },
+            { id: "516C3D30-8FF2-4163-BBA8-A452002EC33A", name: "Многодетная семья" },
+            { id: "516C3D30-8FF2-4163-BBA8-A452002EC33A", name: "Малоимущие" }
         ]
         let disabilities = [
-            { id:"1", name: "1 группа" },
-            { id:"2", name: "2 группа" },
-            { id:"3", name: "3 группа" }
+            { id: "1", name: "1 группа" },
+            { id: "2", name: "2 группа" },
+            { id: "3", name: "3 группа" }
         ]
+        let confirmationDocuments = [];
         return {
-            disabilities:disabilities,
-            familiesInfos:familiesInfos,
-            countryStateDocuments:countryStateDocuments,
+            confirmationDocuments: confirmationDocuments,
+            disabilities: disabilities,
+            familiesInfos: familiesInfos,
+            countryStateDocuments: countryStateDocuments,
             inquiries: inquiries,
             countries: Countries,
             relationTypes: relationTypes,
