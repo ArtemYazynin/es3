@@ -13,7 +13,6 @@ import { ActionsButtonsService } from '../../shared/actions-buttons.service';
 import { PetitionCardComponent } from '../../shared/components/petition-card/petition-card.component';
 import { HttpInterceptor } from '../../shared/http-interceptor';
 import { RegisterSourcePipe } from '../../shared/models/register-source.pipe';
-import { PetitionTypePipe } from '../../shared/petition-type.pipe';
 import { PrivilegeOrderService } from '../../shared/privilege-order.service';
 import { CurrentEducationPlaceStepService, WizardStorageService } from '../wizard/shared';
 import { EditChildrenDialogComponent } from './edit-children-dialog/edit-children-dialog.component';
@@ -72,7 +71,7 @@ import { InquiryCommonInfoComponent } from './shared/components/inquiry-common-i
   declarations: [PetitionCardComponent, InquiryReadComponent, InquiryCommonInfoComponent, RegisterSourcePipe,
     EditPrivilegeDialogComponent, EditPersonDialogComponent, EditInquiryInfoDialogComponent, EditPreschoolInstitutionDialogComponent,
     EditContactInfoDialogComponent, EditCurrentEducationPlaceDialogComponent, EditSchoolInquiryInfoDialogComponent,
-    EditFileAttachmentsDialogComponent, EditChildrenDialogComponent, EditPetitionDialogComponent, PetitionTypePipe, RelationTypeDialogComponent
+    EditFileAttachmentsDialogComponent, EditChildrenDialogComponent, EditPetitionDialogComponent, RelationTypeDialogComponent
   ],
   entryComponents: [EditPrivilegeDialogComponent, EditPersonDialogComponent, EditInquiryInfoDialogComponent, EditPreschoolInstitutionDialogComponent,
     EditContactInfoDialogComponent, EditCurrentEducationPlaceDialogComponent,

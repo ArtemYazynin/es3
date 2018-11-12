@@ -50,7 +50,8 @@
     <div class="col-md-6" *ngIf="inquiry.applicantType == applicantTypes.Applicant || inquiry.applicantType == applicantTypes.Parent">
       <app-inquiry-info-edit title="Законный представитель">
         <app-person-card [entity]="inquiry.parent" [personType]="personTypes.Parent" [mode]="modes.Edit"></app-person-card>
-        <app-citizenships-card [model]="inquiry.parent" [mode]="modes.Edit" [personType]="personTypes.Parent" [applicantType]="applicantTypes.Parent"> </app-citizenships-card>
+        <app-citizenships-card [model]="inquiry.parent" [mode]="modes.Edit" [personType]="personTypes.Parent"
+          [applicantType]="applicantTypes.Parent"> </app-citizenships-card>
         <app-relation-type-card [model]="inquiry.parent" [mode]="modes.Edit"></app-relation-type-card>
       </app-inquiry-info-edit>
     </div>
@@ -77,7 +78,7 @@
       </app-privilege-card>
     </div>
     <div class="col-md-4">
-      <app-petition-card [model]="inquiry.petition"></app-petition-card>
+      <app-petition-card [petition]="inquiry.petition" [edit]="edit.petition"></app-petition-card>
     </div>
     <div class="col-md-4">
       <app-files-card [filesInfo]="inquiry.filesInfo" [edit]="edit.fileAttachments"></app-files-card>

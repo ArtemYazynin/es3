@@ -60,12 +60,14 @@ import { YesNoPipe } from "./shared/yes-no.pipe";
 import { InstitutionDataSourceService } from "./shared/institution-data-source.service";
 import { InquiryDataSourceService } from "./shared/inquiry-data-source.service";
 import { DisabilityService } from "./shared/disability.service";
+import { EditPetitionComponent } from "./modules/inquiry/shared/components/edit-petition/edit-petition.component";
+import { PetitionTypePipe } from "./shared/petition-type.pipe";
 
 
 
 @NgModule({
     declarations: [
-        PrivilegeEditComponent, EditConfirmationDocumentComponent, ApplicantTypePipe, AttachmentTypePipe, InquiryTypeFriendlyNamePipe, FullNameComponent, GenderComponent,
+        PrivilegeEditComponent, EditConfirmationDocumentComponent, ApplicantTypePipe, AttachmentTypePipe, InquiryTypeFriendlyNamePipe, PetitionTypePipe, FullNameComponent, GenderComponent,
         SnilsComponent, IdentityCardComponent, CitizenshipSelectComponent, RfCitizensAddressesComponent, AddressComponent, ForeignCitizensAddressesComponent,
         BirthInfoComponent, RelationTypeComponent, EditPersonComponent, EditInquiryInfoComponent, AtLeastOneCheckboxShouldBeSelectedComponent, EditInstitutionsComponent,
 
@@ -79,7 +81,7 @@ import { DisabilityService } from "./shared/disability.service";
         CurrentEducationPlaceCardComponent, EditConfirmationDocumentDialogComponent,
         PrivilegeCardComponent,
         FilesCardComponent, YesNoPipe, CitizenshipsCardComponent,
-        RoutingButtonsComponent, EditCitizenshipsDialogComponent, EditCitizenshipsComponent, RelationTypeCardComponent
+        RoutingButtonsComponent, EditCitizenshipsDialogComponent, EditCitizenshipsComponent, RelationTypeCardComponent, EditPetitionComponent
 
     ],
     imports: [
@@ -92,18 +94,19 @@ import { DisabilityService } from "./shared/disability.service";
 
     ],
     exports: [
-        PrivilegeEditComponent, EditConfirmationDocumentComponent, ApplicantTypePipe, AttachmentTypePipe, InquiryTypeFriendlyNamePipe, FullNameComponent, GenderComponent,
+        PrivilegeEditComponent, EditConfirmationDocumentComponent, ApplicantTypePipe, AttachmentTypePipe, InquiryTypeFriendlyNamePipe, PetitionTypePipe, FullNameComponent, GenderComponent,
         SnilsComponent, IdentityCardComponent, CitizenshipSelectComponent, RfCitizensAddressesComponent, AddressComponent, ForeignCitizensAddressesComponent,
         BirthInfoComponent, RelationTypeComponent, EditPersonComponent, EditInquiryInfoComponent, DistributionParamsComponent, StayModeComponent, AgeGroupComponent,
         InquiryInfoEditComponent, AtLeastOneCheckboxShouldBeSelectedComponent, EditInstitutionsComponent, EditContactInfoComponent, EditCurrentEducationPlaceComponent,
         EditFileAttachmentsComponent, EditSchoolInquiryInfoComponent, SchoolInquiryInfoCardComponent, PreschoolInquiryInfoCardComponent,
         PersonCardComponent, ConfirmationDocumentCardComponent, ChildrenCardComponent, ContactInfoCardComponent, SpecHealthComponent,
         InstitutionsCardComponent, SchoolClassCardComponent, CurrentEducationPlaceCardComponent, EditChildrenComponent,
-        PrivilegeCardComponent, FilesCardComponent, YesNoPipe, RoutingButtonsComponent, EditCitizenshipsComponent, CitizenshipsCardComponent, RelationTypeCardComponent
+        PrivilegeCardComponent, FilesCardComponent, YesNoPipe, RoutingButtonsComponent, EditCitizenshipsComponent, CitizenshipsCardComponent, RelationTypeCardComponent,
+        EditPetitionComponent
     ],
     providers: [
         SpecializationService, ConfirmationDocumentService, FamilyInfoService,
-        EducProgramService, PersonService, InquiryDataSourceService, InquiryService,DisabilityService,
+        EducProgramService, PersonService, InquiryDataSourceService, InquiryService, DisabilityService,
         InstitutionService, InstitutionDataSourceService
     ],
     entryComponents: [EditConfirmationDocumentDialogComponent, EditChildrenComponent, EditCitizenshipsDialogComponent]

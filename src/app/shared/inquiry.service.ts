@@ -12,6 +12,7 @@ import { EditInstitutionsComponent } from '../modules/inquiry/shared/components/
 import { EditPersonComponent } from '../modules/inquiry/shared/components/edit-person/edit-person.component';
 import { CommonService } from '../shared/common.service';
 import { AttachmentType } from '../shared/models/attachment-type.enum';
+import { EditPetitionComponent } from './../modules/inquiry/shared/components/edit-petition/edit-petition.component';
 import { EditConfirmationDocumentComponent } from './components/edit-confirmation-document/edit-confirmation-document.component';
 import { EditSchoolInquiryInfoComponent } from './components/edit-school-inquiry-info/edit-school-inquiry-info.component';
 import { PrivilegeEditComponent } from './components/privilege-edit/privilege-edit.component';
@@ -26,12 +27,15 @@ import { Guid } from './models/guid';
 import { InquiryInfo } from './models/inquiry-info.model';
 import { Inquiry } from './models/inquiry.model';
 import { Parent } from './models/parent.model';
+import { Petition } from './models/petition.model';
 import { PortalIdentity } from './models/portal-identity.model';
 import { Privilege } from './models/privilege.model';
 import { RegisterSource } from './models/register-source.enum';
 import { SchoolInquiryInfo } from './models/school-inquiry-info.model';
 import { Status } from './models/status.model';
 import { StayMode } from './models/stay-mode.model';
+import { PetitionType } from './petition-type.enum';
+import { Person } from './models/person.model';
 
 @Injectable()
 export class InquiryService {
@@ -156,7 +160,6 @@ export class InquiryService {
         Object.assign(data, { description: fileView.fileAttachment.description })
         return data;
       });
-
     update({
       filesInfo: {
         files: files,
@@ -164,6 +167,22 @@ export class InquiryService {
       }
     })
   }
+
+  savePetition(editPetitionComponent: EditPetitionComponent, update: (patch: object) => void) {
+    const id = "1";
+    const petition = new Petition(id, new Date(), id, editPetitionComponent.inquiry, editPetitionComponent.form.controls.familyInfo.value,
+      editPetitionComponent.form.controls.comment.value);
+    if (editPetitionComponent.form.controls.petitionType.value == PetitionType.Organization)
+      petition.organizationName = editPetitionComponent.form.controls.organizationName.value;
+    else {
+      const fio = editPetitionComponent.fullNameComponent.getResult();
+      petition.person = new Person(fio.lastname, fio.firstname, fio.middlename, null, fio.noMiddlename);
+      petition.person.identityCard = editPetitionComponent.identityCardComponent.getResult();
+    }
+
+    update({ petition: petition });
+  }
+
   create(inquiry: Inquiry): Observable<Inquiry> {
     if (!environment.production) {
       inquiry.id = Guid.newGuid();

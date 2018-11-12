@@ -2,29 +2,30 @@ import { Injectable } from '@angular/core';
 import { MatDialogRef } from '@angular/material';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BehaviorSubject, timer } from 'rxjs';
-import { InquiryService, inquiryType, DublicatesFinder, Parent } from '.';
+import { DublicatesFinder, InquiryService, inquiryType, Parent } from '.';
 import { EditContactInfoDialogComponent } from '../modules/inquiry/edit-contact-info-dialog/edit-contact-info-dialog.component';
 import { EditCurrentEducationPlaceDialogComponent } from '../modules/inquiry/edit-current-education-place-dialog/edit-current-education-place-dialog.component';
 import { EditFileAttachmentsDialogComponent } from '../modules/inquiry/edit-file-attachments-dialog/edit-file-attachments-dialog.component';
 import { EditInquiryInfoDialogComponent } from '../modules/inquiry/edit-inquiry-info-dialog/edit-inquiry-info-dialog.component';
-import { EditPersonDialogComponent } from '../modules/inquiry/edit-person-dialog/edit-person-dialog.component';
+import { EditPetitionDialogComponent } from '../modules/inquiry/edit-petition-dialog/edit-petition-dialog.component';
 import { EditPreschoolInstitutionDialogComponent } from '../modules/inquiry/edit-preschool-institution-dialog/edit-preschool-institution-dialog.component';
 import { EditPrivilegeDialogComponent } from '../modules/inquiry/edit-privilege-dialog/edit-privilege-dialog.component';
 import { EditSchoolInquiryInfoDialogComponent } from '../modules/inquiry/edit-school-inquiry-info-dialog/edit-school-inquiry-info-dialog.component';
 import { EditChildrenComponent } from '../modules/inquiry/shared/components/edit-children/edit-children.component';
+import { EditCitizenshipsComponent } from '../modules/inquiry/shared/components/edit-citizenships/edit-citizenships.component';
 import { EditContactInfoComponent } from '../modules/inquiry/shared/components/edit-contact-info/edit-contact-info.component';
 import { EditCurrentEducationPlaceComponent } from '../modules/inquiry/shared/components/edit-current-education-place/edit-current-education-place.component';
 import { EditFileAttachmentsComponent } from '../modules/inquiry/shared/components/edit-file-attachments/edit-file-attachments.component';
 import { EditInquiryInfoComponent } from '../modules/inquiry/shared/components/edit-inquiry-info/edit-inquiry-info.component';
 import { EditInstitutionsComponent } from '../modules/inquiry/shared/components/edit-institutions/edit-institutions.component';
 import { EditPersonComponent } from '../modules/inquiry/shared/components/edit-person/edit-person.component';
+import { EditPetitionComponent } from '../modules/inquiry/shared/components/edit-petition/edit-petition.component';
 import { CurrentEducationPlace, WizardStorageService } from '../modules/wizard/shared';
 import { ApplicantType } from './applicant-type.enum';
 import { EditSchoolInquiryInfoComponent } from './components/edit-school-inquiry-info/edit-school-inquiry-info.component';
 import { PrivilegeEditComponent } from './components/privilege-edit/privilege-edit.component';
-import { Inquiry } from './models/inquiry.model';
-import { EditCitizenshipsComponent } from '../modules/inquiry/shared/components/edit-citizenships/edit-citizenships.component';
 import { RelationTypeComponent } from './components/relation-type/relation-type.component';
+import { Inquiry } from './models/inquiry.model';
 import { Privilege } from './models/privilege.model';
 
 @Injectable()
@@ -163,10 +164,10 @@ export class ActionsButtonsService {
                     this.router.navigate(["../educDocumentInfoStep"], { relativeTo: route });
                     break;
                 case inquiryType.preschool:
-                this.router.navigate(["../inquiryInfoStep"], { relativeTo: route });
+                    this.router.navigate(["../inquiryInfoStep"], { relativeTo: route });
                     break;
                 case inquiryType.school:
-                this.router.navigate(["../schoolInquiryInfoStep"], { relativeTo: route });
+                    this.router.navigate(["../schoolInquiryInfoStep"], { relativeTo: route });
                     break;
                 default:
                     break;
@@ -360,4 +361,14 @@ export class ActionsButtonsService {
             dialogRef.close();
         }
     }
+
+    primaryActionPetitionDialog(editPetitionComponent: EditPetitionComponent, inquiry: Inquiry,
+        data: { $inquiry: BehaviorSubject<Inquiry> }, dialogRef: MatDialogRef<EditPetitionDialogComponent>) {
+        return () => {
+            this.inquiryService.savePetition(editPetitionComponent,
+                (patch) => this.update(inquiry, patch, data));
+            dialogRef.close();
+        }
+    }
+
 }

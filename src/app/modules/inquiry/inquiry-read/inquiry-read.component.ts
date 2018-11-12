@@ -14,6 +14,7 @@ import { EditPrivilegeDialogComponent } from '../edit-privilege-dialog/edit-priv
 import { EditSchoolInquiryInfoDialogComponent } from '../edit-school-inquiry-info-dialog/edit-school-inquiry-info-dialog.component';
 import { EditPersonDialogComponent } from '../edit-person-dialog/edit-person-dialog.component';
 import { PersonType } from '../../../shared/person-type.enum';
+import { EditPetitionDialogComponent } from '../edit-petition-dialog/edit-petition-dialog.component';
 
 @Component({
   selector: 'app-inquiry-read',
@@ -145,6 +146,10 @@ export class InquiryReadComponent implements OnInit, OnDestroy {
     const schoolInquiryInfo = () => {
       this.dialog.open(EditSchoolInquiryInfoDialogComponent, getConfig());
     }
+
+    const petition = () => {
+      this.dialog.open(EditPetitionDialogComponent, getConfig());
+    }
     return {
       privilege: privilege,
       person: person,
@@ -153,7 +158,8 @@ export class InquiryReadComponent implements OnInit, OnDestroy {
       institutions: institutions,
       contactInfo: contactInfo,
       currentEducationPlace: currentEducationPlace,
-      fileAttachments: fileAttachments
+      fileAttachments: fileAttachments,
+      petition: petition
     }
   })();
 }

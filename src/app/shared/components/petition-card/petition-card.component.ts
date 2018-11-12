@@ -1,10 +1,5 @@
-import { Component, OnInit, ChangeDetectionStrategy, Input, OnDestroy } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
 import { Petition } from '../../models/petition.model';
-import { CommonService } from '../../common.service';
-import { MatDialog, MatDialogConfig } from '@angular/material';
-import { EditPetitionDialogComponent } from '../../../modules/inquiry/edit-petition-dialog/edit-petition-dialog.component';
-import { BehaviorSubject, Subject } from 'rxjs';
-import { skip } from 'rxjs/operators';
 
 @Component({
   selector: 'app-petition-card',
@@ -12,20 +7,16 @@ import { skip } from 'rxjs/operators';
   styleUrls: ['./petition-card.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class PetitionCardComponent implements OnInit, OnDestroy {
-  @Input() model: Petition;
+export class PetitionCardComponent implements OnInit {
+  @Input() petition: Petition;
+  @Input() edit: () => void;
 
-  private ngUnsubscribe: Subject<any> = new Subject();
-  constructor(private commonService: CommonService, private dialog: MatDialog) { }
+  constructor() { }
 
   ngOnInit() {
   }
 
-  ngOnDestroy(): void {
-    this.ngUnsubscribe.next();
-    this.ngUnsubscribe.complete();
-  }
-
+  /*
   edit() {
     let data = { $petition: new BehaviorSubject<Petition>(this.model) };
     data.$petition
@@ -41,4 +32,5 @@ export class PetitionCardComponent implements OnInit, OnDestroy {
     config.width = "1000px";
     this.dialog.open(EditPetitionDialogComponent, config);
   }
+  */
 }
