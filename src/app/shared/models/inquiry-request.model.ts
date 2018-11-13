@@ -5,7 +5,7 @@ import { Child } from "./child.model";
 import { ContactInfo } from "./contact-info.model";
 import { FromPlace } from "./from-place.model";
 import { FilesInfo } from "./files-info.model";
-import { InquiryInfoRequest } from "./inquiry-info-request.model";
+import { InquiryInfo } from "./inquiry-info.model";
 import { Institution } from "./institution.model";
 import { Parent } from "./parent.model";
 import { PortalIdentity } from "./portal-identity.model";
@@ -26,14 +26,10 @@ export class Inquiry {
     registerSource: RegisterSource;
 
     applicantId: string;
-    parentInfoId: string;
-    contactInfoId:string;
+    parentId: string;
     children: Array<string> = [];
-    
     statusId:string;
     privilegeId:string;
-    wishInstitutions: Array<string>;
-    fromPlaceId:string;
 
     addInformation: string;
 }
@@ -77,7 +73,7 @@ export class InquiryRequest {
     institutions: Array<Institution>
     currentEducationPlace: FromPlace;
     filesInfo: FilesInfo
-    inquiryInfo: InquiryInfoRequest;
+    inquiryInfo: InquiryInfo;
     specHealth: SpecHealth;
 
     contactInfo: ContactInfo;

@@ -1,6 +1,6 @@
 import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnInit, ViewChild } from '@angular/core';
 import { FormGroup } from '@angular/forms';
-import { AgeGroup, InquiryInfoRequest, StayMode } from '../../../../../shared';
+import { AgeGroup, InquiryInfo, StayMode } from '../../../../../shared';
 import { AgeGroupComponent } from '../../../../../shared/components/age-group/age-group.component';
 import { DistributionParamsComponent } from '../../../../../shared/components/distribution-params/distribution-params.component';
 import { StayModeComponent } from '../../../../../shared/components/stay-mode/stay-mode.component';
@@ -16,7 +16,7 @@ export class EditInquiryInfoComponent implements OnInit, AfterViewInit {
   @ViewChild(StayModeComponent) stayModeComponent: StayModeComponent;
   @ViewChild(AgeGroupComponent) ageGroupComponent: AgeGroupComponent;
 
-  @Input() inquiryInfo: InquiryInfoRequest;
+  @Input() inquiryInfo: InquiryInfo;
 
   constructor(private cdr: ChangeDetectorRef) { }
 

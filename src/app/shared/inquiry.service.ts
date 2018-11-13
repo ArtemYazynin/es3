@@ -23,7 +23,7 @@ import { ContactInfo } from './models/contact-info.model';
 import { FromPlace } from './models/from-place.model';
 import { DistributionParams } from './models/distribution-params.model';
 import { Guid } from './models/guid';
-import { InquiryInfoRequest } from './models/inquiry-info-request.model';
+import { InquiryInfo } from './models/inquiry-info.model';
 import { InquiryRequest } from './models/inquiry-request.model';
 import { Parent } from './models/parent.model';
 import { PortalIdentity } from './models/portal-identity.model';
@@ -87,7 +87,7 @@ export class InquiryService {
       const distributionParams = DistributionParams.constructFromForm(editInquiryInfoComponent.distributionParamsComponent.inquiryInfoForm);
       const stayMode = StayMode.constructFromForm(editInquiryInfoComponent.stayModeComponent.atLeastOneCheckboxShouldBeSelectedComponent.form);
       const ageGroup = AgeGroup.constructFromForm(editInquiryInfoComponent.ageGroupComponent.atLeastOneCheckboxShouldBeSelectedComponent.form);
-      return new InquiryInfoRequest(distributionParams, stayMode, ageGroup);
+      return new InquiryInfo(distributionParams, stayMode, ageGroup);
     })();
     update({ inquiryInfo: inquiryInfo });
   }
@@ -177,10 +177,6 @@ export class InquiryService {
       inquiry.addInformation = "доп. инфа по заявлению";
       inquiry.portalIdentity = new PortalIdentity(Guid.newGuid(), "123 внешний id");
       inquiry.status = new Status(Guid.newGuid(), "Новое");
-
-      if (inquiry.parent && inquiry.parent.countryStateDocument) {
-        
-      }
 
       if (inquiry.parent) {
         inquiry.parent.id = Guid.newGuid();

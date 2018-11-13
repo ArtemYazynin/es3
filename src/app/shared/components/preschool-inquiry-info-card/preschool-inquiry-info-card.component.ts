@@ -1,5 +1,5 @@
 import { Component, ChangeDetectionStrategy, OnInit, Input } from "@angular/core";
-import { InquiryInfoRequest, SpecificityService, Specificity } from "../..";
+import { InquiryInfo, SpecificityService, Specificity } from "../..";
 import { Observable } from "rxjs";
 import { map } from "rxjs/operators";
 
@@ -11,7 +11,7 @@ import { map } from "rxjs/operators";
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class PreschoolInquiryInfoCardComponent implements OnInit {
-  @Input() inquiryInfo: InquiryInfoRequest;
+  @Input() inquiryInfo: InquiryInfo;
   @Input() edit: () => void;
 
   constructor(private specificityService: SpecificityService) { }
