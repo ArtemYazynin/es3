@@ -4,13 +4,11 @@ import { HttpInterceptor } from './http-interceptor';
 import { Entity } from './models/entity.model';
 import { IdentityCardType } from './models/identityCardType';
 import { EnumToArrayPipe } from './enum-to-array-pipe';
-import { IdentityCardDataSourceService } from './identity-card-data-source.service';
-import { IdentityCard } from './models/identityCard.model';
 
 @Injectable()
 export class IdentityCardService {
 
-  constructor(private dataSource:IdentityCardDataSourceService) { }
+  constructor(private http: HttpInterceptor) { }
 
   getTypes(groupOfId?: Array<number>): Observable<Array<Entity<number>>> {
     let allTypes = new EnumToArrayPipe().transform(IdentityCardType.values(), IdentityCardType);
@@ -21,9 +19,5 @@ export class IdentityCardService {
       return val.id == id;
     })
     return of(filteredResult);
-  }
-
-  create(identityCard:IdentityCard){
-    return this.dataSource.post(identityCard);
   }
 }

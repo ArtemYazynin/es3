@@ -16,13 +16,10 @@ import { EditInquiryInfoComponent } from "./modules/inquiry/shared/components/ed
 import { EditInstitutionsComponent } from "./modules/inquiry/shared/components/edit-institutions/edit-institutions.component";
 import { EditPersonComponent } from "./modules/inquiry/shared/components/edit-person/edit-person.component";
 import { InquiryInfoEditComponent } from "./modules/inquiry/shared/components/inquiry-info-edit/inquiry-info-edit.component";
-import { EducProgramService, InquiryService, InstitutionService, LocationService, SpecializationService } from "./shared";
-import { AddressDataSourceService } from "./shared/address-data-source.service";
-import { AddressService } from "./shared/address.service";
+import { EducProgramService, InquiryService, SpecializationService, InstitutionService, LocationService } from "./shared";
 import { ApplicantTypePipe } from "./shared/applicant-type.pipe";
 import { AreaTypePipe } from './shared/area-type.pipe';
 import { AttachmentTypePipe } from "./shared/attachment-type.pipe";
-import { CitizenshipDataSourceService } from "./shared/citizenship-data-source.service";
 import { AddressComponent } from "./shared/components/address/address.component";
 import { AgeGroupComponent } from "./shared/components/age-group/age-group.component";
 import { AtLeastOneCheckboxShouldBeSelectedComponent } from "./shared/components/at-least-one-checkbox-should-be-selected/at-least-one-checkbox-should-be-selected.component";
@@ -33,11 +30,9 @@ import { CitizenshipsCardComponent } from "./shared/components/citizenships-card
 import { ConfirmationDocumentCardComponent } from "./shared/components/confirmation-document-card/confirmation-document-card.component";
 import { ContactInfoCardComponent } from './shared/components/contact-info-card/contact-info-card.component';
 import { CurrentEducationPlaceCardComponent } from "./shared/components/current-education-place-card/current-education-place-card.component";
-import { DisabilityComponent } from './shared/components/disability/disability.component';
 import { DistributionParamsComponent } from "./shared/components/distribution-params/distribution-params.component";
 import { EditConfirmationDocumentComponent } from "./shared/components/edit-confirmation-document/edit-confirmation-document.component";
 import { EditSchoolInquiryInfoComponent } from './shared/components/edit-school-inquiry-info/edit-school-inquiry-info.component';
-import { EditSpecHealthComponent } from './shared/components/edit-spec-health/edit-spec-health.component';
 import { FilesCardComponent } from "./shared/components/files-card/files-card.component";
 import { ForeignCitizensAddressesComponent } from "./shared/components/foreign-citizens-addresses/foreign-citizens-addresses.component";
 import { FullNameComponent } from "./shared/components/full-name/full-name.component";
@@ -55,24 +50,27 @@ import { RoutingButtonsComponent } from "./shared/components/routing-buttons/rou
 import { SchoolClassCardComponent } from "./shared/components/school-classes-card/school-classes-card.component";
 import { SchoolInquiryInfoCardComponent } from "./shared/components/school-inquiry-info-card/school-inquiry-info-card.component";
 import { SnilsComponent } from "./shared/components/snils/snils.component";
-import { SpecHealthCardComponent } from './shared/components/spec-health-card/spec-health-card.component';
 import { SpecHealthComponent } from "./shared/components/spec-health/spec-health.component";
 import { StayModeComponent } from "./shared/components/stay-mode/stay-mode.component";
-import { ConfirmationDocumentDataSourceService } from "./shared/confirmation-document-data-source.service";
 import { ConfirmationDocumentService } from "./shared/confirmation-document.service";
+import { FamilyInfoService } from "./shared/family-info.service";
+import { InquiryTypeFriendlyNamePipe } from './shared/inquiry-type.pipe';
+import { PersonService } from "./shared/person.service";
+import { YesNoPipe } from "./shared/yes-no.pipe";
+import { InstitutionDataSourceService } from "./shared/institution-data-source.service";
+import { InquiryDataSourceService } from "./shared/inquiry-data-source.service";
+import { DisabilityService } from "./shared/disability.service";
+import { DisabilityComponent } from './shared/components/disability/disability.component';
+import { SpecHealthDataSourceService } from "./shared/spec-health-data-source.service";
+import { SpecHealthCardComponent } from './shared/components/spec-health-card/spec-health-card.component';
+import { EditSpecHealthComponent } from './shared/components/edit-spec-health/edit-spec-health.component';
+import { ConfirmationDocumentDataSourceService } from "./shared/confirmation-document-data-source.service";
+import { CitizenshipDataSourceService } from "./shared/citizenship-data-source.service";
 import { CountryDataSourceService } from "./shared/country-data-source.service";
 import { CountryService } from "./shared/country.service";
-import { DisabilityService } from "./shared/disability.service";
-import { FamilyInfoService } from "./shared/family-info.service";
-import { IdentityCardDataSourceService } from "./shared/identity-card-data-source.service";
-import { InquiryDataSourceService } from "./shared/inquiry-data-source.service";
-import { InquiryTypeFriendlyNamePipe } from './shared/inquiry-type.pipe';
-import { InstitutionDataSourceService } from "./shared/institution-data-source.service";
 import { LocationDataSourceService } from "./shared/location-data-source.service";
+import { AddressDataSourceService } from "./shared/address-data-source.service";
 import { PersonDataSourceService } from "./shared/person-data-source.service";
-import { PersonService } from "./shared/person.service";
-import { SpecHealthDataSourceService } from "./shared/spec-health-data-source.service";
-import { YesNoPipe } from "./shared/yes-no.pipe";
 
 
 
@@ -119,7 +117,7 @@ import { YesNoPipe } from "./shared/yes-no.pipe";
         SpecializationService, ConfirmationDocumentService, FamilyInfoService,
         EducProgramService, PersonService, InquiryDataSourceService, InquiryService, DisabilityService, SpecHealthDataSourceService,
         InstitutionService, InstitutionDataSourceService, ConfirmationDocumentDataSourceService, CitizenshipDataSourceService, CountryDataSourceService,
-        CountryService, LocationDataSourceService, AddressDataSourceService, LocationService, PersonDataSourceService, AddressService, IdentityCardDataSourceService
+        CountryService, LocationDataSourceService, AddressDataSourceService, LocationService, PersonDataSourceService
     ],
     entryComponents: [EditConfirmationDocumentDialogComponent, EditChildrenComponent, EditCitizenshipsDialogComponent]
 })

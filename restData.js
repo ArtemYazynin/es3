@@ -2025,7 +2025,6 @@
         let citizenships = [];
         let addresses = [];
         let locations = [];
-        let identityCards = [];
         return {
             addresses: addresses,
             applicants: applicants,
@@ -2038,10 +2037,10 @@
             disabilities: disabilities,
             familiesInfos: familiesInfos,
             fileAttachments: fileAttachments,
-            identityCards: identityCards,
+
             inquiries: inquiries,
             inquiryInfos: inquiryInfos,
-            locations: locations,
+            locations:locations,
             relationTypes: relationTypes,
             specHealths: specHealths,
             municipalities: municipalities,

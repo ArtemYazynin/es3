@@ -2,7 +2,6 @@ import { IdentityCardType } from "./identityCardType";
 import { FormGroup } from "@angular/forms";
 
 export class IdentityCard {
-    id:string;
     hashCode: number;
     identityCardType: IdentityCardType;
 
