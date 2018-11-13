@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Observable, of, zip, empty, from } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { isNullOrUndefined } from 'util';
 import { environment } from '../../environments/environment';
 import { EditChildrenComponent } from '../modules/inquiry/shared/components/edit-children/edit-children.component';
@@ -39,17 +39,11 @@ import { ConfirmationDocumentService } from './confirmation-document.service';
 import { ParentInfo } from './models/parent-info.model';
 import { ConfirmationDocument } from './models/confirmation-document.model';
 import { CitizenshipService } from './citizenship.service';
-import { LocationService } from './location.service';
-import { AddressService } from './address.service';
-import { AddressVm, Address } from './models/address.model';
-import { PersonService } from './person.service';
-import { Person } from './models/person.model';
 
 @Injectable()
 export class InquiryService {
   constructor(private commonService: CommonService, private dataSource: InquiryDataSourceService, private confirmationDocumentService: ConfirmationDocumentService,
-    private citizenshipService: CitizenshipService, private locationService: LocationService, private addressService: AddressService,
-    private personService:PersonService) { }
+    private citizenshipService:CitizenshipService) { }
 
   saveApplicant(inquiry: InquiryRequest, editPersonComponent: EditPersonComponent, editCitizenshipsComponent: EditCitizenshipsComponent,
     editConfirmationDocumentComponent: EditConfirmationDocumentComponent): InquiryRequest {
@@ -189,102 +183,34 @@ export class InquiryService {
       inquiry.portalIdentity = new PortalIdentity(Guid.newGuid(), "123 внешний id");
       inquiry.status = new Status(Guid.newGuid(), "Новое");
 
-      let request = new Inquiry();
       let parent: any = {};
-      const hasParentRegisterAddress = inquiry.parent && inquiry.parent.register;
-      const hasParentResidentialAddress = inquiry.parent && inquiry.parent.residential;
       Observable.create(() => {
-        console.log("run inquiry create operation...............")
+        console.log("run inquiry create operation...")
       }).pipe(flatMap(() => {
         if (inquiry.parent && inquiry.parent.countryStateDocument) {
           return this.confirmationDocumentService.create(inquiry.parent.countryStateDocument);
+        } else {
+          of();
         }
-        return empty();
       }), flatMap((countryStateDocument: ConfirmationDocument) => {
         if (countryStateDocument) {
           parent.countryStateDocumentId = countryStateDocument.id;
-          console.log("parent.countryStateDocument created!")
         }
         if (inquiry.parent && inquiry.parent.parentRepresentChildrenDocument) {
           return this.confirmationDocumentService.create(inquiry.parent.parentRepresentChildrenDocument);
+        } else {
+          of();
         }
-        return empty();
-      }), flatMap((parentRepresentChildrenDocument: ConfirmationDocument) => {
-        if (parentRepresentChildrenDocument) {
+      }), flatMap((parentRepresentChildrenDocument:ConfirmationDocument)=>{
+        if(parentRepresentChildrenDocument){
           parent.parentRepresentChildrenDocument = parentRepresentChildrenDocument.id;
-          console.log("parent.parentRepresentChildrenDocument created!")
         }
-        if (hasParentRegisterAddress) {
-          let observable = {
-            region: this.locationService.create(inquiry.parent.register.region),
-            district: this.locationService.create(inquiry.parent.register.district),
-            city: this.locationService.create(inquiry.parent.register.city),
-            street: this.locationService.create(inquiry.parent.register.street),
-            building: this.locationService.create(inquiry.parent.register.building)
-          }
-          return zip(observable.region, observable.district, observable.city, observable.street, observable.building);
-        }
-        return empty();
-      }),
-        flatMap((locations) => {
-          if (locations) {
-            let address = AddressVm.build(locations[0], locations[1], locations[2], locations[3], locations[4], inquiry.parent.register.flat,
-              inquiry.parent.register.additionalInfo, inquiry.parent.register.foreign);
-            return this.addressService.create(address);
-          }
-          return empty();
-        }),
-        flatMap((address: Address) => {
-          if (address) {
-            parent.registerAddressId = address.id;
-            console.log(`register address created!`);
-          }
-          if (hasParentResidentialAddress) {
-            let observable = {
-              region: this.locationService.create(inquiry.parent.residential.region),
-              district: this.locationService.create(inquiry.parent.residential.district),
-              city: this.locationService.create(inquiry.parent.residential.city),
-              street: this.locationService.create(inquiry.parent.residential.street),
-              building: this.locationService.create(inquiry.parent.residential.building)
-            }
-            return zip(observable.region, observable.district, observable.city, observable.street, observable.building);
-          }
-          return empty();
-        }),
-        flatMap((locations) => {
-          if (locations) {
-            let address = AddressVm.build(locations[0], locations[1], locations[2], locations[3], locations[4], inquiry.parent.residential.flat,
-              inquiry.parent.residential.additionalInfo, inquiry.parent.residential.foreign);
-            return this.addressService.create(address);
-          }
-          return empty();
-        }),
-        flatMap((address: Address) => {
-          if (address) {
-            parent.residentialId = address.id;
-            console.log(`residential address created!`);
-          }
-          if(inquiry.parent){
-            return this.personService.create(inquiry.parent);
-          }
-          return empty();
-        }),
-        flatMap((person:Person)=>{
-          if(person){
-            Object.assign(parent, person);
-            console.log(`parent personalData created!`);
-          }
-          return empty();
-        }))
-        .subscribe(x => {
-          if(inquiry.parent){
-            parent.tempRegistrationExpiredDate = inquiry.parent.tempRegistrationExpiredDate;
-            parent.registerAddressLikeAsResidentialAddress = inquiry.parent.registerAddressLikeAsResidentialAddress;
-            parent.relationTypeId = inquiry.parent.relationType.id;
-            request.parentInfoId = parent.id;
-          }
-          
-        });
+        return of()
+      }), flatMap(()=>{
+        return of();
+      })).subscribe(x=>{
+        
+      });
 
       if (inquiry.parent) {
         inquiry.parent.id = Guid.newGuid();
@@ -312,8 +238,7 @@ export class InquiryService {
         if (child.specHealthDocument) child.specHealthDocument.id = Guid.newGuid();
       })
     }
-    return empty();
-    //return this.dataSource.post(inquiry);
+    return this.dataSource.post(inquiry);
   }
 
   update(id: string, inquiry: InquiryRequest): Observable<InquiryRequest> {

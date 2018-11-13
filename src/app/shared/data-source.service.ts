@@ -24,7 +24,6 @@ export abstract class DataSourceService<T>{
   }
 
   post(entity: T): Observable<T> {
-    if (!entity) return empty();
     return this.sendRequest(RequestMethod.Post, this.api, entity);
   }
 
