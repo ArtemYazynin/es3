@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
-import { CitizenshipService, Country, CountryService } from '../../index';
+import { CitizenshipService, Country } from '../../index';
 
 @Component({
   selector: 'app-citizenship-select',
@@ -20,10 +20,10 @@ export class CitizenshipSelectComponent implements OnInit {
   }
   countries: Array<Country> = [];
 
-  constructor(private citizenshipService: CitizenshipService, private countryService:CountryService) { }
+  constructor(private citizenshipService: CitizenshipService) { }
 
   ngOnInit() {
-    this.countryService.gets().subscribe(result => { this.countries = result; });
+    this.citizenshipService.getCountries().subscribe(result => { this.countries = result; });
   }
   onChange(citienships) {
     const withoutCitizenships = 0;

@@ -27,7 +27,7 @@ export abstract class DataSourceService<T>{
     return this.sendRequest(RequestMethod.Post, this.api, entity);
   }
 
-  protected sendRequest(verb: RequestMethod, url: string, body?: T) {
+  private sendRequest(verb: RequestMethod, url: string, body?: T) {
     let headers = new Headers();
     headers.set("Content-Type", "application/json")
     return this.http.request(new Request({

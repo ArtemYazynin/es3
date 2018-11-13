@@ -3,7 +3,7 @@ import { AbstractControl, FormBuilder, FormGroup } from '@angular/forms';
 import { BehaviorSubject, fromEvent, Observable, Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged, filter, takeUntil } from 'rxjs/operators';
 import { isNullOrUndefined } from 'util';
-import { Address, FiasService, Applicant, DrawService, Location, locationTypes, Parent } from '../../index';
+import { Address, AddressService, Applicant, DrawService, Location, locationTypes, Parent } from '../../index';
 import { addressTypes } from "../../models/address-type";
 
 @Component({
@@ -34,7 +34,7 @@ export class AddressComponent implements OnInit, OnDestroy {
   buildings: Observable<Array<Location>>;
   customStreet = false;
 
-  constructor(private addressService: FiasService, private fb: FormBuilder, private drawService: DrawService, private cdr: ChangeDetectorRef) { }
+  constructor(private addressService: AddressService, private fb: FormBuilder, private drawService: DrawService, private cdr: ChangeDetectorRef) { }
 
   drawManager = this.drawService;
   drawnAddress: string;

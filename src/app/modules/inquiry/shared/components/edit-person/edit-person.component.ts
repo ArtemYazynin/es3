@@ -4,7 +4,7 @@ import { FullNameComponent } from '../../../../../shared/components/full-name/fu
 import { GenderComponent } from '../../../../../shared/components/gender/gender.component';
 import { IdentityCardComponent } from '../../../../../shared/components/identity-card/identity-card.component';
 import { SnilsComponent } from '../../../../../shared/components/snils/snils.component';
-import { Applicant, ApplicantType, AttachmentType, CitizenshipService, ConfirmationDocument, Country, IdentityCardType, Parent, Person, IdentityCard, CountryService } from '../../../../../shared/index';
+import { Applicant, ApplicantType, AttachmentType, CitizenshipService, ConfirmationDocument, Country, IdentityCardType, Parent, Person, IdentityCard } from '../../../../../shared/index';
 import { PersonType } from '../../../../../shared/person-type.enum';
 
 @Component({
@@ -28,10 +28,10 @@ export class EditPersonComponent implements OnInit, OnDestroy {
   groupOfIdentityCardTypeId: Array<number> = [];
   countries: Array<Country> = [];
 
-  constructor(private citizenshipService: CitizenshipService, private countryService:CountryService) { }
+  constructor(private citizenshipService: CitizenshipService) { }
 
   ngOnInit() {
-    this.subscription = this.countryService.gets().subscribe(result => this.countries = result);
+    this.subscription = this.citizenshipService.getCountries().subscribe(result => this.countries = result);
     switch (this.personType) {
       case PersonType.Child:
         this.groupOfIdentityCardTypeId = [

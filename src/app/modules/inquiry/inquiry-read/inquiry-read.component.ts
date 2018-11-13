@@ -4,7 +4,7 @@ import { MatDialog } from '@angular/material';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { map, takeUntil, skip } from 'rxjs/operators';
-import { ApplicantType, CitizenshipService, CommonService, ConfirmationDocument, BehaviorMode, Country, DrawService, Entity, InquiryRequest, InquiryService, inquiryType, InstitutionService, PrivilegeOrder, PrivilegeOrderService, Specificity, SpecificityService, Status, StatusService, Child, Applicant, Parent, Person, CountryService } from '../../../shared/index';
+import { ApplicantType, CitizenshipService, CommonService, ConfirmationDocument, BehaviorMode, Country, DrawService, Entity, InquiryRequest, InquiryService, inquiryType, InstitutionService, PrivilegeOrder, PrivilegeOrderService, Specificity, SpecificityService, Status, StatusService, Child, Applicant, Parent, Person } from '../../../shared/index';
 import { EditContactInfoDialogComponent } from '../edit-contact-info-dialog/edit-contact-info-dialog.component';
 import { EditCurrentEducationPlaceDialogComponent } from '../edit-current-education-place-dialog/edit-current-education-place-dialog.component';
 import { EditFileAttachmentsDialogComponent } from '../edit-file-attachments-dialog/edit-file-attachments-dialog.component';
@@ -43,11 +43,11 @@ export class InquiryReadComponent implements OnInit, OnDestroy {
 
   constructor(private route: ActivatedRoute, private inquiryService: InquiryService,
     private privilegeOrderService: PrivilegeOrderService, private statusService: StatusService,
-    private fb: FormBuilder, private specificityService: SpecificityService, public dialog: MatDialog,
-    private institutionService: InstitutionService, private cdr: ChangeDetectorRef, private commonService: CommonService,private countryService:CountryService) { }
+    private citizenshipService: CitizenshipService, private fb: FormBuilder, private specificityService: SpecificityService, public dialog: MatDialog,
+    private institutionService: InstitutionService, private cdr: ChangeDetectorRef, private commonService: CommonService) { }
 
   ngOnInit() {
-    this.countryService.gets()
+    this.citizenshipService.getCountries()
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(countries => {
         this.countries = countries;

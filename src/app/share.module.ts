@@ -16,7 +16,7 @@ import { EditInquiryInfoComponent } from "./modules/inquiry/shared/components/ed
 import { EditInstitutionsComponent } from "./modules/inquiry/shared/components/edit-institutions/edit-institutions.component";
 import { EditPersonComponent } from "./modules/inquiry/shared/components/edit-person/edit-person.component";
 import { InquiryInfoEditComponent } from "./modules/inquiry/shared/components/inquiry-info-edit/inquiry-info-edit.component";
-import { EducProgramService, InquiryService, SpecializationService, InstitutionService, LocationService } from "./shared";
+import { EducProgramService, InquiryService, SpecializationService, InstitutionService } from "./shared";
 import { ApplicantTypePipe } from "./shared/applicant-type.pipe";
 import { AreaTypePipe } from './shared/area-type.pipe';
 import { AttachmentTypePipe } from "./shared/attachment-type.pipe";
@@ -65,11 +65,6 @@ import { SpecHealthDataSourceService } from "./shared/spec-health-data-source.se
 import { SpecHealthCardComponent } from './shared/components/spec-health-card/spec-health-card.component';
 import { EditSpecHealthComponent } from './shared/components/edit-spec-health/edit-spec-health.component';
 import { ConfirmationDocumentDataSourceService } from "./shared/confirmation-document-data-source.service";
-import { CitizenshipDataSourceService } from "./shared/citizenship-data-source.service";
-import { CountryDataSourceService } from "./shared/country-data-source.service";
-import { CountryService } from "./shared/country.service";
-import { LocationDataSourceService } from "./shared/location-data-source.service";
-import { AddressDataSourceService } from "./shared/address-data-source.service";
 
 
 
@@ -115,8 +110,7 @@ import { AddressDataSourceService } from "./shared/address-data-source.service";
     providers: [
         SpecializationService, ConfirmationDocumentService, FamilyInfoService,
         EducProgramService, PersonService, InquiryDataSourceService, InquiryService, DisabilityService, SpecHealthDataSourceService,
-        InstitutionService, InstitutionDataSourceService,ConfirmationDocumentDataSourceService,CitizenshipDataSourceService,CountryDataSourceService,
-        CountryService,LocationDataSourceService,AddressDataSourceService,LocationService
+        InstitutionService, InstitutionDataSourceService,ConfirmationDocumentDataSourceService
     ],
     entryComponents: [EditConfirmationDocumentDialogComponent, EditChildrenComponent, EditCitizenshipsDialogComponent]
 })

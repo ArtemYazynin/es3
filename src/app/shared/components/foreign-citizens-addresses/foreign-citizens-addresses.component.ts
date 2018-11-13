@@ -1,8 +1,10 @@
 import { ChangeDetectionStrategy, Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
-import { Address, addressTypes, Applicant, CitizenshipService, CommonService, Country, CountryService, FormService, inquiryType, Parent, PersonWithAddress } from '../../index';
+import { Address, addressTypes, Applicant, CitizenshipService, Country, FormService, inquiryType, Parent, PersonWithAddress, CommonService } from '../../index';
 import { AddressComponent } from '../address/address.component';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-foreign-citizens-addresses',
@@ -37,15 +39,15 @@ export class ForeignCitizensAddressesComponent implements OnInit, OnDestroy {
     }
   }
 
-  constructor(private fb: FormBuilder, private formService: FormService,
-    private citizenshipService: CitizenshipService, private commonService: CommonService, private countryService: CountryService) { }
+  constructor(private route: ActivatedRoute, private fb: FormBuilder, private formService: FormService,
+    private citizenshipService: CitizenshipService, private commonService: CommonService) { }
 
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
   }
   ngOnInit() {
     this.buildForm();
-    this.subscription = this.countryService.gets()
+    this.subscription = this.citizenshipService.getCountries()
       .subscribe(result => {
         this.countries = result;
         if (!this.owner || !this.owner.register || this.citizenshipService.hasRfCitizenship(this.owner.citizenships, this.countries)) return;
@@ -64,12 +66,12 @@ export class ForeignCitizensAddressesComponent implements OnInit, OnDestroy {
       if (additionalInfo) result.register = Address.build({ additionalInfo: additionalInfo }, true)
     } else {
       result.register = this.commonService.getAddressFromComponents(this.addressComponent);
-      if (result.register) {
+      if(result.register){
         result.tempRegistrationExpiredDate = this.form.controls.tempRegistrationExpiredDate.value;
-      } else {
+      }else{
         delete result.tempRegistrationExpiredDate;
       }
-
+      
     }
     return result;
   }

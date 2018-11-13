@@ -1,20 +1,27 @@
-import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-import { CitizenshipDataSourceService } from './citizenship-data-source.service';
-import { Citizenship } from './models/citizenship.model';
+import { Injectable, Inject } from '@angular/core';
+import { Observable, of } from 'rxjs';
+import { map } from "rxjs/operators";
+import { isNullOrUndefined } from 'util';
+import { HttpInterceptor } from './http-interceptor';
 import { Country } from './models/country.model';
+import { SERVER_URL } from '../app.module';
 
 @Injectable()
 export class CitizenshipService {
 
-  constructor(private dataSource: CitizenshipDataSourceService) { }
+  constructor(private http: HttpInterceptor, @Inject(SERVER_URL) private serverUrl) { }
 
-  create(citizenship: Citizenship): Observable<Citizenship> {
-    return this.dataSource.post(citizenship);
-  }
-
-  gets() {
-    return this.dataSource.gets();
+  getCountries(): Observable<Array<Country>> {
+    const key = "countries";
+    const data = localStorage.getItem(key);
+    if (isNullOrUndefined(data)) {
+      return this.http.get(`${this.serverUrl}/${key}`).pipe(map(result => {
+        let countries = <Array<Country>>result.json();
+        localStorage.setItem(key, JSON.stringify(countries));
+        return countries;
+      }));
+    }
+    return of(JSON.parse(data));
   }
 
   hasForeignCitizenship(citizenships: Array<number>, countries: Array<Country>) {
