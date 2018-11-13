@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, Inject, OnInit, ViewChild } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { BehaviorSubject } from 'rxjs';
-import { ButtonsTitles, ConfigsOfRoutingButtons, InquiryRequest } from '../../../shared';
+import { ButtonsTitles, ConfigsOfRoutingButtons, Inquiry } from '../../../shared';
 import { ActionsButtonsService } from '../../../shared/actions-buttons.service';
 import { EditInstitutionsComponent } from '../shared/components/edit-institutions/edit-institutions.component';
 
@@ -14,10 +14,10 @@ import { EditInstitutionsComponent } from '../shared/components/edit-institution
 export class EditPreschoolInstitutionDialogComponent implements OnInit {
   @ViewChild(EditInstitutionsComponent) editInstitutionsComponent: EditInstitutionsComponent;
   constructor(public dialogRef: MatDialogRef<EditPreschoolInstitutionDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: { $inquiry: BehaviorSubject<InquiryRequest> },
+    @Inject(MAT_DIALOG_DATA) public data: { $inquiry: BehaviorSubject<Inquiry> },
     private actionsButtonsService: ActionsButtonsService) { }
 
-  inquiry: InquiryRequest;
+  inquiry: Inquiry;
   config: ConfigsOfRoutingButtons;
 
   ngOnInit() {

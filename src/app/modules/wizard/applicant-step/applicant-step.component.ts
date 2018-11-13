@@ -1,6 +1,6 @@
 import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ApplicantType, AttachmentType, ButtonsTitles, ConfigsOfRoutingButtons, InquiryRequest, InquiryService } from '../../../shared';
+import { ApplicantType, AttachmentType, ButtonsTitles, ConfigsOfRoutingButtons, Inquiry, InquiryService } from '../../../shared';
 import { ActionsButtonsService } from '../../../shared/actions-buttons.service';
 import { EditConfirmationDocumentComponent } from '../../../shared/components/edit-confirmation-document/edit-confirmation-document.component';
 import { PersonType } from '../../../shared/person-type.enum';
@@ -23,7 +23,7 @@ export class ApplicantStepComponent implements OnInit, AfterViewInit, StepBase {
   constructor(private router: Router, private route: ActivatedRoute, private storageService: WizardStorageService,
     private cdr: ChangeDetectorRef, private actionsButtonsService: ActionsButtonsService, private inquiryService: InquiryService) { }
 
-  inquiry: InquiryRequest;
+  inquiry: Inquiry;
   inquiryType = this.route.snapshot.data.resolved.inquiryType;
   config: ConfigsOfRoutingButtons;
   personTypes = PersonType;
@@ -31,7 +31,7 @@ export class ApplicantStepComponent implements OnInit, AfterViewInit, StepBase {
   applicantTypes = ApplicantType;
 
   ngOnInit() {
-    this.inquiry = <InquiryRequest>this.storageService.get(this.inquiryType);
+    this.inquiry = <Inquiry>this.storageService.get(this.inquiryType);
     this.config = new ConfigsOfRoutingButtons(ButtonsTitles.Next, ButtonsTitles.Back,
       () => {
         const inquiry = this.inquiryService.saveApplicant(this.inquiry, this.editPersonComponent, this.editCitizenshipsComponent, this.editConfirmationDocumentComponent);

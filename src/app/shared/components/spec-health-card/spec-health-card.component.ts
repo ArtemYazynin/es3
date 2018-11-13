@@ -1,6 +1,6 @@
 import { Component, OnInit, ChangeDetectionStrategy, OnDestroy, AfterViewInit, Input, ChangeDetectorRef, Inject } from '@angular/core';
 import { Subject, Observable, BehaviorSubject, of } from 'rxjs';
-import { BehaviorMode, Child, SpecHealthService, SpecHealth, InquiryService, Person, CommonService, InquiryRequest } from '../..';
+import { BehaviorMode, Child, SpecHealthService, SpecHealth, InquiryService, Person, CommonService, Inquiry } from '../..';
 import { takeUntil, map, skip, flatMap } from 'rxjs/operators';
 import { ConfirmationDocument } from '../../models/confirmation-document.model';
 import { ActivatedRoute } from '@angular/router';
@@ -59,7 +59,7 @@ export class SpecHealthCardComponent implements OnInit, OnDestroy, AfterViewInit
       .pipe(skip(1), takeUntil(this.ngUnsubscribe))
       .subscribe(specHealth => {
         const inquiryId = this.route.snapshot.data.resolved.inquiryId;
-        const updateFn = (inquiry: InquiryRequest, sc: SpecHealth): Observable<InquiryRequest> => {
+        const updateFn = (inquiry: Inquiry, sc: SpecHealth): Observable<Inquiry> => {
           Object.assign(inquiry, { specHealth: sc });
           return this.inquiryService.update(inquiryId, inquiry);
         }

@@ -3,7 +3,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatAutocompleteSelectedEvent, MatCheckboxChange, MatSelectChange } from '@angular/material';
 import { Observable, Subject } from 'rxjs';
 import { map, startWith, takeUntil } from 'rxjs/operators';
-import { Area, AreaService, AreaType, CommonService, Entity, FormService, Group, InquiryRequest, inquiryType, Institution, InstitutionService, GroupService } from '../../../../../shared';
+import { Area, AreaService, AreaType, CommonService, Entity, FormService, Group, Inquiry, inquiryType, Institution, InstitutionService, GroupService } from '../../../../../shared';
 import { CurrentEducationPlaceStepService } from '../../../../wizard/shared';
 
 @Component({
@@ -13,7 +13,7 @@ import { CurrentEducationPlaceStepService } from '../../../../wizard/shared';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class EditCurrentEducationPlaceComponent implements OnInit, OnDestroy {
-  @Input() inquiry: InquiryRequest;
+  @Input() inquiry: Inquiry;
   private ngUnsubscribe: Subject<any> = new Subject();
   private currentMunicipality: Area;
   private municipalities: Array<Area> = [];

@@ -2013,12 +2013,7 @@
             { id: "3", name: "3 группа" }
         ]
         let confirmationDocuments = [];
-        let applicants = [];
-        let portalIdentities = [];
-        let fromPlaces = [];
         return {
-
-            applicants: applicants,
             confirmationDocuments: confirmationDocuments,
             disabilities: disabilities,
             familiesInfos: familiesInfos,
@@ -2038,9 +2033,7 @@
             statuses: statuses,
             specializations: specializations,
             educPrograms: educPrograms,
-            groups: groups,
-            portalIdentities: portalIdentities,
-            fromPlaces: fromPlaces
+            groups: groups
         }
     };
 })();

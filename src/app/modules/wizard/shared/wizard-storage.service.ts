@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { isNullOrUndefined } from 'util';
-import { InquiryRequest } from '../../../shared/models/inquiry-request.model';
+import { Inquiry } from '../../../shared/models/inquiry.model';
 import { inquiryType } from "../../../shared/models/inquiry-type";
 
 @Injectable()
@@ -8,10 +8,10 @@ export class WizardStorageService {
   private prefix = "inquiry";
 
 
-  get(type: string): InquiryRequest {
+  get(type: string): Inquiry {
     const key = this.prefix + "/" + type;
     const inquiryData = JSON.parse(sessionStorage.getItem(key));
-    const inquiry = new InquiryRequest(inquiryData);
+    const inquiry = new Inquiry(inquiryData);
     inquiry.type = inquiry.type || type;
     return inquiry;
   }

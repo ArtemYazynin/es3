@@ -1,6 +1,6 @@
-import { InquiryRequest } from "./inquiry-request.model";
+import { Inquiry } from "./inquiry.model";
 import { Petition } from "./petition.model";
 
-export class PreschoolInquiry extends InquiryRequest{
+export class PreschoolInquiry extends Inquiry{
     
 }

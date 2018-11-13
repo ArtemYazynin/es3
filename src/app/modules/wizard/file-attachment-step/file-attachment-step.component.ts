@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ButtonsTitles, ConfigsOfRoutingButtons, InquiryRequest } from '../../../shared';
+import { ButtonsTitles, ConfigsOfRoutingButtons, Inquiry } from '../../../shared';
 import { ActionsButtonsService } from '../../../shared/actions-buttons.service';
 import { EditFileAttachmentsComponent } from '../../inquiry/shared/components/edit-file-attachments/edit-file-attachments.component';
 import { StepBase, WizardStorageService } from '../shared';
@@ -13,7 +13,7 @@ import { StepBase, WizardStorageService } from '../shared';
 })
 export class FileAttachmentStepComponent implements OnInit, StepBase {
   @ViewChild(EditFileAttachmentsComponent) editFileAttachmentsComponent: EditFileAttachmentsComponent
-  inquiry: InquiryRequest;
+  inquiry: Inquiry;
   inquiryType = this.route.snapshot.data.resolved.inquiryType;
   config: ConfigsOfRoutingButtons;
 

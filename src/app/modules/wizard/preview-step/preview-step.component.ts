@@ -3,7 +3,7 @@ import { MatDialog } from '@angular/material';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BehaviorSubject, Observable, Subject, of } from 'rxjs';
 import { map, takeUntil } from 'rxjs/operators';
-import { ApplicantType, BehaviorMode, ButtonsTitles, CitizenshipService, ConfigsOfRoutingButtons, ConfirmationDocument, Country, DrawService, Entity, Group, InquiryRequest, inquiryType, SpecHealth, SpecHealthService, Child, Applicant, Parent } from '../../../shared';
+import { ApplicantType, BehaviorMode, ButtonsTitles, CitizenshipService, ConfigsOfRoutingButtons, ConfirmationDocument, Country, DrawService, Entity, Group, Inquiry, inquiryType, SpecHealth, SpecHealthService, Child, Applicant, Parent } from '../../../shared';
 import { ActionsButtonsService } from '../../../shared/actions-buttons.service';
 import { PersonType } from '../../../shared/person-type.enum';
 import { StepBase, WizardStorageService } from '../shared';
@@ -30,7 +30,7 @@ export class PreviewStepComponent implements OnInit, OnDestroy, StepBase {
   inquiryType = this.route.snapshot.data.resolved.inquiryType;
   $applicantRepresentParentDocument: BehaviorSubject<ConfirmationDocument>;
   countries: Array<Country> = [];
-  inquiry: InquiryRequest;
+  inquiry: Inquiry;
   inquiryTypes = inquiryType;
   applicantTypes = ApplicantType;
   config: ConfigsOfRoutingButtons;

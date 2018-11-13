@@ -3,7 +3,7 @@ import { InquiryTypeFriendlyNamePipe } from "../inquiry-type.pipe";
 import { Applicant } from "./applicant.model";
 import { Child } from "./child.model";
 import { ContactInfo } from "./contact-info.model";
-import { FromPlace } from "./from-place.model";
+import { CurrentEducationPlace } from "./current-education-place.model";
 import { FilesInfo } from "./files-info.model";
 import { InquiryInfo } from "./inquiry-info.model";
 import { Institution } from "./institution.model";
@@ -18,26 +18,9 @@ import { Petition } from "./petition.model";
 import { SpecHealth } from "./spec-health.model";
 
 export class Inquiry {
-    id: string;
-    version: Date;
-    number: string;
-    registerDateTime: Date;
-    applicantType: ApplicantType;
-    registerSource: RegisterSource;
-
-    applicantId: string;
-    parentId: string;
-    children: Array<string> = [];
-    statusId:string;
-    privilegeId:string;
-
-    addInformation: string;
-}
-
-export class InquiryRequest {
     private def = "-";
     private _type: string;
-    constructor(inquiry?: InquiryRequest) {
+    constructor(inquiry?: Inquiry) {
         if (!inquiry) return;
         for (const key in inquiry) {
             if (inquiry.hasOwnProperty(key)) {
@@ -71,13 +54,13 @@ export class InquiryRequest {
     privilege: Privilege;
 
     institutions: Array<Institution>
-    currentEducationPlace: FromPlace;
+    currentEducationPlace: CurrentEducationPlace;
     filesInfo: FilesInfo
     inquiryInfo: InquiryInfo;
     specHealth: SpecHealth;
 
     contactInfo: ContactInfo;
-    petition: Petition;
+    petition:Petition;
 
     /** ONLY SCHOOL FUNCTIONALITY */
     schoolClasses: Array<SchoolClass>;

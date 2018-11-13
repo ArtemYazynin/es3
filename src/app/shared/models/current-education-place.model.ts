@@ -1,6 +1,6 @@
 import { Group } from "./group.model";
 
-export class FromPlace {
+export class CurrentEducationPlace {
     municipality: string;
     institutionType: number;
     institution: string;

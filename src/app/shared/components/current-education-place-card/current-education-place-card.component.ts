@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Entity, InstitutionService, SpecHealth } from '../..';
-import { FromPlace } from '../../../modules/wizard/shared';
+import { CurrentEducationPlace } from '../../../modules/wizard/shared';
 
 @Component({
   selector: 'app-current-education-place-card',
@@ -11,7 +11,7 @@ import { FromPlace } from '../../../modules/wizard/shared';
 })
 export class CurrentEducationPlaceCardComponent implements OnInit {
   @Input() edit: () => void;
-  @Input() currentEducationPlace: FromPlace;
+  @Input() currentEducationPlace: CurrentEducationPlace;
 
   $institutionType: Observable<Entity<number>[]>
   $specHealth: Observable<SpecHealth>
