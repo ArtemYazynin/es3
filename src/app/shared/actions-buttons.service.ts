@@ -8,7 +8,7 @@ import { EditFileAttachmentsDialogComponent } from '../modules/inquiry/edit-file
 import { EditInquiryInfoDialogComponent } from '../modules/inquiry/edit-inquiry-info-dialog/edit-inquiry-info-dialog.component';
 import { EditPreschoolInstitutionDialogComponent } from '../modules/inquiry/edit-preschool-institution-dialog/edit-preschool-institution-dialog.component';
 import { PrivilegeDialogComponent } from '../modules/inquiry/privilege-dialog/privilege-dialog.component';
-import { EditSchoolInquiryInfoDialogComponent } from '../modules/inquiry/edit-school-inquiry-info-dialog/edit-school-inquiry-info-dialog.component';
+import { SchoolInquiryInfoDialogComponent } from '../modules/inquiry/school-inquiry-info-dialog/school-inquiry-info-dialog.component';
 import { EditChildrenComponent } from '../modules/inquiry/shared/components/edit-children/edit-children.component';
 import { EditCitizenshipsComponent } from '../modules/inquiry/shared/components/edit-citizenships/edit-citizenships.component';
 import { EditContactInfoComponent } from '../modules/inquiry/shared/components/edit-contact-info/edit-contact-info.component';
@@ -342,7 +342,7 @@ export class ActionsButtonsService {
     }
 
     primaryActionSchoolInquiryInfoDialog(editSchoolInquiryInfoComponent: EditSchoolInquiryInfoComponent, inquiry: Inquiry,
-        data: { $inquiry: BehaviorSubject<Inquiry> }, dialogRef: MatDialogRef<EditSchoolInquiryInfoDialogComponent>) {
+        data: { $inquiry: BehaviorSubject<Inquiry> }, dialogRef: MatDialogRef<SchoolInquiryInfoDialogComponent>) {
         return () => {
             this.inquiryService.saveSchoolInquiryInfo(editSchoolInquiryInfoComponent,
                 (patch) => this.update(inquiry, patch, data));

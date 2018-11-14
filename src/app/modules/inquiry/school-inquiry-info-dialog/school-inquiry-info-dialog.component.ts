@@ -6,21 +6,21 @@ import { ActionsButtonsService } from '../../../shared/actions-buttons.service';
 import { EditSchoolInquiryInfoComponent } from '../../../shared/components/edit-school-inquiry-info/edit-school-inquiry-info.component';
 
 @Component({
-  selector: 'app-edit-school-inquiry-info-dialog',
-  templateUrl: './edit-school-inquiry-info-dialog.component.html',
-  styleUrls: ['./edit-school-inquiry-info-dialog.component.css'],
+  selector: 'app-school-inquiry-info-dialog',
+  templateUrl: './school-inquiry-info-dialog.component.html',
+  styleUrls: ['./school-inquiry-info-dialog.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class EditSchoolInquiryInfoDialogComponent implements OnInit, AfterViewInit {
+export class SchoolInquiryInfoDialogComponent implements OnInit, AfterViewInit {
   @ViewChild(EditSchoolInquiryInfoComponent) editSchoolInquiryInfoComponent: EditSchoolInquiryInfoComponent;
 
-  constructor(public dialogRef: MatDialogRef<EditSchoolInquiryInfoDialogComponent>,
+  constructor(public dialogRef: MatDialogRef<SchoolInquiryInfoDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: { $inquiry: BehaviorSubject<Inquiry> },
     private actionsButtonsService: ActionsButtonsService) { }
 
   config: ConfigsOfRoutingButtons;
 
-  ngOnInit() {
+  ngOnInit() { 
     this.config = new ConfigsOfRoutingButtons(ButtonsTitles.Save, ButtonsTitles.Close);
   }
 

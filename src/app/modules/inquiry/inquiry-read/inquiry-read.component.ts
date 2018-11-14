@@ -12,7 +12,7 @@ import { EditInquiryInfoDialogComponent } from '../edit-inquiry-info-dialog/edit
 import { EditPersonDialogComponent } from '../edit-person-dialog/edit-person-dialog.component';
 import { EditPreschoolInstitutionDialogComponent } from '../edit-preschool-institution-dialog/edit-preschool-institution-dialog.component';
 import { PrivilegeDialogComponent } from '../privilege-dialog/privilege-dialog.component';
-import { EditSchoolInquiryInfoDialogComponent } from '../edit-school-inquiry-info-dialog/edit-school-inquiry-info-dialog.component';
+import { SchoolInquiryInfoDialogComponent } from '../school-inquiry-info-dialog/school-inquiry-info-dialog.component';
 
 @Component({
   selector: 'app-inquiry-read',
@@ -139,7 +139,7 @@ export class InquiryReadComponent implements OnInit, OnDestroy {
       this.dialog.open(EditFileAttachmentsDialogComponent, getConfig());
     }
     const schoolInquiryInfo = () => {
-      this.dialog.open(EditSchoolInquiryInfoDialogComponent, getConfig());
+      this.dialog.open(SchoolInquiryInfoDialogComponent, getConfig());
     }
     return {
       person: person,
@@ -151,3 +151,4 @@ export class InquiryReadComponent implements OnInit, OnDestroy {
     }
   })();
 }
+ 
