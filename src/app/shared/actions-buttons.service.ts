@@ -330,23 +330,4 @@ export class ActionsButtonsService {
             dialogRef.close();
         }
     }
-
-    primaryActionPrivilegeDialog(privilegeEditComponent: EditPrivilegeComponent, privilege: Privilege,
-        data: { $privilege: BehaviorSubject<Privilege> }, dialogRef: MatDialogRef<PrivilegeDialogComponent>) {
-        return () => { };
-        // return () => {
-        //     this.inquiryService.savePrivilege(privilegeEditComponent,
-        //         (patch) => this.update(inquiry, patch, data));
-        //     dialogRef.close();
-        // }
-    }
-
-    primaryActionSchoolInquiryInfoDialog(editSchoolInquiryInfoComponent: EditSchoolInquiryInfoComponent, inquiry: Inquiry,
-        data: { $inquiry: BehaviorSubject<Inquiry> }, dialogRef: MatDialogRef<SchoolInquiryInfoDialogComponent>) {
-        return () => {
-            this.inquiryService.saveSchoolInquiryInfo(editSchoolInquiryInfoComponent,
-                (patch) => this.update(inquiry, patch, data));
-            dialogRef.close();
-        }
-    }
 }

@@ -204,6 +204,12 @@ export class InquiryService {
         if (child.specHealthDocument) child.specHealthDocument.id = Guid.newGuid();
       })
       inquiry.contactInfo.id = Guid.newGuid();
+      if (inquiry.schoolInquiryInfo) {
+        inquiry.schoolInquiryInfo.id = Guid.newGuid();
+      }
+      if (inquiry.inquiryInfo) {
+        inquiry.inquiryInfo.id = Guid.newGuid();
+      }
     }
     return this.dataSource.post(inquiry);
   }

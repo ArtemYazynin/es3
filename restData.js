@@ -2015,7 +2015,9 @@
         ]
         let confirmationDocuments = [];
         let conctactInfos = [];
+        let schoolInquiryInfos = [];
         return {
+            schoolInquiryInfos:schoolInquiryInfos,
             conctactInfos:conctactInfos,
             confirmationDocuments: confirmationDocuments,
             disabilities: disabilities,

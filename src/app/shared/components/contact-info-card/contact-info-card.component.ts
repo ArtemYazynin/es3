@@ -53,7 +53,7 @@ export class ContactInfoCardComponent implements OnInit, OnDestroy {
           .pipe(takeUntil(this.ngUnsubscribe))
           .subscribe(x => {
             this.contactInfo = x;
-            this.inquiryService.updateInquiryPropery(this.route.snapshot.data.resolved.inquiryId, contactInfo);
+            this.inquiryService.updateInquiryPropery(this.route.snapshot.data.resolved.inquiryId, x);
             this.cdr.markForCheck();
           })
 

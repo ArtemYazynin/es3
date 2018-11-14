@@ -138,13 +138,9 @@ export class InquiryReadComponent implements OnInit, OnDestroy {
     const fileAttachments = () => {
       this.dialog.open(EditFileAttachmentsDialogComponent, getConfig());
     }
-    const schoolInquiryInfo = () => {
-      this.dialog.open(SchoolInquiryInfoDialogComponent, getConfig());
-    }
     return {
       person: person,
       inquiryInfo: inquiryInfo,
-      schoolInquiryInfo: schoolInquiryInfo,
       institutions: institutions,
       currentEducationPlace: currentEducationPlace,
       fileAttachments: fileAttachments
