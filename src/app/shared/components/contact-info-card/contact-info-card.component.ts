@@ -4,7 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 import { BehaviorSubject, Subject } from 'rxjs';
 import { skip, takeUntil } from 'rxjs/operators';
 import { BehaviorMode, CommonService, InquiryService } from '../..';
-import { EditContactInfoDialogComponent } from '../../../modules/inquiry/edit-contact-info-dialog/edit-contact-info-dialog.component';
+import { ContactInfoDialogComponent } from '../../../modules/inquiry/contact-info-dialog/contact-info-dialog.component';
 import { ContactInfo, WizardStorageService } from '../../../modules/wizard/shared';
 import { ContactInfoService } from '../../contact-info.service';
 
@@ -58,6 +58,6 @@ export class ContactInfoCardComponent implements OnInit, OnDestroy {
           })
 
       })
-    this.dialog.open(EditContactInfoDialogComponent, this.commonService.getDialogConfig(config));
+    this.dialog.open(ContactInfoDialogComponent, this.commonService.getDialogConfig(config));
   }
 }

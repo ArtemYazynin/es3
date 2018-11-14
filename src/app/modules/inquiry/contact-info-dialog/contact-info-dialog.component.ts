@@ -6,16 +6,16 @@ import { ContactInfo } from '../../wizard/shared';
 import { EditContactInfoComponent } from '../shared/components/edit-contact-info/edit-contact-info.component';
 
 @Component({
-  selector: 'app-edit-contact-info-dialog',
-  templateUrl: './edit-contact-info-dialog.component.html',
-  styleUrls: ['./edit-contact-info-dialog.component.css'],
+  selector: 'app-contact-info-dialog',
+  templateUrl: './contact-info-dialog.component.html',
+  styleUrls: ['./contact-info-dialog.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class EditContactInfoDialogComponent implements OnInit {
+export class ContactInfoDialogComponent implements OnInit {
   @ViewChild(EditContactInfoComponent) editContactInfoComponent: EditContactInfoComponent;
   config: ConfigsOfRoutingButtons;
 
-  constructor(public dialogRef: MatDialogRef<EditContactInfoDialogComponent>,
+  constructor(public dialogRef: MatDialogRef<ContactInfoDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: { $contactInfo: BehaviorSubject<ContactInfo> }) { }
 
   ngOnInit() {

@@ -17,7 +17,7 @@ import { PetitionTypePipe } from '../../shared/petition-type.pipe';
 import { PrivilegeOrderService } from '../../shared/privilege-order.service';
 import { CurrentEducationPlaceStepService, WizardStorageService } from '../wizard/shared';
 import { EditChildrenDialogComponent } from './edit-children-dialog/edit-children-dialog.component';
-import { EditContactInfoDialogComponent } from './edit-contact-info-dialog/edit-contact-info-dialog.component';
+import { ContactInfoDialogComponent } from './contact-info-dialog/contact-info-dialog.component';
 import { EditCurrentEducationPlaceDialogComponent } from './edit-current-education-place-dialog/edit-current-education-place-dialog.component';
 import { EditFileAttachmentsDialogComponent } from './edit-file-attachments-dialog/edit-file-attachments-dialog.component';
 import { EditInquiryInfoDialogComponent } from './edit-inquiry-info-dialog/edit-inquiry-info-dialog.component';
@@ -72,11 +72,11 @@ import { SpecHealthDialogComponent } from './spec-health-dialog/spec-health-dial
   ],
   declarations: [PetitionCardComponent, InquiryReadComponent, InquiryCommonInfoComponent, RegisterSourcePipe,
     EditPrivilegeDialogComponent, EditPersonDialogComponent, EditInquiryInfoDialogComponent, EditPreschoolInstitutionDialogComponent,
-    EditContactInfoDialogComponent, EditCurrentEducationPlaceDialogComponent, EditSchoolInquiryInfoDialogComponent,
+    ContactInfoDialogComponent, EditCurrentEducationPlaceDialogComponent, EditSchoolInquiryInfoDialogComponent,
     EditFileAttachmentsDialogComponent, EditChildrenDialogComponent, EditPetitionDialogComponent, PetitionTypePipe, RelationTypeDialogComponent, SpecHealthDialogComponent
   ],
   entryComponents: [EditPrivilegeDialogComponent, EditPersonDialogComponent, EditInquiryInfoDialogComponent, EditPreschoolInstitutionDialogComponent,
-    EditContactInfoDialogComponent, EditCurrentEducationPlaceDialogComponent,
+    ContactInfoDialogComponent, EditCurrentEducationPlaceDialogComponent,
     EditSchoolInquiryInfoDialogComponent, EditPetitionDialogComponent, RelationTypeDialogComponent, SpecHealthDialogComponent]
 })
 export class InquiryModule { }
