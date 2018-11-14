@@ -297,15 +297,6 @@ export class ActionsButtonsService {
         }
     }
 
-    primaryActionContactInfoDialog(editContactInfoComponent: EditContactInfoComponent, inquiry: Inquiry,
-        data: { $inquiry: BehaviorSubject<Inquiry> }, dialogRef: MatDialogRef<EditContactInfoDialogComponent>) {
-        return () => {
-            this.inquiryService.saveContactInfo(editContactInfoComponent,
-                (patch) => this.update(inquiry, patch, data));
-            dialogRef.close();
-        }
-    }
-
     primaryActionCurrentEducationsDialog(currentEducationPlaceEditComponent: EditCurrentEducationPlaceComponent, inquiry: Inquiry,
         data: { $inquiry: BehaviorSubject<Inquiry> }, dialogRef: MatDialogRef<EditCurrentEducationPlaceDialogComponent>) {
         return () => {

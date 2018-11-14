@@ -127,9 +127,8 @@ export class InquiryService {
   }
 
   saveContactInfo(editContactInfoComponent: EditContactInfoComponent, update: (patch: object) => void) {
-    const contactInfo = new ContactInfo(editContactInfoComponent.contactsForm);
-    update({ contactInfo: contactInfo })
-    //this.storageService.set(this.inquiryType, { contactInfo: contactInfo })
+    const contactInfo = ContactInfo.buildByForm(editContactInfoComponent.contactsForm);
+    update({ contactInfo: contactInfo });
   }
 
   saveCurrentEducationPlace(editCurrentEducationPlaceComponent: EditCurrentEducationPlaceComponent, update: (patch: object) => void): void {
@@ -200,20 +199,27 @@ export class InquiryService {
         inquiry.privilege.privilegeProofDocument.id = Guid.newGuid();
       }
       inquiry.children.forEach(child => {
+        delete child["$specHealthDocument"];
         child.id = Guid.newGuid();
         if (child.specHealthDocument) child.specHealthDocument.id = Guid.newGuid();
       })
+      inquiry.contactInfo.id = Guid.newGuid();
     }
     return this.dataSource.post(inquiry);
   }
 
   update(id: string, inquiry: Inquiry): Observable<Inquiry> {
+    inquiry.children.forEach(child => {
+      delete child["$specHealthDocument"];
+    });
     return this.dataSource.put(id, inquiry);
   }
 
   get(id: string): Observable<Inquiry> {
     return this.dataSource.get(id).pipe(map(x=>new Inquiry(x)));
   }
+
+
 
   updateInquiryPropery(id: string, objProp: { id: string }) {
     if (!id) return;

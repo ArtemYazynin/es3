@@ -64,6 +64,8 @@ import { DisabilityComponent } from './shared/components/disability/disability.c
 import { SpecHealthDataSourceService } from "./shared/spec-health-data-source.service";
 import { SpecHealthCardComponent } from './shared/components/spec-health-card/spec-health-card.component';
 import { EditSpecHealthComponent } from './shared/components/edit-spec-health/edit-spec-health.component';
+import { ContactInfoService } from "./shared/contact-info.service";
+import { ContactInfoDataSourceService } from "./shared/contact-info-data-source.service";
 
 
 
@@ -109,7 +111,7 @@ import { EditSpecHealthComponent } from './shared/components/edit-spec-health/ed
     providers: [
         SpecializationService, ConfirmationDocumentService, FamilyInfoService,
         EducProgramService, PersonService, InquiryDataSourceService, InquiryService, DisabilityService, SpecHealthDataSourceService,
-        InstitutionService, InstitutionDataSourceService
+        InstitutionService, InstitutionDataSourceService, ContactInfoService, ContactInfoDataSourceService
     ],
     entryComponents: [EditConfirmationDocumentDialogComponent, EditChildrenComponent, EditCitizenshipsDialogComponent]
 })

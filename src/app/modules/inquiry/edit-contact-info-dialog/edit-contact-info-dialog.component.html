@@ -1,11 +1,11 @@
-<div *ngIf="data.$inquiry | async as inquiry">
+<div *ngIf="data.$contactInfo | async as contactInfo">
   <ng-container>
     <h1 mat-dialog-title>Контактная информация</h1>
     <div mat-dialog-content>
-      <app-edit-contact-info [contactInfo]="inquiry.contactInfo"></app-edit-contact-info>
+      <app-edit-contact-info [contactInfo]="contactInfo"></app-edit-contact-info>
     </div>
   </ng-container>
   <mat-dialog-actions>
-    <app-routing-buttons [config]="config" [isValid]="editContactInfoComponent && editContactInfoComponent.isValid()"></app-routing-buttons>
+    <app-routing-buttons [config]="config" [isValid]="isValid()"></app-routing-buttons>
   </mat-dialog-actions>
 </div>

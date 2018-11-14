@@ -1,10 +1,12 @@
 import { Headers, Http, Request, RequestMethod } from '@angular/http';
 import { empty, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { HttpInterceptor } from './http-interceptor';
 
 export abstract class DataSourceService<T>{
   protected abstract api: string;
-  constructor(private http: Http) {
+  protected headers = new Headers({"Content-Type":"application/json"});
+  constructor(protected http: HttpInterceptor) {
   }
 
   gets(queryParams?: string): Observable<Array<T>> {
@@ -28,13 +30,13 @@ export abstract class DataSourceService<T>{
   }
 
   private sendRequest(verb: RequestMethod, url: string, body?: T) {
-    let headers = new Headers();
-    headers.set("Content-Type", "application/json")
+    // let headers = new Headers();
+    // headers.set("Content-Type", "application/json")
     return this.http.request(new Request({
       method: verb,
       url: url,
       body: body,
-      headers: body ? headers : undefined
+      headers: body ? this.headers : undefined
     })).pipe(map(response => response.json()));
   }
 }

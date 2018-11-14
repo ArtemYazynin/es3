@@ -4,11 +4,12 @@ import { Http } from '@angular/http';
 import { empty, Observable } from 'rxjs';
 import { DataSourceService } from './data-source.service';
 import { SERVER_URL } from '../app.module';
+import { HttpInterceptor } from './http-interceptor';
 
 @Injectable()
 export class InstitutionDataSourceService extends DataSourceService<Institution>{
   public api = `${this.serverUrl}/institutions`;
-  constructor(http: Http, @Inject(SERVER_URL) private serverUrl) {
+  constructor(http: HttpInterceptor, @Inject(SERVER_URL) private serverUrl) {
     super(http)
   }
 }

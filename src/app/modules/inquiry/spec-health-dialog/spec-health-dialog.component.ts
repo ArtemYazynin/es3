@@ -22,10 +22,7 @@ export class SpecHealthDialogComponent implements OnInit {
       primaryTitle: "Сохранить",
       inverseTitle: "Закрыть",
       primaryAction: () => {
-        if (this.editSpecHealthComponent.$specHealth.getValue().id != this.editSpecHealthComponent.specHealth.id) {
-          this.data.$specHealth.next(this.editSpecHealthComponent.specHealth);
-        }
-
+        this.data.$specHealth.next(this.editSpecHealthComponent.specHealth);
         this.data.$children.forEach(subject => {
           let child = subject.getValue();
           if (this.editSpecHealthComponent.editConfirmationDocimentComponents.length > 0) {

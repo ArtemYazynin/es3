@@ -45,7 +45,6 @@ export class PersonCardComponent implements OnInit, OnDestroy {
       .pipe(skip(1), takeUntil(this.ngUnsubscribe))
       .subscribe((person: Person) => {
         this.personService.update(person).subscribe(newPerson => {
-          //this.entity = newPerson;
           this.inquiryService.updateInquiryPropery(this.route.snapshot.data.resolved.inquiryId, this.entity.getValue());
           this.cdr.markForCheck();
         });

@@ -1,5 +1,12 @@
-import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
-import { ContactInfo } from '../../../modules/wizard/shared';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material';
+import { ActivatedRoute } from '@angular/router';
+import { BehaviorSubject, Subject } from 'rxjs';
+import { skip, takeUntil } from 'rxjs/operators';
+import { BehaviorMode, CommonService, InquiryService } from '../..';
+import { EditContactInfoDialogComponent } from '../../../modules/inquiry/edit-contact-info-dialog/edit-contact-info-dialog.component';
+import { ContactInfo, WizardStorageService } from '../../../modules/wizard/shared';
+import { ContactInfoService } from '../../contact-info.service';
 
 @Component({
   selector: 'app-contact-info-card',
@@ -7,13 +14,50 @@ import { ContactInfo } from '../../../modules/wizard/shared';
   styleUrls: ['./contact-info-card.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ContactInfoCardComponent implements OnInit {
-  @Input() edit: () => void;
-  @Input() contactInfo: ContactInfo;
+export class ContactInfoCardComponent implements OnInit, OnDestroy {
 
-  constructor() { }
+  @Input() mode: BehaviorMode;
+
+  private ngUnsubscribe: Subject<any> = new Subject();
+  modes = BehaviorMode;
+  contactInfo: ContactInfo;
+
+  constructor(private route: ActivatedRoute, private storageService: WizardStorageService, private dialog: MatDialog,
+    private commonService: CommonService, private contactInfoService: ContactInfoService, private cdr: ChangeDetectorRef,
+    private inquiryService: InquiryService) { }
 
   ngOnInit() {
+    if (this.route.snapshot.data.resolved.inquiryId) {
+      this.contactInfoService.getByInquiry(this.route.snapshot.data.resolved.inquiryId)
+        .pipe(takeUntil(this.ngUnsubscribe))
+        .subscribe(contactInfo => {
+          this.contactInfo = contactInfo;
+          this.cdr.markForCheck();
+        });
+    } else {
+      this.contactInfo = this.storageService.get(this.route.snapshot.data.resolved.inquiryType).contactInfo;
+    }
   }
 
+  ngOnDestroy(): void {
+    this.ngUnsubscribe.next();
+    this.ngUnsubscribe.complete();
+  }
+
+  edit() {
+    let config = { $contactInfo: new BehaviorSubject<ContactInfo>(this.contactInfo) }
+    config.$contactInfo
+      .pipe(skip(1), takeUntil(this.ngUnsubscribe))
+      .subscribe(contactInfo => {
+        this.contactInfoService.update(contactInfo.id, contactInfo)
+          .pipe(takeUntil(this.ngUnsubscribe))
+          .subscribe(x => {
+            this.contactInfo = x;
+            this.inquiryService.updateInquiryPropery(this.route.snapshot.data.resolved.inquiryId, contactInfo);
+            this.cdr.markForCheck();
+          })
+
+      })
+    this.dialog.open(EditContactInfoDialogComponent, this.commonService.getDialogConfig(config));
+  }
 }

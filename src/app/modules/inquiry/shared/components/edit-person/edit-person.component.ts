@@ -66,13 +66,17 @@ export class EditPersonComponent implements OnInit, OnDestroy {
 
   getResult(): Person {
     const fullnameForm = this.fullnameComponent.fullnameForm;
-    let person = new Person(fullnameForm.controls.lastname.value, fullnameForm.controls.firstname.value,
-      fullnameForm.controls["middlename".concat(this.fullnameComponent.id)].value,
-      this.snilsComponent.snils,
-      fullnameForm.controls["noMiddlename".concat(this.fullnameComponent.id)].value);
-    person.identityCard = new IdentityCard(this.identityCardComponent.identityCardForm);
-    person.id = this.model ? this.model.id : undefined;
-    if(this.genderComponent) person.gender = this.genderComponent.gender;
-    return person;
+    this.model = this.model || {} as Parent | Applicant;
+    this.model.lastname = fullnameForm.controls.lastname.value;
+    this.model.firstname = fullnameForm.controls.firstname.value;
+    this.model.middlename = fullnameForm.controls["middlename".concat(this.fullnameComponent.id)].value;
+    this.model.snils = this.snilsComponent.snils;
+    this.model.noMiddlename = fullnameForm.controls["noMiddlename".concat(this.fullnameComponent.id)].value;
+    Object.assign(this.model, {
+      identityCard:new IdentityCard(this.identityCardComponent.identityCardForm)
+    });
+    if (this.genderComponent) this.model.gender = this.genderComponent.gender;
+
+    return this.model;
   }
 }

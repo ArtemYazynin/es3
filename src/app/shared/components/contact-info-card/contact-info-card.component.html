@@ -1,16 +1,19 @@
 <ng-template #fieldsTemplate>
-  <div class="form-group" *ngIf="contactInfo.email">
-    <b>Email </b> {{contactInfo.email}}
-  </div>
-  <div class="form-group" *ngIf="contactInfo.smsPhone">
-    <b>Номер для смс </b> {{contactInfo.smsPhone}}
-  </div>
-  <div class="form-group" *ngIf="contactInfo.phones">
-    <b>Телефон(ы) </b> {{contactInfo.phones}}
-  </div>
-  <div class="form-group">
-    <b>Оповещать </b> {{ contactInfo.dontNotify | yesNo }}
-  </div>
+  <ng-container *ngIf="contactInfo">
+    <div class="form-group" *ngIf="contactInfo.email">
+      <b>Email </b> {{contactInfo.email}}
+    </div>
+    <div class="form-group" *ngIf="contactInfo.smsPhone">
+      <b>Номер для смс </b> {{contactInfo.smsPhone}}
+    </div>
+    <div class="form-group" *ngIf="contactInfo.phones">
+      <b>Телефон(ы) </b> {{contactInfo.phones}}
+    </div>
+    <div class="form-group">
+      <b>Оповещать </b> {{ contactInfo.dontNotify | yesNo }}
+    </div>
+  </ng-container>
+
 </ng-template>
 
 <ng-template #withEdit>
@@ -27,6 +30,6 @@
   </app-inquiry-info-edit>
 </ng-template>
 
-<ng-container *ngTemplateOutlet="edit ? withEdit : withoutEdit">
+<ng-container *ngTemplateOutlet="mode == modes.Edit ? withEdit : withoutEdit">
 
 </ng-container>

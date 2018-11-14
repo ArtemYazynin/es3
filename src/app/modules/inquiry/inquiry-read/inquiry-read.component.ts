@@ -1,19 +1,18 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
-import { map, takeUntil, skip } from 'rxjs/operators';
-import { ApplicantType, CitizenshipService, CommonService, ConfirmationDocument, BehaviorMode, Country, DrawService, Entity, Inquiry, InquiryService, inquiryType, InstitutionService, PrivilegeOrder, PrivilegeOrderService, Specificity, SpecificityService, Status, StatusService, Child, Applicant, Parent, Person } from '../../../shared/index';
-import { EditContactInfoDialogComponent } from '../edit-contact-info-dialog/edit-contact-info-dialog.component';
+import { map, skip, takeUntil } from 'rxjs/operators';
+import { Applicant, ApplicantType, BehaviorMode, Child, CitizenshipService, CommonService, ConfirmationDocument, Country, Entity, Inquiry, InquiryService, inquiryType, InstitutionService, Parent, PrivilegeOrder, PrivilegeOrderService, Specificity, SpecificityService, Status, StatusService } from '../../../shared/index';
+import { PersonType } from '../../../shared/person-type.enum';
 import { EditCurrentEducationPlaceDialogComponent } from '../edit-current-education-place-dialog/edit-current-education-place-dialog.component';
 import { EditFileAttachmentsDialogComponent } from '../edit-file-attachments-dialog/edit-file-attachments-dialog.component';
 import { EditInquiryInfoDialogComponent } from '../edit-inquiry-info-dialog/edit-inquiry-info-dialog.component';
+import { EditPersonDialogComponent } from '../edit-person-dialog/edit-person-dialog.component';
 import { EditPreschoolInstitutionDialogComponent } from '../edit-preschool-institution-dialog/edit-preschool-institution-dialog.component';
 import { EditPrivilegeDialogComponent } from '../edit-privilege-dialog/edit-privilege-dialog.component';
 import { EditSchoolInquiryInfoDialogComponent } from '../edit-school-inquiry-info-dialog/edit-school-inquiry-info-dialog.component';
-import { EditPersonDialogComponent } from '../edit-person-dialog/edit-person-dialog.component';
-import { PersonType } from '../../../shared/person-type.enum';
 
 @Component({
   selector: 'app-inquiry-read',
@@ -37,7 +36,7 @@ export class InquiryReadComponent implements OnInit, OnDestroy {
   statusForm: FormGroup;
   modes = BehaviorMode;
   $applicantRepresentParentDocument: BehaviorSubject<ConfirmationDocument>;
-  $applicant:BehaviorSubject<Applicant>;
+  $applicant: BehaviorSubject<Applicant>;
   $parent: BehaviorSubject<Parent>;
   children: Array<BehaviorSubject<Child>> = [];
 
@@ -64,7 +63,7 @@ export class InquiryReadComponent implements OnInit, OnDestroy {
         this.$inquiry = new BehaviorSubject<Inquiry>(inquiry);
         this.$applicant = new BehaviorSubject<Applicant>(inquiry.applicant);
         this.$parent = new BehaviorSubject<Parent>(inquiry.parent);
-        this.children = inquiry.children.map(x=>new BehaviorSubject<Child>(x));
+        this.children = inquiry.children.map(x => new BehaviorSubject<Child>(x));
         if (inquiry.applicant && inquiry.applicant.applicantRepresentParentDocument) {
           this.$applicantRepresentParentDocument = new BehaviorSubject<ConfirmationDocument>(inquiry.applicant.applicantRepresentParentDocument);
           this.$applicantRepresentParentDocument
@@ -137,9 +136,7 @@ export class InquiryReadComponent implements OnInit, OnDestroy {
       this.dialog.open(EditPreschoolInstitutionDialogComponent, getConfig());
     }
 
-    const contactInfo = () => {
-      this.dialog.open(EditContactInfoDialogComponent, getConfig());
-    }
+
 
     const currentEducationPlace = () => {
       this.dialog.open(EditCurrentEducationPlaceDialogComponent, getConfig());
@@ -157,7 +154,6 @@ export class InquiryReadComponent implements OnInit, OnDestroy {
       inquiryInfo: inquiryInfo,
       schoolInquiryInfo: schoolInquiryInfo,
       institutions: institutions,
-      contactInfo: contactInfo,
       currentEducationPlace: currentEducationPlace,
       fileAttachments: fileAttachments
     }

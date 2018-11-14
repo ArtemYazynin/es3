@@ -9,16 +9,6 @@
               <div class="form-group">
                 <b>Заявление на перевод</b>Нет
               </div>
-              <div *ngIf="inquiry && inquiry.privilege && inquiry.privilege.privilegeOrder">
-                <div class="form-group">
-                  <b>Льгота</b> {{inquiry.privilege.privilegeOrder.name}}
-                  <br>
-                  <i>{{inquiry.privilege.name}}</i>
-                </div>
-                <div class="form-group">
-                  <b>Документ, подтверждающий льготу</b> {{getDocumentView(inquiry.privilege.privilegeProofDocument)}}
-                </div>
-              </div>
               <div class="form-group">
                 <b>Доп. информация</b>{{inquiry.addInformation}}
               </div>
@@ -60,11 +50,16 @@
     </div>
   </div>
   <app-children-card [children]="children" [mode]="modes.Edit" [inquiryType]="inquiry.type" [specHealth]="inquiry.specHealth"></app-children-card>
-  <app-school-inquiry-info-card [schoolInquiryInfo]="inquiry.schoolInquiryInfo" [edit]="edit.schoolInquiryInfo" *ngIf="inquiry.schoolInquiryInfo"></app-school-inquiry-info-card>
-  <app-preschool-inquiry-info-card [inquiryInfo]="inquiry.inquiryInfo" [edit]="edit.inquiryInfo" *ngIf="inquiry.type == inquiryTypes.preschool"></app-preschool-inquiry-info-card>
+  <ng-container [ngSwitch]="inquiry.type">
+    <app-school-inquiry-info-card [schoolInquiryInfo]="inquiry.schoolInquiryInfo" [edit]="edit.schoolInquiryInfo"
+      *ngSwitchCase="inquiryTypes.school"></app-school-inquiry-info-card>
+    <app-preschool-inquiry-info-card [inquiryInfo]="inquiry.inquiryInfo" [edit]="edit.inquiryInfo" 
+      *ngSwitchCase="inquiryTypes.preschool"></app-preschool-inquiry-info-card>
+  </ng-container>
+
   <div class="row">
     <div class="col-md-4">
-      <app-contact-info-card [contactInfo]="inquiry.contactInfo" [edit]="edit.contactInfo"></app-contact-info-card>
+      <app-contact-info-card [mode]="modes.Edit"></app-contact-info-card>
     </div>
     <div class="col-md-4">
       <app-institutions-card [institutions]="inquiry.institutions" [edit]="edit.institutions" *ngIf="inquiry.type == inquiryTypes.preschool"></app-institutions-card>

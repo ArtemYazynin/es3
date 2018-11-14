@@ -17,8 +17,8 @@
 </ng-template>
 
 <ng-template #fieldsTemplate>
-  <div class="form-group">
-    {{($specHealth | async)?.name}}
+  <div class="form-group" *ngIf="specHealth">
+    {{specHealth.name}}
   </div>
 
   <ng-container *ngFor="let child of children">
