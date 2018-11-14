@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { PrivilegeEditComponent } from './privilege-edit.component';
+import { EditPrivilegeComponent } from './edit-privilege.component';
 
 describe('PrivilegeEditComponent', () => {
-  let component: PrivilegeEditComponent;
-  let fixture: ComponentFixture<PrivilegeEditComponent>;
+  let component: EditPrivilegeComponent;
+  let fixture: ComponentFixture<EditPrivilegeComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ PrivilegeEditComponent ]
+      declarations: [ EditPrivilegeComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(PrivilegeEditComponent);
+    fixture = TestBed.createComponent(EditPrivilegeComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

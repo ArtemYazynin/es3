@@ -42,7 +42,7 @@ import { InstitutionsCardComponent } from "./shared/components/institutions-card
 import { PersonCardComponent } from "./shared/components/person-card/person-card.component";
 import { PreschoolInquiryInfoCardComponent } from "./shared/components/preschool-inquiry-info-card/preschool-inquiry-info-card.component";
 import { PrivilegeCardComponent } from "./shared/components/privilege-card/privilege-card.component";
-import { PrivilegeEditComponent } from "./shared/components/privilege-edit/privilege-edit.component";
+import { EditPrivilegeComponent } from "./shared/components/edit-privilege/edit-privilege.component";
 import { RelationTypeCardComponent } from './shared/components/relation-type-card/relation-type-card.component';
 import { RelationTypeComponent } from "./shared/components/relation-type/relation-type.component";
 import { RfCitizensAddressesComponent } from "./shared/components/rf-citizens-addresses/rf-citizens-addresses.component";
@@ -71,7 +71,7 @@ import { ContactInfoDataSourceService } from "./shared/contact-info-data-source.
 
 @NgModule({
     declarations: [
-        PrivilegeEditComponent, EditConfirmationDocumentComponent, ApplicantTypePipe, AttachmentTypePipe, InquiryTypeFriendlyNamePipe, FullNameComponent, GenderComponent,
+        EditPrivilegeComponent, EditConfirmationDocumentComponent, ApplicantTypePipe, AttachmentTypePipe, InquiryTypeFriendlyNamePipe, FullNameComponent, GenderComponent,
         SnilsComponent, IdentityCardComponent, CitizenshipSelectComponent, RfCitizensAddressesComponent, AddressComponent, ForeignCitizensAddressesComponent,
         BirthInfoComponent, RelationTypeComponent, EditPersonComponent, EditInquiryInfoComponent, AtLeastOneCheckboxShouldBeSelectedComponent, EditInstitutionsComponent,
 
@@ -98,7 +98,7 @@ import { ContactInfoDataSourceService } from "./shared/contact-info-data-source.
 
     ],
     exports: [
-        PrivilegeEditComponent, EditConfirmationDocumentComponent, ApplicantTypePipe, AttachmentTypePipe, InquiryTypeFriendlyNamePipe, FullNameComponent, GenderComponent,
+        EditPrivilegeComponent, EditConfirmationDocumentComponent, ApplicantTypePipe, AttachmentTypePipe, InquiryTypeFriendlyNamePipe, FullNameComponent, GenderComponent,
         SnilsComponent, IdentityCardComponent, CitizenshipSelectComponent, RfCitizensAddressesComponent, AddressComponent, ForeignCitizensAddressesComponent,
         BirthInfoComponent, RelationTypeComponent, EditPersonComponent, EditInquiryInfoComponent, DistributionParamsComponent, StayModeComponent, AgeGroupComponent,
         InquiryInfoEditComponent, AtLeastOneCheckboxShouldBeSelectedComponent, EditInstitutionsComponent, EditContactInfoComponent, EditCurrentEducationPlaceComponent,

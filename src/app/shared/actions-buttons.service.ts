@@ -20,7 +20,7 @@ import { EditPersonComponent } from '../modules/inquiry/shared/components/edit-p
 import { CurrentEducationPlace, WizardStorageService } from '../modules/wizard/shared';
 import { ApplicantType } from './applicant-type.enum';
 import { EditSchoolInquiryInfoComponent } from './components/edit-school-inquiry-info/edit-school-inquiry-info.component';
-import { PrivilegeEditComponent } from './components/privilege-edit/privilege-edit.component';
+import { EditPrivilegeComponent } from './components/edit-privilege/edit-privilege.component';
 import { RelationTypeComponent } from './components/relation-type/relation-type.component';
 import { Inquiry } from './models/inquiry.model';
 import { Privilege } from './models/privilege.model';
@@ -151,7 +151,7 @@ export class ActionsButtonsService {
         }
     }
 
-    primaryActionPrivilegeStep(privilegeEditComponent: PrivilegeEditComponent, inquiry: Inquiry, route: ActivatedRoute) {
+    primaryActionPrivilegeStep(privilegeEditComponent: EditPrivilegeComponent, inquiry: Inquiry, route: ActivatedRoute) {
         return () => {
             this.inquiryService.savePrivilege(privilegeEditComponent, (patch) => {
                 this.storageService.set(inquiry.type, patch);
@@ -331,7 +331,7 @@ export class ActionsButtonsService {
         }
     }
 
-    primaryActionPrivilegeDialog(privilegeEditComponent: PrivilegeEditComponent, privilege: Privilege,
+    primaryActionPrivilegeDialog(privilegeEditComponent: EditPrivilegeComponent, privilege: Privilege,
         data: { $privilege: BehaviorSubject<Privilege> }, dialogRef: MatDialogRef<PrivilegeDialogComponent>) {
         return () => { };
         // return () => {

@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, Inject, OnInit, ViewChild } from '@
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { BehaviorSubject } from 'rxjs';
 import { ButtonsTitles, ConfigsOfRoutingButtons, ConfirmationDocument, Privilege } from '../../../shared';
-import { PrivilegeEditComponent } from '../../../shared/components/privilege-edit/privilege-edit.component';
+import { EditPrivilegeComponent } from '../../../shared/components/edit-privilege/edit-privilege.component';
 
 @Component({
   selector: 'app-privilege-dialog',
@@ -11,7 +11,7 @@ import { PrivilegeEditComponent } from '../../../shared/components/privilege-edi
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class PrivilegeDialogComponent implements OnInit {
-  @ViewChild(PrivilegeEditComponent) privilegeEditComponent: PrivilegeEditComponent;
+  @ViewChild(EditPrivilegeComponent) privilegeEditComponent: EditPrivilegeComponent;
   config: ConfigsOfRoutingButtons;
   privilege: Privilege;
 

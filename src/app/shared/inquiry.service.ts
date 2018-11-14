@@ -14,7 +14,7 @@ import { CommonService } from '../shared/common.service';
 import { AttachmentType } from '../shared/models/attachment-type.enum';
 import { EditConfirmationDocumentComponent } from './components/edit-confirmation-document/edit-confirmation-document.component';
 import { EditSchoolInquiryInfoComponent } from './components/edit-school-inquiry-info/edit-school-inquiry-info.component';
-import { PrivilegeEditComponent } from './components/privilege-edit/privilege-edit.component';
+import { EditPrivilegeComponent } from './components/edit-privilege/edit-privilege.component';
 import { DublicatesFinder } from './dublicates-finder';
 import { InquiryDataSourceService } from './inquiry-data-source.service';
 import { AgeGroup } from './models/age-group.model';
@@ -107,7 +107,7 @@ export class InquiryService {
     }
   }
 
-  savePrivilege(privilegeEditComponent: PrivilegeEditComponent, update: (patch: object) => void): void {
+  savePrivilege(privilegeEditComponent: EditPrivilegeComponent, update: (patch: object) => void): void {
     if (privilegeEditComponent.privilegeForm.controls.withoutPrivilege.value) {
       update({ privilege: undefined })
     } else {

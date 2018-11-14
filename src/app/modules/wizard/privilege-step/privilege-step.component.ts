@@ -2,7 +2,7 @@ import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, O
 import { ActivatedRoute, Router } from '@angular/router';
 import { ButtonsTitles, ConfigsOfRoutingButtons, Inquiry } from '../../../shared';
 import { ActionsButtonsService } from '../../../shared/actions-buttons.service';
-import { PrivilegeEditComponent } from '../../../shared/components/privilege-edit/privilege-edit.component';
+import { EditPrivilegeComponent } from '../../../shared/components/edit-privilege/edit-privilege.component';
 import { StepBase, WizardStorageService } from '../shared';
 
 @Component({
@@ -13,7 +13,7 @@ import { StepBase, WizardStorageService } from '../shared';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class PrivilegeStepComponent implements OnInit, AfterViewInit, StepBase {
-  @ViewChild(PrivilegeEditComponent) privilegeEditComponent: PrivilegeEditComponent;
+  @ViewChild(EditPrivilegeComponent) privilegeEditComponent: EditPrivilegeComponent;
   inquiry: Inquiry;
   inquiryType = this.route.snapshot.data.resolved.inquiryType;
   config: ConfigsOfRoutingButtons;
