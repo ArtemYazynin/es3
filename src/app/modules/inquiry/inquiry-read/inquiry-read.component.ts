@@ -11,7 +11,7 @@ import { EditFileAttachmentsDialogComponent } from '../edit-file-attachments-dia
 import { EditInquiryInfoDialogComponent } from '../edit-inquiry-info-dialog/edit-inquiry-info-dialog.component';
 import { EditPersonDialogComponent } from '../edit-person-dialog/edit-person-dialog.component';
 import { EditPreschoolInstitutionDialogComponent } from '../edit-preschool-institution-dialog/edit-preschool-institution-dialog.component';
-import { EditPrivilegeDialogComponent } from '../edit-privilege-dialog/edit-privilege-dialog.component';
+import { PrivilegeDialogComponent } from '../privilege-dialog/privilege-dialog.component';
 import { EditSchoolInquiryInfoDialogComponent } from '../edit-school-inquiry-info-dialog/edit-school-inquiry-info-dialog.component';
 
 @Component({
@@ -122,13 +122,6 @@ export class InquiryReadComponent implements OnInit, OnDestroy {
 
       });
     }
-    const privilege = () => {
-      this.dialog.open(EditPrivilegeDialogComponent, getConfig());
-      // const dialogRef = this.dialog.open(EditPrivilegeDialogComponent, config);
-      // dialogRef.afterClosed().subscribe((result:Inquiry) => {
-      //   console.log('The dialog was closed');
-      // });
-    }
     const inquiryInfo = () => {
       this.dialog.open(EditInquiryInfoDialogComponent, getConfig());
     }
@@ -149,7 +142,6 @@ export class InquiryReadComponent implements OnInit, OnDestroy {
       this.dialog.open(EditSchoolInquiryInfoDialogComponent, getConfig());
     }
     return {
-      privilege: privilege,
       person: person,
       inquiryInfo: inquiryInfo,
       schoolInquiryInfo: schoolInquiryInfo,

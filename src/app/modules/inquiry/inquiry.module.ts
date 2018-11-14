@@ -24,7 +24,7 @@ import { EditInquiryInfoDialogComponent } from './edit-inquiry-info-dialog/edit-
 import { EditPersonDialogComponent } from './edit-person-dialog/edit-person-dialog.component';
 import { EditPetitionDialogComponent } from './edit-petition-dialog/edit-petition-dialog.component';
 import { EditPreschoolInstitutionDialogComponent } from './edit-preschool-institution-dialog/edit-preschool-institution-dialog.component';
-import { EditPrivilegeDialogComponent } from './edit-privilege-dialog/edit-privilege-dialog.component';
+import { PrivilegeDialogComponent } from './privilege-dialog/privilege-dialog.component';
 import { EditSchoolInquiryInfoDialogComponent } from './edit-school-inquiry-info-dialog/edit-school-inquiry-info-dialog.component';
 import { InquiryReadComponent } from './inquiry-read/inquiry-read.component';
 import { InquiryRouting } from './inquiry-routing-module';
@@ -71,11 +71,11 @@ import { SpecHealthDialogComponent } from './spec-health-dialog/spec-health-dial
     ActionsButtonsService
   ],
   declarations: [PetitionCardComponent, InquiryReadComponent, InquiryCommonInfoComponent, RegisterSourcePipe,
-    EditPrivilegeDialogComponent, EditPersonDialogComponent, EditInquiryInfoDialogComponent, EditPreschoolInstitutionDialogComponent,
+    PrivilegeDialogComponent, EditPersonDialogComponent, EditInquiryInfoDialogComponent, EditPreschoolInstitutionDialogComponent,
     ContactInfoDialogComponent, EditCurrentEducationPlaceDialogComponent, EditSchoolInquiryInfoDialogComponent,
     EditFileAttachmentsDialogComponent, EditChildrenDialogComponent, EditPetitionDialogComponent, PetitionTypePipe, RelationTypeDialogComponent, SpecHealthDialogComponent
   ],
-  entryComponents: [EditPrivilegeDialogComponent, EditPersonDialogComponent, EditInquiryInfoDialogComponent, EditPreschoolInstitutionDialogComponent,
+  entryComponents: [PrivilegeDialogComponent, EditPersonDialogComponent, EditInquiryInfoDialogComponent, EditPreschoolInstitutionDialogComponent,
     ContactInfoDialogComponent, EditCurrentEducationPlaceDialogComponent,
     EditSchoolInquiryInfoDialogComponent, EditPetitionDialogComponent, RelationTypeDialogComponent, SpecHealthDialogComponent]
 })

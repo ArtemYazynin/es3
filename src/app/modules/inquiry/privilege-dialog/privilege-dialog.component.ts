@@ -5,17 +5,17 @@ import { ButtonsTitles, ConfigsOfRoutingButtons, ConfirmationDocument, Privilege
 import { PrivilegeEditComponent } from '../../../shared/components/privilege-edit/privilege-edit.component';
 
 @Component({
-  selector: 'app-edit-privilege-dialog',
-  templateUrl: './edit-privilege-dialog.component.html',
-  styleUrls: ['./edit-privilege-dialog.component.css'],
+  selector: 'app-privilege-dialog',
+  templateUrl: './privilege-dialog.component.html',
+  styleUrls: ['./privilege-dialog.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class EditPrivilegeDialogComponent implements OnInit {
+export class PrivilegeDialogComponent implements OnInit {
   @ViewChild(PrivilegeEditComponent) privilegeEditComponent: PrivilegeEditComponent;
   config: ConfigsOfRoutingButtons;
   privilege: Privilege;
 
-  constructor(public dialogRef: MatDialogRef<EditPrivilegeDialogComponent>, @Inject(MAT_DIALOG_DATA) public data: { $privilege: BehaviorSubject<Privilege> }) { }
+  constructor(public dialogRef: MatDialogRef<PrivilegeDialogComponent>, @Inject(MAT_DIALOG_DATA) public data: { $privilege: BehaviorSubject<Privilege> }) { }
 
   ngOnInit() {
     this.privilege = this.data.$privilege.getValue();
@@ -32,7 +32,7 @@ export class EditPrivilegeDialogComponent implements OnInit {
           })()
         this.data.$privilege.next(value);
         this.dialogRef.close();
-      },
+      }, 
       () => {
         this.dialogRef.close();
       });

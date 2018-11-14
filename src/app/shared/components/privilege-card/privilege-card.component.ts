@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, Input, OnInit, OnDestroy, ChangeDet
 import { Privilege, CommonService, ConfirmationDocument, InquiryService, Inquiry } from '../..';
 import { BehaviorMode } from '../../behavior-mode.enum';
 import { MatDialog } from '@angular/material';
-import { EditPrivilegeDialogComponent } from '../../../modules/inquiry/edit-privilege-dialog/edit-privilege-dialog.component';
+import { PrivilegeDialogComponent } from '../../../modules/inquiry/privilege-dialog/privilege-dialog.component';
 import { BehaviorSubject, Subject, Observable } from 'rxjs';
 import { skip, takeUntil, mergeMap, flatMap } from 'rxjs/operators';
 import { ActivatedRoute } from '@angular/router';
@@ -72,6 +72,6 @@ export class PrivilegeCardComponent implements OnInit, OnDestroy {
 
       });
     let config = this.commonService.getDialogConfig(extension);
-    this.dialog.open(EditPrivilegeDialogComponent, config);
+    this.dialog.open(PrivilegeDialogComponent, config);
   }
 }

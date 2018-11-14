@@ -7,7 +7,7 @@ import { EditCurrentEducationPlaceDialogComponent } from '../modules/inquiry/edi
 import { EditFileAttachmentsDialogComponent } from '../modules/inquiry/edit-file-attachments-dialog/edit-file-attachments-dialog.component';
 import { EditInquiryInfoDialogComponent } from '../modules/inquiry/edit-inquiry-info-dialog/edit-inquiry-info-dialog.component';
 import { EditPreschoolInstitutionDialogComponent } from '../modules/inquiry/edit-preschool-institution-dialog/edit-preschool-institution-dialog.component';
-import { EditPrivilegeDialogComponent } from '../modules/inquiry/edit-privilege-dialog/edit-privilege-dialog.component';
+import { PrivilegeDialogComponent } from '../modules/inquiry/privilege-dialog/privilege-dialog.component';
 import { EditSchoolInquiryInfoDialogComponent } from '../modules/inquiry/edit-school-inquiry-info-dialog/edit-school-inquiry-info-dialog.component';
 import { EditChildrenComponent } from '../modules/inquiry/shared/components/edit-children/edit-children.component';
 import { EditCitizenshipsComponent } from '../modules/inquiry/shared/components/edit-citizenships/edit-citizenships.component';
@@ -332,7 +332,7 @@ export class ActionsButtonsService {
     }
 
     primaryActionPrivilegeDialog(privilegeEditComponent: PrivilegeEditComponent, privilege: Privilege,
-        data: { $privilege: BehaviorSubject<Privilege> }, dialogRef: MatDialogRef<EditPrivilegeDialogComponent>) {
+        data: { $privilege: BehaviorSubject<Privilege> }, dialogRef: MatDialogRef<PrivilegeDialogComponent>) {
         return () => { };
         // return () => {
         //     this.inquiryService.savePrivilege(privilegeEditComponent,
