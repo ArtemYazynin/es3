@@ -1,12 +1,12 @@
 <ng-template #fieldsTemplate>
-  <div class="row">
+  <div class="row" *ngIf="inquiryInfo && inquiryInfo.distributionParams">
     <div class="col-md-4">
       <app-inquiry-info-edit title="Параметры комплектования">
         <div class="form-group">
           <b>Желаемая дата зачисления </b> {{inquiryInfo.distributionParams.wishDate}}
         </div>
-        <div class="form-group">
-          <b>Предпочитаемая специфика группы </b> {{(specificity | async)?.name}}
+        <div class="form-group" *ngIf="specificity">
+          <b>Предпочитаемая специфика группы </b> {{specificity.name}}
         </div>
         <ul>
           <li *ngIf="inquiryInfo.distributionParams.offerGeneralGroup"> Предоставлять общеразвивающую группу, если
@@ -42,19 +42,19 @@
 </ng-template>
 
 <ng-template #withEdit>
-  <app-inquiry-info-edit title="Параметры заявления" (edit)="edit()">
+  <app-inquiry-info-edit [title]="esConstant.inquiryInfoTitle" (edit)="edit()">
     <ng-container *ngTemplateOutlet="fieldsTemplate">
     </ng-container>
   </app-inquiry-info-edit>
 </ng-template>
 
 <ng-template #withoutEdit>
-  <app-inquiry-info-edit title="Параметры заявления">
+  <app-inquiry-info-edit [title]="esConstant.inquiryInfoTitle">
     <ng-container *ngTemplateOutlet="fieldsTemplate">
     </ng-container>
   </app-inquiry-info-edit>
 </ng-template>
 
-<ng-container *ngTemplateOutlet="edit ? withEdit : withoutEdit">
+<ng-container *ngTemplateOutlet="mode == modes.Edit ? withEdit : withoutEdit">
 
 </ng-container>

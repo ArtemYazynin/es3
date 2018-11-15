@@ -52,8 +52,7 @@
   <app-children-card [children]="children" [mode]="modes.Edit" [inquiryType]="inquiry.type" [specHealth]="inquiry.specHealth"></app-children-card>
   <ng-container [ngSwitch]="inquiry.type">
     <app-school-inquiry-info-card [mode]="modes.Edit" *ngSwitchCase="inquiryTypes.school"></app-school-inquiry-info-card>
-    <app-preschool-inquiry-info-card [inquiryInfo]="inquiry.inquiryInfo" [edit]="edit.inquiryInfo" 
-      *ngSwitchCase="inquiryTypes.preschool"></app-preschool-inquiry-info-card>
+    <app-preschool-inquiry-info-card [mode]="modes.Edit" *ngSwitchCase="inquiryTypes.preschool"></app-preschool-inquiry-info-card>
   </ng-container>
 
   <div class="row">

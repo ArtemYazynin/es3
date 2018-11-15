@@ -20,7 +20,7 @@
     </div>
     <app-children-card [children]="children" [mode]="modes.Read" [inquiryType]="inquiry.type" [specHealth]="inquiry.specHealth"></app-children-card>
     <ng-container [ngSwitch]="inquiry.type">
-      <app-preschool-inquiry-info-card [inquiryInfo]="inquiry.inquiryInfo" *ngSwitchCase="inquiryTypes.preschool"></app-preschool-inquiry-info-card>
+      <app-preschool-inquiry-info-card [mode]="modes.Read" *ngSwitchCase="inquiryTypes.preschool"></app-preschool-inquiry-info-card>
       <app-school-inquiry-info-card [mode]="modes.Read" *ngSwitchCase="inquiryTypes.school"></app-school-inquiry-info-card>
     </ng-container>
     

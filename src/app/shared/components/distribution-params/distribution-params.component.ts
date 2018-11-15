@@ -46,7 +46,7 @@ export class DistributionParamsComponent implements OnInit, AfterViewInit {
     if(!this.model) return;
     this.inquiryInfoForm.patchValue({
       wishDate: this.model.wishDate,
-      specificity: this.model.specificity,
+      specificity: this.model.specificity ? this.model.specificity : "",
       offerGeneralGroup: this.model.offerGeneralGroup,
       offerCareGroup: this.model.offerCareGroup,
       isSearchNear: this.model.isSearchNear,

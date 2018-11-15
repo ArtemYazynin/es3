@@ -8,7 +8,7 @@ import { Applicant, ApplicantType, BehaviorMode, Child, CitizenshipService, Comm
 import { PersonType } from '../../../shared/person-type.enum';
 import { EditCurrentEducationPlaceDialogComponent } from '../edit-current-education-place-dialog/edit-current-education-place-dialog.component';
 import { EditFileAttachmentsDialogComponent } from '../edit-file-attachments-dialog/edit-file-attachments-dialog.component';
-import { EditInquiryInfoDialogComponent } from '../edit-inquiry-info-dialog/edit-inquiry-info-dialog.component';
+import { PreschoolInquiryInfoDialogComponent } from '../preschool-inquiry-info-dialog/preschool-inquiry-info-dialog.component';
 import { EditPersonDialogComponent } from '../edit-person-dialog/edit-person-dialog.component';
 import { EditPreschoolInstitutionDialogComponent } from '../edit-preschool-institution-dialog/edit-preschool-institution-dialog.component';
 import { PrivilegeDialogComponent } from '../privilege-dialog/privilege-dialog.component';
@@ -123,7 +123,7 @@ export class InquiryReadComponent implements OnInit, OnDestroy {
       });
     }
     const inquiryInfo = () => {
-      this.dialog.open(EditInquiryInfoDialogComponent, getConfig());
+      this.dialog.open(PreschoolInquiryInfoDialogComponent, getConfig());
     }
     const institutions = () => {
       this.dialog.open(EditPreschoolInstitutionDialogComponent, getConfig());
@@ -140,7 +140,6 @@ export class InquiryReadComponent implements OnInit, OnDestroy {
     }
     return {
       person: person,
-      inquiryInfo: inquiryInfo,
       institutions: institutions,
       currentEducationPlace: currentEducationPlace,
       fileAttachments: fileAttachments

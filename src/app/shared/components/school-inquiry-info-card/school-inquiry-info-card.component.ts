@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, ChangeDetectionStrategy, ChangeDetectorRef, OnDestroy } from '@angular/core';
+import { Component, Input, OnInit, ChangeDetectionStrategy, ChangeDetectorRef, OnDestroy, Inject } from '@angular/core';
 import { SchoolInquiryInfo, CommonService, InquiryService, BehaviorMode } from '../../index';
 import { ActivatedRoute } from '@angular/router';
 import { WizardStorageService } from '../../../modules/wizard/shared';
@@ -8,6 +8,7 @@ import { SchoolInquiryInfoDialogComponent } from '../../../modules/inquiry/schoo
 import { SchoolInquiryInfoService } from '../../school-inquiry-info.service';
 import { takeUntil, skip } from 'rxjs/operators';
 import { Subject, BehaviorSubject } from 'rxjs';
+import { esConstant } from '../../../app.module';
 
 @Component({
   selector: 'app-school-inquiry-info-card',
@@ -20,12 +21,11 @@ export class SchoolInquiryInfoCardComponent implements OnInit, OnDestroy {
 
   private ngUnsubscribe: Subject<any> = new Subject();
   modes = BehaviorMode;
-  title = "Параметры заявления";
   schoolInquiryInfo: SchoolInquiryInfo;
 
   constructor(private route: ActivatedRoute, private storageService: WizardStorageService, private dialog: MatDialog,
     private commonService: CommonService, private schoolInquiryInfoService: SchoolInquiryInfoService, private cdr: ChangeDetectorRef,
-    private inquiryService: InquiryService) { }
+    private inquiryService: InquiryService, @Inject(esConstant) public esConstant) { }
 
   ngOnInit() {
     if (this.route.snapshot.data.resolved.inquiryId) {

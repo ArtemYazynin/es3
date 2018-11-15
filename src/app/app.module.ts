@@ -21,7 +21,8 @@ export const SERVER_URL = new InjectionToken<string>("SERVER_URL");
 
 const constants = {
   fileNotChoosen: "Файл не выбран",
-  noRestrictions: 101
+  noRestrictions: 101,
+  inquiryInfoTitle: "Параметры заявления"
 }
 @NgModule({
   declarations: [AppComponent, ScopeSelectorComponent, MenuComponent],

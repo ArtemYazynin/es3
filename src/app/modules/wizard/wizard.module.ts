@@ -8,7 +8,7 @@ import { TextMaskModule } from 'angular2-text-mask';
 import { MyDatePickerModule } from 'mydatepicker';
 import { MaterialModule } from '../../material.module';
 import { ShareModule } from '../../share.module';
-import { AddressService, AreaService, CitizenshipService, CommonService, DrawService, EnumToArrayPipe, FormService, GroupService, IdentityCardService, IdentityCardTypePipe, InstitutionService, PrivilegeOrderService, PrivilegeService, RelationTypeService, SettingsService, SpecHealthService, SpecificityService } from '../../shared';
+import { AddressService, AreaService, CitizenshipService, CommonService, DrawService, EnumToArrayPipe, FormService, GroupService, IdentityCardService, IdentityCardTypePipe, PrivilegeOrderService, PrivilegeService, RelationTypeService, SettingsService, SpecHealthService, SpecificityService } from '../../shared';
 import { ActionsButtonsService } from '../../shared/actions-buttons.service';
 import { ConfirmDialogComponent } from '../../shared/components/confirm-dialog/confirm-dialog.component';
 import { HttpInterceptor } from '../../shared/http-interceptor';
@@ -19,8 +19,8 @@ import { ChildrenStepComponent } from '../wizard/children-step/children-step.com
 import { ContactInfoStepComponent } from '../wizard/contact-info-step/contact-info-step.component';
 import { CurrentEducationPlaceStepComponent } from '../wizard/current-education-place-step/current-education-place-step.component';
 import { FileAttachmentStepComponent } from '../wizard/file-attachment-step/file-attachment-step.component';
-import { InquiryInfoStepComponent } from '../wizard/inquiry-info-step/inquiry-info-step.component';
 import { ParentStepComponent } from '../wizard/parent-step/parent-step.component';
+import { PreschoolInquiryInfoStepComponent } from '../wizard/preschool-inquiry-info-step/preschool-inquiry-info-step.component';
 import { PreviewStepComponent } from '../wizard/preview-step/preview-step.component';
 import { PrivilegeStepComponent } from '../wizard/privilege-step/privilege-step.component';
 import { SchoolInquiryInfoStepComponent } from '../wizard/school-inquiry-info-step/school-inquiry-info-step.component';
@@ -45,7 +45,7 @@ import { WizardRoutingModule } from './wizard-routing-module';
     CurrentEducationPlaceStepComponent,
     ContactInfoStepComponent,
     PrivilegeStepComponent,
-    InquiryInfoStepComponent,
+    PreschoolInquiryInfoStepComponent,
     SchoolInquiryInfoStepComponent,
     InstitutionStepComponent,
     FileAttachmentStepComponent,
