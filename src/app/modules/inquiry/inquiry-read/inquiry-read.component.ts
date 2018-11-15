@@ -76,8 +76,6 @@ export class InquiryReadComponent implements OnInit, OnDestroy {
               this.cdr.markForCheck();
             });
         }
-        if (inquiry.type == inquiryType.preschool)
-          this.specificity = this.specificityService.get(inquiry.inquiryInfo.distributionParams.specificity).pipe(map(specificities => specificities[0]));
         this.$institutionType = this.institutionService.getTypes(inquiry.currentEducationPlace.institutionType).pipe(map(types => types[0]));
         this.cdr.markForCheck();
       });

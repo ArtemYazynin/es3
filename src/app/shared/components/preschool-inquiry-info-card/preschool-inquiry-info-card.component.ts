@@ -1,9 +1,9 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Inject, Input, OnDestroy, OnInit } from "@angular/core";
 import { MatDialog } from "@angular/material";
 import { ActivatedRoute } from "@angular/router";
-import { BehaviorSubject, of, Subject, empty } from "rxjs";
-import { flatMap, map, skip, takeUntil } from "rxjs/operators";
-import { BehaviorMode, CommonService, InquiryInfo, InquiryService, Specificity, SpecificityService } from "../..";
+import { BehaviorSubject, of, Subject } from "rxjs";
+import { skip, takeUntil } from "rxjs/operators";
+import { BehaviorMode, CommonService, InquiryInfo, InquiryService } from "../..";
 import { esConstant } from "../../../app.module";
 import { InquiryInfoService } from "../../../inquiry-info.service";
 import { PreschoolInquiryInfoDialogComponent } from "../../../modules/inquiry/preschool-inquiry-info-dialog/preschool-inquiry-info-dialog.component";
@@ -22,9 +22,8 @@ export class PreschoolInquiryInfoCardComponent implements OnInit, OnDestroy {
   private ngUnsubscribe: Subject<any> = new Subject();
   modes = BehaviorMode;
   inquiryInfo: InquiryInfo;
-  specificity: Specificity
 
-  constructor(private specificityService: SpecificityService, private route: ActivatedRoute, private storageService: WizardStorageService, private dialog: MatDialog,
+  constructor(private route: ActivatedRoute, private storageService: WizardStorageService, private dialog: MatDialog,
     private commonService: CommonService, private inquiryInfoService: InquiryInfoService, private cdr: ChangeDetectorRef,
     private inquiryService: InquiryService, @Inject(esConstant) public esConstant) { }
 
@@ -35,17 +34,9 @@ export class PreschoolInquiryInfoCardComponent implements OnInit, OnDestroy {
       : of(this.storageService.get(this.route.snapshot.data.resolved.inquiryType).inquiryInfo);
 
     observable
-      .pipe(flatMap(inquiryInfo => {
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe(inquiryInfo => {
         this.inquiryInfo = inquiryInfo;
-        if (inquiryInfo.distributionParams.specificity) {
-          return this.specificityService.get(inquiryInfo.distributionParams.specificity).pipe(map((specificity: any) => specificity));
-        } else {
-          return of(undefined);
-        }
-
-      }), takeUntil(this.ngUnsubscribe))
-      .subscribe(specificity => {
-        this.specificity = specificity;
         this.cdr.markForCheck();
       });
   }

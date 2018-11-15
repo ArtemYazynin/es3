@@ -10,7 +10,7 @@ import { StepBase, WizardStorageService } from '../shared';
   selector: 'app-preschool-inquiry-info-step',
   templateUrl: './preschool-inquiry-info-step.component.html',
   styleUrls: ['./preschool-inquiry-info-step.component.css'],
-  changeDetection: ChangeDetectionStrategy.OnPush 
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class PreschoolInquiryInfoStepComponent implements OnInit, StepBase {
   @ViewChild(EditPreschoolInquiryInfoComponent) editInquiryInfoComponent: EditPreschoolInquiryInfoComponent;

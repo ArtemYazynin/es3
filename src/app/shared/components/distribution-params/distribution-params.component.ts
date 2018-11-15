@@ -1,8 +1,9 @@
-import { Component, OnInit, ChangeDetectionStrategy, Input, AfterViewInit } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { DistributionParams } from '../../models/distribution-params.model';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 import { FormService, Specificity, SpecificityService } from '../..';
-import { Observable } from 'rxjs';
+import { DistributionParams } from '../../models/distribution-params.model';
 
 @Component({
   selector: 'app-distribution-params',
@@ -10,11 +11,12 @@ import { Observable } from 'rxjs';
   styleUrls: ['./distribution-params.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class DistributionParamsComponent implements OnInit, AfterViewInit {
+export class DistributionParamsComponent implements OnInit, OnDestroy {
   @Input() model: DistributionParams;
 
+  private ngUnsubscribe: Subject<any> = new Subject();
   inquiryInfoForm: FormGroup;
-  $groupOfSpecificity: Observable<Array<Specificity>>;
+  groupOfSpecificity: Array<Specificity>;
   formErrors = {
     wishDate: "",
     specificity: "",
@@ -35,23 +37,35 @@ export class DistributionParamsComponent implements OnInit, AfterViewInit {
     }
     return result;
   })();
-  constructor(private formService: FormService, private fb: FormBuilder,
+  constructor(private formService: FormService, private fb: FormBuilder, private cdr: ChangeDetectorRef,
     private specificityService: SpecificityService) { }
 
   ngOnInit() {
     this.buildForm();
-    this.$groupOfSpecificity = this.specificityService.get();
+    this.specificityService.get()
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe(data => {
+        this.groupOfSpecificity = data;
+
+        if (this.model) {
+          this.inquiryInfoForm.patchValue({
+            wishDate: this.model.wishDate,
+            offerGeneralGroup: this.model.offerGeneralGroup,
+            offerCareGroup: this.model.offerCareGroup,
+            isSearchNear: this.model.isSearchNear,
+            isCanTempEnrolled: this.model.isCanTempEnrolled
+          });
+          if (this.model.specificity) {
+            this.inquiryInfoForm.controls.specificity.patchValue(this.groupOfSpecificity.find(x => x.id == this.model.specificity.id));
+          }
+        }
+        this.cdr.markForCheck();
+      });
   }
-  ngAfterViewInit(): void {
-    if(!this.model) return;
-    this.inquiryInfoForm.patchValue({
-      wishDate: this.model.wishDate,
-      specificity: this.model.specificity ? this.model.specificity : "",
-      offerGeneralGroup: this.model.offerGeneralGroup,
-      offerCareGroup: this.model.offerCareGroup,
-      isSearchNear: this.model.isSearchNear,
-      isCanTempEnrolled: this.model.isCanTempEnrolled
-    });
+
+  ngOnDestroy(): void {
+    this.ngUnsubscribe.next();
+    this.ngUnsubscribe.complete();
   }
   private buildForm() {
     this.inquiryInfoForm = this.fb.group({

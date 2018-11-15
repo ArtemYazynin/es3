@@ -5,8 +5,8 @@
         <div class="form-group">
           <b>Желаемая дата зачисления </b> {{inquiryInfo.distributionParams.wishDate}}
         </div>
-        <div class="form-group" *ngIf="specificity">
-          <b>Предпочитаемая специфика группы </b> {{specificity.name}}
+        <div class="form-group" *ngIf="inquiryInfo.distributionParams.specificity">
+          <b>Предпочитаемая специфика группы </b> {{inquiryInfo.distributionParams.specificity.name}}
         </div>
         <ul>
           <li *ngIf="inquiryInfo.distributionParams.offerGeneralGroup"> Предоставлять общеразвивающую группу, если

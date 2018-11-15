@@ -1,8 +1,9 @@
 import { FormGroup } from "@angular/forms";
+import { Specificity } from "./specificity.model";
 
 export class DistributionParams {
     constructor(public wishDate: Date,
-        public specificity: string,
+        public specificity: Specificity,
         public offerGeneralGroup: boolean,
         public offerCareGroup: boolean,
         public isSearchNear: boolean,
