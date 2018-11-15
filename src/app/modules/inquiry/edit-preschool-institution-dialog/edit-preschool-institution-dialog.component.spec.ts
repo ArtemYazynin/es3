@@ -1,7 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { EditPreschoolInstitutionDialogComponent } from './edit-preschool-institution-dialog.component';
 
-describe('EditPrivilegeDialogComponent', () => {
+describe('PrivilegeDialogComponent', () => {
   let component: EditPreschoolInstitutionDialogComponent;
   let fixture: ComponentFixture<EditPreschoolInstitutionDialogComponent>;
 

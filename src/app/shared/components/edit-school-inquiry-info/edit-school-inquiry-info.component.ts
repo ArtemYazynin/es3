@@ -109,4 +109,10 @@ export class EditSchoolInquiryInfoComponent implements OnInit, OnDestroy {
     this.form.valueChanges.pipe(takeUntil(this.ngUnsubscribe)).subscribe(() => this.formService.onValueChange(this.form, this.formErrors, this.validationMessages));
     this.formService.onValueChange(this.form, this.formErrors, this.validationMessages);
   }
+
+  getResult(){
+    let newData = SchoolInquiryInfo.buildByForm(this.form);
+    Object.assign(this.schoolInquiryInfo, newData);
+    return this.schoolInquiryInfo;
+  }
 }

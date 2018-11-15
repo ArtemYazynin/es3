@@ -1,32 +1,34 @@
 <ng-template #fieldsTemplate>
-  <div class="form-group">
-    <b>Учебный год</b> {{schoolInquiryInfo.educYear}}
-  </div>
-  <div class="form-group">
-    <b>Параллель</b> {{schoolInquiryInfo.grade}}
-  </div>
-  <div class="form-group">
-    <b>Профиль</b> {{schoolInquiryInfo.specialization?.name || "Любой"}}
-  </div>
-  <div class="form-group">
-    <b>Программа</b> {{schoolInquiryInfo.program?.name || "Любая"}}
-  </div>
+  <ng-container *ngIf="schoolInquiryInfo">
+    <div class="form-group">
+      <b>Учебный год</b> {{schoolInquiryInfo.educYear}}
+    </div>
+    <div class="form-group">
+      <b>Параллель</b> {{schoolInquiryInfo.grade}}
+    </div>
+    <div class="form-group">
+      <b>Профиль</b> {{schoolInquiryInfo.specialization?.name || "Любой"}}
+    </div>
+    <div class="form-group">
+      <b>Программа</b> {{schoolInquiryInfo.program?.name || "Любая"}}
+    </div>
+  </ng-container>
 </ng-template>
 
 <ng-template #withEdit>
-  <app-inquiry-info-edit [title]="title" (edit)="edit()">
+  <app-inquiry-info-edit [title]="esConstant.inquiryInfoTitle" (edit)="edit()">
     <ng-container *ngTemplateOutlet="fieldsTemplate">
     </ng-container>
   </app-inquiry-info-edit>
 </ng-template>
 
 <ng-template #withoutEdit>
-  <app-inquiry-info-edit [title]="title">
+  <app-inquiry-info-edit [title]="esConstant.inquiryInfoTitle">
     <ng-container *ngTemplateOutlet="fieldsTemplate">
     </ng-container>
   </app-inquiry-info-edit>
 </ng-template>
 
-<ng-container *ngTemplateOutlet="edit ? withEdit : withoutEdit">
+<ng-container *ngTemplateOutlet="mode == modes.Edit ? withEdit : withoutEdit">
 
 </ng-container>

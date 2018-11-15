@@ -7,7 +7,7 @@ import { EditCitizenshipsComponent } from '../modules/inquiry/shared/components/
 import { EditContactInfoComponent } from '../modules/inquiry/shared/components/edit-contact-info/edit-contact-info.component';
 import { EditCurrentEducationPlaceComponent } from '../modules/inquiry/shared/components/edit-current-education-place/edit-current-education-place.component';
 import { EditFileAttachmentsComponent } from '../modules/inquiry/shared/components/edit-file-attachments/edit-file-attachments.component';
-import { EditInquiryInfoComponent } from '../modules/inquiry/shared/components/edit-inquiry-info/edit-inquiry-info.component';
+import { EditPreschoolInquiryInfoComponent } from '../modules/inquiry/shared/components/edit-preschool-inquiry-info/edit-preschool-inquiry-info.component';
 import { EditInstitutionsComponent } from '../modules/inquiry/shared/components/edit-institutions/edit-institutions.component';
 import { EditPersonComponent } from '../modules/inquiry/shared/components/edit-person/edit-person.component';
 import { CommonService } from '../shared/common.service';
@@ -15,7 +15,7 @@ import { AttachmentType } from '../shared/models/attachment-type.enum';
 import { EditPetitionComponent } from './../modules/inquiry/shared/components/edit-petition/edit-petition.component';
 import { EditConfirmationDocumentComponent } from './components/edit-confirmation-document/edit-confirmation-document.component';
 import { EditSchoolInquiryInfoComponent } from './components/edit-school-inquiry-info/edit-school-inquiry-info.component';
-import { PrivilegeEditComponent } from './components/privilege-edit/privilege-edit.component';
+import { EditPrivilegeComponent } from './components/edit-privilege/edit-privilege.component';
 import { DublicatesFinder } from './dublicates-finder';
 import { InquiryDataSourceService } from './inquiry-data-source.service';
 import { AgeGroup } from './models/age-group.model';
@@ -86,7 +86,7 @@ export class InquiryService {
     update(result);
   }
 
-  saveInquiryInfo(editInquiryInfoComponent: EditInquiryInfoComponent, update: (patch: object) => void): void {
+  saveInquiryInfo(editInquiryInfoComponent: EditPreschoolInquiryInfoComponent, update: (patch: object) => void): void {
     const inquiryInfo = (() => {
       const distributionParams = DistributionParams.constructFromForm(editInquiryInfoComponent.distributionParamsComponent.inquiryInfoForm);
       const stayMode = StayMode.constructFromForm(editInquiryInfoComponent.stayModeComponent.atLeastOneCheckboxShouldBeSelectedComponent.form);
@@ -111,7 +111,7 @@ export class InquiryService {
     }
   }
 
-  savePrivilege(privilegeEditComponent: PrivilegeEditComponent, update: (patch: object) => void): void {
+  savePrivilege(privilegeEditComponent: EditPrivilegeComponent, update: (patch: object) => void): void {
     if (privilegeEditComponent.privilegeForm.controls.withoutPrivilege.value) {
       update({ privilege: undefined })
     } else {
@@ -131,9 +131,8 @@ export class InquiryService {
   }
 
   saveContactInfo(editContactInfoComponent: EditContactInfoComponent, update: (patch: object) => void) {
-    const contactInfo = new ContactInfo(editContactInfoComponent.contactsForm);
-    update({ contactInfo: contactInfo })
-    //this.storageService.set(this.inquiryType, { contactInfo: contactInfo })
+    const contactInfo = ContactInfo.buildByForm(editContactInfoComponent.contactsForm);
+    update({ contactInfo: contactInfo });
   }
 
   saveCurrentEducationPlace(editCurrentEducationPlaceComponent: EditCurrentEducationPlaceComponent, update: (patch: object) => void): void {
@@ -219,21 +218,34 @@ export class InquiryService {
         inquiry.privilege.privilegeProofDocument.id = Guid.newGuid();
       }
       inquiry.children.forEach(child => {
+        delete child["$specHealthDocument"];
         child.id = Guid.newGuid();
         if (child.specHealthDocument) child.specHealthDocument.id = Guid.newGuid();
       })
+      inquiry.contactInfo.id = Guid.newGuid();
+      if (inquiry.schoolInquiryInfo) {
+        inquiry.schoolInquiryInfo.id = Guid.newGuid();
+      }
+      if (inquiry.inquiryInfo) {
+        inquiry.inquiryInfo.id = Guid.newGuid();
+      }
     }
 
     return this.dataSource.post(inquiry);
   }
 
   update(id: string, inquiry: Inquiry): Observable<Inquiry> {
+    inquiry.children.forEach(child => {
+      delete child["$specHealthDocument"];
+    });
     return this.dataSource.put(id, inquiry);
   }
 
   get(id: string): Observable<Inquiry> {
     return this.dataSource.get(id).pipe(map(x=>new Inquiry(x)));
   }
+
+
 
   updateInquiryPropery(id: string, objProp: { id: string }) {
     if (!id) return;

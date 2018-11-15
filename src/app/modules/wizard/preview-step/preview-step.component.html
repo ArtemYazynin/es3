@@ -19,11 +19,15 @@
       </div>
     </div>
     <app-children-card [children]="children" [mode]="modes.Read" [inquiryType]="inquiry.type" [specHealth]="inquiry.specHealth"></app-children-card>
-    <app-preschool-inquiry-info-card [inquiryInfo]="inquiry.inquiryInfo" *ngIf="inquiry.type == inquiryTypes.preschool"></app-preschool-inquiry-info-card>
-    <app-school-inquiry-info-card [schoolInquiryInfo]="inquiry.schoolInquiryInfo" *ngIf="inquiry.type == inquiryTypes.school"></app-school-inquiry-info-card>
+    <ng-container [ngSwitch]="inquiry.type">
+      <app-preschool-inquiry-info-card [mode]="modes.Read" *ngSwitchCase="inquiryTypes.preschool"></app-preschool-inquiry-info-card>
+      <app-school-inquiry-info-card [mode]="modes.Read" *ngSwitchCase="inquiryTypes.school"></app-school-inquiry-info-card>
+    </ng-container>
+    
+    
     <div class="row">
       <div class="col-md-6">
-        <app-contact-info-card [contactInfo]="inquiry.contactInfo"></app-contact-info-card>
+        <app-contact-info-card [mode]="modes.Read"></app-contact-info-card>
       </div>
       <div class="col-md-6">
         <app-institutions-card [institutions]="inquiry.institutions" *ngIf="inquiry.type == inquiryTypes.preschool"></app-institutions-card>

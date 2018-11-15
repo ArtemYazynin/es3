@@ -12,7 +12,7 @@ import { EditCitizenshipsComponent } from './modules/inquiry/shared/components/e
 import { EditContactInfoComponent } from "./modules/inquiry/shared/components/edit-contact-info/edit-contact-info.component";
 import { EditCurrentEducationPlaceComponent } from "./modules/inquiry/shared/components/edit-current-education-place/edit-current-education-place.component";
 import { EditFileAttachmentsComponent } from "./modules/inquiry/shared/components/edit-file-attachments/edit-file-attachments.component";
-import { EditInquiryInfoComponent } from "./modules/inquiry/shared/components/edit-inquiry-info/edit-inquiry-info.component";
+import { EditPreschoolInquiryInfoComponent } from "./modules/inquiry/shared/components/edit-preschool-inquiry-info/edit-preschool-inquiry-info.component";
 import { EditInstitutionsComponent } from "./modules/inquiry/shared/components/edit-institutions/edit-institutions.component";
 import { EditPersonComponent } from "./modules/inquiry/shared/components/edit-person/edit-person.component";
 import { InquiryInfoEditComponent } from "./modules/inquiry/shared/components/inquiry-info-edit/inquiry-info-edit.component";
@@ -42,7 +42,7 @@ import { InstitutionsCardComponent } from "./shared/components/institutions-card
 import { PersonCardComponent } from "./shared/components/person-card/person-card.component";
 import { PreschoolInquiryInfoCardComponent } from "./shared/components/preschool-inquiry-info-card/preschool-inquiry-info-card.component";
 import { PrivilegeCardComponent } from "./shared/components/privilege-card/privilege-card.component";
-import { PrivilegeEditComponent } from "./shared/components/privilege-edit/privilege-edit.component";
+import { EditPrivilegeComponent } from "./shared/components/edit-privilege/edit-privilege.component";
 import { RelationTypeCardComponent } from './shared/components/relation-type-card/relation-type-card.component';
 import { RelationTypeComponent } from "./shared/components/relation-type/relation-type.component";
 import { RfCitizensAddressesComponent } from "./shared/components/rf-citizens-addresses/rf-citizens-addresses.component";
@@ -66,6 +66,12 @@ import { DisabilityComponent } from './shared/components/disability/disability.c
 import { SpecHealthDataSourceService } from "./shared/spec-health-data-source.service";
 import { SpecHealthCardComponent } from './shared/components/spec-health-card/spec-health-card.component';
 import { EditSpecHealthComponent } from './shared/components/edit-spec-health/edit-spec-health.component';
+import { ContactInfoService } from "./shared/contact-info.service";
+import { ContactInfoDataSourceService } from "./shared/contact-info-data-source.service";
+import { SchoolInquiryInfoDataSourceService } from "./shared/school-inquiry-info-data-source.service";
+import { SchoolInquiryInfoService } from "./shared/school-inquiry-info.service";
+import { InquiryInfoService } from "./inquiry-info.service";
+import { InquiryInfoDataSourceService } from "./inquiry-info-data-source.service";
 
 
 
@@ -73,7 +79,7 @@ import { EditSpecHealthComponent } from './shared/components/edit-spec-health/ed
     declarations: [
         PrivilegeEditComponent, EditConfirmationDocumentComponent, ApplicantTypePipe, AttachmentTypePipe, InquiryTypeFriendlyNamePipe, PetitionTypePipe, FullNameComponent, GenderComponent,
         SnilsComponent, IdentityCardComponent, CitizenshipSelectComponent, RfCitizensAddressesComponent, AddressComponent, ForeignCitizensAddressesComponent,
-        BirthInfoComponent, RelationTypeComponent, EditPersonComponent, EditInquiryInfoComponent, AtLeastOneCheckboxShouldBeSelectedComponent, EditInstitutionsComponent,
+        BirthInfoComponent, RelationTypeComponent, EditPersonComponent, EditPreschoolInquiryInfoComponent, AtLeastOneCheckboxShouldBeSelectedComponent, EditInstitutionsComponent,
 
         InquiryInfoEditComponent, DistributionParamsComponent, StayModeComponent, AgeGroupComponent, //inquiryInfo params
         EditContactInfoComponent, EditCurrentEducationPlaceComponent, EditFileAttachmentsComponent, AreaTypePipe, EditSchoolInquiryInfoComponent, SchoolInquiryInfoCardComponent,
@@ -100,7 +106,7 @@ import { EditSpecHealthComponent } from './shared/components/edit-spec-health/ed
     exports: [
         PrivilegeEditComponent, EditConfirmationDocumentComponent, ApplicantTypePipe, AttachmentTypePipe, InquiryTypeFriendlyNamePipe, PetitionTypePipe, FullNameComponent, GenderComponent,
         SnilsComponent, IdentityCardComponent, CitizenshipSelectComponent, RfCitizensAddressesComponent, AddressComponent, ForeignCitizensAddressesComponent,
-        BirthInfoComponent, RelationTypeComponent, EditPersonComponent, EditInquiryInfoComponent, DistributionParamsComponent, StayModeComponent, AgeGroupComponent,
+        BirthInfoComponent, RelationTypeComponent, EditPersonComponent, EditPreschoolInquiryInfoComponent, DistributionParamsComponent, StayModeComponent, AgeGroupComponent,
         InquiryInfoEditComponent, AtLeastOneCheckboxShouldBeSelectedComponent, EditInstitutionsComponent, EditContactInfoComponent, EditCurrentEducationPlaceComponent,
         EditFileAttachmentsComponent, EditSchoolInquiryInfoComponent, SchoolInquiryInfoCardComponent, PreschoolInquiryInfoCardComponent,
         PersonCardComponent, ConfirmationDocumentCardComponent, ChildrenCardComponent, ContactInfoCardComponent, SpecHealthComponent,
@@ -111,7 +117,8 @@ import { EditSpecHealthComponent } from './shared/components/edit-spec-health/ed
     providers: [
         SpecializationService, ConfirmationDocumentService, FamilyInfoService,
         EducProgramService, PersonService, InquiryDataSourceService, InquiryService, DisabilityService, SpecHealthDataSourceService,
-        InstitutionService, InstitutionDataSourceService
+        InstitutionService, InstitutionDataSourceService, ContactInfoService, ContactInfoDataSourceService,SchoolInquiryInfoDataSourceService, SchoolInquiryInfoService,
+        InquiryInfoService, InquiryInfoDataSourceService
     ],
     entryComponents: [EditConfirmationDocumentDialogComponent, EditChildrenComponent, EditCitizenshipsDialogComponent]
 })

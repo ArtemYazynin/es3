@@ -1,8 +1,8 @@
-<div *ngIf="data.$inquiry | async as inquiry">
+<div *ngIf="data.$inquiryInfo | async as inquiryInfo">
   <ng-container>
     <h1 mat-dialog-title>Параметры заявления</h1>
     <div mat-dialog-content>
-      <app-edit-inquiry-info [inquiryInfo]="inquiry.inquiryInfo"></app-edit-inquiry-info>
+      <app-edit-preschool-inquiry-info [inquiryInfo]="inquiryInfo"></app-edit-preschool-inquiry-info>
     </div>
   </ng-container>
   <mat-dialog-actions>

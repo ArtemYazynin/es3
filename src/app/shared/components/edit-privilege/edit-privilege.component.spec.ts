@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { InquiryInfoStepComponent } from './inquiry-info-step.component';
+import { EditPrivilegeComponent } from './edit-privilege.component';
 
-describe('InquiryInfoStepComponent', () => {
-  let component: InquiryInfoStepComponent;
-  let fixture: ComponentFixture<InquiryInfoStepComponent>;
+describe('PrivilegeEditComponent', () => {
+  let component: EditPrivilegeComponent;
+  let fixture: ComponentFixture<EditPrivilegeComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ InquiryInfoStepComponent ]
+      declarations: [ EditPrivilegeComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(InquiryInfoStepComponent);
+    fixture = TestBed.createComponent(EditPrivilegeComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

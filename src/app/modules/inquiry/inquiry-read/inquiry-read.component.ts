@@ -1,20 +1,19 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
-import { map, takeUntil, skip } from 'rxjs/operators';
-import { ApplicantType, CitizenshipService, CommonService, ConfirmationDocument, BehaviorMode, Country, DrawService, Entity, Inquiry, InquiryService, inquiryType, InstitutionService, PrivilegeOrder, PrivilegeOrderService, Specificity, SpecificityService, Status, StatusService, Child, Applicant, Parent, Person } from '../../../shared/index';
-import { EditContactInfoDialogComponent } from '../edit-contact-info-dialog/edit-contact-info-dialog.component';
+import { map, skip, takeUntil } from 'rxjs/operators';
+import { Applicant, ApplicantType, BehaviorMode, Child, CitizenshipService, CommonService, ConfirmationDocument, Country, Entity, Inquiry, InquiryService, inquiryType, InstitutionService, Parent, PrivilegeOrder, PrivilegeOrderService, Specificity, SpecificityService, Status, StatusService } from '../../../shared/index';
+import { PersonType } from '../../../shared/person-type.enum';
 import { EditCurrentEducationPlaceDialogComponent } from '../edit-current-education-place-dialog/edit-current-education-place-dialog.component';
 import { EditFileAttachmentsDialogComponent } from '../edit-file-attachments-dialog/edit-file-attachments-dialog.component';
-import { EditInquiryInfoDialogComponent } from '../edit-inquiry-info-dialog/edit-inquiry-info-dialog.component';
-import { EditPreschoolInstitutionDialogComponent } from '../edit-preschool-institution-dialog/edit-preschool-institution-dialog.component';
-import { EditPrivilegeDialogComponent } from '../edit-privilege-dialog/edit-privilege-dialog.component';
-import { EditSchoolInquiryInfoDialogComponent } from '../edit-school-inquiry-info-dialog/edit-school-inquiry-info-dialog.component';
+import { PreschoolInquiryInfoDialogComponent } from '../preschool-inquiry-info-dialog/preschool-inquiry-info-dialog.component';
 import { EditPersonDialogComponent } from '../edit-person-dialog/edit-person-dialog.component';
-import { PersonType } from '../../../shared/person-type.enum';
+import { EditPreschoolInstitutionDialogComponent } from '../edit-preschool-institution-dialog/edit-preschool-institution-dialog.component';
 import { EditPetitionDialogComponent } from '../edit-petition-dialog/edit-petition-dialog.component';
+import { PrivilegeDialogComponent } from '../privilege-dialog/privilege-dialog.component';
+import { SchoolInquiryInfoDialogComponent } from '../school-inquiry-info-dialog/school-inquiry-info-dialog.component';
 
 @Component({
   selector: 'app-inquiry-read',
@@ -38,7 +37,7 @@ export class InquiryReadComponent implements OnInit, OnDestroy {
   statusForm: FormGroup;
   modes = BehaviorMode;
   $applicantRepresentParentDocument: BehaviorSubject<ConfirmationDocument>;
-  $applicant:BehaviorSubject<Applicant>;
+  $applicant: BehaviorSubject<Applicant>;
   $parent: BehaviorSubject<Parent>;
   children: Array<BehaviorSubject<Child>> = [];
 
@@ -65,7 +64,7 @@ export class InquiryReadComponent implements OnInit, OnDestroy {
         this.$inquiry = new BehaviorSubject<Inquiry>(inquiry);
         this.$applicant = new BehaviorSubject<Applicant>(inquiry.applicant);
         this.$parent = new BehaviorSubject<Parent>(inquiry.parent);
-        this.children = inquiry.children.map(x=>new BehaviorSubject<Child>(x));
+        this.children = inquiry.children.map(x => new BehaviorSubject<Child>(x));
         if (inquiry.applicant && inquiry.applicant.applicantRepresentParentDocument) {
           this.$applicantRepresentParentDocument = new BehaviorSubject<ConfirmationDocument>(inquiry.applicant.applicantRepresentParentDocument);
           this.$applicantRepresentParentDocument
@@ -78,8 +77,6 @@ export class InquiryReadComponent implements OnInit, OnDestroy {
               this.cdr.markForCheck();
             });
         }
-        if (inquiry.type == inquiryType.preschool)
-          this.specificity = this.specificityService.get(inquiry.inquiryInfo.distributionParams.specificity).pipe(map(specificities => specificities[0]));
         this.$institutionType = this.institutionService.getTypes(inquiry.currentEducationPlace.institutionType).pipe(map(types => types[0]));
         this.cdr.markForCheck();
       });
@@ -124,23 +121,14 @@ export class InquiryReadComponent implements OnInit, OnDestroy {
 
       });
     }
-    const privilege = () => {
-      this.dialog.open(EditPrivilegeDialogComponent, getConfig());
-      // const dialogRef = this.dialog.open(EditPrivilegeDialogComponent, config);
-      // dialogRef.afterClosed().subscribe((result:Inquiry) => {
-      //   console.log('The dialog was closed');
-      // });
-    }
     const inquiryInfo = () => {
-      this.dialog.open(EditInquiryInfoDialogComponent, getConfig());
+      this.dialog.open(PreschoolInquiryInfoDialogComponent, getConfig());
     }
     const institutions = () => {
       this.dialog.open(EditPreschoolInstitutionDialogComponent, getConfig());
     }
 
-    const contactInfo = () => {
-      this.dialog.open(EditContactInfoDialogComponent, getConfig());
-    }
+
 
     const currentEducationPlace = () => {
       this.dialog.open(EditCurrentEducationPlaceDialogComponent, getConfig());
@@ -149,23 +137,17 @@ export class InquiryReadComponent implements OnInit, OnDestroy {
     const fileAttachments = () => {
       this.dialog.open(EditFileAttachmentsDialogComponent, getConfig());
     }
-    const schoolInquiryInfo = () => {
-      this.dialog.open(EditSchoolInquiryInfoDialogComponent, getConfig());
-    }
 
     const petition = () => {
       this.dialog.open(EditPetitionDialogComponent, getConfig());
     }
     return {
-      privilege: privilege,
       person: person,
-      inquiryInfo: inquiryInfo,
-      schoolInquiryInfo: schoolInquiryInfo,
       institutions: institutions,
-      contactInfo: contactInfo,
       currentEducationPlace: currentEducationPlace,
       fileAttachments: fileAttachments,
       petition: petition
     }
   })();
 }
+ 

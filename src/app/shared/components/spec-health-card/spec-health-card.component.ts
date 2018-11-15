@@ -7,6 +7,7 @@ import { ActivatedRoute } from '@angular/router';
 import { esConstant } from '../../../app.module';
 import { MatDialog } from '@angular/material';
 import { SpecHealthDialogComponent } from '../../../modules/inquiry/spec-health-dialog/spec-health-dialog.component';
+import { WizardStorageService } from '../../../modules/wizard/shared';
 
 @Component({
   selector: 'app-spec-health-card',
@@ -17,31 +18,40 @@ import { SpecHealthDialogComponent } from '../../../modules/inquiry/spec-health-
 export class SpecHealthCardComponent implements OnInit, OnDestroy, AfterViewInit {
   @Input() mode: BehaviorMode;
   @Input() children: Array<BehaviorSubject<Child>>;
-  @Input() specHealth: SpecHealth;
+
 
   private ngUnsubscribe: Subject<any> = new Subject();
   modes = BehaviorMode;
   title = "Специализация по здоровью"
-  $specHealth: BehaviorSubject<SpecHealth>;
-  constructor(private specHealthService: SpecHealthService, private inquiryService: InquiryService, private route: ActivatedRoute,
+  specHealth: SpecHealth;
+  constructor(private specHealthService: SpecHealthService, private inquiryService: InquiryService, private route: ActivatedRoute, private storageService: WizardStorageService,
     private cdr: ChangeDetectorRef, @Inject(esConstant) private esConstant, private dialog: MatDialog, private commonService: CommonService) { }
 
   ngOnInit() {
-    if (this.mode == BehaviorMode.Edit) {
-      this.$specHealth = new BehaviorSubject<SpecHealth>(this.specHealth);
-      this.children.forEach(x => {
-        let child = x.getValue();
-        child["$specHealthDocument"] = new BehaviorSubject<ConfirmationDocument>(child.specHealthDocument);
-        child["$specHealthDocument"]
-          .pipe(skip(1), takeUntil(this.ngUnsubscribe))
-          .subscribe(doc => {
-            this.inquiryService.updateInquiryPropery(this.route.snapshot.data.resolved.inquiryId, doc);
-            this.cdr.markForCheck();
-          });
-        x = new BehaviorSubject<Child>(child);
-      });
+    if (this.route.snapshot.data.resolved.inquiryId) {
+      this.specHealthService.getByInquiry(this.route.snapshot.data.resolved.inquiryId)
+        .pipe(takeUntil(this.ngUnsubscribe))
+        .subscribe(x => {
+          this.specHealth = x;
+          this.cdr.markForCheck();
+        });
+    } else {
+      this.specHealth = this.storageService.get(this.route.snapshot.data.resolved.inquiryType).specHealth;
     }
 
+    this.children.forEach(x => {
+      let child = x.getValue();
+      child["$specHealthDocument"] = new BehaviorSubject<ConfirmationDocument>(child.specHealthDocument);
+      child["$specHealthDocument"]
+        .pipe(skip(1), takeUntil(this.ngUnsubscribe))
+        .subscribe(doc => {
+          setTimeout(() => {
+            this.inquiryService.updateInquiryPropery(this.route.snapshot.data.resolved.inquiryId, doc);
+            this.cdr.markForCheck();
+          }, 0);
+        });
+      x = new BehaviorSubject<Child>(child);
+    });
   }
 
   ngOnDestroy(): void {
@@ -54,7 +64,7 @@ export class SpecHealthCardComponent implements OnInit, OnDestroy, AfterViewInit
   }
 
   edit() {
-    let config = { $specHealth: this.$specHealth, $children: this.children };
+    let config = { $specHealth: new BehaviorSubject<SpecHealth>(this.specHealth), $children: this.children };
     config.$specHealth
       .pipe(skip(1), takeUntil(this.ngUnsubscribe))
       .subscribe(specHealth => {
@@ -68,7 +78,8 @@ export class SpecHealthCardComponent implements OnInit, OnDestroy, AfterViewInit
             .pipe(flatMap(inquiry => updateFn(inquiry, undefined)),
               flatMap(inquiry => updateFn(inquiry, specHealth)))
             .subscribe(x => {
-              setTimeout(() => { this.cdr.markForCheck(); });
+              this.specHealth = x.specHealth;
+              this.cdr.markForCheck();
             });
         }
 
@@ -76,14 +87,13 @@ export class SpecHealthCardComponent implements OnInit, OnDestroy, AfterViewInit
     config.$children.forEach(child => {
       child.pipe(skip(1), takeUntil(this.ngUnsubscribe))
         .subscribe(x => {
-          let sc = this.$specHealth.getValue();
-          if (sc.code == this.esConstant.noRestrictions) {
+          if (this.specHealth.code == this.esConstant.noRestrictions) {
             x.specHealthDocument = undefined;
           }
-          let child = this.children.find(c => c.getValue().id == x.id);
-          let val = child.getValue();
-          val["$specHealthDocument"].next(x.specHealthDocument);
-          //child["$specHealthDocument"].next(x.specHealthDocument);
+          // let child = this.children.find(c => c.getValue().id == x.id);
+          // let val = child.getValue();
+          // val["$specHealthDocument"].next(x.specHealthDocument);
+          x["$specHealthDocument"].next(x.specHealthDocument);
           this.cdr.markForCheck();
         })
     });

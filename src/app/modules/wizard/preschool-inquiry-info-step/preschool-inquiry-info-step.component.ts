@@ -2,18 +2,18 @@ import { ChangeDetectionStrategy, Component, OnInit, ViewChild } from '@angular/
 import { ActivatedRoute, Router } from '@angular/router';
 import { ButtonsTitles, ConfigsOfRoutingButtons, Inquiry } from '../../../shared';
 import { ActionsButtonsService } from '../../../shared/actions-buttons.service';
-import { EditInquiryInfoComponent } from '../../inquiry/shared/components/edit-inquiry-info/edit-inquiry-info.component';
+import { EditPreschoolInquiryInfoComponent } from '../../inquiry/shared/components/edit-preschool-inquiry-info/edit-preschool-inquiry-info.component';
 import { StepBase, WizardStorageService } from '../shared';
 
 
 @Component({
-  selector: 'app-inquiry-info-step',
-  templateUrl: './inquiry-info-step.component.html',
-  styleUrls: ['./inquiry-info-step.component.css'],
+  selector: 'app-preschool-inquiry-info-step',
+  templateUrl: './preschool-inquiry-info-step.component.html',
+  styleUrls: ['./preschool-inquiry-info-step.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class InquiryInfoStepComponent implements OnInit, StepBase {
-  @ViewChild(EditInquiryInfoComponent) editInquiryInfoComponent: EditInquiryInfoComponent;
+export class PreschoolInquiryInfoStepComponent implements OnInit, StepBase {
+  @ViewChild(EditPreschoolInquiryInfoComponent) editInquiryInfoComponent: EditPreschoolInquiryInfoComponent;
   inquiryType = this.route.snapshot.data.resolved.inquiryType;
   inquiry: Inquiry;
   config: ConfigsOfRoutingButtons;

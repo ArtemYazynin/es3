@@ -140,4 +140,10 @@ export class EditContactInfoComponent implements OnInit {
       this.contactsForm.controls.email.updateValueAndValidity();
     }
   }
+
+  getResult(){
+    let newData = ContactInfo.buildByForm(this.contactsForm);
+    Object.assign(this.contactInfo, newData);
+    return this.contactInfo;
+  }
 }

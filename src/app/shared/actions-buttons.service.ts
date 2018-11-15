@@ -6,23 +6,24 @@ import { InquiryService, inquiryType, DublicatesFinder, Parent, Child, SpecHealt
 import { EditContactInfoDialogComponent } from '../modules/inquiry/edit-contact-info-dialog/edit-contact-info-dialog.component';
 import { EditCurrentEducationPlaceDialogComponent } from '../modules/inquiry/edit-current-education-place-dialog/edit-current-education-place-dialog.component';
 import { EditFileAttachmentsDialogComponent } from '../modules/inquiry/edit-file-attachments-dialog/edit-file-attachments-dialog.component';
-import { EditInquiryInfoDialogComponent } from '../modules/inquiry/edit-inquiry-info-dialog/edit-inquiry-info-dialog.component';
-import { EditPetitionDialogComponent } from '../modules/inquiry/edit-petition-dialog/edit-petition-dialog.component';
+import { PreschoolInquiryInfoDialogComponent } from '../modules/inquiry/preschool-inquiry-info-dialog/preschool-inquiry-info-dialog.component';
+import { EditPersonDialogComponent } from '../modules/inquiry/edit-person-dialog/edit-person-dialog.component';
 import { EditPreschoolInstitutionDialogComponent } from '../modules/inquiry/edit-preschool-institution-dialog/edit-preschool-institution-dialog.component';
-import { EditPrivilegeDialogComponent } from '../modules/inquiry/edit-privilege-dialog/edit-privilege-dialog.component';
-import { EditSchoolInquiryInfoDialogComponent } from '../modules/inquiry/edit-school-inquiry-info-dialog/edit-school-inquiry-info-dialog.component';
+import { PrivilegeDialogComponent } from '../modules/inquiry/privilege-dialog/privilege-dialog.component';
+import { SchoolInquiryInfoDialogComponent } from '../modules/inquiry/school-inquiry-info-dialog/school-inquiry-info-dialog.component';
 import { EditChildrenComponent } from '../modules/inquiry/shared/components/edit-children/edit-children.component';
 import { EditCitizenshipsComponent } from '../modules/inquiry/shared/components/edit-citizenships/edit-citizenships.component';
 import { EditContactInfoComponent } from '../modules/inquiry/shared/components/edit-contact-info/edit-contact-info.component';
 import { EditCurrentEducationPlaceComponent } from '../modules/inquiry/shared/components/edit-current-education-place/edit-current-education-place.component';
 import { EditFileAttachmentsComponent } from '../modules/inquiry/shared/components/edit-file-attachments/edit-file-attachments.component';
-import { EditInquiryInfoComponent } from '../modules/inquiry/shared/components/edit-inquiry-info/edit-inquiry-info.component';
+import { EditPreschoolInquiryInfoComponent } from '../modules/inquiry/shared/components/edit-preschool-inquiry-info/edit-preschool-inquiry-info.component';
 import { EditInstitutionsComponent } from '../modules/inquiry/shared/components/edit-institutions/edit-institutions.component';
 import { EditPersonComponent } from '../modules/inquiry/shared/components/edit-person/edit-person.component';
 import { EditPetitionComponent } from '../modules/inquiry/shared/components/edit-petition/edit-petition.component';
 import { CurrentEducationPlace, WizardStorageService } from '../modules/wizard/shared';
 import { ApplicantType } from './applicant-type.enum';
 import { EditSchoolInquiryInfoComponent } from './components/edit-school-inquiry-info/edit-school-inquiry-info.component';
+import { EditPrivilegeComponent } from './components/edit-privilege/edit-privilege.component';
 import { PrivilegeEditComponent } from './components/privilege-edit/privilege-edit.component';
 import { Inquiry } from './models/inquiry.model';
 import { EditCitizenshipsComponent } from '../modules/inquiry/shared/components/edit-citizenships/edit-citizenships.component';
@@ -156,7 +157,7 @@ export class ActionsButtonsService {
         }
     }
 
-    primaryActionPrivilegeStep(privilegeEditComponent: PrivilegeEditComponent, inquiry: Inquiry, route: ActivatedRoute) {
+    primaryActionPrivilegeStep(privilegeEditComponent: EditPrivilegeComponent, inquiry: Inquiry, route: ActivatedRoute) {
         return () => {
             this.inquiryService.savePrivilege(privilegeEditComponent, (patch) => {
                 this.storageService.set(inquiry.type, patch);
@@ -186,7 +187,7 @@ export class ActionsButtonsService {
         }
     }
 
-    primaryActionInquiryInfoStep(editInquiryInfoComponent: EditInquiryInfoComponent, inquiryType: any, router: Router, route: ActivatedRoute) {
+    primaryActionInquiryInfoStep(editInquiryInfoComponent: EditPreschoolInquiryInfoComponent, inquiryType: any, router: Router, route: ActivatedRoute) {
         return () => {
             this.inquiryService.saveInquiryInfo(editInquiryInfoComponent, (patch) => {
                 this.storageService.set(inquiryType, patch);
@@ -227,7 +228,7 @@ export class ActionsButtonsService {
     }
     inverseActionInsitutionStep(inquiry: Inquiry, router: Router, route: ActivatedRoute) {
         return () => {
-            const stepName = inquiry.type == inquiryType.preschool ? "inquiryInfoStep" : "schoolInquiryInfoStep";
+            const stepName = inquiry.type == inquiryType.preschool ? "preschoolInquiryInfoStep" : "schoolInquiryInfoStep";
             router.navigate([`../${stepName}`], { relativeTo: route });
         }
     }
@@ -300,15 +301,6 @@ export class ActionsButtonsService {
         }
     }
 
-    primaryActionContactInfoDialog(editContactInfoComponent: EditContactInfoComponent, inquiry: Inquiry,
-        data: { $inquiry: BehaviorSubject<Inquiry> }, dialogRef: MatDialogRef<EditContactInfoDialogComponent>) {
-        return () => {
-            this.inquiryService.saveContactInfo(editContactInfoComponent,
-                (patch) => this.update(inquiry, patch, data));
-            dialogRef.close();
-        }
-    }
-
     primaryActionCurrentEducationsDialog(currentEducationPlaceEditComponent: EditCurrentEducationPlaceComponent, inquiry: Inquiry,
         data: { $inquiry: BehaviorSubject<Inquiry> }, dialogRef: MatDialogRef<EditCurrentEducationPlaceDialogComponent>) {
         return () => {
@@ -327,38 +319,10 @@ export class ActionsButtonsService {
         }
     }
 
-    primaryActionInquiryInfoDialog(editInquiryInfoComponent: EditInquiryInfoComponent, inquiry: Inquiry,
-        data: { $inquiry: BehaviorSubject<Inquiry> }, dialogRef: MatDialogRef<EditInquiryInfoDialogComponent>) {
-        return () => {
-            this.inquiryService.saveInquiryInfo(editInquiryInfoComponent,
-                (patch) => this.update(inquiry, patch, data));
-            dialogRef.close();
-        }
-    }
-
     primaryActionPreschoolInstitutionDialog(editInstitutionsComponent: EditInstitutionsComponent, inquiry: Inquiry,
         data: { $inquiry: BehaviorSubject<Inquiry> }, dialogRef: MatDialogRef<EditPreschoolInstitutionDialogComponent>) {
         return () => {
             this.inquiryService.saveWishInstitutions(editInstitutionsComponent,
-                (patch) => this.update(inquiry, patch, data));
-            dialogRef.close();
-        }
-    }
-
-    primaryActionPrivilegeDialog(privilegeEditComponent: PrivilegeEditComponent, privilege: Privilege,
-        data: { $privilege: BehaviorSubject<Privilege> }, dialogRef: MatDialogRef<EditPrivilegeDialogComponent>) {
-        return () => { };
-        // return () => {
-        //     this.inquiryService.savePrivilege(privilegeEditComponent,
-        //         (patch) => this.update(inquiry, patch, data));
-        //     dialogRef.close();
-        // }
-    }
-
-    primaryActionSchoolInquiryInfoDialog(editSchoolInquiryInfoComponent: EditSchoolInquiryInfoComponent, inquiry: Inquiry,
-        data: { $inquiry: BehaviorSubject<Inquiry> }, dialogRef: MatDialogRef<EditSchoolInquiryInfoDialogComponent>) {
-        return () => {
-            this.inquiryService.saveSchoolInquiryInfo(editSchoolInquiryInfoComponent,
                 (patch) => this.update(inquiry, patch, data));
             dialogRef.close();
         }

@@ -7,12 +7,12 @@ import { AttachmentType, CommonService, FormService, Inquiry, Privilege, Privile
 import { EditConfirmationDocumentComponent } from '../edit-confirmation-document/edit-confirmation-document.component';
 
 @Component({
-  selector: 'app-privilege-edit',
-  templateUrl: './privilege-edit.component.html',
-  styleUrls: ['./privilege-edit.component.css'],
+  selector: 'app-edit-privilege',
+  templateUrl: './edit-privilege.component.html',
+  styleUrls: ['./edit-privilege.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class PrivilegeEditComponent implements OnInit, AfterViewInit {
+export class EditPrivilegeComponent implements OnInit, AfterViewInit {
   @Input() privilege: Privilege;
   @ViewChild(EditConfirmationDocumentComponent) confirmationProofDocumentComponent: EditConfirmationDocumentComponent;
 
@@ -20,7 +20,7 @@ export class PrivilegeEditComponent implements OnInit, AfterViewInit {
   private privileges: Array<Privilege>;
   formErrors = {
     withoutPrivilege: "",
-    privilegeOrder: "",
+    privilegeOrder: "", 
     privilege: ""
   };
   validationMessages = {

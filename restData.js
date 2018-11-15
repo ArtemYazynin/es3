@@ -1882,6 +1882,7 @@
                 "name": "Без ограничений",
             },
             {
+                "id":"4D61DF89-6A63-4C3D-8CEE-A548002E69EA",
                 "code": 102,
                 "name": "Общее недоразвитие речи (ОНР)",
             },
@@ -2013,7 +2014,13 @@
             { id: "3", name: "3 группа" }
         ]
         let confirmationDocuments = [];
+        let conctactInfos = [];
+        let schoolInquiryInfos = [];
+        let inquiryInfos = [];
         return {
+            inquiryInfos:inquiryInfos,
+            schoolInquiryInfos:schoolInquiryInfos,
+            conctactInfos:conctactInfos,
             confirmationDocuments: confirmationDocuments,
             disabilities: disabilities,
             familiesInfos: familiesInfos,
