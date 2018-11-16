@@ -33,7 +33,7 @@ export class CommonService {
     const requiredFiles: Array<FileView> = (() => {
       let result = [];
       const getDefaultViewView = (index: number, type: AttachmentType) => {
-        return new FileView(this.esConstant.fileNotChoosen, index, new FileAttachment(type))
+        return new FileView(this.esConstant.fileNotChoosen, index, FileAttachment.buildEmpty(type))
       }
       types.forEach((type, index) => {
         if (filesInfo) {

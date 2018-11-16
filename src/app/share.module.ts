@@ -70,6 +70,8 @@ import { SchoolInquiryInfoDataSourceService } from "./shared/school-inquiry-info
 import { SchoolInquiryInfoService } from "./shared/school-inquiry-info.service";
 import { InquiryInfoService } from "./inquiry-info.service";
 import { InquiryInfoDataSourceService } from "./inquiry-info-data-source.service";
+import { FileAttachmentDataSourceService } from "./shared/file-attachment-data-source.service";
+import { FileAttachmentService } from "./shared/file-attachment.service";
 
 
 
@@ -116,7 +118,8 @@ import { InquiryInfoDataSourceService } from "./inquiry-info-data-source.service
         SpecializationService, ConfirmationDocumentService, FamilyInfoService,
         EducProgramService, PersonService, InquiryDataSourceService, InquiryService, DisabilityService, SpecHealthDataSourceService,
         InstitutionService, InstitutionDataSourceService, ContactInfoService, ContactInfoDataSourceService,SchoolInquiryInfoDataSourceService, SchoolInquiryInfoService,
-        InquiryInfoService, InquiryInfoDataSourceService
+        InquiryInfoService, InquiryInfoDataSourceService,
+        FileAttachmentDataSourceService, FileAttachmentService
     ],
     entryComponents: [EditConfirmationDocumentDialogComponent, EditChildrenComponent, EditCitizenshipsDialogComponent]
 })

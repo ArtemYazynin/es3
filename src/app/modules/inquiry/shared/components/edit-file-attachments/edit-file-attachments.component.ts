@@ -37,7 +37,7 @@ export class EditFileAttachmentsComponent implements OnInit, AfterViewInit, OnDe
       .subscribe(() => {
         if (this.bunchOfFileView.length >= this.maxFilesCount)
           return;
-        this.bunchOfFileView.push(new FileView(this.esConstant.fileNotChoosen, this.bunchOfFileView.length, new FileAttachment(AttachmentType.Other)));
+        this.bunchOfFileView.push(new FileView(this.esConstant.fileNotChoosen, this.bunchOfFileView.length, FileAttachment.buildEmpty()));
         this.cdr.markForCheck();
         setTimeout(() => {
           this.subscribeFileChange();
