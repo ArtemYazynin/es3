@@ -2017,6 +2017,7 @@
         let conctactInfos = [];
         let schoolInquiryInfos = [];
         let inquiryInfos = [];
+        let petitions = [];
         return {
             inquiryInfos:inquiryInfos,
             schoolInquiryInfos:schoolInquiryInfos,
@@ -2040,7 +2041,8 @@
             statuses: statuses,
             specializations: specializations,
             educPrograms: educPrograms,
-            groups: groups
+            groups: groups,
+            petitions: petitions
         }
     };
 })();

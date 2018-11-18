@@ -1,11 +1,11 @@
-<div *ngIf="data.$inquiry | async as inquiry">
+<div *ngIf="data.$petition | async as petition">
   <ng-container>
     <h1 mat-dialog-title>Ходатайство</h1>
     <div mat-dialog-content>
-      <app-edit-petition [inquiry]="inquiry"></app-edit-petition>
+      <app-edit-petition [petition]="petition"></app-edit-petition>
     </div>
   </ng-container>
   <mat-dialog-actions>
-    <app-routing-buttons [config]="config" [isValid]="editPetitionComponent && editPetitionComponent.isValid()"></app-routing-buttons>
+    <app-routing-buttons [config]="config" [isValid]="isValid()"></app-routing-buttons>
   </mat-dialog-actions>
 </div>

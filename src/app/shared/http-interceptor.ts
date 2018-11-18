@@ -1,9 +1,9 @@
-import { Http, Request, RequestOptions, RequestOptionsArgs, Response, XHRBackend, ResponseOptions, ResponseOptionsArgs } from "@angular/http"
-import { Injectable } from "@angular/core"
-
+import { Injectable } from "@angular/core";
+import { Http, Request, RequestOptions, RequestOptionsArgs, Response, ResponseOptions, XHRBackend } from "@angular/http";
 // operators
 import { Observable, of } from "rxjs";
 import { catchError } from "rxjs/operators";
+
 
 @Injectable()
 export class HttpInterceptor extends Http {
@@ -26,10 +26,17 @@ export class HttpInterceptor extends Http {
         return Observable.throw(error)
     }
 
-    put(url: string, body: any, options?: RequestOptionsArgs): Observable<Response> {
+    private createFakeResponse(body: any): Observable<Response> {
         const responseOptionsArgs = {
             body: body
         }
-        return of(new Response(new ResponseOptions(responseOptionsArgs)))
+        return of(new Response(new ResponseOptions(responseOptionsArgs)));
+    }
+    put(url: string, body: any, options?: RequestOptionsArgs): Observable<Response> {
+        return this.createFakeResponse(body);
+    }
+
+    post(url: string, body: any, options?: RequestOptionsArgs): Observable<Response> {
+        return this.createFakeResponse(body);
     }
 }

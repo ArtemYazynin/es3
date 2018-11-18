@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatRadioChange } from '@angular/material';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import { FamilyInfo, FormService, Inquiry } from '../../../../../shared';
+import { FamilyInfo, FormService, Petition } from '../../../../../shared';
 import { FullNameComponent } from '../../../../../shared/components/full-name/full-name.component';
 import { IdentityCardComponent } from '../../../../../shared/components/identity-card/identity-card.component';
 import { FamilyInfoService } from '../../../../../shared/family-info.service';
@@ -20,7 +20,7 @@ export class EditPetitionComponent implements OnInit {
   @ViewChild(FullNameComponent) fullNameComponent: FullNameComponent;
   @ViewChild(IdentityCardComponent) identityCardComponent: IdentityCardComponent;
 
-  @Input() inquiry: Inquiry;
+  @Input() petition: Petition;
 
   form: FormGroup;
   formErrors = { organizationName: "", familyInfo: "" };
@@ -43,7 +43,7 @@ export class EditPetitionComponent implements OnInit {
           this.bunchOfFamilyInfo = data;
           //this.bunchOfFamilyInfo.unshift({ id: "", name: "Не выбрано" })
         })();
-        if (this.inquiry.petition) {
+        if (this.petition && this.petition.id) {
           this.updateForm();
         }
         if (this.form.controls.petitionType.value == PetitionType.Organization) {
@@ -72,10 +72,10 @@ export class EditPetitionComponent implements OnInit {
 
   updateForm() {
     this.form.patchValue({
-      petitionType: this.inquiry.petition.organizationName ? PetitionType.Organization : PetitionType.Individual,
-      familyInfo: this.bunchOfFamilyInfo.find(info => info.id == this.inquiry.petition.familyInfo.id),
-      comment: this.inquiry.petition.comment ? this.inquiry.petition.comment : undefined,
-      organizationName: this.inquiry.petition.organizationName ? this.inquiry.petition.organizationName : undefined
+      petitionType: this.petition.organizationName ? PetitionType.Organization : PetitionType.Individual,
+      familyInfo: this.bunchOfFamilyInfo.find(info => info.id == this.petition.familyInfo.id),
+      comment: this.petition.comment ? this.petition.comment : undefined,
+      organizationName: this.petition.organizationName ? this.petition.organizationName : undefined
     });
   }
 
@@ -112,5 +112,19 @@ export class EditPetitionComponent implements OnInit {
       return fullNameIsValid && identityCardIsValid && petitionFormIsValid;
     }
     return petitionFormIsValid;
+  }
+
+  getResult() {
+    let newData = Petition.buildByForm(this, this.form);
+    if (!this.petition.id) {
+      Object.assign(this.petition, newData);
+    }
+    else {
+      this.petition.comment = newData.comment;
+      this.petition.familyInfo = newData.familyInfo;
+      this.petition.person = newData.person;
+      this.petition.organizationName = newData.organizationName;
+    }
+    return this.petition;
   }
 }

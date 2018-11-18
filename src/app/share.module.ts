@@ -72,12 +72,14 @@ import { SchoolInquiryInfoDataSourceService } from "./shared/school-inquiry-info
 import { SchoolInquiryInfoService } from "./shared/school-inquiry-info.service";
 import { InquiryInfoService } from "./inquiry-info.service";
 import { InquiryInfoDataSourceService } from "./inquiry-info-data-source.service";
+import { PetitionDataSourceService } from "./shared/petition-data-source.service.";
+import { PetitionService } from "./shared/petition.service.";
 
 
 
 @NgModule({
     declarations: [
-        PrivilegeEditComponent, EditConfirmationDocumentComponent, ApplicantTypePipe, AttachmentTypePipe, InquiryTypeFriendlyNamePipe, PetitionTypePipe, FullNameComponent, GenderComponent,
+        EditPrivilegeComponent, EditConfirmationDocumentComponent, ApplicantTypePipe, AttachmentTypePipe, InquiryTypeFriendlyNamePipe, PetitionTypePipe, FullNameComponent, GenderComponent,
         SnilsComponent, IdentityCardComponent, CitizenshipSelectComponent, RfCitizensAddressesComponent, AddressComponent, ForeignCitizensAddressesComponent,
         BirthInfoComponent, RelationTypeComponent, EditPersonComponent, EditPreschoolInquiryInfoComponent, AtLeastOneCheckboxShouldBeSelectedComponent, EditInstitutionsComponent,
 
@@ -104,7 +106,7 @@ import { InquiryInfoDataSourceService } from "./inquiry-info-data-source.service
 
     ],
     exports: [
-        PrivilegeEditComponent, EditConfirmationDocumentComponent, ApplicantTypePipe, AttachmentTypePipe, InquiryTypeFriendlyNamePipe, PetitionTypePipe, FullNameComponent, GenderComponent,
+        EditPrivilegeComponent, EditConfirmationDocumentComponent, ApplicantTypePipe, AttachmentTypePipe, InquiryTypeFriendlyNamePipe, PetitionTypePipe, FullNameComponent, GenderComponent,
         SnilsComponent, IdentityCardComponent, CitizenshipSelectComponent, RfCitizensAddressesComponent, AddressComponent, ForeignCitizensAddressesComponent,
         BirthInfoComponent, RelationTypeComponent, EditPersonComponent, EditPreschoolInquiryInfoComponent, DistributionParamsComponent, StayModeComponent, AgeGroupComponent,
         InquiryInfoEditComponent, AtLeastOneCheckboxShouldBeSelectedComponent, EditInstitutionsComponent, EditContactInfoComponent, EditCurrentEducationPlaceComponent,
@@ -118,7 +120,7 @@ import { InquiryInfoDataSourceService } from "./inquiry-info-data-source.service
         SpecializationService, ConfirmationDocumentService, FamilyInfoService,
         EducProgramService, PersonService, InquiryDataSourceService, InquiryService, DisabilityService, SpecHealthDataSourceService,
         InstitutionService, InstitutionDataSourceService, ContactInfoService, ContactInfoDataSourceService,SchoolInquiryInfoDataSourceService, SchoolInquiryInfoService,
-        InquiryInfoService, InquiryInfoDataSourceService
+        InquiryInfoService, InquiryInfoDataSourceService, PetitionDataSourceService, PetitionService
     ],
     entryComponents: [EditConfirmationDocumentDialogComponent, EditChildrenComponent, EditCitizenshipsDialogComponent]
 })

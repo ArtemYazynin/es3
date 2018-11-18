@@ -1,8 +1,7 @@
 import { ChangeDetectionStrategy, Component, Inject, OnInit, ViewChild } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { BehaviorSubject } from 'rxjs';
-import { ButtonsTitles, ConfigsOfRoutingButtons, Inquiry, InquiryService } from '../../../shared';
-import { WizardStorageService } from '../../wizard/shared';
+import { ButtonsTitles, ConfigsOfRoutingButtons, Petition } from '../../../shared';
 import { EditPetitionComponent } from '../shared/components/edit-petition/edit-petition.component';
 
 @Component({
@@ -13,24 +12,24 @@ import { EditPetitionComponent } from '../shared/components/edit-petition/edit-p
 })
 export class EditPetitionDialogComponent implements OnInit {
   @ViewChild(EditPetitionComponent) editPetitionComponent: EditPetitionComponent;
-  inquiry: Inquiry;
   config: ConfigsOfRoutingButtons;
 
-  constructor(public dialogRef: MatDialogRef<EditPetitionDialogComponent>, private storageService: WizardStorageService,
-    private inquiryService: InquiryService, @Inject(MAT_DIALOG_DATA) public data: { $inquiry: BehaviorSubject<Inquiry> }) { }
+  constructor(public dialogRef: MatDialogRef<EditPetitionDialogComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: { $petition: BehaviorSubject<Petition> }) { }
 
   ngOnInit() {
-    this.inquiry = this.data.$inquiry.getValue();
     this.config = new ConfigsOfRoutingButtons(ButtonsTitles.Save, ButtonsTitles.Close,
       () => {
-        this.inquiryService.savePetition(this.editPetitionComponent, (patch) => {
-          this.storageService.set(this.inquiry.type, patch);
-          Object.assign(this.inquiry, patch);
-          this.data.$inquiry.next(this.inquiry);
-        })
+        let petition = this.editPetitionComponent.getResult();
+        this.data.$petition.next(petition);
+        this.dialogRef.close();
+      },
+      () => {
         this.dialogRef.close();
       }
     );
-
+  }
+  isValid() {
+    return this.editPetitionComponent && this.editPetitionComponent.isValid()
   }
 }

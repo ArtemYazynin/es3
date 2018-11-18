@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { isNullOrUndefined } from 'util';
 import { environment } from '../../environments/environment';
 import { EditChildrenComponent } from '../modules/inquiry/shared/components/edit-children/edit-children.component';
@@ -7,19 +8,20 @@ import { EditCitizenshipsComponent } from '../modules/inquiry/shared/components/
 import { EditContactInfoComponent } from '../modules/inquiry/shared/components/edit-contact-info/edit-contact-info.component';
 import { EditCurrentEducationPlaceComponent } from '../modules/inquiry/shared/components/edit-current-education-place/edit-current-education-place.component';
 import { EditFileAttachmentsComponent } from '../modules/inquiry/shared/components/edit-file-attachments/edit-file-attachments.component';
-import { EditPreschoolInquiryInfoComponent } from '../modules/inquiry/shared/components/edit-preschool-inquiry-info/edit-preschool-inquiry-info.component';
 import { EditInstitutionsComponent } from '../modules/inquiry/shared/components/edit-institutions/edit-institutions.component';
 import { EditPersonComponent } from '../modules/inquiry/shared/components/edit-person/edit-person.component';
+import { EditPreschoolInquiryInfoComponent } from '../modules/inquiry/shared/components/edit-preschool-inquiry-info/edit-preschool-inquiry-info.component';
 import { CommonService } from '../shared/common.service';
 import { AttachmentType } from '../shared/models/attachment-type.enum';
 import { EditPetitionComponent } from './../modules/inquiry/shared/components/edit-petition/edit-petition.component';
 import { EditConfirmationDocumentComponent } from './components/edit-confirmation-document/edit-confirmation-document.component';
-import { EditSchoolInquiryInfoComponent } from './components/edit-school-inquiry-info/edit-school-inquiry-info.component';
 import { EditPrivilegeComponent } from './components/edit-privilege/edit-privilege.component';
+import { EditSchoolInquiryInfoComponent } from './components/edit-school-inquiry-info/edit-school-inquiry-info.component';
 import { DublicatesFinder } from './dublicates-finder';
 import { InquiryDataSourceService } from './inquiry-data-source.service';
 import { AgeGroup } from './models/age-group.model';
 import { Applicant } from './models/applicant.model';
+import { Child } from './models/child.model';
 import { ContactInfo } from './models/contact-info.model';
 import { CurrentEducationPlace } from './models/current-education-place.model';
 import { DistributionParams } from './models/distribution-params.model';
@@ -27,18 +29,16 @@ import { Guid } from './models/guid';
 import { InquiryInfo } from './models/inquiry-info.model';
 import { Inquiry } from './models/inquiry.model';
 import { Parent } from './models/parent.model';
+import { Person } from './models/person.model';
 import { Petition } from './models/petition.model';
 import { PortalIdentity } from './models/portal-identity.model';
 import { Privilege } from './models/privilege.model';
 import { RegisterSource } from './models/register-source.enum';
 import { SchoolInquiryInfo } from './models/school-inquiry-info.model';
+import { SpecHealth } from './models/spec-health.model';
 import { Status } from './models/status.model';
 import { StayMode } from './models/stay-mode.model';
 import { PetitionType } from './petition-type.enum';
-import { Person } from './models/person.model';
-import { map } from 'rxjs/operators';
-import { SpecHealth } from './models/spec-health.model';
-import { Child } from './models/child.model';
 
 @Injectable()
 export class InquiryService {
@@ -71,7 +71,7 @@ export class InquiryService {
     return inquiry;
   }
 
-  saveChildren(editChildrenComponent: EditChildrenComponent, update: (patch: { children:Array<Child>, specHealth:SpecHealth }) => void): void {
+  saveChildren(editChildrenComponent: EditChildrenComponent, update: (patch: { children: Array<Child>, specHealth: SpecHealth }) => void): void {
     let result = editChildrenComponent.getResult();
     if (editChildrenComponent.owner) {
       if (editChildrenComponent.owner.relationType) {
@@ -172,7 +172,7 @@ export class InquiryService {
 
   savePetition(editPetitionComponent: EditPetitionComponent, update: (patch: object) => void) {
     const id = "1";
-    const petition = new Petition(id, new Date(), id, editPetitionComponent.inquiry, editPetitionComponent.form.controls.familyInfo.value,
+    const petition = new Petition(id, new Date(), id, editPetitionComponent.form.controls.familyInfo.value,
       editPetitionComponent.form.controls.comment.value);
     if (editPetitionComponent.form.controls.petitionType.value == PetitionType.Organization)
       petition.organizationName = editPetitionComponent.form.controls.organizationName.value;
@@ -242,7 +242,7 @@ export class InquiryService {
   }
 
   get(id: string): Observable<Inquiry> {
-    return this.dataSource.get(id).pipe(map(x=>new Inquiry(x)));
+    return this.dataSource.get(id).pipe(map(x => new Inquiry(x)));
   }
 
 
