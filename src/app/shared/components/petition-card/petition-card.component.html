@@ -16,7 +16,7 @@
       <div class="form-group">
         <b>Комментарий: </b> {{petition.comment}}
       </div>
-      <app-person-card *ngIf="petition.person" [entity]="$person" [mode]="modes.Edit">
+      <app-person-card *ngIf="petition.person" [entity]="$person" [mode]="modes.Edit" [personType]="personTypes.Petitioner">
       </app-person-card>
     </ng-container>
   </app-inquiry-info-edit>

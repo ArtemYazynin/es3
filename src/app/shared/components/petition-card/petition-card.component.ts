@@ -7,6 +7,7 @@ import { CommonService, InquiryService, Person } from '../..';
 import { EditPetitionDialogComponent } from '../../../modules/inquiry/edit-petition-dialog/edit-petition-dialog.component';
 import { WizardStorageService } from '../../../modules/wizard/shared';
 import { Petition } from '../../models/petition.model';
+import { PersonType } from '../../person-type.enum';
 import { BehaviorMode } from './../../behavior-mode.enum';
 import { PetitionService } from './../../petition.service.';
 
@@ -19,6 +20,7 @@ import { PetitionService } from './../../petition.service.';
 export class PetitionCardComponent implements OnInit {
 
   private ngUnsubscribe: Subject<any> = new Subject();
+  personTypes = PersonType;
   modes = BehaviorMode;
   $person: BehaviorSubject<Person>;
   petition: Petition;
