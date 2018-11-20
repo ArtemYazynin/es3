@@ -1,8 +1,8 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material';
 import { ActivatedRoute } from '@angular/router';
 import { BehaviorSubject, Subject } from 'rxjs';
-import { skip, takeUntil } from 'rxjs/operators';
+import { skip, takeUntil, flatMap } from 'rxjs/operators';
 import { CommonService, InquiryService, Person } from '../..';
 import { EditPetitionDialogComponent } from '../../../modules/inquiry/edit-petition-dialog/edit-petition-dialog.component';
 import { WizardStorageService } from '../../../modules/wizard/shared';
@@ -10,6 +10,7 @@ import { Petition } from '../../models/petition.model';
 import { PersonType } from '../../person-type.enum';
 import { BehaviorMode } from './../../behavior-mode.enum';
 import { PetitionService } from './../../petition.service.';
+import { Guid } from '../../models/guid';
 
 @Component({
   selector: 'app-petition-card',
@@ -17,10 +18,9 @@ import { PetitionService } from './../../petition.service.';
   styleUrls: ['./petition-card.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class PetitionCardComponent implements OnInit {
+export class PetitionCardComponent implements OnInit, OnDestroy {
 
   private ngUnsubscribe: Subject<any> = new Subject();
-  personTypes = PersonType;
   modes = BehaviorMode;
   $person: BehaviorSubject<Person>;
   petition: Petition;
@@ -29,24 +29,15 @@ export class PetitionCardComponent implements OnInit {
     private cdr: ChangeDetectorRef, private dialog: MatDialog, private commonService: CommonService, private storageService: WizardStorageService) { }
 
   ngOnInit() {
-    if (this.route.snapshot.data.resolved.inquiryId) {
-      this.petitionService.getByInquiry(this.route.snapshot.data.resolved.inquiryId)
-        .pipe(takeUntil(this.ngUnsubscribe))
-        .subscribe(petition => {
-          this.petition = petition;
-          if (this.petition && this.petition.person) {
-            this.$person = new BehaviorSubject<Person>(this.petition.person);
-          }
-          this.cdr.markForCheck();
-        });
-    } else {
-      this.petition = this.storageService.get(this.route.snapshot.data.resolved.inquiryType).petition;
-      if (this.petition && this.petition.person) {
-        this.$person = new BehaviorSubject<Person>(this.petition.person);
+    this.petitionService.getByInquiry(this.route.snapshot.data.resolved.inquiryId)
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe(petition => {
+        this.petition = petition;
+        if (this.petition && this.petition.person) {
+          this.$person = new BehaviorSubject<Person>(this.petition.person);
+        }
         this.cdr.markForCheck();
-      }
-    }
-
+      });
   }
 
   ngOnDestroy(): void {
@@ -62,19 +53,14 @@ export class PetitionCardComponent implements OnInit {
         if (this.petition.id) {
           this.petitionService.update(petition.id, petition)
             .pipe(takeUntil(this.ngUnsubscribe))
-            .subscribe(x => {
-              this.petition = x;
-              this.inquiryService.updateInquiryPropery(this.route.snapshot.data.resolved.inquiryId, x);
+            .subscribe(updatedPetition => {
+              this.petition = updatedPetition;
+              if (this.petition.person && !this.petition.person.id) {
+                this.petition.person.id = Guid.newGuid();
+              }
+              this.inquiryService.updateInquiryPropery(this.route.snapshot.data.resolved.inquiryId, this.petition);
               this.cdr.markForCheck();
             })
-          if (this.petition && this.petition.person) {
-            if (this.$person)
-              this.$person.next(this.petition.person);
-            else
-              this.$person = new BehaviorSubject<Person>(this.petition.person);
-
-            this.cdr.markForCheck();
-          }
         }
         else {
           this.petitionService.create(petition)
@@ -86,23 +72,22 @@ export class PetitionCardComponent implements OnInit {
                   Object.assign(inq, { petition: petition });
                   this.inquiryService.update(inq.id, inq)
                     .pipe(takeUntil(this.ngUnsubscribe))
-                    .subscribe(inquiry => {
+                    .subscribe(() => {
                       this.petition = petition;
                       this.cdr.markForCheck();
                     }
                     );
-                })
-              this.cdr.markForCheck();
+                });
             })
-          if (this.petition && this.petition.person) {
-            if (this.$person)
-              this.$person.next(this.petition.person);
-            else
-              this.$person = new BehaviorSubject<Person>(this.petition.person);
-
-            this.cdr.markForCheck();
-          }
         }
+        (function updatePerson(outer) {
+          if (outer.petition && outer.petition.person) {
+            if (outer.$person)
+              outer.$person.next(outer.petition.person);
+            else
+              outer.$person = new BehaviorSubject<Person>(outer.petition.person);
+          }
+        })(this);
       })
     this.dialog.open(EditPetitionDialogComponent, this.commonService.getDialogConfig(config));
   }

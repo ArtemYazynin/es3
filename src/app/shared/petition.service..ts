@@ -18,14 +18,12 @@ export class PetitionService {
   }
 
   create(petition: Petition): Observable<Petition> {
-
-    return this.dataSource.post(petition).pipe(
-      map(petition => {
-        petition.id = Guid.newGuid();
-        petition.number = Guid.newGuid();
-        return petition;
-      }
-      ));
+    petition.id = Guid.newGuid();
+    petition.number = Guid.newGuid();
+    if (petition.person) {
+      petition.person.id = Guid.newGuid();
+    }
+    return this.dataSource.post(petition);
   }
 
   update(id: string, petition: Petition): Observable<Petition> {

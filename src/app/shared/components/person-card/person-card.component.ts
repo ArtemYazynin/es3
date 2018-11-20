@@ -49,25 +49,8 @@ export class PersonCardComponent implements OnInit, OnDestroy {
         this.personService.update(person)
           .pipe(takeUntil(this.ngUnsubscribe))
           .subscribe(newPerson => {
-            if (this.personType == this.personTypes.Petitioner) {
-              let petition: Petition;
-              this.inquiryService.get(this.route.snapshot.data.resolved.inquiryId)
-                .pipe(takeUntil(this.ngUnsubscribe))
-                .subscribe(inq => {
-                  petition = inq.petition;
-                  petition.person = person;
-                  this.petitionService.update(petition.id, petition)
-                    .pipe(takeUntil(this.ngUnsubscribe))
-                    .subscribe(petition => {
-                      this.inquiryService.updateInquiryPropery(this.route.snapshot.data.resolved.inquiryId, petition);
-                      this.cdr.markForCheck();
-                    })
-                });
-            }
-            else {
-              this.inquiryService.updateInquiryPropery(this.route.snapshot.data.resolved.inquiryId, this.entity.getValue());
-              this.cdr.markForCheck();
-            }
+            this.inquiryService.updateInquiryPropery(this.route.snapshot.data.resolved.inquiryId, this.entity.getValue());
+            this.cdr.markForCheck();
           });
       });
     this.dialog.open(EditPersonDialogComponent, this.commonService.getDialogConfig(config));
