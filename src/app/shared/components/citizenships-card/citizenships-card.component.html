@@ -8,8 +8,11 @@
   <div class="form-group" *ngIf="model.residential">
     <b>Адрес проживания </b> {{drawService.address(model.residential)}}
   </div>
-  <div class="form-group" *ngIf="model.tempRegistrationExpiredDate">
+  <div class="form-group" *ngIf="model.tempRegistrationExpiredDate && model.citizenships == 643">
     <b>Дата окончания временно регистрации </b> {{model.tempRegistrationExpiredDate | date: "dd.MM.yyyy"}}
+  </div>
+  <div class="form-group" *ngIf="model.tempRegistrationExpiredDate && model.citizenships != 643">
+    <b>Действителен до </b> {{model.tempRegistrationExpiredDate | date: "dd.MM.yyyy"}}
   </div>
   <ng-container *ngIf="$document">
     <app-confirmation-document-card [title]="documentTitle" [model]="$document" [mode]="mode">

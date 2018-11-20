@@ -1,21 +1,23 @@
 <ng-container>
-  <app-inquiry-info-edit title="Ходатайства" (edit)="edit()">
-    <ng-container *ngIf="model">
+  <app-inquiry-info-edit title="Ходатайство" (edit)="edit()">
+    <ng-container *ngIf="petition && petition.id">
       <div class="form-group">
-        <b>Дата: </b> {{model.dateCreate}}
+        <b>Дата: </b> {{petition.dateCreate | date: "dd.MM.yyyy" }}
       </div>
       <div class="form-group">
-        <b>Номер: </b> {{model.number}}
+        <b>Номер: </b> {{petition.number}}
+      </div>
+      <div class="form-group" *ngIf="petition.organizationName">
+        <b>Организация: </b> {{petition.organizationName}}
       </div>
       <div class="form-group">
-        <b>Организация: </b> {{model.organizationName}}
+        <b>Доп. инф. о семье:</b> {{petition.familyInfo?.name || '-'}}
       </div>
       <div class="form-group">
-        <b>Доп. инф. о семье:</b> {{model.familyInfo.name}}
+        <b>Комментарий: </b> {{petition.comment}}
       </div>
-      <div class="form-group">
-        <b>Комментарий: </b> {{model.comment}}
-      </div>
+      <app-person-card *ngIf="petition.person" [entity]="$person" [mode]="modes.Edit">
+      </app-person-card>
     </ng-container>
   </app-inquiry-info-edit>
 </ng-container>

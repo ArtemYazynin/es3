@@ -8,11 +8,9 @@ import { Applicant, ApplicantType, BehaviorMode, Child, CitizenshipService, Comm
 import { PersonType } from '../../../shared/person-type.enum';
 import { EditCurrentEducationPlaceDialogComponent } from '../edit-current-education-place-dialog/edit-current-education-place-dialog.component';
 import { EditFileAttachmentsDialogComponent } from '../edit-file-attachments-dialog/edit-file-attachments-dialog.component';
-import { PreschoolInquiryInfoDialogComponent } from '../preschool-inquiry-info-dialog/preschool-inquiry-info-dialog.component';
 import { EditPersonDialogComponent } from '../edit-person-dialog/edit-person-dialog.component';
 import { EditPreschoolInstitutionDialogComponent } from '../edit-preschool-institution-dialog/edit-preschool-institution-dialog.component';
-import { PrivilegeDialogComponent } from '../privilege-dialog/privilege-dialog.component';
-import { SchoolInquiryInfoDialogComponent } from '../school-inquiry-info-dialog/school-inquiry-info-dialog.component';
+import { PreschoolInquiryInfoDialogComponent } from '../preschool-inquiry-info-dialog/preschool-inquiry-info-dialog.component';
 
 @Component({
   selector: 'app-inquiry-read',
@@ -127,6 +125,7 @@ export class InquiryReadComponent implements OnInit, OnDestroy {
     const fileAttachments = () => {
       this.dialog.open(EditFileAttachmentsDialogComponent, getConfig());
     }
+
     return {
       institutions: institutions,
       currentEducationPlace: currentEducationPlace,
@@ -134,4 +133,3 @@ export class InquiryReadComponent implements OnInit, OnDestroy {
     }
   })();
 }
- 

@@ -197,7 +197,7 @@ export class AddressComponent implements OnInit, OnDestroy {
 
   display = {
     region: (entity?: Location) => {
-      return entity.fullName || entity.name
+      return entity ? entity.fullName ? entity.fullName : entity.name : undefined;
     },
     other: (entity?: Location) => {
       return entity

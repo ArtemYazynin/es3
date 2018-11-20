@@ -2018,6 +2018,7 @@
         let schoolInquiryInfos = [];
         let inquiryInfos = [];
         let fileAttachments = [];
+        let petitions = [];
         return {
             fileAttachments: fileAttachments,
             inquiryInfos: inquiryInfos,
@@ -2042,7 +2043,8 @@
             statuses: statuses,
             specializations: specializations,
             educPrograms: educPrograms,
-            groups: groups
+            groups: groups,
+            petitions: petitions
         }
     };
 })();

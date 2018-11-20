@@ -1,0 +1,53 @@
+<ng-container>
+  <form [formGroup]="form" novalidate>
+    <div class="form-group">
+      <mat-radio-group class="radio-group" formControlName="petitionType" (change)="changePetitionType($event)">
+        <mat-radio-button class="radio-button" *ngFor="let type of types | petitionType" [value]="type.id">
+          {{type.name}}
+        </mat-radio-button>
+      </mat-radio-group>
+    </div>
+    <div class="form-group" *ngIf="form.get('petitionType').value == petitionTypes.Organization">
+      <mat-form-field>
+        <input matInput placeholder="Организация" formControlName="organizationName">
+      </mat-form-field>
+      <div *ngIf="formErrors.organizationName" class="alert alert-danger">
+        {{ formErrors.organizationName }}
+      </div>
+    </div>
+    <ng-container *ngIf="form.get('petitionType').value == petitionTypes.Individual">
+      <div class="row">
+        <div class="col-md-6">
+          <full-name [person]="petition?.person"></full-name>
+        </div>
+        <div class="col-md-6">
+          <identity-card [ids]="groupOfIdentityCardTypeId" [model]="petition?.person?.identityCard"></identity-card>
+        </div>
+      </div>
+    </ng-container>
+    <div class="form-group">
+      <mat-form-field>
+        <mat-select placeholder="Доп. инф. о семье:" formControlName="familyInfo">
+          <mat-option value="">Не выбрано</mat-option>
+          <mat-option *ngFor="let fi of bunchOfFamilyInfo" [value]="fi">{{fi.name}}</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <div *ngIf="formErrors.familyInfo" class="alert alert-danger">
+        {{ formErrors.familyInfo }}
+      </div>
+      <div class="form-group">
+        <mat-form-field>
+          <input matInput placeholder="Комментарий" formControlName="comment">
+        </mat-form-field>
+      </div>
+    </div>
+    <div class="alert-info" *ngIf="form">
+      <span>
+        <b>{{form.value | json}}</b>
+      </span>
+      <span>form.status:
+        <b>{{form.status | json}}</b>
+      </span>
+    </div>
+  </form>
+</ng-container>
