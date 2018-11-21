@@ -22,6 +22,7 @@ export class EditPetitionComponent implements OnInit {
 
   @Input() petition: Petition;
 
+
   form: FormGroup;
   formErrors = { organizationName: "", familyInfo: "" };
   validationMessages = {
@@ -32,6 +33,7 @@ export class EditPetitionComponent implements OnInit {
   petitionTypes = PetitionType;
   bunchOfFamilyInfo: Array<FamilyInfo> = [];
   private ngUnsubscribe: Subject<any> = new Subject();
+  private organizationName: "organizationName";
   constructor(private fb: FormBuilder, private formService: FormService, private familyInfoService: FamilyInfoService) { }
 
   ngOnInit() {
@@ -39,21 +41,13 @@ export class EditPetitionComponent implements OnInit {
     this.familyInfoService.gets()
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(data => {
-        (() => {
-          this.bunchOfFamilyInfo = data;
-          //this.bunchOfFamilyInfo.unshift({ id: "", name: "Не выбрано" })
-        })();
+        this.bunchOfFamilyInfo = data;
         if (this.petition && this.petition.id) {
           this.updateForm();
         }
         if (this.form.controls.petitionType.value == PetitionType.Organization) {
-          this.formService.updateValidators(this.form, [new ControlInfo("organizationName", [Validators.required])])
-        } else {
-
+          this.setRequiredValidator();
         }
-        // this.formService.updateValidators(this.contactsForm,
-        //   [new ControlInfo("smsPhone", []), new ControlInfo("byEmail", [Validators.requiredTrue])]);
-        //this.familyInfo = this.petition ? this.petition.familyInfo : this.bunchOfFamilyInfo[0];
       });
   }
 
@@ -96,7 +90,7 @@ export class EditPetitionComponent implements OnInit {
         this.form.controls.organizationName.updateValueAndValidity();
         break;
       case PetitionType.Organization:
-        this.formService.updateValidators(this.form, [new ControlInfo("organizationName", [Validators.required])])
+        this.setRequiredValidator();
         break;
 
       default:
@@ -126,5 +120,9 @@ export class EditPetitionComponent implements OnInit {
       this.petition.organizationName = newData.organizationName;
     }
     return this.petition;
+  }
+
+  private setRequiredValidator() {
+    this.formService.updateValidators(this.form, [new ControlInfo(this.organizationName, [Validators.required])])
   }
 }

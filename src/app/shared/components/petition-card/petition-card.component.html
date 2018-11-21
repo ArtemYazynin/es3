@@ -7,16 +7,16 @@
       <div class="form-group">
         <b>Номер: </b> {{petition.number}}
       </div>
-      <div class="form-group">
+      <div class="form-group" *ngIf="petition.organizationName">
         <b>Организация: </b> {{petition.organizationName}}
       </div>
       <div class="form-group">
-        <b>Доп. инф. о семье:</b> {{petition.familyInfo.name}}
+        <b>Доп. инф. о семье:</b> {{petition.familyInfo?.name || '-'}}
       </div>
       <div class="form-group">
         <b>Комментарий: </b> {{petition.comment}}
       </div>
-      <app-person-card *ngIf="petition.person" [entity]="$person" [mode]="modes.Edit" [personType]="personTypes.Petitioner">
+      <app-person-card *ngIf="petition.person" [entity]="$person" [mode]="modes.Edit">
       </app-person-card>
     </ng-container>
   </app-inquiry-info-edit>
