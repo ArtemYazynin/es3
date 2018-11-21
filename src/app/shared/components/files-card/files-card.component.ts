@@ -1,5 +1,13 @@
-import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
-import { FilesInfo } from '../..';
+import { ChangeDetectionStrategy, Component, Input, OnInit, OnDestroy, ChangeDetectorRef } from '@angular/core';
+import { FilesInfo, FileAttachment, BehaviorMode, CommonService, InquiryService, Inquiry } from '../..';
+import { Subject, BehaviorSubject } from 'rxjs';
+import { ActivatedRoute } from '@angular/router';
+import { WizardStorageService } from '../../../modules/wizard/shared';
+import { MatDialog } from '@angular/material';
+import { FileAttachmentService } from '../../file-attachment.service';
+import { takeUntil, skip, flatMap } from 'rxjs/operators';
+import { EditFileAttachmentsDialogComponent } from '../../../modules/inquiry/edit-file-attachments-dialog/edit-file-attachments-dialog.component';
+import { Guid } from '../../models/guid';
 
 @Component({
   selector: 'app-files-card',
@@ -7,13 +15,48 @@ import { FilesInfo } from '../..';
   styleUrls: ['./files-card.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class FilesCardComponent implements OnInit {
-  @Input() edit: () => void;
-  @Input() filesInfo: FilesInfo;
+export class FilesCardComponent implements OnInit, OnDestroy {
+  @Input() mode: BehaviorMode;
+  private ngUnsubscribe: Subject<any> = new Subject();
+  modes = BehaviorMode; 
+  inquiry: Inquiry;
 
-  constructor() { }
+  constructor(private route: ActivatedRoute, private storageService: WizardStorageService, private dialog: MatDialog,
+    private commonService: CommonService, private cdr: ChangeDetectorRef, private fileAttachmentService: FileAttachmentService,
+    private inquiryService: InquiryService) { }
 
   ngOnInit() {
+    if (this.route.snapshot.data.resolved.inquiryId) {
+      this.inquiryService.get(this.route.snapshot.data.resolved.inquiryId)
+        .pipe(takeUntil(this.ngUnsubscribe))
+        .subscribe(inquiry => {
+          this.inquiry = inquiry;
+          this.cdr.markForCheck();
+        });
+    } else {
+      this.inquiry = this.storageService.get(this.route.snapshot.data.resolved.inquiryType);
+    }
   }
 
+  ngOnDestroy(): void {
+    this.ngUnsubscribe.next();
+    this.ngUnsubscribe.complete();
+  }
+
+  edit() {
+    let config = { $inquiry: new BehaviorSubject<Inquiry>(this.inquiry) };
+    config.$inquiry
+      .pipe(skip(1), flatMap(inquiry => {
+        inquiry.files.forEach(file => {
+          if (!file.id) file.id = Guid.newGuid();
+        });
+        Object.assign(this.inquiry, { files: inquiry.files, haveDigitalSignature: inquiry.haveDigitalSignature })
+        return this.inquiryService.update(this.inquiry.id, this.inquiry);
+      }), takeUntil(this.ngUnsubscribe))
+      .subscribe(() => {
+        this.cdr.markForCheck();
+      });
+
+    this.dialog.open(EditFileAttachmentsDialogComponent, this.commonService.getDialogConfig(config));
+  }
 }

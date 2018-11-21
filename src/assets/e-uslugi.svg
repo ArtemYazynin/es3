@@ -1,20 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Generator: Adobe Illustrator 21.0.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<!-- Generator: Adobe Illustrator 22.1.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
 <svg version="1.1" id="Слой_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-	 viewBox="0 0 500.494 500.499" enable-background="new 0 0 500.494 500.499" xml:space="preserve">
+	 viewBox="0 0 500.5 500.5" style="enable-background:new 0 0 500.5 500.5;" xml:space="preserve">
+<style type="text/css">
+	.st0{fill:url(#SVGID_1_);}
+	.st1{fill:#FFFFFF;}
+</style>
 <g>
-	<linearGradient id="SVGID_1_" gradientUnits="userSpaceOnUse" x1="250.2475" y1="0" x2="250.2475" y2="500.499">
-		<stop  offset="0" style="stop-color:#008822"/>
-		<stop  offset="0.6727" style="stop-color:#006000"/>
-		<stop  offset="1" style="stop-color:#006000"/>
+	
+		<linearGradient id="SVGID_1_" gradientUnits="userSpaceOnUse" x1="250.2475" y1="502" x2="250.2475" y2="1.501" gradientTransform="matrix(1 0 0 -1 0 502)">
+		<stop  offset="0" style="stop-color:#5184C5"/>
+		<stop  offset="0.6727" style="stop-color:#626EB1"/>
+		<stop  offset="1" style="stop-color:#5D6BAE"/>
 	</linearGradient>
-	<polygon fill="url(#SVGID_1_)" points="500.207,500.499 0,500.499 0.247,0 500.495,0 	"/>
+	<polygon class="st0" points="500.2,500.5 0,500.5 0.2,0 500.5,0 	"/>
 	<g>
-		<path fill="#FFFFFF" d="M437.602,132.499H333.247v-57h-0.166c-1.412-5-8.676-9-17.375-9H179.372c-8.699,0-15.961,4-17.375,9h-0.75
-			v57H63.89c-9.703,0-17.642,6.029-17.642,13.086v169.914h409V145.585C455.247,138.528,447.308,132.499,437.602,132.499z
-			 M149.247,272.499h-76v-101h74v19h-46v21h43v17h-43v25h48V272.499z M192.247,132.499v-46h111v46H192.247z"/>
-		<path fill="#FFFFFF" d="M272.247,360.499h-46v-32h-167v59.278c0,6.175,7.771,11.722,17.475,11.722h349.654
-			c9.703,0,17.871-5.547,17.871-11.722v-59.278h-172V360.499z"/>
+		<path class="st1" d="M437.6,132.5H333.2v-57h-0.2c-1.4-5-8.7-9-17.4-9H179.4c-8.7,0-16,4-17.4,9h-0.8v57H63.9
+			c-9.7,0-17.6,6-17.6,13.1v169.9h409V145.6C455.2,138.5,447.3,132.5,437.6,132.5z M149.2,272.5h-76v-101h74v19h-46v21h43v17h-43v25
+			h48V272.5z M192.2,132.5v-46h111v46H192.2z"/>
+		<path class="st1" d="M272.2,360.5h-46v-32h-167v59.3c0,6.2,7.8,11.7,17.5,11.7h349.7c9.7,0,17.9-5.5,17.9-11.7v-59.3h-172V360.5z"
+			/>
 	</g>
 </g>
 </svg>

@@ -28,18 +28,18 @@ export class CommonService {
     const data = component.$address.getValue();
     return data ? Address.build(data, false) : undefined;
   }
-  getFiles(types: Array<AttachmentType>, filesInfo: FilesInfo) {
+  getFiles(types: Array<AttachmentType>, files: Array<FileAttachment>) {
     let fileViewCollection = [];
     const requiredFiles: Array<FileView> = (() => {
       let result = [];
       const getDefaultViewView = (index: number, type: AttachmentType) => {
-        return new FileView(this.esConstant.fileNotChoosen, index, new FileAttachment(type))
+        return new FileView(this.esConstant.fileNotChoosen, index, FileAttachment.buildEmpty(type))
       }
       types.forEach((type, index) => {
-        if (filesInfo) {
-          let attachFileIndex = filesInfo.files.findIndex(file => file.attachmentType == type);
+        if (files && files.length > 0) {
+          let attachFileIndex = files.findIndex(file => file.attachmentType == type);
           if (attachFileIndex >= 0) {
-            result.push(new FileView(filesInfo.files[attachFileIndex].name, index, filesInfo.files[attachFileIndex]));
+            result.push(new FileView(files[attachFileIndex].name, index, files[attachFileIndex]));
           }
           else {
             result.push(getDefaultViewView(index, type));
@@ -54,8 +54,8 @@ export class CommonService {
     fileViewCollection = fileViewCollection.concat(requiredFiles);
 
     (() => {
-      if (filesInfo) {
-        const otherFiles = filesInfo.files.filter(file => file.attachmentType == AttachmentType.Other)
+      if (files && files.length > 0) {
+        const otherFiles = files.filter(file => file.attachmentType == AttachmentType.Other)
           .map((file, index) => {
             return new FileView(file.name, types.length + index, file);
           });

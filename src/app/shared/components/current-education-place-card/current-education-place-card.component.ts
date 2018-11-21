@@ -22,6 +22,7 @@ export class CurrentEducationPlaceCardComponent implements OnInit {
   currentEducationPlace: CurrentEducationPlace;
   modes = BehaviorMode;
 
+  title="Текущее место обучения ребенка";
   $institutionType: Observable<Entity<number>[]>
 
   constructor(private institutionService: InstitutionService, private route: ActivatedRoute, private dialog: MatDialog,

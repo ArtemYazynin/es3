@@ -2017,9 +2017,11 @@
         let conctactInfos = [];
         let schoolInquiryInfos = [];
         let inquiryInfos = [];
+        let fileAttachments = [];
         let petitions = [];
         let currentEducationPlaces = [];
         return {
+            fileAttachments: fileAttachments,
             inquiryInfos: inquiryInfos,
             schoolInquiryInfos: schoolInquiryInfos,
             conctactInfos: conctactInfos,

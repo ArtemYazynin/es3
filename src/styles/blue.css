@@ -294,3 +294,21 @@ background: linear-gradient(to left, #d1dbe4, #eef2f3);
 .toggle:nth-child(1) {
     right: 0;
 }
+.bg-light-blue .table-hover tbody tr:hover {
+    background-color: rgba(0, 123, 255, 0.09);
+}
+.bg-light-blue .table td, 
+.bg-light-blue .table th {
+    border-top: 1px solid rgba(0, 123, 255, 0.1);
+}
+.bg-light-green .table-hover tbody tr:hover {
+    background-color: rgba(40, 167, 69, 0.09);
+}
+.bg-light-green .table td, 
+.bg-light-green .table th {
+    border-top: 1px solid rgba(40, 167, 69, 0.1);
+}
+.bg-light-blue .table th,
+.bg-light-green .table th{
+    line-height: 1;
+}

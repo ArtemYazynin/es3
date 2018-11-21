@@ -1,18 +1,21 @@
 <ng-template #buttons>
-    <button type="submit" class="btn btn-primary" (click)="config.primaryAction()" [disabled]="!(isValid)">{{config.primaryTitle}}</button>
+    <button type="button" class="btn btn-success" (click)="config.primaryAction()" [disabled]="!(isValid)">{{config.primaryTitle}}
+        <i class="mdi mdi-arrow-right-bold-circle"></i></button>
 </ng-template>
 
 <ng-template #master>
-    <app-inquiry-info-edit>
-        <div class="form-actions" style="text-align: center;">
-            <button type="button" class="btn btn-inverse" (click)="config.inverseAction()">{{config.inverseTitle}}</button>
+    <div class="text-center col-12 my-5">
+        <div class="btn-group btn-group-lg" role="group" aria-label="">
+            <button type="button" class="btn btn-secondary" (click)="config.inverseAction()"><i class="mdi mdi-arrow-left-bold-circle"></i>
+                {{config.inverseTitle}}</button>
             <ng-container *ngTemplateOutlet="buttons"></ng-container>
         </div>
-    </app-inquiry-info-edit>
+    </div>
 </ng-template>
 
 <ng-template #edit>
-    <button type="button" class="btn btn-inverse" [mat-dialog-close]="inquiry">{{config.inverseTitle}}</button>
+    <button type="button" class="btn btn-secondary" (click)="config.inverseAction()" [mat-dialog-close]="inquiry"><i
+            class="mdi mdi-arrow-left-bold-circle"></i> {{config.inverseTitle}}</button>
     <ng-container *ngTemplateOutlet="buttons">
     </ng-container>
 </ng-template>

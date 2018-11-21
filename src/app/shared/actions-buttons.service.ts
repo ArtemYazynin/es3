@@ -218,15 +218,6 @@ export class ActionsButtonsService {
             router.navigate([`../${stepName}`], { relativeTo: route });
         }
     }
-
-    primaryActionFileAttachmentStep(editFileAttachmentsComponent: EditFileAttachmentsComponent, inquiryType: any, router: Router, route: ActivatedRoute) {
-        return () => {
-            this.inquiryService.saveFileAttachments(editFileAttachmentsComponent, (patch) => {
-                this.storageService.set(inquiryType, patch);
-            });
-            router.navigate(["../previewStep"], { relativeTo: route });
-        }
-    }
     inverseActionFileAttachmentStep(inquiryCurrentType: any, router: Router, route: ActivatedRoute) {
         return () => {
             switch (inquiryCurrentType) {

@@ -55,7 +55,7 @@ export class ContactInfoCardComponent implements OnInit, OnDestroy {
             this.contactInfo = x;
             this.inquiryService.updateInquiryPropery(this.route.snapshot.data.resolved.inquiryId, x);
             this.cdr.markForCheck();
-          })
+          });
 
       })
     this.dialog.open(ContactInfoDialogComponent, this.commonService.getDialogConfig(config));

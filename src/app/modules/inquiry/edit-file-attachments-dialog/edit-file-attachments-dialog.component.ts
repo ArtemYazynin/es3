@@ -1,7 +1,7 @@
-import { AfterViewInit, ChangeDetectionStrategy, Component, Inject, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Inject, OnInit, ViewChild } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { BehaviorSubject } from 'rxjs';
-import { ButtonsTitles, ConfigsOfRoutingButtons, Inquiry } from '../../../shared';
+import { ButtonsTitles, ConfigsOfRoutingButtons, FilesInfo, Inquiry } from '../../../shared';
 import { ActionsButtonsService } from '../../../shared/actions-buttons.service';
 import { EditFileAttachmentsComponent } from '../shared/components/edit-file-attachments/edit-file-attachments.component';
 
@@ -11,21 +11,26 @@ import { EditFileAttachmentsComponent } from '../shared/components/edit-file-att
   styleUrls: ['./edit-file-attachments-dialog.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class EditFileAttachmentsDialogComponent implements OnInit, AfterViewInit {
+export class EditFileAttachmentsDialogComponent implements OnInit {
   @ViewChild(EditFileAttachmentsComponent) fileAttachmentsEditComponent: EditFileAttachmentsComponent;
   constructor(public dialogRef: MatDialogRef<EditFileAttachmentsDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: { $inquiry: BehaviorSubject<Inquiry> },
+    @Inject(MAT_DIALOG_DATA) public data: { $inquiry: BehaviorSubject<FilesInfo> },
     private actionsButtonsService: ActionsButtonsService) { }
 
-  inquiry: Inquiry;
   config: ConfigsOfRoutingButtons;
 
   ngOnInit() {
-    this.inquiry = this.data.$inquiry.getValue();
-    this.config = new ConfigsOfRoutingButtons(ButtonsTitles.Save, ButtonsTitles.Close);
-  }
-
-  ngAfterViewInit(): void {
-    this.config.primaryAction = this.actionsButtonsService.primaryActionFileAttachmentsDialog(this.fileAttachmentsEditComponent, this.inquiry, this.data, this.dialogRef);
+    this.config = new ConfigsOfRoutingButtons(ButtonsTitles.Save, ButtonsTitles.Close,
+      () => {
+        let filesInfo = this.fileAttachmentsEditComponent.getResult();
+        let inquiry = new Inquiry();
+        inquiry.files = filesInfo.files;
+        inquiry.haveDigitalSignature = filesInfo.haveDigitalSignature;
+        this.data.$inquiry.next(inquiry);
+        this.dialogRef.close();
+      },
+      () => {
+        this.dialogRef.close();
+      });
   }
 }

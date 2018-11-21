@@ -1,11 +1,16 @@
-<div class="widget-box">
-  <div class="widget-title" *ngIf="!!title">
-    <h5>{{title || '-'}}</h5>
-    <div class="buttons" *ngIf="showEdit">
-      <a class="btn" (click)="onEdit()"><i class="mdi mdi-lead-pencil"></i></a>
+<section class="content px-3">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="mt-3 col-xl-4 col-lg-4 col-md-12">
+        <div class="p-3 bg-gray">
+          <div class="h4 bb pb-2" *ngIf="title">{{title}}</div>
+          <div class="buttons" *ngIf="showEdit">
+            <a class="btn" (click)="onEdit()"><i class="mdi mdi-lead-pencil"></i></a>
+          </div>
+          <ng-content></ng-content>
+        </div>
+
+      </div>
     </div>
   </div>
-  <div class="widget-content">
-    <ng-content></ng-content>
-  </div>
-</div>
+</section>

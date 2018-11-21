@@ -112,15 +112,6 @@ export class InquiryReadComponent implements OnInit, OnDestroy {
 
       return this.commonService.getDialogConfig(config);
     }
-    const person = (modelType: ApplicantType) => {
-      this.dialog.open(EditPersonDialogComponent, getConfig({ modelType: modelType, inquiryType: this.$inquiry.getValue().type }));
-      this.dialog.afterAllClosed.subscribe(x => {
-
-      });
-    }
-    const inquiryInfo = () => {
-      this.dialog.open(PreschoolInquiryInfoDialogComponent, getConfig());
-    }
     const institutions = () => {
       this.dialog.open(EditPreschoolInstitutionDialogComponent, getConfig());
     }
@@ -131,15 +122,9 @@ export class InquiryReadComponent implements OnInit, OnDestroy {
       this.dialog.open(EditCurrentEducationPlaceDialogComponent, getConfig());
     }
 
-    const fileAttachments = () => {
-      this.dialog.open(EditFileAttachmentsDialogComponent, getConfig());
-    }
-
     return {
-      person: person,
       institutions: institutions,
-      currentEducationPlace: currentEducationPlace,
-      fileAttachments: fileAttachments
+      currentEducationPlace: currentEducationPlace
     }
   })();
 }
