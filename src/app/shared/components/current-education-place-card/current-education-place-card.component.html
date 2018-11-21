@@ -25,14 +25,14 @@
 </ng-template>
 
 <ng-template #withEdit>
-  <app-inquiry-info-edit title="Текущее место обучения ребенка" (edit)="edit()">
+  <app-inquiry-info-edit [title]="title" (edit)="edit()">
     <ng-container *ngTemplateOutlet="fieldsTemplate">
     </ng-container>
   </app-inquiry-info-edit>
 </ng-template>
 
 <ng-template #withoutEdit>
-  <app-inquiry-info-edit title="Текущее место обучения ребенка">
+  <app-inquiry-info-edit [title]="title">
     <ng-container *ngTemplateOutlet="fieldsTemplate">
     </ng-container>
   </app-inquiry-info-edit>

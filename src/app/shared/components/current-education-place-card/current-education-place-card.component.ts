@@ -13,6 +13,7 @@ export class CurrentEducationPlaceCardComponent implements OnInit {
   @Input() edit: () => void;
   @Input() currentEducationPlace: CurrentEducationPlace;
 
+  title="Текущее место обучения ребенка";
   $institutionType: Observable<Entity<number>[]>
   $specHealth: Observable<SpecHealth>
 
