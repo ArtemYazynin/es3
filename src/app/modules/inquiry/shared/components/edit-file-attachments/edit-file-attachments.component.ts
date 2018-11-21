@@ -18,7 +18,6 @@ export class EditFileAttachmentsComponent implements OnInit, AfterViewInit, OnDe
 
   attachmentType = AttachmentType;
   maxFilesCount = 10;
-  haveDigitalSignature = false;
   bunchOfFileView: Array<FileView> = [];
   isOldBrowser: boolean = (() => {
     const version = this.commonService.getIeVersion()
@@ -29,8 +28,9 @@ export class EditFileAttachmentsComponent implements OnInit, AfterViewInit, OnDe
 
   ngOnInit() {
     this.initFiles();
-    this.haveDigitalSignature = this.inquiry.filesInfo && this.inquiry.filesInfo.haveDigitalSignature;
+    this.inquiry = this.inquiry || new Inquiry();
   }
+
   ngAfterViewInit(): void {
     fromEvent(document.getElementById("add"), "click")
       .pipe(takeUntil(this.ngUnsubscribe))
@@ -45,6 +45,7 @@ export class EditFileAttachmentsComponent implements OnInit, AfterViewInit, OnDe
       });
     this.subscribeFileChange();
   }
+
   ngOnDestroy(): void {
     this.ngUnsubscribe.next();
     this.ngUnsubscribe.complete();
@@ -113,12 +114,25 @@ export class EditFileAttachmentsComponent implements OnInit, AfterViewInit, OnDe
     return isValid;
   }
 
+  getResult(){
+    const files = this.bunchOfFileView
+      .filter(x => x.fileAttachment.file != null)
+      .map(fileView => {
+        let data = new FileAttachment(fileView.fileAttachment.id, fileView.name,fileView.fileAttachment.attachmentType, {},  fileView.fileAttachment.description);
+        return data;
+      });
+      return { 
+        haveDigitalSignature: this.inquiry.haveDigitalSignature,
+        files:files
+      }
+  }
+
   private initFiles() {
     this.getRequiredAttachmentTypes()
       .pipe(
         takeUntil(this.ngUnsubscribe),
         map((types: Array<AttachmentType>) => {
-          let fileViewCollection: Array<FileView> = this.commonService.getFiles(types, this.inquiry.filesInfo);
+          let fileViewCollection: Array<FileView> = this.commonService.getFiles(types, this.inquiry.files);
           return fileViewCollection;
         }))
       .subscribe(result => {

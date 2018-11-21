@@ -16,6 +16,7 @@ import { SchoolInquiryInfo } from "./school-inquiry-info.model";
 import { Status } from "./status.model";
 import { Petition } from "./petition.model";
 import { SpecHealth } from "./spec-health.model";
+import { FileAttachment } from "./file-attachment.model";
 
 export class Inquiry {
     private def = "-";
@@ -55,7 +56,8 @@ export class Inquiry {
 
     institutions: Array<Institution>
     currentEducationPlace: CurrentEducationPlace;
-    filesInfo: FilesInfo
+    haveDigitalSignature:boolean = false;
+    files: Array<FileAttachment>;
     inquiryInfo: InquiryInfo;
     specHealth: SpecHealth;
 

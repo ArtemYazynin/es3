@@ -162,11 +162,9 @@ export class InquiryService {
         Object.assign(data, { description: fileView.fileAttachment.description })
         return data;
       });
-    update({
-      filesInfo: {
-        files: files,
-        haveDigitalSignature: editFileAttachmentsComponent.haveDigitalSignature
-      }
+    update({ 
+      haveDigitalSignature: editFileAttachmentsComponent.inquiry.haveDigitalSignature,
+      files:files
     })
   }
 
@@ -229,6 +227,9 @@ export class InquiryService {
       if (inquiry.inquiryInfo) {
         inquiry.inquiryInfo.id = Guid.newGuid();
       }
+      inquiry.files.forEach(file => {
+        file.id = Guid.newGuid();
+      });
     }
 
     return this.dataSource.post(inquiry);
