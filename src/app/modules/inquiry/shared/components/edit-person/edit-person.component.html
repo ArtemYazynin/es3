@@ -5,17 +5,15 @@
   </div>
 </ng-template>
 
-<ng-container>
-  <div class="row">
-    <div class="col-md-6">
-      <full-name [person]="model">
-        <app-gender [gender]="model?.gender" *ngIf="personType == personTypes.Child"></app-gender>
-        <app-snils [snils]="model?.snils"></app-snils>
-        <ng-content></ng-content>
-      </full-name>
-    </div>
-    <div class="col-md-6">
-      <identity-card [ids]="groupOfIdentityCardTypeId" [model]="model?.identityCard"></identity-card>
-    </div>
+<div class="row">
+  <div class="col-md-6">
+    <full-name [person]="model">
+      <app-gender [gender]="model?.gender" *ngIf="personType == personTypes.Child"></app-gender>
+      <app-snils [snils]="model?.snils"></app-snils>
+      <ng-content></ng-content>
+    </full-name>
   </div>
-</ng-container>
+  <div class="col-md-6">
+    <identity-card [ids]="groupOfIdentityCardTypeId" [model]="model?.identityCard"></identity-card>
+  </div>
+</div>
