@@ -1,7 +1,12 @@
-import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
-import { Observable } from 'rxjs';
-import { Entity, InstitutionService, SpecHealth } from '../..';
-import { CurrentEducationPlace } from '../../../modules/wizard/shared';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material';
+import { ActivatedRoute } from '@angular/router';
+import { BehaviorSubject, Observable, Subject } from 'rxjs';
+import { skip, takeUntil } from 'rxjs/operators';
+import { BehaviorMode, CommonService, Entity, InquiryService, InstitutionService } from '../..';
+import { EditCurrentEducationPlaceDialogComponent } from '../../../modules/inquiry/edit-current-education-place-dialog/edit-current-education-place-dialog.component';
+import { CurrentEducationPlace, WizardStorageService } from '../../../modules/wizard/shared';
+import { CurrentEducationPlaceService } from '../../current-place.service';
 
 @Component({
   selector: 'app-current-education-place-card',
@@ -10,15 +15,56 @@ import { CurrentEducationPlace } from '../../../modules/wizard/shared';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CurrentEducationPlaceCardComponent implements OnInit {
-  @Input() edit: () => void;
-  @Input() currentEducationPlace: CurrentEducationPlace;
+  @Input() inquiryType: string;
+  @Input() mode: BehaviorMode;
+
+  private ngUnsubscribe: Subject<any> = new Subject();
+  currentEducationPlace: CurrentEducationPlace;
+  modes = BehaviorMode;
 
   $institutionType: Observable<Entity<number>[]>
-  $specHealth: Observable<SpecHealth>
 
-  constructor(private institutionService: InstitutionService) { }
+  constructor(private institutionService: InstitutionService, private route: ActivatedRoute, private dialog: MatDialog,
+    private currentEducationPlaceService: CurrentEducationPlaceService, private cdr: ChangeDetectorRef,
+    private storageService: WizardStorageService, private inquiryService: InquiryService, private commonService: CommonService) { }
 
   ngOnInit() {
-    this.$institutionType = this.institutionService.getTypes(this.currentEducationPlace.institutionType);
+    if (this.route.snapshot.data.resolved.inquiryId) {
+      this.currentEducationPlaceService.getByInquiry(this.route.snapshot.data.resolved.inquiryId)
+        .pipe(takeUntil(this.ngUnsubscribe))
+        .subscribe(currentEducationPlace => {
+          this.currentEducationPlace = currentEducationPlace;
+          this.$institutionType = this.institutionService.getTypes(this.currentEducationPlace.institutionType);
+          this.cdr.markForCheck();
+        });
+    } else {
+      this.currentEducationPlace = this.storageService.get(this.route.snapshot.data.resolved.inquiryType).currentEducationPlace;
+      this.$institutionType = this.institutionService.getTypes(this.currentEducationPlace.institutionType);
+    }
+  }
+
+  ngOnDestroy(): void {
+    this.ngUnsubscribe.next();
+    this.ngUnsubscribe.complete();
+  }
+
+  edit() {
+    let config = {
+      $currentEducationPlace: new BehaviorSubject<CurrentEducationPlace>(this.currentEducationPlace),
+      inquiryType: this.inquiryType
+    }
+    config.$currentEducationPlace
+      .pipe(skip(1), takeUntil(this.ngUnsubscribe))
+      .subscribe(currentEducationPlace => {
+        this.currentEducationPlaceService.update(currentEducationPlace.id, currentEducationPlace)
+          .pipe(takeUntil(this.ngUnsubscribe))
+          .subscribe(x => {
+            this.currentEducationPlace = x;
+            this.inquiryService.updateInquiryPropery(this.route.snapshot.data.resolved.inquiryId, x);
+            this.cdr.markForCheck();
+          })
+
+      })
+    this.dialog.open(EditCurrentEducationPlaceDialogComponent, this.commonService.getDialogConfig(config));
   }
 }

@@ -1,6 +1,6 @@
 <div class="container col-md-12">
   <app-inquiry-info-edit title="Текущее место обучения ребенка">
-    <app-edit-current-education-place [inquiry]="inquiry">
+    <app-edit-current-education-place [currentEducationPlace]="inquiry?.currentEducationPlace" [inquiryType]="inquiryType">
     </app-edit-current-education-place>
   </app-inquiry-info-edit>
   <app-routing-buttons [config]="config" [isValid]="editCurrentEducationPlaceComponent.isValid()"></app-routing-buttons>

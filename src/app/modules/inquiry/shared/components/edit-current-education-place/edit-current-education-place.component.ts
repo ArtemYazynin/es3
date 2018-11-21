@@ -1,10 +1,11 @@
-import { ChangeDetectionStrategy, Component, Input, OnInit, OnDestroy } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatAutocompleteSelectedEvent, MatCheckboxChange, MatSelectChange } from '@angular/material';
 import { Observable, Subject } from 'rxjs';
 import { map, startWith, takeUntil } from 'rxjs/operators';
-import { Area, AreaService, AreaType, CommonService, Entity, FormService, Group, Inquiry, inquiryType, Institution, InstitutionService, GroupService } from '../../../../../shared';
+import { Area, AreaService, AreaType, CommonService, Entity, FormService, Group, GroupService, inquiryType, Institution, InstitutionService } from '../../../../../shared';
 import { CurrentEducationPlaceStepService } from '../../../../wizard/shared';
+import { CurrentEducationPlace } from './../../../../../shared/models/current-education-place.model';
 
 @Component({
   selector: 'app-edit-current-education-place',
@@ -13,7 +14,9 @@ import { CurrentEducationPlaceStepService } from '../../../../wizard/shared';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class EditCurrentEducationPlaceComponent implements OnInit, OnDestroy {
-  @Input() inquiry: Inquiry;
+  @Input() currentEducationPlace: CurrentEducationPlace;
+  @Input() inquiryType: string;
+
   private ngUnsubscribe: Subject<any> = new Subject();
   private currentMunicipality: Area;
   private municipalities: Array<Area> = [];
@@ -23,6 +26,7 @@ export class EditCurrentEducationPlaceComponent implements OnInit, OnDestroy {
   filteredInstitutions: Observable<Array<Institution>>;
   groups: Array<Group> = [];
   currentPlaceForm: FormGroup;
+  inquiryTypes = inquiryType;
   formErrors = this.service.getFormErrors();
   validationMessages = this.service.getValidationMessages();
   displayFn = this.commonService.displayFn;
@@ -93,14 +97,14 @@ export class EditCurrentEducationPlaceComponent implements OnInit, OnDestroy {
         }
         this.areaService.getCurrentMunicipality().pipe(takeUntil(this.ngUnsubscribe)).subscribe(result => {
           this.currentMunicipality = result;
-          switch (this.inquiry.type) {
-            case inquiryType.preschool:
+          switch (this.inquiryType) {
+            case this.inquiryTypes.preschool:
               municipalities();
               break;
-            case inquiryType.school:
+            case this.inquiryTypes.school:
               municipalities();
               break;
-            case inquiryType.healthCamp:
+            case this.inquiryTypes.healthCamp:
               break;
             default:
               break;
@@ -111,7 +115,7 @@ export class EditCurrentEducationPlaceComponent implements OnInit, OnDestroy {
         this.institutionService.getTypes().pipe(takeUntil(this.ngUnsubscribe)).subscribe(result => {
           const preschoolType = 1;
           const schoolType = 2;
-          switch (this.inquiry.type) {
+          switch (this.inquiryType) {
             case inquiryType.preschool:
               this.institutionsTypes.push(result.find(x => x.id == preschoolType));
               break;
@@ -129,9 +133,9 @@ export class EditCurrentEducationPlaceComponent implements OnInit, OnDestroy {
       institutions: institutions,
       groups: groups,
       fromSessionStorage: () => {
-        if (!this.inquiry || !this.inquiry.currentEducationPlace) return;
+        if (!this.currentEducationPlace) return;
         const patch = (() => {
-          if (this.inquiry.currentEducationPlace.isOther) {
+          if (this.currentEducationPlace.isOther) {
             let params = (() => {
               let result = new MatCheckboxChange();
               result.checked = true;
@@ -139,19 +143,19 @@ export class EditCurrentEducationPlaceComponent implements OnInit, OnDestroy {
             })();
             this.onChange.isOther(params)
             return {
-              isOther: this.inquiry.currentEducationPlace.isOther,
-              other: this.inquiry.currentEducationPlace.other
+              isOther: this.currentEducationPlace.isOther,
+              other: this.currentEducationPlace.other
             }
           } else {
-            institutions(this.inquiry.currentEducationPlace.institutionType);
-            groups(this.inquiry.currentEducationPlace.institution["id"]);
+            institutions(this.currentEducationPlace.institutionType);
+            groups(this.currentEducationPlace.institution["id"]);
             this.checkGroups();
             return {
-              municipality: this.inquiry.currentEducationPlace.municipality,
-              institutionType: this.inquiry.currentEducationPlace.institutionType,
-              institution: this.inquiry.currentEducationPlace.institution,
-              group: this.inquiry.currentEducationPlace.group ? this.inquiry.currentEducationPlace.group.id : "",
-              isOther: this.inquiry.currentEducationPlace.isOther
+              municipality: this.currentEducationPlace.municipality,
+              institutionType: this.currentEducationPlace.institutionType,
+              institution: this.currentEducationPlace.institution,
+              group: this.currentEducationPlace.group ? this.currentEducationPlace.group.id : "",
+              isOther: this.currentEducationPlace.isOther
             }
           }
         })();
@@ -234,6 +238,11 @@ export class EditCurrentEducationPlaceComponent implements OnInit, OnDestroy {
       this.currentPlaceForm.controls.group.setValidators([Validators.required]);
       this.currentPlaceForm.controls.group.updateValueAndValidity();
     }
+  }
 
+  getResult() {
+    let newData = CurrentEducationPlace.buildByForm(this.currentPlaceForm, this.groups);
+    Object.assign(this.currentEducationPlace, newData);
+    return this.currentEducationPlace;
   }
 }
