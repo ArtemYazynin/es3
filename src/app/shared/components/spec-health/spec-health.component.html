@@ -5,15 +5,12 @@
     </mat-select>
   </mat-form-field>
 </div>
-<div class="alert-info">
-    specHealth: {{specHealth | json}}
-</div> 
-<div class="row" *ngIf="specHealth && specHealth.code != 101">
+<ng-container class="row" *ngIf="specHealth && specHealth.code != 101">
   <div *ngFor="let childComponent of childrenComponents">
-    <div class="col-md-12" [hidden]="!(childComponent.instance.show | async)">
+    <div [hidden]="!(childComponent.instance.show | async)">
       <app-edit-confirmation-document type="attachmentType.SpecHealthDocument" title="Документ, подтверждающий потребность в группе с ОВЗ"
         [model]="childComponent.instance.child?.specHealthDocument">
       </app-edit-confirmation-document>
     </div>
   </div>
-</div>
+</ng-container>

@@ -15,6 +15,7 @@ import { ScopeSelectorComponent } from './scope-selector/scope-selector.componen
 import { MenuComponent } from './menu/menu.component';
 import { InMemoryService } from './in-memory-server';
 import { InMemoryWebApiModule } from 'angular-in-memory-web-api/in-memory-web-api.module';
+import { MAT_LABEL_GLOBAL_OPTIONS } from '@angular/material';
 
 export const esConstant = new InjectionToken<{ fileNotChoosen: string }>("esConstant");
 export const SERVER_URL = new InjectionToken<string>("SERVER_URL");
@@ -37,6 +38,7 @@ const constants = {
   ],
   exports: [],
   providers: [
+    {provide: MAT_LABEL_GLOBAL_OPTIONS, useValue: {float: 'always'}},
     { provide: LocationStrategy, useClass: HashLocationStrategy },
     HttpInterceptor,
     WizardStorageService,
