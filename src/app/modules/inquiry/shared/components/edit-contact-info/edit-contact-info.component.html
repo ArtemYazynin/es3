@@ -1,67 +1,45 @@
-<ng-container>
-  <form [formGroup]="contactsForm" novalidate>
-    <div class="row">
-      <div class="col-md-6">
-        <div class="widget-box">
-          <div class="widget-content">
-            <div class="form-group">
-              <mat-checkbox formControlName="byEmail" (change)="onChange.byEmail($event)">По электронной почте</mat-checkbox>
-              <div *ngIf="formErrors.byEmail" class="alert alert-danger">
-                {{ formErrors.byEmail }}
-              </div>
-            </div>
-            <div class="form-group">
-              <mat-checkbox formControlName="bySms" (change)="onChange.bySms($event)">По смс</mat-checkbox>
-              <div *ngIf="formErrors.bySms" class="alert alert-danger">
-                {{ formErrors.bySms }}
-              </div>
-            </div>
-            <div class="form-group">
-              <mat-checkbox formControlName="dontNotify" (change)="onChange.dontNotify($event)">Не оповещать</mat-checkbox>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="col-md-6">
-        <div class="widget-box">
-          <div class="widget-content">
-            <div class="form-group">
-              <mat-form-field>
-                <input matInput formControlName="email" placeholder="Email">
-              </mat-form-field>
-              <div *ngIf="formErrors.email" class="alert alert-danger">
-                {{ formErrors.email }}
-              </div>
-            </div>
-            <div class="form-group">
-              <mat-form-field>
-                <input matInput formControlName="smsPhone" placeholder="Номер для смс" [textMask]="{mask: masks.smsPhone}">
-              </mat-form-field>
-              <div *ngIf="formErrors.smsPhone" class="alert alert-danger">
-                {{ formErrors.smsPhone }}
-              </div>
-            </div>
-            <div class="form-group">
-              <mat-form-field>
-                <input matInput formControlName="phones" placeholder="Телефон(ы)">
-              </mat-form-field>
-              <div *ngIf="formErrors.phones" class="alert alert-danger">
-                {{ formErrors.phones }}
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </form>
+<form [formGroup]="contactsForm" novalidate>
   <div class="row">
-    <div class="col-md-12 alert-info">
-      <span>
-        <b>{{contactsForm.value | json}}</b>
-      </span>
-      <span>contactsForm.status:
-        <b>{{contactsForm.status | json}}</b>
-      </span>
+    <div class="col-md-6">
+      <app-inquiry-info-edit title="Как вы хотите получать оповещения?">
+        <div class="form-group">
+          <mat-checkbox formControlName="byEmail" (change)="onChange.byEmail($event)">По электронной почте</mat-checkbox>
+          <div *ngIf="formErrors.byEmail" class="alert alert-danger">
+            {{ formErrors.byEmail }}
+          </div>
+        </div>
+        <div class="form-group">
+          <mat-checkbox formControlName="bySms" (change)="onChange.bySms($event)">По смс</mat-checkbox>
+          <div *ngIf="formErrors.bySms" class="alert alert-danger">
+            {{ formErrors.bySms }}
+          </div>
+        </div>
+        <div class="form-group">
+          <mat-checkbox formControlName="dontNotify" (change)="onChange.dontNotify($event)">Не оповещать</mat-checkbox>
+        </div>
+      </app-inquiry-info-edit>
+    </div>
+    <div class="col-md-6">
+      <app-inquiry-info-edit title="Контактные данные">
+        <mat-form-field>
+          <input matInput formControlName="email" placeholder="Email">
+        </mat-form-field>
+        <div *ngIf="formErrors.email" class="alert alert-danger">
+          {{ formErrors.email }}
+        </div>
+        <mat-form-field>
+          <input matInput formControlName="smsPhone" placeholder="Номер для смс" [textMask]="{mask: masks.smsPhone}">
+        </mat-form-field>
+        <div *ngIf="formErrors.smsPhone" class="alert alert-danger">
+          {{ formErrors.smsPhone }}
+        </div>
+        <mat-form-field>
+          <input matInput formControlName="phones" placeholder="Телефон(ы)">
+        </mat-form-field>
+        <div *ngIf="formErrors.phones" class="alert alert-danger">
+          {{ formErrors.phones }}
+        </div>
+      </app-inquiry-info-edit>
     </div>
   </div>
-</ng-container>
+</form>

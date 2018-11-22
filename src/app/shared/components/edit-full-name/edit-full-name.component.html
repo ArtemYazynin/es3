@@ -1,27 +1,27 @@
 <app-inquiry-info-edit title="ФИО">
-    <form [formGroup]="fullnameForm" novalidate>
-      <mat-form-field >
-        <input matInput formControlName="lastname" placeholder="Фамилия">
+  <form [formGroup]="fullnameForm" novalidate>
+    <mat-form-field>
+      <input matInput formControlName="lastname" placeholder="Фамилия">
+    </mat-form-field>
+    <div *ngIf="formErrors.lastname" class="alert alert-danger">
+      {{ formErrors.lastname }}
+    </div>
+    <mat-form-field>
+      <input matInput formControlName="firstname" placeholder="Имя">
+    </mat-form-field>
+    <div *ngIf="formErrors.firstname" class="alert alert-danger">
+      {{ formErrors.firstname }}
+    </div>
+    <ng-container *ngIf="!fullnameForm.get(noMiddlenameControl).value">
+      <mat-form-field>
+        <input matInput [formControlName]="middlenameControl" placeholder="Отчество">
       </mat-form-field>
-      <div *ngIf="formErrors.lastname" class="alert alert-danger">
-        {{ formErrors.lastname }}
+      <div *ngIf="formErrors[middlenameControl]" class="alert alert-danger">
+        {{ formErrors[middlenameControl] }}
       </div>
-      <mat-form-field >
-        <input matInput formControlName="firstname" placeholder="Имя">
-      </mat-form-field>
-      <div *ngIf="formErrors.firstname" class="alert alert-danger">
-        {{ formErrors.firstname }}
-      </div>
-      <ng-container *ngIf="!fullnameForm.get(noMiddlenameControl).value">
-        <mat-form-field >
-          <input matInput [formControlName]="middlenameControl" placeholder="Отчество">
-        </mat-form-field>
-        <div *ngIf="formErrors[middlenameControl]" class="alert alert-danger">
-          {{ formErrors[middlenameControl] }}
-        </div>
-      </ng-container>
-      <mat-checkbox [id]="noMiddlenameControl" name="hasMiddlenoMiddlenamename" [formControlName]="noMiddlenameControl">Нет
-        отчества</mat-checkbox>
-    </form>
-    <ng-content></ng-content>
-  </app-inquiry-info-edit>
+    </ng-container>
+    <mat-checkbox [id]="noMiddlenameControl" name="hasMiddlenoMiddlenamename" [formControlName]="noMiddlenameControl">Нет
+      отчества</mat-checkbox>
+  </form>
+  <ng-content></ng-content>
+</app-inquiry-info-edit>
