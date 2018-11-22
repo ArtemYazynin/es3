@@ -1,66 +1,51 @@
-<div class="widget-box">
-  <div class="widget-title">
-    <h5>Параметры комплектования</h5>
-  </div>
-  <div class="widget-content">
-    <form [formGroup]="inquiryInfoForm" novalidate>
-      <div class="form-group">
-        <mat-form-field >
-          <mat-select formControlName="wishDate" placeholder="Желаемая дата зачисления">
-            <mat-option value="" selected>Не выбрано</mat-option>
-            <mat-option *ngFor="let item of wishDates" [value]="item">1 сентября {{item}} г.</mat-option>
-          </mat-select>
-        </mat-form-field>
+<app-inquiry-info-edit title="Параметры комплектования">
+  <form [formGroup]="inquiryInfoForm" novalidate>
+    <mat-form-field>
+      <mat-select formControlName="wishDate" placeholder="Желаемая дата зачисления">
+        <mat-option value="" selected>Не выбрано</mat-option>
+        <mat-option *ngFor="let item of wishDates" [value]="item">1 сентября {{item}} г.</mat-option>
+      </mat-select>
+    </mat-form-field>
 
-        <div *ngIf="formErrors.wishDate" class="alert alert-danger">
-          {{ formErrors.wishDate }}
-        </div>
+    <div *ngIf="formErrors.wishDate" class="alert alert-danger">
+      {{ formErrors.wishDate }}
+    </div>
+    <ng-container class="form-group" *ngIf="groupOfSpecificity">
+      <mat-form-field>
+        <mat-select formControlName="specificity" placeholder="Предпочитаемая специфика группы">
+          <mat-option value="" selected>Без специфики</mat-option>
+          <mat-option *ngFor="let item of groupOfSpecificity" [value]="item">{{item.name}}</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <div *ngIf="formErrors.specificity" class="alert alert-danger">
+        {{ formErrors.specificity }}
       </div>
-      <div class="form-group" *ngIf="groupOfSpecificity">
-        <mat-form-field >
-          <mat-select formControlName="specificity" placeholder="Предпочитаемая специфика группы">
-            <mat-option value="" selected>Без специфики</mat-option>
-            <mat-option *ngFor="let item of groupOfSpecificity" [value]="item">{{item.name}}</mat-option>
-          </mat-select>
-        </mat-form-field>
-        <div *ngIf="formErrors.specificity" class="alert alert-danger">
-          {{ formErrors.specificity }}
-        </div>
-      </div>
-      <div class="form-group">
-        <mat-checkbox formControlName="offerGeneralGroup">Предоставлять общеразвивающую группу, если нет мест в группе
-          по нездоровью</mat-checkbox>
-        <div *ngIf="formErrors.offerGeneralGroup" class="alert alert-danger">
-          {{ formErrors.offerGeneralGroup }}
-        </div>
-      </div>
-      <div class="form-group">
-        <mat-checkbox formControlName="offerCareGroup">Согласен получить группу по присмотру и уходу, если не будет
-          других мест</mat-checkbox>
-        <div *ngIf="formErrors.offerCareGroup" class="alert alert-danger">
-          {{ formErrors.offerCareGroup }}
-        </div>
-      </div>
-      <div class="form-group">
-        <mat-checkbox formControlName="isSearchNear">Предлагать ДОО рядом с предпочитаемым</mat-checkbox>
-        <div *ngIf="formErrors.isSearchNear" class="alert alert-danger">
-          {{ formErrors.isSearchNear }}
-        </div>
-      </div>
-      <div class="form-group">
-        <mat-checkbox formControlName="isCanTempEnrolled">Предлагать временное зачисление</mat-checkbox>
-        <div *ngIf="formErrors.isCanTempEnrolled" class="alert alert-danger">
-          {{ formErrors.isCanTempEnrolled }}
-        </div>
-      </div>
-      <div class="alert-info">
-        <span>
-          <b>{{inquiryInfoForm.value | json}}</b>
-        </span>
-        <span>inquiryInfoForm.status:
-          <b>{{inquiryInfoForm.status | json}}</b>
-        </span>
-      </div>
-    </form>
-  </div>
-</div>
+    </ng-container>
+    <mat-checkbox formControlName="offerGeneralGroup">Предоставлять общеразвивающую группу,<br> если нет мест в группе
+      по нездоровью</mat-checkbox>
+    <div *ngIf="formErrors.offerGeneralGroup" class="alert alert-danger">
+      {{ formErrors.offerGeneralGroup }}
+    </div>
+    <mat-checkbox formControlName="offerCareGroup">Согласен получить группу по присмотру и уходу,<br> если не будет
+      других мест</mat-checkbox>
+    <div *ngIf="formErrors.offerCareGroup" class="alert alert-danger">
+      {{ formErrors.offerCareGroup }}
+    </div>
+    <mat-checkbox formControlName="isSearchNear">Предлагать ДОО рядом с предпочитаемым</mat-checkbox>
+    <div *ngIf="formErrors.isSearchNear" class="alert alert-danger">
+      {{ formErrors.isSearchNear }}
+    </div>
+    <mat-checkbox formControlName="isCanTempEnrolled">Предлагать временное зачисление</mat-checkbox>
+    <div *ngIf="formErrors.isCanTempEnrolled" class="alert alert-danger">
+      {{ formErrors.isCanTempEnrolled }}
+    </div>
+    <div class="alert-info">
+      <span>
+        <b>{{inquiryInfoForm.value | json}}</b>
+      </span>
+      <span>inquiryInfoForm.status:
+        <b>{{inquiryInfoForm.status | json}}</b>
+      </span>
+    </div>
+  </form>
+</app-inquiry-info-edit>

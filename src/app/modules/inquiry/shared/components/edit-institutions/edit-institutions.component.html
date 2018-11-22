@@ -1,54 +1,62 @@
 <div [formGroup]="form">
-  <div class="form-group" *ngIf="inquiry.type == inquiryType.school">
-    <mat-checkbox formControlName="IsLearnEducCenter">Учился в центре образования(ЦО)</mat-checkbox>
+  <div class="row">
+    <div class="col-md-6">
+      <app-inquiry-info-edit title="Список образовательных организаций">
+        <div class="form-group" *ngIf="inquiry.type == inquiryType.school">
+          <mat-checkbox formControlName="IsLearnEducCenter">Учился в центре образования(ЦО)</mat-checkbox>
+        </div>
+        <mat-form-field style="min-width: 20%;margin-right: 3%;">
+          <input #institution type="text" placeholder="Образовательная организация" matInput formControlName="institution"
+            [matAutocomplete]="auto">
+          <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn" (optionSelected)="onChange.institution($event, institution)">
+            <mat-option *ngFor="let option of filteredInstitution | async" [value]="option">
+              {{option.name}}
+            </mat-option>
+          </mat-autocomplete>
+        </mat-form-field>
+        <mat-form-field class="full-width" *ngIf="inquiry.type == inquiryType.school && form.get('institution').value">
+          <mat-select formControlName="class" placeholder="Класс" (selectionChange)="onChange.class($event)">
+            <mat-option value="">Не выбран</mat-option>
+            <mat-option *ngFor="let item of $classes | async" [value]="item">{{item.name}}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </app-inquiry-info-edit>
+    </div>
+    <div class="col-md-6" *ngIf="selectedInstitutions && selectedInstitutions.length > 0">
+      <app-inquiry-info-edit title="Расставьте организации в приоритетном порядке с помощью стрелочек">
+        <mat-list>
+          <div *ngFor="let item of selectedInstitutions;let i = index;let first=first; let last=last;">
+            <mat-list-item>
+              {{i+1}}. {{item.institution ? item.institution.name + ' ('+item.name+')' : item.name}}
+              <button type="button" class="btn btn-dark" [disabled]="last" (click)="move.down(i)"><i class="mdi mdi-arrow-down"></i></button>
+              <button type="button" class="btn btn-dark" [disabled]="first" (click)="move.up(i)"><i class="mdi mdi-arrow-up"></i></button>
+              <button type="button" class="btn btn-danger" (click)="move.trash(i)"><i class="mdi mdi-close"></i></button>
+              <!-- <button mat-icon-button color="primary" [disabled]="first" (click)="move.up(i)">
+                <i class="mdi mdi-arrow-up-bold"></i>
+              </button>
+              <button mat-icon-button color="primary" [disabled]="last" (click)="move.down(i)">
+                <i class="mdi mdi-arrow-down-bold"></i>
+              </button>
+              <button mat-icon-button color="warn" (click)="move.trash(i)">
+                <i class="mdi mdi-trash-can"></i>
+              </button> -->
+            </mat-list-item>
+            <mat-divider></mat-divider>
+          </div>
+        </mat-list>
+        <div class="form-group alert alert-danger" *ngIf="form.get('institution').disabled">
+          Максимальное количество желаемых ОО {{maxCountWishInstitutions}}
+        </div>
+      </app-inquiry-info-edit>
+    </div>
   </div>
-  <div class="form-group">
-    <mat-form-field style="min-width: 20%;margin-right: 3%;">
-      <input #institution type="text" placeholder="Образовательная организация" matInput formControlName="institution"
-        [matAutocomplete]="auto">
-      <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn" (optionSelected)="onChange.institution($event, institution)">
-        <mat-option *ngFor="let option of filteredInstitution | async" [value]="option">
-          {{option.name}}
-        </mat-option>
-      </mat-autocomplete>
-    </mat-form-field>
-  </div>
-  <div class="form-group" *ngIf="inquiry.type == inquiryType.school && form.get('institution').value">
-    <mat-form-field >
-      <mat-select formControlName="class" placeholder="Класс" (selectionChange)="onChange.class($event)">
-        <mat-option value="">Не выбран</mat-option>
-        <mat-option *ngFor="let item of $classes | async" [value]="item">{{item.name}}</mat-option>
-      </mat-select>
-    </mat-form-field>
-  </div>
-  <div class="form-group">
-    <mat-list>
-      <div *ngFor="let item of selectedInstitutions;let i = index;let first=first; let last=last;">
-        <mat-list-item>
-          {{i+1}}. {{item.institution ? item.institution.name + ' ('+item.name+')' : item.name}}
-          <button mat-icon-button color="primary" [disabled]="first" (click)="move.up(i)">
-            <i class="mdi mdi-arrow-up-bold"></i>
-          </button>
-          <button mat-icon-button color="primary" [disabled]="last" (click)="move.down(i)">
-            <i class="mdi mdi-arrow-down-bold"></i>
-          </button>
-          <button mat-icon-button color="warn" (click)="move.trash(i)">
-            <i class="mdi mdi-trash-can"></i>
-          </button>
-        </mat-list-item>
-        <mat-divider></mat-divider>
-      </div>
-    </mat-list>
-  </div>
-  <div class="form-group alert alert-danger" *ngIf="form.get('institution').disabled">
-    Максимальное количество желаемых ОО {{maxCountWishInstitutions}}
-  </div>
-  <div class="alert-info">
-    <span>
-      <b>{{form.value | json}}</b>
-    </span>
-    <span>form.status:
-      <b>{{form.status | json}}</b>
-    </span>
-  </div>
+</div>
+<br>
+<div class="alert-info">
+  <span>
+    <b>{{form.value | json}}</b>
+  </span>
+  <span>form.status:
+    <b>{{form.status | json}}</b>
+  </span>
 </div>
