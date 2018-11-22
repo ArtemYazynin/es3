@@ -78,7 +78,7 @@ const routes: Routes = [
         }
     },
     {
-        path: ":type/inquiryInfoStep",
+        path: ":type/preschoolInquiryInfoStep",
         component: PreschoolInquiryInfoStepComponent,
         resolve: {
             resolved: BaseResolver
