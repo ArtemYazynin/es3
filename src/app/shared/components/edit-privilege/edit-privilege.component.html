@@ -6,7 +6,7 @@
       </div>
     </div>
     <div class="form-group" *ngIf="!privilegeForm.get('withoutPrivilege').value">
-      <mat-form-field class="full-width">
+      <mat-form-field >
         <mat-select formControlName="privilegeOrder" [compareWith]="compareObjects" placeholder="Приоритет льготной категории">
           <mat-option value="" selected>Не выбрано</mat-option>
           <mat-option *ngFor="let item of privilegeOrders | async" [value]="item">{{item.name}}</mat-option>
@@ -17,7 +17,7 @@
       </div>
     </div>
     <div class="form-group" *ngIf="privilegeForm.get('privilegeOrder').value">
-      <mat-form-field class="full-width">
+      <mat-form-field >
         <input type="text" placeholder="Льготная категория" matInput formControlName="privilege" [matAutocomplete]="auto">
         <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
           <mat-option *ngFor="let option of filteredPrivileges | async" [value]="option">

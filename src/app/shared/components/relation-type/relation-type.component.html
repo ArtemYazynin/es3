@@ -2,7 +2,7 @@
   <div class="col-md-6">
     <app-inquiry-info-edit>
       <div class="form-group">
-        <mat-form-field class="full-width">
+        <mat-form-field >
           <mat-select [(ngModel)]="owner.relationType" placeholder="Родственная связь">
             <mat-option *ngFor="let item of relationTypes" [value]="item">{{item.name}}</mat-option>
           </mat-select>

@@ -18,10 +18,10 @@
     <ng-container *ngIf="form.get('petitionType').value == petitionTypes.Individual">
       <div class="row">
         <div class="col-md-6">
-          <full-name [person]="petition?.person"></full-name>
+          <app-edit-full-name [person]="petition?.person"></app-edit-full-name>
         </div>
         <div class="col-md-6">
-          <identity-card [ids]="groupOfIdentityCardTypeId" [model]="petition?.person?.identityCard"></identity-card>
+          <app-identity-card [ids]="groupOfIdentityCardTypeId" [model]="petition?.person?.identityCard"></app-identity-card>
         </div>
       </div>
     </ng-container>

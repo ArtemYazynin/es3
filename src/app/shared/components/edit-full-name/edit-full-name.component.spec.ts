@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { FullNameComponent } from './full-name.component';
+import { EditFullNameComponent } from './edit-full-name.component';
 
-describe('FullNameComponent', () => {
-  let component: FullNameComponent;
-  let fixture: ComponentFixture<FullNameComponent>;
+describe('EditFullNameComponent', () => {
+  let component: EditFullNameComponent;
+  let fixture: ComponentFixture<EditFullNameComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ FullNameComponent ]
+      declarations: [ EditFullNameComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(FullNameComponent);
+    fixture = TestBed.createComponent(EditFullNameComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

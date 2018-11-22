@@ -1,112 +1,100 @@
 <app-inquiry-info-edit title="Удостоверение личности">
-    <form [formGroup]="identityCardForm">
-        <div class="form-group" *ngIf="$types | async as types">
-            <mat-form-field class="full-width">
-                <mat-select formControlName="identityCardType" placeholder="Тип документа">
-                    <mat-option *ngFor="let item of types" [value]="item.id">{{item.name}}</mat-option>
-                </mat-select>
+    <form [formGroup]="identityCardForm" novalidate>
+        <mat-form-field *ngIf="$types | async as types">
+            <mat-select formControlName="identityCardType" placeholder="Тип документа">
+                <mat-option *ngFor="let item of types" [value]="item.id">{{item.name}}</mat-option>
+            </mat-select>
+        </mat-form-field>
+        <ng-container *ngIf="isAvailable?.name">
+            <mat-form-field>
+                <input matInput formControlName="name" placeholder="Название">
             </mat-form-field>
-        </div>
-        <div *ngIf="isAvailable">
-            <div class="form-group" *ngIf="isAvailable.name">
-                <mat-form-field>
-                    <input matInput formControlName="name" placeholder="Название">
-                </mat-form-field>
-                <div *ngIf="formErrors.name" class="alert alert-danger">
-                    {{ formErrors.name }}
-                </div>
+            <div *ngIf="formErrors.name" class="alert alert-danger">
+                {{ formErrors.name }}
             </div>
-            <div class="form-group" *ngIf="isAvailable.series">
-                <mat-form-field>
-                    <input matInput formControlName="series" placeholder="Серия">
-                </mat-form-field>
-                <div *ngIf="formErrors.series" class="alert alert-danger">
-                    {{ formErrors.series }}
-                </div>
+        </ng-container>
+        <ng-container *ngIf="isAvailable?.series">
+            <mat-form-field>
+                <input matInput formControlName="series" placeholder="Серия">
+            </mat-form-field>
+            <div *ngIf="formErrors.series" class="alert alert-danger">
+                {{ formErrors.series }}
             </div>
-            <div class="form-group" *ngIf="isAvailable.number">
-                <mat-form-field>
-                    <input matInput formControlName="number" placeholder="Номер" *ngIf="!isAvailable.maskOfNumber">
-                    <input matInput formControlName="number" placeholder="Номер" *ngIf="isAvailable.maskOfNumber"
-                        [textMask]="{mask: mask.temporaryResidenceNumber}">
-                </mat-form-field>
-                <div *ngIf="formErrors.number" class="alert alert-danger">
-                    {{ formErrors.number }}
-                </div>
+        </ng-container>
+        <ng-container *ngIf="isAvailable?.number">
+            <mat-form-field>
+                <input matInput formControlName="number" placeholder="Номер" *ngIf="!isAvailable?.maskOfNumber">
+                <input matInput formControlName="number" placeholder="Номер" *ngIf="isAvailable?.maskOfNumber"
+                    [textMask]="{mask: mask.temporaryResidenceNumber}">
+            </mat-form-field>
+            <div *ngIf="formErrors.number" class="alert alert-danger">
+                {{ formErrors.number }}
             </div>
-            <div class="form-group" *ngIf="isAvailable.issued">
-                <mat-form-field>
-                    <input matInput formControlName="issued" placeholder="Выдан">
-                </mat-form-field>
-                <div *ngIf="formErrors.issued" class="alert alert-danger">
-                    {{ formErrors.issued }}
-                </div>
+        </ng-container>
+        <ng-container *ngIf="isAvailable?.issued">
+            <mat-form-field>
+                <input matInput formControlName="issued" placeholder="Выдан">
+            </mat-form-field>
+            <div *ngIf="formErrors.issued" class="alert alert-danger">
+                {{ formErrors.issued }}
             </div>
-            <div class="form-group" *ngIf="isAvailable.dateIssue">
-                <mat-form-field (click)="dateIssuePicker.open()">
-                    <input matInput [matDatepicker]="dateIssuePicker" placeholder="Дата выдачи" [max]="currentDate"
-                        formControlName="dateIssue">
-                    <mat-datepicker-toggle matSuffix [for]="dateIssuePicker"></mat-datepicker-toggle>
-                    <mat-datepicker disabled="false" #dateIssuePicker></mat-datepicker>
-                </mat-form-field>
-                <div *ngIf="formErrors.dateIssue" class="alert alert-danger">
-                    {{ formErrors.dateIssue }}
-                </div>
+        </ng-container>
+        <ng-container *ngIf="isAvailable?.dateIssue">
+            <mat-form-field (click)="dateIssuePicker.open()">
+                <input matInput [matDatepicker]="dateIssuePicker" placeholder="Дата выдачи" [max]="currentDate"
+                    formControlName="dateIssue">
+                <mat-datepicker-toggle matSuffix [for]="dateIssuePicker"></mat-datepicker-toggle>
+                <mat-datepicker disabled="false" #dateIssuePicker></mat-datepicker>
+            </mat-form-field>
+            <div *ngIf="formErrors.dateIssue" class="alert alert-danger">
+                {{ formErrors.dateIssue }}
             </div>
-            <div class="form-group" *ngIf="isAvailable.dateExpired">
-                <mat-form-field (click)="dateExpiredPicker.open()">
-                    <input matInput [matDatepicker]="dateExpiredPicker" placeholder="Действительно до" [min]="currentDate"
-                        formControlName="dateExpired">
-                    <mat-datepicker-toggle matSuffix [for]="dateExpiredPicker"></mat-datepicker-toggle>
-                    <mat-datepicker disabled="false" #dateExpiredPicker></mat-datepicker>
-                </mat-form-field>
-                <div *ngIf="formErrors.dateExpired" class="alert alert-danger">
-                    {{ formErrors.dateExpired }}
-                </div>
+        </ng-container>
+        <ng-container *ngIf="isAvailable?.dateExpired">
+            <mat-form-field (click)="dateExpiredPicker.open()">
+                <input matInput [matDatepicker]="dateExpiredPicker" placeholder="Действительно до" [min]="currentDate"
+                    formControlName="dateExpired">
+                <mat-datepicker-toggle matSuffix [for]="dateExpiredPicker"></mat-datepicker-toggle>
+                <mat-datepicker disabled="false" #dateExpiredPicker></mat-datepicker>
+            </mat-form-field>
+            <div *ngIf="formErrors.dateExpired" class="alert alert-danger">
+                {{ formErrors.dateExpired }}
             </div>
-            <div class="form-group" *ngIf="isAvailable.issueDepartmentCode">
-                <mat-form-field>
-                    <input matInput formControlName="issueDepartmentCode" placeholder="Код подразделения" [textMask]="{mask: mask.issueDepartmentCodeMask}">
-                </mat-form-field>
-                <div *ngIf="formErrors.issueDepartmentCode" class="alert alert-danger">
-                    {{ formErrors.issueDepartmentCode }}
-                </div>
+        </ng-container>
+        <ng-container *ngIf="isAvailable?.issueDepartmentCode">
+            <mat-form-field>
+                <input matInput formControlName="issueDepartmentCode" placeholder="Код подразделения" [textMask]="{mask: mask.issueDepartmentCodeMask}">
+            </mat-form-field>
+            <div *ngIf="formErrors.issueDepartmentCode" class="alert alert-danger">
+                {{ formErrors.issueDepartmentCode }}
             </div>
-            <div class="form-group" *ngIf="isAvailable.actRecordNumber">
-                <mat-form-field>
-                    <input matInput formControlName="actRecordNumber" placeholder="Номер актовой записи">
-                </mat-form-field>
-                <div *ngIf="formErrors.actRecordNumber" class="alert alert-danger">
-                    {{ formErrors.actRecordNumber }}
-                </div>
+        </ng-container>
+        <ng-container *ngIf="isAvailable?.actRecordNumber">
+            <mat-form-field>
+                <input matInput formControlName="actRecordNumber" placeholder="Номер актовой записи">
+            </mat-form-field>
+            <div *ngIf="formErrors.actRecordNumber" class="alert alert-danger">
+                {{ formErrors.actRecordNumber }}
             </div>
-            <div class="form-group" *ngIf="isAvailable.actRecordDate">
-                <mat-form-field (click)="actRecordDatePicker.open()">
-                    <input matInput [matDatepicker]="actRecordDatePicker" placeholder="Дата создания актовой записи"
-                        formControlName="actRecordDate">
-                    <mat-datepicker-toggle matSuffix [for]="actRecordDatePicker"></mat-datepicker-toggle>
-                    <mat-datepicker disabled="false" #actRecordDatePicker></mat-datepicker>
-                </mat-form-field>
-                <div *ngIf="formErrors.actRecordDate" class="alert alert-danger">
-                    {{ formErrors.actRecordDate }}
-                </div>
+        </ng-container>
+        <ng-container *ngIf="isAvailable?.actRecordDate">
+            <mat-form-field (click)="actRecordDatePicker.open()">
+                <input matInput [matDatepicker]="actRecordDatePicker" placeholder="Дата создания актовой записи"
+                    formControlName="actRecordDate">
+                <mat-datepicker-toggle matSuffix [for]="actRecordDatePicker"></mat-datepicker-toggle>
+                <mat-datepicker disabled="false" #actRecordDatePicker></mat-datepicker>
+            </mat-form-field>
+            <div *ngIf="formErrors.actRecordDate" class="alert alert-danger">
+                {{ formErrors.actRecordDate }}
             </div>
-            <div class="form-group" *ngIf="isAvailable.actRecordPlace">
-                <mat-form-field>
-                    <input matInput formControlName="actRecordPlace" placeholder="Место гос регистрации (отдел ЗАГС)">
-                </mat-form-field>
-                <div *ngIf="formErrors.actRecordPlace" class="alert alert-danger">
-                    {{ formErrors.actRecordPlace }}
-                </div>
+        </ng-container>
+        <ng-container *ngIf="isAvailable?.actRecordPlace">
+            <mat-form-field>
+                <input matInput formControlName="actRecordPlace" placeholder="Место гос регистрации (отдел ЗАГС)">
+            </mat-form-field>
+            <div *ngIf="formErrors.actRecordPlace" class="alert alert-danger">
+                {{ formErrors.actRecordPlace }}
             </div>
-            <div class="alert-info" *ngIf="identityCardForm">
-                <span>
-                    <b>{{identityCardForm.value | json}}</b>
-                </span>
-                <span>identityCardForm.status:
-                    <b>{{identityCardForm.status | json}}</b>
-                </span>
-            </div>
-        </div>
+        </ng-container>
     </form>
 </app-inquiry-info-edit>

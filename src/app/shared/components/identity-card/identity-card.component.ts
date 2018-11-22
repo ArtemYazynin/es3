@@ -5,7 +5,7 @@ import { takeUntil } from 'rxjs/operators';
 import { Entity, FormService, IdentityCard, IdentityCardChangeHandler, IdentityCardService, IdentityCardType } from '../../index';
 
 @Component({
-  selector: 'identity-card',
+  selector: 'app-identity-card',
   templateUrl: './identity-card.component.html',
   styleUrls: ['./identity-card.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush

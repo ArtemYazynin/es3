@@ -14,7 +14,7 @@
     </mat-form-field>
   </div>
   <div class="form-group" *ngIf="inquiry.type == inquiryType.school && form.get('institution').value">
-    <mat-form-field class="full-width">
+    <mat-form-field >
       <mat-select formControlName="class" placeholder="Класс" (selectionChange)="onChange.class($event)">
         <mat-option value="">Не выбран</mat-option>
         <mat-option *ngFor="let item of $classes | async" [value]="item">{{item.name}}</mat-option>

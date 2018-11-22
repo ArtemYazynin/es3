@@ -14,7 +14,9 @@
     color: #444444 !important
 }
 
-
+.mat-form-field{
+    width: 90%;
+}
 
 
 dt {
@@ -26,9 +28,6 @@ dt {
     opacity: 0.4;
 }
 
-.full-width{
-    width: 90%;
-}
 .radio-group {
     display: inline-flex;
     flex-direction: column;

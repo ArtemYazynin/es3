@@ -4,7 +4,7 @@ import { MatRadioChange } from '@angular/material';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { FamilyInfo, FormService, Petition } from '../../../../../shared';
-import { FullNameComponent } from '../../../../../shared/components/full-name/full-name.component';
+import { EditFullNameComponent } from '../../../../../shared/components/edit-full-name/edit-full-name.component';
 import { IdentityCardComponent } from '../../../../../shared/components/identity-card/identity-card.component';
 import { FamilyInfoService } from '../../../../../shared/family-info.service';
 import { ControlInfo } from '../../../../../shared/models/controlInfo.model';
@@ -17,7 +17,7 @@ import { PetitionType } from '../../../../../shared/petition-type.enum';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class EditPetitionComponent implements OnInit {
-  @ViewChild(FullNameComponent) fullNameComponent: FullNameComponent;
+  @ViewChild(EditFullNameComponent) fullNameComponent: EditFullNameComponent;
   @ViewChild(IdentityCardComponent) identityCardComponent: IdentityCardComponent;
 
   @Input() petition: Petition;

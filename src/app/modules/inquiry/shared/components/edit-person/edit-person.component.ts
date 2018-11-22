@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Subscription } from 'rxjs';
-import { FullNameComponent } from '../../../../../shared/components/full-name/full-name.component';
+import { EditFullNameComponent } from '../../../../../shared/components/edit-full-name/edit-full-name.component';
 import { GenderComponent } from '../../../../../shared/components/gender/gender.component';
 import { IdentityCardComponent } from '../../../../../shared/components/identity-card/identity-card.component';
 import { SnilsComponent } from '../../../../../shared/components/snils/snils.component';
@@ -14,10 +14,9 @@ import { PersonType } from '../../../../../shared/person-type.enum';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class EditPersonComponent implements OnInit, OnDestroy {
-  //@ViewChild(BirthInfoComponent) birthInfoComponent: BirthInfoComponent;
   @ViewChild(SnilsComponent) snilsComponent: SnilsComponent;
   @ViewChild(IdentityCardComponent) identityCardComponent: IdentityCardComponent;
-  @ViewChild(FullNameComponent) fullnameComponent: FullNameComponent;
+  @ViewChild(EditFullNameComponent) fullnameComponent: EditFullNameComponent;
   @ViewChild(GenderComponent) genderComponent: GenderComponent;
 
   @Input() model: Parent | Applicant;

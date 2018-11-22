@@ -5,12 +5,12 @@ import { takeUntil } from 'rxjs/operators';
 import { FormService, Person } from '../../index';
 
 @Component({
-  selector: 'full-name',
-  templateUrl: './full-name.component.html',
-  styleUrls: ['./full-name.component.css'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  selector: 'app-edit-full-name',
+  templateUrl: './edit-full-name.component.html',
+  styleUrls: ['./edit-full-name.component.css'],
+  changeDetection: ChangeDetectionStrategy.OnPush 
 })
-export class FullNameComponent implements OnInit, OnDestroy {
+export class EditFullNameComponent implements OnInit, OnDestroy {
   @Input() person: Person;
 
   id: string = Math.random().toString(36).substring(2);//for children required
