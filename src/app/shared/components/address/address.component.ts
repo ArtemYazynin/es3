@@ -13,7 +13,6 @@ import { addressTypes } from "../../models/address-type";
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AddressComponent implements OnInit, OnDestroy {
-  @Input() title: string;
   @Input() type: number;
   @Input() owner: Parent | Applicant;
 
@@ -76,7 +75,7 @@ export class AddressComponent implements OnInit, OnDestroy {
 
   placeHolder = (() => {
     const get = (control: AbstractControl, defaultValue: string) => {
-      return (typeof control.value) == "object"
+      return (typeof control.value) == "object" && control.value.type
         ? control.value.type
         : defaultValue;
     }

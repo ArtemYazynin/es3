@@ -6,14 +6,14 @@
 </ng-template>
 
 <div class="row">
-  <div class="col-md-4">
+  <div class="col-md-6">
     <app-edit-full-name [person]="model">
       <app-gender [gender]="model?.gender" *ngIf="personType == personTypes.Child"></app-gender>
       <app-snils [snils]="model?.snils"></app-snils>
       <ng-content></ng-content>
     </app-edit-full-name>
   </div>
-  <div class="col-md-4">
+  <div class="col-md-6">
     <app-identity-card [ids]="groupOfIdentityCardTypeId" [model]="model?.identityCard"></app-identity-card>
   </div>
 </div>

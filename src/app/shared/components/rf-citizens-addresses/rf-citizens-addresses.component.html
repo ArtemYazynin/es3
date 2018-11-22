@@ -2,7 +2,7 @@
   <div class="col">
     <form [formGroup]="checkboxesForm" novalidate>
       <app-inquiry-info-edit title="Адрес регистрации">
-        <app-address title="Адрес регистрации" [type]="addressTypes.register" [owner]="owner"></app-address>
+        <app-address [type]="addressTypes.register" [owner]="owner"></app-address>
         <div class="form-group">
           <mat-checkbox id="temporaryRegistration" (change)="temporaryRegistrationChange($event)" formControlName="temporaryRegistration">
             Является адресом временной регистрации</mat-checkbox>
@@ -26,7 +26,7 @@
       </app-inquiry-info-edit>
       <div id="residentialAddressContainer">
         <app-inquiry-info-edit title="Адрес проживания">
-          <app-address title="Адрес проживания" [type]="addressTypes.residential" [owner]="owner"></app-address>
+          <app-address [type]="addressTypes.residential" [owner]="owner"></app-address>
         </app-inquiry-info-edit>
       </div>
     </form>
