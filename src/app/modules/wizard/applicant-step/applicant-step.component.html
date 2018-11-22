@@ -1,8 +1,18 @@
-<app-inquiry-info-edit title="Доверенное лицо законного представителя ребенка">
+<!-- <app-inquiry-info-edit title="Доверенное лицо законного представителя ребенка">
   <app-edit-person [model]="inquiry?.applicant" [personType]="personTypes.Applicant"></app-edit-person>
   <app-edit-citizenships [model]="inquiry?.applicant" [personType]="personTypes.Applicant" [applicantType]="inquiry.applicantType"></app-edit-citizenships>
   <app-edit-confirmation-document title="Документ, подтверждающий полномочие доверенного лица представлять интересы законного представителя ребенка"
     [type]="attachmentTypes.ApplicantRepresentParent" [model]="inquiry?.applicant?.applicantRepresentParentDocument">
   </app-edit-confirmation-document>
 </app-inquiry-info-edit>
-<app-routing-buttons [config]="config" [isValid]="isValid()"></app-routing-buttons>
+<app-routing-buttons [config]="config" [isValid]="isValid()"></app-routing-buttons> -->
+
+<ng-container>
+  <div class="h4 bb pb-2">Доверенное лицо законного представителя ребенка</div>
+  <app-edit-person [model]="inquiry?.applicant" [personType]="personTypes.Applicant"></app-edit-person>
+  <app-edit-citizenships [model]="inquiry?.applicant" [personType]="personTypes.Applicant" [applicantType]="inquiry.applicantType"></app-edit-citizenships>
+  <app-edit-confirmation-document title="Документ, подтверждающий полномочие доверенного лица представлять интересы законного представителя ребенка"
+    [type]="attachmentTypes.ApplicantRepresentParent" [model]="inquiry?.applicant?.applicantRepresentParentDocument">
+  </app-edit-confirmation-document>
+  <app-routing-buttons [config]="config" [isValid]="isValid()"></app-routing-buttons>
+</ng-container>

@@ -2,7 +2,7 @@
   <form [formGroup]="fullnameForm" novalidate>
     <div class="form-group">
       <mat-form-field class="full-width">
-        <input matInput formControlName="lastname" placeholder="Фамилия">
+        <input matInput formControlName="lastname" placeholder="Фамилия" >
       </mat-form-field>
       <div *ngIf="formErrors.lastname" class="alert alert-danger">
         {{ formErrors.lastname }}

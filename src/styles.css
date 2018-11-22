@@ -4,6 +4,18 @@
 
 @import "~@ng-select/ng-select/themes/default.theme.css";
 @import "~@angular/material/prebuilt-themes/indigo-pink.css";
+.mat-input-element {
+    background-color: white !important;
+    height: calc(1.8125rem + 1px);
+    border: 1px solid #ced4da  !important;
+    padding-left: 8px !important;
+}
+.mat-form-field-label {
+    color: #444444 !important
+}
+
+
+
 
 dt {
     white-space: normal !important;
