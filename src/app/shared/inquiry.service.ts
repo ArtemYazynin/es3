@@ -137,7 +137,7 @@ export class InquiryService {
 
   saveCurrentEducationPlace(editCurrentEducationPlaceComponent: EditCurrentEducationPlaceComponent, update: (patch: object) => void): void {
     const currentEducationPlace = CurrentEducationPlace.buildByForm(editCurrentEducationPlaceComponent.currentPlaceForm, editCurrentEducationPlaceComponent.groups)
-    if (editCurrentEducationPlaceComponent.currentEducationPlace && !editCurrentEducationPlaceComponent.currentEducationPlace.id)
+    if (!editCurrentEducationPlaceComponent.currentEducationPlace || !editCurrentEducationPlaceComponent.currentEducationPlace.id)
       currentEducationPlace.id = Guid.newGuid();
     update({ currentEducationPlace: currentEducationPlace });
   }

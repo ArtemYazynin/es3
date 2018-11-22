@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnInit, OnDestroy } from '@angular/core';
 import { MatDialog } from '@angular/material';
 import { ActivatedRoute } from '@angular/router';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
@@ -14,7 +14,7 @@ import { CurrentEducationPlaceService } from '../../current-place.service';
   styleUrls: ['./current-education-place-card.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class CurrentEducationPlaceCardComponent implements OnInit {
+export class CurrentEducationPlaceCardComponent implements OnInit, OnDestroy {
   @Input() inquiryType: string;
   @Input() mode: BehaviorMode;
 
@@ -59,12 +59,12 @@ export class CurrentEducationPlaceCardComponent implements OnInit {
       .subscribe(currentEducationPlace => {
         this.currentEducationPlaceService.update(currentEducationPlace.id, currentEducationPlace)
           .pipe(takeUntil(this.ngUnsubscribe))
-          .subscribe(x => {
-            this.currentEducationPlace = x;
-            this.inquiryService.updateInquiryPropery(this.route.snapshot.data.resolved.inquiryId, x);
+          .subscribe(updateCurrentPlace => {
+            this.currentEducationPlace = updateCurrentPlace;
+            this.inquiryService.updateInquiryPropery(this.route.snapshot.data.resolved.inquiryId, updateCurrentPlace);
             this.cdr.markForCheck();
           })
-
+          this.cdr.markForCheck();
       })
     this.dialog.open(EditCurrentEducationPlaceDialogComponent, this.commonService.getDialogConfig(config));
   }
