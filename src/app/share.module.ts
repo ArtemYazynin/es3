@@ -124,7 +124,7 @@ import { EditFileAttachmentsDialogComponent } from "./modules/inquiry/edit-file-
         SpecializationService, ConfirmationDocumentService, FamilyInfoService,
         EducProgramService, PersonService, InquiryDataSourceService, InquiryService, DisabilityService, SpecHealthDataSourceService,
         InstitutionService, InstitutionDataSourceService, ContactInfoService, ContactInfoDataSourceService, SchoolInquiryInfoDataSourceService, SchoolInquiryInfoService,
-        InquiryInfoService, InquiryInfoDataSourceService, PetitionDataSourceService, PetitionService, CurrentEducationPlaceDataSourceService, CurrentEducationPlaceService
+        InquiryInfoService, InquiryInfoDataSourceService, PetitionDataSourceService, PetitionService, CurrentEducationPlaceDataSourceService, CurrentEducationPlaceService,
         FileAttachmentDataSourceService, FileAttachmentService
     ],
     entryComponents: [EditConfirmationDocumentDialogComponent, EditChildrenComponent, EditCitizenshipsDialogComponent, EditFileAttachmentsDialogComponent]
