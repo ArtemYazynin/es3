@@ -1,59 +1,65 @@
 <div class="row">
-  <div class="col-md-12">
-    <div class="alert alert-danger">
-      Необходимо прикрепить копии документов:
-      <p>- Документ, удостоверяющий личность заявителя;</p>
-      <p>- Документ, удостоверяющий личность законного представителя ребёнка (если заявитель не является законным
-        представителем
-        ребёнка);
-      </p>
-      <p>- Документ, подтверждающий полномочие заявителя представлять интересы законного представителя (если
-        заявитель
-        не является законным представителем ребёнка);</p>
-      <p>- Документ, подтверждающий полномочие законного представителя представлять интересы ребёнка (если
-        законный представитель
-        является опекуном ребёнка или усыновителем и т.п.);</p>
-      <p>- Документ, подтверждающий право пребывания заявителя на территории РФ (при наличии у заявителя
-        иностранного
-        гражданства).
-      </p>
-      <p>- Свидетельство о рождении ребенка;</p>
-      <p>- Регистрация ребёнка по месту проживания;</p>
-      <p>- Документ, подтверждающий наличие льготы на внеочередное или первоочередное зачисление ребенка в ДОО
-        (при наличии
-        льготы);
-      </p>
-      <p>- Документ, подтверждающий потребность предоставления ребенку места в группе с ОВЗ (при наличии
-        потребности).</p>
-    </div>
-  </div>
-</div>
-<div class="form-group" *ngFor="let item of bunchOfFileView; let i=index;">
-  <div [hidden]="!isOldBrowser">
-    <input type="file" id={{item.id}} name="file" [attr.data-index]="i" accept=".pdf,.doc,.docx">
-  </div>
-  <div [hidden]="isOldBrowser">
-    <div class="form-group">
-      Файл
-      <label style="display: inline">{{item.name}}</label>&nbsp;
-      <button id="chooseFile" (click)="chooseFile(item)" mat-raised-button color="primary">Выберите файл</button>
-      <p>{{item.id | attachmentType}}</p>
-      <div *ngIf="item.id == attachmentType.Other">
-        <mat-form-field>
-          <textarea matInput id="description{{i}}" [(ngModel)]="item.fileAttachment.description" placeholder="Описание"></textarea>
-        </mat-form-field>
-        <button id="remove" (click)="remove(item)" mat-raised-button color="warn">Удалить</button>
+  <div class="col-md-6">
+
+    <app-inquiry-info-edit title=" Необходимо прикрепить копии документов:">
+      <div class="alert alert-danger" role="alert">
+        <ul>
+          <li>Документ, удостоверяющий личность заявителя;</li>
+          <li>Документ, удостоверяющий личность законного представителя ребёнка (если заявитель не является законным
+            представителем
+            ребёнка);
+          </li>
+          <li>Документ, подтверждающий полномочие заявителя представлять интересы законного представителя (если
+            заявитель
+            не является законным представителем ребёнка);</li>
+          <li>Документ, подтверждающий полномочие законного представителя представлять интересы ребёнка (если
+            законный представитель
+            является опекуном ребёнка или усыновителем и т.п.);</li>
+          <li>Документ, подтверждающий право пребывания заявителя на территории РФ (при наличии у заявителя
+            иностранного
+            гражданства).
+          </li>
+          <li>Свидетельство о рождении ребенка;</li>
+          <li>Регистрация ребёнка по месту проживания;</li>
+          <li>Документ, подтверждающий наличие льготы на внеочередное или первоочередное зачисление ребенка в ДОО
+            (при наличии
+            льготы);
+          </li>
+          <li>Документ, подтверждающий потребность предоставления ребенку места в группе с ОВЗ (при наличии
+            потребности).</li>
+        </ul>
       </div>
-      <mat-divider></mat-divider>
-    </div>
+    </app-inquiry-info-edit>
+
   </div>
-</div>
-<div class="form-group">
-  <mat-checkbox [(ngModel)]="inquiry.haveDigitalSignature">Документы подписаны электронной подписью</mat-checkbox>
-</div>
-<div class="form-group alert alert-info" align="center">
-  Размер одного файла не должен превышать 5мб.
-</div>
-<div class="form-group">
-  <button id="add" mat-raised-button color="primary" [disabled]="bunchOfFileView.length >= maxFilesCount">Добавить</button>
+  <div class="col-md-6">
+    <app-inquiry-info-edit title="Прикрепленные документы:">
+      <div class="form-group alert alert-info" align="center">Размер одного файла не должен превышать 5мб.</div>
+      <ng-container *ngFor="let item of bunchOfFileView; let i=index;">
+        <div [hidden]="!isOldBrowser">
+          <input type="file" id={{item.id}} name="file" [attr.data-index]="i" accept=".pdf,.doc,.docx">
+        </div>
+        <div [hidden]="isOldBrowser">
+          <p>{{item.id | attachmentType}}</p>
+          <button id="chooseFile" (click)="chooseFile(item)" mat-raised-button color="primary">Выберите файл</button>
+          <span style="padding-left: 1%;">{{item.name}}</span>
+          <div *ngIf="item.id == attachmentType.Other">
+            <mat-form-field>
+              <textarea matInput id="description{{i}}" [(ngModel)]="item.fileAttachment.description" placeholder="Описание"></textarea>
+            </mat-form-field>
+            <button id="remove" (click)="remove(item)" mat-raised-button color="warn">Удалить</button>
+          </div>
+          <mat-divider></mat-divider>
+        </div>
+      </ng-container>
+      <br>
+      <button id="add" mat-raised-button color="primary" [disabled]="bunchOfFileView.length >= maxFilesCount">Добавить
+        документы</button>
+      <br>
+      <div class="form-group">
+          <mat-checkbox [(ngModel)]="inquiry.haveDigitalSignature">Документы подписаны электронной подписью</mat-checkbox>
+      </div>
+    </app-inquiry-info-edit>
+
+  </div>
 </div>
