@@ -22,15 +22,16 @@ export class FileAttachmentStepComponent implements OnInit, StepBase {
   ngOnInit() {
     this.inquiry = this.storageService.get(this.inquiryType);
     this.config = new ConfigsOfRoutingButtons(ButtonsTitles.Next, ButtonsTitles.Back,
-      ()=>{
+      () => {
         let filesInfo = this.editFileAttachmentsComponent.getResult();
         this.storageService.set(this.inquiryType, filesInfo);
+        this.router.navigate(["../previewStep"], { relativeTo: this.route });
       },
       this.actionsButtonsService.inverseActionFileAttachmentStep(this.inquiryType, this.router, this.route)
     );
   }
 
-  isValid(){
+  isValid() {
     return this.editFileAttachmentsComponent && this.editFileAttachmentsComponent.isValid()
   }
 }

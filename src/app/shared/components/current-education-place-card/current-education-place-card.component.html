@@ -1,5 +1,5 @@
 <ng-template #fieldsTemplate>
-  <div [ngSwitch]="currentEducationPlace.isOther">
+  <div [ngSwitch]="currentEducationPlace?.isOther">
     <div *ngSwitchCase="true">
       <div class="form-group">
         <b>Тип </b> Другая
@@ -38,6 +38,6 @@
   </app-inquiry-info-edit>
 </ng-template>
 
-<ng-container *ngTemplateOutlet="edit ? withEdit : withoutEdit">
+<ng-container *ngTemplateOutlet="mode == modes.Edit ? withEdit : withoutEdit">
 
 </ng-container>

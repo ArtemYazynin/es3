@@ -3,9 +3,7 @@ import { MatDialogRef } from '@angular/material';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BehaviorSubject, timer } from 'rxjs';
 import { Child, DublicatesFinder, InquiryService, inquiryType, Parent, SpecHealth } from '.';
-import { EditCurrentEducationPlaceDialogComponent } from '../modules/inquiry/edit-current-education-place-dialog/edit-current-education-place-dialog.component';
 import { EditFileAttachmentsDialogComponent } from '../modules/inquiry/edit-file-attachments-dialog/edit-file-attachments-dialog.component';
-import { EditPetitionDialogComponent } from '../modules/inquiry/edit-petition-dialog/edit-petition-dialog.component';
 import { EditPreschoolInstitutionDialogComponent } from '../modules/inquiry/edit-preschool-institution-dialog/edit-preschool-institution-dialog.component';
 import { EditChildrenComponent } from '../modules/inquiry/shared/components/edit-children/edit-children.component';
 import { EditCitizenshipsComponent } from '../modules/inquiry/shared/components/edit-citizenships/edit-citizenships.component';
@@ -14,9 +12,8 @@ import { EditCurrentEducationPlaceComponent } from '../modules/inquiry/shared/co
 import { EditFileAttachmentsComponent } from '../modules/inquiry/shared/components/edit-file-attachments/edit-file-attachments.component';
 import { EditInstitutionsComponent } from '../modules/inquiry/shared/components/edit-institutions/edit-institutions.component';
 import { EditPersonComponent } from '../modules/inquiry/shared/components/edit-person/edit-person.component';
-import { EditPetitionComponent } from '../modules/inquiry/shared/components/edit-petition/edit-petition.component';
 import { EditPreschoolInquiryInfoComponent } from '../modules/inquiry/shared/components/edit-preschool-inquiry-info/edit-preschool-inquiry-info.component';
-import { CurrentEducationPlace, WizardStorageService } from '../modules/wizard/shared';
+import { WizardStorageService } from '../modules/wizard/shared';
 import { ApplicantType } from './applicant-type.enum';
 import { EditPrivilegeComponent } from './components/edit-privilege/edit-privilege.component';
 import { RelationTypeComponent } from './components/relation-type/relation-type.component';
@@ -116,11 +113,9 @@ export class ActionsButtonsService {
 
     primaryActionCurrentEducationPlaceStep(editCurrentEducationPlaceComponent: EditCurrentEducationPlaceComponent, inquiryType: any, router: Router, route: ActivatedRoute) {
         return () => {
-            const place = new CurrentEducationPlace(editCurrentEducationPlaceComponent.currentPlaceForm.value["municipality"],
-                editCurrentEducationPlaceComponent.currentPlaceForm.value["institutionType"], editCurrentEducationPlaceComponent.currentPlaceForm.value["institution"],
-                editCurrentEducationPlaceComponent.currentPlaceForm.value["isOther"], editCurrentEducationPlaceComponent.currentPlaceForm.value["other"],
-                editCurrentEducationPlaceComponent.groups.find(group => group.id == editCurrentEducationPlaceComponent.currentPlaceForm.value["group"]));
-            this.storageService.set(inquiryType, { currentEducationPlace: place });
+            this.inquiryService.saveCurrentEducationPlace(editCurrentEducationPlaceComponent, (patch) => {
+                this.storageService.set(inquiryType, patch);
+            })
             router.navigate(["../applicantTypeStep"], { relativeTo: route });
         }
     }
@@ -283,15 +278,6 @@ export class ActionsButtonsService {
         }
     }
 
-    primaryActionCurrentEducationsDialog(currentEducationPlaceEditComponent: EditCurrentEducationPlaceComponent, inquiry: Inquiry,
-        data: { $inquiry: BehaviorSubject<Inquiry> }, dialogRef: MatDialogRef<EditCurrentEducationPlaceDialogComponent>) {
-        return () => {
-            this.inquiryService.saveCurrentEducationPlace(currentEducationPlaceEditComponent,
-                (patch) => this.update(inquiry, patch, data));
-            dialogRef.close();
-        }
-    }
-
     primaryActionFileAttachmentsDialog(fileAttachmentsEditComponent: EditFileAttachmentsComponent, inquiry: Inquiry,
         data: { $inquiry: BehaviorSubject<Inquiry> }, dialogRef: MatDialogRef<EditFileAttachmentsDialogComponent>) {
         return () => {
@@ -309,14 +295,4 @@ export class ActionsButtonsService {
             dialogRef.close();
         }
     }
-
-    primaryActionPetitionDialog(editPetitionComponent: EditPetitionComponent, inquiry: Inquiry,
-        data: { $inquiry: BehaviorSubject<Inquiry> }, dialogRef: MatDialogRef<EditPetitionDialogComponent>) {
-        return () => {
-            this.inquiryService.savePetition(editPetitionComponent,
-                (patch) => this.update(inquiry, patch, data));
-            dialogRef.close();
-        }
-    }
-
 }

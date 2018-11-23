@@ -136,13 +136,9 @@ export class InquiryService {
   }
 
   saveCurrentEducationPlace(editCurrentEducationPlaceComponent: EditCurrentEducationPlaceComponent, update: (patch: object) => void): void {
-    const currentEducationPlace: CurrentEducationPlace = (() => {
-      const place = new CurrentEducationPlace(editCurrentEducationPlaceComponent.currentPlaceForm.value["municipality"],
-        editCurrentEducationPlaceComponent.currentPlaceForm.value["institutionType"], editCurrentEducationPlaceComponent.currentPlaceForm.value["institution"],
-        editCurrentEducationPlaceComponent.currentPlaceForm.value["isOther"], editCurrentEducationPlaceComponent.currentPlaceForm.value["other"],
-        editCurrentEducationPlaceComponent.groups.find(group => group.id == editCurrentEducationPlaceComponent.currentPlaceForm.value["group"]));
-      return place;
-    })();
+    const currentEducationPlace = CurrentEducationPlace.buildByForm(editCurrentEducationPlaceComponent.currentPlaceForm, editCurrentEducationPlaceComponent.groups)
+    if (!editCurrentEducationPlaceComponent.currentEducationPlace || !editCurrentEducationPlaceComponent.currentEducationPlace.id)
+      currentEducationPlace.id = Guid.newGuid();
     update({ currentEducationPlace: currentEducationPlace });
   }
 

@@ -189,7 +189,7 @@ export class CommonService {
   getDialogConfig(obj?: object) {
     let config = new MatDialogConfig();
     config.disableClose = true;
-    config.autoFocus = true;
+    config.autoFocus = false;
     config.width = "1000px";
     config.data = {};
     if (obj) Object.assign(config.data, obj);

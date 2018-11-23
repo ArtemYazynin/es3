@@ -2019,6 +2019,7 @@
         let inquiryInfos = [];
         let fileAttachments = [];
         let petitions = [];
+        let currentEducationPlaces = [];
         return {
             fileAttachments: fileAttachments,
             inquiryInfos: inquiryInfos,
@@ -2044,7 +2045,8 @@
             specializations: specializations,
             educPrograms: educPrograms,
             groups: groups,
-            petitions: petitions
+            petitions: petitions,
+            currentEducationPlaces: currentEducationPlaces
         }
     };
 })();
