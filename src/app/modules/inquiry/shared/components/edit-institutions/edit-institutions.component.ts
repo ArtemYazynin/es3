@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { MatAutocompleteSelectedEvent, MatSelectChange } from '@angular/material';
 import { Observable, Subject } from 'rxjs';
 import { map, startWith, takeUntil } from 'rxjs/operators';
-import { CommonService, Group, GroupService, Inquiry, inquiryType, InquiryType, Institution, InstitutionService, SchoolClass, SettingsService } from '../../../../../shared';
+import { CommonService, Group, GroupService, Inquiry, inquiryType, InquiryType, Institution, InstitutionService, SchoolClass, SettingsService, Theme } from '../../../../../shared';
 
 @Component({
   selector: 'app-edit-institutions',
@@ -22,6 +22,7 @@ export class EditInstitutionsComponent implements OnInit, OnDestroy {
   filteredInstitution: Observable<Array<Institution>>
   selectedInstitutions: Array<any> = [];
   $classes: Observable<Array<Group>>;
+  themes = Theme;
   private institutions: Array<Institution>;
 
   constructor(private commonService: CommonService, private institutionService: InstitutionService, private fb: FormBuilder,

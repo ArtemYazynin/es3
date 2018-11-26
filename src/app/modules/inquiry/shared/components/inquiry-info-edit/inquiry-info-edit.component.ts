@@ -1,4 +1,5 @@
-import { Component, OnInit, Output, EventEmitter, Input, ChangeDetectionStrategy } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, Input, ChangeDetectionStrategy, ChangeDetectorRef, AfterViewInit, AfterContentInit } from '@angular/core';
+import { Theme } from '../../../../../shared';
 
 @Component({
   selector: 'app-inquiry-info-edit',
@@ -6,18 +7,22 @@ import { Component, OnInit, Output, EventEmitter, Input, ChangeDetectionStrategy
   styleUrls: ['./inquiry-info-edit.component.css'],
   changeDetection:ChangeDetectionStrategy.OnPush
 })
-export class InquiryInfoEditComponent implements OnInit {
-  @Input() title:string
+export class InquiryInfoEditComponent implements OnInit, AfterContentInit {
+  @Input() title:string;
+  @Input() theme:Theme;
   @Output() edit = new EventEmitter<void>();
   showEdit:boolean = false;
+  themes = Theme;
 
   onEdit(){
     this.edit.emit();
   }
-  constructor() { }
+  constructor(private cdr:ChangeDetectorRef) { }
 
   ngOnInit() {
     this.showEdit = this.edit.observers.length > 0;
   }
-
+  ngAfterContentInit(): void {
+    this.cdr.markForCheck();
+  }
 }

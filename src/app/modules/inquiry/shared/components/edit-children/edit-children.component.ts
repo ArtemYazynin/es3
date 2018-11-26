@@ -1,6 +1,6 @@
 import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, ComponentFactory, ComponentFactoryResolver, ComponentRef, Input, OnInit, ViewChild, ViewContainerRef } from "@angular/core";
 import { isNullOrUndefined } from "util";
-import { ApplicantType, Child, CitizenshipService, ConfirmationDocument, IdentityCard, Person, SpecHealth } from "../../../../../shared";
+import { ApplicantType, Child, CitizenshipService, ConfirmationDocument, IdentityCard, Person, SpecHealth, Theme } from "../../../../../shared";
 import { BirthInfoComponent } from "../../../../../shared/components/birth-info/birth-info.component";
 import { SpecHealthComponent } from "../../../../../shared/components/spec-health/spec-health.component";
 import { PersonType } from "../../../../../shared/person-type.enum";
@@ -29,6 +29,7 @@ export class EditChildrenComponent implements OnInit, AfterViewInit {
   components: Array<ComponentRef<ChildComponent>> = [];
   personTypes = PersonType;
   applicantTypes = ApplicantType;
+  themes = Theme;
 
   constructor(private resolver: ComponentFactoryResolver, private citizenshipService: CitizenshipService, private cdr: ChangeDetectorRef) { }
 

@@ -23,12 +23,12 @@
 </ng-template>
 
 <ng-template #withEdit>
-  <app-inquiry-info-edit title="Гражданства и адреса" (edit)="edit()">
+  <app-inquiry-info-edit title="Гражданства и адреса" (edit)="edit()" [theme]="theme">
     <ng-container *ngTemplateOutlet="fieldsTemplate"></ng-container>
   </app-inquiry-info-edit>
 </ng-template>
 <ng-template #withoutEdit>
-  <app-inquiry-info-edit title="Гражданства и адреса">
+  <app-inquiry-info-edit title="Гражданства и адреса" [theme]="theme">
     <ng-container *ngTemplateOutlet="fieldsTemplate"></ng-container>
   </app-inquiry-info-edit>
 </ng-template>

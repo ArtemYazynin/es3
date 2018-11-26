@@ -3,7 +3,7 @@ import { MatDialog } from '@angular/material';
 import { ActivatedRoute } from '@angular/router';
 import { BehaviorSubject, Subject } from 'rxjs';
 import { skip, takeUntil, flatMap } from 'rxjs/operators';
-import { CommonService, InquiryService, Person } from '../..';
+import { CommonService, InquiryService, Person, Theme } from '../..';
 import { EditPetitionDialogComponent } from '../../../modules/inquiry/edit-petition-dialog/edit-petition-dialog.component';
 import { WizardStorageService } from '../../../modules/wizard/shared';
 import { Petition } from '../../models/petition.model';
@@ -22,6 +22,7 @@ export class PetitionCardComponent implements OnInit, OnDestroy {
 
   private ngUnsubscribe: Subject<any> = new Subject();
   modes = BehaviorMode;
+  themes = Theme;
   $person: BehaviorSubject<Person>;
   petition: Petition;
 

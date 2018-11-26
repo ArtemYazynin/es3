@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, ValidatorFn, Validators } from '@angular/forms';
 import { MatCheckboxChange } from '@angular/material';
-import { FormService } from '../../../../../shared';
+import { FormService, Theme } from '../../../../../shared';
 import { ControlInfo } from '../../../../../shared/models/controlInfo.model';
 import { ContactInfo } from '../../../../wizard/shared';
 
@@ -25,7 +25,7 @@ export class EditContactInfoComponent implements OnInit {
   isValid() {
     return this.contactsForm && this.contactsForm.valid;
   }
-
+  themes = Theme;
   masks = { smsPhone: ["+", /\d/, "(", /\d/, /\d/, /\d/, ")", /\d/, /\d/, /\d/, "-", /\d/, /\d/, "-", /\d/, /\d/] }
   onChange = (() => {
     const smsPhonePattern = "^\\+\\d\\(\\d\\d\\d\\)\\d\\d\\d-\\d\\d-\\d\\d$";

@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatCheckboxChange } from '@angular/material';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import { Address, addressTypes, Applicant, Child, CitizenshipService, Parent, PersonWithAddress, CommonService, FormService } from '../../index';
+import { Address, addressTypes, Applicant, Child, CitizenshipService, Parent, PersonWithAddress, CommonService, FormService, Theme } from '../../index';
 import { AddressComponent } from '../address/address.component';
 import { ControlInfo } from '../../models/controlInfo.model';
 
@@ -26,6 +26,7 @@ export class RfCitizensAddressesComponent implements OnInit, OnDestroy, AfterVie
   checkboxesForm: FormGroup;
   registerAddress: Address;
   residentialAddress: Address;
+  themes = Theme;
 
   constructor(private citizenshipService: CitizenshipService, private fb: FormBuilder, private cdr: ChangeDetectorRef, private commonService: CommonService,
       private formService:FormService) { }

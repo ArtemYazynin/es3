@@ -1,4 +1,4 @@
-<app-inquiry-info-edit title="Адрес регистрации по месту пребывания/жительства">
+<app-inquiry-info-edit title="Адрес регистрации по месту пребывания/жительства" [theme]="themes.Default">
   <form [formGroup]="form">
     <div class="form-group">
       <mat-checkbox formControlName="notHasRfRegistration" (change)="hasRegistrationChange()">

@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, Input, OnDestroy, OnInit, ViewChild
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
-import { Address, addressTypes, Applicant, CitizenshipService, Country, FormService, inquiryType, Parent, PersonWithAddress, CommonService } from '../../index';
+import { Address, addressTypes, Applicant, CitizenshipService, Country, FormService, inquiryType, Parent, PersonWithAddress, CommonService, Theme } from '../../index';
 import { AddressComponent } from '../address/address.component';
 import { CommonModule } from '@angular/common';
 
@@ -24,6 +24,7 @@ export class ForeignCitizensAddressesComponent implements OnInit, OnDestroy {
   foreignAddress: string;
   currentDate = new Date();
   countries: Array<Country> = [];
+  themes = Theme;
 
   formErrors = {
     "foreignAddress": "",

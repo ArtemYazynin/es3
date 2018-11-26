@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
-import { CitizenshipService, Country } from '../../index';
+import { CitizenshipService, Country, Theme } from '../../index';
 
 @Component({
   selector: 'app-citizenship-select',
@@ -9,6 +9,7 @@ import { CitizenshipService, Country } from '../../index';
 })
 export class CitizenshipSelectComponent implements OnInit {
   private _citizenships: Array<number> = [];
+  themes = Theme;
   @Input() set citizenships(value) {
     if (value) {
       this._citizenships = value;

@@ -3,7 +3,7 @@ import { MatDialog } from '@angular/material';
 import { ActivatedRoute } from '@angular/router';
 import { BehaviorSubject, Subject } from 'rxjs';
 import { skip, takeUntil } from 'rxjs/operators';
-import { BehaviorMode, CommonService, InquiryService } from '../..';
+import { BehaviorMode, CommonService, InquiryService, Theme } from '../..';
 import { ContactInfoDialogComponent } from '../../../modules/inquiry/contact-info-dialog/contact-info-dialog.component';
 import { ContactInfo, WizardStorageService } from '../../../modules/wizard/shared';
 import { ContactInfoService } from '../../contact-info.service';
@@ -19,7 +19,10 @@ export class ContactInfoCardComponent implements OnInit, OnDestroy {
   @Input() mode: BehaviorMode;
 
   private ngUnsubscribe: Subject<any> = new Subject();
+  title="Контактные данные"
   modes = BehaviorMode;
+  theme: Theme;
+  themes = Theme;
   contactInfo: ContactInfo;
 
   constructor(private route: ActivatedRoute, private storageService: WizardStorageService, private dialog: MatDialog,
@@ -27,6 +30,7 @@ export class ContactInfoCardComponent implements OnInit, OnDestroy {
     private inquiryService: InquiryService) { }
 
   ngOnInit() {
+    this.theme = this.mode == this.modes.Edit ? this.themes.Read : this.themes.Preview;
     if (this.route.snapshot.data.resolved.inquiryId) {
       this.contactInfoService.getByInquiry(this.route.snapshot.data.resolved.inquiryId)
         .pipe(takeUntil(this.ngUnsubscribe))

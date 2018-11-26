@@ -3,7 +3,7 @@ import { MatDialog } from '@angular/material';
 import { ActivatedRoute } from '@angular/router';
 import { BehaviorSubject, Subject } from 'rxjs';
 import { skip, takeUntil } from 'rxjs/operators';
-import { ConfirmationDocument, InquiryService } from '../..';
+import { ConfirmationDocument, InquiryService, Theme } from '../..';
 import { EditConfirmationDocumentDialogComponent } from '../../../modules/inquiry/edit-confirmation-document-dialog/edit-confirmation-document-dialog.component';
 import { CommonService } from '../../common.service';
 import { BehaviorMode } from '../../behavior-mode.enum';
@@ -22,10 +22,13 @@ export class ConfirmationDocumentCardComponent implements OnInit, OnDestroy {
 
   private ngUnsubscribe: Subject<any> = new Subject();
   modes = BehaviorMode;
+  themes = Theme;
+  theme:Theme;
   constructor(public dialog: MatDialog, private confirmationDocumentService: ConfirmationDocumentService, private cdr: ChangeDetectorRef, private route: ActivatedRoute, private inquiryService: InquiryService,
     private commonService: CommonService) { }
 
   ngOnInit() {
+    this.theme = this.mode == this.modes.Edit ? this.themes.Read : this.themes.Preview;
   }
 
   ngOnDestroy(): void {

@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, Input, OnDestroy, OnInit } from '@a
 import { FormBuilder, FormGroup, ValidatorFn, Validators } from '@angular/forms';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import { FormService, Person } from '../../index';
+import { FormService, Person, Theme } from '../../index';
 
 @Component({
   selector: 'app-edit-full-name',
@@ -19,6 +19,7 @@ export class EditFullNameComponent implements OnInit, OnDestroy {
 
   private ngUnsubscribe: Subject<any> = new Subject();
   private fioRegExp: string = "^[А-яЁё]+([ -]{1}[А-яЁё]+)*[ ]*$";
+  themes = Theme;
   fullnameForm: FormGroup;
   formErrors = Person.getFormErrorsTemplate(this.id);
   validationMessages = Person.getvalidationMessages(this.id);

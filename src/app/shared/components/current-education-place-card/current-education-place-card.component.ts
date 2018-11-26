@@ -3,7 +3,7 @@ import { MatDialog } from '@angular/material';
 import { ActivatedRoute } from '@angular/router';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { skip, takeUntil } from 'rxjs/operators';
-import { BehaviorMode, CommonService, Entity, InquiryService, InstitutionService } from '../..';
+import { BehaviorMode, CommonService, Entity, InquiryService, InstitutionService, Theme } from '../..';
 import { EditCurrentEducationPlaceDialogComponent } from '../../../modules/inquiry/edit-current-education-place-dialog/edit-current-education-place-dialog.component';
 import { CurrentEducationPlace, WizardStorageService } from '../../../modules/wizard/shared';
 import { CurrentEducationPlaceService } from '../../current-place.service';
@@ -21,6 +21,8 @@ export class CurrentEducationPlaceCardComponent implements OnInit, OnDestroy {
   private ngUnsubscribe: Subject<any> = new Subject();
   currentEducationPlace: CurrentEducationPlace;
   modes = BehaviorMode;
+  theme:Theme;
+  themes = Theme;
 
   title="Текущее место обучения ребенка";
   $institutionType: Observable<Entity<number>[]>
@@ -30,6 +32,7 @@ export class CurrentEducationPlaceCardComponent implements OnInit, OnDestroy {
     private storageService: WizardStorageService, private inquiryService: InquiryService, private commonService: CommonService) { }
 
   ngOnInit() {
+    this.theme = this.mode == this.modes.Edit ? this.themes.Read : this.themes.Preview;
     if (this.route.snapshot.data.resolved.inquiryId) {
       this.currentEducationPlaceService.getByInquiry(this.route.snapshot.data.resolved.inquiryId)
         .pipe(takeUntil(this.ngUnsubscribe))

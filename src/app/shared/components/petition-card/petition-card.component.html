@@ -1,5 +1,5 @@
 <ng-container>
-  <app-inquiry-info-edit title="Ходатайство" (edit)="edit()">
+  <app-inquiry-info-edit title="Ходатайство" (edit)="edit()" [theme]="themes.Read">
     <ng-container *ngIf="petition && petition.id">
       <div class="form-group">
         <b>Дата: </b> {{petition.dateCreate | date: "dd.MM.yyyy" }}

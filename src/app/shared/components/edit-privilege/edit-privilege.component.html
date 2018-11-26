@@ -1,7 +1,7 @@
 <form [formGroup]="privilegeForm" novalidate>
   <div class="row">
     <div class="col-md-6">
-      <app-inquiry-info-edit title="Тип льготы">
+      <app-inquiry-info-edit title="Тип льготы" [theme]="themes.Default">
         <div class="form-group">
           <mat-checkbox formControlName="withoutPrivilege">Без льготы</mat-checkbox>
           <div *ngIf="formErrors.withoutPrivilege" class="alert alert-danger">

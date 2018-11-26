@@ -1,5 +1,5 @@
-<app-inquiry-info-edit [title]="title">
-  <form [formGroup]="confirmationDocumentForm">
+<app-inquiry-info-edit [title]="title" [theme]="themes.Default">
+  <form [formGroup]="confirmationDocumentForm" >
     <mat-form-field>
       <input matInput formControlName="name" placeholder="Название документа">
     </mat-form-field>

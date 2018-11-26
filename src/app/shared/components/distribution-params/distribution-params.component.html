@@ -1,4 +1,4 @@
-<app-inquiry-info-edit title="Параметры комплектования">
+<app-inquiry-info-edit title="Параметры комплектования" [theme]="themes.Default">
   <form [formGroup]="inquiryInfoForm" novalidate>
     <mat-form-field>
       <mat-select formControlName="wishDate" placeholder="Желаемая дата зачисления">

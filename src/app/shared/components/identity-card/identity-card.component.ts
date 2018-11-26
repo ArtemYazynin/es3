@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnDestroy
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Subject, Observable } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import { Entity, FormService, IdentityCard, IdentityCardChangeHandler, IdentityCardService, IdentityCardType } from '../../index';
+import { Entity, FormService, IdentityCard, IdentityCardChangeHandler, IdentityCardService, IdentityCardType, Theme } from '../../index';
 
 @Component({
   selector: 'app-identity-card',
@@ -15,6 +15,7 @@ export class IdentityCardComponent implements OnInit, OnDestroy {
   @Input() model: IdentityCard;
 
   private ngUnsubscribe: Subject<any> = new Subject();
+  themes = Theme;
   types: Array<Entity<number>> = [];
   $types: Observable<Array<Entity<number>>>;
   mask = {

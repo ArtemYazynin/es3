@@ -27,6 +27,16 @@ dt {
     opacity: 0.4;
 }
 
+.bg-light-blue #contentContainer .form-group:hover{
+    background-color: rgba(0, 123, 255, 0.09);
+} 
+.bg-light-green #contentContainer .form-group:hover{
+    background-color: rgba(40, 167, 69, 0.09);
+} 
+#contentContainer {
+    padding: 16px;
+}
+
 .radio-group {
     display: inline-flex;
     flex-direction: column;

@@ -1,8 +1,7 @@
 <div class="row">
   <div class="col-md-6">
-
-    <app-inquiry-info-edit title=" Необходимо прикрепить копии документов:">
-      <div class="alert alert-danger" role="alert">
+    <app-inquiry-info-edit title=" Необходимо прикрепить копии документов:" [theme]="themes.Alert">
+      <div>
         <ul>
           <li>Документ, удостоверяющий личность заявителя;</li>
           <li>Документ, удостоверяющий личность законного представителя ребёнка (если заявитель не является законным
@@ -30,10 +29,9 @@
         </ul>
       </div>
     </app-inquiry-info-edit>
-
   </div>
   <div class="col-md-6">
-    <app-inquiry-info-edit title="Прикрепленные документы:">
+    <app-inquiry-info-edit title="Прикрепленные документы:" [theme]="themes.Default">
       <div class="form-group alert alert-info" align="center">Размер одного файла не должен превышать 5мб.</div>
       <ng-container *ngFor="let item of bunchOfFileView; let i=index;">
         <div [hidden]="!isOldBrowser">
@@ -57,7 +55,7 @@
         документы</button>
       <br>
       <div class="form-group">
-          <mat-checkbox [(ngModel)]="inquiry.haveDigitalSignature">Документы подписаны электронной подписью</mat-checkbox>
+        <mat-checkbox [(ngModel)]="inquiry.haveDigitalSignature">Документы подписаны электронной подписью</mat-checkbox>
       </div>
     </app-inquiry-info-edit>
 
