@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnInit, OnDestroy } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material';
 import { ActivatedRoute } from '@angular/router';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
@@ -22,7 +22,7 @@ export class CurrentEducationPlaceCardComponent implements OnInit, OnDestroy {
   currentEducationPlace: CurrentEducationPlace;
   modes = BehaviorMode;
 
-  title="Текущее место обучения ребенка";
+  title = "Текущее место обучения ребенка";
   $institutionType: Observable<Entity<number>[]>
 
   constructor(private institutionService: InstitutionService, private route: ActivatedRoute, private dialog: MatDialog,
@@ -39,7 +39,7 @@ export class CurrentEducationPlaceCardComponent implements OnInit, OnDestroy {
           this.cdr.markForCheck();
         });
     } else {
-      this.currentEducationPlace = this.storageService.get(this.route.snapshot.data.resolved.inquiryType).currentEducationPlace;
+      this.currentEducationPlace = this.storageService.get(this.inquiryType).currentEducationPlace;
       this.$institutionType = this.institutionService.getTypes(this.currentEducationPlace.institutionType);
     }
   }
@@ -64,7 +64,7 @@ export class CurrentEducationPlaceCardComponent implements OnInit, OnDestroy {
             this.inquiryService.updateInquiryPropery(this.route.snapshot.data.resolved.inquiryId, updateCurrentPlace);
             this.cdr.markForCheck();
           })
-          this.cdr.markForCheck();
+        this.cdr.markForCheck();
       })
     this.dialog.open(EditCurrentEducationPlaceDialogComponent, this.commonService.getDialogConfig(config));
   }
