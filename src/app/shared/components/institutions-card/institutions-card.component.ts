@@ -1,10 +1,9 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material';
-import { Institution, Theme } from '../..';
 import { ActivatedRoute } from '@angular/router';
 import { BehaviorSubject, Subject } from 'rxjs';
 import { skip, takeUntil } from 'rxjs/operators';
-import { BehaviorMode, CommonService, InquiryService, Institution, SchoolClass } from '../..';
+import { BehaviorMode, CommonService, InquiryService, Institution, SchoolClass, Theme } from '../..';
 import { EditPreschoolInstitutionDialogComponent } from '../../../modules/inquiry/edit-preschool-institution-dialog/edit-preschool-institution-dialog.component';
 import { WizardStorageService } from '../../../modules/wizard/shared';
 import { InstitutionService } from '../../institution.service';
@@ -29,7 +28,7 @@ export class InstitutionsCardComponent implements OnInit {
   constructor(private route: ActivatedRoute, private institutionsService: InstitutionService, private cdr: ChangeDetectorRef, private storageService: WizardStorageService,
     private inquiryService: InquiryService, private dialog: MatDialog, private commonService: CommonService) { }
 
-  title="Предпочитаемые организации"
+  title = "Предпочитаемые организации"
   theme: Theme;
   themes = Theme;
 
