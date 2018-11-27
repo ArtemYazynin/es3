@@ -31,9 +31,8 @@
         <app-contact-info-card [mode]="modes.Read"></app-contact-info-card>
       </div>
       <div class="col-md-6">
-        <app-institutions-card [institutions]="inquiry.institutions" *ngIf="inquiry.type == inquiryTypes.preschool"></app-institutions-card>
-        <app-school-classes-card [schoolClasses]="inquiry.schoolClasses" [IsLearnEducCenter]="inquiry.IsLearnEducCenter"
-          *ngIf="inquiry.type == inquiryTypes.school"></app-school-classes-card>
+        <app-institutions-card *ngIf="inquiry.type == inquiryTypes.preschool"></app-institutions-card>
+        <app-school-classes-card *ngIf="inquiry.type == inquiryTypes.school"></app-school-classes-card>
       </div>
     </div>
     <div class="row">

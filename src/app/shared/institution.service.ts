@@ -4,6 +4,7 @@ import { map } from 'rxjs/operators';
 import { isNullOrUndefined } from 'util';
 import { SERVER_URL } from '../app.module';
 import { HttpInterceptor } from './http-interceptor';
+import { InquiryService } from './inquiry.service';
 import { InstitutionDataSourceService } from './institution-data-source.service';
 import { Entity } from './models/entity.model';
 import { Institution } from './models/institution.model';
@@ -11,7 +12,7 @@ import { Institution } from './models/institution.model';
 @Injectable()
 export class InstitutionService {
 
-  constructor(private http: HttpInterceptor, @Inject(SERVER_URL) private serverUrl, private dataSource: InstitutionDataSourceService) { }
+  constructor(private http: HttpInterceptor, @Inject(SERVER_URL) private serverUrl, private dataSource: InstitutionDataSourceService, private inquiryService: InquiryService) { }
 
   private api = {
     institutionsTypes: `${this.serverUrl}/institutionsTypes`,
@@ -29,8 +30,20 @@ export class InstitutionService {
     return this.dataSource.gets(params)
   }
 
-  getById(id: string): Observable<Institution> {
+  get(id: string): Observable<Institution> {
     if (!id) return Observable.create();
     return this.dataSource.get(id);
+  }
+
+  getByInquiry(id: string): Observable<Array<Institution>> {
+    return this.inquiryService.get(id).pipe(map(x => Institution.cast(x.institutions)));
+  }
+
+  update(id: string, institution: Institution): Observable<Institution> {
+    return this.dataSource.put(id, institution);
+  }
+
+  create(institution: Institution): Observable<Institution> {
+    return this.dataSource.post(institution);
   }
 }

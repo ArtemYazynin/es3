@@ -104,7 +104,7 @@ export class InquiryService {
     const institutions = (() => {
       return editInstitutionsComponent.selectedInstitutions;
     })();
-    if (editInstitutionsComponent.inquiry.type == "school")
+    if (editInstitutionsComponent.inquiryType == "school")
       update({ institutions: institutions });
     else {
       update({ schoolClasses: editInstitutionsComponent.selectedInstitutions, IsLearnEducCenter: IsLearnEducCenter });
@@ -158,9 +158,9 @@ export class InquiryService {
         Object.assign(data, { description: fileView.fileAttachment.description })
         return data;
       });
-    update({ 
+    update({
       haveDigitalSignature: editFileAttachmentsComponent.inquiry.haveDigitalSignature,
-      files:files
+      files: files
     })
   }
 
