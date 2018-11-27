@@ -28,7 +28,7 @@
 </ng-template>
 
 <ng-template #withEdit>
-  <app-inquiry-info-edit (edit)="edit()" [theme]="themes.Read">
+  <app-inquiry-info-edit (edit)="edit()" [theme]="themes.Read" title="Персональные данные">
     <ng-container *ngTemplateOutlet="fieldsTemplate">
     </ng-container>
   </app-inquiry-info-edit>
