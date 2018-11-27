@@ -31,6 +31,7 @@ import { SchoolInquiryInfoDialogComponent } from './school-inquiry-info-dialog/s
 import { InquiryCommonInfoComponent } from './shared/components/inquiry-common-info/inquiry-common-info.component';
 import { SpecHealthDialogComponent } from './spec-health-dialog/spec-health-dialog.component';
 import { EditPetitionComponent } from './shared/components/edit-petition/edit-petition.component';
+import { DialogButtonsComponent } from './dialog-buttons/dialog-buttons.component';
 
 @NgModule({
   imports: [
@@ -73,7 +74,7 @@ import { EditPetitionComponent } from './shared/components/edit-petition/edit-pe
   declarations: [PetitionCardComponent, InquiryReadComponent, InquiryCommonInfoComponent, RegisterSourcePipe,
     PrivilegeDialogComponent, EditPersonDialogComponent, PreschoolInquiryInfoDialogComponent, EditPreschoolInstitutionDialogComponent,
     ContactInfoDialogComponent, EditCurrentEducationPlaceDialogComponent, SchoolInquiryInfoDialogComponent,
-    EditChildrenDialogComponent, EditPetitionDialogComponent, PetitionTypePipe, RelationTypeDialogComponent, SpecHealthDialogComponent,EditPetitionComponent
+    EditChildrenDialogComponent, EditPetitionDialogComponent, PetitionTypePipe, RelationTypeDialogComponent, SpecHealthDialogComponent,EditPetitionComponent, DialogButtonsComponent
   ],
   entryComponents: [PrivilegeDialogComponent, EditPersonDialogComponent, PreschoolInquiryInfoDialogComponent, EditPreschoolInstitutionDialogComponent,
     ContactInfoDialogComponent, EditCurrentEducationPlaceDialogComponent,

@@ -12,6 +12,7 @@ import { InquiryService } from '../../inquiry.service';
 import { PersonType } from '../../person-type.enum';
 import { PersonService } from '../../person.service';
 import { PetitionService } from '../../petition.service.';
+import { Theme } from '../../models/theme.enum';
 
 @Component({
   selector: 'app-person-card',
@@ -27,6 +28,7 @@ export class PersonCardComponent implements OnInit, OnDestroy {
 
   modes = BehaviorMode;
   personTypes = PersonType;
+  themes = Theme;
   private ngUnsubscribe: Subject<any> = new Subject();
 
   constructor(public drawService: DrawService, private dialog: MatDialog, private commonService: CommonService,

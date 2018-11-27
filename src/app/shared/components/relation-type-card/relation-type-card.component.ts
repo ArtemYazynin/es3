@@ -1,5 +1,5 @@
 import { Component, OnInit, ChangeDetectionStrategy, Input, ChangeDetectorRef, OnDestroy } from '@angular/core';
-import { Parent, CommonService, InquiryService, ConfirmationDocument, BehaviorMode } from '../..';
+import { Parent, CommonService, InquiryService, ConfirmationDocument, BehaviorMode, Theme } from '../..';
 import { Subject, BehaviorSubject } from 'rxjs';
 import { skip, takeUntil } from 'rxjs/operators';
 import { ActivatedRoute } from '@angular/router';
@@ -20,12 +20,15 @@ export class RelationTypeCardComponent implements OnInit, OnDestroy {
   private ngUnsubscribe: Subject<any> = new Subject();
   title = "Родственная связь";
   modes = BehaviorMode;
+  themes = Theme;
+  theme:Theme;
   $parentRepresentChildrenDocument: BehaviorSubject<ConfirmationDocument>;
 
   constructor(private route: ActivatedRoute, private dialog: MatDialog, private cdr: ChangeDetectorRef, private commonService: CommonService,
     private personService: PersonService, private inquiryService: InquiryService) { }
 
   ngOnInit() {
+    this.theme = this.mode == this.modes.Edit ? Theme.Read : Theme.Preview;
     this.$parentRepresentChildrenDocument = new BehaviorSubject<ConfirmationDocument>(this.model.parentRepresentChildrenDocument);
     this.$parentRepresentChildrenDocument
       .pipe(skip(1), takeUntil(this.ngUnsubscribe))

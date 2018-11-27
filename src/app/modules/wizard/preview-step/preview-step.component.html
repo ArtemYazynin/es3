@@ -1,53 +1,53 @@
-<div class="container col-md-12">
-  <app-inquiry-info-edit title="Предпросмотр заявления">
-    <div class="row">
-      <div class="col-6" *ngIf="inquiry.applicant">
-        <app-inquiry-info-edit title="Доверенное лицо законного представителя ребенка">
-          <app-person-card [entity]="$applicant" [personType]="personTypes.Applicant" [mode]="modes.Read"></app-person-card>
-          <app-citizenships-card [model]="inquiry.applicant" [personType]="personTypes.Applicant" [mode]="modes.Read"
-            [applicantType]="inquiry.applicantType"></app-citizenships-card>
-          <app-confirmation-document-card title="Документ, подтверждающий полномочие доверенного лица представлять интересы законного представителя"
-            [model]="$applicantRepresentParentDocument" [mode]="modes.Read">
-          </app-confirmation-document-card>
-        </app-inquiry-info-edit>
-      </div>
-      <div class="col-6" *ngIf="inquiry.parent">
-        <app-inquiry-info-edit title="Законный представитель">
-          <app-person-card [entity]="$parent" [personType]="personTypes.Parent" [mode]="modes.Read"></app-person-card>
-          <app-citizenships-card [model]="inquiry.parent" [personType]="personTypes.Parent" [applicantType]="inquiry.applicantType"></app-citizenships-card>
-          <app-relation-type-card [model]="inquiry.parent" [mode]="modes.Read"></app-relation-type-card>
-        </app-inquiry-info-edit>
-      </div>
+<ng-container>
+  <div class="h4 bb pb-2">Предпросмотр заявления</div>
+  <div class="row">
+    <div class="col-6" *ngIf="inquiry.applicant">
+      <app-inquiry-info-edit title="Доверенное лицо законного представителя ребенка" [theme]="themes.Preview">
+        <app-person-card [entity]="$applicant" [personType]="personTypes.Applicant" [mode]="modes.Read"></app-person-card>
+        <app-citizenships-card [model]="inquiry.applicant" [personType]="personTypes.Applicant" [mode]="modes.Read"
+          [applicantType]="inquiry.applicantType"></app-citizenships-card>
+        <app-confirmation-document-card title="Документ, подтверждающий полномочие доверенного лица представлять интересы законного представителя"
+          [model]="$applicantRepresentParentDocument" [mode]="modes.Read">
+        </app-confirmation-document-card>
+      </app-inquiry-info-edit>
     </div>
-    <app-children-card [children]="children" [mode]="modes.Read" [inquiryType]="inquiry.type" [specHealth]="inquiry.specHealth"></app-children-card>
-    <ng-container [ngSwitch]="inquiry.type">
-      <app-preschool-inquiry-info-card [mode]="modes.Read" *ngSwitchCase="inquiryTypes.preschool"></app-preschool-inquiry-info-card>
-      <app-school-inquiry-info-card [mode]="modes.Read" *ngSwitchCase="inquiryTypes.school"></app-school-inquiry-info-card>
-    </ng-container>
+    <div class="col-6" *ngIf="inquiry.parent">
+      <app-inquiry-info-edit title="Законный представитель" [theme]="themes.Preview">
+        <app-person-card [entity]="$parent" [personType]="personTypes.Parent" [mode]="modes.Read"></app-person-card>
+        <app-citizenships-card [model]="inquiry.parent" [personType]="personTypes.Parent" [applicantType]="inquiry.applicantType"></app-citizenships-card>
+        <app-relation-type-card [model]="inquiry.parent" [mode]="modes.Read"></app-relation-type-card>
+      </app-inquiry-info-edit>
+    </div>
+  </div>
+  <app-children-card [children]="children" [mode]="modes.Read" [inquiryType]="inquiry.type" [specHealth]="inquiry.specHealth"></app-children-card>
+  <ng-container [ngSwitch]="inquiry.type">
+    <app-preschool-inquiry-info-card [mode]="modes.Read" *ngSwitchCase="inquiryTypes.preschool"></app-preschool-inquiry-info-card>
+    <app-school-inquiry-info-card [mode]="modes.Read" *ngSwitchCase="inquiryTypes.school"></app-school-inquiry-info-card>
+  </ng-container>
 
 
-    <div class="row">
-      <div class="col-md-6">
-        <app-contact-info-card [mode]="modes.Read"></app-contact-info-card>
-      </div>
-      <div class="col-md-6">
-        <app-institutions-card *ngIf="inquiry.type == inquiryTypes.preschool"></app-institutions-card>
-        <app-school-classes-card *ngIf="inquiry.type == inquiryTypes.school"></app-school-classes-card>
-      </div>
+  <div class="row">
+    <div class="col-md-6">
+      <app-contact-info-card [mode]="modes.Read"></app-contact-info-card>
     </div>
-    <div class="row">
-      <div class="col-md-6">
+    <div class="col-md-6">
+      <app-institutions-card [institutions]="inquiry.institutions" *ngIf="inquiry.type == inquiryTypes.preschool"></app-institutions-card>
+      <app-school-classes-card [schoolClasses]="inquiry.schoolClasses" [IsLearnEducCenter]="inquiry.IsLearnEducCenter"
+        *ngIf="inquiry.type == inquiryTypes.school"></app-school-classes-card>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-6">
         <app-current-education-place-card [mode]="modes.Read" [inquiryType]="inquiry.type"></app-current-education-place-card>
-      </div>
-      <div class="col-md-6">
-        <app-privilege-card [model]="inquiry?.privilege"></app-privilege-card>
-      </div>
     </div>
-    <div class="row">
-      <div class="col-md-12">
-        <app-files-card [mode]="modes.Read"></app-files-card>
-      </div>
+    <div class="col-md-6">
+      <app-privilege-card [model]="inquiry?.privilege"></app-privilege-card>
     </div>
-  </app-inquiry-info-edit>
+  </div>
+  <div class="row">
+    <div class="col-md-12">
+      <app-files-card [mode]="modes.Read"></app-files-card>
+    </div>
+  </div>
   <app-routing-buttons [config]="config" [isValid]="true"></app-routing-buttons>
-</div>
+</ng-container>

@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, Input, OnInit, OnDestroy, ChangeDetectorRef } from '@angular/core';
-import { FilesInfo, FileAttachment, BehaviorMode, CommonService, InquiryService, Inquiry } from '../..';
+import { FilesInfo, FileAttachment, BehaviorMode, CommonService, InquiryService, Inquiry, Theme } from '../..';
 import { Subject, BehaviorSubject } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
 import { WizardStorageService } from '../../../modules/wizard/shared';
@@ -19,6 +19,8 @@ export class FilesCardComponent implements OnInit, OnDestroy {
   @Input() mode: BehaviorMode;
   private ngUnsubscribe: Subject<any> = new Subject();
   modes = BehaviorMode; 
+  theme:Theme;
+  themes = Theme;
   inquiry: Inquiry;
 
   constructor(private route: ActivatedRoute, private storageService: WizardStorageService, private dialog: MatDialog,
@@ -26,6 +28,7 @@ export class FilesCardComponent implements OnInit, OnDestroy {
     private inquiryService: InquiryService) { }
 
   ngOnInit() {
+    this.theme = this.mode == this.modes.Edit ? this.themes.Read : this.themes.Preview;
     if (this.route.snapshot.data.resolved.inquiryId) {
       this.inquiryService.get(this.route.snapshot.data.resolved.inquiryId)
         .pipe(takeUntil(this.ngUnsubscribe))

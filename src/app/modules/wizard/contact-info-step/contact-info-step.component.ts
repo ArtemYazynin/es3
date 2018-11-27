@@ -11,7 +11,7 @@ import { StepBase, WizardStorageService } from '../shared';
   styleUrls: ['./contact-info-step.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ContactInfoStepComponent implements OnInit, StepBase {
+export class ContactInfoStepComponent implements OnInit {
   @ViewChild(EditContactInfoComponent) editContactInfoComponent: EditContactInfoComponent;
   inquiryType = this.route.snapshot.data.resolved.inquiryType;
   inquiry: Inquiry;

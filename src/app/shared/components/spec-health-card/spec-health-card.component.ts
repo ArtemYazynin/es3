@@ -8,6 +8,7 @@ import { esConstant } from '../../../app.module';
 import { MatDialog } from '@angular/material';
 import { SpecHealthDialogComponent } from '../../../modules/inquiry/spec-health-dialog/spec-health-dialog.component';
 import { WizardStorageService } from '../../../modules/wizard/shared';
+import { Theme } from '../../models/theme.enum';
 
 @Component({
   selector: 'app-spec-health-card',
@@ -22,6 +23,7 @@ export class SpecHealthCardComponent implements OnInit, OnDestroy, AfterViewInit
 
   private ngUnsubscribe: Subject<any> = new Subject();
   modes = BehaviorMode;
+  themes = Theme;
   title = "Специализация по здоровью"
   specHealth: SpecHealth;
   constructor(private specHealthService: SpecHealthService, private inquiryService: InquiryService, private route: ActivatedRoute, private storageService: WizardStorageService,

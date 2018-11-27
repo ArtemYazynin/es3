@@ -89,7 +89,7 @@
     line-height: inherit;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    content: "\F156";
+    /* content: "\F156"; */
     cursor: pointer;
     position: absolute;
     top: -2px;
@@ -294,6 +294,7 @@ body {
 .bb{
     border-bottom: 1px solid #ccc;
 }
+
 .form-group .btn{
     border-radius: 0 !important;
     position: relative;

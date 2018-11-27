@@ -14,8 +14,9 @@
     color: #444444 !important
 }
 
-
-
+.mat-form-field{
+    width: 90%;
+}
 
 dt {
     white-space: normal !important;
@@ -26,9 +27,16 @@ dt {
     opacity: 0.4;
 }
 
-.full-width{
-    width: 90%;
+.bg-light-blue #contentContainer .form-group:hover{
+    background-color: rgba(0, 123, 255, 0.09);
+} 
+.bg-light-green #contentContainer .form-group:hover{
+    background-color: rgba(40, 167, 69, 0.09);
+} 
+#contentContainer {
+    padding: 16px;
 }
+
 .radio-group {
     display: inline-flex;
     flex-direction: column;

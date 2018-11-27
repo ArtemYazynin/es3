@@ -17,14 +17,14 @@
 </ng-template>
 
 <ng-template #withEdit>
-  <app-inquiry-info-edit title="Контактная информация" (edit)="edit()">
+  <app-inquiry-info-edit [title]="title" (edit)="edit()" [theme]="theme">
     <ng-container *ngTemplateOutlet="fieldsTemplate">
     </ng-container>
   </app-inquiry-info-edit>
 </ng-template>
 
 <ng-template #withoutEdit>
-  <app-inquiry-info-edit title="Контактная информация">
+  <app-inquiry-info-edit [title]="title" [theme]="theme">
     <ng-container *ngTemplateOutlet="fieldsTemplate">
     </ng-container>
   </app-inquiry-info-edit>

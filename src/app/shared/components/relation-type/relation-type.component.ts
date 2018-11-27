@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Subscription } from 'rxjs';
-import { Parent, RelationType, RelationTypeService } from '../../index';
+import { Parent, RelationType, RelationTypeService, Theme } from '../../index';
 import { AttachmentType } from '../../models/attachment-type.enum';
 import { EditConfirmationDocumentComponent } from '../edit-confirmation-document/edit-confirmation-document.component';
 
@@ -16,6 +16,7 @@ export class RelationTypeComponent implements OnInit, OnDestroy {
   private subscription: Subscription;
   relationTypes: Array<RelationType> = [];
   attachmentTypes = AttachmentType;
+  themes = Theme;
 
   constructor(private relationTypeService: RelationTypeService, private cdr: ChangeDetectorRef) { }
 

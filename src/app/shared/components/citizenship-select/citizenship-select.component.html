@@ -1,4 +1,4 @@
-<app-inquiry-info-edit title="Гражданство">
+<app-inquiry-info-edit title="Гражданство" [theme]="themes.Default">
     <div class="form-group">
       <label for="citizenship">Гражданство
         <b style="color: red;">*</b>
@@ -13,8 +13,5 @@
           </ng-select>
         </div>
       </div>
-    </div>
-    <div class="alert-info">
-      CITIZENSHIPS: {{citizenships}}
     </div>
   </app-inquiry-info-edit>

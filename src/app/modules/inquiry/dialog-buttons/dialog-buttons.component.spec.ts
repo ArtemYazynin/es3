@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { FullNameComponent } from './full-name.component';
+import { DialogButtonsComponent } from './dialog-buttons.component';
 
-describe('FullNameComponent', () => {
-  let component: FullNameComponent;
-  let fixture: ComponentFixture<FullNameComponent>;
+describe('DialogButtonsComponent', () => {
+  let component: DialogButtonsComponent;
+  let fixture: ComponentFixture<DialogButtonsComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ FullNameComponent ]
+      declarations: [ DialogButtonsComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(FullNameComponent);
+    fixture = TestBed.createComponent(DialogButtonsComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

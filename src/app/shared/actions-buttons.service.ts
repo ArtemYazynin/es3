@@ -152,7 +152,7 @@ export class ActionsButtonsService {
                     this.router.navigate(["../educDocumentInfoStep"], { relativeTo: route });
                     break;
                 case inquiryType.preschool:
-                    this.router.navigate(["../inquiryInfoStep"], { relativeTo: route });
+                    this.router.navigate(["../preschoolInquiryInfoStep"], { relativeTo: route });
                     break;
                 case inquiryType.school:
                     this.router.navigate(["../schoolInquiryInfoStep"], { relativeTo: route });

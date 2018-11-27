@@ -1,36 +1,38 @@
 <div *ngIf="$inquiry | async as inquiry">
   <div class="row">
     <div class="col-md-12">
-      <app-inquiry-info-edit title="Заявление {{inquiry.number}}">
-        <div class="row">
-          <div class="col-md-6">
-            <h4>Заявление в {{inquiry.typeFriendlyName}}</h4>
-            <app-inquiry-common-info [inquiry]="inquiry">
-              <div class="form-group">
-                <b>Заявление на перевод</b>Нет
-              </div>
-              <div class="form-group">
-                <b>Доп. информация</b>{{inquiry.addInformation}}
-              </div>
-            </app-inquiry-common-info>
+      <ng-container>
+        <div class="h4 bb pb-2">Заявление №{{inquiry.number}}</div>
+        <app-inquiry-info-edit title="Заявление в {{inquiry.type | inquiryTypeFriendlyName}}" [theme]="themes.Read">
+          <div class="row">
+            <div class="col-md-6">
+              <app-inquiry-common-info [inquiry]="inquiry">
+                <div class="form-group">
+                  <b>Заявление на перевод</b>Нет
+                </div>
+                <div class="form-group">
+                  <b>Доп. информация</b>{{inquiry.addInformation}}
+                </div>
+              </app-inquiry-common-info>
+            </div>
           </div>
-        </div>
-        <div class="button-row" [formGroup]="statusForm">
-          <mat-form-field style="width: 70%">
-            <mat-select placeholder="Перевести в статус" formControlName="status" #status>
-              <mat-option *ngFor="let status of statuses" [value]="status.id">
-                {{status.name}}
-              </mat-option>
-            </mat-select>
-          </mat-form-field>
-          <button type="button" class="btn btn-primary" (click)="changeStatus(status.value)">Выполнить</button>
-        </div>
-      </app-inquiry-info-edit>
+          <div class="button-row" [formGroup]="statusForm">
+            <mat-form-field style="width: 70%">
+              <mat-select placeholder="Перевести в статус" formControlName="status" #status>
+                <mat-option *ngFor="let status of statuses" [value]="status.id">
+                  {{status.name}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+            <button type="button" class="btn btn-primary" (click)="changeStatus(status.value)">Выполнить</button>
+          </div>
+        </app-inquiry-info-edit>
+      </ng-container>
     </div>
   </div>
   <div class="row">
     <div class="col-md-6" *ngIf="inquiry.applicant">
-      <app-inquiry-info-edit title="Доверенное лицо законного представителя ребенка">
+      <app-inquiry-info-edit title="Доверенное лицо законного представителя ребенка" [theme]="themes.Read">
         <app-person-card [entity]="$applicant" [personType]="personTypes.Applicant" [mode]="modes.Edit"></app-person-card>
         <app-citizenships-card [model]="inquiry.applicant" [mode]="modes.Edit" [personType]="personTypes.Applicant"
           [applicantType]="inquiry.applicantType">
@@ -41,7 +43,7 @@
       </app-inquiry-info-edit>
     </div>
     <div class="col-md-6" *ngIf="inquiry.parent">
-      <app-inquiry-info-edit title="Законный представитель">
+      <app-inquiry-info-edit title="Законный представитель" [theme]="themes.Read">
         <app-person-card [entity]="$parent" [personType]="personTypes.Parent" [mode]="modes.Edit"></app-person-card>
         <app-citizenships-card [model]="inquiry.parent" [mode]="modes.Edit" [personType]="personTypes.Parent"
           [applicantType]="inquiry.applicantType"> </app-citizenships-card>

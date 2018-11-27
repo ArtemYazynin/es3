@@ -1,6 +1,6 @@
-<div class="container col-md-12">
-  <app-inquiry-info-edit title="Копии документов">
-    <app-edit-file-attachments [inquiry]="inquiry">
-    </app-edit-file-attachments>
-  </app-inquiry-info-edit>
+<ng-container>
+  <div class="h4 bb pb-2">Копии документов</div>
+  <app-edit-file-attachments [inquiry]="inquiry">
+  </app-edit-file-attachments>
   <app-routing-buttons [config]="config" [isValid]="isValid()"></app-routing-buttons>
+</ng-container>

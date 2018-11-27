@@ -4,13 +4,10 @@ import { MatDialog } from '@angular/material';
 import { ActivatedRoute } from '@angular/router';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { map, skip, takeUntil } from 'rxjs/operators';
-import { Applicant, ApplicantType, BehaviorMode, Child, CitizenshipService, CommonService, ConfirmationDocument, Country, Entity, Inquiry, InquiryService, inquiryType, InstitutionService, Parent, PrivilegeOrder, PrivilegeOrderService, Specificity, SpecificityService, Status, StatusService } from '../../../shared/index';
+import { Applicant, ApplicantType, BehaviorMode, Child, CitizenshipService, CommonService, ConfirmationDocument, Country, Entity, Inquiry, InquiryService, inquiryType, InstitutionService, Parent, PrivilegeOrder, PrivilegeOrderService, Specificity, SpecificityService, Status, StatusService, Theme } from '../../../shared/index';
 import { PersonType } from '../../../shared/person-type.enum';
 import { EditCurrentEducationPlaceDialogComponent } from '../edit-current-education-place-dialog/edit-current-education-place-dialog.component';
-import { EditFileAttachmentsDialogComponent } from '../edit-file-attachments-dialog/edit-file-attachments-dialog.component';
-import { EditPersonDialogComponent } from '../edit-person-dialog/edit-person-dialog.component';
 import { EditPreschoolInstitutionDialogComponent } from '../edit-preschool-institution-dialog/edit-preschool-institution-dialog.component';
-import { PreschoolInquiryInfoDialogComponent } from '../preschool-inquiry-info-dialog/preschool-inquiry-info-dialog.component';
 
 @Component({
   selector: 'app-inquiry-read',
@@ -29,8 +26,8 @@ export class InquiryReadComponent implements OnInit, OnDestroy {
   specificity: Observable<Specificity>;
   $institutionType: Observable<Entity<number>>;
 
-  inquiryTypeFriendlyName: string;
   applicantTypes = ApplicantType;
+  themes = Theme;
   statusForm: FormGroup;
   modes = BehaviorMode;
   $applicantRepresentParentDocument: BehaviorSubject<ConfirmationDocument>;

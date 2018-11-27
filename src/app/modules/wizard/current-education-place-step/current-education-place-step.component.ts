@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ButtonsTitles, ConfigsOfRoutingButtons, Inquiry } from '../../../shared';
+import { ButtonsTitles, ConfigsOfRoutingButtons, Inquiry, Theme } from '../../../shared';
 import { ActionsButtonsService } from '../../../shared/actions-buttons.service';
 import { EditCurrentEducationPlaceComponent } from '../../inquiry/shared/components/edit-current-education-place/edit-current-education-place.component';
 import { StepBase, WizardStorageService } from '../shared';
@@ -16,6 +16,7 @@ export class CurrentEducationPlaceStepComponent implements OnInit, StepBase {
   inquiry: Inquiry;
   inquiryType = this.route.snapshot.data.resolved.inquiryType;
   config: ConfigsOfRoutingButtons;
+  themes = Theme;
 
   constructor(private route: ActivatedRoute, private router: Router, private storageService: WizardStorageService, private actionsButtonsService: ActionsButtonsService) { }
 

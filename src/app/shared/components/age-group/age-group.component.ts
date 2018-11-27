@@ -1,5 +1,6 @@
 import { Component, OnInit, ViewChild, ChangeDetectionStrategy } from '@angular/core';
 import { AtLeastOneCheckboxShouldBeSelectedComponent } from '../at-least-one-checkbox-should-be-selected/at-least-one-checkbox-should-be-selected.component';
+import { Theme } from '../..';
 
 @Component({
   selector: 'app-age-group',
@@ -14,6 +15,7 @@ export class AgeGroupComponent implements OnInit {
     { key: 'IsSearchSelfAge', text: 'Своя возрастная группа' },
     { key: 'IsSearchOlderAge', text: 'Старшая возрастная группа' },
   ];
+  themes = Theme;
   constructor() { }
 
   ngOnInit() {

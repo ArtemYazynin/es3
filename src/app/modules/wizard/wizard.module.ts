@@ -10,7 +10,6 @@ import { MaterialModule } from '../../material.module';
 import { ShareModule } from '../../share.module';
 import { AddressService, AreaService, CitizenshipService, CommonService, DrawService, EnumToArrayPipe, FormService, GroupService, IdentityCardService, IdentityCardTypePipe, PrivilegeOrderService, PrivilegeService, RelationTypeService, SettingsService, SpecHealthService, SpecificityService } from '../../shared';
 import { ActionsButtonsService } from '../../shared/actions-buttons.service';
-import { ConfirmDialogComponent } from '../../shared/components/confirm-dialog/confirm-dialog.component';
 import { HttpInterceptor } from '../../shared/http-interceptor';
 import { RegisterCompleteResolver } from '../../shared/register-complete-resolver';
 import { ApplicantStepComponent } from '../wizard/applicant-step/applicant-step.component';
@@ -59,7 +58,6 @@ import { WizardRoutingModule } from './wizard-routing-module';
 
     PreviewPrivilegeComponent,
     PreviewFilesComponent,
-    ConfirmDialogComponent,
     RegisterCompleteComponent
 
   ],
@@ -104,6 +102,6 @@ import { WizardRoutingModule } from './wizard-routing-module';
     AddressService,
     ActionsButtonsService
   ],
-  entryComponents: [ChildComponent, ConfirmDialogComponent], //динамически добавляемые компоненты ViewContainerRef.createComponent()
+  entryComponents: [ChildComponent], //динамически добавляемые компоненты ViewContainerRef.createComponent()
 })
 export class WizardModule { }

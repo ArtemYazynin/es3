@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnDestroy
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import { FormService, Specificity, SpecificityService } from '../..';
+import { FormService, Specificity, SpecificityService, Theme } from '../..';
 import { DistributionParams } from '../../models/distribution-params.model';
 
 @Component({
@@ -17,6 +17,7 @@ export class DistributionParamsComponent implements OnInit, OnDestroy {
   private ngUnsubscribe: Subject<any> = new Subject();
   inquiryInfoForm: FormGroup;
   groupOfSpecificity: Array<Specificity>;
+  themes = Theme;
   formErrors = {
     wishDate: "",
     specificity: "",

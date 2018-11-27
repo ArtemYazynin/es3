@@ -1,7 +1,7 @@
 <ng-template #fieldsTemplate>
   <div class="row" *ngIf="inquiryInfo && inquiryInfo.distributionParams">
     <div class="col-md-4">
-      <app-inquiry-info-edit title="Параметры комплектования">
+      <app-inquiry-info-edit title="Параметры комплектования" [theme]="theme">
         <div class="form-group">
           <b>Желаемая дата зачисления </b> {{inquiryInfo.distributionParams.wishDate}}
         </div>
@@ -19,7 +19,7 @@
       </app-inquiry-info-edit>
     </div>
     <div class="col-md-4">
-      <app-inquiry-info-edit title="Режим пребывания">
+      <app-inquiry-info-edit title="Режим пребывания" [theme]="theme">
         <ul>
           <li *ngIf="inquiryInfo.stayMode.IsFullStay"> Полный день (10,5-12 часов) </li>
           <li *ngIf="inquiryInfo.stayMode.IsNightStay"> Круглосуточного пребывания (24 часа) </li>
@@ -30,7 +30,7 @@
       </app-inquiry-info-edit>
     </div>
     <div class="col-md-4">
-      <app-inquiry-info-edit title="Возрастная группа">
+      <app-inquiry-info-edit title="Возрастная группа" [theme]="theme">
         <ul>
           <li *ngIf="inquiryInfo.ageGroup.IsSearchYoungerAge"> Младшая возрастная группа </li>
           <li *ngIf="inquiryInfo.ageGroup.IsSearchSelfAge"> Своя возрастная группа </li>
@@ -42,14 +42,14 @@
 </ng-template>
 
 <ng-template #withEdit>
-  <app-inquiry-info-edit [title]="esConstant.inquiryInfoTitle" (edit)="edit()">
+  <app-inquiry-info-edit [title]="esConstant.inquiryInfoTitle" (edit)="edit()" [theme]="theme">
     <ng-container *ngTemplateOutlet="fieldsTemplate">
     </ng-container>
   </app-inquiry-info-edit>
 </ng-template>
 
 <ng-template #withoutEdit>
-  <app-inquiry-info-edit [title]="esConstant.inquiryInfoTitle">
+  <app-inquiry-info-edit [title]="esConstant.inquiryInfoTitle" [theme]="theme">
     <ng-container *ngTemplateOutlet="fieldsTemplate">
     </ng-container>
   </app-inquiry-info-edit>

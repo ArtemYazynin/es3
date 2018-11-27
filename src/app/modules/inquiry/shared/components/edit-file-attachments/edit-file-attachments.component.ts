@@ -3,7 +3,7 @@ import { from, fromEvent, Observable, Subject } from 'rxjs';
 import { filter, map, takeUntil } from 'rxjs/operators';
 import { isNullOrUndefined } from 'util';
 import { esConstant } from '../../../../../app.module';
-import { ApplicantType, AttachmentType, CommonService, FileAttachment, FileView, Inquiry } from '../../../../../shared';
+import { ApplicantType, AttachmentType, CommonService, FileAttachment, FileView, Inquiry, Theme } from '../../../../../shared';
 
 @Component({
   selector: 'app-edit-file-attachments',
@@ -16,6 +16,7 @@ export class EditFileAttachmentsComponent implements OnInit, AfterViewInit, OnDe
 
   private ngUnsubscribe: Subject<any> = new Subject();
 
+  themes = Theme;
   attachmentType = AttachmentType;
   maxFilesCount = 10;
   bunchOfFileView: Array<FileView> = [];

@@ -1,6 +1,5 @@
-<div class="container col-md-12">
-  <app-inquiry-info-edit title="Контактная информация">
-    <app-edit-contact-info [contactInfo]="inquiry?.contactInfo"></app-edit-contact-info>
-  </app-inquiry-info-edit>
+<ng-container>
+  <div class="h4 bb pb-2">Контактная информация и опции оповещения</div>
+  <app-edit-contact-info [contactInfo]="inquiry?.contactInfo"></app-edit-contact-info>
   <app-routing-buttons [config]="config" [isValid]="editContactInfoComponent.isValid()"></app-routing-buttons>
-</div>
+</ng-container>

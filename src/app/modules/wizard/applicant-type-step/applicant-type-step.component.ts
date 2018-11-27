@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ApplicantType, ButtonsTitles, ConfigsOfRoutingButtons, Inquiry, inquiryType } from '../../../shared/index';
+import { ApplicantType, ButtonsTitles, ConfigsOfRoutingButtons, Inquiry, inquiryType, Theme } from '../../../shared/index';
 import { StepBase, WizardStorageService } from '../shared/index';
 import { ActionsButtonsService } from '../../../shared/actions-buttons.service';
 
@@ -18,6 +18,7 @@ export class ApplicantTypeStepComponent implements OnInit, StepBase {
   applicantType: ApplicantType;
   applicantTypes: Array<ApplicantType> = [];
   buttonsTitles = ButtonsTitles;
+  themes = Theme;
 
   constructor(private storageService: WizardStorageService, private actionButtonService: ActionsButtonsService,
     private router: Router,

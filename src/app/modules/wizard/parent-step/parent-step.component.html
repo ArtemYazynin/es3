@@ -3,17 +3,12 @@
   <app-edit-person [model]="inquiry?.parent" [personType]="personTypes.Parent"></app-edit-person>
   <app-edit-citizenships [model]="inquiry?.parent" [personType]="personTypes.Parent" [applicantType]="inquiry.applicantType"></app-edit-citizenships>
   <app-relation-type [owner]="inquiry?.parent"></app-relation-type>
-  <div class="form-group">
-    <label class="control-label"></label>
-    <div class="controls">
-      <div class="checkbox">
-        <mat-checkbox [(ngModel)]="agree">Заявителем дано согласие на обработку персональных данных</mat-checkbox>
-        <b style="color: red;">*</b>
-        <a title="Печать согласия на обработку персональных данных">
-          <i class="mdi mdi-printer"></i>
-        </a>
-      </div>
-    </div>
-  </div>
+  <app-inquiry-info-edit>
+      <mat-checkbox [(ngModel)]="agree">Заявителем дано согласие на обработку персональных данных</mat-checkbox>
+      <b style="color: red;">*</b>
+      <a title="Печать согласия на обработку персональных данных">
+        <i class="mdi mdi-printer"></i>
+      </a>
+  </app-inquiry-info-edit>
   <app-routing-buttons [config]="config" [isValid]="isValid()"></app-routing-buttons>
 </ng-container>

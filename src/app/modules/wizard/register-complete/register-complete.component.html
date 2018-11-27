@@ -1,9 +1,17 @@
-<div class="container col-md-12">
-  <app-inquiry-info-edit title="Регистрация заявления">
+<section class="content px-3">
+  <div class="container-fluid text-center">
+    <div class="h2">Статус обработки заявления</div>
     <div class="row">
-      <div class="col-md-12">
-        <span>Заявление успешно зарегистрировано под номером 46205/ЗЗ/18091115</span>
+      <div class="mt-3 col-lg-4 col-md-6 col-sm-12 mx-auto">
+        <div class="p-3">
+          <div class="h1"><i class="mdi mdi-checkbox-marked-circle-outline"></i></div>
+          <div class="h4 pb-2">Поздравляем! Ваше заявление успешно зарегистрировано!</div>
+          <h3 class="alert-success p-3">Номер вашего заявления: <b>46205/ЗЗ/18091115</b></h3>
+        </div>
+      </div>
+      <div class="text-center col-12 my-5">
+        <app-routing-buttons [config]="config" [isValid]="isValid()"></app-routing-buttons>
       </div>
     </div>
-  </app-inquiry-info-edit>
-  <app-routing-buttons [config]="config" [isValid]="isValid()"></app-routing-buttons>
+  </div>
+</section>

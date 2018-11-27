@@ -7,7 +7,7 @@ import { EditCitizenshipsDialogComponent } from '../../../modules/inquiry/edit-c
 import { ApplicantType } from '../../applicant-type.enum';
 import { CommonService } from '../../common.service';
 import { DrawService } from '../../draw.service';
-import { Applicant, CitizenshipService, BehaviorMode, Country, InquiryService, Parent } from '../../index';
+import { Applicant, CitizenshipService, BehaviorMode, Country, InquiryService, Parent, Theme } from '../../index';
 import { Child } from '../../models/child.model';
 import { ConfirmationDocument } from '../../models/confirmation-document.model';
 import { PersonType } from '../../person-type.enum';
@@ -31,12 +31,15 @@ export class CitizenshipsCardComponent implements OnInit, OnDestroy {
   modes = BehaviorMode;
   personTypes = PersonType;
   documentTitle: string;
+  themes = Theme;
+  theme: Theme;
 
   constructor(public drawService: DrawService, private citizenshipService: CitizenshipService, private dialog: MatDialog,
     private commonService: CommonService, private inquiryService: InquiryService, private route: ActivatedRoute,
     private cdr: ChangeDetectorRef) { }
 
   ngOnInit() {
+    this.theme = this.mode == this.modes.Edit ? this.themes.Read : this.themes.Preview;
     switch (this.personType) {
       case PersonType.Parent:
         this.$document = new BehaviorSubject<ConfirmationDocument>((this.model as Parent).countryStateDocument);

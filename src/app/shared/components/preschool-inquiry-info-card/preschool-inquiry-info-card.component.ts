@@ -3,7 +3,7 @@ import { MatDialog } from "@angular/material";
 import { ActivatedRoute } from "@angular/router";
 import { BehaviorSubject, of, Subject } from "rxjs";
 import { skip, takeUntil } from "rxjs/operators";
-import { BehaviorMode, CommonService, InquiryInfo, InquiryService } from "../..";
+import { BehaviorMode, CommonService, InquiryInfo, InquiryService, Theme } from "../..";
 import { esConstant } from "../../../app.module";
 import { InquiryInfoService } from "../../../inquiry-info.service";
 import { PreschoolInquiryInfoDialogComponent } from "../../../modules/inquiry/preschool-inquiry-info-dialog/preschool-inquiry-info-dialog.component";
@@ -21,6 +21,8 @@ export class PreschoolInquiryInfoCardComponent implements OnInit, OnDestroy {
 
   private ngUnsubscribe: Subject<any> = new Subject();
   modes = BehaviorMode;
+  theme:Theme;
+  themes = Theme;
   inquiryInfo: InquiryInfo;
 
   constructor(private route: ActivatedRoute, private storageService: WizardStorageService, private dialog: MatDialog,
@@ -29,6 +31,7 @@ export class PreschoolInquiryInfoCardComponent implements OnInit, OnDestroy {
 
 
   ngOnInit() {
+    this.theme = this.mode == this.modes.Edit ? this.themes.Read : this.themes.Preview;
     let observable = this.route.snapshot.data.resolved.inquiryId
       ? this.inquiryInfoService.getByInquiry(this.route.snapshot.data.resolved.inquiryId)
       : of(this.storageService.get(this.route.snapshot.data.resolved.inquiryType).inquiryInfo);

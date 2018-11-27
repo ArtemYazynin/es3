@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Observable, Subject } from 'rxjs';
 import { distinctUntilChanged, map, startWith, takeUntil } from 'rxjs/operators';
 import { isNullOrUndefined } from 'util';
-import { AttachmentType, CommonService, FormService, Inquiry, Privilege, PrivilegeOrder, PrivilegeOrderService, PrivilegeService } from '../..';
+import { AttachmentType, CommonService, FormService, Inquiry, Privilege, PrivilegeOrder, PrivilegeOrderService, PrivilegeService, Theme } from '../..';
 import { EditConfirmationDocumentComponent } from '../edit-confirmation-document/edit-confirmation-document.component';
 
 @Component({
@@ -34,6 +34,7 @@ export class EditPrivilegeComponent implements OnInit, AfterViewInit {
   compareObjects = this.commonService.compareObjects;
   displayFn = this.commonService.displayFn;
   attachmentTypes = AttachmentType;
+  themes = Theme;
   privilegeForm: FormGroup;
   privilegeOrders: Observable<Array<PrivilegeOrder>>;
   filteredPrivileges: Observable<Array<Privilege>>;

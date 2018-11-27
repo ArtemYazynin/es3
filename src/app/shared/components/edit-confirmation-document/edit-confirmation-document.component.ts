@@ -1,6 +1,6 @@
 import { Component, Input, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ConfirmationDocument, AttachmentType, FormService } from '../../index';
+import { ConfirmationDocument, AttachmentType, FormService, Theme } from '../../index';
 
 @Component({
   selector: 'app-edit-confirmation-document',
@@ -13,6 +13,7 @@ export class EditConfirmationDocumentComponent implements OnInit {
   confirmationDocumentForm: FormGroup;
   formErrors = ConfirmationDocument.formErrorsTemplate;
   validationMessages = ConfirmationDocument.validationMessages;
+  themes = Theme;
 
   @Input() title: string = "";
   @Input() model: ConfirmationDocument;

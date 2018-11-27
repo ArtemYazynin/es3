@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, Inject, OnInit, ViewChild } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { BehaviorSubject } from 'rxjs';
-import { ButtonsTitles, ConfigsOfRoutingButtons } from '../../../shared';
+import { ConfigsOfRoutingButtons, Theme } from '../../../shared';
 import { EditCurrentEducationPlaceComponent } from '../shared/components/edit-current-education-place/edit-current-education-place.component';
 import { CurrentEducationPlace } from './../../../shared/models/current-education-place.model';
 
@@ -18,10 +18,11 @@ export class EditCurrentEducationPlaceDialogComponent implements OnInit {
   constructor(public dialogRef: MatDialogRef<EditCurrentEducationPlaceDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: { $currentEducationPlace: BehaviorSubject<CurrentEducationPlace>, inquiryType: string }) { }
 
+  themes = Theme;
   config: ConfigsOfRoutingButtons;
 
   ngOnInit() {
-    this.config = new ConfigsOfRoutingButtons(ButtonsTitles.Save, ButtonsTitles.Close,
+    this.config = new ConfigsOfRoutingButtons(undefined, undefined,
       () => {
         let currentEducationPlace = this.currentEducationPlaceEditComponent.getResult();
         this.data.$currentEducationPlace.next(currentEducationPlace);
@@ -29,8 +30,7 @@ export class EditCurrentEducationPlaceDialogComponent implements OnInit {
       },
       () => {
         this.dialogRef.close();
-      }
-    );
+      })
   }
 
   isValid() {

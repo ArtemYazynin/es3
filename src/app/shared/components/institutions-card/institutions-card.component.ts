@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material';
+import { Institution, Theme } from '../..';
 import { ActivatedRoute } from '@angular/router';
 import { BehaviorSubject, Subject } from 'rxjs';
 import { skip, takeUntil } from 'rxjs/operators';
@@ -28,8 +29,13 @@ export class InstitutionsCardComponent implements OnInit {
   constructor(private route: ActivatedRoute, private institutionsService: InstitutionService, private cdr: ChangeDetectorRef, private storageService: WizardStorageService,
     private inquiryService: InquiryService, private dialog: MatDialog, private commonService: CommonService) { }
 
+  title="Предпочитаемые организации"
+  theme: Theme;
+  themes = Theme;
+
 
   ngOnInit() {
+    this.theme = this.edit ? this.themes.Read : this.themes.Preview;
     if (this.route.snapshot.data.resolved.inquiryId) {
       this.institutionsService.getByInquiry(this.route.snapshot.data.resolved.inquiryId)
         .pipe(takeUntil(this.ngUnsubscribe))
