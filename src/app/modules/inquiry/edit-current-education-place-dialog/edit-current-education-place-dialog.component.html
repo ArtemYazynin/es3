@@ -1,12 +1,10 @@
 <div *ngIf="data.$currentEducationPlace | async as currentEducationPlace">
   <h1 mat-dialog-title>Текущее место обучения ребенка</h1>
   <div mat-dialog-content>
-    <div>
+    <app-inquiry-info-edit [theme]="themes.Default">
       <app-edit-current-education-place [currentEducationPlace]="currentEducationPlace" [inquiryType]="data.inquiryType">
       </app-edit-current-education-place>
-    </div>
+    </app-inquiry-info-edit>
   </div>
-  <mat-dialog-actions>
-    <app-routing-buttons [config]="config" [isValid]="isValid()"></app-routing-buttons>
-  </mat-dialog-actions>
+  <app-dialog-buttons [config]="config" [isValid]="isValid()"></app-dialog-buttons>
 </div>
