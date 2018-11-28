@@ -30,7 +30,7 @@ export class ContactInfoCardComponent implements OnInit, OnDestroy {
     private inquiryService: InquiryService) { }
 
   ngOnInit() {
-    this.theme = this.mode == this.modes.Edit ? this.themes.Read : this.themes.Preview;
+    this.theme = this.mode == this.modes.Edit ? this.themes.Green : this.themes.Blue;
     if (this.route.snapshot.data.resolved.inquiryId) {
       this.contactInfoService.getByInquiry(this.route.snapshot.data.resolved.inquiryId)
         .pipe(takeUntil(this.ngUnsubscribe))
@@ -39,7 +39,8 @@ export class ContactInfoCardComponent implements OnInit, OnDestroy {
           this.cdr.markForCheck();
         });
     } else {
-      this.contactInfo = this.storageService.get(this.route.snapshot.data.resolved.inquiryType).contactInfo;
+      this.contactInfo = this.route.snapshot.data.resolved.inquiry.contactInfo;
+      
     }
   }
 

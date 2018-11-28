@@ -1,11 +1,11 @@
 <section class="content px-3">
   <div class="container-fluid mt-3">
-    <div [ngClass]="{'p-3': title, 'alert alert-danger': theme == themes.Alert, 'bg-light-green': theme == themes.Read, 'bg-light-blue': theme == themes.Preview,'bg-gray': theme == themes.Default}">
+    <div [ngClass]="{'p-3': title, 'alert alert-danger': theme == themes.Red, 'bg-light-green': theme == themes.Green, 'bg-light-blue': theme == themes.Blue,'bg-gray': theme == themes.Gray}">
       <div class="h4 bb pb-2" *ngIf="title">
         {{title}}
         <a class="btn" (click)="onEdit()" *ngIf="showEdit" style="float: right;"><i class="mdi mdi-lead-pencil"></i></a>
       </div>
-      <div id="contentContainer" [ngClass]="{ 'bg-light-green': theme == themes.Read, 'bg-light-blue': theme == themes.Preview,'bg-gray': theme == themes.Default }">
+      <div id="contentContainer" [ngClass]="{ 'bg-light-green': theme == themes.Green, 'bg-light-blue': theme == themes.Blue,'bg-gray': theme == themes.Gray }">
         <ng-content></ng-content>
       </div>
 

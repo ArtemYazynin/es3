@@ -3,7 +3,7 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { CurrentEducationPlace, InquiryService } from '.';
 import { CurrentEducationPlaceDataSourceService } from './current-place-data-source.service';
-
+ 
 @Injectable()
 export class CurrentEducationPlaceService {
 

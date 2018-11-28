@@ -1,4 +1,6 @@
+import { Inquiry } from "../../../../shared/models/inquiry.model";
 
-export abstract class StepBase {
+export class StepBase {
+    protected inquiry:Inquiry;
     
 }

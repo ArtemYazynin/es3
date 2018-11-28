@@ -28,7 +28,7 @@ export class FilesCardComponent implements OnInit, OnDestroy {
     private inquiryService: InquiryService) { }
 
   ngOnInit() {
-    this.theme = this.mode == this.modes.Edit ? this.themes.Read : this.themes.Preview;
+    this.theme = this.mode == this.modes.Edit ? this.themes.Green : this.themes.Blue;
     if (this.route.snapshot.data.resolved.inquiryId) {
       this.inquiryService.get(this.route.snapshot.data.resolved.inquiryId)
         .pipe(takeUntil(this.ngUnsubscribe))
@@ -37,7 +37,7 @@ export class FilesCardComponent implements OnInit, OnDestroy {
           this.cdr.markForCheck();
         });
     } else {
-      this.inquiry = this.storageService.get(this.route.snapshot.data.resolved.inquiryType);
+      this.inquiry = this.route.snapshot.data.resolved.inquiry;
     }
   }
 

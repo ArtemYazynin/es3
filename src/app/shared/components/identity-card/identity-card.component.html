@@ -1,4 +1,4 @@
-<app-inquiry-info-edit title="Удостоверение личности" [theme]="themes.Default">
+<app-inquiry-info-edit title="Удостоверение личности" [theme]="themes.Gray">
     <form [formGroup]="identityCardForm" novalidate>
         <mat-form-field *ngIf="$types | async as types">
             <mat-select formControlName="identityCardType" placeholder="Тип документа">

@@ -8,7 +8,6 @@ import { ApplicantStepComponent } from './applicant-step/applicant-step.componen
 import { CurrentEducationPlaceStepComponent } from './current-education-place-step/current-education-place-step.component';
 import { ContactInfoStepComponent } from './contact-info-step/contact-info-step.component';
 import { PrivilegeStepComponent } from './privilege-step/privilege-step.component';
-import { PrivilegeStepResolver } from './resolvers/privilege-step-resolver';
 import { PreschoolInquiryInfoStepComponent } from './preschool-inquiry-info-step/preschool-inquiry-info-step.component';
 import { SchoolInquiryInfoStepComponent } from './school-inquiry-info-step/school-inquiry-info-step.component';
 import { InstitutionStepComponent } from './institution-step/institution-step.component';
@@ -74,7 +73,7 @@ const routes: Routes = [
         path: ":type/privilegeStep",
         component: PrivilegeStepComponent,
         resolve: {
-            resolved: PrivilegeStepResolver
+            resolved: BaseResolver 
         }
     },
     {

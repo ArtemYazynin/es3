@@ -38,6 +38,24 @@ export class CurrentEducationPlace {
         return result;
     }
 
+    static getFormErrors(): any {
+        return {
+            municipality: "",
+            institutionType: "",
+            institution: "",
+            other: ""
+        };
+    }
+    static getValidationMessages(): any {
+        let required = { "required": "Обязательное поле." };
+        return {
+            municipality: required,
+            institutionType: required,
+            institution: required,
+            other: Object.assign({}, required, { maxlength: "Значение не должно быть больше 250 символов." })
+        };
+    }
+
     private static buildEmpty(): CurrentEducationPlace {
         return new CurrentEducationPlace(undefined, undefined, undefined, false, undefined);
     }

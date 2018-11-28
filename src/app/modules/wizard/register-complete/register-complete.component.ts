@@ -11,9 +11,8 @@ import { StepBase } from '../shared/models/step-base';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 
-export class RegisterCompleteComponent implements OnInit, StepBase {
+export class RegisterCompleteComponent implements OnInit {
   inquiryId: string = this.route.snapshot.data.resolved.inquiryId;
-  inquiryType: string = this.route.snapshot.data.resolved.inquiryType;
   isValid(): boolean { return; }
   config: ConfigsOfRoutingButtons;
 

@@ -34,7 +34,7 @@ export class InstitutionsCardComponent implements OnInit {
 
 
   ngOnInit() {
-    this.theme = this.edit ? this.themes.Read : this.themes.Preview;
+    this.theme = this.mode == this.modes.Edit ? this.themes.Green : this.themes.Blue;
     if (this.route.snapshot.data.resolved.inquiryId) {
       this.institutionsService.getByInquiry(this.route.snapshot.data.resolved.inquiryId)
         .pipe(takeUntil(this.ngUnsubscribe))

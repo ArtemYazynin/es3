@@ -14,8 +14,7 @@ import { WizardStorageService } from '../shared';
 })
 export class PrivilegeStepComponent implements OnInit {
   @ViewChild(EditPrivilegeComponent) privilegeEditComponent: EditPrivilegeComponent;
-  inquiry: Inquiry;
-  inquiryType = this.route.snapshot.data.resolved.inquiryType;
+  inquiry: Inquiry = this.route.snapshot.data.resolved.inquiry;
   config: ConfigsOfRoutingButtons;
 
   constructor(private storageService: WizardStorageService, private router: Router, private activatedRoute: ActivatedRoute,
@@ -23,10 +22,9 @@ export class PrivilegeStepComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.inquiry = <Inquiry>this.storageService.get(this.inquiryType);
     this.config = new ConfigsOfRoutingButtons(ButtonsTitles.Next, ButtonsTitles.Back,
       this.actionsButtonsService.primaryActionPrivilegeStep(this.privilegeEditComponent, this.inquiry, this.activatedRoute),
-      this.actionsButtonsService.inverseActionPrivilegeStep(this.inquiryType, this.router, this.activatedRoute)
+      this.actionsButtonsService.inverseActionPrivilegeStep(this.inquiry.type, this.router, this.activatedRoute)
     );
   }
 

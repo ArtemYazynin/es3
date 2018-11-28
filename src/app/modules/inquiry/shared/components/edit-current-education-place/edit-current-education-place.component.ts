@@ -1,10 +1,10 @@
 import { ChangeDetectionStrategy, Component, Input, OnDestroy, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatAutocompleteSelectedEvent, MatCheckboxChange, MatSelectChange } from '@angular/material';
 import { Observable, Subject } from 'rxjs';
 import { map, startWith, takeUntil } from 'rxjs/operators';
-import { Area, AreaService, AreaType, CommonService, Entity, FormService, Group, GroupService, inquiryType, Institution, InstitutionService, Theme } from '../../../../../shared';
-import { CurrentEducationPlaceStepService } from '../../../../wizard/shared';
+import { Area, AreaService, AreaType, CommonService, Entity, FormService, Group, GroupService, inquiryType, Institution, InstitutionService, InquiryType } from '../../../../../shared';
+import { CurrentEducationPlaceService } from '../../../../../shared/current-place.service';
 import { CurrentEducationPlace } from './../../../../../shared/models/current-education-place.model';
 
 @Component({
@@ -27,12 +27,12 @@ export class EditCurrentEducationPlaceComponent implements OnInit, OnDestroy {
   groups: Array<Group> = [];
   currentPlaceForm: FormGroup;
   inquiryTypes = inquiryType;
-  formErrors = this.service.getFormErrors();
-  validationMessages = this.service.getValidationMessages();
+  formErrors = CurrentEducationPlace.getFormErrors();
+  validationMessages = CurrentEducationPlace.getValidationMessages();
   displayFn = this.commonService.displayFn;
 
-  constructor(private areaService: AreaService, private institutionService: InstitutionService,
-    private formService: FormService, private service: CurrentEducationPlaceStepService, private commonService: CommonService,
+  constructor(private areaService: AreaService, private institutionService: InstitutionService, private fb: FormBuilder,
+    private formService: FormService, private commonService: CommonService, private service: CurrentEducationPlaceService,
     private groupService: GroupService) { }
 
   ngOnInit() {
@@ -52,7 +52,28 @@ export class EditCurrentEducationPlaceComponent implements OnInit, OnDestroy {
   }
 
   private buildForm() {
-    this.currentPlaceForm = this.service.getFormGroup();
+    this.currentPlaceForm = this.fb.group({
+      "municipality": [
+        "",
+        [Validators.required]
+      ],
+      "institutionType": [
+        "",
+        [Validators.required]
+      ],
+      "institution": [
+        "",
+        [Validators.required]
+      ],
+      "group": [
+        "",
+        [Validators.required]
+      ],
+      "isOther": [
+        false,
+        []
+      ]
+    });
     this.currentPlaceForm.valueChanges.pipe(takeUntil(this.ngUnsubscribe)).subscribe(() => this.formService.onValueChange(this.currentPlaceForm, this.formErrors, this.validationMessages));
     this.formService.onValueChange(this.currentPlaceForm, this.formErrors, this.validationMessages);
   }
@@ -81,49 +102,49 @@ export class EditCurrentEducationPlaceComponent implements OnInit, OnDestroy {
     return {
       municipalities: () => {
         let municipalities = () => {
-          this.areaService.getAreas(AreaType["Муниципалитет"]).pipe(takeUntil(this.ngUnsubscribe)).subscribe(result => {
-            this.municipalities = result;
-            this.filteredMunicipalities = this.currentPlaceForm.controls.municipality.valueChanges.pipe(
-              startWith<string | Area>(''),
-              map((value: Area) => {
-                return typeof value === 'string' ? value : value.name;
-              }),
-              map((name: string) => {
-                return name ? this.commonService.autoCompliteFilter(this.municipalities, name) : this.municipalities.slice();
-              })
-            );
-            this.currentPlaceForm.patchValue({ municipality: this.municipalities.find(x => x.id == this.currentMunicipality.id) }, { emitEvent: true });
-          })
+          this.areaService.getAreas(AreaType.Municipality)
+            .pipe(takeUntil(this.ngUnsubscribe))
+            .subscribe(result => {
+              this.municipalities = result;
+              this.filteredMunicipalities = this.currentPlaceForm.controls.municipality.valueChanges.pipe(
+                startWith<string | Area>(''),
+                map((value: Area) => {
+                  return typeof value === 'string' ? value : value.name;
+                }),
+                map((name: string) => {
+                  return name ? this.commonService.autoCompliteFilter(this.municipalities, name) : this.municipalities.slice();
+                })
+              );
+              this.currentPlaceForm.patchValue({ municipality: this.municipalities.find(x => x.id == this.currentMunicipality.id) }, { emitEvent: true });
+            })
         }
-        this.areaService.getCurrentMunicipality().pipe(takeUntil(this.ngUnsubscribe)).subscribe(result => {
-          this.currentMunicipality = result;
-          switch (this.inquiryType) {
-            case this.inquiryTypes.preschool:
-              municipalities();
-              break;
-            case this.inquiryTypes.school:
-              municipalities();
-              break;
-            case this.inquiryTypes.healthCamp:
-              break;
-            default:
-              break;
-          }
-        });
+        this.areaService.getCurrentMunicipality()
+          .pipe(takeUntil(this.ngUnsubscribe))
+          .subscribe(currentMunicipality => {
+            this.currentMunicipality = currentMunicipality;
+            switch (this.inquiryType) {
+              case this.inquiryTypes.preschool:
+              case this.inquiryTypes.school:
+                municipalities();
+                break;
+              case this.inquiryTypes.healthCamp:
+                break;
+              default:
+                break;
+            }
+          });
       },
       institutionTypes: () => {
         this.institutionService.getTypes().pipe(takeUntil(this.ngUnsubscribe)).subscribe(result => {
-          const preschoolType = 1;
-          const schoolType = 2;
           switch (this.inquiryType) {
             case inquiryType.preschool:
-              this.institutionsTypes.push(result.find(x => x.id == preschoolType));
+              this.institutionsTypes.push(result.find(x => x.id == InquiryType.preschool));
               break;
             case inquiryType.school:
-              this.institutionsTypes.push(result.find(x => x.id == schoolType));
+              this.institutionsTypes.push(result.find(x => x.id == InquiryType.school));
               break;
             case inquiryType.healthCamp:
-              this.institutionsTypes.push(result.find(x => x.id == preschoolType || x.id == schoolType));
+              this.institutionsTypes.push(result.find(x => x.id == InquiryType.preschool || x.id == InquiryType.school));
               break;
             default:
               break;
@@ -136,12 +157,12 @@ export class EditCurrentEducationPlaceComponent implements OnInit, OnDestroy {
         if (!this.currentEducationPlace) return;
         const patch = (() => {
           if (this.currentEducationPlace.isOther) {
-            let params = (() => {
+            let control = (() => {
               let result = new MatCheckboxChange();
               result.checked = true;
               return result;
             })();
-            this.onChange.isOther(params)
+            this.onChange.isOther(control)
             return {
               isOther: this.currentEducationPlace.isOther,
               other: this.currentEducationPlace.other

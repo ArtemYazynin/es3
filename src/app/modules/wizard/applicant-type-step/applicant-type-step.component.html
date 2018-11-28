@@ -1,5 +1,6 @@
 <div class="container col-md-12">
-  <app-inquiry-info-edit title="Тип заявителя" [theme]="themes.Default">
+  <div class="h2 bb pb-2">Данные заявителя</div>
+  <app-inquiry-info-edit title="Тип заявителя" [theme]="themes.Gray">
     <div class="form-group">
       <mat-radio-group class="radio-group" [(ngModel)]="applicantType">
         <mat-radio-button *ngFor="let type of applicantTypes | applicantType" [value]="type.id">
@@ -12,7 +13,4 @@
     </div>
   </app-inquiry-info-edit>
 </div>
-<div class="form-actions" style="text-align: center;">
-  <button type="button" class="btn btn-inverse" (click)="back()">{{buttonsTitles.Back}}</button>
-  <button type="button" class="btn btn-primary" (click)="next()" [disabled]="!isValid()">{{buttonsTitles.Next}}</button>
-</div>
+<app-routing-buttons [config]="config" [isValid]="isValid()"></app-routing-buttons>

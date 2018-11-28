@@ -28,7 +28,7 @@ export class RelationTypeCardComponent implements OnInit, OnDestroy {
     private personService: PersonService, private inquiryService: InquiryService) { }
 
   ngOnInit() {
-    this.theme = this.mode == this.modes.Edit ? Theme.Read : Theme.Preview;
+    this.theme = this.mode == this.modes.Edit ? Theme.Green : Theme.Blue;
     this.$parentRepresentChildrenDocument = new BehaviorSubject<ConfirmationDocument>(this.model.parentRepresentChildrenDocument);
     this.$parentRepresentChildrenDocument
       .pipe(skip(1), takeUntil(this.ngUnsubscribe))

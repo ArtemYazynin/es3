@@ -1,8 +1,8 @@
 <ng-container>
-  <div class="h4 bb pb-2">Предпросмотр заявления</div>
+  <div class="h2 bb pb-2">Предпросмотр заявления</div>
   <div class="row">
     <div class="col-6" *ngIf="inquiry.applicant">
-      <app-inquiry-info-edit title="Доверенное лицо законного представителя ребенка" [theme]="themes.Preview">
+      <app-inquiry-info-edit title="Доверенное лицо законного представителя ребенка" [theme]="themes.Blue">
         <app-person-card [entity]="$applicant" [personType]="personTypes.Applicant" [mode]="modes.Read"></app-person-card>
         <app-citizenships-card [model]="inquiry.applicant" [personType]="personTypes.Applicant" [mode]="modes.Read"
           [applicantType]="inquiry.applicantType"></app-citizenships-card>
@@ -12,14 +12,14 @@
       </app-inquiry-info-edit>
     </div>
     <div class="col-6" *ngIf="inquiry.parent">
-      <app-inquiry-info-edit title="Законный представитель" [theme]="themes.Preview">
+      <app-inquiry-info-edit title="Законный представитель" [theme]="themes.Blue">
         <app-person-card [entity]="$parent" [personType]="personTypes.Parent" [mode]="modes.Read"></app-person-card>
         <app-citizenships-card [model]="inquiry.parent" [personType]="personTypes.Parent" [applicantType]="inquiry.applicantType"></app-citizenships-card>
         <app-relation-type-card [model]="inquiry.parent" [mode]="modes.Read"></app-relation-type-card>
       </app-inquiry-info-edit>
     </div>
   </div>
-  <app-children-card [children]="children" [mode]="modes.Read" [inquiryType]="inquiry.type" [specHealth]="inquiry.specHealth"></app-children-card>
+  <app-children-card [mode]="modes.Read" [inquiryType]="inquiry.type"></app-children-card>
   <ng-container [ngSwitch]="inquiry.type">
     <app-preschool-inquiry-info-card [mode]="modes.Read" *ngSwitchCase="inquiryTypes.preschool"></app-preschool-inquiry-info-card>
     <app-school-inquiry-info-card [mode]="modes.Read" *ngSwitchCase="inquiryTypes.school"></app-school-inquiry-info-card>

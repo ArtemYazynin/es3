@@ -11,20 +11,23 @@ import { StepBase, WizardStorageService } from '../shared';
   styleUrls: ['./current-education-place-step.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class CurrentEducationPlaceStepComponent implements OnInit, StepBase {
+export class CurrentEducationPlaceStepComponent implements OnInit {
   @ViewChild(EditCurrentEducationPlaceComponent) editCurrentEducationPlaceComponent: EditCurrentEducationPlaceComponent;
-  inquiry: Inquiry;
-  inquiryType = this.route.snapshot.data.resolved.inquiryType;
+  inquiry: Inquiry = this.route.snapshot.data.resolved.inquiry;
   config: ConfigsOfRoutingButtons;
   themes = Theme;
 
   constructor(private route: ActivatedRoute, private router: Router, private storageService: WizardStorageService, private actionsButtonsService: ActionsButtonsService) { }
 
   ngOnInit() {
-    this.inquiry = <Inquiry>this.storageService.get(this.inquiryType);
+    this.inquiry = <Inquiry>this.storageService.get(this.inquiry.type);
     this.config = new ConfigsOfRoutingButtons(ButtonsTitles.Next, ButtonsTitles.Back,
-      this.actionsButtonsService.primaryActionCurrentEducationPlaceStep(this.editCurrentEducationPlaceComponent, this.inquiryType, this.router, this.route),
+      this.actionsButtonsService.primaryActionCurrentEducationPlaceStep(this.editCurrentEducationPlaceComponent, this.inquiry.type, this.router, this.route),
       this.actionsButtonsService.inverseActionCurrentEducationPlaceStep(this.router, this.route)
     );
+  }
+
+  isValid() {
+    return this.editCurrentEducationPlaceComponent.currentPlaceForm && this.editCurrentEducationPlaceComponent.currentPlaceForm.valid || false;
   }
 }

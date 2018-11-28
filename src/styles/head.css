@@ -74,9 +74,6 @@
 
 
 
-*{
-	border-radius: 0 !important;
-}
 .alert .mdi {
     font-size: 24px;
     line-height: 1;
@@ -293,6 +290,8 @@ body {
 }
 .bb{
     border-bottom: 1px solid #ccc;
+    padding-left: 15px;
+    padding-right: 15px;
 }
 
 .form-group .btn{

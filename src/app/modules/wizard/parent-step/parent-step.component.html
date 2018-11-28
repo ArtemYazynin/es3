@@ -1,5 +1,5 @@
 <ng-container>
-  <div class="h4 bb pb-2">Законный представитель</div>
+  <div class="h2 bb pb-2">Законный представитель</div>
   <app-edit-person [model]="inquiry?.parent" [personType]="personTypes.Parent"></app-edit-person>
   <app-edit-citizenships [model]="inquiry?.parent" [personType]="personTypes.Parent" [applicantType]="inquiry.applicantType"></app-edit-citizenships>
   <app-relation-type [owner]="inquiry?.parent"></app-relation-type>

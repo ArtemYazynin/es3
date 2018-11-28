@@ -31,10 +31,10 @@ export class PreschoolInquiryInfoCardComponent implements OnInit, OnDestroy {
 
 
   ngOnInit() {
-    this.theme = this.mode == this.modes.Edit ? this.themes.Read : this.themes.Preview;
+    this.theme = this.mode == this.modes.Edit ? this.themes.Green : this.themes.Blue;
     let observable = this.route.snapshot.data.resolved.inquiryId
       ? this.inquiryInfoService.getByInquiry(this.route.snapshot.data.resolved.inquiryId)
-      : of(this.storageService.get(this.route.snapshot.data.resolved.inquiryType).inquiryInfo);
+      : of(this.route.snapshot.data.resolved.inquiry.inquiryInfo);
 
     observable
       .pipe(takeUntil(this.ngUnsubscribe))

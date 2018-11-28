@@ -1,4 +1,4 @@
-import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ApplicantType, AttachmentType, ButtonsTitles, ConfigsOfRoutingButtons, Inquiry, InquiryService } from '../../../shared';
 import { ActionsButtonsService } from '../../../shared/actions-buttons.service';
@@ -10,33 +10,31 @@ import { StepBase, WizardStorageService } from '../shared/index';
 
 @Component({
   selector: 'app-applicant-step',
-  providers:[ActionsButtonsService],
+  providers: [ActionsButtonsService],
   templateUrl: './applicant-step.component.html',
   styleUrls: ['./applicant-step.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ApplicantStepComponent implements OnInit, AfterViewInit, StepBase {
+export class ApplicantStepComponent implements OnInit {
   @ViewChild(EditPersonComponent) editPersonComponent: EditPersonComponent;
   @ViewChild(EditCitizenshipsComponent) editCitizenshipsComponent: EditCitizenshipsComponent;
   @ViewChild(EditConfirmationDocumentComponent) editConfirmationDocumentComponent: EditConfirmationDocumentComponent;
 
   constructor(private router: Router, private route: ActivatedRoute, private storageService: WizardStorageService,
-    private cdr: ChangeDetectorRef, private actionsButtonsService: ActionsButtonsService, private inquiryService: InquiryService) { }
+    private inquiryService: InquiryService) {
+  }
 
-  inquiry: Inquiry;
-  inquiryType = this.route.snapshot.data.resolved.inquiryType;
+  inquiry: Inquiry = this.route.snapshot.data.resolved.inquiry;
   config: ConfigsOfRoutingButtons;
   personTypes = PersonType;
   attachmentTypes = AttachmentType;
-  applicantTypes = ApplicantType;
 
   ngOnInit() {
-    this.inquiry = <Inquiry>this.storageService.get(this.inquiryType);
     this.config = new ConfigsOfRoutingButtons(ButtonsTitles.Next, ButtonsTitles.Back,
       () => {
         const inquiry = this.inquiryService.saveApplicant(this.inquiry, this.editPersonComponent, this.editCitizenshipsComponent, this.editConfirmationDocumentComponent);
         if (!inquiry) return;
-        this.storageService.set(this.inquiryType, inquiry);
+        this.storageService.set(inquiry.type, inquiry);
         if (this.inquiry.applicantType == ApplicantType.Parent) {
           this.router.navigate(["../contactInfoStep"], { relativeTo: this.route });
         } else {
@@ -47,9 +45,6 @@ export class ApplicantStepComponent implements OnInit, AfterViewInit, StepBase {
         this.router.navigate(["../applicantTypeStep"], { relativeTo: this.route });
       }
     );
-  }
-  ngAfterViewInit(): void {
-    this.cdr.detectChanges();
   }
 
   isValid() {

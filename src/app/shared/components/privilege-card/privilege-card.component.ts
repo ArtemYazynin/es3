@@ -27,7 +27,7 @@ export class PrivilegeCardComponent implements OnInit, OnDestroy {
   constructor(private dialog: MatDialog, private commonService: CommonService, private cdr: ChangeDetectorRef, private inquiryService: InquiryService, private route: ActivatedRoute, ) { }
 
   ngOnInit() {
-    this.theme = this.mode == this.modes.Edit ? this.themes.Read : this.themes.Preview;
+    this.theme = this.mode == this.modes.Edit ? this.themes.Green : this.themes.Blue;
     this.$document = new BehaviorSubject<ConfirmationDocument>(this.model ? this.model.privilegeProofDocument : undefined);
     this.$document
       .pipe(skip(1), takeUntil(this.ngUnsubscribe))

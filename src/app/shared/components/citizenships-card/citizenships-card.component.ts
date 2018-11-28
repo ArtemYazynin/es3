@@ -39,7 +39,7 @@ export class CitizenshipsCardComponent implements OnInit, OnDestroy {
     private cdr: ChangeDetectorRef) { }
 
   ngOnInit() {
-    this.theme = this.mode == this.modes.Edit ? this.themes.Read : this.themes.Preview;
+    this.theme = this.mode == this.modes.Edit ? this.themes.Green : this.themes.Blue;
     switch (this.personType) {
       case PersonType.Parent:
         this.$document = new BehaviorSubject<ConfirmationDocument>((this.model as Parent).countryStateDocument);

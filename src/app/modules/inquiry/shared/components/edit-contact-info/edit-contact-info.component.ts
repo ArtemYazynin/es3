@@ -107,7 +107,7 @@ export class EditContactInfoComponent implements OnInit {
       ],
       "email": [
         "",
-        this.emailValidators
+        this.contactInfo && this.contactInfo.byEmail ? this.emailValidators : []
       ],
       "smsPhone": [
         "",

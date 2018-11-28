@@ -15,7 +15,6 @@ import { HttpInterceptor } from '../../shared/http-interceptor';
 import { RegisterSourcePipe } from '../../shared/models/register-source.pipe';
 import { PetitionTypePipe } from '../../shared/petition-type.pipe';
 import { PrivilegeOrderService } from '../../shared/privilege-order.service';
-import { CurrentEducationPlaceStepService, WizardStorageService } from '../wizard/shared';
 import { ContactInfoDialogComponent } from './contact-info-dialog/contact-info-dialog.component';
 import { EditChildrenDialogComponent } from './edit-children-dialog/edit-children-dialog.component';
 import { EditCurrentEducationPlaceDialogComponent } from './edit-current-education-place-dialog/edit-current-education-place-dialog.component';
@@ -33,6 +32,7 @@ import { SpecHealthDialogComponent } from './spec-health-dialog/spec-health-dial
 import { EditPetitionComponent } from './shared/components/edit-petition/edit-petition.component';
 import { DialogButtonsComponent } from './dialog-buttons/dialog-buttons.component';
 import { EditConfirmationDocumentDialogComponent } from './edit-confirmation-document-dialog/edit-confirmation-document-dialog.component';
+import { WizardStorageService } from '../wizard/shared/wizard-storage.service';
 import { EditCitizenshipsDialogComponent } from './edit-citizenships-dialog/edit-citizenships-dialog.component';
 import { EditFileAttachmentsDialogComponent } from './edit-file-attachments-dialog/edit-file-attachments-dialog.component';
 
@@ -53,8 +53,6 @@ import { EditFileAttachmentsDialogComponent } from './edit-file-attachments-dial
     //InMemoryWebApiModule.forRoot(InMemoryService)
   ],
   providers: [
-    CurrentEducationPlaceStepService,
-
     HttpInterceptor,
     FormService,
     WizardStorageService,

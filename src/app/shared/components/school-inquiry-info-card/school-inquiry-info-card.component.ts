@@ -36,7 +36,7 @@ export class SchoolInquiryInfoCardComponent implements OnInit, OnDestroy {
           this.cdr.markForCheck();
         });
     } else {
-      this.schoolInquiryInfo = this.storageService.get(this.route.snapshot.data.resolved.inquiryType).schoolInquiryInfo;
+      this.schoolInquiryInfo = this.route.snapshot.data.resolved.inquiry.schoolInquiryInfo;
     }
   }
 

@@ -74,6 +74,8 @@ import { SchoolInquiryInfoDataSourceService } from "./shared/school-inquiry-info
 import { SchoolInquiryInfoService } from "./shared/school-inquiry-info.service";
 import { SpecHealthDataSourceService } from "./shared/spec-health-data-source.service";
 import { YesNoPipe } from "./shared/yes-no.pipe";
+import { ChildDataSourceService } from './shared/child-data-source.service';
+import { ChildService } from './shared/child.service';
 
 
 
@@ -91,7 +93,7 @@ import { YesNoPipe } from "./shared/yes-no.pipe";
         InstitutionsCardComponent, SpecHealthComponent,
         SchoolClassCardComponent, EditChildrenComponent,
         CurrentEducationPlaceCardComponent,
-        PrivilegeCardComponent,
+        PrivilegeCardComponent,EditFileAttachmentsDialogComponent,
         FilesCardComponent, YesNoPipe, CitizenshipsCardComponent,
         RoutingButtonsComponent,  EditCitizenshipsComponent, RelationTypeCardComponent, DisabilityComponent, SpecHealthCardComponent, EditSpecHealthComponent
 
@@ -118,7 +120,7 @@ import { YesNoPipe } from "./shared/yes-no.pipe";
     ],
     providers: [
         SpecializationService, ConfirmationDocumentService, FamilyInfoService,
-        EducProgramService, PersonService, InquiryDataSourceService, InquiryService, DisabilityService, SpecHealthDataSourceService,
+        EducProgramService, PersonService, InquiryDataSourceService, InquiryService, DisabilityService, SpecHealthDataSourceService, ChildDataSourceService, ChildService,
         InstitutionService, InstitutionDataSourceService, ContactInfoService, ContactInfoDataSourceService, SchoolInquiryInfoDataSourceService, SchoolInquiryInfoService,
         InquiryInfoService, InquiryInfoDataSourceService, PetitionDataSourceService, PetitionService, CurrentEducationPlaceDataSourceService, CurrentEducationPlaceService,
         FileAttachmentDataSourceService, FileAttachmentService
