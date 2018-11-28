@@ -23,12 +23,9 @@ export class EditPersonDialogComponent implements OnInit {
   constructor(public dialogRef: MatDialogRef<EditPersonDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: { $person: BehaviorSubject<Person>, personType: PersonType, inquiryType: string }) { }
 
-
-  private person: Person;
   config: ConfigsOfRoutingButtons;
 
   ngOnInit() {
-    this.person = this.data.$person.getValue();
     this.config = {
       primaryTitle: "Сохранить",
       inverseTitle: "Закрыть",

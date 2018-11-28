@@ -1,6 +1,6 @@
 <div *ngIf="data.$person | async as pers">
   <ng-container>
-    <h1 mat-dialog-title>Диалоговое окно</h1>
+    <h1 mat-dialog-title>Гражданства и адреса</h1>
     <div mat-dialog-content>
       <app-edit-citizenships [model]="pers" [personType]="data.personType" [applicantType]="data.applicantType"></app-edit-citizenships>
     </div>

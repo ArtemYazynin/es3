@@ -48,7 +48,7 @@ export class EditCurrentEducationPlaceComponent implements OnInit, OnDestroy {
   }
 
   isValid() {
-    return this.currentPlaceForm && this.currentPlaceForm.valid || false;
+    return this.currentPlaceForm && this.currentPlaceForm.dirty && this.currentPlaceForm.valid || false;
   }
 
   private buildForm() {

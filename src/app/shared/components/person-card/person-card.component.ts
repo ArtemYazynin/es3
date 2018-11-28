@@ -1,4 +1,3 @@
-import { Petition } from './../../models/petition.model';
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material';
 import { ActivatedRoute } from '@angular/router';
@@ -7,12 +6,12 @@ import { skip, takeUntil } from 'rxjs/operators';
 import { EditPersonDialogComponent } from '../../../modules/inquiry/edit-person-dialog/edit-person-dialog.component';
 import { BehaviorMode } from '../../behavior-mode.enum';
 import { CommonService } from '../../common.service';
-import { DrawService, Person, ConfirmationDocument, Child } from '../../index';
+import { DrawService, Person } from '../../index';
 import { InquiryService } from '../../inquiry.service';
+import { Theme } from '../../models/theme.enum';
 import { PersonType } from '../../person-type.enum';
 import { PersonService } from '../../person.service';
 import { PetitionService } from '../../petition.service.';
-import { Theme } from '../../models/theme.enum';
 
 @Component({
   selector: 'app-person-card',

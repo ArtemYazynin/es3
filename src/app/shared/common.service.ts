@@ -1,23 +1,17 @@
 import { Inject, Injectable, QueryList } from '@angular/core';
-import { EditPersonComponent } from '../modules/inquiry/shared/components/edit-person/edit-person.component';
-import { ApplicantType } from './applicant-type.enum';
+import { MatDialogConfig } from '@angular/material';
+import { esConstant } from '../app.module';
 import { CitizenshipService } from './citizenship.service';
+import { AddressComponent } from './components/address/address.component';
 import { EditConfirmationDocumentComponent } from './components/edit-confirmation-document/edit-confirmation-document.component';
-import { Applicant } from './models/applicant.model';
+import { Address } from './models/address.model';
 import { AttachmentType } from './models/attachment-type.enum';
 import { ConfirmationDocument } from './models/confirmation-document.model';
 import { Entity } from './models/entity.model';
 import { FileAttachment } from './models/file-attachment.model';
 import { FileView } from './models/file-view.model';
-import { FilesInfo } from './models/files-info.model';
-import { IdentityCard } from './models/identityCard.model';
-import { IdentityCardType } from './models/identityCardType';
-import { Parent } from './models/parent.model';
-import { esConstant } from '../app.module';
-import { MatDialogConfig } from '@angular/material';
-import { AddressComponent } from './components/address/address.component';
-import { Address } from './models/address.model';
 import { Guid } from './models/guid';
+import { IdentityCardType } from './models/identityCardType';
 
 @Injectable()
 export class CommonService {
@@ -126,71 +120,12 @@ export class CommonService {
     ];
   }
 
-  buildParent(editParentComponent: EditPersonComponent, applicantType: ApplicantType) {
-    // let birthInfo = (() => {
-    //   if (!editParentComponent.birthInfoComponent) return {};
-    //   return {
-    //     birthDate: editParentComponent.birthInfoComponent.birthInfoForm.controls.birthDate.value,
-    //     birthPlace: editParentComponent.birthInfoComponent.birthInfoForm.controls.birthPlace.value
-    //   }
-    // })();
-    // let result = new Parent(editParentComponent.fullnameComponent.fullnameForm.controls.lastname.value,
-    //   editParentComponent.fullnameComponent.fullnameForm.controls.firstname.value,
-    //   editParentComponent.fullnameComponent.fullnameForm.controls.middlename.value,
-    //   editParentComponent.snilsComponent.snils,
-    //   editParentComponent.fullnameComponent.fullnameForm.controls.noMiddlename.value,
-    //   birthInfo.birthDate,
-    //   birthInfo.birthPlace, 1);
-    // result.identityCard = new IdentityCard(editParentComponent.identityCardComponent.identityCardForm);
-    // result.citizenships = editParentComponent.citizenshipSelectComponent.citizenships;
-
-    // if (this.citizenshipService.hasForeignCitizenship(result.citizenships, editParentComponent.countries)) {
-    //   result.countryStateDocument = this.getDocumentByType(editParentComponent.confirmationDocuments, AttachmentType.CountryStateDocument);
-    // }
-
-    // result.relationType = editParentComponent.relationTypeComponent.relationType;
-    // if (result.relationType.confirmationDocument)
-    //   result.parentRepresentChildrenDocument = this.getDocumentByType(editParentComponent.confirmationDocuments, AttachmentType.ParentRepresentChildren);
-
-    // if (applicantType == ApplicantType.Parent) {
-    //   Object.assign(result, this.citizenshipService.hasRfCitizenship(result.citizenships, editParentComponent.countries)
-    //     ? editParentComponent.rfAddressesComponent.getResult()
-    //     : editParentComponent.foreignAddressesComponent.getResult());
-    // }
-    // return result;
-  }
-
-  buildApplicant(editParentComponent: EditPersonComponent, applicantType: ApplicantType) {
-    // let result = new Applicant(editParentComponent.fullnameComponent.fullnameForm.controls.lastname.value,
-    //   editParentComponent.fullnameComponent.fullnameForm.controls.firstname.value,
-    //   editParentComponent.fullnameComponent.fullnameForm.controls.middlename.value,
-    //   editParentComponent.snilsComponent.snils,
-    //   editParentComponent.fullnameComponent.fullnameForm.controls.noMiddlename.value,
-    //   null, null, null);
-    // result.identityCard = new IdentityCard(editParentComponent.identityCardComponent.identityCardForm);
-    // result.citizenships = editParentComponent.citizenshipSelectComponent.citizenships;
-
-    // if (this.citizenshipService.hasForeignCitizenship(result.citizenships, editParentComponent.countries)) {
-    //   result.countryStateApplicantDocument = this.getDocumentByType(editParentComponent.confirmationDocuments, AttachmentType.CountryStateApplicantDocument);
-    // }
-    // result.applicantRepresentParentDocument = this.getDocumentByType(editParentComponent.confirmationDocuments, AttachmentType.ApplicantRepresentParent);
-
-    // if (applicantType == ApplicantType.Applicant) {
-    //   //--addresses
-    //   Object.assign(result, this.citizenshipService.hasRfCitizenship(result.citizenships, editParentComponent.countries)
-    //     ? editParentComponent.rfAddressesComponent.getResult()
-    //     : editParentComponent.foreignAddressesComponent.getResult());
-    //   //--
-    //}
-
-    //return result;
-  }
-
   getDialogConfig(obj?: object) {
     let config = new MatDialogConfig();
     config.disableClose = true;
     config.autoFocus = false;
-    config.width = "1000px";
+    config.maxWidth = "100vw";
+    config.width = "70vw";
     config.data = {};
     if (obj) Object.assign(config.data, obj);
 
