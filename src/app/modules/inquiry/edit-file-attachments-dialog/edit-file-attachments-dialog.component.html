@@ -1,12 +1,9 @@
 <div *ngIf="data.$inquiry | async as inquiry">
   <h1 mat-dialog-title>Копии документов</h1>
   <div mat-dialog-content>
-    <div>
-      <app-edit-file-attachments [inquiry]="inquiry">
-      </app-edit-file-attachments>
-    </div>
+    <app-inquiry-info-edit [theme]="themes.Default">
+      <app-edit-file-attachments [inquiry]="inquiry"> </app-edit-file-attachments>
+    </app-inquiry-info-edit>
   </div>
-  <mat-dialog-actions>
-    <app-routing-buttons [config]="config" [isValid]="fileAttachmentsEditComponent && fileAttachmentsEditComponent.isValid()"></app-routing-buttons>
-  </mat-dialog-actions>
+  <app-dialog-buttons [config]="config" [isValid]="isValid()"></app-dialog-buttons>
 </div>

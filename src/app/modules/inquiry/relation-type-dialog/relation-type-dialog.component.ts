@@ -1,7 +1,7 @@
-import { Component, OnInit, ChangeDetectionStrategy, Inject, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Inject, OnInit, ViewChild } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { BehaviorSubject } from 'rxjs';
-import { Parent, RelationTypeService, ConfigsOfRoutingButtons } from '../../../shared';
+import { ConfigsOfRoutingButtons, Parent, Theme } from '../../../shared';
 import { RelationTypeComponent } from '../../../shared/components/relation-type/relation-type.component';
 
 @Component({
@@ -13,6 +13,7 @@ import { RelationTypeComponent } from '../../../shared/components/relation-type/
 export class RelationTypeDialogComponent implements OnInit {
   @ViewChild(RelationTypeComponent) relationTypeComponent: RelationTypeComponent;
 
+  themes = Theme;
   config: ConfigsOfRoutingButtons;
   parent: Parent;
 
@@ -44,4 +45,7 @@ export class RelationTypeDialogComponent implements OnInit {
     }
   }
 
+  isValid() {
+    return this.relationTypeComponent && this.relationTypeComponent.isValid()
+  }
 }

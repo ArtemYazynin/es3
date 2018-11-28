@@ -1,12 +1,9 @@
 <div *ngIf="data.$schoolInquiryInfo | async as schoolInquiryInfo">
   <h1 mat-dialog-title>Параметры заявления</h1>
   <div mat-dialog-content>
-    <div>
-      <app-edit-school-inquiry-info [schoolInquiryInfo]="schoolInquiryInfo">
-      </app-edit-school-inquiry-info>
-    </div>
+    <app-inquiry-info-edit [theme]="themes.Default">
+      <app-edit-school-inquiry-info [schoolInquiryInfo]="schoolInquiryInfo"></app-edit-school-inquiry-info>
+    </app-inquiry-info-edit>
   </div>
-  <mat-dialog-actions>
-    <app-routing-buttons [config]="config" [isValid]="isValid()"></app-routing-buttons>
-  </mat-dialog-actions>
+  <app-dialog-buttons [config]="config" [isValid]="isValid()"></app-dialog-buttons>
 </div>

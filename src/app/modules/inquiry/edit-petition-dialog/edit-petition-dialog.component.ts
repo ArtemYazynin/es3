@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, Inject, OnInit, ViewChild } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { BehaviorSubject } from 'rxjs';
-import { ButtonsTitles, ConfigsOfRoutingButtons, Petition } from '../../../shared';
+import { ConfigsOfRoutingButtons, Petition, Theme } from '../../../shared';
 import { EditPetitionComponent } from '../shared/components/edit-petition/edit-petition.component';
 
 @Component({
@@ -12,13 +12,15 @@ import { EditPetitionComponent } from '../shared/components/edit-petition/edit-p
 })
 export class EditPetitionDialogComponent implements OnInit {
   @ViewChild(EditPetitionComponent) editPetitionComponent: EditPetitionComponent;
+
+  themes = Theme;
   config: ConfigsOfRoutingButtons;
 
   constructor(public dialogRef: MatDialogRef<EditPetitionDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: { $petition: BehaviorSubject<Petition> }) { }
 
   ngOnInit() {
-    this.config = new ConfigsOfRoutingButtons(ButtonsTitles.Save, ButtonsTitles.Close,
+    this.config = new ConfigsOfRoutingButtons(undefined, undefined,
       () => {
         let petition = this.editPetitionComponent.getResult();
         this.data.$petition.next(petition);

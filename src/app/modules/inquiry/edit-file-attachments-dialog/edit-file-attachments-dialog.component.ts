@@ -1,8 +1,7 @@
 import { ChangeDetectionStrategy, Component, Inject, OnInit, ViewChild } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { BehaviorSubject } from 'rxjs';
-import { ButtonsTitles, ConfigsOfRoutingButtons, FilesInfo, Inquiry } from '../../../shared';
-import { ActionsButtonsService } from '../../../shared/actions-buttons.service';
+import { ConfigsOfRoutingButtons, FilesInfo, Inquiry, Theme } from '../../../shared';
 import { EditFileAttachmentsComponent } from '../shared/components/edit-file-attachments/edit-file-attachments.component';
 
 @Component({
@@ -14,13 +13,13 @@ import { EditFileAttachmentsComponent } from '../shared/components/edit-file-att
 export class EditFileAttachmentsDialogComponent implements OnInit {
   @ViewChild(EditFileAttachmentsComponent) fileAttachmentsEditComponent: EditFileAttachmentsComponent;
   constructor(public dialogRef: MatDialogRef<EditFileAttachmentsDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: { $inquiry: BehaviorSubject<FilesInfo> },
-    private actionsButtonsService: ActionsButtonsService) { }
+    @Inject(MAT_DIALOG_DATA) public data: { $inquiry: BehaviorSubject<FilesInfo> }) { }
 
+  themes = Theme;
   config: ConfigsOfRoutingButtons;
 
   ngOnInit() {
-    this.config = new ConfigsOfRoutingButtons(ButtonsTitles.Save, ButtonsTitles.Close,
+    this.config = new ConfigsOfRoutingButtons(undefined, undefined,
       () => {
         let filesInfo = this.fileAttachmentsEditComponent.getResult();
         let inquiry = new Inquiry();
@@ -32,5 +31,9 @@ export class EditFileAttachmentsDialogComponent implements OnInit {
       () => {
         this.dialogRef.close();
       });
+  }
+
+  isValid() {
+    this.fileAttachmentsEditComponent && this.fileAttachmentsEditComponent.isValid()
   }
 }

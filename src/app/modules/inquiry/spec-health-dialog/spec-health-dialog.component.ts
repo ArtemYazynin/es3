@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, Inject, OnInit, ViewChild } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { BehaviorSubject } from 'rxjs';
-import { Child, ConfigsOfRoutingButtons, SpecHealth } from '../../../shared';
+import { Child, ConfigsOfRoutingButtons, SpecHealth, Theme } from '../../../shared';
 import { EditSpecHealthComponent } from '../../../shared/components/edit-spec-health/edit-spec-health.component';
 
 @Component({
@@ -12,16 +12,16 @@ import { EditSpecHealthComponent } from '../../../shared/components/edit-spec-he
 })
 export class SpecHealthDialogComponent implements OnInit {
   @ViewChild(EditSpecHealthComponent) editSpecHealthComponent: EditSpecHealthComponent;
+
+  themes = Theme;
   config: ConfigsOfRoutingButtons;
 
   constructor(public dialogRef: MatDialogRef<SpecHealthDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: { $specHealth: BehaviorSubject<SpecHealth>, $children: Array<BehaviorSubject<Child>> }) { }
 
   ngOnInit() {
-    this.config = {
-      primaryTitle: "Сохранить",
-      inverseTitle: "Закрыть",
-      primaryAction: () => {
+    this.config = new ConfigsOfRoutingButtons(undefined, undefined,
+      () => {
         this.data.$specHealth.next(this.editSpecHealthComponent.specHealth);
         this.data.$children.forEach(subject => {
           let child = subject.getValue();
@@ -32,15 +32,13 @@ export class SpecHealthDialogComponent implements OnInit {
               subject.next(child);
             }
           }
-
         });
         this.dialogRef.close();
-
       },
-      inverseAction: () => {
+      () => {
         this.dialogRef.close();
       }
-    }
+    );
   }
 
   isValid() { return true; }

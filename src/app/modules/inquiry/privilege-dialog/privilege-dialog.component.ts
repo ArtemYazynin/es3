@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, Inject, OnInit, ViewChild } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { BehaviorSubject } from 'rxjs';
-import { ButtonsTitles, ConfigsOfRoutingButtons, ConfirmationDocument, Privilege } from '../../../shared';
+import { ConfigsOfRoutingButtons, ConfirmationDocument, Privilege, Theme } from '../../../shared';
 import { EditPrivilegeComponent } from '../../../shared/components/edit-privilege/edit-privilege.component';
 
 @Component({
@@ -12,6 +12,8 @@ import { EditPrivilegeComponent } from '../../../shared/components/edit-privileg
 })
 export class PrivilegeDialogComponent implements OnInit {
   @ViewChild(EditPrivilegeComponent) privilegeEditComponent: EditPrivilegeComponent;
+
+  themes = Theme;
   config: ConfigsOfRoutingButtons;
   privilege: Privilege;
 
@@ -19,7 +21,7 @@ export class PrivilegeDialogComponent implements OnInit {
 
   ngOnInit() {
     this.privilege = this.data.$privilege.getValue();
-    this.config = new ConfigsOfRoutingButtons(ButtonsTitles.Save, ButtonsTitles.Close,
+    this.config = new ConfigsOfRoutingButtons(undefined, undefined,
       () => {
         let form = this.privilegeEditComponent.privilegeForm;
         const value = form.controls.withoutPrivilege.value
@@ -32,7 +34,7 @@ export class PrivilegeDialogComponent implements OnInit {
           })()
         this.data.$privilege.next(value);
         this.dialogRef.close();
-      }, 
+      },
       () => {
         this.dialogRef.close();
       });

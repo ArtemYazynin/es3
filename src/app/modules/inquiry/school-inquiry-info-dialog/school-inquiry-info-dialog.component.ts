@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, Inject, OnInit, ViewChild } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { BehaviorSubject } from 'rxjs';
-import { ButtonsTitles, ConfigsOfRoutingButtons, SchoolInquiryInfo } from '../../../shared';
+import { ConfigsOfRoutingButtons, SchoolInquiryInfo, Theme } from '../../../shared';
 import { EditSchoolInquiryInfoComponent } from '../../../shared/components/edit-school-inquiry-info/edit-school-inquiry-info.component';
 
 @Component({
@@ -16,10 +16,11 @@ export class SchoolInquiryInfoDialogComponent implements OnInit {
   constructor(public dialogRef: MatDialogRef<SchoolInquiryInfoDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: { $schoolInquiryInfo: BehaviorSubject<SchoolInquiryInfo> }) { }
 
+  themes = Theme;
   config: ConfigsOfRoutingButtons;
 
   ngOnInit() {
-    this.config = new ConfigsOfRoutingButtons(ButtonsTitles.Save, ButtonsTitles.Close,
+    this.config = new ConfigsOfRoutingButtons(undefined, undefined,
       () => {
         let schoolInquiryInfo = this.editSchoolInquiryInfoComponent.getResult();
         this.data.$schoolInquiryInfo.next(schoolInquiryInfo);

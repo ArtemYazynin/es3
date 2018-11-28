@@ -1,12 +1,10 @@
 <div *ngIf="data.$institutions | async as institutions">
   <h1 mat-dialog-title>Предпочитаемые организации</h1>
   <div mat-dialog-content>
-    <div>
+    <app-inquiry-info-edit [theme]="themes.Default">
       <app-edit-institutions [institutions]="institutions" [inquiryType]="data.inquiryType">
       </app-edit-institutions>
-    </div>
+    </app-inquiry-info-edit>
   </div>
-  <mat-dialog-actions>
-    <app-routing-buttons [config]="config" [isValid]="isValid()"></app-routing-buttons>
-  </mat-dialog-actions>
+  <app-dialog-buttons [config]="config" [isValid]="isValid()"></app-dialog-buttons>
 </div>

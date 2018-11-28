@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, Inject, OnInit, ViewChild } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { BehaviorSubject } from 'rxjs';
-import { ButtonsTitles, ConfigsOfRoutingButtons, InquiryInfo } from '../../../shared';
+import { ConfigsOfRoutingButtons, InquiryInfo, Theme } from '../../../shared';
 import { EditPreschoolInquiryInfoComponent } from '../shared/components/edit-preschool-inquiry-info/edit-preschool-inquiry-info.component';
 
 @Component({
@@ -12,13 +12,15 @@ import { EditPreschoolInquiryInfoComponent } from '../shared/components/edit-pre
 })
 export class PreschoolInquiryInfoDialogComponent implements OnInit {
   @ViewChild(EditPreschoolInquiryInfoComponent) editInquiryInfoComponent: EditPreschoolInquiryInfoComponent;
+
+  themes = Theme;
   config: ConfigsOfRoutingButtons;
 
   constructor(public dialogRef: MatDialogRef<PreschoolInquiryInfoDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: { $inquiryInfo: BehaviorSubject<InquiryInfo> }) { }
 
   ngOnInit() {
-    this.config = new ConfigsOfRoutingButtons(ButtonsTitles.Save, ButtonsTitles.Close,
+    this.config = new ConfigsOfRoutingButtons(undefined, undefined,
       () => {
         let inquiryInfo = this.editInquiryInfoComponent.getResult();
         this.data.$inquiryInfo.next(inquiryInfo);
@@ -27,5 +29,9 @@ export class PreschoolInquiryInfoDialogComponent implements OnInit {
       () => {
         this.dialogRef.close();
       });
+  }
+
+  isValid() {
+    return this.editInquiryInfoComponent && this.editInquiryInfoComponent.isValid()
   }
 }

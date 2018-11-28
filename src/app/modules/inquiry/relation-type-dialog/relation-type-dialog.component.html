@@ -1,13 +1,9 @@
-<ng-container>
-  <ng-container>
-    <h1 mat-dialog-title>Родственная связь</h1>
-    <div mat-dialog-content>
+<div>
+  <h1 mat-dialog-title>Родственная связь</h1>
+  <div mat-dialog-content>
+    <app-inquiry-info-edit [theme]="themes.Default">
       <app-relation-type [owner]="parent"></app-relation-type>
-    </div>
-  </ng-container>
-  <mat-dialog-actions>
-    <div class="col-md-12">
-      <app-routing-buttons [config]="config" [isValid]="relationTypeComponent && relationTypeComponent.isValid()"></app-routing-buttons>
-    </div>
-  </mat-dialog-actions>
-  <ng-container>
+    </app-inquiry-info-edit>
+  </div>
+  <app-dialog-buttons [config]="config" [isValid]="isValid()"></app-dialog-buttons>
+</div>

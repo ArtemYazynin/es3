@@ -1,7 +1,7 @@
 import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, Inject, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { BehaviorSubject, Subject } from 'rxjs';
-import { Applicant, ApplicantType, Child, ConfigsOfRoutingButtons, ConfirmationDocument, Parent, PersonWithAddress } from '../../../shared';
+import { Applicant, ApplicantType, Child, ConfigsOfRoutingButtons, ConfirmationDocument, Parent, PersonWithAddress, Theme } from '../../../shared';
 import { PersonType } from '../../../shared/person-type.enum';
 import { EditCitizenshipsComponent } from '../shared/components/edit-citizenships/edit-citizenships.component';
 
@@ -14,16 +14,16 @@ import { EditCitizenshipsComponent } from '../shared/components/edit-citizenship
 export class EditCitizenshipsDialogComponent implements OnInit, OnDestroy, AfterViewInit {
   @ViewChild(EditCitizenshipsComponent) editCitizenshipsComponent: EditCitizenshipsComponent
   private ngUnsubscribe: Subject<any> = new Subject();
+
+  themes = Theme;
   config: ConfigsOfRoutingButtons;
 
   constructor(public dialogRef: MatDialogRef<EditCitizenshipsDialogComponent>, private cdr: ChangeDetectorRef,
     @Inject(MAT_DIALOG_DATA) public data: { $person: BehaviorSubject<Parent | Applicant | Child>, personType: PersonType, applicantType: ApplicantType }) { }
 
   ngOnInit() {
-    this.config = {
-      primaryTitle: "Сохранить",
-      inverseTitle: "Закрыть",
-      primaryAction: () => {
+    this.config = new ConfigsOfRoutingButtons(undefined, undefined,
+      () => {
         const patchAddress = (patch: PersonWithAddress) => {
           Object.assign(data, patch);
         }
@@ -39,9 +39,7 @@ export class EditCitizenshipsDialogComponent implements OnInit, OnDestroy, After
               data["countryStateDocument"] = undefined;
               break;
             case PersonType.Child:
-
               break;
-
             default:
               break;
           }
@@ -64,10 +62,10 @@ export class EditCitizenshipsDialogComponent implements OnInit, OnDestroy, After
         this.data.$person.next(data);
         this.dialogRef.close();
       },
-      inverseAction: () => {
+      () => {
         this.dialogRef.close();
-      },
-    };
+      }
+    );
   }
 
   ngAfterViewInit(): void {

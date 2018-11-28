@@ -1,11 +1,11 @@
 import { ChangeDetectionStrategy, Component, Inject, OnInit, ViewChild } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { BehaviorSubject } from 'rxjs';
-import { ApplicantType, ConfigsOfRoutingButtons, IdentityCard, Person, Child } from '../../../shared';
+import { ApplicantType, Child, ConfigsOfRoutingButtons, Person, Theme } from '../../../shared';
+import { BirthInfoComponent } from '../../../shared/components/birth-info/birth-info.component';
+import { DisabilityComponent } from '../../../shared/components/disability/disability.component';
 import { PersonType } from '../../../shared/person-type.enum';
 import { EditPersonComponent } from '../shared/components/edit-person/edit-person.component';
-import { DisabilityComponent } from '../../../shared/components/disability/disability.component';
-import { BirthInfoComponent } from '../../../shared/components/birth-info/birth-info.component';
 
 @Component({
   selector: 'app-edit-person-dialog',
@@ -16,20 +16,19 @@ import { BirthInfoComponent } from '../../../shared/components/birth-info/birth-
 export class EditPersonDialogComponent implements OnInit {
   @ViewChild(EditPersonComponent) editPersonComponent: EditPersonComponent;
   @ViewChild(DisabilityComponent) disabilityComponent: DisabilityComponent;
-  @ViewChild(BirthInfoComponent) birthInfoComponent:BirthInfoComponent;
+  @ViewChild(BirthInfoComponent) birthInfoComponent: BirthInfoComponent;
 
   applicantTypes = ApplicantType;
   personTypes = PersonType;
   constructor(public dialogRef: MatDialogRef<EditPersonDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: { $person: BehaviorSubject<Person>, personType: PersonType, inquiryType: string }) { }
 
+  themes = Theme;
   config: ConfigsOfRoutingButtons;
 
   ngOnInit() {
-    this.config = {
-      primaryTitle: "Сохранить",
-      inverseTitle: "Закрыть",
-      primaryAction: () => {
+    this.config = new ConfigsOfRoutingButtons(undefined, undefined,
+      () => {
         let person = (() => {
           let result = this.editPersonComponent.getResult();
           if (this.data.personType == PersonType.Child) {
@@ -44,10 +43,10 @@ export class EditPersonDialogComponent implements OnInit {
         this.data.$person.next(person);
         this.dialogRef.close();
       },
-      inverseAction: () => {
+      () => {
         this.dialogRef.close();
       }
-    }
+    );
   }
 
   isValid = (): boolean => {
