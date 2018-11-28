@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, Inject, OnInit, ViewChild } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { BehaviorSubject } from 'rxjs';
-import { ButtonsTitles, ConfigsOfRoutingButtons } from '../../../shared';
+import { ConfigsOfRoutingButtons, Theme } from '../../../shared';
 import { ContactInfo } from '../../wizard/shared';
 import { EditContactInfoComponent } from '../shared/components/edit-contact-info/edit-contact-info.component';
 
@@ -13,13 +13,15 @@ import { EditContactInfoComponent } from '../shared/components/edit-contact-info
 })
 export class ContactInfoDialogComponent implements OnInit {
   @ViewChild(EditContactInfoComponent) editContactInfoComponent: EditContactInfoComponent;
+
+  themes = Theme;
   config: ConfigsOfRoutingButtons;
 
   constructor(public dialogRef: MatDialogRef<ContactInfoDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: { $contactInfo: BehaviorSubject<ContactInfo> }) { }
 
   ngOnInit() {
-    this.config = new ConfigsOfRoutingButtons(ButtonsTitles.Save, ButtonsTitles.Close,
+    this.config = new ConfigsOfRoutingButtons(undefined, undefined,
       () => {
         let contactInfo = this.editContactInfoComponent.getResult();
         this.data.$contactInfo.next(contactInfo);

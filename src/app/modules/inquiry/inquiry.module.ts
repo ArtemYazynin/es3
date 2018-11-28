@@ -32,6 +32,9 @@ import { InquiryCommonInfoComponent } from './shared/components/inquiry-common-i
 import { SpecHealthDialogComponent } from './spec-health-dialog/spec-health-dialog.component';
 import { EditPetitionComponent } from './shared/components/edit-petition/edit-petition.component';
 import { DialogButtonsComponent } from './dialog-buttons/dialog-buttons.component';
+import { EditConfirmationDocumentDialogComponent } from './edit-confirmation-document-dialog/edit-confirmation-document-dialog.component';
+import { EditCitizenshipsDialogComponent } from './edit-citizenships-dialog/edit-citizenships-dialog.component';
+import { EditFileAttachmentsDialogComponent } from './edit-file-attachments-dialog/edit-file-attachments-dialog.component';
 
 @NgModule({
   imports: [
@@ -74,10 +77,11 @@ import { DialogButtonsComponent } from './dialog-buttons/dialog-buttons.componen
   declarations: [PetitionCardComponent, InquiryReadComponent, InquiryCommonInfoComponent, RegisterSourcePipe,
     PrivilegeDialogComponent, EditPersonDialogComponent, PreschoolInquiryInfoDialogComponent, EditPreschoolInstitutionDialogComponent,
     ContactInfoDialogComponent, EditCurrentEducationPlaceDialogComponent, SchoolInquiryInfoDialogComponent,
-    EditChildrenDialogComponent, EditPetitionDialogComponent, PetitionTypePipe, RelationTypeDialogComponent, SpecHealthDialogComponent,EditPetitionComponent, DialogButtonsComponent
+    EditChildrenDialogComponent, EditPetitionDialogComponent, PetitionTypePipe, RelationTypeDialogComponent, SpecHealthDialogComponent,EditPetitionComponent, DialogButtonsComponent,
+    EditConfirmationDocumentDialogComponent, EditCitizenshipsDialogComponent, EditFileAttachmentsDialogComponent
   ],
   entryComponents: [PrivilegeDialogComponent, EditPersonDialogComponent, PreschoolInquiryInfoDialogComponent, EditPreschoolInstitutionDialogComponent,
-    ContactInfoDialogComponent, EditCurrentEducationPlaceDialogComponent,
-    SchoolInquiryInfoDialogComponent, EditPetitionDialogComponent, RelationTypeDialogComponent, SpecHealthDialogComponent]
+    ContactInfoDialogComponent, EditCurrentEducationPlaceDialogComponent, EditConfirmationDocumentDialogComponent, EditCitizenshipsDialogComponent,
+    EditFileAttachmentsDialogComponent, SchoolInquiryInfoDialogComponent, EditPetitionDialogComponent, RelationTypeDialogComponent, SpecHealthDialogComponent]
 })
 export class InquiryModule { }

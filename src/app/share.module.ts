@@ -7,8 +7,6 @@ import { TextMaskModule } from "angular2-text-mask";
 import { InquiryInfoDataSourceService } from "./inquiry-info-data-source.service";
 import { InquiryInfoService } from "./inquiry-info.service";
 import { MaterialModule } from "./material.module";
-import { EditCitizenshipsDialogComponent } from "./modules/inquiry/edit-citizenships-dialog/edit-citizenships-dialog.component";
-import { EditConfirmationDocumentDialogComponent } from "./modules/inquiry/edit-confirmation-document-dialog/edit-confirmation-document-dialog.component";
 import { EditChildrenComponent } from "./modules/inquiry/shared/components/edit-children/edit-children.component";
 import { EditCitizenshipsComponent } from './modules/inquiry/shared/components/edit-citizenships/edit-citizenships.component';
 import { EditContactInfoComponent } from "./modules/inquiry/shared/components/edit-contact-info/edit-contact-info.component";
@@ -16,7 +14,6 @@ import { EditCurrentEducationPlaceComponent } from "./modules/inquiry/shared/com
 import { EditFileAttachmentsComponent } from "./modules/inquiry/shared/components/edit-file-attachments/edit-file-attachments.component";
 import { EditInstitutionsComponent } from "./modules/inquiry/shared/components/edit-institutions/edit-institutions.component";
 import { EditPersonComponent } from "./modules/inquiry/shared/components/edit-person/edit-person.component";
-import { EditPetitionComponent } from "./modules/inquiry/shared/components/edit-petition/edit-petition.component";
 import { EditPreschoolInquiryInfoComponent } from "./modules/inquiry/shared/components/edit-preschool-inquiry-info/edit-preschool-inquiry-info.component";
 import { InquiryInfoEditComponent } from "./modules/inquiry/shared/components/inquiry-info-edit/inquiry-info-edit.component";
 import { EducProgramService, InquiryService, InstitutionService, SpecializationService } from "./shared";
@@ -36,12 +33,12 @@ import { CurrentEducationPlaceCardComponent } from "./shared/components/current-
 import { DisabilityComponent } from './shared/components/disability/disability.component';
 import { DistributionParamsComponent } from "./shared/components/distribution-params/distribution-params.component";
 import { EditConfirmationDocumentComponent } from "./shared/components/edit-confirmation-document/edit-confirmation-document.component";
+import { EditFullNameComponent } from "./shared/components/edit-full-name/edit-full-name.component";
 import { EditPrivilegeComponent } from "./shared/components/edit-privilege/edit-privilege.component";
 import { EditSchoolInquiryInfoComponent } from './shared/components/edit-school-inquiry-info/edit-school-inquiry-info.component';
 import { EditSpecHealthComponent } from './shared/components/edit-spec-health/edit-spec-health.component';
 import { FilesCardComponent } from "./shared/components/files-card/files-card.component";
 import { ForeignCitizensAddressesComponent } from "./shared/components/foreign-citizens-addresses/foreign-citizens-addresses.component";
-import { EditFullNameComponent } from "./shared/components/edit-full-name/edit-full-name.component";
 import { GenderComponent } from "./shared/components/gender/gender.component";
 import { IdentityCardComponent } from "./shared/components/identity-card/identity-card.component";
 import { InstitutionsCardComponent } from "./shared/components/institutions-card/institutions-card.component";
@@ -65,6 +62,8 @@ import { CurrentEducationPlaceDataSourceService } from "./shared/current-place-d
 import { CurrentEducationPlaceService } from "./shared/current-place.service";
 import { DisabilityService } from "./shared/disability.service";
 import { FamilyInfoService } from "./shared/family-info.service";
+import { FileAttachmentDataSourceService } from "./shared/file-attachment-data-source.service";
+import { FileAttachmentService } from "./shared/file-attachment.service";
 import { InquiryDataSourceService } from "./shared/inquiry-data-source.service";
 import { InquiryTypeFriendlyNamePipe } from './shared/inquiry-type.pipe';
 import { InstitutionDataSourceService } from "./shared/institution-data-source.service";
@@ -75,9 +74,6 @@ import { SchoolInquiryInfoDataSourceService } from "./shared/school-inquiry-info
 import { SchoolInquiryInfoService } from "./shared/school-inquiry-info.service";
 import { SpecHealthDataSourceService } from "./shared/spec-health-data-source.service";
 import { YesNoPipe } from "./shared/yes-no.pipe";
-import { FileAttachmentDataSourceService } from "./shared/file-attachment-data-source.service";
-import { FileAttachmentService } from "./shared/file-attachment.service";
-import { EditFileAttachmentsDialogComponent } from "./modules/inquiry/edit-file-attachments-dialog/edit-file-attachments-dialog.component";
 
 
 
@@ -94,10 +90,10 @@ import { EditFileAttachmentsDialogComponent } from "./modules/inquiry/edit-file-
         ContactInfoCardComponent,
         InstitutionsCardComponent, SpecHealthComponent,
         SchoolClassCardComponent, EditChildrenComponent,
-        CurrentEducationPlaceCardComponent, EditConfirmationDocumentDialogComponent,
-        PrivilegeCardComponent,EditFileAttachmentsDialogComponent, 
+        CurrentEducationPlaceCardComponent,
+        PrivilegeCardComponent,
         FilesCardComponent, YesNoPipe, CitizenshipsCardComponent,
-        RoutingButtonsComponent, EditCitizenshipsDialogComponent, EditCitizenshipsComponent, RelationTypeCardComponent, DisabilityComponent, SpecHealthCardComponent, EditSpecHealthComponent
+        RoutingButtonsComponent,  EditCitizenshipsComponent, RelationTypeCardComponent, DisabilityComponent, SpecHealthCardComponent, EditSpecHealthComponent
 
     ],
     imports: [
@@ -127,7 +123,7 @@ import { EditFileAttachmentsDialogComponent } from "./modules/inquiry/edit-file-
         InquiryInfoService, InquiryInfoDataSourceService, PetitionDataSourceService, PetitionService, CurrentEducationPlaceDataSourceService, CurrentEducationPlaceService,
         FileAttachmentDataSourceService, FileAttachmentService
     ],
-    entryComponents: [EditConfirmationDocumentDialogComponent, EditChildrenComponent, EditCitizenshipsDialogComponent, EditFileAttachmentsDialogComponent]
+    entryComponents: [EditChildrenComponent]
 })
 export class ShareModule {
     constructor(dateAdapter: DateAdapter<Date>) {
