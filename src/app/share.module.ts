@@ -20,6 +20,8 @@ import { EducProgramService, InquiryService, InstitutionService, SpecializationS
 import { ApplicantTypePipe } from "./shared/applicant-type.pipe";
 import { AreaTypePipe } from './shared/area-type.pipe';
 import { AttachmentTypePipe } from "./shared/attachment-type.pipe";
+import { ChildDataSourceService } from './shared/child-data-source.service';
+import { ChildService } from './shared/child.service';
 import { AddressComponent } from "./shared/components/address/address.component";
 import { AgeGroupComponent } from "./shared/components/age-group/age-group.component";
 import { AtLeastOneCheckboxShouldBeSelectedComponent } from "./shared/components/at-least-one-checkbox-should-be-selected/at-least-one-checkbox-should-be-selected.component";
@@ -74,10 +76,6 @@ import { SchoolInquiryInfoDataSourceService } from "./shared/school-inquiry-info
 import { SchoolInquiryInfoService } from "./shared/school-inquiry-info.service";
 import { SpecHealthDataSourceService } from "./shared/spec-health-data-source.service";
 import { YesNoPipe } from "./shared/yes-no.pipe";
-import { ChildDataSourceService } from './shared/child-data-source.service';
-import { ChildService } from './shared/child.service';
-import { EditFileAttachmentsDialogComponent } from './modules/inquiry/edit-file-attachments-dialog/edit-file-attachments-dialog.component';
-import { DialogButtonsComponent } from './modules/inquiry/dialog-buttons/dialog-buttons.component';
 
 
 
@@ -95,9 +93,9 @@ import { DialogButtonsComponent } from './modules/inquiry/dialog-buttons/dialog-
         InstitutionsCardComponent, SpecHealthComponent,
         SchoolClassCardComponent, EditChildrenComponent,
         CurrentEducationPlaceCardComponent,
-        PrivilegeCardComponent,EditFileAttachmentsDialogComponent,
+        PrivilegeCardComponent,
         FilesCardComponent, YesNoPipe, CitizenshipsCardComponent,
-        DialogButtonsComponent, RoutingButtonsComponent,  EditCitizenshipsComponent, RelationTypeCardComponent, DisabilityComponent, SpecHealthCardComponent, EditSpecHealthComponent
+        RoutingButtonsComponent, EditCitizenshipsComponent, RelationTypeCardComponent, DisabilityComponent, SpecHealthCardComponent, EditSpecHealthComponent
 
     ],
     imports: [
