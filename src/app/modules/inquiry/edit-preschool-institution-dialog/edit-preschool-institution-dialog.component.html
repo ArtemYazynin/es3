@@ -1,12 +1,12 @@
-<div *ngIf="data.$inquiry | async as inquiry">
+<div *ngIf="data.$institutions | async as institutions">
   <h1 mat-dialog-title>Предпочитаемые организации</h1>
   <div mat-dialog-content>
     <div>
-      <app-edit-institutions [inquiry]="inquiry">
+      <app-edit-institutions [institutions]="institutions" [inquiryType]="data.inquiryType">
       </app-edit-institutions>
     </div>
   </div>
   <mat-dialog-actions>
-    <app-routing-buttons [config]="config" [isValid]="editInstitutionsComponent && editInstitutionsComponent.isValid()"></app-routing-buttons>
+    <app-routing-buttons [config]="config" [isValid]="isValid()"></app-routing-buttons>
   </mat-dialog-actions>
 </div>

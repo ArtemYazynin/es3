@@ -18,6 +18,6 @@
   </app-inquiry-info-edit>
 </ng-template>
 
-<ng-container *ngTemplateOutlet="edit ? withEdit : withoutEdit">
+<ng-container *ngTemplateOutlet="mode == modes.Edit ? withEdit : withoutEdit">
 
 </ng-container>

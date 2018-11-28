@@ -4,7 +4,6 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { BehaviorSubject, timer } from 'rxjs';
 import { Child, DublicatesFinder, InquiryService, inquiryType, Parent, SpecHealth } from '.';
 import { EditFileAttachmentsDialogComponent } from '../modules/inquiry/edit-file-attachments-dialog/edit-file-attachments-dialog.component';
-import { EditPreschoolInstitutionDialogComponent } from '../modules/inquiry/edit-preschool-institution-dialog/edit-preschool-institution-dialog.component';
 import { EditChildrenComponent } from '../modules/inquiry/shared/components/edit-children/edit-children.component';
 import { EditCitizenshipsComponent } from '../modules/inquiry/shared/components/edit-citizenships/edit-citizenships.component';
 import { EditContactInfoComponent } from '../modules/inquiry/shared/components/edit-contact-info/edit-contact-info.component';
@@ -282,15 +281,6 @@ export class ActionsButtonsService {
         data: { $inquiry: BehaviorSubject<Inquiry> }, dialogRef: MatDialogRef<EditFileAttachmentsDialogComponent>) {
         return () => {
             this.inquiryService.saveFileAttachments(fileAttachmentsEditComponent,
-                (patch) => this.update(inquiry, patch, data));
-            dialogRef.close();
-        }
-    }
-
-    primaryActionPreschoolInstitutionDialog(editInstitutionsComponent: EditInstitutionsComponent, inquiry: Inquiry,
-        data: { $inquiry: BehaviorSubject<Inquiry> }, dialogRef: MatDialogRef<EditPreschoolInstitutionDialogComponent>) {
-        return () => {
-            this.inquiryService.saveWishInstitutions(editInstitutionsComponent,
                 (patch) => this.update(inquiry, patch, data));
             dialogRef.close();
         }

@@ -1,8 +1,8 @@
-import { ChangeDetectionStrategy, Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { MatAutocompleteSelectedEvent, MatSelectChange } from '@angular/material';
 import { Observable, Subject } from 'rxjs';
-import { map, startWith, takeUntil } from 'rxjs/operators';
+import { flatMap, map, startWith, takeUntil } from 'rxjs/operators';
 import { CommonService, Group, GroupService, Inquiry, inquiryType, InquiryType, Institution, InstitutionService, SchoolClass, SettingsService, Theme } from '../../../../../shared';
 
 @Component({
@@ -12,58 +12,59 @@ import { CommonService, Group, GroupService, Inquiry, inquiryType, InquiryType, 
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class EditInstitutionsComponent implements OnInit, OnDestroy {
-  @Input() inquiry: Inquiry;
+  @Input() institutions: Array<Institution>;
+  @Input() IsLearnEducCenter: boolean;
+  @Input() schoolClasses: Array<SchoolClass>;
+  @Input() inquiryType: string;
 
   private ngUnsubscribe: Subject<any> = new Subject();
   form: FormGroup;
-  inquiryType = inquiryType;
+  inquiryTypes = inquiryType;
   maxCountWishInstitutions: number;
   displayFn = this.commonService.displayFn;
   filteredInstitution: Observable<Array<Institution>>
   selectedInstitutions: Array<any> = [];
   $classes: Observable<Array<Group>>;
   themes = Theme;
-  private institutions: Array<Institution>;
+  private institutionsForChoice: Array<Institution>;
 
   constructor(private commonService: CommonService, private institutionService: InstitutionService, private fb: FormBuilder,
-    private settingsService: SettingsService, private groupService: GroupService) { }
+    private settingsService: SettingsService, private groupService: GroupService, private cdr: ChangeDetectorRef) { }
 
   ngOnInit() {
     this.buildForm();
 
     this.settingsService.get()
-      .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe(result => {
-        switch (this.inquiry.type) {
-          case inquiryType.preschool:
-            this.maxCountWishInstitutions = result.maxCountWishPreschools;
+      .pipe(takeUntil(this.ngUnsubscribe), flatMap(settings => {
+        switch (this.inquiryType) {
+          case this.inquiryTypes.preschool:
+            this.maxCountWishInstitutions = settings.maxCountWishPreschools;
             break;
-          case inquiryType.school:
-            this.maxCountWishInstitutions = result.maxCountWishSchools;
+          case this.inquiryTypes.school:
+            this.maxCountWishInstitutions = settings.maxCountWishSchools;
           default:
             break;
         }
-      });
-    this.institutionService.getInstitutions(this.inquiry.type == inquiryType.preschool ? InquiryType.preschool : InquiryType.school)
-      .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe(result => {
-        this.institutions = result;
+        return this.institutionService.getInstitutions(this.inquiryType == inquiryType.preschool ? InquiryType.preschool : InquiryType.school)
+      })).pipe(takeUntil(this.ngUnsubscribe)).subscribe(result => {
+        this.institutionsForChoice = result;
         this.filteredInstitution = this.form.controls.institution.valueChanges.pipe(
           startWith<string | Institution>(''),
           map((value: Institution) => typeof value === 'string' ? value : value.name),
           map((name: string) => {
             //this.form.controls.class.patchValue("");
             if (name) {
-              return this.commonService.autoCompliteFilter(this.institutions, name);
+              return this.commonService.autoCompliteFilter(this.institutionsForChoice, name);
             }
-
-            return this.institutions.slice();
+            return this.institutionsForChoice.slice();
           })
         );
 
         this.initFromSessionStorage();
+        this.cdr.markForCheck();
       });
   }
+
   ngOnDestroy(): void {
     this.ngUnsubscribe.next();
     this.ngUnsubscribe.complete();
@@ -78,12 +79,12 @@ export class EditInstitutionsComponent implements OnInit, OnDestroy {
       if (!event || !event.option || !event.option.value) return;
 
       const institution = event.option.value;
-      switch (this.inquiry.type) {
-        case inquiryType.preschool:
+      switch (this.inquiryType) {
+        case this.inquiryTypes.preschool:
           this._add(institution);
           this.blur(inputElement);
           break;
-        case inquiryType.school:
+        case this.inquiryTypes.school:
           this.$classes = this.groupService.getGroups(institution.id);
         default:
           break;
@@ -97,13 +98,13 @@ export class EditInstitutionsComponent implements OnInit, OnDestroy {
   private initFromSessionStorage() {
     let array: Array<Institution | SchoolClass> = (() => {
       const def = [];
-      switch (this.inquiry.type) {
-        case inquiryType.preschool:
-          return this.inquiry.institutions || def;
-        case inquiryType.school: {
-          if (this.inquiry.IsLearnEducCenter)
-            this.form.controls.IsLearnEducCenter.setValue(this.inquiry.IsLearnEducCenter);
-          return this.inquiry.schoolClasses || def;
+      switch (this.inquiryType) {
+        case this.inquiryTypes.preschool:
+          return this.institutions || def;
+        case this.inquiryTypes.school: {
+          if (this.IsLearnEducCenter)
+            this.form.controls.IsLearnEducCenter.setValue(this.IsLearnEducCenter);
+          return this.schoolClasses || def;
         }
         default:
           return def
@@ -112,6 +113,7 @@ export class EditInstitutionsComponent implements OnInit, OnDestroy {
     array.forEach(element => {
       this._add(element);
     });
+    this.cdr.markForCheck();
   }
   private blur(inputElement: any) {
     /* 
@@ -125,11 +127,11 @@ export class EditInstitutionsComponent implements OnInit, OnDestroy {
     if (!val) return;
     this.selectedInstitutions.push(val);
 
-    const index = this.institutions.findIndex(elem => {
+    const index = this.institutionsForChoice.findIndex(elem => {
       let id = val["institution"] ? val["institution"]["id"] : val.id;
       return elem.id == id;
     });
-    this.institutions.splice(index, 1);
+    this.institutionsForChoice.splice(index, 1);
 
     this.form.patchValue({ institution: "" });
 
@@ -161,7 +163,7 @@ export class EditInstitutionsComponent implements OnInit, OnDestroy {
     let trash = (index) => {
       const obj = clone(index);
       removeSelected(index);
-      this.institutions.push(obj["institution"] ? obj["institution"] : obj);
+      this.institutionsForChoice.push(obj["institution"] ? obj["institution"] : obj);
       this.form.controls.institution.updateValueAndValidity();
       if (this.form.controls.institution.disabled) this.form.controls.institution.enable();
     }
@@ -179,7 +181,7 @@ export class EditInstitutionsComponent implements OnInit, OnDestroy {
         []
       ]
     }
-    if (this.inquiry.type == inquiryType.school) {
+    if (this.inquiryType == inquiryType.school) {
       config["class"] = [
         "",
         []
