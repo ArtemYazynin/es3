@@ -2,12 +2,10 @@ import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnIni
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material';
 import { ActivatedRoute } from '@angular/router';
-import { BehaviorSubject, Observable, Subject } from 'rxjs';
-import { map, skip, takeUntil } from 'rxjs/operators';
-import { Applicant, ApplicantType, BehaviorMode, Child, CitizenshipService, CommonService, ConfirmationDocument, Country, Entity, Inquiry, InquiryService, inquiryType, InstitutionService, Parent, PrivilegeOrder, PrivilegeOrderService, Specificity, SpecificityService, Status, StatusService, Theme } from '../../../shared/index';
+import { BehaviorSubject, Subject } from 'rxjs';
+import { skip, takeUntil } from 'rxjs/operators';
+import { Applicant, BehaviorMode, CommonService, ConfirmationDocument, Inquiry, InquiryService, inquiryType, Parent, Status, StatusService, Theme } from '../../../shared/index';
 import { PersonType } from '../../../shared/person-type.enum';
-import { EditCurrentEducationPlaceDialogComponent } from '../edit-current-education-place-dialog/edit-current-education-place-dialog.component';
-import { EditPreschoolInstitutionDialogComponent } from '../edit-preschool-institution-dialog/edit-preschool-institution-dialog.component';
 
 @Component({
   selector: 'app-inquiry-read',
@@ -20,45 +18,24 @@ export class InquiryReadComponent implements OnInit, OnDestroy {
   private ngUnsubscribe: Subject<any> = new Subject();
   inquiryTypes = inquiryType;
   personTypes = PersonType;
-  countries: Array<Country>
-  privilegeOrders: Array<PrivilegeOrder>;
   statuses: Array<Status>;
-  specificity: Observable<Specificity>;
-  $institutionType: Observable<Entity<number>>;
-
-  applicantTypes = ApplicantType;
   themes = Theme;
   statusForm: FormGroup;
   modes = BehaviorMode;
   $applicantRepresentParentDocument: BehaviorSubject<ConfirmationDocument>;
   $applicant: BehaviorSubject<Applicant>;
   $parent: BehaviorSubject<Parent>;
-  children: Array<BehaviorSubject<Child>> = [];
 
-  constructor(private route: ActivatedRoute, private inquiryService: InquiryService,
-    private privilegeOrderService: PrivilegeOrderService, private statusService: StatusService,
-    private citizenshipService: CitizenshipService, private fb: FormBuilder, private specificityService: SpecificityService, public dialog: MatDialog,
-    private institutionService: InstitutionService, private cdr: ChangeDetectorRef, private commonService: CommonService) { }
+  constructor(private route: ActivatedRoute, private inquiryService: InquiryService, private statusService: StatusService,
+    private fb: FormBuilder, public dialog: MatDialog, private cdr: ChangeDetectorRef, private commonService: CommonService) { }
 
   ngOnInit() {
-    this.citizenshipService.getCountries()
-      .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe(countries => {
-        this.countries = countries;
-      });
-    this.privilegeOrderService.get()
-      .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe(orders => {
-        this.privilegeOrders = orders;
-      });
-
     this.inquiryService.get(this.route.snapshot.data.resolved.inquiryId)
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(inquiry => {
         this.$inquiry = new BehaviorSubject<Inquiry>(inquiry);
         this.$applicant = new BehaviorSubject<Applicant>(inquiry.applicant);
         this.$parent = new BehaviorSubject<Parent>(inquiry.parent);
-        this.children = inquiry.children.map(x => new BehaviorSubject<Child>(x));
         if (inquiry.applicant && inquiry.applicant.applicantRepresentParentDocument) {
           this.$applicantRepresentParentDocument = new BehaviorSubject<ConfirmationDocument>(inquiry.applicant.applicantRepresentParentDocument);
           this.$applicantRepresentParentDocument
@@ -71,7 +48,6 @@ export class InquiryReadComponent implements OnInit, OnDestroy {
               this.cdr.markForCheck();
             });
         }
-        this.$institutionType = this.institutionService.getTypes(inquiry.currentEducationPlace.institutionType).pipe(map(types => types[0]));
         this.cdr.markForCheck();
       });
     this.statusService.get()
@@ -88,10 +64,6 @@ export class InquiryReadComponent implements OnInit, OnDestroy {
     this.ngUnsubscribe.next();
     this.ngUnsubscribe.complete();
   }
-
-  getDocumentView(document) {
-    return ConfirmationDocument.toString(document);
-  }
   changeStatus(status: string) {
 
   }
@@ -101,27 +73,4 @@ export class InquiryReadComponent implements OnInit, OnDestroy {
       status: ["", []]
     });
   }
-
-  edit = (() => {
-    let getConfig = (addConfig?: object) => {
-      let config = { $inquiry: this.$inquiry };
-      if (addConfig) Object.assign(config, addConfig);
-
-      return this.commonService.getDialogConfig(config);
-    }
-    const institutions = () => {
-      this.dialog.open(EditPreschoolInstitutionDialogComponent, getConfig());
-    }
-
-
-
-    const currentEducationPlace = () => {
-      this.dialog.open(EditCurrentEducationPlaceDialogComponent, getConfig());
-    }
-
-    return {
-      institutions: institutions,
-      currentEducationPlace: currentEducationPlace
-    }
-  })();
 }

@@ -78,6 +78,8 @@ import { YesNoPipe } from "./shared/yes-no.pipe";
 import { FileAttachmentDataSourceService } from "./shared/file-attachment-data-source.service";
 import { FileAttachmentService } from "./shared/file-attachment.service";
 import { EditFileAttachmentsDialogComponent } from "./modules/inquiry/edit-file-attachments-dialog/edit-file-attachments-dialog.component";
+import { ChildDataSourceService } from './shared/child-data-source.service';
+import { ChildService } from './shared/child.service';
 
 
 
@@ -95,7 +97,7 @@ import { EditFileAttachmentsDialogComponent } from "./modules/inquiry/edit-file-
         InstitutionsCardComponent, SpecHealthComponent,
         SchoolClassCardComponent, EditChildrenComponent,
         CurrentEducationPlaceCardComponent, EditConfirmationDocumentDialogComponent,
-        PrivilegeCardComponent,EditFileAttachmentsDialogComponent, 
+        PrivilegeCardComponent, EditFileAttachmentsDialogComponent,
         FilesCardComponent, YesNoPipe, CitizenshipsCardComponent,
         RoutingButtonsComponent, EditCitizenshipsDialogComponent, EditCitizenshipsComponent, RelationTypeCardComponent, DisabilityComponent, SpecHealthCardComponent, EditSpecHealthComponent
 
@@ -122,7 +124,7 @@ import { EditFileAttachmentsDialogComponent } from "./modules/inquiry/edit-file-
     ],
     providers: [
         SpecializationService, ConfirmationDocumentService, FamilyInfoService,
-        EducProgramService, PersonService, InquiryDataSourceService, InquiryService, DisabilityService, SpecHealthDataSourceService,
+        EducProgramService, PersonService, InquiryDataSourceService, InquiryService, DisabilityService, SpecHealthDataSourceService, ChildDataSourceService, ChildService,
         InstitutionService, InstitutionDataSourceService, ContactInfoService, ContactInfoDataSourceService, SchoolInquiryInfoDataSourceService, SchoolInquiryInfoService,
         InquiryInfoService, InquiryInfoDataSourceService, PetitionDataSourceService, PetitionService, CurrentEducationPlaceDataSourceService, CurrentEducationPlaceService,
         FileAttachmentDataSourceService, FileAttachmentService

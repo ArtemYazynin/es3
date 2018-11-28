@@ -7,6 +7,7 @@ import { DisabilityType } from "./disability-type.model";
 import { SpecHealth } from "./spec-health.model";
 
 export class Child extends Person implements PersonWithAddress {
+    id:string;
     citizenships: Array<number>;
     specHealthDocument: ConfirmationDocument
     disabledChild: boolean;

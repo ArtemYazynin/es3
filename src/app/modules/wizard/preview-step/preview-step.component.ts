@@ -24,34 +24,20 @@ export class PreviewStepComponent implements OnInit, OnDestroy {
   modes = BehaviorMode;
   themes = Theme;
   personTypes = PersonType;
-  $group: Observable<Group>;
-  $institutionType: Observable<Entity<number>>
-  $specHealth: Observable<SpecHealth>;
   $applicantRepresentParentDocument: BehaviorSubject<ConfirmationDocument>;
-  countries: Array<Country> = [];
   inquiry: Inquiry = this.route.snapshot.data.resolved.inquiry;
   inquiryTypes = inquiryType;
-  applicantTypes = ApplicantType;
   config: ConfigsOfRoutingButtons;
-
-  children: Array<BehaviorSubject<Child>> = [];
   $applicant: BehaviorSubject<Applicant>;
   $parent: BehaviorSubject<Parent>;
 
   ngOnInit() {
     this.$applicant = new BehaviorSubject<Applicant>(this.inquiry.applicant);
     this.$parent = new BehaviorSubject<Parent>(this.inquiry.parent);
-    this.children = this.inquiry.children.map(x => new BehaviorSubject<Child>(x));
 
     if (this.inquiry.applicant) {
       this.$applicantRepresentParentDocument = new BehaviorSubject<ConfirmationDocument>(this.inquiry.applicant.applicantRepresentParentDocument);
     }
-    this.citizenshipService.getCountries()
-      .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe(data => {
-        this.countries = data;
-      });
-    this.$specHealth = of(this.inquiry.specHealth);
 
     this.config = new ConfigsOfRoutingButtons(ButtonsTitles.Register, ButtonsTitles.Back,
       this.actionsButtonsService.primaryActionPreviewStep(this.inquiry, this.inquiry.type, this.router, this.route),
