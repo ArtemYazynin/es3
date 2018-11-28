@@ -76,6 +76,7 @@ import { SpecHealthDataSourceService } from "./shared/spec-health-data-source.se
 import { YesNoPipe } from "./shared/yes-no.pipe";
 import { ChildDataSourceService } from './shared/child-data-source.service';
 import { ChildService } from './shared/child.service';
+import { EditFileAttachmentsDialogComponent } from './modules/inquiry/edit-file-attachments-dialog/edit-file-attachments-dialog.component';
 
 
 
