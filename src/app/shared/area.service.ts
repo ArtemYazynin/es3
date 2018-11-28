@@ -13,7 +13,7 @@ export class AreaService {
 
   getAreas(type: AreaType): Observable<Array<Area>> {
     switch (type) {
-      case AreaType["Муниципалитет"]:
+      case AreaType.Municipality:
         return this.http.get(`${this.serverUrl}/municipalities`).pipe(map(result => {
           return <Array<Area>>result.json();
         }));

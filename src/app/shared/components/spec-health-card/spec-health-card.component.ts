@@ -38,7 +38,7 @@ export class SpecHealthCardComponent implements OnInit, OnDestroy, AfterViewInit
           this.cdr.markForCheck();
         });
     } else {
-      this.specHealth = this.storageService.get(this.route.snapshot.data.resolved.inquiryType).specHealth;
+      this.specHealth = this.route.snapshot.data.resolved.inquiry.specHealth;
     }
 
     this.children.forEach(x => {

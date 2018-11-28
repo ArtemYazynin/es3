@@ -11,38 +11,39 @@ import { ActionsButtonsService } from '../../../shared/actions-buttons.service';
   styleUrls: ['./applicant-type-step.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ApplicantTypeStepComponent implements OnInit, StepBase {
+export class ApplicantTypeStepComponent implements OnInit {
   isValid(): boolean { return true; }
-  inquiry: Inquiry;
-  inquiryType = this.route.snapshot.data.resolved.inquiryType;
+  inquiry: Inquiry = this.route.snapshot.data.resolved.inquiry;
   applicantType: ApplicantType;
   applicantTypes: Array<ApplicantType> = [];
   buttonsTitles = ButtonsTitles;
   themes = Theme;
+  config: ConfigsOfRoutingButtons;
 
   constructor(private storageService: WizardStorageService, private actionButtonService: ActionsButtonsService,
     private router: Router,
     private route: ActivatedRoute) { }
 
   ngOnInit() {
-    this.inquiry = this.storageService.get(this.inquiryType);
+    this.config = new ConfigsOfRoutingButtons(ButtonsTitles.Next, ButtonsTitles.Back,
+      () => {
+        this.actionButtonService.primaryActionApplicantTypeStep(this.inquiry, this.applicantType, this.route)
+      },
+      () => {
+        this.router.navigate(["../currentEducationPlaceStep"], { relativeTo: this.route });
+      }
+    );
+    this.inquiry = this.storageService.get(this.inquiry.type);
     this.applicantTypes = (() => {
       const types = [
         ApplicantType.Parent,
         ApplicantType.Applicant
       ];
-      if (this.inquiryType === inquiryType.school && this.inquiry.children.length == 1) {
+      if (this.inquiry.type === inquiryType.school && this.inquiry.children.length == 1) {
         types.push(ApplicantType.Child);
       }
       return types;
     })();
     this.applicantType = this.inquiry.applicantType || this.applicantTypes[0];
-  }
-
-  next() {
-    this.actionButtonService.primaryActionApplicantTypeStep(this.inquiry, this.applicantType, this.route)
-  }
-  back() {
-    this.router.navigate(["../currentEducationPlaceStep"], { relativeTo: this.route });
   }
 }

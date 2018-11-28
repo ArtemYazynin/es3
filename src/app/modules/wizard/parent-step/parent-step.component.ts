@@ -15,15 +15,14 @@ import { StepBase, WizardStorageService } from '../shared';
   styleUrls: ['./parent-step.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ParentStepComponent implements OnInit, AfterViewInit, StepBase {
+export class ParentStepComponent implements OnInit, AfterViewInit {
   @ViewChild(EditPersonComponent) editPersonComponent: EditPersonComponent;
   @ViewChild(EditCitizenshipsComponent) editCitizenshipsComponent: EditCitizenshipsComponent;
   @ViewChild(RelationTypeComponent) relationTypeComponent: RelationTypeComponent;
-  inquiry: Inquiry;
-  agree: boolean = false;
 
+  inquiry: Inquiry = this.route.snapshot.data.resolved.inquiry;
+  agree: boolean = false;
   personTypes = PersonType;
-  inquiryType = this.route.snapshot.data.resolved.inquiryType;
   inquiryTypes = inquiryType;
   applicantTypes = ApplicantType;
   config: ConfigsOfRoutingButtons;
@@ -32,7 +31,6 @@ export class ParentStepComponent implements OnInit, AfterViewInit, StepBase {
     private route: ActivatedRoute, private actionsButtonsService: ActionsButtonsService) { }
 
   ngOnInit() {
-    this.inquiry = <Inquiry>this.storageService.get(this.inquiryType);
     this.config = new ConfigsOfRoutingButtons(ButtonsTitles.Next, ButtonsTitles.Back,
       this.actionsButtonsService.primaryActionParentStep(this.editCitizenshipsComponent, this.editPersonComponent, this.relationTypeComponent, this.inquiry),
       this.actionsButtonsService.inverseActionParentStep(this.inquiry.applicantType)

@@ -23,13 +23,11 @@ import { PreschoolInquiryInfoStepComponent } from '../wizard/preschool-inquiry-i
 import { PreviewStepComponent } from '../wizard/preview-step/preview-step.component';
 import { PrivilegeStepComponent } from '../wizard/privilege-step/privilege-step.component';
 import { SchoolInquiryInfoStepComponent } from '../wizard/school-inquiry-info-step/school-inquiry-info-step.component';
-import { CurrentEducationPlaceStepService } from '../wizard/shared/current-education-place-step.service';
 import { ChildComponent } from './children-step/child/child.component';
 import { InstitutionStepComponent } from './institution-step/institution-step.component';
 import { PreviewFilesComponent } from './preview/preview-files/preview-files.component';
 import { PreviewPrivilegeComponent } from './preview/preview-privilege/preview-privilege.component';
 import { RegisterCompleteComponent } from './register-complete/register-complete.component';
-import { PrivilegeStepResolver } from './resolvers/privilege-step-resolver';
 import { ParentStepService, WizardStorageService } from './shared';
 import { WizardRoutingModule } from './wizard-routing-module';
 
@@ -78,11 +76,9 @@ import { WizardRoutingModule } from './wizard-routing-module';
     //InMemoryWebApiModule.forRoot(InMemoryService),
   ],
   providers: [
-    PrivilegeStepResolver,
     RegisterCompleteResolver,
     //wizard services
     ParentStepService,
-    CurrentEducationPlaceStepService,
     //end
     HttpInterceptor,
     FormService,

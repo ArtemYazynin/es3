@@ -12,7 +12,4 @@
     </div>
   </app-inquiry-info-edit>
 </div>
-<div class="form-actions" style="text-align: center;">
-  <button type="button" class="btn btn-inverse" (click)="back()">{{buttonsTitles.Back}}</button>
-  <button type="button" class="btn btn-primary" (click)="next()" [disabled]="!isValid()">{{buttonsTitles.Next}}</button>
-</div>
+<app-routing-buttons [config]="config" [isValid]="isValid()"></app-routing-buttons>

@@ -37,7 +37,7 @@ export class FilesCardComponent implements OnInit, OnDestroy {
           this.cdr.markForCheck();
         });
     } else {
-      this.inquiry = this.storageService.get(this.route.snapshot.data.resolved.inquiryType);
+      this.inquiry = this.route.snapshot.data.resolved.inquiry;
     }
   }
 

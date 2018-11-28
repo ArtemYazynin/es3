@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ComponentFactory
 import { ActivatedRoute } from '@angular/router';
 import { ButtonsTitles, ConfigsOfRoutingButtons, Inquiry } from '../../../shared';
 import { ActionsButtonsService } from '../../../shared/actions-buttons.service';
-import { StepBase, WizardStorageService } from '../shared';
+import { WizardStorageService } from '../shared';
 import { EditChildrenComponent } from './../../inquiry/shared/components/edit-children/edit-children.component';
 
 
@@ -16,16 +16,14 @@ import { EditChildrenComponent } from './../../inquiry/shared/components/edit-ch
 export class ChildrenStepComponent implements OnInit {
   @ViewChild("children", { read: ViewContainerRef }) viewContainer;
   component: EditChildrenComponent;
-  inquiry: Inquiry;
+  inquiry: Inquiry = this.route.snapshot.data.resolved.inquiry;
   config: ConfigsOfRoutingButtons;
-  private typeSegment = "type"
   constructor(private resolver: ComponentFactoryResolver, private activatedRoute: ActivatedRoute, private storageService: WizardStorageService, private actionsButtonsService: ActionsButtonsService,
-    private cdr: ChangeDetectorRef) { }
+    private cdr: ChangeDetectorRef, private route: ActivatedRoute) { }
 
   ngOnInit() {
     this.activatedRoute.params.subscribe(x => {
       if (!x) return;
-      this.inquiry = this.storageService.get(x[this.typeSegment]);
       this.initChildren();
       this.config = new ConfigsOfRoutingButtons(ButtonsTitles.Next, ButtonsTitles.Back,
         this.actionsButtonsService.primaryActionChildrenStep(this.component, this.inquiry.type),

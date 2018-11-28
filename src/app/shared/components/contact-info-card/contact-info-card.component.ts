@@ -39,7 +39,8 @@ export class ContactInfoCardComponent implements OnInit, OnDestroy {
           this.cdr.markForCheck();
         });
     } else {
-      this.contactInfo = this.storageService.get(this.route.snapshot.data.resolved.inquiryType).contactInfo;
+      this.contactInfo = this.route.snapshot.data.resolved.inquiry.contactInfo;
+      
     }
   }
 

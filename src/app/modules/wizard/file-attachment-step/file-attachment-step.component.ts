@@ -11,23 +11,21 @@ import { StepBase, WizardStorageService } from '../shared';
   styleUrls: ['./file-attachment-step.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class FileAttachmentStepComponent implements OnInit, StepBase {
+export class FileAttachmentStepComponent implements OnInit {
   @ViewChild(EditFileAttachmentsComponent) editFileAttachmentsComponent: EditFileAttachmentsComponent
-  inquiry: Inquiry;
-  inquiryType = this.route.snapshot.data.resolved.inquiryType;
+  inquiry: Inquiry = this.route.snapshot.data.resolved.inquiry;
   config: ConfigsOfRoutingButtons;
 
   constructor(private router: Router, private route: ActivatedRoute, private storageService: WizardStorageService, private actionsButtonsService: ActionsButtonsService) { }
 
   ngOnInit() {
-    this.inquiry = this.storageService.get(this.inquiryType);
     this.config = new ConfigsOfRoutingButtons(ButtonsTitles.Next, ButtonsTitles.Back,
       () => {
         let filesInfo = this.editFileAttachmentsComponent.getResult();
-        this.storageService.set(this.inquiryType, filesInfo);
+        this.storageService.set(this.inquiry.type, filesInfo);
         this.router.navigate(["../previewStep"], { relativeTo: this.route });
       },
-      this.actionsButtonsService.inverseActionFileAttachmentStep(this.inquiryType, this.router, this.route)
+      this.actionsButtonsService.inverseActionFileAttachmentStep(this.inquiry.type, this.router, this.route)
     );
   }
 
