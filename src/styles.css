@@ -27,6 +27,7 @@ dt {
     opacity: 0.4;
 }
 
+
 .bg-light-blue #contentContainer .form-group:hover{
     background-color: rgba(0, 123, 255, 0.09);
 } 

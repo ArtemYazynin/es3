@@ -1,7 +1,6 @@
-<div class="container col-md-12">
-  <app-inquiry-info-edit title="Параметры заявления">
-    <app-edit-school-inquiry-info [schoolInquiryInfo]="inquiry?.schoolInquiryInfo">
-    </app-edit-school-inquiry-info>
-  </app-inquiry-info-edit>
+<ng-container>
+  <div class="h2 bb pb-2">Параметры заявления</div>
+  <app-edit-school-inquiry-info [schoolInquiryInfo]="inquiry?.schoolInquiryInfo">
+  </app-edit-school-inquiry-info>
   <app-routing-buttons [config]="config" [isValid]=" isValid()"></app-routing-buttons>
-</div>
+</ng-container>

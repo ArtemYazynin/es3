@@ -2,7 +2,7 @@ import { Component, Input, OnDestroy, OnInit, ChangeDetectionStrategy, ChangeDet
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Observable, Subject, zip } from 'rxjs';
 import { map, startWith, takeUntil } from 'rxjs/operators';
-import { CommonService, EducProgram, EducProgramService, EducProgramType, Entity, Specialization, SpecializationService } from '../..';
+import { CommonService, EducProgram, EducProgramService, EducProgramType, Entity, Specialization, SpecializationService, Theme } from '../..';
 import { SchoolInquiryInfo } from '../../models/school-inquiry-info.model';
 import { FormService } from '../../form.service';
 
@@ -36,6 +36,7 @@ export class EditSchoolInquiryInfoComponent implements OnInit, OnDestroy {
   specializations: Array<Specialization>;
   displayFn = this.commonService.displayFn;
   filteredPrograms: Observable<Array<Entity<string>>>;
+  themes = Theme;
 
   constructor(private commonService: CommonService, private fb: FormBuilder, private specializationService: SpecializationService,
     private educProgramService: EducProgramService, private cdr: ChangeDetectorRef, private formService: FormService) { }

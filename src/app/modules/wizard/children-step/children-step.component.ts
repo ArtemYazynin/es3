@@ -2,7 +2,6 @@ import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ComponentFactory
 import { ActivatedRoute } from '@angular/router';
 import { ButtonsTitles, ConfigsOfRoutingButtons, Inquiry } from '../../../shared';
 import { ActionsButtonsService } from '../../../shared/actions-buttons.service';
-import { WizardStorageService } from '../shared';
 import { EditChildrenComponent } from './../../inquiry/shared/components/edit-children/edit-children.component';
 
 
@@ -18,7 +17,7 @@ export class ChildrenStepComponent implements OnInit {
   component: EditChildrenComponent;
   inquiry: Inquiry = this.route.snapshot.data.resolved.inquiry;
   config: ConfigsOfRoutingButtons;
-  constructor(private resolver: ComponentFactoryResolver, private activatedRoute: ActivatedRoute, private storageService: WizardStorageService, private actionsButtonsService: ActionsButtonsService,
+  constructor(private resolver: ComponentFactoryResolver, private activatedRoute: ActivatedRoute, private actionsButtonsService: ActionsButtonsService,
     private cdr: ChangeDetectorRef, private route: ActivatedRoute) { }
 
   ngOnInit() {
@@ -51,7 +50,7 @@ export class ChildrenStepComponent implements OnInit {
     componentRef.instance.owner = this.inquiry.applicant ? this.inquiry.applicant : this.inquiry.parent;
     componentRef.instance.children = this.inquiry.children;
     componentRef.instance.inquiryType = this.inquiry.type;
-    componentRef.instance.specHealth = this.inquiry.specHealth; 
+    componentRef.instance.specHealth = this.inquiry.specHealth;
     this.component = componentRef.instance;
   }
 }
