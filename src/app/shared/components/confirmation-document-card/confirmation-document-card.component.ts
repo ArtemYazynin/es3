@@ -28,7 +28,7 @@ export class ConfirmationDocumentCardComponent implements OnInit, OnDestroy {
     private commonService: CommonService) { }
 
   ngOnInit() {
-    this.theme = this.mode == this.modes.Edit ? this.themes.Read : this.themes.Preview;
+    this.theme = this.mode == this.modes.Edit ? this.themes.Green : this.themes.Blue;
   }
 
   ngOnDestroy(): void {

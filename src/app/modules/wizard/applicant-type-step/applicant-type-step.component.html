@@ -1,5 +1,5 @@
 <div class="container col-md-12">
-  <app-inquiry-info-edit title="Тип заявителя" [theme]="themes.Default">
+  <app-inquiry-info-edit title="Тип заявителя" [theme]="themes.Gray">
     <div class="form-group">
       <mat-radio-group class="radio-group" [(ngModel)]="applicantType">
         <mat-radio-button *ngFor="let type of applicantTypes | applicantType" [value]="type.id">

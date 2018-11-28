@@ -3,7 +3,7 @@
     <div class="col-md-12">
       <ng-container>
         <div class="h4 bb pb-2">Заявление №{{inquiry.number}}</div>
-        <app-inquiry-info-edit title="Заявление в {{inquiry.type | inquiryTypeFriendlyName}}" [theme]="themes.Read">
+        <app-inquiry-info-edit title="Заявление в {{inquiry.type | inquiryTypeFriendlyName}}" [theme]="themes.Green">
           <div class="row">
             <div class="col-md-6">
               <app-inquiry-common-info [inquiry]="inquiry">
@@ -32,7 +32,7 @@
   </div>
   <div class="row">
     <div class="col-md-6" *ngIf="inquiry.applicant">
-      <app-inquiry-info-edit title="Доверенное лицо законного представителя ребенка" [theme]="themes.Read">
+      <app-inquiry-info-edit title="Доверенное лицо законного представителя ребенка" [theme]="themes.Green">
         <app-person-card [entity]="$applicant" [personType]="personTypes.Applicant" [mode]="modes.Edit"></app-person-card>
         <app-citizenships-card [model]="inquiry.applicant" [mode]="modes.Edit" [personType]="personTypes.Applicant"
           [applicantType]="inquiry.applicantType">
@@ -43,7 +43,7 @@
       </app-inquiry-info-edit>
     </div>
     <div class="col-md-6" *ngIf="inquiry.parent">
-      <app-inquiry-info-edit title="Законный представитель" [theme]="themes.Read">
+      <app-inquiry-info-edit title="Законный представитель" [theme]="themes.Green">
         <app-person-card [entity]="$parent" [personType]="personTypes.Parent" [mode]="modes.Edit"></app-person-card>
         <app-citizenships-card [model]="inquiry.parent" [mode]="modes.Edit" [personType]="personTypes.Parent"
           [applicantType]="inquiry.applicantType"> </app-citizenships-card>

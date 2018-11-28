@@ -1,7 +1,7 @@
 <form [formGroup]="contactsForm" novalidate>
   <div class="row">
     <div class="col-md-6">
-      <app-inquiry-info-edit title="Как вы хотите получать оповещения?" [theme]="themes.Default">
+      <app-inquiry-info-edit title="Как вы хотите получать оповещения?" [theme]="themes.Gray">
         <div class="form-group">
           <mat-checkbox formControlName="byEmail" (change)="onChange.byEmail($event)">По электронной почте</mat-checkbox>
           <div *ngIf="formErrors.byEmail" class="alert alert-danger">
@@ -20,7 +20,7 @@
       </app-inquiry-info-edit>
     </div>
     <div class="col-md-6">
-      <app-inquiry-info-edit title="Контактные данные" [theme]="themes.Default">
+      <app-inquiry-info-edit title="Контактные данные" [theme]="themes.Gray">
         <mat-form-field>
           <input matInput formControlName="email" placeholder="Email">
         </mat-form-field>

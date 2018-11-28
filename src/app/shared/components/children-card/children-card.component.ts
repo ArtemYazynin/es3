@@ -26,7 +26,7 @@ export class ChildrenCardComponent implements OnInit {
   constructor(public drawService: DrawService) { }
 
   ngOnInit() {
-    this.theme = this.mode == this.modes.Edit ? this.themes.Read : this.themes.Preview;
+    this.theme = this.mode == this.modes.Edit ? this.themes.Green : this.themes.Blue;
   }
   ngOnDestroy(): void {
     this.ngUnsubscribe.next();

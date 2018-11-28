@@ -1,6 +1,6 @@
 <div [formGroup]="form">
   <div class="col-md-6">
-    <app-inquiry-info-edit title="Список образовательных организаций" [theme]="themes.Default">
+    <app-inquiry-info-edit title="Список образовательных организаций" [theme]="themes.Gray">
       <div class="row" *ngIf="inquiryType == inquiryTypes.school">
         <mat-checkbox formControlName="IsLearnEducCenter">Учился в центре образования(ЦО)</mat-checkbox>
       </div>
@@ -22,7 +22,7 @@
     </app-inquiry-info-edit>
   </div>
   <div class="col-md-6" *ngIf="selectedInstitutions && selectedInstitutions.length > 0">
-    <app-inquiry-info-edit title="Расставьте организации в приоритетном порядке с помощью стрелочек" [theme]="themes.Default">
+    <app-inquiry-info-edit title="Расставьте организации в приоритетном порядке с помощью стрелочек" [theme]="themes.Gray">
       <mat-list>
         <div *ngFor="let item of selectedInstitutions;let i = index;let first=first; let last=last;">
           <mat-list-item>

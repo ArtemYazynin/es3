@@ -1,6 +1,6 @@
 <div class="row">
   <div class="col-md-6">
-    <app-inquiry-info-edit title=" Необходимо прикрепить копии документов:" [theme]="themes.Alert">
+    <app-inquiry-info-edit title=" Необходимо прикрепить копии документов:" [theme]="themes.Red">
       <div>
         <ul>
           <li>Документ, удостоверяющий личность заявителя;</li>
@@ -31,7 +31,7 @@
     </app-inquiry-info-edit>
   </div>
   <div class="col-md-6">
-    <app-inquiry-info-edit title="Прикрепленные документы:" [theme]="themes.Default">
+    <app-inquiry-info-edit title="Прикрепленные документы:" [theme]="themes.Gray">
       <div class="form-group alert alert-info" align="center">Размер одного файла не должен превышать 5мб.</div>
       <ng-container *ngFor="let item of bunchOfFileView; let i=index;">
         <div [hidden]="!isOldBrowser">

@@ -16,7 +16,7 @@
                 <ng-template #childContainer>
                 </ng-template>
                 <app-edit-citizenships [model]="children ? children[0] : undefined" [personType]="personTypes.Child" [applicantType]="applicantTypes.Child"></app-edit-citizenships>
-                <app-inquiry-info-edit title="Дополнительная информация" [theme]="themes.Default">
+                <app-inquiry-info-edit title="Дополнительная информация" [theme]="themes.Gray">
                     <div class="alert alert-info" *ngIf="components.length>1">
                         Внимание! Дата рождения, место рождения, гражданство и специализация по здоровью одинаковы
                         для

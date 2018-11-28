@@ -32,7 +32,7 @@ export class CurrentEducationPlaceCardComponent implements OnInit, OnDestroy {
     private storageService: WizardStorageService, private inquiryService: InquiryService, private commonService: CommonService) { }
 
   ngOnInit() {
-    this.theme = this.mode == this.modes.Edit ? this.themes.Read : this.themes.Preview;
+    this.theme = this.mode == this.modes.Edit ? this.themes.Green : this.themes.Blue;
     if (this.route.snapshot.data.resolved.inquiryId) {
       this.currentEducationPlaceService.getByInquiry(this.route.snapshot.data.resolved.inquiryId)
         .pipe(takeUntil(this.ngUnsubscribe))

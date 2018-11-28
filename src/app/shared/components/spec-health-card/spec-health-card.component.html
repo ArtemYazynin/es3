@@ -3,14 +3,14 @@
 </ng-container>
 
 <ng-template #withEdit>
-  <app-inquiry-info-edit [title]="title" (edit)="edit()" [theme]="themes.Read">
+  <app-inquiry-info-edit [title]="title" (edit)="edit()" [theme]="themes.Green">
     <ng-container *ngTemplateOutlet="fieldsTemplate">
     </ng-container>
   </app-inquiry-info-edit>
 </ng-template>
 
 <ng-template #withoutEdit>
-  <app-inquiry-info-edit [title]="title" [theme]="themes.Preview">
+  <app-inquiry-info-edit [title]="title" [theme]="themes.Blue">
     <ng-container *ngTemplateOutlet="fieldsTemplate">
     </ng-container>
   </app-inquiry-info-edit>
