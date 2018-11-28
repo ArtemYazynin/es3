@@ -77,6 +77,7 @@ import { YesNoPipe } from "./shared/yes-no.pipe";
 import { ChildDataSourceService } from './shared/child-data-source.service';
 import { ChildService } from './shared/child.service';
 import { EditFileAttachmentsDialogComponent } from './modules/inquiry/edit-file-attachments-dialog/edit-file-attachments-dialog.component';
+import { DialogButtonsComponent } from './modules/inquiry/dialog-buttons/dialog-buttons.component';
 
 
 
@@ -96,7 +97,7 @@ import { EditFileAttachmentsDialogComponent } from './modules/inquiry/edit-file-
         CurrentEducationPlaceCardComponent,
         PrivilegeCardComponent,EditFileAttachmentsDialogComponent,
         FilesCardComponent, YesNoPipe, CitizenshipsCardComponent,
-        RoutingButtonsComponent,  EditCitizenshipsComponent, RelationTypeCardComponent, DisabilityComponent, SpecHealthCardComponent, EditSpecHealthComponent
+        DialogButtonsComponent, RoutingButtonsComponent,  EditCitizenshipsComponent, RelationTypeCardComponent, DisabilityComponent, SpecHealthCardComponent, EditSpecHealthComponent
 
     ],
     imports: [
