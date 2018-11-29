@@ -4,7 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 import { BehaviorSubject, Subject } from 'rxjs';
 import { skip, takeUntil } from 'rxjs/operators';
 import { BehaviorMode, CommonService, InquiryService, Institution, SchoolClass, Theme } from '../..';
-import { EditPreschoolInstitutionDialogComponent } from '../../../modules/inquiry/edit-preschool-institution-dialog/edit-preschool-institution-dialog.component';
+import { EditInstitutionDialogComponent } from '../../../modules/inquiry/edit-preschool-institution-dialog/edit-preschool-institution-dialog.component';
 import { WizardStorageService } from '../../../modules/wizard/shared';
 import { InstitutionService } from '../../institution.service';
 
@@ -73,6 +73,6 @@ export class InstitutionsCardComponent implements OnInit {
             this.cdr.markForCheck();
           });
       })
-    this.dialog.open(EditPreschoolInstitutionDialogComponent, this.commonService.getDialogConfig(config));
+    this.dialog.open(EditInstitutionDialogComponent, this.commonService.getDialogConfig(config));
   }
 }

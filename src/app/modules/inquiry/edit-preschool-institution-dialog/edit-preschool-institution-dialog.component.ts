@@ -10,9 +10,9 @@ import { EditInstitutionsComponent } from '../shared/components/edit-institution
   styleUrls: ['./edit-preschool-institution-dialog.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class EditPreschoolInstitutionDialogComponent implements OnInit {
+export class EditInstitutionDialogComponent implements OnInit {
   @ViewChild(EditInstitutionsComponent) editInstitutionsComponent: EditInstitutionsComponent;
-  constructor(public dialogRef: MatDialogRef<EditPreschoolInstitutionDialogComponent>,
+  constructor(public dialogRef: MatDialogRef<EditInstitutionDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: { $configSubject: BehaviorSubject<{ institutions: Array<Institution> | Array<SchoolClass>, IsLearnEducCenter: boolean }>, inquiryType: string }) { }
 
   themes = Theme;
