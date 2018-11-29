@@ -18,14 +18,13 @@ import { PrivilegeOrderService } from '../../shared/privilege-order.service';
 import { WizardStorageService } from '../wizard/shared/wizard-storage.service';
 import { ContactInfoDialogComponent } from './contact-info-dialog/contact-info-dialog.component';
 import { DialogButtonsComponent } from './dialog-buttons/dialog-buttons.component';
-import { EditChildrenDialogComponent } from './edit-children-dialog/edit-children-dialog.component';
 import { EditCitizenshipsDialogComponent } from './edit-citizenships-dialog/edit-citizenships-dialog.component';
 import { EditConfirmationDocumentDialogComponent } from './edit-confirmation-document-dialog/edit-confirmation-document-dialog.component';
 import { EditCurrentEducationPlaceDialogComponent } from './edit-current-education-place-dialog/edit-current-education-place-dialog.component';
 import { EditFileAttachmentsDialogComponent } from './edit-file-attachments-dialog/edit-file-attachments-dialog.component';
 import { EditPersonDialogComponent } from './edit-person-dialog/edit-person-dialog.component';
 import { EditPetitionDialogComponent } from './edit-petition-dialog/edit-petition-dialog.component';
-import { EditPreschoolInstitutionDialogComponent } from './edit-preschool-institution-dialog/edit-preschool-institution-dialog.component';
+import { EditInstitutionDialogComponent } from './edit-preschool-institution-dialog/edit-preschool-institution-dialog.component';
 import { InquiryReadComponent } from './inquiry-read/inquiry-read.component';
 import { InquiryRouting } from './inquiry-routing-module';
 import { PreschoolInquiryInfoDialogComponent } from './preschool-inquiry-info-dialog/preschool-inquiry-info-dialog.component';
@@ -73,12 +72,12 @@ import { SpecHealthDialogComponent } from './spec-health-dialog/spec-health-dial
     ActionsButtonsService
   ],
   declarations: [PetitionCardComponent, InquiryReadComponent, InquiryCommonInfoComponent, RegisterSourcePipe,
-    PrivilegeDialogComponent, EditPersonDialogComponent, PreschoolInquiryInfoDialogComponent, EditPreschoolInstitutionDialogComponent,
-    ContactInfoDialogComponent, EditCurrentEducationPlaceDialogComponent, SchoolInquiryInfoDialogComponent,
-    EditChildrenDialogComponent, EditPetitionDialogComponent, PetitionTypePipe, RelationTypeDialogComponent, SpecHealthDialogComponent, EditPetitionComponent, DialogButtonsComponent,
+    PrivilegeDialogComponent, EditPersonDialogComponent, PreschoolInquiryInfoDialogComponent, EditInstitutionDialogComponent,
+    ContactInfoDialogComponent, EditCurrentEducationPlaceDialogComponent, SchoolInquiryInfoDialogComponent, DialogButtonsComponent,
+    EditPetitionDialogComponent, PetitionTypePipe, RelationTypeDialogComponent, SpecHealthDialogComponent, EditPetitionComponent,
     EditConfirmationDocumentDialogComponent, EditCitizenshipsDialogComponent, EditFileAttachmentsDialogComponent
   ],
-  entryComponents: [PrivilegeDialogComponent, EditPersonDialogComponent, PreschoolInquiryInfoDialogComponent, EditPreschoolInstitutionDialogComponent,
+  entryComponents: [PrivilegeDialogComponent, EditPersonDialogComponent, PreschoolInquiryInfoDialogComponent, EditInstitutionDialogComponent,
     ContactInfoDialogComponent, EditCurrentEducationPlaceDialogComponent, EditConfirmationDocumentDialogComponent, EditCitizenshipsDialogComponent,
     EditFileAttachmentsDialogComponent, SchoolInquiryInfoDialogComponent, EditPetitionDialogComponent, RelationTypeDialogComponent, SpecHealthDialogComponent]
 })
