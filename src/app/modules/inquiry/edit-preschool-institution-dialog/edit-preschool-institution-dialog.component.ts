@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, Inject, OnInit, ViewChild } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { BehaviorSubject } from 'rxjs';
-import { ConfigsOfRoutingButtons, Institution, Theme } from '../../../shared';
+import { ConfigsOfRoutingButtons, Institution, SchoolClass, Theme } from '../../../shared';
 import { EditInstitutionsComponent } from '../shared/components/edit-institutions/edit-institutions.component';
 
 @Component({
@@ -13,7 +13,7 @@ import { EditInstitutionsComponent } from '../shared/components/edit-institution
 export class EditPreschoolInstitutionDialogComponent implements OnInit {
   @ViewChild(EditInstitutionsComponent) editInstitutionsComponent: EditInstitutionsComponent;
   constructor(public dialogRef: MatDialogRef<EditPreschoolInstitutionDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: { $institutions: BehaviorSubject<Array<Institution>>, inquiryType: string }) { }
+    @Inject(MAT_DIALOG_DATA) public data: { $configSubject: BehaviorSubject<{ institutions: Array<Institution> | Array<SchoolClass>, IsLearnEducCenter: boolean }>, inquiryType: string }) { }
 
   themes = Theme;
   config: ConfigsOfRoutingButtons;
@@ -22,7 +22,12 @@ export class EditPreschoolInstitutionDialogComponent implements OnInit {
     this.config = new ConfigsOfRoutingButtons(undefined, undefined,
       () => {
         let institutions = this.editInstitutionsComponent.selectedInstitutions;
-        this.data.$institutions.next(institutions);
+        if (this.data.inquiryType == "school") {
+          let IsLearnEducCenter = this.editInstitutionsComponent.form.controls.IsLearnEducCenter.value;
+          this.data.$configSubject.next({ institutions: institutions, IsLearnEducCenter: IsLearnEducCenter });
+        } else {
+          this.data.$configSubject.next({ institutions: institutions, IsLearnEducCenter: undefined });
+        }
         this.dialogRef.close();
       },
       () => {

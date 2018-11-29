@@ -32,7 +32,7 @@
     </div>
     <div class="col-md-6">
       <app-institutions-card [mode]="modes.Read" [inquiryType]="inquiry.type" *ngIf="inquiry.type == inquiryTypes.preschool"></app-institutions-card>
-      <!--<app-school-classes-card [mode]="modes.Read" *ngIf="inquiry.type == inquiryTypes.school"></app-school-classes-card>-->
+      <app-school-classes-card [mode]="modes.Read" [inquiryType]="inquiry.type" *ngIf="inquiry.type == inquiryTypes.school"></app-school-classes-card>
     </div>
   </div>
   <div class="row">

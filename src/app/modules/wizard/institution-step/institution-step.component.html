@@ -1,6 +1,6 @@
 <ng-container>
   <div class="h2 bb pb-2">Выбор образовательной организации</div>
-    <app-edit-institutions [institutions]="inquiry?.institutions" [inquiryType]="inquiryType">
+  <app-edit-institutions [institutions]="inquiry?.institutions" [inquiryType]="inquiry?.type">
   </app-edit-institutions>
   <app-routing-buttons [config]="config" [isValid]="editInstitutionsComponent.isValid()"></app-routing-buttons>
 </ng-container>

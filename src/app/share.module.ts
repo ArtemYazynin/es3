@@ -76,9 +76,8 @@ import { SpecHealthDataSourceService } from "./shared/spec-health-data-source.se
 import { YesNoPipe } from "./shared/yes-no.pipe";
 import { ChildDataSourceService } from './shared/child-data-source.service';
 import { ChildService } from './shared/child.service';
-import { EditFileAttachmentsDialogComponent } from './modules/inquiry/edit-file-attachments-dialog/edit-file-attachments-dialog.component';
-import { DialogButtonsComponent } from './modules/inquiry/dialog-buttons/dialog-buttons.component';
-
+import { SchoolClassService } from "./shared/school-classes.service";
+import { SchoolClassDataSourceService } from "./shared/school-classes-data-source.service";
 
 
 @NgModule({
@@ -95,9 +94,9 @@ import { DialogButtonsComponent } from './modules/inquiry/dialog-buttons/dialog-
         InstitutionsCardComponent, SpecHealthComponent,
         SchoolClassCardComponent, EditChildrenComponent,
         CurrentEducationPlaceCardComponent,
-        PrivilegeCardComponent,EditFileAttachmentsDialogComponent,
+        PrivilegeCardComponent,
         FilesCardComponent, YesNoPipe, CitizenshipsCardComponent,
-        DialogButtonsComponent, RoutingButtonsComponent,  EditCitizenshipsComponent, RelationTypeCardComponent, DisabilityComponent, SpecHealthCardComponent, EditSpecHealthComponent
+        RoutingButtonsComponent,  EditCitizenshipsComponent, RelationTypeCardComponent, DisabilityComponent, SpecHealthCardComponent, EditSpecHealthComponent
 
     ],
     imports: [
@@ -123,7 +122,7 @@ import { DialogButtonsComponent } from './modules/inquiry/dialog-buttons/dialog-
     providers: [
         SpecializationService, ConfirmationDocumentService, FamilyInfoService,
         EducProgramService, PersonService, InquiryDataSourceService, InquiryService, DisabilityService, SpecHealthDataSourceService, ChildDataSourceService, ChildService,
-        InstitutionService, InstitutionDataSourceService, ContactInfoService, ContactInfoDataSourceService, SchoolInquiryInfoDataSourceService, SchoolInquiryInfoService,
+        InstitutionService, InstitutionDataSourceService, SchoolClassService, SchoolClassDataSourceService, ContactInfoService, ContactInfoDataSourceService, SchoolInquiryInfoDataSourceService, SchoolInquiryInfoService,
         InquiryInfoService, InquiryInfoDataSourceService, PetitionDataSourceService, PetitionService, CurrentEducationPlaceDataSourceService, CurrentEducationPlaceService,
         FileAttachmentDataSourceService, FileAttachmentService
     ],

@@ -1,9 +1,14 @@
-<div *ngIf="data.$institutions | async as institutions">
+<div *ngIf="data.$configSubject | async as configSubject">
   <h1 mat-dialog-title>Предпочитаемые организации</h1>
   <div mat-dialog-content>
     <app-inquiry-info-edit [theme]="themes.Default">
-      <app-edit-institutions [institutions]="institutions" [inquiryType]="data.inquiryType">
-      </app-edit-institutions>
+      <div *ngIf="data.inquiryType == 'school'">
+        <app-edit-institutions [schoolClasses]="configSubject.institutions" [IsLearnEducCenter]="configSubject.IsLearnEducCenter"
+          [inquiryType]="data.inquiryType"></app-edit-institutions>
+      </div>
+      <div *ngIf="data.inquiryType == 'preschool'">
+        <app-edit-institutions [institutions]="configSubject.institutions" [inquiryType]="data.inquiryType"></app-edit-institutions>
+      </div>
     </app-inquiry-info-edit>
   </div>
   <app-dialog-buttons [config]="config" [isValid]="isValid()"></app-dialog-buttons>

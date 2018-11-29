@@ -54,17 +54,21 @@ export class InstitutionsCardComponent implements OnInit {
 
   edit() {
     let config = {
-      $institutions: new BehaviorSubject<Array<Institution>>(this.institutions),
+      $configSubject: new BehaviorSubject({
+        institutions: this.institutions,
+        IsLearnEducCenter: undefined
+      }),
       inquiryType: this.inquiryType
     }
-    config.$institutions
+
+    config.$configSubject
       .pipe(skip(1), takeUntil(this.ngUnsubscribe))
-      .subscribe(updateInstitutions => {
-        this.institutions = updateInstitutions;
+      .subscribe(config => {
+        this.institutions = config.institutions;
         this.inquiryService.get(this.route.snapshot.data.resolved.inquiryId)
           .pipe(takeUntil(this.ngUnsubscribe))
           .subscribe(inquiry => {
-            inquiry.institutions = updateInstitutions;
+            inquiry.institutions = this.institutions;
             this.inquiryService.update(inquiry.id, inquiry).pipe(takeUntil(this.ngUnsubscribe)).subscribe();
             this.cdr.markForCheck();
           });

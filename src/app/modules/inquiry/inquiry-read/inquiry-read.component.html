@@ -63,7 +63,7 @@
     </div>
     <div class="col-md-4">
       <app-institutions-card [mode]="modes.Edit" [inquiryType]="inquiry.type" *ngIf="inquiry.type == inquiryTypes.preschool"></app-institutions-card>
-      <!--<app-school-classes-card [mode]="modes.Edit" *ngIf="inquiry.type == inquiryTypes.school"></app-school-classes-card>-->
+      <app-school-classes-card [mode]="modes.Edit" [inquiryType]="inquiry.type" *ngIf="inquiry.type == inquiryTypes.school"></app-school-classes-card>
     </div>
     <div class="col-md-4">
       <app-current-education-place-card [mode]="modes.Edit" [inquiryType]="inquiry.type"></app-current-education-place-card>

@@ -8,19 +8,19 @@
 </ng-template>
 
 <ng-template #withEdit>
-  <app-inquiry-info-edit title="Предпочитаемые организации" (edit)="edit()">
+  <app-inquiry-info-edit [title]="title" (edit)="edit()" [theme]="theme">
     <ng-container *ngTemplateOutlet="fieldsTemplate">
     </ng-container>
   </app-inquiry-info-edit>
 </ng-template>
 
 <ng-template #withoutEdit>
-  <app-inquiry-info-edit title="Предпочитаемые организации">
+  <app-inquiry-info-edit [title]="title" [theme]="theme">
     <ng-container *ngTemplateOutlet="fieldsTemplate">
     </ng-container>
   </app-inquiry-info-edit>
 </ng-template>
 
-<ng-container *ngTemplateOutlet="edit ? withEdit : withoutEdit">
+<ng-container *ngTemplateOutlet="mode == modes.Edit ? withEdit : withoutEdit">
 
 </ng-container>
