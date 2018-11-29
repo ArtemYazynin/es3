@@ -1,7 +1,7 @@
+import { FormGroup } from "@angular/forms";
 import { ConfirmationDocument } from "./confirmation-document.model";
 import { Entity } from "./entity.model";
 import { PrivilegeOrder } from "./privilege-order.model";
-import { FormGroup } from "@angular/forms";
 
 export class Privilege extends Entity<string> {
     constructor(id?: string, name?: string, privilegeOrder?: PrivilegeOrder) {
