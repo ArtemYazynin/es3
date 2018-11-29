@@ -107,7 +107,7 @@ export class EditContactInfoComponent implements OnInit {
       ],
       "email": [
         "",
-        this.contactInfo && this.contactInfo.byEmail ? this.emailValidators : []
+        this.emailValidators
       ],
       "smsPhone": [
         "",
@@ -135,7 +135,7 @@ export class EditContactInfoComponent implements OnInit {
       smsPhone: this.contactInfo.smsPhone,
       phones: this.contactInfo.phones
     });
-    if (this.contactsForm.controls.dontNotify.value) {
+    if (this.contactsForm.controls.dontNotify.value || !this.contactInfo.byEmail) {
       this.contactsForm.controls.email.clearValidators();
       this.contactsForm.controls.email.updateValueAndValidity();
     }

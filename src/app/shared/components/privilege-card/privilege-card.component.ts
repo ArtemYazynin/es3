@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, Input, OnInit, OnDestroy, ChangeDetectorRef } from '@angular/core';
-import { Privilege, CommonService, ConfirmationDocument, InquiryService, Inquiry, Theme } from '../..';
+import { Privilege, CommonService, ConfirmationDocument, InquiryService, Inquiry, Theme, PrivilegeService } from '../..';
 import { BehaviorMode } from '../../behavior-mode.enum';
 import { MatDialog } from '@angular/material';
 import { PrivilegeDialogComponent } from '../../../modules/inquiry/privilege-dialog/privilege-dialog.component';
@@ -15,16 +15,17 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class PrivilegeCardComponent implements OnInit, OnDestroy {
   @Input() mode: BehaviorMode;
-  @Input() model: Privilege;
 
   private ngUnsubscribe: Subject<any> = new Subject();
   modes = BehaviorMode;
-  theme:Theme;
+  theme: Theme;
   themes = Theme;
   title = "Льготная категория";
   $document: BehaviorSubject<ConfirmationDocument>;
+  model: Privilege;
 
-  constructor(private dialog: MatDialog, private commonService: CommonService, private cdr: ChangeDetectorRef, private inquiryService: InquiryService, private route: ActivatedRoute, ) { }
+  constructor(private dialog: MatDialog, private commonService: CommonService, private cdr: ChangeDetectorRef, private inquiryService: InquiryService,
+    private route: ActivatedRoute, private privilegeService: PrivilegeService) { }
 
   ngOnInit() {
     this.theme = this.mode == this.modes.Edit ? this.themes.Green : this.themes.Blue;
@@ -62,8 +63,8 @@ export class PrivilegeCardComponent implements OnInit, OnDestroy {
         if (edit) {
           /* NOTE: remove privilege AND add privilege(json server don't support update object property) */
           observableInquiry
-            .pipe(flatMap(inquiry => updateFn(inquiry, undefined)), 
-                  flatMap(inquiry => updateFn(inquiry, privilege)))
+            .pipe(flatMap(inquiry => updateFn(inquiry, undefined)),
+              flatMap(inquiry => updateFn(inquiry, privilege)))
             .subscribe(inquiry => subscribeFn(inquiry))
         } else {
           observableInquiry

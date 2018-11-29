@@ -113,7 +113,7 @@ export class EditPrivilegeComponent implements OnInit, AfterViewInit {
       .subscribe(val => {
         this.reset.privilege(this.privilegeForm.controls.withoutPrivilege.value);
         if (isNullOrUndefined(val) || val == "") return;
-        this.privilegeService.get()
+        this.privilegeService.gets()
           .pipe(takeUntil(this.ngUnsubscribe), distinctUntilChanged())
           .subscribe(result => {
             this.privileges = result.filter(value => value.privilegeOrder.id == val.id);

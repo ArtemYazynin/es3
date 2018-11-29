@@ -7,7 +7,7 @@
                     <button class="btn btn-light" (click)="navBarManager.remove(component)" *ngIf="!first"><i class="mdi mdi-trash-can"></i></button>
                 </div>
             </li>
-            <button class="btn btn-light" (click)="navBarManager.add()">
+            <button class="btn btn-light" (click)="navBarManager.add()" [disabled]="!isValid()">
                 <i class="mdi mdi-account-multiple-plus"></i>
             </button>
         </ul>

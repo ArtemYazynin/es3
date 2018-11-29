@@ -1,10 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/internal/Observable';
 import { map } from 'rxjs/operators';
+import { InquiryService } from './inquiry.service';
 import { SpecHealth } from './models/spec-health.model';
 import { SpecHealthDataSourceService } from './spec-health-data-source.service';
-import { Inquiry } from './models/inquiry.model';
-import { InquiryService } from './inquiry.service';
 
 @Injectable()
 export class SpecHealthService {
@@ -26,7 +25,7 @@ export class SpecHealthService {
     return this.dataSource.put(id, specHealth);
   }
 
-  getByInquiry(id:string):Observable<SpecHealth>{
-    return this.inquiryService.get(id).pipe(map(x=>x.specHealth));
+  getByInquiry(id: string): Observable<SpecHealth> {
+    return this.inquiryService.get(id).pipe(map(x => x.specHealth));
   }
 }

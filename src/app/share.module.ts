@@ -20,6 +20,8 @@ import { EducProgramService, InquiryService, InstitutionService, SpecializationS
 import { ApplicantTypePipe } from "./shared/applicant-type.pipe";
 import { AreaTypePipe } from './shared/area-type.pipe';
 import { AttachmentTypePipe } from "./shared/attachment-type.pipe";
+import { ChildDataSourceService } from './shared/child-data-source.service';
+import { ChildService } from './shared/child.service';
 import { AddressComponent } from "./shared/components/address/address.component";
 import { AgeGroupComponent } from "./shared/components/age-group/age-group.component";
 import { AtLeastOneCheckboxShouldBeSelectedComponent } from "./shared/components/at-least-one-checkbox-should-be-selected/at-least-one-checkbox-should-be-selected.component";
@@ -74,8 +76,7 @@ import { SchoolInquiryInfoDataSourceService } from "./shared/school-inquiry-info
 import { SchoolInquiryInfoService } from "./shared/school-inquiry-info.service";
 import { SpecHealthDataSourceService } from "./shared/spec-health-data-source.service";
 import { YesNoPipe } from "./shared/yes-no.pipe";
-import { ChildDataSourceService } from './shared/child-data-source.service';
-import { ChildService } from './shared/child.service';
+import { PrivilegeDataSourceService } from './shared/privilege-data-source.service';
 import { SchoolClassService } from "./shared/school-classes.service";
 import { SchoolClassDataSourceService } from "./shared/school-classes-data-source.service";
 
@@ -96,7 +97,7 @@ import { SchoolClassDataSourceService } from "./shared/school-classes-data-sourc
         CurrentEducationPlaceCardComponent,
         PrivilegeCardComponent,
         FilesCardComponent, YesNoPipe, CitizenshipsCardComponent,
-        RoutingButtonsComponent,  EditCitizenshipsComponent, RelationTypeCardComponent, DisabilityComponent, SpecHealthCardComponent, EditSpecHealthComponent
+        DialogButtonsComponent, RoutingButtonsComponent,  EditCitizenshipsComponent, RelationTypeCardComponent, DisabilityComponent, SpecHealthCardComponent, EditSpecHealthComponent
 
     ],
     imports: [
@@ -124,7 +125,7 @@ import { SchoolClassDataSourceService } from "./shared/school-classes-data-sourc
         EducProgramService, PersonService, InquiryDataSourceService, InquiryService, DisabilityService, SpecHealthDataSourceService, ChildDataSourceService, ChildService,
         InstitutionService, InstitutionDataSourceService, SchoolClassService, SchoolClassDataSourceService, ContactInfoService, ContactInfoDataSourceService, SchoolInquiryInfoDataSourceService, SchoolInquiryInfoService,
         InquiryInfoService, InquiryInfoDataSourceService, PetitionDataSourceService, PetitionService, CurrentEducationPlaceDataSourceService, CurrentEducationPlaceService,
-        FileAttachmentDataSourceService, FileAttachmentService
+        FileAttachmentDataSourceService, FileAttachmentService, PrivilegeDataSourceService
     ],
     entryComponents: [EditChildrenComponent]
 })

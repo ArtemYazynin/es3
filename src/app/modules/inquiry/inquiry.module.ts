@@ -15,9 +15,14 @@ import { HttpInterceptor } from '../../shared/http-interceptor';
 import { RegisterSourcePipe } from '../../shared/models/register-source.pipe';
 import { PetitionTypePipe } from '../../shared/petition-type.pipe';
 import { PrivilegeOrderService } from '../../shared/privilege-order.service';
+import { WizardStorageService } from '../wizard/shared/wizard-storage.service';
 import { ContactInfoDialogComponent } from './contact-info-dialog/contact-info-dialog.component';
+import { DialogButtonsComponent } from './dialog-buttons/dialog-buttons.component';
 import { EditChildrenDialogComponent } from './edit-children-dialog/edit-children-dialog.component';
+import { EditCitizenshipsDialogComponent } from './edit-citizenships-dialog/edit-citizenships-dialog.component';
+import { EditConfirmationDocumentDialogComponent } from './edit-confirmation-document-dialog/edit-confirmation-document-dialog.component';
 import { EditCurrentEducationPlaceDialogComponent } from './edit-current-education-place-dialog/edit-current-education-place-dialog.component';
+import { EditFileAttachmentsDialogComponent } from './edit-file-attachments-dialog/edit-file-attachments-dialog.component';
 import { EditPersonDialogComponent } from './edit-person-dialog/edit-person-dialog.component';
 import { EditPetitionDialogComponent } from './edit-petition-dialog/edit-petition-dialog.component';
 import { EditPreschoolInstitutionDialogComponent } from './edit-preschool-institution-dialog/edit-preschool-institution-dialog.component';
@@ -27,14 +32,9 @@ import { PreschoolInquiryInfoDialogComponent } from './preschool-inquiry-info-di
 import { PrivilegeDialogComponent } from './privilege-dialog/privilege-dialog.component';
 import { RelationTypeDialogComponent } from './relation-type-dialog/relation-type-dialog.component';
 import { SchoolInquiryInfoDialogComponent } from './school-inquiry-info-dialog/school-inquiry-info-dialog.component';
+import { EditPetitionComponent } from './shared/components/edit-petition/edit-petition.component';
 import { InquiryCommonInfoComponent } from './shared/components/inquiry-common-info/inquiry-common-info.component';
 import { SpecHealthDialogComponent } from './spec-health-dialog/spec-health-dialog.component';
-import { EditPetitionComponent } from './shared/components/edit-petition/edit-petition.component';
-import { DialogButtonsComponent } from './dialog-buttons/dialog-buttons.component';
-import { EditConfirmationDocumentDialogComponent } from './edit-confirmation-document-dialog/edit-confirmation-document-dialog.component';
-import { WizardStorageService } from '../wizard/shared/wizard-storage.service';
-import { EditCitizenshipsDialogComponent } from './edit-citizenships-dialog/edit-citizenships-dialog.component';
-import { EditFileAttachmentsDialogComponent } from './edit-file-attachments-dialog/edit-file-attachments-dialog.component';
 
 @NgModule({
   imports: [
@@ -75,7 +75,7 @@ import { EditFileAttachmentsDialogComponent } from './edit-file-attachments-dial
   declarations: [PetitionCardComponent, InquiryReadComponent, InquiryCommonInfoComponent, RegisterSourcePipe,
     PrivilegeDialogComponent, EditPersonDialogComponent, PreschoolInquiryInfoDialogComponent, EditPreschoolInstitutionDialogComponent,
     ContactInfoDialogComponent, EditCurrentEducationPlaceDialogComponent, SchoolInquiryInfoDialogComponent,
-    EditChildrenDialogComponent, EditPetitionDialogComponent, PetitionTypePipe, RelationTypeDialogComponent, SpecHealthDialogComponent,EditPetitionComponent, DialogButtonsComponent,
+    EditChildrenDialogComponent, EditPetitionDialogComponent, PetitionTypePipe, RelationTypeDialogComponent, SpecHealthDialogComponent, EditPetitionComponent, DialogButtonsComponent,
     EditConfirmationDocumentDialogComponent, EditCitizenshipsDialogComponent, EditFileAttachmentsDialogComponent
   ],
   entryComponents: [PrivilegeDialogComponent, EditPersonDialogComponent, PreschoolInquiryInfoDialogComponent, EditPreschoolInstitutionDialogComponent,
