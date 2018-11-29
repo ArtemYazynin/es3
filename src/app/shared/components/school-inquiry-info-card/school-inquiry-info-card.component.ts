@@ -1,14 +1,13 @@
-import { Component, Input, OnInit, ChangeDetectionStrategy, ChangeDetectorRef, OnDestroy, Inject } from '@angular/core';
-import { SchoolInquiryInfo, CommonService, InquiryService, BehaviorMode } from '../../index';
-import { ActivatedRoute } from '@angular/router';
-import { WizardStorageService } from '../../../modules/wizard/shared';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Inject, Input, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material';
-import { ContactInfoService } from '../../contact-info.service';
-import { SchoolInquiryInfoDialogComponent } from '../../../modules/inquiry/school-inquiry-info-dialog/school-inquiry-info-dialog.component';
-import { SchoolInquiryInfoService } from '../../school-inquiry-info.service';
-import { takeUntil, skip } from 'rxjs/operators';
-import { Subject, BehaviorSubject } from 'rxjs';
+import { ActivatedRoute } from '@angular/router';
+import { BehaviorSubject, Subject } from 'rxjs';
+import { skip, takeUntil } from 'rxjs/operators';
 import { esConstant } from '../../../app.module';
+import { SchoolInquiryInfoDialogComponent } from '../../../modules/inquiry/school-inquiry-info-dialog/school-inquiry-info-dialog.component';
+import { WizardStorageService } from '../../../modules/wizard/shared';
+import { BehaviorMode, CommonService, InquiryService, SchoolInquiryInfo, Theme } from '../../index';
+import { SchoolInquiryInfoService } from '../../school-inquiry-info.service';
 
 @Component({
   selector: 'app-school-inquiry-info-card',
@@ -22,6 +21,8 @@ export class SchoolInquiryInfoCardComponent implements OnInit, OnDestroy {
   private ngUnsubscribe: Subject<any> = new Subject();
   modes = BehaviorMode;
   schoolInquiryInfo: SchoolInquiryInfo;
+
+  themes = Theme;
 
   constructor(private route: ActivatedRoute, private storageService: WizardStorageService, private dialog: MatDialog,
     private commonService: CommonService, private schoolInquiryInfoService: SchoolInquiryInfoService, private cdr: ChangeDetectorRef,

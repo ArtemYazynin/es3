@@ -2015,6 +2015,7 @@
         ]
         let confirmationDocuments = [];
         let conctactInfos = [];
+        let schoolClasses = [];
         let schoolInquiryInfos = [];
         let inquiryInfos = [];
         let fileAttachments = [];
@@ -2037,6 +2038,7 @@
             institutionsTypes: institutionsTypes,
             currentMunicipality: currentMunicipality,
             institutions: institutions,
+            schoolClasses: schoolClasses,
             privilegeOrders: privilegeOrders,
             privileges: privileges,
             specificities: specificities,
