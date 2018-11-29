@@ -97,7 +97,7 @@ import { SchoolClassDataSourceService } from "./shared/school-classes-data-sourc
         CurrentEducationPlaceCardComponent,
         PrivilegeCardComponent,
         FilesCardComponent, YesNoPipe, CitizenshipsCardComponent,
-        DialogButtonsComponent, RoutingButtonsComponent,  EditCitizenshipsComponent, RelationTypeCardComponent, DisabilityComponent, SpecHealthCardComponent, EditSpecHealthComponent
+          EditCitizenshipsComponent, RelationTypeCardComponent, DisabilityComponent, SpecHealthCardComponent, EditSpecHealthComponent
 
     ],
     imports: [
@@ -117,7 +117,7 @@ import { SchoolClassDataSourceService } from "./shared/school-classes-data-sourc
         EditFileAttachmentsComponent, EditSchoolInquiryInfoComponent, SchoolInquiryInfoCardComponent, PreschoolInquiryInfoCardComponent,
         PersonCardComponent, ConfirmationDocumentCardComponent, ChildrenCardComponent, ContactInfoCardComponent, SpecHealthComponent,
         InstitutionsCardComponent, SchoolClassCardComponent, CurrentEducationPlaceCardComponent, EditChildrenComponent,
-        PrivilegeCardComponent, FilesCardComponent, YesNoPipe, RoutingButtonsComponent, EditCitizenshipsComponent, CitizenshipsCardComponent, RelationTypeCardComponent,
+        PrivilegeCardComponent, FilesCardComponent, YesNoPipe, EditCitizenshipsComponent, CitizenshipsCardComponent, RelationTypeCardComponent,
         DisabilityComponent, SpecHealthCardComponent, EditSpecHealthComponent
     ],
     providers: [

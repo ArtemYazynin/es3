@@ -18,7 +18,6 @@ import { PrivilegeOrderService } from '../../shared/privilege-order.service';
 import { WizardStorageService } from '../wizard/shared/wizard-storage.service';
 import { ContactInfoDialogComponent } from './contact-info-dialog/contact-info-dialog.component';
 import { DialogButtonsComponent } from './dialog-buttons/dialog-buttons.component';
-import { EditChildrenDialogComponent } from './edit-children-dialog/edit-children-dialog.component';
 import { EditCitizenshipsDialogComponent } from './edit-citizenships-dialog/edit-citizenships-dialog.component';
 import { EditConfirmationDocumentDialogComponent } from './edit-confirmation-document-dialog/edit-confirmation-document-dialog.component';
 import { EditCurrentEducationPlaceDialogComponent } from './edit-current-education-place-dialog/edit-current-education-place-dialog.component';
@@ -74,8 +73,8 @@ import { SpecHealthDialogComponent } from './spec-health-dialog/spec-health-dial
   ],
   declarations: [PetitionCardComponent, InquiryReadComponent, InquiryCommonInfoComponent, RegisterSourcePipe,
     PrivilegeDialogComponent, EditPersonDialogComponent, PreschoolInquiryInfoDialogComponent, EditInstitutionDialogComponent,
-    ContactInfoDialogComponent, EditCurrentEducationPlaceDialogComponent, SchoolInquiryInfoDialogComponent,
-    EditChildrenDialogComponent, EditPetitionDialogComponent, PetitionTypePipe, RelationTypeDialogComponent, SpecHealthDialogComponent, EditPetitionComponent, DialogButtonsComponent,
+    ContactInfoDialogComponent, EditCurrentEducationPlaceDialogComponent, SchoolInquiryInfoDialogComponent, DialogButtonsComponent,
+    EditPetitionDialogComponent, PetitionTypePipe, RelationTypeDialogComponent, SpecHealthDialogComponent, EditPetitionComponent,
     EditConfirmationDocumentDialogComponent, EditCitizenshipsDialogComponent, EditFileAttachmentsDialogComponent
   ],
   entryComponents: [PrivilegeDialogComponent, EditPersonDialogComponent, PreschoolInquiryInfoDialogComponent, EditInstitutionDialogComponent,
