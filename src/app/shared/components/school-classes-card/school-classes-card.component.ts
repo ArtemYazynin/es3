@@ -36,7 +36,7 @@ export class SchoolClassCardComponent implements OnInit {
       this.inquiryService.get(this.route.snapshot.data.resolved.inquiryId)
         .pipe(takeUntil(this.ngUnsubscribe))
         .subscribe(inquiry => {
-          this.schoolClasses = inquiry.schoolClasses;
+          this.schoolClasses = SchoolClass.castArray(inquiry.schoolClasses);
           this.IsLearnEducCenter = inquiry.IsLearnEducCenter;
           this.cdr.markForCheck();
         });

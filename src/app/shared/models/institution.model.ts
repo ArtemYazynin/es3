@@ -23,9 +23,29 @@ export class Institution extends Entity<string>{
         this._groups = groups || [];
     }
 
-    static cast(institutions?: Array<Institution>): Array<Institution> {
+    static castArray(institutions?: Array<Institution>): Array<Institution> {
         let result = new Array<Institution>();
         if (!institutions) return result;
-        else return institutions;
+        else
+            for (let i = 0; i < institutions.length; i++) {
+                result.push(this.cast(institutions[i]));
+            }
+        return result;
+    }
+
+    private static cast(institution?: Institution): Institution {
+        let result = this.buildEmpty();
+        if (!institution) return result;
+        else
+            for (const key in institution) {
+                if (result.hasOwnProperty(key)) {
+                    result[key] = institution[key];
+                }
+            }
+        return result;
+    }
+
+    private static buildEmpty(): Institution {
+        return new Institution(undefined, undefined, undefined);
     }
 }
