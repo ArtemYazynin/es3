@@ -30,12 +30,12 @@ import { PreviewPrivilegeComponent } from './preview/preview-privilege/preview-p
 import { RegisterCompleteComponent } from './register-complete/register-complete.component';
 import { ParentStepService, WizardStorageService } from './shared';
 import { WizardRoutingModule } from './wizard-routing-module';
-import { BreadsCrumbsComponent } from './breads-crumbs/breads-crumbs.component';
 import { RoutingButtonsComponent } from '../../shared/components/routing-buttons/routing-buttons.component';
-
+import { BreadsCrumbsComponent } from './breads-crumbs/breads-crumbs.component';
 
 @NgModule({
   declarations: [
+    BreadsCrumbsComponent,
     RoutingButtonsComponent,
     //steps components
     ApplicantTypeStepComponent,
@@ -54,13 +54,9 @@ import { RoutingButtonsComponent } from '../../shared/components/routing-buttons
     IdentityCardTypePipe,
     EnumToArrayPipe,
     ChildComponent,
-
-
-
     PreviewPrivilegeComponent,
     PreviewFilesComponent,
-    RegisterCompleteComponent,
-    BreadsCrumbsComponent
+    RegisterCompleteComponent
 
   ],
   exports: [],

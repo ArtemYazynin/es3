@@ -15,7 +15,7 @@ import { EditChildrenComponent } from './../../inquiry/shared/components/edit-ch
 export class ChildrenStepComponent implements OnInit {
   @ViewChild("children", { read: ViewContainerRef }) viewContainer;
   component: EditChildrenComponent;
-  inquiry: Inquiry = this.route.snapshot.data.resolved.inquiry;
+  inquiry: Inquiry;
   config: ConfigsOfRoutingButtons;
   constructor(private resolver: ComponentFactoryResolver, private activatedRoute: ActivatedRoute, private actionsButtonsService: ActionsButtonsService,
     private cdr: ChangeDetectorRef, private route: ActivatedRoute) { }
@@ -23,6 +23,7 @@ export class ChildrenStepComponent implements OnInit {
   ngOnInit() {
     this.activatedRoute.params.subscribe(x => {
       if (!x) return;
+      this.inquiry = this.route.snapshot.data.resolved.inquiry;
       this.initChildren();
       this.config = new ConfigsOfRoutingButtons(ButtonsTitles.Next, ButtonsTitles.Back,
         this.actionsButtonsService.primaryActionChildrenStep(this.component, this.inquiry.type),

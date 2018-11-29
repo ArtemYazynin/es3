@@ -16,6 +16,7 @@ import { MenuComponent } from './menu/menu.component';
 import { InMemoryService } from './in-memory-server';
 import { InMemoryWebApiModule } from 'angular-in-memory-web-api/in-memory-web-api.module';
 import { MAT_LABEL_GLOBAL_OPTIONS } from '@angular/material';
+import { BreadsCrumbsService } from './shared/breads-crumbs.service';
 
 export const esConstant = new InjectionToken<{ fileNotChoosen: string }>("esConstant");
 export const SERVER_URL = new InjectionToken<string>("SERVER_URL");
@@ -44,6 +45,7 @@ const constants = {
     WizardStorageService,
     BaseResolver,
     FormService,
+    BreadsCrumbsService,
     RegisterCompleteResolver,
     {
       provide: esConstant,
