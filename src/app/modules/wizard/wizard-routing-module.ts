@@ -91,14 +91,7 @@ const routes: Routes = [
         }
     },
     {
-        path: ":type/schoolInstitutionStep",
-        component: InstitutionStepComponent,
-        resolve: {
-            resolved: BaseResolver
-        }
-    },
-    {
-        path: ":type/preschoolInstitutionStep",
+        path: ":type/institutionStep",
         component: InstitutionStepComponent,
         resolve: {
             resolved: BaseResolver
