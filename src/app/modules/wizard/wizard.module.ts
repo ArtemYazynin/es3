@@ -31,11 +31,9 @@ import { RegisterCompleteComponent } from './register-complete/register-complete
 import { ParentStepService, WizardStorageService } from './shared';
 import { WizardRoutingModule } from './wizard-routing-module';
 import { RoutingButtonsComponent } from '../../shared/components/routing-buttons/routing-buttons.component';
-import { BreadsCrumbsComponent } from './breads-crumbs/breads-crumbs.component';
 
 @NgModule({
   declarations: [
-    BreadsCrumbsComponent,
     RoutingButtonsComponent,
     //steps components
     ApplicantTypeStepComponent,

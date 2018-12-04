@@ -3,6 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { ButtonsTitles, ConfigsOfRoutingButtons, Inquiry } from '../../../shared';
 import { ActionsButtonsService } from '../../../shared/actions-buttons.service';
 import { EditChildrenComponent } from './../../inquiry/shared/components/edit-children/edit-children.component';
+import { BreadsCrumbsService } from '../../../shared/breads-crumbs.service';
 
 
 @Component({
