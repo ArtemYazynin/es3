@@ -2,7 +2,7 @@
   <div class="row">
     <div class="col-md-6">
       <app-inquiry-info-edit title="Список образовательных организаций" [theme]="themes.Gray">
-        <div class="row" *ngIf="inquiryType == inquiryTypes.school">
+        <div *ngIf="inquiryType == inquiryTypes.school">
           <mat-checkbox formControlName="IsLearnEducCenter">Учился в центре образования(ЦО)</mat-checkbox>
         </div>
         <mat-form-field style="min-width: 20%;margin-right: 3%;">

@@ -36,7 +36,7 @@ export class InstitutionService {
   }
 
   getByInquiry(id: string): Observable<Array<Institution>> {
-    return this.inquiryService.get(id).pipe(map(x => Institution.cast(x.institutions)));
+    return this.inquiryService.get(id).pipe(map(x => Institution.castArray(x.institutions)));
   }
 
   update(id: string, institution: Institution): Observable<Institution> {

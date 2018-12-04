@@ -1,5 +1,5 @@
 <div *ngIf="data.$contactInfo | async as contactInfo">
-  <h1 mat-dialog-title>Контактная информация</h1>
+  <h1 mat-dialog-title>Контактные данные</h1>
   <div mat-dialog-content>
     <app-inquiry-info-edit [theme]="themes.Default">
       <app-edit-contact-info [contactInfo]="contactInfo"></app-edit-contact-info>

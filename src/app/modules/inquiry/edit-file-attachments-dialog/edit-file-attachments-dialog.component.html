@@ -1,5 +1,5 @@
 <div *ngIf="data.$inquiry | async as inquiry">
-  <h1 mat-dialog-title>Копии документов</h1>
+  <h1 mat-dialog-title>Файлы</h1>
   <div mat-dialog-content>
     <app-inquiry-info-edit [theme]="themes.Default">
       <app-edit-file-attachments [inquiry]="inquiry"> </app-edit-file-attachments>

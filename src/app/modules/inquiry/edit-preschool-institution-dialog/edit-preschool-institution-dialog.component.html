@@ -2,11 +2,11 @@
   <h1 mat-dialog-title>Предпочитаемые организации</h1>
   <div mat-dialog-content>
     <app-inquiry-info-edit [theme]="themes.Default">
-      <div *ngIf="data.inquiryType == 'school'">
+      <div *ngIf="data.inquiryType == inquiryTypes.school">
         <app-edit-institutions [schoolClasses]="configSubject.institutions" [IsLearnEducCenter]="configSubject.IsLearnEducCenter"
           [inquiryType]="data.inquiryType"></app-edit-institutions>
       </div>
-      <div *ngIf="data.inquiryType == 'preschool'">
+      <div *ngIf="data.inquiryType == inquiryTypes.preschool">
         <app-edit-institutions [institutions]="configSubject.institutions" [inquiryType]="data.inquiryType"></app-edit-institutions>
       </div>
     </app-inquiry-info-edit>

@@ -6,7 +6,7 @@ import { SchoolClass } from './models/school-class.model';
 
 @Injectable()
 export class SchoolClassDataSourceService extends DataSourceService<SchoolClass>{
-  public api = `${this.serverUrl}/schoolClass`;
+  public api = `${this.serverUrl}/schoolClasses`;
   constructor(http: HttpInterceptor, @Inject(SERVER_URL) private serverUrl) {
     super(http)
   }

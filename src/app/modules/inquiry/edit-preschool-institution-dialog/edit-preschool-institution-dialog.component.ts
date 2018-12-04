@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, Inject, OnInit, ViewChild } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { BehaviorSubject } from 'rxjs';
-import { ConfigsOfRoutingButtons, Institution, SchoolClass, Theme } from '../../../shared';
+import { ConfigsOfRoutingButtons, inquiryType, Institution, SchoolClass, Theme } from '../../../shared';
 import { EditInstitutionsComponent } from '../shared/components/edit-institutions/edit-institutions.component';
 
 @Component({
@@ -17,12 +17,13 @@ export class EditInstitutionDialogComponent implements OnInit {
 
   themes = Theme;
   config: ConfigsOfRoutingButtons;
+  inquiryTypes = inquiryType;
 
   ngOnInit() {
     this.config = new ConfigsOfRoutingButtons(undefined, undefined,
       () => {
         let institutions = this.editInstitutionsComponent.selectedInstitutions;
-        if (this.data.inquiryType == "school") {
+        if (this.data.inquiryType == inquiryType.school) {
           let IsLearnEducCenter = this.editInstitutionsComponent.form.controls.IsLearnEducCenter.value;
           this.data.$configSubject.next({ institutions: institutions, IsLearnEducCenter: IsLearnEducCenter });
         } else {

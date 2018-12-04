@@ -36,7 +36,7 @@ export class SchoolClassService {
   }
 
   getByInquiry(id: string): Observable<Array<SchoolClass>> {
-    return this.inquiryService.get(id).pipe(map(x => SchoolClass.cast(x.schoolClasses)));
+    return this.inquiryService.get(id).pipe(map(x => SchoolClass.castArray(x.schoolClasses)));
   }
 
   update(id: string, schoolClass: SchoolClass): Observable<SchoolClass> {
