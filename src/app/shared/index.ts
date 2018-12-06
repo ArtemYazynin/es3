@@ -28,7 +28,6 @@ export * from "./addressBuilder/address-builder-director";
 
 export * from "./models/entity.model";
 export * from "./models/ibreadcrumb";
-export * from "./models/view-model.model";
 export * from "./models/disability-type.model";
 export * from "./models/preschool-inquiry.model";
 export * from "./models/petition.model";
