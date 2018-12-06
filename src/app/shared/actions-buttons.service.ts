@@ -136,11 +136,6 @@ export class ActionsButtonsService {
             }
         }
     }
-    inverseActionContactInfoStep(router: Router, route: ActivatedRoute) {
-        return () => {
-            router.navigate(["../parentStep"], { relativeTo: route });
-        }
-    }
 
     primaryActionPrivilegeStep(privilegeEditComponent: EditPrivilegeComponent, inquiry: Inquiry, route: ActivatedRoute) {
         return () => {
@@ -177,7 +172,7 @@ export class ActionsButtonsService {
             this.inquiryService.saveInquiryInfo(editInquiryInfoComponent, (patch) => {
                 this.storageService.set(inquiryType, patch);
             })
-            router.navigate(["../preschoolInstitutionStep"], { relativeTo: route });
+            router.navigate(["../institutionStep"], { relativeTo: route });
         }
     }
     inverseActionInquiryInfoStep(inquiryCurrentType: any, router: Router, route: ActivatedRoute) {
@@ -221,10 +216,10 @@ export class ActionsButtonsService {
         return () => {
             switch (inquiryCurrentType) {
                 case inquiryType.preschool:
-                    router.navigate(["../preschoolInstitutionStep"], { relativeTo: route });
+                    router.navigate(["../institutionStep"], { relativeTo: route });
                     break;
                 case inquiryType.school:
-                    router.navigate(["../schoolInstitutionStep"], { relativeTo: route });
+                    router.navigate(["../institutionStep"], { relativeTo: route });
                     break;
                 case inquiryType.healthCamp:
                     router.navigate(["../healthCampStep"], { relativeTo: route });

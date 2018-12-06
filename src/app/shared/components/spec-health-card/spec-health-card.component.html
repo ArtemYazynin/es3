@@ -17,10 +17,7 @@
 </ng-template>
 
 <ng-template #fieldsTemplate>
-  <div class="form-group" *ngIf="specHealth">
-    {{specHealth.name}}
-  </div>
-
+  <app-form-group [label]="title" [name]="specHealth.name" *ngIf="specHealth"></app-form-group>
   <ng-container *ngFor="let child of children">
     <app-confirmation-document-card title="Документ, подтверждающий потребность в группе с ОВЗ({{(child | async).firstname}})"
       [model]="(child | async).$specHealthDocument" [mode]="mode">

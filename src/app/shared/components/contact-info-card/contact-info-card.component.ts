@@ -3,10 +3,11 @@ import { MatDialog } from '@angular/material';
 import { ActivatedRoute } from '@angular/router';
 import { BehaviorSubject, Subject } from 'rxjs';
 import { skip, takeUntil } from 'rxjs/operators';
-import { BehaviorMode, CommonService, InquiryService, Theme } from '../..';
+import { BehaviorMode, CommonService, InquiryService, Theme, ViewModel } from '../..';
 import { ContactInfoDialogComponent } from '../../../modules/inquiry/contact-info-dialog/contact-info-dialog.component';
 import { ContactInfo, WizardStorageService } from '../../../modules/wizard/shared';
 import { ContactInfoService } from '../../contact-info.service';
+import { YesNoPipe } from '../../yes-no.pipe';
 
 @Component({
   selector: 'app-contact-info-card',
@@ -19,7 +20,7 @@ export class ContactInfoCardComponent implements OnInit, OnDestroy {
   @Input() mode: BehaviorMode;
 
   private ngUnsubscribe: Subject<any> = new Subject();
-  title="Контактные данные"
+  title = "Контактные данные"
   modes = BehaviorMode;
   theme: Theme;
   themes = Theme;
@@ -40,7 +41,7 @@ export class ContactInfoCardComponent implements OnInit, OnDestroy {
         });
     } else {
       this.contactInfo = this.route.snapshot.data.resolved.inquiry.contactInfo;
-      
+
     }
   }
 

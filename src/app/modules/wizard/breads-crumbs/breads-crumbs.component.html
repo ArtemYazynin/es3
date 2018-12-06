@@ -1,12 +1,18 @@
-<!-- Блок навигации "хлебные крошки"-->
-<section class="breadscrumb">
-  <div class="container-fluid">
-    <nav aria-label="breadcrumb">
-      <ol class="breadcrumb">
-        <li class="breadcrumb-item"><a href="#">Главная</a></li>
-        <li class="breadcrumb-item"><a href="#">Подача заявления</a></li>
-        <li class="breadcrumb-item active" aria-current="page">Регистрация заявления в ДОО</li>
-      </ol>
-    </nav>
-  </div>
-</section>
+<ng-container *ngIf="$breadcrumbs | async as breadcrumbs">
+  <ng-container *ngIf="breadcrumbs.length > 0">
+    <!-- Блок навигации "хлебные крошки"-->
+    <section class="breadscrumb">
+      <div class="container-fluid">
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb">
+            <ng-container *ngFor="let breadcrumb of breadcrumbs;let last = last;">
+              <li class="breadcrumb-item">
+                <a [routerLink]="breadcrumb.url">{{ breadcrumb.label }}</a>
+              </li>
+            </ng-container>
+          </ol>
+        </nav>
+      </div>
+    </section>
+  </ng-container>
+</ng-container>

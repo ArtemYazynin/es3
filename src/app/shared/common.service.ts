@@ -1,7 +1,6 @@
 import { Inject, Injectable, QueryList } from '@angular/core';
 import { MatDialogConfig } from '@angular/material';
 import { esConstant } from '../app.module';
-import { CitizenshipService } from './citizenship.service';
 import { AddressComponent } from './components/address/address.component';
 import { EditConfirmationDocumentComponent } from './components/edit-confirmation-document/edit-confirmation-document.component';
 import { Address } from './models/address.model';
@@ -16,7 +15,7 @@ import { IdentityCardType } from './models/identityCardType';
 @Injectable()
 export class CommonService {
 
-  constructor(@Inject(esConstant) private esConstant, private citizenshipService: CitizenshipService) { }
+  constructor(@Inject(esConstant) private esConstant) { }
 
   getAddressFromComponents(component: AddressComponent) {
     const data = component.$address.getValue();

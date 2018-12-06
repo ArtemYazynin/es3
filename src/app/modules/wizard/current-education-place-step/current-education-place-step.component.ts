@@ -4,6 +4,7 @@ import { ButtonsTitles, ConfigsOfRoutingButtons, Inquiry, Theme } from '../../..
 import { ActionsButtonsService } from '../../../shared/actions-buttons.service';
 import { EditCurrentEducationPlaceComponent } from '../../inquiry/shared/components/edit-current-education-place/edit-current-education-place.component';
 import { StepBase, WizardStorageService } from '../shared';
+import { BreadsCrumbsService } from '../../../shared/breads-crumbs.service';
 
 @Component({
   selector: 'app-curren-education-place-step',

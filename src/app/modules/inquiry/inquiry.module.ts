@@ -32,7 +32,6 @@ import { PrivilegeDialogComponent } from './privilege-dialog/privilege-dialog.co
 import { RelationTypeDialogComponent } from './relation-type-dialog/relation-type-dialog.component';
 import { SchoolInquiryInfoDialogComponent } from './school-inquiry-info-dialog/school-inquiry-info-dialog.component';
 import { EditPetitionComponent } from './shared/components/edit-petition/edit-petition.component';
-import { InquiryCommonInfoComponent } from './shared/components/inquiry-common-info/inquiry-common-info.component';
 import { SpecHealthDialogComponent } from './spec-health-dialog/spec-health-dialog.component';
 
 @NgModule({
@@ -71,7 +70,7 @@ import { SpecHealthDialogComponent } from './spec-health-dialog/spec-health-dial
     StatusService,
     ActionsButtonsService
   ],
-  declarations: [PetitionCardComponent, InquiryReadComponent, InquiryCommonInfoComponent, RegisterSourcePipe,
+  declarations: [PetitionCardComponent, InquiryReadComponent, RegisterSourcePipe,
     PrivilegeDialogComponent, EditPersonDialogComponent, PreschoolInquiryInfoDialogComponent, EditInstitutionDialogComponent,
     ContactInfoDialogComponent, EditCurrentEducationPlaceDialogComponent, SchoolInquiryInfoDialogComponent, DialogButtonsComponent,
     EditPetitionDialogComponent, PetitionTypePipe, RelationTypeDialogComponent, SpecHealthDialogComponent, EditPetitionComponent,

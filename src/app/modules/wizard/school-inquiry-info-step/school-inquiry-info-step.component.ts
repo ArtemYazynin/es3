@@ -24,7 +24,7 @@ export class SchoolInquiryInfoStepComponent implements OnInit {
         this.inquiryService.saveSchoolInquiryInfo(this.editSchoolInquiryInfoComponent, (patch) => {
           this.storageService.set(this.inquiry.type, patch);
         })
-        this.router.navigate(["../schoolInstitutionStep"], { relativeTo: this.route });
+        this.router.navigate(["../institutionStep"], { relativeTo: this.route });
       },
       () => {
         this.router.navigate(["../privilegeStep"], { relativeTo: this.route });

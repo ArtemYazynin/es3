@@ -79,6 +79,7 @@ import { YesNoPipe } from "./shared/yes-no.pipe";
 import { PrivilegeDataSourceService } from './shared/privilege-data-source.service';
 import { SchoolClassService } from "./shared/school-classes.service";
 import { SchoolClassDataSourceService } from "./shared/school-classes-data-source.service";
+import { FormGroupComponent } from './shared/components/form-group/form-group.component';
 
 
 @NgModule({
@@ -97,7 +98,7 @@ import { SchoolClassDataSourceService } from "./shared/school-classes-data-sourc
         CurrentEducationPlaceCardComponent,
         PrivilegeCardComponent,
         FilesCardComponent, YesNoPipe, CitizenshipsCardComponent,
-          EditCitizenshipsComponent, RelationTypeCardComponent, DisabilityComponent, SpecHealthCardComponent, EditSpecHealthComponent
+        EditCitizenshipsComponent, RelationTypeCardComponent, DisabilityComponent, SpecHealthCardComponent, EditSpecHealthComponent, FormGroupComponent
 
     ],
     imports: [
@@ -118,7 +119,7 @@ import { SchoolClassDataSourceService } from "./shared/school-classes-data-sourc
         PersonCardComponent, ConfirmationDocumentCardComponent, ChildrenCardComponent, ContactInfoCardComponent, SpecHealthComponent,
         InstitutionsCardComponent, SchoolClassCardComponent, CurrentEducationPlaceCardComponent, EditChildrenComponent,
         PrivilegeCardComponent, FilesCardComponent, YesNoPipe, EditCitizenshipsComponent, CitizenshipsCardComponent, RelationTypeCardComponent,
-        DisabilityComponent, SpecHealthCardComponent, EditSpecHealthComponent
+        DisabilityComponent, SpecHealthCardComponent, EditSpecHealthComponent, FormGroupComponent
     ],
     providers: [
         SpecializationService, ConfirmationDocumentService, FamilyInfoService,

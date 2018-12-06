@@ -1,27 +1,15 @@
 <ng-template #fieldsTemplate>
-  <div [ngSwitch]="currentEducationPlace?.isOther">
-    <div *ngSwitchCase="true">
-      <div class="form-group">
-        <b>Тип </b> Другая
-      </div>
-      <div class="form-group">
-        <b>Образовательная организация </b> {{currentEducationPlace.other}}
-      </div>
-    </div>
-    <div *ngSwitchCase="false">
-      <div class="form-group">
-        <div class="form-group">
-          <b>Тип </b> {{($institutionType | async)?.name}}
-        </div>
-        <div class="form-group">
-          <b>Образовательная организация </b> {{currentEducationPlace.institution.name}}
-        </div>
-        <div class="form-group">
-          <b>Группа/класс </b> {{currentEducationPlace.group?.name || "-"}}
-        </div>
-      </div>
-    </div>
-  </div>
+  <ng-container [ngSwitch]="currentEducationPlace?.isOther">
+    <ng-container *ngSwitchCase="true">
+      <app-form-group label="Тип" name="Другая"></app-form-group>
+      <app-form-group label="Образовательная организация" [name]="currentEducationPlace.other"></app-form-group>
+    </ng-container>
+    <ng-container *ngSwitchCase="false">
+      <app-form-group label="Тип" [name]="($institutionType | async)?.name"></app-form-group>
+      <app-form-group label="Образовательная организация" [name]="currentEducationPlace.institution.name"></app-form-group>
+      <app-form-group label="Группа/класс" [name]="currentEducationPlace.group?.name || '-'"></app-form-group>
+    </ng-container>
+  </ng-container>
 </ng-template>
 
 <ng-template #withEdit>

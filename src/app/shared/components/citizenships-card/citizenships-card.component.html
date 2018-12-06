@@ -1,25 +1,15 @@
 <ng-template #fieldsTemplate>
-  <div class="form-group">
-    <b>Гражданство </b> {{drawService.citizenships(model.citizenships, countries)}}
-  </div>
-  <div class="form-group" *ngIf="model.register">
-    <b>Адрес регистрации </b> {{drawService.address(model.register)}}
-  </div>
-  <div class="form-group" *ngIf="model.residential">
-    <b>Адрес проживания </b> {{drawService.address(model.residential)}}
-  </div>
-  <div class="form-group" *ngIf="model.tempRegistrationExpiredDate && model.citizenships == 643">
-    <b>Дата окончания временно регистрации </b> {{model.tempRegistrationExpiredDate | date: "dd.MM.yyyy"}}
-  </div>
-  <div class="form-group" *ngIf="model.tempRegistrationExpiredDate && model.citizenships != 643">
-    <b>Действителен до </b> {{model.tempRegistrationExpiredDate | date: "dd.MM.yyyy"}}
-  </div>
+  <app-form-group label="Гражданство" [name]="drawService.citizenships(model.citizenships, countries)"></app-form-group>
+  <app-form-group label="Адрес регистрации" [name]="drawService.address(model.register)"></app-form-group>
+  <app-form-group label="Адрес проживания" [name]="drawService.address(model.residential)"></app-form-group>
+  <app-form-group label="Дата окончания временно регистрации" *ngIf="model.tempRegistrationExpiredDate && model.citizenships == 643"
+    [name]="model.tempRegistrationExpiredDate | date: 'dd.MM.yyyy'"></app-form-group>
+  <app-form-group label="Действителен до" [name]="model.tempRegistrationExpiredDate | date: 'dd.MM.yyyy'" 
+    *ngIf="model.tempRegistrationExpiredDate && model.citizenships != 643"></app-form-group>
   <ng-container *ngIf="$document">
     <app-confirmation-document-card [title]="documentTitle" [model]="$document" [mode]="mode">
     </app-confirmation-document-card>
   </ng-container>
-
-
 </ng-template>
 
 <ng-template #withEdit>

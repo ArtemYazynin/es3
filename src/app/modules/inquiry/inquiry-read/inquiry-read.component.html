@@ -1,23 +1,20 @@
 <div *ngIf="$inquiry | async as inquiry">
   <div class="row">
-    <div class="col-md-12">
-      <ng-container>
-        <div class="h2 bb pb-2">Заявление №{{inquiry.number}}</div>
-        <app-inquiry-info-edit title="Заявление в {{inquiry.type | inquiryTypeFriendlyName}}" [theme]="themes.Green">
-          <div class="row">
-            <div class="col-md-6">
-              <app-inquiry-common-info [inquiry]="inquiry">
-                <div class="form-group">
-                  <b>Заявление на перевод</b>Нет
-                </div>
-                <div class="form-group">
-                  <b>Доп. информация</b>{{inquiry.addInformation}}
-                </div>
-              </app-inquiry-common-info>
-            </div>
-          </div>
-          <div class="button-row" [formGroup]="statusForm">
-            <mat-form-field style="width: 70%">
+    <div class="col-md-6">
+      <div class="h2 bb pb-2">Заявление №{{inquiry.number}}</div>
+      <app-inquiry-info-edit title="Заявление в {{inquiry.type | inquiryTypeFriendlyName}}" [theme]="themes.Green">
+        <app-inquiry-info-edit [theme]="themes.Green">
+          <app-form-group label="Номер" [name]="inquiry.number"></app-form-group>
+          <app-form-group label="Зарегистрировано" [name]="inquiry.registerDateTime"></app-form-group>
+          <app-form-group label="Источник регистрации" [name]="inquiry.registerSource"></app-form-group>
+          <app-form-group label="Внешний идентификатор" [name]="inquiry?.portalIdentity?.name || '-'"></app-form-group>
+          <app-form-group label="Идентификатор в ЕЛК" [name]="inquiry?.portalIdentity?.name || '-'"></app-form-group>
+          <app-form-group label="Идентификатор в РЛДД" [name]="inquiry?.portalIdentity?.name || '-'"></app-form-group>
+          <app-form-group label="Статус" [name]="inquiry.status.name"></app-form-group>
+          <app-form-group label="Заявление на перевод" name="Нет"></app-form-group>
+          <app-form-group label="Доп. информация" [name]="inquiry.addInformation"></app-form-group>
+          <div class="col-12" style="margin-top: 3rem!important;" [formGroup]="statusForm">
+            <mat-form-field>
               <mat-select placeholder="Перевести в статус" formControlName="status" #status>
                 <mat-option *ngFor="let status of statuses" [value]="status.id">
                   {{status.name}}
@@ -27,7 +24,8 @@
             <button type="button" class="btn btn-primary" (click)="changeStatus(status.value)">Выполнить</button>
           </div>
         </app-inquiry-info-edit>
-      </ng-container>
+
+      </app-inquiry-info-edit>
     </div>
   </div>
   <div class="row">

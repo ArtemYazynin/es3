@@ -2,12 +2,9 @@
   <div class="row" *ngIf="inquiryInfo && inquiryInfo.distributionParams">
     <div class="col-md-4">
       <app-inquiry-info-edit title="Параметры комплектования" [theme]="theme">
-        <div class="form-group">
-          <b>Желаемая дата зачисления </b> {{inquiryInfo.distributionParams.wishDate}}
-        </div>
-        <div class="form-group" *ngIf="inquiryInfo.distributionParams.specificity">
-          <b>Предпочитаемая специфика группы </b> {{inquiryInfo.distributionParams.specificity.name}}
-        </div>
+        <app-form-group label="Желаемая дата зачисления" [name]="inquiryInfo.distributionParams.wishDate"></app-form-group>
+        <app-form-group label="Предпочитаемая специфика группы" [name]="inquiryInfo.distributionParams.specificity.name"
+          *ngIf="inquiryInfo.distributionParams.specificity"></app-form-group>
         <ul>
           <li *ngIf="inquiryInfo.distributionParams.offerGeneralGroup"> Предоставлять общеразвивающую группу, если
             нет мест в группе по нездоровью </li>

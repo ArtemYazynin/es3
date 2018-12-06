@@ -1,19 +1,12 @@
 <ng-template #fieldsTemplate>
   <ng-container *ngIf="contactInfo">
-    <div class="form-group" *ngIf="contactInfo.email">
-      <b>Email </b> {{contactInfo.email}}
-    </div>
-    <div class="form-group" *ngIf="contactInfo.smsPhone">
-      <b>Номер для смс </b> {{contactInfo.smsPhone}}
-    </div>
-    <div class="form-group" *ngIf="contactInfo.phones">
-      <b>Телефон(ы) </b> {{contactInfo.phones}}
-    </div>
-    <div class="form-group">
-      <b>Оповещать </b> {{ contactInfo.dontNotify | yesNo }}
-    </div>
+    <app-inquiry-info-edit [theme]="theme">
+      <app-form-group label="E-mail" [name]="contactInfo.email"></app-form-group>
+      <app-form-group label="Номер для смс" [name]="contactInfo.smsPhone"></app-form-group>
+      <app-form-group label="Дополнительные номера телефонов" [name]="contactInfo.phones"></app-form-group>
+      <app-form-group label="Выбранный тип оповещения" [name]="contactInfo.dontNotify | yesNo"></app-form-group>
+    </app-inquiry-info-edit>
   </ng-container>
-
 </ng-template>
 
 <ng-template #withEdit>
