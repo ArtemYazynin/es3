@@ -1,7 +1,5 @@
 <ng-template #fieldsTemplate>
-  <div class="form-group">
-    <b>Родственная связь </b>{{model.relationType.name}}
-  </div>
+  <app-form-group label="Родственная связь" [name]="model.relationType.name"></app-form-group>
   <ng-container class="form-group" *ngIf="model.relationType.confirmationDocument">
     <app-confirmation-document-card title="Документ, подтверждающий право законного представителя представлять интересы ребенка"
       [model]="$parentRepresentChildrenDocument" [mode]="mode">

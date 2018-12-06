@@ -1,9 +1,8 @@
 import { ChangeDetectionStrategy, Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ButtonsTitles, ConfigsOfRoutingButtons, Inquiry } from '../../../shared';
+import { ApplicantType, ButtonsTitles, ConfigsOfRoutingButtons, Inquiry } from '../../../shared';
 import { ActionsButtonsService } from '../../../shared/actions-buttons.service';
 import { EditContactInfoComponent } from '../../inquiry/shared/components/edit-contact-info/edit-contact-info.component';
-import { WizardStorageService } from '../shared';
 
 @Component({
   selector: 'app-contact-info-step',
@@ -21,7 +20,14 @@ export class ContactInfoStepComponent implements OnInit {
   ngOnInit() {
     this.config = new ConfigsOfRoutingButtons(ButtonsTitles.Next, ButtonsTitles.Back,
       this.actionsButtonsService.primaryActionContactInfoStep(this.editContactInfoComponent, this.inquiry.type, this.router, this.route),
-      this.actionsButtonsService.inverseActionContactInfoStep(this.router, this.route)
+      () => {
+        if (this.inquiry.applicantType == ApplicantType.Child) {
+          this.router.navigate(["../applicantTypeStep"], { relativeTo: this.route });
+        } else {
+          this.router.navigate(["../parentStep"], { relativeTo: this.route });
+        }
+
+      }
     );
   }
 }

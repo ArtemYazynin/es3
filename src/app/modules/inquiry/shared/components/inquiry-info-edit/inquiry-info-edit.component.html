@@ -8,9 +8,8 @@
             <i class="mdi mdi-square-edit-outline"></i>
           </button>
         </div>
-
       </div>
-      <div id="contentContainer" [ngClass]="{ 'bg-light-green': theme == themes.Green, 'bg-light-blue': theme == themes.Blue,'bg-gray': theme == themes.Gray }">
+      <div [ngClass]="{'contentContainer': !title}" class="row p-3">
         <ng-content></ng-content>
       </div>
     </div>

@@ -136,11 +136,6 @@ export class ActionsButtonsService {
             }
         }
     }
-    inverseActionContactInfoStep(router: Router, route: ActivatedRoute) {
-        return () => {
-            router.navigate(["../parentStep"], { relativeTo: route });
-        }
-    }
 
     primaryActionPrivilegeStep(privilegeEditComponent: EditPrivilegeComponent, inquiry: Inquiry, route: ActivatedRoute) {
         return () => {

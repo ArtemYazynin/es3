@@ -1,19 +1,10 @@
 <ng-template #fieldsTemplate>
-  <div *ngIf="model">
-    <div class="form-group">
-      <b>Приоритет льготной категории</b> {{model?.privilegeOrder?.name}}
-    </div>
-    <div class="form-group">
-      <b>Льготная категория</b> {{model.name}}
-    </div>
-    <ng-container *ngIf="model.privilegeProofDocument">
-      <app-confirmation-document-card [model]="$document" [mode]="mode" title="Документ, подтверждающий наличие льготной категории">
-      </app-confirmation-document-card>
-    </ng-container>
-  </div>
-  <div *ngIf="!model">
-    Без льготы
-  </div>
+  <app-form-group label="Приоритет льготной категории" [name]="model?.privilegeOrder?.name"></app-form-group>
+  <app-form-group label="Льготная категория" [name]="model?.name"></app-form-group>
+  <app-confirmation-document-card [model]="$document" [mode]="mode" title="Документ, подтверждающий наличие льготной категории"
+    *ngIf="model?.privilegeProofDocument">
+  </app-confirmation-document-card>
+  <div *ngIf="!model">Без льготы</div>
 </ng-template>
 
 <ng-template #withEdit>

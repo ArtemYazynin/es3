@@ -1,0 +1,5 @@
+<ng-container *ngIf="name">
+  <label [ngClass]="{ 'col-6':label, 'col-12': !label }" *ngIf="label">{{label}}</label>
+  <div [ngClass]="{ 'col-6':label, 'col-12': !label }" *ngIf="name">{{name}}</div>
+  <div class="clearfix"></div>
+</ng-container>

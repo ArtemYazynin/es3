@@ -18,8 +18,9 @@ import { InMemoryWebApiModule } from 'angular-in-memory-web-api/in-memory-web-ap
 import { MAT_LABEL_GLOBAL_OPTIONS } from '@angular/material';
 import { BreadsCrumbsService } from './shared/breads-crumbs.service';
 import { BreadsCrumbsComponent } from './modules/wizard/breads-crumbs/breads-crumbs.component';
+import { HeaderComponent } from './header/header.component';
 
-export const esConstant = new InjectionToken<{ fileNotChoosen: string }>("esConstant");
+export const esConstant = new InjectionToken<any>("esConstant");
 export const SERVER_URL = new InjectionToken<string>("SERVER_URL");
 
 const constants = {
@@ -28,7 +29,7 @@ const constants = {
   inquiryInfoTitle: "Параметры заявления"
 }
 @NgModule({
-  declarations: [AppComponent, ScopeSelectorComponent, MenuComponent,BreadsCrumbsComponent],
+  declarations: [AppComponent, ScopeSelectorComponent, MenuComponent, BreadsCrumbsComponent, HeaderComponent],
   imports: [
     HttpModule,
     BrowserModule,
@@ -36,11 +37,11 @@ const constants = {
     BrowserAnimationsModule,
     MyDatePickerModule,
     JsonpModule,
-    
+
   ],
   exports: [],
   providers: [
-    {provide: MAT_LABEL_GLOBAL_OPTIONS, useValue: {float: 'always'}},
+    { provide: MAT_LABEL_GLOBAL_OPTIONS, useValue: { float: 'always' } },
     { provide: LocationStrategy, useClass: HashLocationStrategy },
     HttpInterceptor,
     WizardStorageService,
@@ -56,7 +57,7 @@ const constants = {
 
   ],
   entryComponents: [],//динамически добавляемые компоненты ViewContainerRef.createComponent()
-  bootstrap: [AppComponent, ScopeSelectorComponent, MenuComponent,BreadsCrumbsComponent]
+  bootstrap: [AppComponent, ScopeSelectorComponent, MenuComponent, BreadsCrumbsComponent, HeaderComponent]
 })
 export class AppModule {
 

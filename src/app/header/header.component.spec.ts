@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { InquiryCommonInfoComponent } from './inquiry-common-info.component';
+import { HeaderComponent } from './header.component';
 
-describe('InquiryCommonInfoComponent', () => {
-  let component: InquiryCommonInfoComponent;
-  let fixture: ComponentFixture<InquiryCommonInfoComponent>;
+describe('HeaderComponent', () => {
+  let component: HeaderComponent;
+  let fixture: ComponentFixture<HeaderComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ InquiryCommonInfoComponent ]
+      declarations: [ HeaderComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(InquiryCommonInfoComponent);
+    fixture = TestBed.createComponent(HeaderComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

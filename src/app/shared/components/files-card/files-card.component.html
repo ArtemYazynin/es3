@@ -1,12 +1,10 @@
 <ng-template #fieldsTemplate>
-  <ng-container *ngIf="inquiry">
-    <div class="form-group" *ngFor="let file of inquiry.files">
-      {{file.name}}({{file.description}})
-    </div>
-    <div class="form-group">
-      <b>Документы подписаны электронной подписью</b> {{inquiry.haveDigitalSignature | yesNo}}
-    </div>
-  </ng-container>
+  <ol>
+    <ng-container *ngFor="let file of inquiry?.files">
+      <li>{{file.name}}({{file.description}})</li>
+    </ng-container>
+  </ol>
+  <app-form-group label="Документы подписаны электронной подписью" [name]="inquiry?.haveDigitalSignature | yesNo"></app-form-group>
 </ng-template>
 
 <ng-template #withEdit>

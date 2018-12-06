@@ -15,11 +15,8 @@ import { Subscription } from 'rxjs';
 })
 export class BreadsCrumbsComponent implements OnInit, OnDestroy {
   private subscription: Subscription;
-  private wizard = "wizard";
   public $breadcrumbs: BehaviorSubject<Array<IBreadcrumb>>;
-  constructor(
-    private activatedRoute: ActivatedRoute,
-    private router: Router,
+  constructor(private router: Router,
     private cdr: ChangeDetectorRef,
     private breadsCrumbsService: BreadsCrumbsService
   ) {
@@ -31,11 +28,12 @@ export class BreadsCrumbsComponent implements OnInit, OnDestroy {
       .pipe(filter(event => event instanceof NavigationEnd))
       .subscribe((event: NavigationEnd) => {
         this.breadsCrumbsService.clear();
-        //
-        let segments = event.url.split('/').filter(x => !!x);
+        let segments = event.urlAfterRedirects
+          .split('/').filter(x => !!x)
+          .map(x => x.trim());
         this.setMainPage(segments);
-        this.breadsCrumbsService.initWizardBreadsCrumbs(segments)
-        //
+        this.breadsCrumbsService.initWizardBreadsCrumbs(segments);
+        this.breadsCrumbsService.initInquiryBreadsCrumbs(segments);
         this.cdr.markForCheck();
       });
   }
@@ -47,8 +45,7 @@ export class BreadsCrumbsComponent implements OnInit, OnDestroy {
   private setMainPage(segments: string[]) {
     if (!segments) return;
     const mainPage = segments.length == 0;
-    if (!mainPage) {
-      this.breadsCrumbsService.set({ label: "Главная", url: "" });
-    }
+    if (mainPage) return;
+    this.breadsCrumbsService.set({ label: "Главная", url: "" });
   }
 }
