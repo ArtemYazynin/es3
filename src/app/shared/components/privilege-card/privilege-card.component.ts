@@ -1,11 +1,11 @@
-import { ChangeDetectionStrategy, Component, Input, OnInit, OnDestroy, ChangeDetectorRef } from '@angular/core';
-import { Privilege, CommonService, ConfirmationDocument, InquiryService, Inquiry, Theme, PrivilegeService } from '../..';
-import { BehaviorMode } from '../../behavior-mode.enum';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material';
-import { PrivilegeDialogComponent } from '../../../modules/inquiry/privilege-dialog/privilege-dialog.component';
-import { BehaviorSubject, Subject, Observable } from 'rxjs';
-import { skip, takeUntil, mergeMap, flatMap } from 'rxjs/operators';
 import { ActivatedRoute } from '@angular/router';
+import { BehaviorSubject, Observable, Subject } from 'rxjs';
+import { flatMap, skip, takeUntil } from 'rxjs/operators';
+import { CommonService, ConfirmationDocument, Inquiry, InquiryService, Privilege, PrivilegeService, Theme } from '../..';
+import { PrivilegeDialogComponent } from '../../../modules/inquiry/privilege-dialog/privilege-dialog.component';
+import { BehaviorMode } from '../../behavior-mode.enum';
 
 @Component({
   selector: 'app-privilege-card',
@@ -29,11 +29,22 @@ export class PrivilegeCardComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.theme = this.mode == this.modes.Edit ? this.themes.Green : this.themes.Blue;
-    this.$document = new BehaviorSubject<ConfirmationDocument>(this.model ? this.model.privilegeProofDocument : undefined);
-    this.$document
+    if (this.route.snapshot.data.resolved.inquiryId) {
+      this.privilegeService.getByInquiry(this.route.snapshot.data.resolved.inquiryId)
+        .pipe(takeUntil(this.ngUnsubscribe))
+        .subscribe(privilege => {
+          this.model = privilege;
+          this.$document = new BehaviorSubject<ConfirmationDocument>(this.model ? this.model.privilegeProofDocument : undefined);
+          this.documentSubscribe(this.$document);
+          this.cdr.markForCheck();
+        })
+    }
+  }
+
+  documentSubscribe(document: BehaviorSubject<ConfirmationDocument>): void {
+    document
       .pipe(skip(1), takeUntil(this.ngUnsubscribe))
       .subscribe(doc => {
-        this.model.privilegeProofDocument = doc;
         this.inquiryService.updateInquiryPropery(this.route.snapshot.data.resolved.inquiryId, this.model.privilegeProofDocument);
         this.cdr.markForCheck();
       });
@@ -57,6 +68,12 @@ export class PrivilegeCardComponent implements OnInit, OnDestroy {
         }
         const subscribeFn = (inquiry: Inquiry) => {
           this.model = inquiry.privilege;
+          if (this.model) {
+            this.$document = new BehaviorSubject<ConfirmationDocument>(this.model.privilegeProofDocument);
+            this.documentSubscribe(this.$document);
+            this.$document.next(this.model.privilegeProofDocument);
+          }
+
           this.cdr.markForCheck();
         }
         const edit = !!this.model && !!privilege;
@@ -65,15 +82,15 @@ export class PrivilegeCardComponent implements OnInit, OnDestroy {
           observableInquiry
             .pipe(flatMap(inquiry => updateFn(inquiry, undefined)),
               flatMap(inquiry => updateFn(inquiry, privilege)))
-            .subscribe(inquiry => subscribeFn(inquiry))
+            .subscribe(inquiry => {
+              this.inquiryService.updateInquiryPropery(this.route.snapshot.data.resolved.inquiryId, privilege.privilegeProofDocument);
+              subscribeFn(inquiry);
+            })
         } else {
           observableInquiry
             .pipe(flatMap(inquiry => updateFn(inquiry, privilege)))
             .subscribe(inquiry => subscribeFn(inquiry))
         }
-
-        if (privilege) this.$document.next(privilege.privilegeProofDocument);
-
       });
     let config = this.commonService.getDialogConfig(extension);
     this.dialog.open(PrivilegeDialogComponent, config);

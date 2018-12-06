@@ -54,7 +54,7 @@ export class EditConfirmationDocumentComponent implements OnInit {
   private onValueChange(data?: any) {
     this.formService.onValueChange(this.confirmationDocumentForm, this.formErrors, this.validationMessages);
   }
-  isValid(){
-    return this.confirmationDocumentForm && this.confirmationDocumentForm.valid;
+  isValid() {
+    return this.confirmationDocumentForm && this.confirmationDocumentForm.valid && this.confirmationDocumentForm.dirty;
   }
 }
