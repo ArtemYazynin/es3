@@ -1,16 +1,16 @@
-<div class="row">
-  <div class="mt-3 col-xl-12 col-lg-6 col-md-12">
-    <div [ngClass]="{'p-3': title, 'alert alert-danger': theme == themes.Red, 'bg-light-green': theme == themes.Green, 'bg-light-blue': theme == themes.Blue,'bg-gray': theme == themes.Gray}">
-      <div class="h4 pb-2" style="border-bottom: 1px solid #58a068;" *ngIf="title">
-        {{title}}
-        <div class="btn-group btn-group-sm float-right" role="group" aria-label="">
-          <button type="button" class="btn btn-success" (click)="onEdit()" *ngIf="showEdit">
-            <i class="mdi mdi-square-edit-outline"></i>
-          </button>
-        </div>
+<div class="mt-3">
+  <div [ngClass]="{'p-3': title, 'alert alert-danger': theme == themes.Red, 'bg-light-green': theme == themes.Green, 'bg-light-blue': theme == themes.Blue,'bg-gray': theme == themes.Gray}">
+    <div class="h4 pb-2" style="border-bottom: 1px solid #58a068;" *ngIf="title">
+      {{title}}
+      <div class="btn-group btn-group-sm float-right" role="group" aria-label="">
+        <button type="button" class="btn btn-success" (click)="onEdit()" *ngIf="showEdit">
+          <i class="mdi mdi-square-edit-outline"></i>
+        </button>
       </div>
-      <div [ngClass]="{'contentContainer': !title}" class="row p-3">
-        <ng-content></ng-content>
-      </div>
+
+    </div>
+    <div [ngClass]="{'contentContainer': !title}" class="row pl-3 pr-3">
+      <ng-content></ng-content>
     </div>
   </div>
+</div>
