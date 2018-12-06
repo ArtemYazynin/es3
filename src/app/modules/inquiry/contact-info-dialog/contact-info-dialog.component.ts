@@ -34,6 +34,6 @@ export class ContactInfoDialogComponent implements OnInit {
   }
 
   isValid() {
-    return this.editContactInfoComponent && this.editContactInfoComponent.isValid()
+    return this.editContactInfoComponent && this.editContactInfoComponent.contactsForm.dirty && this.editContactInfoComponent.isValid()
   }
 }

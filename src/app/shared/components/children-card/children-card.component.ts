@@ -3,9 +3,9 @@ import { ActivatedRoute } from '@angular/router';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { BehaviorMode, Child, DrawService, Theme } from '../..';
+import { WizardStorageService } from '../../../modules/wizard/shared';
 import { ChildService } from '../../child.service';
 import { PersonType } from '../../person-type.enum';
-import { WizardStorageService } from '../../../modules/wizard/shared';
 
 @Component({
   selector: 'app-children-card',
@@ -25,7 +25,7 @@ export class ChildrenCardComponent implements OnInit {
   theme: Theme;
 
   constructor(private route: ActivatedRoute, public drawService: DrawService, private childService: ChildService, private cdr: ChangeDetectorRef,
-      private storageService:WizardStorageService) { }
+    private storageService: WizardStorageService) { }
 
   ngOnInit() {
     this.theme = this.mode == this.modes.Edit ? this.themes.Green : this.themes.Blue;
@@ -36,7 +36,7 @@ export class ChildrenCardComponent implements OnInit {
           this.children = children.map(x => new BehaviorSubject<Child>(x));
           this.cdr.markForCheck();
         });
-    }else{
+    } else {
       this.children = this.storageService.get(this.inquiryType).children.map(x => new BehaviorSubject<Child>(x));
     }
   }

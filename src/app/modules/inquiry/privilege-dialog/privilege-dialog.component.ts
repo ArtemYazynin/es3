@@ -41,6 +41,9 @@ export class PrivilegeDialogComponent implements OnInit {
   }
 
   isValid() {
-    return this.privilegeEditComponent && this.privilegeEditComponent.isValid();
+    let validPrivilege = this.privilegeEditComponent && this.privilegeEditComponent.isValid() && this.privilegeEditComponent.privilegeForm.dirty;
+    if (this.privilegeEditComponent.confirmationProofDocumentComponent)
+      return validPrivilege || this.privilegeEditComponent.confirmationProofDocumentComponent.isValid();
+    return validPrivilege;
   }
 }

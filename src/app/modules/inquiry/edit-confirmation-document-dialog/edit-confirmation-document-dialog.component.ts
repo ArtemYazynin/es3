@@ -36,6 +36,6 @@ export class EditConfirmationDocumentDialogComponent implements OnInit {
 
   isValid() {
     return this.confirmationProofDocumentComponent && this.confirmationProofDocumentComponent.confirmationDocumentForm
-      && this.confirmationProofDocumentComponent.confirmationDocumentForm.valid;
+      && this.confirmationProofDocumentComponent.confirmationDocumentForm.dirty && this.confirmationProofDocumentComponent.confirmationDocumentForm.valid;
   }
 }

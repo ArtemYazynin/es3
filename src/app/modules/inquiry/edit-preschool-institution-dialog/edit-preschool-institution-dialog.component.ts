@@ -37,6 +37,6 @@ export class EditInstitutionDialogComponent implements OnInit {
   }
 
   isValid() {
-    return this.editInstitutionsComponent && this.editInstitutionsComponent.isValid()
+    return this.editInstitutionsComponent && this.editInstitutionsComponent.isValid() && this.editInstitutionsComponent.form.dirty
   }
 }

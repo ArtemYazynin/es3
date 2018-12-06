@@ -4,7 +4,7 @@ import { EditFullNameComponent } from '../../../../../shared/components/edit-ful
 import { GenderComponent } from '../../../../../shared/components/gender/gender.component';
 import { IdentityCardComponent } from '../../../../../shared/components/identity-card/identity-card.component';
 import { SnilsComponent } from '../../../../../shared/components/snils/snils.component';
-import { Applicant, ApplicantType, AttachmentType, CitizenshipService, ConfirmationDocument, Country, IdentityCardType, Parent, Person, IdentityCard } from '../../../../../shared/index';
+import { Applicant, CitizenshipService, Country, IdentityCard, IdentityCardType, Parent, Person } from '../../../../../shared/index';
 import { PersonType } from '../../../../../shared/person-type.enum';
 
 @Component({
@@ -53,8 +53,10 @@ export class EditPersonComponent implements OnInit, OnDestroy {
 
   isValid(): boolean {
     let isValid = {
-      identityCardForm: !!this.identityCardComponent && !!this.identityCardComponent.identityCardForm && this.identityCardComponent.identityCardForm.valid,
-      fullnameForm: !!this.fullnameComponent && !!this.fullnameComponent.fullnameForm && this.fullnameComponent.fullnameForm.valid,
+      identityCardForm: !!this.identityCardComponent && !!this.identityCardComponent.identityCardForm
+        && this.identityCardComponent.identityCardForm.valid && this.identityCardComponent.identityCardForm.dirty,
+      fullnameForm: !!this.fullnameComponent && !!this.fullnameComponent.fullnameForm
+        && this.fullnameComponent.fullnameForm.valid && this.fullnameComponent.fullnameForm.dirty,
     }
 
     let result = isValid.fullnameForm
@@ -72,7 +74,7 @@ export class EditPersonComponent implements OnInit, OnDestroy {
     this.model.snils = this.snilsComponent.snils;
     this.model.noMiddlename = fullnameForm.controls["noMiddlename".concat(this.fullnameComponent.id)].value;
     Object.assign(this.model, {
-      identityCard:new IdentityCard(this.identityCardComponent.identityCardForm)
+      identityCard: new IdentityCard(this.identityCardComponent.identityCardForm)
     });
     if (this.genderComponent) this.model.gender = this.genderComponent.gender;
 
