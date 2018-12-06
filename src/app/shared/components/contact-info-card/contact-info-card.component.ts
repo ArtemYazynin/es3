@@ -3,7 +3,7 @@ import { MatDialog } from '@angular/material';
 import { ActivatedRoute } from '@angular/router';
 import { BehaviorSubject, Subject } from 'rxjs';
 import { skip, takeUntil } from 'rxjs/operators';
-import { BehaviorMode, CommonService, InquiryService, Theme, ViewModel } from '../..';
+import { BehaviorMode, CommonService, InquiryService, Theme } from '../..';
 import { ContactInfoDialogComponent } from '../../../modules/inquiry/contact-info-dialog/contact-info-dialog.component';
 import { ContactInfo, WizardStorageService } from '../../../modules/wizard/shared';
 import { ContactInfoService } from '../../contact-info.service';
