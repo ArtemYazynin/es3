@@ -1,9 +1,9 @@
 <app-inquiry-info-edit [title]="title" [theme]="themes.Gray">
-  <form [formGroup]="confirmationDocumentForm" >
+  <ng-container [formGroup]="confirmationDocumentForm">
     <mat-form-field>
-      <input matInput formControlName="name" placeholder="Название документа">
+      <input matInput formControlName="name">
+      <mat-placeholder class="placeholder">Название документа <b style='color: red;'>*</b></mat-placeholder>
     </mat-form-field>
-    <b style="color: red;">*</b>
     <div *ngIf="formErrors.name" class="alert alert-danger">
       {{ formErrors.name }}
     </div>
@@ -14,18 +14,18 @@
       {{ formErrors.series }}
     </div>
     <mat-form-field>
-      <input matInput formControlName="number" placeholder="Номер документа">
+      <input matInput formControlName="number">
+      <mat-placeholder class="placeholder">Номер документа <b style='color: red;'>*</b></mat-placeholder>
     </mat-form-field>
-    <b style="color: red;">*</b>
     <div *ngIf="formErrors.number" class="alert alert-danger">
       {{ formErrors.number }}
     </div>
     <mat-form-field (click)="dateIssuePicker.open()">
-      <input matInput [matDatepicker]="dateIssuePicker" placeholder="Дата выдачи" [max]="currentDate" formControlName="dateIssue">
+      <input matInput [matDatepicker]="dateIssuePicker" [max]="currentDate" formControlName="dateIssue">
+      <mat-placeholder class="placeholder">Дата выдачи <b style='color: red;'>*</b></mat-placeholder>
       <mat-datepicker-toggle matSuffix [for]="dateIssuePicker"></mat-datepicker-toggle>
       <mat-datepicker disabled="false" #dateIssuePicker></mat-datepicker>
     </mat-form-field>
-    <b style="color: red;">*</b>
     <div *ngIf="formErrors.dateIssue" class="alert alert-danger">
       {{ formErrors.dateIssue }}
     </div>
@@ -35,5 +35,5 @@
       <mat-datepicker-toggle matSuffix [for]="dateExpiredPicker"></mat-datepicker-toggle>
       <mat-datepicker disabled="false" #dateExpiredPicker></mat-datepicker>
     </mat-form-field>
-  </form>
+  </ng-container>
 </app-inquiry-info-edit>

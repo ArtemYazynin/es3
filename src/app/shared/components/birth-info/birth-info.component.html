@@ -1,20 +1,17 @@
-<form [formGroup]="birthInfoForm">
-  <div class="form-group">
-    <mat-form-field (click)="picker.open()">
-      <input matInput [matDatepicker]="picker" placeholder="Дата рождения" [max]="currentDate" formControlName="birthDate">
-      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-      <mat-datepicker disabled="false" #picker></mat-datepicker>
-    </mat-form-field>
-    <div *ngIf="formErrors.birthDate" class="alert alert-danger">
-      {{ formErrors.birthDate }}
-    </div>
+<ng-container [formGroup]="birthInfoForm">
+  <mat-form-field id="birthDate" (click)="picker.open()">
+    <input matInput [matDatepicker]="picker" placeholder="Дата рождения" [max]="currentDate" formControlName="birthDate">
+    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+    <mat-datepicker disabled="false" #picker></mat-datepicker>
+  </mat-form-field>
+  <div *ngIf="formErrors.birthDate" class="alert alert-danger">
+    {{ formErrors.birthDate }}
   </div>
-  <div class="form-group">
-      <mat-form-field>
-          <input matInput formControlName="birthPlace" placeholder="Место рождения">
-      </mat-form-field>
-    <div *ngIf="formErrors.birthPlace" class="alert alert-danger">
-      {{ formErrors.birthPlace }}
-    </div>
+  <br>
+  <mat-form-field id="birthPlace">
+    <input matInput formControlName="birthPlace" placeholder="Место рождения">
+  </mat-form-field>
+  <div *ngIf="formErrors.birthPlace" class="alert alert-danger">
+    {{ formErrors.birthPlace }}
   </div>
-</form>
+</ng-container>

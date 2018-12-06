@@ -5,7 +5,7 @@ import { Theme } from '../../../../../shared';
   selector: 'app-inquiry-info-edit',
   templateUrl: './inquiry-info-edit.component.html',
   styleUrls: ['./inquiry-info-edit.component.css'],
-  host:{ 'class': 'inquiry-info-edit-host'},
+  host:{ 'class': 'host'},
   changeDetection:ChangeDetectionStrategy.OnPush
 })
 export class InquiryInfoEditComponent implements OnInit, AfterContentInit {

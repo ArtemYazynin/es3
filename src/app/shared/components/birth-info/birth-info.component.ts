@@ -6,6 +6,7 @@ import { FormService, Person } from '../../index';
   selector: 'birth-info',
   templateUrl: './birth-info.component.html',
   styleUrls: ['./birth-info.component.css'],
+  host:{ 'class': 'host'},
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class BirthInfoComponent implements OnInit {

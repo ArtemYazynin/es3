@@ -24,8 +24,8 @@
   font-size: 20px !important;
 }
 
-.mat-form-field {
-  width: 90%;
+.mat-form-field, .mat-checkbox {
+  width: 100%;
 }
 
 dt {
@@ -36,8 +36,18 @@ dt {
   display: contents;
 }
 
-.inquiry-info-edit-host {
+.host {
   min-width: 100%;
+}
+.host-75 {
+  min-width: 75%;
+}
+.host-50 {
+  min-width: 50%;
+}
+.host-25 {
+  min-width: 25%;
+  
 }
 
 .disabledDiv {

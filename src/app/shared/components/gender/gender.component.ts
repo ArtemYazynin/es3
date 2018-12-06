@@ -4,6 +4,7 @@ import { Component, OnInit, ChangeDetectionStrategy, Input } from '@angular/core
   selector: 'app-gender',
   templateUrl: './gender.component.html',
   styleUrls: ['./gender.component.css'],
+  host:{ 'class': 'host'},
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class GenderComponent implements OnInit {

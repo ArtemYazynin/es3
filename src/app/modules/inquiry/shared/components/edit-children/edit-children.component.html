@@ -1,34 +1,42 @@
 <section class="tabs">
-    <div class="container-fluid">
-        <ul class="nav nav-tabs" role="tablist">
-            <li class="nav-item" *ngFor="let component of components; let first = first">
-                <div class="nav-link" (click)="navBarManager.select(component)" [class.active]="component.instance.show | async">
-                    {{navBarManager.getTitle(component)}}
-                    <button class="btn btn-light" (click)="navBarManager.remove(component)" *ngIf="!first"><i class="mdi mdi-trash-can"></i></button>
-                </div>
-            </li>
-            <button class="btn btn-light" (click)="navBarManager.add()" [disabled]="!isValid()">
-                <i class="mdi mdi-account-multiple-plus"></i>
-            </button>
-        </ul>
-        <div class="tab-content" role="tablist">
-            <div class="tab-pane active" id="home" role="tabpanel">
-                <ng-template #childContainer>
-                </ng-template>
-                <app-edit-citizenships [model]="children ? children[0] : undefined" [personType]="personTypes.Child" [applicantType]="applicantTypes.Child"></app-edit-citizenships>
-                <app-inquiry-info-edit title="Дополнительная информация" [theme]="themes.Gray">
-                    <div class="alert alert-info" *ngIf="components.length>1">
-                        Внимание! Дата рождения, место рождения, гражданство и специализация по здоровью одинаковы
-                        для
-                        всех
-                        детей
-                    </div>
-                    <birth-info [model]="children ? children[0] : undefined">
-                    </birth-info>
-                    <app-spec-health [childrenComponents]="components" [specHealth]="specHealth"></app-spec-health>
-                </app-inquiry-info-edit>
-
-            </div>
+  <div class="container-fluid">
+    <ul class="nav nav-tabs" role="tablist">
+      <li class="nav-item" *ngFor="let component of components; let first = first">
+        <div class="nav-link" (click)="navBarManager.select(component)" [class.active]="component.instance.show | async">
+          {{navBarManager.getTitle(component)}}
+          <button class="btn btn-light" (click)="navBarManager.remove(component)" *ngIf="!first"><i class="mdi mdi-trash-can"></i></button>
         </div>
+      </li>
+      <button class="btn btn-light" (click)="navBarManager.add()" [disabled]="!isValid()">
+        <i class="mdi mdi-account-multiple-plus"></i>
+      </button>
+    </ul>
+    <div class="tab-content" role="tablist">
+      <div class="tab-pane active" id="home" role="tabpanel">
+        <ng-template #childContainer>
+        </ng-template>
+        <app-edit-citizenships [model]="children ? children[0] : undefined" [personType]="personTypes.Child"
+          [applicantType]="applicantTypes.Child"></app-edit-citizenships>
+        <div class="row">
+          <div class="col-6">
+            <app-inquiry-info-edit title="Дополнительная информация" [theme]="themes.Gray">
+              <div class="alert alert-info" *ngIf="components.length>1">
+                Внимание! Дата рождения, место рождения, гражданство и специализация по здоровью одинаковы
+                для
+                всех
+                детей
+              </div>
+              <birth-info [model]="children ? children[0] : undefined">
+              </birth-info>
+              <app-spec-health [childrenComponents]="components" [specHealth]="specHealth"></app-spec-health>
+            </app-inquiry-info-edit>
+          </div>
+        </div>
+
+
+
+
+      </div>
     </div>
+  </div>
 </section>

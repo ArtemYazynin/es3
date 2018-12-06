@@ -6,6 +6,7 @@ import { Child, DisabilityService, DisabilityType, inquiryType } from '../../ind
   selector: 'app-disability',
   templateUrl: './disability.component.html',
   styleUrls: ['./disability.component.css'],
+  host:{ 'class': 'host'},
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class DisabilityComponent implements OnInit, OnDestroy {

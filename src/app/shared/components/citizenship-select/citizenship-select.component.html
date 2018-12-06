@@ -1,17 +1,13 @@
 <app-inquiry-info-edit title="Гражданство" [theme]="themes.Gray">
-    <div class="form-group">
-      <label for="citizenship">Гражданство
-        <b style="color: red;">*</b>
-      </label>
-      <div>
-        <div style="display: inline-block; width: 40%; margin-right: 10px;">
-          <ng-select class="citizenship-select" [(ngModel)]="citizenships" (change)="onChange($event)" [clearable]="false"
-            [multiple]="true" placeholder="Не выбрано">
-            <ng-option *ngFor="let item of countries" [value]="item.id">
-              {{item.name}}
-            </ng-option>
-          </ng-select>
-        </div>
-      </div>
-    </div>
-  </app-inquiry-info-edit>
+  <div style="width: 100%">
+    <label for="citizenship">Гражданство
+      <b style="color: red;">*</b>
+    </label>
+    <ng-select class="citizenship-select" [(ngModel)]="citizenships" (change)="onChange($event)" [clearable]="false"
+      [multiple]="true" placeholder="Не выбрано">
+      <ng-option *ngFor="let item of countries" [value]="item.id">
+        {{item.name}}
+      </ng-option>
+    </ng-select>
+  </div>
+</app-inquiry-info-edit>

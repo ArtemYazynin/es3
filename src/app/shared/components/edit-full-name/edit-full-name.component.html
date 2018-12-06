@@ -1,5 +1,5 @@
 <app-inquiry-info-edit title="ФИО" [theme]="themes.Gray">
-  <form [formGroup]="fullnameForm" novalidate>
+  <ng-container [formGroup]="fullnameForm">
     <mat-form-field>
       <input matInput formControlName="lastname" placeholder="Фамилия">
     </mat-form-field>
@@ -22,6 +22,6 @@
     </ng-container>
     <mat-checkbox [id]="noMiddlenameControl" name="hasMiddlenoMiddlenamename" [formControlName]="noMiddlenameControl">Нет
       отчества</mat-checkbox>
-  </form>
+  </ng-container>
   <ng-content></ng-content>
 </app-inquiry-info-edit>

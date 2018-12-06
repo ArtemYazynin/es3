@@ -4,6 +4,7 @@ import { Component, OnInit, ChangeDetectionStrategy, Input } from '@angular/core
   selector: 'app-snils',
   templateUrl: './snils.component.html',
   styleUrls: ['./snils.component.css'],
+  host:{ 'class': 'host'},
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SnilsComponent implements OnInit {

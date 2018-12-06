@@ -24,7 +24,7 @@ export class EditChildrenComponent implements OnInit, AfterViewInit {
   @Input() children: Array<Child>;
   @Input() inquiryType: any;
   @Input() owner: any;
-  @Input() specHealth:SpecHealth;
+  @Input() specHealth: SpecHealth;
 
   components: Array<ComponentRef<ChildComponent>> = [];
   personTypes = PersonType;
@@ -44,7 +44,7 @@ export class EditChildrenComponent implements OnInit, AfterViewInit {
 
       this.components.push(componentRef);
     });
-    this.cdr.detectChanges();
+    this.cdr.markForCheck();
   }
 
   ngAfterViewInit(): void {
@@ -129,6 +129,9 @@ export class EditChildrenComponent implements OnInit, AfterViewInit {
         removeView(component);
         removeComponent(component);
         setActiveChild();
+        setTimeout(() => {
+          this.cdr.markForCheck();
+        });
       }
     })();
     return {
@@ -139,14 +142,14 @@ export class EditChildrenComponent implements OnInit, AfterViewInit {
     };
   })();
 
-  getResult(): { children:Array<Child>, specHealth:SpecHealth } {
+  getResult(): { children: Array<Child>, specHealth: SpecHealth } {
     let buildPerson = (component: ComponentRef<ChildComponent>): Person => {
       let person = component.instance.editPersonComponent.getResult();
       person.birthDate = this.birthInfoComponent.birthInfoForm.controls.birthDate.value;
       person.birthPlace = this.birthInfoComponent.birthInfoForm.controls.birthPlace.value;
       return person;
     }
-    let result = { children:[], specHealth: undefined };
+    let result = { children: [], specHealth: undefined };
 
     this.components.forEach((x, i) => {
       const specHealthDocument = this.specHealthComponent.specHealth.code == 101
