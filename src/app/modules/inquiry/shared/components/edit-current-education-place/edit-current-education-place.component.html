@@ -1,71 +1,57 @@
-<form [formGroup]="currentPlaceForm">
-    <div class="form-group">
-      <mat-form-field >
-        <input type="text" placeholder="Муниципалитет" matInput formControlName="municipality" [matAutocomplete]="auto">
-        <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn" (optionSelected)="onChange.municipality()">
-          <mat-option *ngFor="let option of filteredMunicipalities | async" [value]="option">
-            {{option.name}}
-          </mat-option>
-        </mat-autocomplete>
-      </mat-form-field>
-      <div *ngIf="formErrors.municipality" class="alert alert-danger">
-        {{ formErrors.municipality }}
-      </div>
+<form [formGroup]="currentPlaceForm" novalidate>
+  <mat-form-field>
+    <input type="text" placeholder="Муниципалитет" matInput formControlName="municipality" [matAutocomplete]="auto">
+    <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn" (optionSelected)="onChange.municipality()">
+      <mat-option *ngFor="let option of filteredMunicipalities | async" [value]="option">
+        {{option.name}}
+      </mat-option>
+    </mat-autocomplete>
+  </mat-form-field>
+  <div *ngIf="formErrors.municipality" class="alert alert-danger">
+    {{ formErrors.municipality }}
+  </div>
+  <mat-form-field>
+    <mat-select formControlName="institutionType" placeholder="Тип образовательной организации" (selectionChange)="onChange.institutionType($event)">
+      <mat-option value="" selected>Не выбрано</mat-option>
+      <mat-option *ngFor="let item of institutionsTypes" [value]="item.id">{{item.name}}</mat-option>
+    </mat-select>
+  </mat-form-field>
+  <div *ngIf="formErrors.institutionType" class="alert alert-danger">
+    {{ formErrors.institutionType }}
+  </div>
+  <ng-container *ngIf="currentPlaceForm.get('institutionType').value">
+    <mat-form-field>
+      <input type="text" placeholder="Образовательная организация" matInput formControlName="institution"
+        [matAutocomplete]="autoInstitution">
+      <mat-autocomplete #autoInstitution="matAutocomplete" [displayWith]="displayFn" (optionSelected)="onChange.institution($event)">
+        <mat-option *ngFor="let option of filteredInstitutions | async" [value]="option">
+          {{option.name}}
+        </mat-option>
+      </mat-autocomplete>
+    </mat-form-field>
+    <div *ngIf="formErrors.institution" class="alert alert-danger">
+      {{ formErrors.institution }}
     </div>
-    <div class="form-group">
-      <mat-form-field >
-        <mat-select formControlName="institutionType" placeholder="Тип образовательной организации" (selectionChange)="onChange.institutionType($event)">
-          <mat-option value="" selected>Не выбрано</mat-option>
-          <mat-option *ngFor="let item of institutionsTypes" [value]="item.id">{{item.name}}</mat-option>
-        </mat-select>
-      </mat-form-field>
-      <div *ngIf="formErrors.institutionType" class="alert alert-danger">
-        {{ formErrors.institutionType }}
-      </div>
+  </ng-container>
+  <ng-container *ngIf="currentPlaceForm.get('institution').value">
+    <mat-form-field>
+      <mat-select formControlName="group" placeholder="Группа/Класс" (selectionChange)="onChange.group($event)">
+        <mat-option value="" selected>Не выбрано</mat-option>
+        <mat-option *ngFor="let item of groups" [value]="item.id">{{item.name}}</mat-option>
+      </mat-select>
+    </mat-form-field>
+    <div *ngIf="formErrors.group" class="alert alert-danger">
+      {{ formErrors.group }}
     </div>
-    <div class="form-group" *ngIf="currentPlaceForm.get('institutionType').value">
-      <mat-form-field >
-        <input type="text" placeholder="Образовательная организация" matInput formControlName="institution"
-          [matAutocomplete]="autoInstitution">
-        <mat-autocomplete #autoInstitution="matAutocomplete" [displayWith]="displayFn" (optionSelected)="onChange.institution($event)">
-          <mat-option *ngFor="let option of filteredInstitutions | async" [value]="option">
-            {{option.name}}
-          </mat-option>
-        </mat-autocomplete>
-      </mat-form-field>
-      <div *ngIf="formErrors.institution" class="alert alert-danger">
-        {{ formErrors.institution }}
-      </div>
+  </ng-container>
+  <ng-container *ngIf="currentPlaceForm.get('isOther').value">
+    <mat-form-field>
+      <input matInput formControlName="other" placeholder="Название организации">
+    </mat-form-field>
+    <div *ngIf="formErrors.other" class="alert alert-danger">
+      {{ formErrors.other }}
     </div>
-    <div class="form-group" *ngIf="currentPlaceForm.get('institution').value">
-      <mat-form-field >
-        <mat-select formControlName="group" placeholder="Группа/Класс" (selectionChange)="onChange.group($event)">
-          <mat-option value="" selected>Не выбрано</mat-option>
-          <mat-option *ngFor="let item of groups" [value]="item.id">{{item.name}}</mat-option>
-        </mat-select>
-      </mat-form-field>
-      <div *ngIf="formErrors.group" class="alert alert-danger">
-        {{ formErrors.group }}
-      </div>
-    </div>
-    <div class="form-group" *ngIf="currentPlaceForm.get('isOther').value">
-      <mat-form-field>
-        <input matInput formControlName="other" placeholder="Название организации">
-      </mat-form-field>
-      <div *ngIf="formErrors.other" class="alert alert-danger">
-        {{ formErrors.other }}
-      </div>
-    </div>
-    <div class="form-group">
-      <mat-checkbox class="example-margin" formControlName="isOther" (change)="onChange.isOther($event)">Нужной
-        образовательной организации нет в списке</mat-checkbox>
-    </div>
-    <div class="alert-info">
-      <span>
-        <b>{{currentPlaceForm.value | json}}</b>
-      </span>
-      <span>currentPlaceForm.status:
-        <b>{{currentPlaceForm.status | json}}</b>
-      </span>
-    </div>
-  </form>
+  </ng-container>
+  <mat-checkbox class="example-margin" formControlName="isOther" (change)="onChange.isOther($event)">Нужной
+    образовательной организации нет в списке</mat-checkbox>
+</form>

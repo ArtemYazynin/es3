@@ -1,5 +1,5 @@
-<app-inquiry-info-edit title="Параметры комплектования" [theme]="themes.Gray">
-  <form [formGroup]="inquiryInfoForm" novalidate>
+<form [formGroup]="inquiryInfoForm" novalidate>
+  <app-inquiry-info-edit title="Параметры комплектования" [theme]="themes.Gray">
     <mat-form-field>
       <mat-select formControlName="wishDate" placeholder="Желаемая дата зачисления">
         <mat-option value="" selected>Не выбрано</mat-option>
@@ -47,5 +47,5 @@
         <b>{{inquiryInfoForm.status | json}}</b>
       </span>
     </div>
-  </form>
-</app-inquiry-info-edit>
+  </app-inquiry-info-edit>
+</form>

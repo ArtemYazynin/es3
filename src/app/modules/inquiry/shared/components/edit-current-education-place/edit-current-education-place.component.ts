@@ -11,7 +11,9 @@ import { CurrentEducationPlace } from './../../../../../shared/models/current-ed
   selector: 'app-edit-current-education-place',
   templateUrl: './edit-current-education-place.component.html',
   styleUrls: ['./edit-current-education-place.component.css'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  host:{ 'class': 'host'},
+
 })
 export class EditCurrentEducationPlaceComponent implements OnInit, OnDestroy {
   @Input() currentEducationPlace: CurrentEducationPlace;

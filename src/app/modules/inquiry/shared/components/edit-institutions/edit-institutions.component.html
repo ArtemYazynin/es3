@@ -34,10 +34,10 @@
             </mat-list-item>
             <mat-divider></mat-divider>
           </div>
+          <div class="form-group alert alert-danger" *ngIf="form.get('institution').disabled">
+            Максимальное количество желаемых ОО {{maxCountWishInstitutions}}
+          </div>
         </mat-list>
-        <div class="form-group alert alert-danger" *ngIf="form.get('institution').disabled">
-          Максимальное количество желаемых ОО {{maxCountWishInstitutions}}
-        </div>
       </app-inquiry-info-edit>
     </div>
   </div>

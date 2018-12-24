@@ -2,12 +2,10 @@
   <div class="row">
     <div class="col-md-6">
       <app-inquiry-info-edit title="Тип льготы" [theme]="themes.Gray">
-        <div class="form-group">
           <mat-checkbox formControlName="withoutPrivilege">Без льготы</mat-checkbox>
           <div *ngIf="formErrors.withoutPrivilege" class="alert alert-danger">
             {{ formErrors.withoutPrivilege }}
           </div>
-        </div>
         <ng-container *ngIf="!privilegeForm.get('withoutPrivilege').value">
           <mat-form-field>
             <mat-select formControlName="privilegeOrder" [compareWith]="compareObjects" placeholder="Приоритет льготной категории">
