@@ -1,16 +1,18 @@
 import { ChangeDetectionStrategy, Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { Address, addressTypes, Applicant, CitizenshipService, Country, FormService, inquiryType, Parent, PersonWithAddress, CommonService, Theme } from '../../index';
 import { AddressComponent } from '../address/address.component';
 import { CommonModule } from '@angular/common';
+import { MatCheckboxChange } from '@angular/material';
 
 @Component({
   selector: 'app-foreign-citizens-addresses',
   templateUrl: './foreign-citizens-addresses.component.html',
   styleUrls: ['./foreign-citizens-addresses.component.css'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  host:{ 'class': 'host'}
 })
 export class ForeignCitizensAddressesComponent implements OnInit, OnDestroy {
   @ViewChild(AddressComponent) addressComponent: AddressComponent;
@@ -53,9 +55,15 @@ export class ForeignCitizensAddressesComponent implements OnInit, OnDestroy {
         this.countries = result;
         if (!this.owner || !this.owner.register || this.citizenshipService.hasRfCitizenship(this.owner.citizenships, this.countries)) return;
 
-        let value = this.owner.register.foreign
-          ? { notHasRfRegistration: this.owner.register.foreign, foreignAddress: this.owner.register.additionalInfo }
-          : { notHasRfRegistration: this.owner.register.foreign, tempRegistrationExpiredDate: this.owner.tempRegistrationExpiredDate }
+        let value = (()=>{
+          if(this.owner.register.foreign){
+            this.setRequiredForeignAddress();
+            return { notHasRfRegistration: this.owner.register.foreign, foreignAddress: this.owner.register.additionalInfo };
+          }else{
+            this.setRequiredTempRegistrationExpiredDate();
+            return { notHasRfRegistration: this.owner.register.foreign, tempRegistrationExpiredDate: this.owner.tempRegistrationExpiredDate };
+          }
+        })();
         this.form.patchValue(value);
       });
   }
@@ -77,9 +85,35 @@ export class ForeignCitizensAddressesComponent implements OnInit, OnDestroy {
     return result;
   }
 
-  hasRegistrationChange() {
-    if (!this.addressComponent) return;
-    this.addressComponent.$address.next(undefined);
+  hasRegistrationChange(change:MatCheckboxChange) {
+    if(this.addressComponent) this.addressComponent.$address.next(undefined);
+    if (change.checked) {
+      this.setUnRequiredTempRegistrationExpiredDate();
+      this.setRequiredForeignAddress();
+    }else{
+      this.setUnRequiredForeignAddress();
+      this.setRequiredTempRegistrationExpiredDate();
+    }
+  }
+
+  private setRequiredForeignAddress(){
+    this.form.controls.foreignAddress.setValidators([Validators.required]);
+    this.form.controls.foreignAddress.updateValueAndValidity();
+  }
+
+  private setUnRequiredForeignAddress(){
+    this.form.controls.foreignAddress.clearValidators();
+    this.form.controls.foreignAddress.updateValueAndValidity();
+  }
+
+  private setRequiredTempRegistrationExpiredDate(){
+    this.form.controls.tempRegistrationExpiredDate.setValidators([Validators.required]);
+    this.form.controls.tempRegistrationExpiredDate.updateValueAndValidity();
+  }
+
+  private setUnRequiredTempRegistrationExpiredDate(){
+    this.form.controls.tempRegistrationExpiredDate.clearValidators();
+    this.form.controls.tempRegistrationExpiredDate.updateValueAndValidity();
   }
 
   private buildForm() {

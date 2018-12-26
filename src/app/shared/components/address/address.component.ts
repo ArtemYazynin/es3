@@ -11,7 +11,7 @@ import { addressTypes } from "../../models/address-type";
   templateUrl: './address.component.html',
   styleUrls: ['./address.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  host:{ 'class': 'host'},
+  host:{ 'class': 'host'}
 })
 export class AddressComponent implements OnInit, OnDestroy {
   @Input() type: number;
