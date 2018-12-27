@@ -27,7 +27,6 @@ export class EditConfirmationDocumentDialogComponent implements OnInit {
         let document = ConfirmationDocument.construct(this.confirmationProofDocumentComponent.confirmationDocumentForm, oldDocument ? oldDocument.id : Guid.newGuid());
         this.data.$document.next(document);
         this.dialogRef.close();
-
       },
       () => {
         this.dialogRef.close();

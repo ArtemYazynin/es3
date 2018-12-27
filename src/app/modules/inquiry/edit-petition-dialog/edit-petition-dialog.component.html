@@ -1,9 +1,7 @@
 <div *ngIf="data.$petition | async as petition">
-  <h1 mat-dialog-title>Ходатайство</h1>
+  <h1 mat-dialog-title>Редактирование ходатайства</h1>
   <div mat-dialog-content>
-    <app-inquiry-info-edit [theme]="themes.Default">
-      <app-edit-petition [petition]="petition"></app-edit-petition>
-    </app-inquiry-info-edit>
+    <app-edit-petition [petition]="petition"></app-edit-petition>
   </div>
   <app-dialog-buttons [config]="config" [isValid]="isValid()"></app-dialog-buttons>
 </div>

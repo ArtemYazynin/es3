@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatRadioChange } from '@angular/material';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import { FamilyInfo, FormService, Petition } from '../../../../../shared';
+import { FamilyInfo, FormService, Petition, Theme } from '../../../../../shared';
 import { EditFullNameComponent } from '../../../../../shared/components/edit-full-name/edit-full-name.component';
 import { IdentityCardComponent } from '../../../../../shared/components/identity-card/identity-card.component';
 import { FamilyInfoService } from '../../../../../shared/family-info.service';
@@ -22,7 +22,7 @@ export class EditPetitionComponent implements OnInit {
 
   @Input() petition: Petition;
 
-
+  themes = Theme;
   form: FormGroup;
   formErrors = { organizationName: "", familyInfo: "" };
   validationMessages = {

@@ -1,9 +1,7 @@
 <div *ngIf="data.$inquiry | async as inquiry">
   <h1 mat-dialog-title>Файлы</h1>
   <div mat-dialog-content>
-    <app-inquiry-info-edit [theme]="themes.Default">
-      <app-edit-file-attachments [inquiry]="inquiry"> </app-edit-file-attachments>
-    </app-inquiry-info-edit>
+    <app-edit-file-attachments [inquiry]="inquiry"> </app-edit-file-attachments>
   </div>
   <app-dialog-buttons [config]="config" [isValid]="isValid()"></app-dialog-buttons>
 </div>

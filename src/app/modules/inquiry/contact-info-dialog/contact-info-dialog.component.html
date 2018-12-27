@@ -1,9 +1,7 @@
 <div *ngIf="data.$contactInfo | async as contactInfo">
   <h1 mat-dialog-title>Контактные данные</h1>
   <div mat-dialog-content>
-    <app-inquiry-info-edit [theme]="themes.Default">
       <app-edit-contact-info [contactInfo]="contactInfo"></app-edit-contact-info>
-    </app-inquiry-info-edit>
   </div>
   <app-dialog-buttons [config]="config" [isValid]="isValid()"></app-dialog-buttons>
 </div>

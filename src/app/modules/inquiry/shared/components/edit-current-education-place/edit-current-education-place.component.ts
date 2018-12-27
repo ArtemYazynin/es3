@@ -3,7 +3,7 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { MatAutocompleteSelectedEvent, MatCheckboxChange, MatSelectChange } from '@angular/material';
 import { Observable, Subject } from 'rxjs';
 import { map, startWith, takeUntil } from 'rxjs/operators';
-import { Area, AreaService, AreaType, CommonService, Entity, FormService, Group, GroupService, inquiryType, Institution, InstitutionService, InquiryType } from '../../../../../shared';
+import { Area, AreaService, AreaType, CommonService, Entity, FormService, Group, GroupService, inquiryType, Institution, InstitutionService, InquiryType, Theme } from '../../../../../shared';
 import { CurrentEducationPlaceService } from '../../../../../shared/current-place.service';
 import { CurrentEducationPlace } from './../../../../../shared/models/current-education-place.model';
 
@@ -32,7 +32,8 @@ export class EditCurrentEducationPlaceComponent implements OnInit, OnDestroy {
   formErrors = CurrentEducationPlace.getFormErrors();
   validationMessages = CurrentEducationPlace.getValidationMessages();
   displayFn = this.commonService.displayFn;
-
+  themes = Theme;
+  
   constructor(private areaService: AreaService, private institutionService: InstitutionService, private fb: FormBuilder,
     private formService: FormService, private commonService: CommonService, private service: CurrentEducationPlaceService,
     private groupService: GroupService) { }

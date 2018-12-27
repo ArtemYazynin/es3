@@ -1,7 +1,9 @@
 <ng-template #fieldsTemplate>
-  <div class="form-group" *ngFor="let institution of institutions; let i = index">
-    {{i+1}}. {{institution.name}}
-  </div>
+  <ol>
+    <li *ngFor="let institution of institutions; let i = index">
+        {{institution.name}}
+    </li>
+  </ol>
 </ng-template>
 
 <ng-template #withEdit>

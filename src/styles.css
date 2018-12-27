@@ -5,6 +5,10 @@
 @import "~@ng-select/ng-select/themes/default.theme.css";
 @import "~@angular/material/prebuilt-themes/indigo-pink.css";
 
+.mat-dialog-title {
+  border-bottom: 1px solid #e9ecef;
+  margin: 0 0 0 0px !important;
+}
 .mat-select {
   background-color: white;
   height: calc(1.8125rem + 1px);

@@ -1,9 +1,5 @@
-<div>
-  <h1 mat-dialog-title>Выбор льготы</h1>
-  <div mat-dialog-content>
-    <app-inquiry-info-edit [theme]="themes.Default">
-      <app-edit-privilege [privilege]="privilege"></app-edit-privilege>
-    </app-inquiry-info-edit>
-  </div>
-  <app-dialog-buttons [config]="config" [isValid]="isValid()"></app-dialog-buttons>
+<h1 mat-dialog-title>Выбор льготы</h1>
+<div mat-dialog-content>
+    <app-edit-privilege [privilege]="privilege"></app-edit-privilege>
 </div>
+<app-dialog-buttons [config]="config" [isValid]="isValid()"></app-dialog-buttons>

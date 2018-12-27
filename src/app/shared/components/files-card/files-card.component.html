@@ -2,7 +2,8 @@
   <div class="row">
     <ol>
       <ng-container *ngFor="let file of inquiry?.files">
-        <li>{{file.name}}({{file.description}})</li>
+        <li >{{file.name}}({{file.description}})</li>
+
       </ng-container>
     </ol>
     <app-form-group label="Документы подписаны электронной подписью" [name]="inquiry?.haveDigitalSignature | yesNo"></app-form-group>

@@ -1,8 +1,8 @@
 <div *ngIf="data.$document | async as doc">
   <h1 mat-dialog-title>Редактирование документа</h1>
   <div mat-dialog-content>
-    <app-inquiry-info-edit [theme]="themes.Default">
-      <app-edit-confirmation-document [model]="doc"></app-edit-confirmation-document>
+    <app-inquiry-info-edit [theme]="themes.Gray" [title]="data.title">
+        <app-edit-confirmation-document [model]="doc"></app-edit-confirmation-document>
     </app-inquiry-info-edit>
   </div>
   <app-dialog-buttons [config]="config" [isValid]="isValid()"></app-dialog-buttons>
