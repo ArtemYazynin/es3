@@ -123,6 +123,6 @@ export class EditPetitionComponent implements OnInit {
   }
 
   private setRequiredValidator() {
-    this.formService.updateValidators(this.form, [new ControlInfo(this.organizationName, [Validators.required])])
+    this.formService.updateValidators(this.form, [new ControlInfo("organizationName", [Validators.required])])
   }
 }

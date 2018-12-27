@@ -1,6 +1,5 @@
-<div class="col-md-12">
-  <div class="h2 bb pb-2">Данные ребенка</div>
-  <ng-template #children>
-  </ng-template>
-  <app-routing-buttons [config]="config" [isValid]="component && component.isValid()"></app-routing-buttons>
-</div>
+<app-step title="Данные ребенка">
+    <ng-template #children>
+      </ng-template>
+      <app-routing-buttons [config]="config" [isValid]="component && component.isValid()"></app-routing-buttons>
+</app-step>

@@ -1,15 +1,12 @@
-<section class="content px-3">
-  <div class="container-fluid">
-    <div class="h2 bb pb-2">Данные заявителя</div>
-    <app-inquiry-info-edit title="Тип заявителя" [theme]="themes.Gray">
-      <div class="form-group">
-        <mat-radio-group class="radio-group" [(ngModel)]="applicantType">
-          <mat-radio-button *ngFor="let type of applicantTypes | applicantType" [value]="type.id">
-            {{type.name}}
-          </mat-radio-button>
-        </mat-radio-group>
-      </div>
-    </app-inquiry-info-edit>
-    <app-routing-buttons [config]="config" [isValid]="isValid()"></app-routing-buttons>
-  </div>
-</section>
+<app-step title="Данные заявителя">
+  <app-inquiry-info-edit title="Тип заявителя" [theme]="themes.Gray">
+    <div class="form-group">
+      <mat-radio-group class="radio-group" [(ngModel)]="applicantType">
+        <mat-radio-button *ngFor="let type of applicantTypes | applicantType" [value]="type.id">
+          {{type.name}}
+        </mat-radio-button>
+      </mat-radio-group>
+    </div>
+  </app-inquiry-info-edit>
+  <app-routing-buttons [config]="config" [isValid]="isValid()"></app-routing-buttons>
+</app-step>

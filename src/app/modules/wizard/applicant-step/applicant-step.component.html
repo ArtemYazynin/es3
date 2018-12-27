@@ -1,11 +1,10 @@
-<ng-container>
-  <div class="h2 bb pb-2">Доверенное лицо законного представителя ребенка</div>
+<app-step title="Доверенное лицо законного представителя ребенка">
   <app-edit-person [model]="inquiry?.applicant" [personType]="personTypes.Applicant"></app-edit-person>
   <app-edit-citizenships [model]="inquiry?.applicant" [personType]="personTypes.Applicant" [applicantType]="inquiry.applicantType"></app-edit-citizenships>
   <div class="col-6">
     <app-edit-confirmation-document title="Документ, подтверждающий полномочие доверенного лица представлять интересы законного представителя ребенка"
-    [type]="attachmentTypes.ApplicantRepresentParent" [model]="inquiry?.applicant?.applicantRepresentParentDocument">
-  </app-edit-confirmation-document>
+      [type]="attachmentTypes.ApplicantRepresentParent" [model]="inquiry?.applicant?.applicantRepresentParentDocument">
+    </app-edit-confirmation-document>
   </div>
   <app-routing-buttons [config]="config" [isValid]="isValid()"></app-routing-buttons>
-</ng-container>
+</app-step>

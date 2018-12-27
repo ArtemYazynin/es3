@@ -31,6 +31,7 @@ import { RegisterCompleteComponent } from './register-complete/register-complete
 import { ParentStepService, WizardStorageService } from './shared';
 import { WizardRoutingModule } from './wizard-routing-module';
 import { RoutingButtonsComponent } from '../../shared/components/routing-buttons/routing-buttons.component';
+import { StepComponent } from './step/step.component';
 
 @NgModule({
   declarations: [
@@ -54,7 +55,8 @@ import { RoutingButtonsComponent } from '../../shared/components/routing-buttons
     ChildComponent,
     PreviewPrivilegeComponent,
     PreviewFilesComponent,
-    RegisterCompleteComponent
+    RegisterCompleteComponent,
+    StepComponent
 
   ],
   exports: [],
