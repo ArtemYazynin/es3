@@ -27,6 +27,7 @@ export class EditInstitutionsComponent implements OnInit, OnDestroy {
   $classes: Observable<Array<Group>>;
   themes = Theme;
   private institutionsForChoice: Array<Institution>;
+  private loadedInstitutions: Array<Institution | SchoolClass>;
 
   constructor(private commonService: CommonService, private institutionService: InstitutionService, private fb: FormBuilder,
     private settingsService: SettingsService, private groupService: GroupService, private cdr: ChangeDetectorRef) { }
@@ -71,7 +72,19 @@ export class EditInstitutionsComponent implements OnInit, OnDestroy {
   }
 
   isValid(): boolean {
-    return this.selectedInstitutions.length > 0;
+    //let resultCompare = true;
+    //if (this.loadedInstitutions && this.loadedInstitutions.length > 0)
+    //  resultCompare = this.compareArraysInstitutions(this.selectedInstitutions, this.loadedInstitutions);
+    return this.selectedInstitutions && this.selectedInstitutions.length > 0 && this.form.dirty;
+  }
+
+  compareArraysInstitutions(selectedInst: Array<Institution | SchoolClass>, loadedInst: Array<Institution | SchoolClass>): boolean {
+    if (selectedInst && selectedInst.length > 0) {
+      selectedInst.forEach((selectedInst) => {
+        if (loadedInst.find(inst => inst.id == selectedInst.id))
+          return true;
+      });
+    } else return false;
   }
 
   onChange = {
@@ -110,6 +123,7 @@ export class EditInstitutionsComponent implements OnInit, OnDestroy {
           return def
       }
     })();
+    this.loadedInstitutions = array;
     array.forEach(element => {
       this._add(element);
     });
@@ -151,11 +165,13 @@ export class EditInstitutionsComponent implements OnInit, OnDestroy {
       this.selectedInstitutions.splice(index, 1);
     }
     let up = (index) => {
+      this.form.markAsDirty();
       const institution = clone(index);
       removeSelected(index);
       this.selectedInstitutions.splice(index - 1, 0, institution);
     }
     let down = (index) => {
+      this.form.markAsDirty();
       const institution = clone(index);
       removeSelected(index);
       this.selectedInstitutions.splice(index + 1, 0, institution);
@@ -166,6 +182,7 @@ export class EditInstitutionsComponent implements OnInit, OnDestroy {
       this.institutionsForChoice.push(obj["institution"] ? obj["institution"] : obj);
       this.form.controls.institution.updateValueAndValidity();
       if (this.form.controls.institution.disabled) this.form.controls.institution.enable();
+      this.form.markAsDirty();
     }
     return {
       up: up,
