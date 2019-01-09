@@ -1,15 +1,14 @@
 <div class="row">
   <div class="col-md-6">
-    <app-inquiry-info-edit [theme]="themes.Gray">
-      <div class="form-group">
-        <mat-form-field >
-          <mat-select [(ngModel)]="owner.relationType" placeholder="Родственная связь">
-            <mat-option *ngFor="let item of relationTypes" [value]="item">{{item.name}}</mat-option>
-          </mat-select>
-        </mat-form-field>
-      </div>
+    <app-inquiry-info-edit [theme]="themes.Gray" title="Родственная связь">
+      <mat-form-field>
+        <mat-select [(ngModel)]="owner.relationType" placeholder="Родственная связь">
+          <mat-option *ngFor="let item of relationTypes" [value]="item">{{item.name}}</mat-option>
+        </mat-select>
+      </mat-form-field>
     </app-inquiry-info-edit>
   </div>
+
   <div class="col-md-6" *ngIf="owner.relationType?.confirmationDocument">
     <app-edit-confirmation-document title="Документ, подтверждающий право законного представителя представлять интересы ребенка"
       [model]="owner.parentRepresentChildrenDocument" [type]="attachmentTypes.ParentRepresentChildren">

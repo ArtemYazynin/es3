@@ -1,5 +1,4 @@
-<ng-container>
-  <div class="h2 bb pb-2">Предпросмотр заявления</div>
+<app-step title="Предпросмотр заявления">
   <div class="row">
     <div class="col-6" *ngIf="inquiry.applicant">
       <app-inquiry-info-edit title="Доверенное лицо законного представителя ребенка" [theme]="themes.Blue">
@@ -49,4 +48,4 @@
     </div>
   </div>
   <app-routing-buttons [config]="config" [isValid]="true"></app-routing-buttons>
-</ng-container>
+</app-step>

@@ -52,17 +52,23 @@ export class EditPersonComponent implements OnInit, OnDestroy {
   }
 
   isValid(): boolean {
-    let isValid = {
-      identityCardForm: !!this.identityCardComponent && !!this.identityCardComponent.identityCardForm
-        && this.identityCardComponent.identityCardForm.valid && this.identityCardComponent.identityCardForm.dirty,
-      fullnameForm: !!this.fullnameComponent && !!this.fullnameComponent.fullnameForm
-        && this.fullnameComponent.fullnameForm.valid && this.fullnameComponent.fullnameForm.dirty,
-    }
-
-    let result = isValid.fullnameForm
-      && this.snilsComponent.isValid()
-      && isValid.identityCardForm
+    const isValidIdentityCard = this.isValidIdentityCard();
+    const isValidFullName = this.isValidFullName();
+    const isValidSnils = this.snilsComponent.isValid();
+    let result = isValidFullName && isValidSnils && isValidIdentityCard
     return result;
+  }
+
+  private isValidIdentityCard(){
+    const isValidForm = !!this.identityCardComponent && !!this.identityCardComponent.identityCardForm
+      && this.identityCardComponent.identityCardForm.valid;
+    return isValidForm;
+  }
+
+  private isValidFullName(){
+    var isValidForm = !!this.fullnameComponent && !!this.fullnameComponent.fullnameForm
+      && this.fullnameComponent.fullnameForm.valid;
+    return isValidForm ;
   }
 
   getResult(): Person {

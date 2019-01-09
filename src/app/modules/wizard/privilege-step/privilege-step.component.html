@@ -1,6 +1,4 @@
-<ng-container>
-  <div class="h2 bb pb-2">Льготная категория</div>
-  <app-edit-privilege [privilege]="inquiry?.privilege">
-  </app-edit-privilege>
+<app-step title="Льготная категория">
+  <app-edit-privilege [privilege]="inquiry?.privilege"></app-edit-privilege>
   <app-routing-buttons [config]="config" [isValid]="isValid()"></app-routing-buttons>
-</ng-container>
+</app-step>

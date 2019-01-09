@@ -1,5 +1,4 @@
-<ng-container>
-  <div class="h2 bb pb-2">Контактная информация и опции оповещения</div>
-  <app-edit-contact-info [contactInfo]="inquiry?.contactInfo"></app-edit-contact-info>
-  <app-routing-buttons [config]="config" [isValid]="editContactInfoComponent.isValid()"></app-routing-buttons>
-</ng-container>
+<app-step title="Контактная информация и опции оповещения">
+    <app-edit-contact-info [contactInfo]="inquiry?.contactInfo"></app-edit-contact-info>
+    <app-routing-buttons [config]="config" [isValid]="editContactInfoComponent.isValid()"></app-routing-buttons>
+</app-step>

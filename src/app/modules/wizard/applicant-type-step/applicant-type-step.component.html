@@ -1,5 +1,4 @@
-<div class="container col-md-12">
-  <div class="h2 bb pb-2">Данные заявителя</div>
+<app-step title="Данные заявителя">
   <app-inquiry-info-edit title="Тип заявителя" [theme]="themes.Gray">
     <div class="form-group">
       <mat-radio-group class="radio-group" [(ngModel)]="applicantType">
@@ -8,9 +7,6 @@
         </mat-radio-button>
       </mat-radio-group>
     </div>
-    <div class="alert-info">
-      applicantType: {{applicantType}}
-    </div>
   </app-inquiry-info-edit>
-</div>
-<app-routing-buttons [config]="config" [isValid]="isValid()"></app-routing-buttons>
+  <app-routing-buttons [config]="config" [isValid]="isValid()"></app-routing-buttons>
+</app-step>

@@ -1,35 +1,33 @@
 <app-inquiry-info-edit title="Адрес регистрации по месту пребывания/жительства" [theme]="themes.Gray">
-  <form [formGroup]="form">
-    <div class="form-group">
-      <mat-checkbox formControlName="notHasRfRegistration" (change)="hasRegistrationChange()">
-        Нет регистрации на территории РФ
-      </mat-checkbox>
-    </div>
-    <div class="form-group" *ngIf="form.get('notHasRfRegistration').value">
+  <ng-container [formGroup]="form" novalidate>
+    <mat-checkbox formControlName="notHasRfRegistration" (change)="hasRegistrationChange($event)">
+      Нет регистрации на территории РФ
+    </mat-checkbox>
+    <br>
+    <ng-container class="form-group" *ngIf="form.get('notHasRfRegistration').value">
       <mat-form-field class="full-width">
-        <textarea matInput placeholder="Адрес регистрации (на территории иностранного государства)" formControlName="foreignAddress"></textarea>
+        <textarea matInput formControlName="foreignAddress"></textarea>
+        <mat-placeholder class="placeholder">Адрес регистрации (на территории иностранного государства) <b style='color: red;'>*</b></mat-placeholder>
       </mat-form-field>
-      <b style="color: red;">*</b>
       <div *ngIf="formErrors.foreignAddress" class="alert alert-danger">
         {{ formErrors.foreignAddress }}
       </div>
-    </div>
-    <div *ngIf="!form.get('notHasRfRegistration').value">
+    </ng-container>
+    <ng-container *ngIf="!form.get('notHasRfRegistration').value">
       <app-address [type]="addressTypes.register" [owner]="owner"></app-address>
-      <div class="alert alert-info">Является временным адресом</div>
-      <div class="form-group">
-        <mat-form-field (click)="tempRegistrationExpired.open()">
-          <input matInput [matDatepicker]="tempRegistrationExpired" placeholder="Действителен до" [min]="currentDate"
-            formControlName="tempRegistrationExpiredDate">
-          <mat-datepicker-toggle matSuffix [for]="tempRegistrationExpired"></mat-datepicker-toggle>
-          <mat-datepicker disabled="false" #tempRegistrationExpired></mat-datepicker>
-        </mat-form-field>
-        <b style="color: red;">*</b>
-        <div *ngIf="formErrors.tempRegistrationExpiredDate" class="alert alert-danger">
-          {{ formErrors.tempRegistrationExpiredDate }}
-        </div>
+      <div class="alert alert-info" style="width: 100%;">Является временным адресом</div>
+      <mat-form-field (click)="tempRegistrationExpired.open()">
+        <input matInput [matDatepicker]="tempRegistrationExpired" [min]="currentDate" formControlName="tempRegistrationExpiredDate">
+        <mat-placeholder class="placeholder">Действителен до <b style='color: red;'>*</b></mat-placeholder>
+        <mat-datepicker-toggle matSuffix [for]="tempRegistrationExpired"></mat-datepicker-toggle>
+        <mat-datepicker disabled="false" #tempRegistrationExpired></mat-datepicker>
+
+      </mat-form-field>
+
+      <div *ngIf="formErrors.tempRegistrationExpiredDate" class="alert alert-danger">
+        {{ formErrors.tempRegistrationExpiredDate }}
       </div>
-    </div>
-  </form>
+    </ng-container>
+  </ng-container>
 
 </app-inquiry-info-edit>

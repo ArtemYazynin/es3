@@ -32,13 +32,17 @@ export class PrivilegeCardComponent implements OnInit, OnDestroy {
     if (this.route.snapshot.data.resolved.inquiryId) {
       this.privilegeService.getByInquiry(this.route.snapshot.data.resolved.inquiryId)
         .pipe(takeUntil(this.ngUnsubscribe))
-        .subscribe(privilege => {
-          this.model = privilege;
-          this.$document = new BehaviorSubject<ConfirmationDocument>(this.model ? this.model.privilegeProofDocument : undefined);
-          this.documentSubscribe(this.$document);
-          this.cdr.markForCheck();
-        })
+        .subscribe(privilege => this.init(privilege));
+    } else {
+      this.init(this.route.snapshot.data.resolved.inquiry.privilege);
     }
+  }
+
+  private init(privilege: Privilege) {
+    this.model = privilege;
+    this.$document = new BehaviorSubject<ConfirmationDocument>(this.model ? this.model.privilegeProofDocument : undefined);
+    this.documentSubscribe(this.$document);
+    this.cdr.markForCheck();
   }
 
   documentSubscribe(document: BehaviorSubject<ConfirmationDocument>): void {

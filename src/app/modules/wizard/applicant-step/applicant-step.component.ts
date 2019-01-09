@@ -48,6 +48,9 @@ export class ApplicantStepComponent implements OnInit {
   }
 
   isValid() {
-    return this.editPersonComponent.isValid() && this.editCitizenshipsComponent.isValid() && this.editConfirmationDocumentComponent.isValid();
+    const isValidPerson = this.editPersonComponent.isValid();
+    const isValidCitizenships = this.editCitizenshipsComponent.isValid() ;
+    const isValidDocument = this.editConfirmationDocumentComponent.isValid();
+    return isValidPerson && isValidCitizenships && isValidDocument;
   }
 }

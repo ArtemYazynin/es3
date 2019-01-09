@@ -29,7 +29,7 @@ export class RfCitizensAddressesComponent implements OnInit, OnDestroy, AfterVie
   themes = Theme;
 
   constructor(private citizenshipService: CitizenshipService, private fb: FormBuilder, private cdr: ChangeDetectorRef, private commonService: CommonService,
-      private formService:FormService) { }
+    private formService: FormService) { }
 
   ngOnInit() {
     this.buildForm();
@@ -97,7 +97,7 @@ export class RfCitizensAddressesComponent implements OnInit, OnDestroy, AfterVie
           result.register = this.commonService.getAddressFromComponents(component);
           break;
         case addressTypes.residential:
-          result.residential = result.registerAddressLikeAsResidentialAddress 
+          result.residential = result.registerAddressLikeAsResidentialAddress
             ? result.register
             : this.commonService.getAddressFromComponents(component)
           break;
@@ -115,7 +115,7 @@ export class RfCitizensAddressesComponent implements OnInit, OnDestroy, AfterVie
     if (!change.checked) {
       this.checkboxesForm.controls.tempRegistrationExpiredDate.setValue(undefined);
       this.formService.updateValidators(this.checkboxesForm, [new ControlInfo("tempRegistrationExpiredDate", [])])
-    }else{
+    } else {
       this.formService.updateValidators(this.checkboxesForm, [new ControlInfo("tempRegistrationExpiredDate", [Validators.required])])
     }
   }

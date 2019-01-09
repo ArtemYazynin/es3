@@ -1,5 +1,4 @@
-<ng-container>
-  <div class="h2 bb pb-2">Выбор образовательной организации</div>
+<app-step title="Выбор образовательной организации">
   <div *ngIf="inquiry?.type == inquiryTypes.school">
     <app-edit-institutions [schoolClasses]="inquiry?.schoolClasses" [IsLearnEducCenter]="inquiry?.IsLearnEducCenter"
       [inquiryType]="inquiry?.type"></app-edit-institutions>
@@ -8,4 +7,4 @@
     <app-edit-institutions [institutions]="inquiry?.institutions" [inquiryType]="inquiry?.type"></app-edit-institutions>
   </div>
   <app-routing-buttons [config]="config" [isValid]="isValid()"></app-routing-buttons>
-</ng-container>
+</app-step>

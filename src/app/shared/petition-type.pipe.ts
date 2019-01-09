@@ -13,7 +13,7 @@ export class PetitionTypePipe implements PipeTransform {
   private getName(value: PetitionType) {
     switch (value) {
       case PetitionType.Individual:
-        return "Заявитель"
+        return "Физическое лицо"
       case PetitionType.Organization:
         return "Организация";
       default:

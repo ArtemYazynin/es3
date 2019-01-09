@@ -1,9 +1,7 @@
 <div>
   <h1 mat-dialog-title>Родственная связь</h1>
   <div mat-dialog-content>
-    <app-inquiry-info-edit [theme]="themes.Default">
       <app-relation-type [owner]="parent"></app-relation-type>
-    </app-inquiry-info-edit>
   </div>
   <app-dialog-buttons [config]="config" [isValid]="isValid()"></app-dialog-buttons>
 </div>

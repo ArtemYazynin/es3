@@ -1,8 +1,5 @@
-<div class="col-md-12">
-  <div class="h2 bb pb-2">Данные желаемого образовательного учреждения</div>
-  <app-inquiry-info-edit title="Текущее место обучения ребенка" [theme]="themes.Gray">
-    <app-edit-current-education-place [currentEducationPlace]="inquiry?.currentEducationPlace" [inquiryType]="inquiry.type">
-    </app-edit-current-education-place>
-  </app-inquiry-info-edit>
+<app-step title="Данные желаемого образовательного учреждения">
+  <app-edit-current-education-place [currentEducationPlace]="inquiry?.currentEducationPlace" [inquiryType]="inquiry.type">
+  </app-edit-current-education-place>
   <app-routing-buttons [config]="config" [isValid]="isValid()"></app-routing-buttons>
-</div>
+</app-step>

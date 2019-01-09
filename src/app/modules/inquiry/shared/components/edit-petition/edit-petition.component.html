@@ -1,12 +1,12 @@
 <ng-container>
   <form [formGroup]="form" novalidate>
-    <div class="form-group">
+    <app-inquiry-info-edit [theme]="themes.Gray" title="Тип заявителя">
       <mat-radio-group class="radio-group" formControlName="petitionType" (change)="changePetitionType($event)">
         <mat-radio-button class="radio-button" *ngFor="let type of types | petitionType" [value]="type.id">
           {{type.name}}
         </mat-radio-button>
       </mat-radio-group>
-    </div>
+    </app-inquiry-info-edit>
     <div class="form-group" *ngIf="form.get('petitionType').value == petitionTypes.Organization">
       <mat-form-field>
         <input matInput placeholder="Организация" formControlName="organizationName">

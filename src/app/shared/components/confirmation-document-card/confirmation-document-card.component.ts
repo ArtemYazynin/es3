@@ -37,7 +37,10 @@ export class ConfirmationDocumentCardComponent implements OnInit, OnDestroy {
   }
 
   editConfirmationDocument() {
-    const config = { $document: new BehaviorSubject<ConfirmationDocument>(this.model.getValue()) };
+    const config = { 
+      $document: new BehaviorSubject<ConfirmationDocument>(this.model.getValue()),
+      title:this.title 
+    };
     config.$document
       .pipe(skip(1), takeUntil(this.ngUnsubscribe))
       .subscribe((doc: ConfirmationDocument) => {

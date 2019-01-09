@@ -32,32 +32,34 @@
   </div>
   <div class="col-md-6">
     <app-inquiry-info-edit title="Прикрепленные документы:" [theme]="themes.Gray">
-      <div class="form-group alert alert-info" align="center">Размер одного файла не должен превышать 5мб.</div>
-      <ng-container *ngFor="let item of bunchOfFileView; let i=index;">
-        <div [hidden]="!isOldBrowser">
-          <input type="file" id={{item.id}} name="file" [attr.data-index]="i" accept=".pdf,.doc,.docx">
-        </div>
-        <div [hidden]="isOldBrowser">
-          <p>{{item.id | attachmentType}}</p>
-          <button id="chooseFile" (click)="chooseFile(item)" mat-raised-button color="primary">Выберите файл</button>
-          <span style="padding-left: 1%;">{{item.name}}</span>
-          <div *ngIf="item.id == attachmentType.Other">
-            <mat-form-field>
-              <textarea matInput id="description{{i}}" [(ngModel)]="item.fileAttachment.description" placeholder="Описание"></textarea>
-            </mat-form-field>
-            <button id="remove" (click)="remove(item)" mat-raised-button color="warn">Удалить</button>
+      <div style="min-width: 100%">
+        <div class="form-group alert alert-info" align="center">Размер одного файла не должен превышать 5мб.</div>
+        <ng-container *ngFor="let item of bunchOfFileView; let i=index;">
+          <div [hidden]="!isOldBrowser">
+            <input type="file" id={{item.id}} name="file" [attr.data-index]="i" accept=".pdf,.doc,.docx">
           </div>
-          <mat-divider></mat-divider>
+          <div [hidden]="isOldBrowser">
+            <p>{{item.id | attachmentType}}</p>
+            <button id="chooseFile" (click)="chooseFile(item)" mat-raised-button color="primary">Выберите файл</button>
+            <span style="padding-left: 1%;">{{item.name}}</span>
+            <div *ngIf="item.id == attachmentType.Other">
+              <mat-form-field>
+                <textarea matInput id="description{{i}}" [(ngModel)]="item.fileAttachment.description" placeholder="Описание"></textarea>
+              </mat-form-field>
+              <button id="remove" (click)="remove(item)" mat-raised-button color="warn">Удалить</button>
+            </div>
+            <mat-divider></mat-divider>
+          </div>
+        </ng-container>
+        <br>
+        <button id="add" mat-raised-button color="primary" [disabled]="bunchOfFileView.length >= maxFilesCount">Добавить
+          документы</button>
+        <br>
+        <div class="form-group">
+          <mat-checkbox [(ngModel)]="inquiry.haveDigitalSignature">Документы подписаны электронной подписью</mat-checkbox>
         </div>
-      </ng-container>
-      <br>
-      <button id="add" mat-raised-button color="primary" [disabled]="bunchOfFileView.length >= maxFilesCount">Добавить
-        документы</button>
-      <br>
-      <div class="form-group">
-        <mat-checkbox [(ngModel)]="inquiry.haveDigitalSignature">Документы подписаны электронной подписью</mat-checkbox>
       </div>
     </app-inquiry-info-edit>
-
   </div>
+
 </div>
