@@ -20,7 +20,6 @@ import { CurrentEducationPlaceStepComponent } from '../wizard/current-education-
 import { FileAttachmentStepComponent } from '../wizard/file-attachment-step/file-attachment-step.component';
 import { ParentStepComponent } from '../wizard/parent-step/parent-step.component';
 import { PreschoolInquiryInfoStepComponent } from '../wizard/preschool-inquiry-info-step/preschool-inquiry-info-step.component';
-import { PreviewStepComponent } from '../wizard/preview-step/preview-step.component';
 import { PrivilegeStepComponent } from '../wizard/privilege-step/privilege-step.component';
 import { SchoolInquiryInfoStepComponent } from '../wizard/school-inquiry-info-step/school-inquiry-info-step.component';
 import { ChildComponent } from './children-step/child/child.component';
@@ -30,12 +29,10 @@ import { PreviewPrivilegeComponent } from './preview/preview-privilege/preview-p
 import { RegisterCompleteComponent } from './register-complete/register-complete.component';
 import { ParentStepService, WizardStorageService } from './shared';
 import { WizardRoutingModule } from './wizard-routing-module';
-import { RoutingButtonsComponent } from '../../shared/components/routing-buttons/routing-buttons.component';
 import { StepComponent } from './step/step.component';
 
 @NgModule({
   declarations: [
-    RoutingButtonsComponent,
     //steps components
     ApplicantTypeStepComponent,
     ParentStepComponent,
@@ -48,7 +45,6 @@ import { StepComponent } from './step/step.component';
     SchoolInquiryInfoStepComponent,
     InstitutionStepComponent,
     FileAttachmentStepComponent,
-    PreviewStepComponent,
     //end
     IdentityCardTypePipe,
     EnumToArrayPipe,
@@ -57,7 +53,6 @@ import { StepComponent } from './step/step.component';
     PreviewFilesComponent,
     RegisterCompleteComponent,
     StepComponent
-
   ],
   exports: [],
   imports: [

@@ -12,9 +12,10 @@ import { PreschoolInquiryInfoStepComponent } from './preschool-inquiry-info-step
 import { SchoolInquiryInfoStepComponent } from './school-inquiry-info-step/school-inquiry-info-step.component';
 import { InstitutionStepComponent } from './institution-step/institution-step.component';
 import { FileAttachmentStepComponent } from './file-attachment-step/file-attachment-step.component';
-import { PreviewStepComponent } from './preview-step/preview-step.component';
 import { RegisterCompleteComponent } from './register-complete/register-complete.component';
 import { RegisterCompleteResolver } from '../../shared/register-complete-resolver';
+import { InquiryViewResolver } from '../../shared/inquiry-view-resolver';
+import { InquiryViewComponent } from '../../shared/components/inquiry-view/inquiry-view.component';
 
 const typeSegment = ":type"
 const routes: Routes = [
@@ -102,9 +103,9 @@ const routes: Routes = [
     },
     {
         path: `${typeSegment}/previewStep`,
-        component: PreviewStepComponent,
+        component: InquiryViewComponent,
         resolve: {
-            resolved: BaseResolver
+            resolved: InquiryViewResolver
         }
     },
     {

@@ -16,7 +16,7 @@ import { EditInstitutionsComponent } from "./modules/inquiry/shared/components/e
 import { EditPersonComponent } from "./modules/inquiry/shared/components/edit-person/edit-person.component";
 import { EditPreschoolInquiryInfoComponent } from "./modules/inquiry/shared/components/edit-preschool-inquiry-info/edit-preschool-inquiry-info.component";
 import { InquiryInfoEditComponent } from "./modules/inquiry/shared/components/inquiry-info-edit/inquiry-info-edit.component";
-import { EducProgramService, InquiryService, InstitutionService, SpecializationService } from "./shared";
+import { EducProgramService, InquiryService, InstitutionService, SpecializationService, StatusService } from "./shared";
 import { ApplicantTypePipe } from "./shared/applicant-type.pipe";
 import { AreaTypePipe } from './shared/area-type.pipe';
 import { AttachmentTypePipe } from "./shared/attachment-type.pipe";
@@ -80,6 +80,8 @@ import { PrivilegeDataSourceService } from './shared/privilege-data-source.servi
 import { SchoolClassService } from "./shared/school-classes.service";
 import { SchoolClassDataSourceService } from "./shared/school-classes-data-source.service";
 import { FormGroupComponent } from './shared/components/form-group/form-group.component';
+import { InquiryViewComponent } from './shared/components/inquiry-view/inquiry-view.component';
+import { PetitionCardComponent } from './shared/components/petition-card/petition-card.component';
 
 
 @NgModule({
@@ -98,8 +100,10 @@ import { FormGroupComponent } from './shared/components/form-group/form-group.co
         CurrentEducationPlaceCardComponent,
         PrivilegeCardComponent,
         FilesCardComponent, YesNoPipe, CitizenshipsCardComponent,
-        EditCitizenshipsComponent, RelationTypeCardComponent, DisabilityComponent, SpecHealthCardComponent, EditSpecHealthComponent, FormGroupComponent
-
+        EditCitizenshipsComponent, RelationTypeCardComponent, DisabilityComponent, SpecHealthCardComponent, EditSpecHealthComponent, FormGroupComponent,
+        RoutingButtonsComponent,
+        PetitionCardComponent,
+        InquiryViewComponent 
     ],
     imports: [
         CommonModule,
@@ -119,10 +123,13 @@ import { FormGroupComponent } from './shared/components/form-group/form-group.co
         PersonCardComponent, ConfirmationDocumentCardComponent, ChildrenCardComponent, ContactInfoCardComponent, SpecHealthComponent,
         InstitutionsCardComponent, SchoolClassCardComponent, CurrentEducationPlaceCardComponent, EditChildrenComponent,
         PrivilegeCardComponent, FilesCardComponent, YesNoPipe, EditCitizenshipsComponent, CitizenshipsCardComponent, RelationTypeCardComponent,
-        DisabilityComponent, SpecHealthCardComponent, EditSpecHealthComponent, FormGroupComponent
+        DisabilityComponent, SpecHealthCardComponent, EditSpecHealthComponent, FormGroupComponent,
+        RoutingButtonsComponent,
+       
+        InquiryViewComponent
     ],
     providers: [
-        SpecializationService, ConfirmationDocumentService, FamilyInfoService,
+        StatusService, SpecializationService, ConfirmationDocumentService, FamilyInfoService,
         EducProgramService, PersonService, InquiryDataSourceService, InquiryService, DisabilityService, SpecHealthDataSourceService, ChildDataSourceService, ChildService,
         InstitutionService, InstitutionDataSourceService, SchoolClassService, SchoolClassDataSourceService, ContactInfoService, ContactInfoDataSourceService, SchoolInquiryInfoDataSourceService, SchoolInquiryInfoService,
         InquiryInfoService, InquiryInfoDataSourceService, PetitionDataSourceService, PetitionService, CurrentEducationPlaceDataSourceService, CurrentEducationPlaceService,

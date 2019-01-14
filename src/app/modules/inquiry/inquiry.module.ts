@@ -8,9 +8,8 @@ import { TextMaskModule } from 'angular2-text-mask';
 import { MyDatePickerModule } from 'mydatepicker';
 import { MaterialModule } from '../../material.module';
 import { ShareModule } from '../../share.module';
-import { AddressService, AreaService, CitizenshipService, CommonService, DrawService, FormService, GroupService, IdentityCardService, PrivilegeService, RelationTypeService, SettingsService, SpecHealthService, SpecificityService, StatusService } from '../../shared';
+import { AddressService, AreaService, CitizenshipService, CommonService, DrawService, FormService, GroupService, IdentityCardService, PrivilegeService, RelationTypeService, SettingsService, SpecHealthService, SpecificityService } from '../../shared';
 import { ActionsButtonsService } from '../../shared/actions-buttons.service';
-import { PetitionCardComponent } from '../../shared/components/petition-card/petition-card.component';
 import { HttpInterceptor } from '../../shared/http-interceptor';
 import { RegisterSourcePipe } from '../../shared/models/register-source.pipe';
 import { PetitionTypePipe } from '../../shared/petition-type.pipe';
@@ -25,7 +24,6 @@ import { EditFileAttachmentsDialogComponent } from './edit-file-attachments-dial
 import { EditPersonDialogComponent } from './edit-person-dialog/edit-person-dialog.component';
 import { EditPetitionDialogComponent } from './edit-petition-dialog/edit-petition-dialog.component';
 import { EditInstitutionDialogComponent } from './edit-preschool-institution-dialog/edit-preschool-institution-dialog.component';
-import { InquiryReadComponent } from './inquiry-read/inquiry-read.component';
 import { InquiryRouting } from './inquiry-routing-module';
 import { PreschoolInquiryInfoDialogComponent } from './preschool-inquiry-info-dialog/preschool-inquiry-info-dialog.component';
 import { PrivilegeDialogComponent } from './privilege-dialog/privilege-dialog.component';
@@ -67,10 +65,9 @@ import { SpecHealthDialogComponent } from './spec-health-dialog/spec-health-dial
     SettingsService,
     DrawService,
     AddressService,
-    StatusService,
     ActionsButtonsService
   ],
-  declarations: [PetitionCardComponent, InquiryReadComponent, RegisterSourcePipe,
+  declarations: [RegisterSourcePipe,
     PrivilegeDialogComponent, EditPersonDialogComponent, PreschoolInquiryInfoDialogComponent, EditInstitutionDialogComponent,
     ContactInfoDialogComponent, EditCurrentEducationPlaceDialogComponent, SchoolInquiryInfoDialogComponent, DialogButtonsComponent,
     EditPetitionDialogComponent, PetitionTypePipe, RelationTypeDialogComponent, SpecHealthDialogComponent, EditPetitionComponent,

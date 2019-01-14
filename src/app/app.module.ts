@@ -19,6 +19,7 @@ import { MAT_LABEL_GLOBAL_OPTIONS } from '@angular/material';
 import { BreadsCrumbsService } from './shared/breads-crumbs.service';
 import { BreadsCrumbsComponent } from './modules/wizard/breads-crumbs/breads-crumbs.component';
 import { HeaderComponent } from './header/header.component';
+import { InquiryViewResolver } from './shared/inquiry-view-resolver';
 
 export const esConstant = new InjectionToken<any>("esConstant");
 export const SERVER_URL = new InjectionToken<string>("SERVER_URL");
@@ -49,6 +50,7 @@ const constants = {
     FormService,
     BreadsCrumbsService,
     RegisterCompleteResolver,
+    InquiryViewResolver,
     {
       provide: esConstant,
       useValue: constants
