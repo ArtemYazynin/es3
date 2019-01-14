@@ -101,6 +101,10 @@ export class EditChildrenComponent implements OnInit, AfterViewInit {
       let componentRef = this.viewContainer.createComponent(factory);
       componentRef.instance.show.next(true);
       componentRef.instance.inquiryType = this.inquiryType;
+      if (this.components.length > 0) {
+        componentRef.instance.child = new Child(this.components[0].instance.editPersonComponent.fullnameComponent.fullnameForm.controls.lastname.value, undefined, undefined,
+          undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined);
+      }
       this.components.push(componentRef);
     }
     let getTitle = (componentRef: ComponentRef<ChildComponent>) => {
