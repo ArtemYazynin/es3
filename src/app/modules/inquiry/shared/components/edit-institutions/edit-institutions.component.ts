@@ -27,7 +27,6 @@ export class EditInstitutionsComponent implements OnInit, OnDestroy {
   $classes: Observable<Array<Group>>;
   themes = Theme;
   private institutionsForChoice: Array<Institution>;
-  private loadedInstitutions: Array<Institution | SchoolClass>;
 
   constructor(private commonService: CommonService, private institutionService: InstitutionService, private fb: FormBuilder,
     private settingsService: SettingsService, private groupService: GroupService, private cdr: ChangeDetectorRef) { }
@@ -53,7 +52,6 @@ export class EditInstitutionsComponent implements OnInit, OnDestroy {
           startWith<string | Institution>(''),
           map((value: Institution) => typeof value === 'string' ? value : value.name),
           map((name: string) => {
-            //this.form.controls.class.patchValue("");
             if (name) {
               return this.commonService.autoCompliteFilter(this.institutionsForChoice, name);
             }
@@ -72,19 +70,7 @@ export class EditInstitutionsComponent implements OnInit, OnDestroy {
   }
 
   isValid(): boolean {
-    //let resultCompare = true;
-    //if (this.loadedInstitutions && this.loadedInstitutions.length > 0)
-    //  resultCompare = this.compareArraysInstitutions(this.selectedInstitutions, this.loadedInstitutions);
     return this.selectedInstitutions && this.selectedInstitutions.length > 0 && this.form.dirty;
-  }
-
-  compareArraysInstitutions(selectedInst: Array<Institution | SchoolClass>, loadedInst: Array<Institution | SchoolClass>): boolean {
-    if (selectedInst && selectedInst.length > 0) {
-      selectedInst.forEach((selectedInst) => {
-        if (loadedInst.find(inst => inst.id == selectedInst.id))
-          return true;
-      });
-    } else return false;
   }
 
   onChange = {
@@ -96,6 +82,7 @@ export class EditInstitutionsComponent implements OnInit, OnDestroy {
         case this.inquiryTypes.preschool:
           this._add(institution);
           this.blur(inputElement);
+          this.form.markAsDirty();
           break;
         case this.inquiryTypes.school:
           this.$classes = this.groupService.getGroups(institution.id);
@@ -123,7 +110,6 @@ export class EditInstitutionsComponent implements OnInit, OnDestroy {
           return def
       }
     })();
-    this.loadedInstitutions = array;
     array.forEach(element => {
       this._add(element);
     });
