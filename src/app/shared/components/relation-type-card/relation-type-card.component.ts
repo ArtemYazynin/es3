@@ -11,6 +11,7 @@ import { RelationTypeDialogComponent } from '../../../modules/inquiry/relation-t
   selector: 'app-relation-type-card',
   templateUrl: './relation-type-card.component.html',
   styleUrls: ['./relation-type-card.component.css'],
+  host:{ 'class': 'host'},
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class RelationTypeCardComponent implements OnInit, OnDestroy {

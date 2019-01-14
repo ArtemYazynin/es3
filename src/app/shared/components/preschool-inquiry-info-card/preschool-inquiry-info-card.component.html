@@ -1,5 +1,5 @@
 <ng-template #fieldsTemplate>
-  <div class="row" *ngIf="inquiryInfo && inquiryInfo.distributionParams">
+  <ng-container *ngIf="inquiryInfo && inquiryInfo.distributionParams">
     <div class="col-md-4">
       <app-inquiry-info-edit title="Параметры комплектования" [theme]="theme">
         <app-form-group label="Желаемая дата зачисления" [name]="inquiryInfo.distributionParams.wishDate"></app-form-group>
@@ -35,7 +35,7 @@
         </ul>
       </app-inquiry-info-edit>
     </div>
-  </div>
+  </ng-container>
 </ng-template>
 
 <ng-template #withEdit>

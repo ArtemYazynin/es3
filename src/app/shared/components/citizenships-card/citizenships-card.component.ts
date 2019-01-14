@@ -16,6 +16,7 @@ import { PersonType } from '../../person-type.enum';
   selector: 'app-citizenships-card',
   templateUrl: './citizenships-card.component.html',
   styleUrls: ['./citizenships-card.component.css'],
+  host:{ 'class': 'host'},
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CitizenshipsCardComponent implements OnInit, OnDestroy {

@@ -9,6 +9,7 @@ import { DistributionParams } from '../../models/distribution-params.model';
   selector: 'app-distribution-params',
   templateUrl: './distribution-params.component.html',
   styleUrls: ['./distribution-params.component.css'],
+  
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class DistributionParamsComponent implements OnInit, OnDestroy {
