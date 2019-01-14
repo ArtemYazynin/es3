@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { InquiryReadComponent } from './inquiry-read.component';
+import { InquiryViewComponent } from './inquiry-view.component';
 
-describe('InquiryReadComponent', () => {
-  let component: InquiryReadComponent;
-  let fixture: ComponentFixture<InquiryReadComponent>;
+describe('InquiryViewComponent', () => {
+  let component: InquiryViewComponent;
+  let fixture: ComponentFixture<InquiryViewComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ InquiryReadComponent ]
+      declarations: [ InquiryViewComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(InquiryReadComponent);
+    fixture = TestBed.createComponent(InquiryViewComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

@@ -1,8 +1,8 @@
 
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { InquiryReadComponent } from './inquiry-read/inquiry-read.component';
-import { RegisterCompleteResolver } from '../../shared/register-complete-resolver';
+import { InquiryViewResolver } from '../../shared/inquiry-view-resolver';
+import { InquiryViewComponent } from '../../shared/components/inquiry-view/inquiry-view.component';
 const routes: Routes = [
     {
         path: '',
@@ -11,9 +11,9 @@ const routes: Routes = [
     },
     {
         path: ":id",
-        component: InquiryReadComponent,
+        component: InquiryViewComponent,
         resolve: {
-            resolved: RegisterCompleteResolver
+            resolved: InquiryViewResolver
         }
     },
 ];

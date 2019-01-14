@@ -30,6 +30,7 @@ export class PetitionCardComponent implements OnInit, OnDestroy {
     private cdr: ChangeDetectorRef, private dialog: MatDialog, private commonService: CommonService, private storageService: WizardStorageService) { }
 
   ngOnInit() {
+    if (!this.route.snapshot.data.resolved.inquiryId) return;
     this.petitionService.getByInquiry(this.route.snapshot.data.resolved.inquiryId)
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(petition => {
