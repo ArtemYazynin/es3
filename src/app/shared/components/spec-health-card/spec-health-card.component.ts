@@ -14,6 +14,7 @@ import { Theme } from '../../models/theme.enum';
   selector: 'app-spec-health-card',
   templateUrl: './spec-health-card.component.html',
   styleUrls: ['./spec-health-card.component.css'],
+  host:{ 'class': 'host'},
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SpecHealthCardComponent implements OnInit, OnDestroy, AfterViewInit {

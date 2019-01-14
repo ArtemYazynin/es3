@@ -10,6 +10,7 @@ import { FormService } from '../../form.service';
   selector: 'app-edit-school-inquiry-info',
   templateUrl: './edit-school-inquiry-info.component.html',
   styleUrls: ['./edit-school-inquiry-info.component.css'],
+  host:{ 'class': 'host'},
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class EditSchoolInquiryInfoComponent implements OnInit, OnDestroy {

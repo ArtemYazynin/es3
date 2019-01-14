@@ -1,6 +1,5 @@
-<ng-container>
-  <div class="h2 bb pb-2">Параметры заявления</div>
+<app-step title="Параметры заявления">
   <app-edit-school-inquiry-info [schoolInquiryInfo]="inquiry?.schoolInquiryInfo">
   </app-edit-school-inquiry-info>
   <app-routing-buttons [config]="config" [isValid]=" isValid()"></app-routing-buttons>
-</ng-container>
+</app-step>

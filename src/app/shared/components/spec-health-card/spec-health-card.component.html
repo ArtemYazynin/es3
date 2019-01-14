@@ -1,5 +1,9 @@
 <ng-container>
-  <ng-container *ngTemplateOutlet="mode == modes.Edit ? withEdit : withoutEdit"></ng-container>
+  <div class="row">
+    <div class="col-md-6">
+      <ng-container *ngTemplateOutlet="mode == modes.Edit ? withEdit : withoutEdit"></ng-container>
+    </div>
+  </div>
 </ng-container>
 
 <ng-template #withEdit>

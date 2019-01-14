@@ -8,6 +8,7 @@ import { StepBase, WizardStorageService } from '../shared/index';
   selector: 'app-school-inquiry-info-step',
   templateUrl: './school-inquiry-info-step.component.html',
   styleUrls: ['./school-inquiry-info-step.component.css'],
+  //host:{ 'class': 'host'},
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SchoolInquiryInfoStepComponent implements OnInit {

@@ -1,17 +1,9 @@
 <ng-template #fieldsTemplate>
   <ng-container *ngIf="schoolInquiryInfo">
-    <div class="form-group">
-      <b>Учебный год</b> {{schoolInquiryInfo.educYear}}
-    </div>
-    <div class="form-group">
-      <b>Параллель</b> {{schoolInquiryInfo.grade}}
-    </div>
-    <div class="form-group">
-      <b>Профиль</b> {{schoolInquiryInfo.specialization?.name || "Любой"}}
-    </div>
-    <div class="form-group">
-      <b>Программа</b> {{schoolInquiryInfo.program?.name || "Любая"}}
-    </div>
+    <app-form-group label="Учебный год" [name]="schoolInquiryInfo.educYear"></app-form-group>
+    <app-form-group label="Параллель" [name]="schoolInquiryInfo.grade"></app-form-group>
+    <app-form-group label="Профиль" [name]="schoolInquiryInfo.specialization?.name || 'Любой'"></app-form-group>
+    <app-form-group label="Программа" [name]="schoolInquiryInfo.program?.name || 'Любая'"></app-form-group>
   </ng-container>
 </ng-template>
 
