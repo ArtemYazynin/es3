@@ -31,6 +31,6 @@ export class InstitutionStepComponent implements OnInit, AfterViewInit {
   }
 
   isValid() {
-    return this.editInstitutionsComponent && this.editInstitutionsComponent.isValid();
+    return this.editInstitutionsComponent && this.editInstitutionsComponent.selectedInstitutions && this.editInstitutionsComponent.selectedInstitutions.length > 0;
   }
 }
