@@ -1,0 +1,1 @@
+export * from "./components/edit-confirmation-document/edit-confirmation-document.component";

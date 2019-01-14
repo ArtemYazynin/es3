@@ -30,7 +30,7 @@ export class IdentityCardComponent implements OnInit, OnDestroy {
   isAvailable = (() => {
     let fields = IdentityCard.getFields();
     let result = (() => {
-      let localResult = {};
+      let localResult:any = {};
       fields.forEach(function (field) {
         localResult[field] = false;
       });

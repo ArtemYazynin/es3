@@ -1,9 +1,9 @@
-import { ChangeDetectionStrategy, Component, Inject, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Inject, OnInit, ViewChild, AfterViewInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { BehaviorSubject } from 'rxjs';
-import { ConfigsOfRoutingButtons, ConfirmationDocument, Theme } from '../../../shared';
-import { EditConfirmationDocumentComponent } from '../../../shared/component\s/edit-confirmation-document/edit-confirmation-document.component';
+import { ConfigsOfRoutingButtons, ConfirmationDocument, Theme } from '../../../shared/index';
 import { Guid } from '../../../shared/models/guid';
+import { EditConfirmationDocumentComponent } from '../../../shared/barrel-components';
 
 @Component({
   selector: 'app-edit-confirmation-document-dialog',
@@ -11,16 +11,8 @@ import { Guid } from '../../../shared/models/guid';
   styleUrls: ['./edit-confirmation-document-dialog.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class EditConfirmationDocumentDialogComponent implements OnInit {
-  @ViewChild(EditConfirmationDocumentComponent) confirmationProofDocumentComponent: EditConfirmationDocumentComponent;
-
-  themes = Theme;
-  config: ConfigsOfRoutingButtons;
-
-  constructor(public dialogRef: MatDialogRef<EditConfirmationDocumentDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: { $document: BehaviorSubject<ConfirmationDocument> }) { }
-
-  ngOnInit() {
+export class EditConfirmationDocumentDialogComponent implements OnInit ,AfterViewInit {
+  ngAfterViewInit(): void {
     this.config = new ConfigsOfRoutingButtons(undefined, undefined,
       () => {
         const oldDocument = this.data.$document.getValue();
@@ -31,6 +23,17 @@ export class EditConfirmationDocumentDialogComponent implements OnInit {
       () => {
         this.dialogRef.close();
       })
+  }
+  @ViewChild(EditConfirmationDocumentComponent) confirmationProofDocumentComponent: EditConfirmationDocumentComponent;
+
+  themes = Theme;
+  config: ConfigsOfRoutingButtons;
+
+  constructor(public dialogRef: MatDialogRef<EditConfirmationDocumentDialogComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: { $document: BehaviorSubject<ConfirmationDocument> }) { }
+
+  ngOnInit() {
+    
   }
 
   isValid() {
