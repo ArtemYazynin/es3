@@ -5,7 +5,7 @@ import { HttpInterceptor } from './shared/http-interceptor';
 import { Http } from '@angular/http';
 import { SERVER_URL } from './app.module';
 
-fdescribe('InquiryInfoDataSourceService', () => {
+describe('InquiryInfoDataSourceService', () => {
   beforeEach(() => TestBed.configureTestingModule({
     providers:[
       {provide:HttpInterceptor, useValue: Http },
@@ -14,7 +14,7 @@ fdescribe('InquiryInfoDataSourceService', () => {
     ]
   }));
 
-  fit('should be created', () => {
+  it('should be created', () => {
     const service: InquiryInfoDataSourceService = TestBed.get(InquiryInfoDataSourceService);
     expect(service).toBeTruthy();
   });
