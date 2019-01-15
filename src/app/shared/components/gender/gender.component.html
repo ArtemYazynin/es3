@@ -1,6 +1,11 @@
-<mat-form-field>
-  <mat-select [(ngModel)]="gender" placeholder="Пол">
-    <mat-option [value]="1">Мужской</mat-option>
-    <mat-option [value]="2">Женский</mat-option>
-  </mat-select>
-</mat-form-field>
+<div>
+  <label>Пол</label>
+  <mat-radio-group [(ngModel)]="gender">
+    <div>
+      <mat-radio-button [value]="1">Мужской</mat-radio-button>
+    </div>
+    <div>
+      <mat-radio-button [value]="2">Женский</mat-radio-button>
+    </div>
+  </mat-radio-group>
+</div>
