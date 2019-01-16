@@ -1,11 +1,13 @@
 <div class="row">
   <div class="col-md-6">
     <app-inquiry-info-edit [theme]="themes.Gray" title="Родственная связь">
-      <mat-form-field>
-        <mat-select [(ngModel)]="owner.relationType" placeholder="Родственная связь">
-          <mat-option *ngFor="let item of relationTypes" [value]="item">{{item.name}}</mat-option>
-        </mat-select>
-      </mat-form-field>
+      <form [formGroup]="relationForm">
+        <mat-form-field>
+          <mat-select formControlName="relationType" placeholder="Родственная связь" (selectionChange)="onChange(this)">
+            <mat-option *ngFor="let item of relationTypes" [value]="item">{{item.name}}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </form>
     </app-inquiry-info-edit>
   </div>
 
