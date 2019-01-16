@@ -1,21 +1,23 @@
-import { Inject, Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Injectable, Injector } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { isNullOrUndefined } from 'util';
-import { SERVER_URL } from '../app.module';
-import { HttpClient } from '@angular/common/http';
+import { DataSourceService } from './data-source.service';
 import { InquiryService } from './inquiry.service';
 import { Entity } from './models/entity.model';
 import { SchoolClass } from './models/school-class.model';
-import { SchoolClassDataSourceService } from './school-classes-data-source.service';
+import { SERVER_URL } from '../app.module';
 
 @Injectable()
 export class SchoolClassService {
-
-  constructor(private http:HttpClient, @Inject(SERVER_URL) private serverUrl, private dataSource: SchoolClassDataSourceService, private inquiryService: InquiryService) { }
+  private dataSource: DataSourceService<SchoolClass>;
+  constructor(private http: HttpClient, private injector: Injector, private inquiryService: InquiryService) {
+    this.dataSource = new DataSourceService<SchoolClass>(http, injector, "schoolClasses");
+  }
 
   private api = {
-    institutionsTypes: `${this.serverUrl}/institutionsTypes`,
+    institutionsTypes: `${this.injector.get(SERVER_URL)}/institutionsTypes`,
   }
   getTypes(id?: number): Observable<Array<Entity<number>>> {
     const url = isNullOrUndefined(id)

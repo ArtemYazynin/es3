@@ -1,11 +1,11 @@
 import { HttpClient } from '@angular/common/http';
-import { Headers } from '@angular/http';
 import { empty, Observable } from 'rxjs';
+import { Injector } from '@angular/core';
+import { SERVER_URL } from '../app.module';
 
-export abstract class DataSourceService<T>{
-  protected abstract api: string;
-  protected headers = new Headers({"Content-Type":"application/json"});
-  constructor(protected http: HttpClient) {
+export class DataSourceService<T>{
+  private api = `${this.injector.get(SERVER_URL)}/${this.name}`;
+  constructor(private http: HttpClient, private injector:Injector, private name:string) {
   }
 
   gets(queryParams?: string): Observable<Array<T>> {

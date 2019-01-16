@@ -1,4 +1,5 @@
-import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Injectable, Injector } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { isNullOrUndefined } from 'util';
@@ -17,8 +18,8 @@ import { EditPetitionComponent } from './../modules/inquiry/shared/components/ed
 import { EditConfirmationDocumentComponent } from './components/edit-confirmation-document/edit-confirmation-document.component';
 import { EditPrivilegeComponent } from './components/edit-privilege/edit-privilege.component';
 import { EditSchoolInquiryInfoComponent } from './components/edit-school-inquiry-info/edit-school-inquiry-info.component';
+import { DataSourceService } from './data-source.service';
 import { DublicatesFinder } from './dublicates-finder';
-import { InquiryDataSourceService } from './inquiry-data-source.service';
 import { AgeGroup } from './models/age-group.model';
 import { Applicant } from './models/applicant.model';
 import { Child } from './models/child.model';
@@ -42,7 +43,10 @@ import { PetitionType } from './petition-type.enum';
 
 @Injectable()
 export class InquiryService {
-  constructor(private commonService: CommonService, private dataSource: InquiryDataSourceService) { }
+  private dataSource: DataSourceService<Inquiry>;
+  constructor(http: HttpClient, injector: Injector, private commonService: CommonService) {
+    this.dataSource = new DataSourceService<Inquiry>(http, injector, "inquiries");
+  }
 
   saveApplicant(inquiry: Inquiry, editPersonComponent: EditPersonComponent, editCitizenshipsComponent: EditCitizenshipsComponent,
     editConfirmationDocumentComponent: EditConfirmationDocumentComponent): Inquiry {

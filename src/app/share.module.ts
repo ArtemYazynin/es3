@@ -4,7 +4,6 @@ import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { DateAdapter } from "@angular/material";
 import { NgSelectModule } from "@ng-select/ng-select";
 import { TextMaskModule } from "angular2-text-mask";
-import { InquiryInfoDataSourceService } from "./inquiry-info-data-source.service";
 import { InquiryInfoService } from "./inquiry-info.service";
 import { MaterialModule } from "./material.module";
 import { EditChildrenComponent } from "./modules/inquiry/shared/components/edit-children/edit-children.component";
@@ -20,7 +19,6 @@ import { EducProgramService, InquiryService, InstitutionService, SpecializationS
 import { ApplicantTypePipe } from "./shared/applicant-type.pipe";
 import { AreaTypePipe } from './shared/area-type.pipe';
 import { AttachmentTypePipe } from "./shared/attachment-type.pipe";
-import { ChildDataSourceService } from './shared/child-data-source.service';
 import { ChildService } from './shared/child.service';
 import { AddressComponent } from "./shared/components/address/address.component";
 import { AgeGroupComponent } from "./shared/components/age-group/age-group.component";
@@ -58,31 +56,20 @@ import { SpecHealthCardComponent } from './shared/components/spec-health-card/sp
 import { SpecHealthComponent } from "./shared/components/spec-health/spec-health.component";
 import { StayModeComponent } from "./shared/components/stay-mode/stay-mode.component";
 import { ConfirmationDocumentService } from "./shared/confirmation-document.service";
-import { ContactInfoDataSourceService } from "./shared/contact-info-data-source.service";
 import { ContactInfoService } from "./shared/contact-info.service";
-import { CurrentEducationPlaceDataSourceService } from "./shared/current-place-data-source.service";
 import { CurrentEducationPlaceService } from "./shared/current-place.service";
 import { DisabilityService } from "./shared/disability.service";
 import { FamilyInfoService } from "./shared/family-info.service";
-import { FileAttachmentDataSourceService } from "./shared/file-attachment-data-source.service";
 import { FileAttachmentService } from "./shared/file-attachment.service";
-import { InquiryDataSourceService } from "./shared/inquiry-data-source.service";
 import { InquiryTypeFriendlyNamePipe } from './shared/inquiry-type.pipe';
-import { InstitutionDataSourceService } from "./shared/institution-data-source.service";
 import { PersonService } from "./shared/person.service";
-import { PetitionDataSourceService } from "./shared/petition-data-source.service.";
 import { PetitionService } from "./shared/petition.service.";
-import { SchoolInquiryInfoDataSourceService } from "./shared/school-inquiry-info-data-source.service";
 import { SchoolInquiryInfoService } from "./shared/school-inquiry-info.service";
-import { SpecHealthDataSourceService } from "./shared/spec-health-data-source.service";
 import { YesNoPipe } from "./shared/yes-no.pipe";
-import { PrivilegeDataSourceService } from './shared/privilege-data-source.service';
 import { SchoolClassService } from "./shared/school-classes.service";
-import { SchoolClassDataSourceService } from "./shared/school-classes-data-source.service";
 import { FormGroupComponent } from './shared/components/form-group/form-group.component';
 import { InquiryViewComponent } from './shared/components/inquiry-view/inquiry-view.component';
 import { PetitionCardComponent } from './shared/components/petition-card/petition-card.component';
-import { PersonDataSourceService } from './shared/person-data-source.service';
 
 
 @NgModule({
@@ -104,7 +91,7 @@ import { PersonDataSourceService } from './shared/person-data-source.service';
         EditCitizenshipsComponent, RelationTypeCardComponent, DisabilityComponent, SpecHealthCardComponent, EditSpecHealthComponent, FormGroupComponent,
         RoutingButtonsComponent,
         PetitionCardComponent,
-        InquiryViewComponent 
+        InquiryViewComponent
     ],
     imports: [
         CommonModule,
@@ -126,15 +113,15 @@ import { PersonDataSourceService } from './shared/person-data-source.service';
         PrivilegeCardComponent, FilesCardComponent, YesNoPipe, EditCitizenshipsComponent, CitizenshipsCardComponent, RelationTypeCardComponent,
         DisabilityComponent, SpecHealthCardComponent, EditSpecHealthComponent, FormGroupComponent,
         RoutingButtonsComponent,
-       
+
         InquiryViewComponent
     ],
     providers: [
         StatusService, SpecializationService, ConfirmationDocumentService, FamilyInfoService,
-        EducProgramService, PersonService, InquiryDataSourceService, InquiryService, DisabilityService, SpecHealthDataSourceService, ChildDataSourceService, ChildService,
-        InstitutionService, InstitutionDataSourceService, SchoolClassService, SchoolClassDataSourceService, ContactInfoService, ContactInfoDataSourceService, SchoolInquiryInfoDataSourceService, SchoolInquiryInfoService,
-        InquiryInfoService, InquiryInfoDataSourceService, PetitionDataSourceService, PetitionService, CurrentEducationPlaceDataSourceService, CurrentEducationPlaceService,
-        FileAttachmentDataSourceService, FileAttachmentService, PrivilegeDataSourceService, PersonDataSourceService
+        EducProgramService, PersonService, InquiryService, DisabilityService, ChildService,
+        InstitutionService, SchoolClassService, ContactInfoService, SchoolInquiryInfoService,
+        InquiryInfoService, PetitionService, CurrentEducationPlaceService,
+        FileAttachmentService
     ],
     entryComponents: [EditChildrenComponent]
 })

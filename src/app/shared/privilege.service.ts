@@ -1,14 +1,17 @@
-import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Injectable, Injector } from '@angular/core';
 import { Observable } from 'rxjs/internal/Observable';
 import { map } from 'rxjs/operators';
+import { DataSourceService } from './data-source.service';
 import { InquiryService } from './inquiry.service';
 import { Privilege } from './models/privilege.model';
-import { PrivilegeDataSourceService } from './privilege-data-source.service';
 
 @Injectable()
 export class PrivilegeService {
-
-  constructor(private dataSource: PrivilegeDataSourceService, private inquiryService: InquiryService) { }
+  private dataSource: DataSourceService<Privilege>;
+  constructor(http: HttpClient, injector:Injector, private inquiryService: InquiryService) { 
+    this.dataSource = new DataSourceService<Privilege>(http, injector, "privileges");
+  }
 
   gets(privilegeOrderId?: string | number): Observable<Array<Privilege>> {
     const queryParams = privilegeOrderId ? `privilegeOrderId=${privilegeOrderId}` : undefined;

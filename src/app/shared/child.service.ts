@@ -1,14 +1,17 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Injector } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { ChildDataSourceService } from './child-data-source.service';
 import { InquiryService } from './inquiry.service';
 import { Child } from './models/child.model';
+import { DataSourceService } from './data-source.service';
+import { HttpClient } from '@angular/common/http';
 
 @Injectable()
 export class ChildService {
-
-  constructor(private dataSource: ChildDataSourceService, private inquiryService: InquiryService) { }
+  private dataSource: DataSourceService<Child>;
+  constructor(http: HttpClient, injector: Injector, private inquiryService: InquiryService) {
+    this.dataSource = new DataSourceService<Child>(http, injector, "children");
+  }
 
   gets(): Observable<Array<Child>> {
     return this.dataSource.gets();

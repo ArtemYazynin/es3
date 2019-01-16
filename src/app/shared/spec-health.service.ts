@@ -1,13 +1,17 @@
-import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Injectable, Injector } from '@angular/core';
 import { Observable } from 'rxjs/internal/Observable';
 import { map } from 'rxjs/operators';
+import { DataSourceService } from './data-source.service';
 import { InquiryService } from './inquiry.service';
 import { SpecHealth } from './models/spec-health.model';
-import { SpecHealthDataSourceService } from './spec-health-data-source.service';
 
 @Injectable()
 export class SpecHealthService {
-  constructor(private dataSource: SpecHealthDataSourceService, private inquiryService: InquiryService) { }
+  private dataSource: DataSourceService<SpecHealth>;
+  constructor(http: HttpClient, injector:Injector, private inquiryService: InquiryService) { 
+    this.dataSource = new DataSourceService<SpecHealth>(http, injector, "specHealths");
+  }
 
   gets(code?: string | number): Observable<Array<SpecHealth>> {
     const queryParams = code ? `code=${code}` : undefined;

@@ -1,15 +1,17 @@
-import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Injectable, Injector } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { FileAttachmentDataSourceService } from './file-attachment-data-source.service';
-import { FileAttachment } from './models/file-attachment.model';
+import { DataSourceService } from './data-source.service';
 import { InquiryService } from './inquiry.service';
+import { FileAttachment } from './models/file-attachment.model';
 import { FilesInfo } from './models/files-info.model';
 
 @Injectable()
 export class FileAttachmentService {
-  constructor(private dataSource: FileAttachmentDataSourceService, private inquiryService: InquiryService) {
-
+  private dataSource: DataSourceService<FileAttachment>;
+  constructor(http: HttpClient, injector: Injector, private inquiryService: InquiryService) {
+    this.dataSource = new DataSourceService<FileAttachment>(http, injector, "fileAttachments");
   }
 
   gets(): Observable<Array<FileAttachment>> {

@@ -1,13 +1,16 @@
-import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Injectable, Injector } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { CurrentEducationPlace, InquiryService } from '.';
-import { CurrentEducationPlaceDataSourceService } from './current-place-data-source.service';
+import { DataSourceService } from './data-source.service';
  
 @Injectable()
 export class CurrentEducationPlaceService {
-
-  constructor(private dataSource: CurrentEducationPlaceDataSourceService, private inquiryService: InquiryService) { }
+  private dataSource: DataSourceService<CurrentEducationPlace>;
+  constructor(http: HttpClient, injector:Injector, private inquiryService: InquiryService) { 
+    this.dataSource = new DataSourceService<CurrentEducationPlace>(http, injector, "currentEducationPlaces");
+  }
 
   gets(): Observable<Array<CurrentEducationPlace>> {
     return this.dataSource.gets();

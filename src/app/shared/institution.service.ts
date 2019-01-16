@@ -1,26 +1,25 @@
-import { Inject, Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Injectable, Injector } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { isNullOrUndefined } from 'util';
-import { SERVER_URL } from '../app.module';
-import { HttpClient } from '@angular/common/http';
+import { DataSourceService } from './data-source.service';
 import { InquiryService } from './inquiry.service';
-import { InstitutionDataSourceService } from './institution-data-source.service';
 import { Entity } from './models/entity.model';
 import { Institution } from './models/institution.model';
+import { SERVER_URL } from '../app.module';
 
 @Injectable()
 export class InstitutionService {
-
-  constructor(private http:HttpClient, @Inject(SERVER_URL) private serverUrl, private dataSource: InstitutionDataSourceService, private inquiryService: InquiryService) { }
-
-  private api = {
-    institutionsTypes: `${this.serverUrl}/institutionsTypes`,
+  private dataSource: DataSourceService<Institution>;
+  constructor(private http: HttpClient, private injector: Injector, private inquiryService: InquiryService) {
+    this.dataSource = new DataSourceService<Institution>(http, injector, "institutions");
   }
+
   getTypes(id?: number): Observable<Array<Entity<number>>> {
     const url = isNullOrUndefined(id)
-      ? this.api.institutionsTypes
-      : this.api.institutionsTypes + "/" + id
+      ? `${this.injector.get(SERVER_URL)}/institutionsTypes`
+      : `${this.injector.get(SERVER_URL)}/institutionsTypes` + "/" + id
     return this.http.get(url).pipe(map(result => {
       return <Array<Entity<number>>>result;
     }));

@@ -1,13 +1,16 @@
-import { Injectable } from '@angular/core';
-import { InquiryInfoDataSourceService } from './inquiry-info-data-source.service';
+import { HttpClient } from '@angular/common/http';
+import { Injectable, Injector } from '@angular/core';
 import { Observable } from 'rxjs';
-import { SchoolInquiryInfo, InquiryInfo, InquiryService } from './shared';
 import { map } from 'rxjs/operators';
+import { InquiryInfo, InquiryService } from './shared';
+import { DataSourceService } from './shared/data-source.service';
 
 @Injectable()
 export class InquiryInfoService {
-
-  constructor(private dataSource:InquiryInfoDataSourceService, private inquiryService: InquiryService) { }
+  private dataSource: DataSourceService<InquiryInfo>;
+  constructor(http: HttpClient, injector:Injector, private inquiryService: InquiryService) { 
+    this.dataSource = new DataSourceService<InquiryInfo>(http, injector, "inquiryInfos");
+  }
 
   gets(): Observable<Array<InquiryInfo>> {
     return this.dataSource.gets();
