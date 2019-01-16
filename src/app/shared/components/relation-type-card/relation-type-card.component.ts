@@ -50,7 +50,7 @@ export class RelationTypeCardComponent implements OnInit, OnDestroy {
     config.$parent
       .pipe(skip(1), takeUntil(this.ngUnsubscribe))
       .subscribe((person: Parent) => {
-        this.personService.update(person).subscribe((newPerson: Parent) => {
+        this.personService.update(person.id, person).subscribe((newPerson: Parent) => {
           this.model = newPerson;
           this.$parentRepresentChildrenDocument.next(this.model.parentRepresentChildrenDocument);
           this.inquiryService.updateInquiryPropery(this.route.snapshot.data.resolved.inquiryId, this.model);

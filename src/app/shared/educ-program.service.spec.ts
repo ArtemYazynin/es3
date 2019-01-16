@@ -2,7 +2,7 @@ import { TestBed, async } from '@angular/core/testing';
 
 import { EducProgramService } from './educ-program.service';
 import { XHRBackend, BrowserXhr, ResponseOptions, Http, XSRFStrategy, RequestOptions } from '@angular/http';
-import { HttpInterceptor } from './http-interceptor';
+import { HttpClient } from '@angular/common/http';
 
 describe('EducProgramService', () => {
   beforeEach(() => TestBed.configureTestingModule({}));

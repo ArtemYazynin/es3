@@ -1,5 +1,4 @@
 import { CommonModule } from '@angular/common';
-import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { HttpModule, JsonpModule } from "@angular/http";
@@ -10,7 +9,6 @@ import { MaterialModule } from '../../material.module';
 import { ShareModule } from '../../share.module';
 import { AddressService, AreaService, CitizenshipService, CommonService, DrawService, EnumToArrayPipe, FormService, GroupService, IdentityCardService, IdentityCardTypePipe, PrivilegeOrderService, PrivilegeService, RelationTypeService, SettingsService, SpecHealthService, SpecificityService } from '../../shared';
 import { ActionsButtonsService } from '../../shared/actions-buttons.service';
-import { HttpInterceptor } from '../../shared/http-interceptor';
 import { RegisterCompleteResolver } from '../../shared/register-complete-resolver';
 import { ApplicantStepComponent } from '../wizard/applicant-step/applicant-step.component';
 import { ApplicantTypeStepComponent } from '../wizard/applicant-type-step/applicant-type-step.component';
@@ -67,15 +65,11 @@ import { StepComponent } from './step/step.component';
     ReactiveFormsModule,
     HttpModule,
     JsonpModule,
-    HttpClientModule,
     //InMemoryWebApiModule.forRoot(InMemoryService),
   ],
   providers: [
     RegisterCompleteResolver,
-    //wizard services
     ParentStepService,
-    //end
-    HttpInterceptor,
     FormService,
     WizardStorageService,
     CitizenshipService,

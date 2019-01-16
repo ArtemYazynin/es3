@@ -1,5 +1,4 @@
 import { CommonModule } from '@angular/common';
-import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpModule, JsonpModule } from '@angular/http';
@@ -10,7 +9,6 @@ import { MaterialModule } from '../../material.module';
 import { ShareModule } from '../../share.module';
 import { AddressService, AreaService, CitizenshipService, CommonService, DrawService, FormService, GroupService, IdentityCardService, PrivilegeService, RelationTypeService, SettingsService, SpecHealthService, SpecificityService } from '../../shared';
 import { ActionsButtonsService } from '../../shared/actions-buttons.service';
-import { HttpInterceptor } from '../../shared/http-interceptor';
 import { RegisterSourcePipe } from '../../shared/models/register-source.pipe';
 import { PetitionTypePipe } from '../../shared/petition-type.pipe';
 import { PrivilegeOrderService } from '../../shared/privilege-order.service';
@@ -44,12 +42,10 @@ import { SpecHealthDialogComponent } from './spec-health-dialog/spec-health-dial
     ReactiveFormsModule,
     HttpModule,
     JsonpModule,
-    HttpClientModule,
     MaterialModule,
     //InMemoryWebApiModule.forRoot(InMemoryService)
   ],
   providers: [
-    HttpInterceptor,
     FormService,
     WizardStorageService,
     CitizenshipService,

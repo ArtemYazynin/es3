@@ -1,23 +1,22 @@
-import { Injectable, Inject } from '@angular/core';
-import { DataSourceService } from './shared/data-source.service';
-import { InquiryInfo } from './shared';
-import { HttpInterceptor } from './shared/http-interceptor';
+import { HttpClient } from '@angular/common/http';
+import { Inject, Injectable } from '@angular/core';
+import { empty, Observable } from 'rxjs';
 import { SERVER_URL } from './app.module';
-import { Observable, empty } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { InquiryInfo } from './shared';
+import { DataSourceService } from './shared/data-source.service';
 
 @Injectable()
 export class InquiryInfoDataSourceService extends DataSourceService<InquiryInfo>{
 
   protected api = `${this.serverUrl}/inquiryInfos`;
 
-  constructor(protected http: HttpInterceptor, @Inject(SERVER_URL) private serverUrl) {
+  constructor(protected http: HttpClient, @Inject(SERVER_URL) private serverUrl) {
     super(http);
   }
 
   put(id: string, entity: InquiryInfo): Observable<InquiryInfo> {
     if (!id || !entity) return empty();
     let url = `${this.api}/${id}`;
-    return this.http.put(url, entity).pipe(map(response => response.json()));
+    return this.http.put<InquiryInfo>(url, entity);
   }
 }

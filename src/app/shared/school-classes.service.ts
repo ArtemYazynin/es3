@@ -3,7 +3,7 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { isNullOrUndefined } from 'util';
 import { SERVER_URL } from '../app.module';
-import { HttpInterceptor } from './http-interceptor';
+import { HttpClient } from '@angular/common/http';
 import { InquiryService } from './inquiry.service';
 import { Entity } from './models/entity.model';
 import { SchoolClass } from './models/school-class.model';
@@ -12,7 +12,7 @@ import { SchoolClassDataSourceService } from './school-classes-data-source.servi
 @Injectable()
 export class SchoolClassService {
 
-  constructor(private http: HttpInterceptor, @Inject(SERVER_URL) private serverUrl, private dataSource: SchoolClassDataSourceService, private inquiryService: InquiryService) { }
+  constructor(private http:HttpClient, @Inject(SERVER_URL) private serverUrl, private dataSource: SchoolClassDataSourceService, private inquiryService: InquiryService) { }
 
   private api = {
     institutionsTypes: `${this.serverUrl}/institutionsTypes`,
@@ -22,7 +22,7 @@ export class SchoolClassService {
       ? this.api.institutionsTypes
       : this.api.institutionsTypes + "/" + id
     return this.http.get(url).pipe(map(result => {
-      return <Array<Entity<number>>>result.json();
+      return <Array<Entity<number>>>result;
     }));
   }
   getInstitutions(type?: number): Observable<Array<SchoolClass>> {

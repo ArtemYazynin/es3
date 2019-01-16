@@ -1,20 +1,14 @@
-import { Injectable, Inject } from '@angular/core';
-import { map } from 'rxjs/operators';
-
+import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { HttpInterceptor } from './http-interceptor';
-import { SERVER_URL } from '../app.module';
 import { Person } from './models/person.model';
+import { PersonDataSourceService } from './person-data-source.service';
+
 
 @Injectable()
 export class PersonService {
-  private baseUrl = `${this.serverUrl}/persons`;
-  constructor(private http: HttpInterceptor, @Inject(SERVER_URL) private serverUrl) { }
+  constructor(private dataSource:PersonDataSourceService) { }
 
-  update(document: Person): Observable<Person> {
-    const url = `${this.baseUrl}/${document.id}`;
-    return this.http.put(url, document).pipe(map(result => {
-      return <Person>result.json();
-    }));
+  update(id: string, person: Person): Observable<Person> {
+    return this.dataSource.put(id, person);
   }
 }

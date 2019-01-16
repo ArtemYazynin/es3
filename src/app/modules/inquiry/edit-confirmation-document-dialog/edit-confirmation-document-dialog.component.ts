@@ -1,9 +1,9 @@
-import { ChangeDetectionStrategy, Component, Inject, OnInit, ViewChild, AfterViewInit } from '@angular/core';
+import { AfterViewInit, ChangeDetectionStrategy, Component, Inject, OnInit, ViewChild } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { BehaviorSubject } from 'rxjs';
+import { EditConfirmationDocumentComponent } from '../../../shared/barrel-components';
 import { ConfigsOfRoutingButtons, ConfirmationDocument, Theme } from '../../../shared/index';
 import { Guid } from '../../../shared/models/guid';
-import { EditConfirmationDocumentComponent } from '../../../shared/barrel-components';
 
 @Component({
   selector: 'app-edit-confirmation-document-dialog',
@@ -12,18 +12,6 @@ import { EditConfirmationDocumentComponent } from '../../../shared/barrel-compon
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class EditConfirmationDocumentDialogComponent implements OnInit ,AfterViewInit {
-  ngAfterViewInit(): void {
-    this.config = new ConfigsOfRoutingButtons(undefined, undefined,
-      () => {
-        const oldDocument = this.data.$document.getValue();
-        let document = ConfirmationDocument.construct(this.confirmationProofDocumentComponent.confirmationDocumentForm, oldDocument ? oldDocument.id : Guid.newGuid());
-        this.data.$document.next(document);
-        this.dialogRef.close();
-      },
-      () => {
-        this.dialogRef.close();
-      })
-  }
   @ViewChild(EditConfirmationDocumentComponent) confirmationProofDocumentComponent: EditConfirmationDocumentComponent;
 
   themes = Theme;
@@ -33,7 +21,19 @@ export class EditConfirmationDocumentDialogComponent implements OnInit ,AfterVie
     @Inject(MAT_DIALOG_DATA) public data: { $document: BehaviorSubject<ConfirmationDocument> }) { }
 
   ngOnInit() {
-    
+    this.config = new ConfigsOfRoutingButtons();
+  }
+
+  ngAfterViewInit(): void {
+    this.config.primaryAction = () => {
+      const oldDocument = this.data.$document.getValue();
+      let document = ConfirmationDocument.construct(this.confirmationProofDocumentComponent.confirmationDocumentForm, oldDocument ? oldDocument.id : Guid.newGuid());
+      this.data.$document.next(document);
+      this.dialogRef.close();
+    };
+    this.config.inverseAction = () => {
+      this.dialogRef.close();
+    }
   }
 
   isValid() {

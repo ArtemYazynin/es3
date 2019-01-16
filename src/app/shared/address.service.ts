@@ -3,13 +3,12 @@ import { Jsonp } from '@angular/http';
 import { Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { isNullOrUndefined } from 'util';
-import { HttpInterceptor } from './http-interceptor';
 import { Location } from "./models/location.model";
 import { locationTypes } from "./models/location-type";
 @Injectable()
 export class AddressService {
   private url = "http://fias.ir-tech.ru/location?&callback=JSONP_CALLBACK&limit=35&";
-  constructor(private http: HttpInterceptor, private jsonp: Jsonp) { }
+  constructor(private jsonp: Jsonp) { }
 
   getRegions(searchStr: string): Observable<Array<Location>> {
     if (this.invalid(searchStr)) return this.getDefault();

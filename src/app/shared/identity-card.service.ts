@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
-import { HttpInterceptor } from './http-interceptor';
+import { HttpClient } from '@angular/common/http';
 import { Entity } from './models/entity.model';
 import { IdentityCardType } from './models/identityCardType';
 import { EnumToArrayPipe } from './enum-to-array-pipe';
@@ -8,7 +8,7 @@ import { EnumToArrayPipe } from './enum-to-array-pipe';
 @Injectable()
 export class IdentityCardService {
 
-  constructor(private http: HttpInterceptor) { }
+  constructor(private http:HttpClient) { }
 
   getTypes(groupOfId?: Array<number>): Observable<Array<Entity<number>>> {
     let allTypes = new EnumToArrayPipe().transform(IdentityCardType.values(), IdentityCardType);

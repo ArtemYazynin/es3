@@ -82,6 +82,7 @@ import { SchoolClassDataSourceService } from "./shared/school-classes-data-sourc
 import { FormGroupComponent } from './shared/components/form-group/form-group.component';
 import { InquiryViewComponent } from './shared/components/inquiry-view/inquiry-view.component';
 import { PetitionCardComponent } from './shared/components/petition-card/petition-card.component';
+import { PersonDataSourceService } from './shared/person-data-source.service';
 
 
 @NgModule({
@@ -133,7 +134,7 @@ import { PetitionCardComponent } from './shared/components/petition-card/petitio
         EducProgramService, PersonService, InquiryDataSourceService, InquiryService, DisabilityService, SpecHealthDataSourceService, ChildDataSourceService, ChildService,
         InstitutionService, InstitutionDataSourceService, SchoolClassService, SchoolClassDataSourceService, ContactInfoService, ContactInfoDataSourceService, SchoolInquiryInfoDataSourceService, SchoolInquiryInfoService,
         InquiryInfoService, InquiryInfoDataSourceService, PetitionDataSourceService, PetitionService, CurrentEducationPlaceDataSourceService, CurrentEducationPlaceService,
-        FileAttachmentDataSourceService, FileAttachmentService, PrivilegeDataSourceService
+        FileAttachmentDataSourceService, FileAttachmentService, PrivilegeDataSourceService, PersonDataSourceService
     ],
     entryComponents: [EditChildrenComponent]
 })
