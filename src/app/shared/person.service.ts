@@ -7,9 +7,13 @@ import { HttpClient } from '@angular/common/http';
 
 @Injectable()
 export class PersonService {
-  private dataSource: DataSourceService<Person>;
+  private _dataSource:DataSourceService<Person>;
+  get dataSource(): DataSourceService<Person>{
+    return this._dataSource;
+  }
+
   constructor(http: HttpClient, injector:Injector) { 
-    this.dataSource = new DataSourceService<Person>(http, injector, "persons");
+    this._dataSource = new DataSourceService<Person>(http, injector, "persons");
   }
 
   update(id: string, person: Person): Observable<Person> {
