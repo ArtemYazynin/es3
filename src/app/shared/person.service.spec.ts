@@ -4,7 +4,7 @@ import { PersonService } from './person.service';
 import { SERVER_URL } from '../app.module';
 import { Person } from './models/person.model';
 
-fdescribe('PersonService', () => {
+describe('PersonService', () => {
   let http: HttpTestingController;
   let service: PersonService;
   const mockPersons = [
@@ -51,7 +51,7 @@ fdescribe('PersonService', () => {
   it("should have made one request to GET data from expected URL", ()=>{
     service.update(mockPerson.id, mockPerson).subscribe(data=>{
       expect(data).toEqual(mockPerson);
-    });
+    },fail);
 
     const req = http.expectOne(`${service.dataSource.api}/${mockPerson.id}`);
     expect(req.request.method).toEqual('PUT');
