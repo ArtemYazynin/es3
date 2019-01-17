@@ -50,7 +50,7 @@ fdescribe('InquiryDataSourceService', () => {
   it("gets with queryParams", () => {
     const index = 2;
     const queryParams = `name=${mocks[index].name}`;
-    gets(mocks.filter(x => x.name == mocks[index].name), queryParams);   
+    gets(mocks.filter(x => x.name == mocks[index].name), queryParams);
   });
 
   it("gets will be return empty array", () => {
@@ -60,12 +60,41 @@ fdescribe('InquiryDataSourceService', () => {
   it("get will return one of the mock", () => {
     get(mock.id, mock);
   });
+
   it("get will return null. Not existing ID", () => {
     let invalidId = (mocks.length + 1).toString();
     get(invalidId, null);
   });
 
-  let gets = (expectedMocks:Mock[], queryParams) => {
+  it("put should return VALID mock", () => {
+    put.valid(mock);
+  });
+  it("put, without id", () => {
+    put.invalid("", mock);
+  });
+
+  it("put, without obj", () => {
+    put.invalid(mock.id, undefined);
+  });
+
+  let put = {
+    valid: (obj: Mock) => {
+      service.put(obj.id, obj).subscribe(response => {
+        expect(response).toEqual(obj);
+      });
+      const req = http.expectOne(`${service.api}/${obj.id}`);
+      expect(req.request.method).toEqual('PUT');
+      req.flush(obj);
+    },
+    invalid: (id, obj: Mock) => {
+      service.put(id, obj).subscribe(response => {
+        expect(response).toBeNull();
+      });
+      http.expectNone(`${service.api}/`);
+    }
+  }
+
+  let gets = (expectedMocks: Mock[], queryParams) => {
     service.gets(queryParams).subscribe(response => {
       expect(response.length).toEqual(expectedMocks.length);
     }, fail);
