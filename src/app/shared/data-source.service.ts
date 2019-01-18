@@ -29,6 +29,7 @@ export class DataSourceService<T>{
   }
 
   post(entity: T): Observable<T> {
+    if (!entity) return empty();
     return this.http.post<T>(this._api, entity);
   }
 }

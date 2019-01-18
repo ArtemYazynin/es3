@@ -7,11 +7,11 @@ export class FormService {
 
   constructor() { }
   onValueChange(form: FormGroup, formErrors: object, validationMessages: object, showIfDirtyOnly: boolean = true) {
-    if (!form) return;
+    if (!form || !formErrors || !validationMessages) return;
     let setMessage = (control: AbstractControl, field: string) => {
       let message = validationMessages[field];
       for (let key in control.errors) {
-        formErrors[field] += message[key] + " ";
+        formErrors[field] += message[key];
       }
     }
     for (let field in formErrors) {
@@ -28,8 +28,10 @@ export class FormService {
       }
     }
   }
+
+  
   updateValidators(form: FormGroup, controls: Array<ControlInfo>) {
-    if (!controls) return;
+    if (!controls || !form) return;
     controls.forEach(element => {
       if (!element || element.name == "") return;
       let control = form.get(element.name);

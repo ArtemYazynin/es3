@@ -10,7 +10,7 @@ class Mock {
   constructor(public id: string, public name: string) { }
 }
 
-fdescribe('InquiryDataSourceService', () => {
+describe('InquiryDataSourceService', () => {
   let http: HttpTestingController;
   let service: DataSourceService<Mock>;
   let mocks = [
@@ -75,6 +75,22 @@ fdescribe('InquiryDataSourceService', () => {
 
   it("put, without obj", () => {
     put.invalid(mock.id, undefined);
+  });
+
+  it("post, should return mock", ()=>{
+    service.post(mock).subscribe(response=>{
+      expect(response).toEqual(mock);
+    });
+    const req = http.expectOne(service.api);
+    expect(req.request.method).toEqual('POST');
+    req.flush(mock);
+  });
+
+  it("post, should return null", ()=>{
+    service.post(undefined).subscribe(response=>{
+      expect(response).toBeNull();
+    });
+    http.expectNone(service.api);
   });
 
   let put = {
