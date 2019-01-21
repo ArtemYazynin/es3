@@ -2,7 +2,7 @@
   <app-form-group label="Гражданство" [name]="drawService.citizenships(model.citizenships, countries)"></app-form-group>
   <app-form-group label="Адрес регистрации" [name]="drawService.address(model.register)"></app-form-group>
   <app-form-group label="Адрес проживания" [name]="drawService.address(model.residential)"></app-form-group>
-  <app-form-group label="Дата окончания временно регистрации" *ngIf="model.tempRegistrationExpiredDate && model.citizenships == 643"
+  <app-form-group label="Дата окончания временной регистрации" *ngIf="model.tempRegistrationExpiredDate && model.citizenships == 643"
     [name]="model.tempRegistrationExpiredDate | date: 'dd.MM.yyyy'"></app-form-group>
   <app-form-group label="Действителен до" [name]="model.tempRegistrationExpiredDate | date: 'dd.MM.yyyy'" 
     *ngIf="model.tempRegistrationExpiredDate && model.citizenships != 643"></app-form-group>
