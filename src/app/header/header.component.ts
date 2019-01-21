@@ -3,6 +3,7 @@ import { NavigationEnd, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { filter } from 'rxjs/operators';
 import { InquiryTypeFriendlyNamePipe } from '../shared/inquiry-type.pipe';
+import { inquiryType } from '../shared/models/inquiry-type';
 
 @Component({
   selector: 'app-header',
@@ -19,14 +20,19 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.subscription = this.router.events
-      .pipe(filter(event => event instanceof NavigationEnd))
+      .pipe(filter((event:NavigationEnd) => {
+        const url = event.urlAfterRedirects ? event.urlAfterRedirects.trim(): undefined;
+        return event instanceof NavigationEnd && !!url;
+      }))
       .subscribe((event: NavigationEnd) => {
         let segments = event.urlAfterRedirects
           .split('/').filter(x => !!x)
           .map(x => x.trim());
         this.visible = segments.includes("wizard");
-        if (segments.length == 3) {
-          this.inquiryFriendlyName = new InquiryTypeFriendlyNamePipe().transform(segments[1]);
+
+        const type = segments.find(x=> !!inquiryType[x]);
+        if (type) {
+          this.inquiryFriendlyName = new InquiryTypeFriendlyNamePipe().transform(type);
         }
         this.cdr.markForCheck();
       });

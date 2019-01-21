@@ -5,7 +5,7 @@ import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MaterialModule } from '../../../material.module';
 
-fdescribe('GenderComponent', () => {
+describe('GenderComponent', () => {
   let component: GenderComponent;
   let fixture: ComponentFixture<GenderComponent>;
 
