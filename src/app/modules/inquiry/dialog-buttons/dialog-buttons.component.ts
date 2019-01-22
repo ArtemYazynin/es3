@@ -10,10 +10,12 @@ import { ConfigsOfRoutingButtons } from '../../../shared';
 export class DialogButtonsComponent implements OnInit {
   @Input() config: ConfigsOfRoutingButtons;
   @Input() isValid: boolean;
+  static get defaultSave() { return "Сохранить изменения" }
+  static get defaultInverse() { return "Закрыть" }
   constructor() { }
 
   ngOnInit() {
-    this.config.primaryTitle = this.config.primaryTitle ? this.config.primaryTitle : "Сохранить изменения";
-    this.config.inverseTitle = this.config.inverseTitle ? this.config.inverseTitle : "Закрыть";
+    this.config.primaryTitle = this.config.primaryTitle ? this.config.primaryTitle : DialogButtonsComponent.defaultSave;
+    this.config.inverseTitle = this.config.inverseTitle ? this.config.inverseTitle : DialogButtonsComponent.defaultInverse;
   }
 }

@@ -13,8 +13,6 @@ import { EditContactInfoComponent } from '../shared/components/edit-contact-info
 })
 export class ContactInfoDialogComponent implements OnInit {
   @ViewChild(EditContactInfoComponent) editContactInfoComponent: EditContactInfoComponent;
-
-  themes = Theme;
   config: ConfigsOfRoutingButtons;
 
   constructor(public dialogRef: MatDialogRef<ContactInfoDialogComponent>,
