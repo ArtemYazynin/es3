@@ -8,7 +8,7 @@ import { ContactInfoDialogComponent } from './contact-info-dialog.component';
 import { DialogButtonsComponent } from '../dialog-buttons/dialog-buttons.component';
 
 
-fdescribe('ContactInfoDialogComponent', () => {
+describe('ContactInfoDialogComponent', () => {
   let component: ContactInfoDialogComponent;
   let fixture: ComponentFixture<ContactInfoDialogComponent>;
   const mockDialogRef = { close: jasmine.createSpy('close') };
