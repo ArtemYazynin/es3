@@ -1,18 +1,16 @@
 import { HttpClient } from '@angular/common/http';
-import { Inject, Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
-import { SERVER_URL } from '../app.module';
+import { Injectable, Injector } from '@angular/core';
+import { DataSourceService } from './data-source.service';
 import { Settings } from './models/settings.model';
 
 @Injectable()
 export class SettingsService {
-  
-  constructor(private http:HttpClient, @Inject(SERVER_URL) private serverUrl) { }
+  private _dataSource: DataSourceService<Settings>;
+  constructor(http: HttpClient, injector: Injector) {
+    this._dataSource = new DataSourceService<Settings>(http, injector, "settings");
+  }
 
-  get():Observable<Settings>{
-    return this.http.get(`${this.serverUrl}/settings`).pipe(map(result=>{
-      return <Settings>result;
-    }));
+  gets() {
+    return this._dataSource.gets();
   }
 }
