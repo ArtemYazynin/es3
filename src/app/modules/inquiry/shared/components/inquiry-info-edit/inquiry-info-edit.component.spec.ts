@@ -3,7 +3,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { InquiryInfoEditComponent } from './inquiry-info-edit.component';
 import { Theme } from '../../../../../shared';
 
-fdescribe('InquiryInfoEditComponent', () => {
+describe('InquiryInfoEditComponent', () => {
   let prepare = () => {
     TestBed.configureTestingModule({
       declarations: [InquiryInfoEditComponent]
