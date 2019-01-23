@@ -9,7 +9,7 @@ import { DialogButtonsComponent } from '../dialog-buttons/dialog-buttons.compone
 import { InquiryModule } from '../inquiry.module';
 import { RelationTypeDialogComponent } from './relation-type-dialog.component';
 
-fdescribe('RelationTypeDialogComponent', () => {
+describe('RelationTypeDialogComponent', () => {
   let component: RelationTypeDialogComponent;
   let fixture: ComponentFixture<RelationTypeDialogComponent>;
   const mockDialogRef = { close: jasmine.createSpy('close') };
