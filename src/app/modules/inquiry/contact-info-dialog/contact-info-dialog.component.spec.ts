@@ -47,13 +47,13 @@ describe('ContactInfoDialogComponent', () => {
     expect(component.editContactInfoComponent.contactInfo).toEqual(defaultMatDialogData.$contactInfo.getValue());
   });
 
-  it("config.inverseAction. Should call close dialog",()=>{
+  it("config.inverseAction. Should call close dialog", () => {
     prepare(defaultMatDialogData);
     component.config.inverseAction();
     expect(mockDialogRef.close).toHaveBeenCalled();
   });
 
-  it("config.primaryAction. Should call: close dialog, next with default parameter.",()=>{
+  it("config.primaryAction. Should call: close dialog, next with default parameter.", () => {
     prepare(defaultMatDialogData);
     spyOn(component.data.$contactInfo, "next");
     spyOn(component.editContactInfoComponent, "getResult").and.callThrough();
@@ -64,7 +64,7 @@ describe('ContactInfoDialogComponent', () => {
     expect(mockDialogRef.close).toHaveBeenCalled();
   });
 
-  it("isValid. Should return true and call editContactInfoComponent.isValid.",()=>{
+  it("isValid. Should return true and call editContactInfoComponent.isValid.", () => {
     prepare(defaultMatDialogData);
     spyOn(component.editContactInfoComponent, "isValid").and.callThrough();
     component.editContactInfoComponent.contactsForm.markAsDirty();
@@ -74,7 +74,7 @@ describe('ContactInfoDialogComponent', () => {
     expect(component.editContactInfoComponent.isValid).toHaveBeenCalled();
   });
 
-  it("isValid. Should return false and call editContactInfoComponent.isValid.",()=>{
+  it("isValid. Should return false and call editContactInfoComponent.isValid.", () => {
     prepare(defaultMatDialogData);
     expect(component.isValid()).toBe(false);
   });
