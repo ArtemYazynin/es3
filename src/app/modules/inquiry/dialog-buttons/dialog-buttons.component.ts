@@ -15,6 +15,7 @@ export class DialogButtonsComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
+    if(! this.config) return;
     this.config.primaryTitle = this.config.primaryTitle ? this.config.primaryTitle : DialogButtonsComponent.defaultSave;
     this.config.inverseTitle = this.config.inverseTitle ? this.config.inverseTitle : DialogButtonsComponent.defaultInverse;
   }
