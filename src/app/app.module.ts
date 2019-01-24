@@ -44,7 +44,7 @@ const constants = {
   exports: [],
   providers: [
     { provide: MAT_LABEL_GLOBAL_OPTIONS, useValue: { float: 'always' } },
-    { provide: LocationStrategy, useClass: HashLocationStrategy },
+    // { provide: LocationStrategy, useClass: HashLocationStrategy },
     WizardStorageService,
     BaseResolver,
     FormService,

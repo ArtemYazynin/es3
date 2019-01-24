@@ -23,14 +23,12 @@ export class RelationTypeDialogComponent implements OnInit {
     this.config = new ConfigsOfRoutingButtons(undefined, undefined,
       () => {
         if (this.relationTypeComponent.owner.relationType) {
-          if (this.parent.relationType.id !== this.relationTypeComponent.owner.relationType.id)
+          if (this.parent.relationType.id !== this.relationTypeComponent.owner.relationType.id){
             this.parent.relationType = this.relationTypeComponent.owner.relationType;
-
-          (() => {
-            this.parent.parentRepresentChildrenDocument = this.relationTypeComponent.owner.relationType.confirmationDocument
-              ? this.relationTypeComponent.editConfirmationDocumentComponent.getResult()
-              : undefined;
-          })();
+          }
+          this.parent.parentRepresentChildrenDocument = this.relationTypeComponent.owner.relationType.confirmationDocument
+            ? this.relationTypeComponent.editConfirmationDocumentComponent.getResult()
+            : undefined;
         }
         this.data.$owner.next(this.parent);
         this.dialogRef.close();
@@ -46,7 +44,7 @@ export class RelationTypeDialogComponent implements OnInit {
     var isDirtyRelType = this.relationTypeComponent && this.relationTypeComponent.relationForm.dirty;
     var isDirtyConfDoc = this.relationTypeComponent.editConfirmationDocumentComponent
       && this.relationTypeComponent.editConfirmationDocumentComponent.confirmationDocumentForm.dirty;
-
-    return this.relationTypeComponent && this.relationTypeComponent.isValid() && (isDirtyRelType || isDirtyConfDoc);
+    const isValidRelType = this.relationTypeComponent.isValid();
+    return this.relationTypeComponent && isValidRelType && (isDirtyRelType || isDirtyConfDoc);
   }
 }

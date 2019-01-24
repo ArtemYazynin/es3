@@ -1,25 +1,34 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { DialogButtonsComponent } from './dialog-buttons.component';
+import { ConfigsOfRoutingButtons } from '../../../shared/configs-of-routing-buttons';
 
 describe('DialogButtonsComponent', () => {
-  let component: DialogButtonsComponent;
-  let fixture: ComponentFixture<DialogButtonsComponent>;
+  it('Props should have default init.', () => {
+    let component = new DialogButtonsComponent();
+    expect(DialogButtonsComponent.defaultSave).toBeTruthy();
+    expect(DialogButtonsComponent.defaultInverse).toBeTruthy();
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [ DialogButtonsComponent ]
-    })
-    .compileComponents();
-  }));
-
-  beforeEach(() => {
-    fixture = TestBed.createComponent(DialogButtonsComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
+    component.ngOnInit();
+    expect(component.config).toBeUndefined();
+    expect(component.isValid).toBeUndefined();
   });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
+  it('Config WITHOUT titles. Should default init titles.', () => {
+    let component = new DialogButtonsComponent();
+    component.config = new ConfigsOfRoutingButtons();
+    component.ngOnInit();
+    expect(component.config.primaryTitle).toBe(DialogButtonsComponent.defaultSave);
+    expect(component.config.inverseTitle).toBe(DialogButtonsComponent.defaultInverse);
+  });
+
+  it('Config WITH titles. Should have specified titles.', () => {
+    const testPrimaryTitle = "testPrimaryTitle";
+    const testInverseTitle = "testInverseTitle";
+    let component = new DialogButtonsComponent();
+    component.config = new ConfigsOfRoutingButtons(testPrimaryTitle,testInverseTitle);
+    component.ngOnInit();
+    expect(component.config.primaryTitle).toBe(testPrimaryTitle);
+    expect(component.config.inverseTitle).toBe(testInverseTitle);
   });
 });

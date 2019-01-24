@@ -34,14 +34,14 @@ export class EditInstitutionsComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.buildForm();
 
-    this.settingsService.get()
+    this.settingsService.gets()
       .pipe(takeUntil(this.ngUnsubscribe), flatMap(settings => {
         switch (this.inquiryType) {
           case this.inquiryTypes.preschool:
-            this.maxCountWishInstitutions = settings.maxCountWishPreschools;
+            this.maxCountWishInstitutions = settings[0].maxCountWishPreschools;
             break;
           case this.inquiryTypes.school:
-            this.maxCountWishInstitutions = settings.maxCountWishSchools;
+            this.maxCountWishInstitutions = settings[0].maxCountWishSchools;
           default:
             break;
         }
