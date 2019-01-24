@@ -1,6 +1,6 @@
-import { Component, Input, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ConfirmationDocument, AttachmentType, FormService, Theme } from '../../index';
+import { AttachmentType, ConfirmationDocument, FormService, Theme } from '../../index';
 
 @Component({
   selector: 'app-edit-confirmation-document',
