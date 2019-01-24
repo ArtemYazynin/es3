@@ -3,7 +3,7 @@ import { Location } from "./location.model";
 
 export class Address {
     constructor(public region?: Location, public district?: Location, public city?: Location,
-        public street?: Location, public building?: Location, public flat?: string,
+        public street?: Location | string, public building?: Location | string, public flat?: string,
         public additionalInfo?: string, public foreign?: boolean) {
     }
 
