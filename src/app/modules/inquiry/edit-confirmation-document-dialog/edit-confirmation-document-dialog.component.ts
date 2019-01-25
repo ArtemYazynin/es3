@@ -11,7 +11,7 @@ import { Guid } from '../../../shared/models/guid';
   styleUrls: ['./edit-confirmation-document-dialog.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class EditConfirmationDocumentDialogComponent implements OnInit ,AfterViewInit {
+export class EditConfirmationDocumentDialogComponent implements OnInit, AfterViewInit {
   @ViewChild(EditConfirmationDocumentComponent) confirmationProofDocumentComponent: EditConfirmationDocumentComponent;
 
   themes = Theme;
@@ -37,7 +37,7 @@ export class EditConfirmationDocumentDialogComponent implements OnInit ,AfterVie
   }
 
   isValid() {
-    return this.confirmationProofDocumentComponent && this.confirmationProofDocumentComponent.confirmationDocumentForm
-      && this.confirmationProofDocumentComponent.confirmationDocumentForm.dirty && this.confirmationProofDocumentComponent.confirmationDocumentForm.valid;
+    return this.confirmationProofDocumentComponent && this.confirmationProofDocumentComponent.confirmationDocumentForm.dirty
+      && this.confirmationProofDocumentComponent.isValid();
   }
 }
