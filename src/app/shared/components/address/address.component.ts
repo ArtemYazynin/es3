@@ -33,14 +33,13 @@ export class AddressComponent implements OnInit, OnDestroy {
   streets: Observable<Array<Location>>;
   buildings: Observable<Array<Location>>;
   customStreet = false;
-
-  constructor(private addressService: AddressService, private fb: FormBuilder, private drawService: DrawService, private cdr: ChangeDetectorRef) { }
-
-  drawManager = this.drawService;
   drawnAddress: string;
+  
+  constructor(private addressService: AddressService, private fb: FormBuilder, private drawService: DrawService, private cdr: ChangeDetectorRef) { }
+  
 
   drawAddress() {
-    this.drawnAddress = this.drawManager.address(this.$address.getValue());
+    this.drawnAddress = this.drawService.address(this.$address.getValue());
     this.cdr.markForCheck();
   }
 
