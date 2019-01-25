@@ -6,7 +6,7 @@ import { MatAutocompleteModule, MatFormFieldModule, MatSelectModule, MatTooltipM
 import { AddressService } from '../../address.service';
 import { DrawService } from '../../draw.service';
 
-fdescribe('AddressComponent', () => {
+describe('AddressComponent', () => {
   let component: AddressComponent;
   let fixture: ComponentFixture<AddressComponent>;
   let addressServiceStub = jasmine.createSpyObj("AddressService", ["getRegions", "getCities", "getDistricts", "getStreets", "getBuildings"]);

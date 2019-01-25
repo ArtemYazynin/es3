@@ -25,18 +25,18 @@ export class EditCitizenshipsDialogComponent implements OnInit, OnDestroy, After
     this.config = new ConfigsOfRoutingButtons(undefined, undefined,
       () => {
         const patchAddress = (patch: PersonWithAddress) => {
-          Object.assign(data, patch);
+          Object.assign(person, patch);
         }
 
-        let data = this.data.$person.getValue();
-        data.citizenships = this.editCitizenshipsComponent.citizenshipSelectComponent.citizenships;
+        let person = this.data.$person.getValue();
+        person.citizenships = this.editCitizenshipsComponent.citizenshipSelectComponent.citizenships;
         if (this.editCitizenshipsComponent.isAvailable.hasRfCitizenship()) {
           switch (this.data.personType) {
             case PersonType.Applicant:
-              data["countryStateApplicantDocument"] = undefined;
+              person["countryStateApplicantDocument"] = undefined;
               break;
             case PersonType.Parent:
-              data["countryStateDocument"] = undefined;
+              person["countryStateDocument"] = undefined;
               break;
             case PersonType.Child:
               break;
@@ -55,11 +55,11 @@ export class EditCitizenshipsDialogComponent implements OnInit, OnDestroy, After
           (() => {
             if (this.editCitizenshipsComponent.editConfirmationDocumentComponent) {
               const document = ConfirmationDocument.construct(this.editCitizenshipsComponent.editConfirmationDocumentComponent.confirmationDocumentForm)
-              data[this.data.personType === PersonType.Parent ? "countryStateDocument" : "countryStateApplicantDocument"] = document;
+              person[this.data.personType === PersonType.Parent ? "countryStateDocument" : "countryStateApplicantDocument"] = document;
             }
           })();
         }
-        this.data.$person.next(data);
+        this.data.$person.next(person);
         this.dialogRef.close();
       },
       () => {
