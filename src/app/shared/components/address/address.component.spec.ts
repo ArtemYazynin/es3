@@ -1,16 +1,26 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { AddressComponent } from './address.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatAutocompleteModule, MatFormFieldModule, MatSelectModule, MatTooltipModule } from '@angular/material';
+import { AddressService } from '../../address.service';
 
-describe('AddressComponent', () => {
+fdescribe('AddressComponent', () => {
   let component: AddressComponent;
   let fixture: ComponentFixture<AddressComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ AddressComponent ]
+      imports: [FormsModule, ReactiveFormsModule, MatAutocompleteModule,MatFormFieldModule, MatSelectModule, MatTooltipModule],
+      providers:[
+        {
+          provide:AddressService,
+          useValue: jasmine.createSpyObj("AddressService",[])
+        }
+      ],
+      declarations: [AddressComponent]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {
