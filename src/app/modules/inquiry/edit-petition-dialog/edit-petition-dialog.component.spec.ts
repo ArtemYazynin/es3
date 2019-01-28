@@ -10,7 +10,7 @@ import { InquiryModule } from '../inquiry.module';
 import { EditPetitionDialogComponent } from './edit-petition-dialog.component';
 
 
-fdescribe('EditPetitionDialogComponent', () => {
+describe('EditPetitionDialogComponent', () => {
   let component: EditPetitionDialogComponent;
   let fixture: ComponentFixture<EditPetitionDialogComponent>;
   const mockDialogRef = { close: jasmine.createSpy('close') };
