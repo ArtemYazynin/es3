@@ -1968,7 +1968,7 @@
             { id: "EE8DCE4E-4E9E-4D69-8723-A893011A762C", name: "специфичность группы №2" },
             { id: "44C8880D-837E-47A1-BB6B-A893011A7631", name: "специфичность группы №3" }
         ];
-        let settings = { currentYear: new Date().getFullYear(), maxCountWishPreschools: 3, maxCountWishSchools: 4 };
+        let settings = [ { currentYear: new Date().getFullYear(), maxCountWishPreschools: 3, maxCountWishSchools: 4 } ];
 
         let specializations = [
             { id: "C3EEDF8F-FD26-4C5A-995E-A452002D607F", name: "Общеобразовательный" },
