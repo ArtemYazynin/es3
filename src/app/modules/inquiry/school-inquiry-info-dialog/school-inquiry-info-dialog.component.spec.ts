@@ -8,7 +8,7 @@ import { SchoolInquiryInfo } from '../../../shared';
 import { InquiryModule } from '../inquiry.module';
 import { SchoolInquiryInfoDialogComponent } from './school-inquiry-info-dialog.component';
 
-fdescribe('SchoolInquiryInfoDialogComponent', () => {
+describe('SchoolInquiryInfoDialogComponent', () => {
   let component: SchoolInquiryInfoDialogComponent;
   let fixture: ComponentFixture<SchoolInquiryInfoDialogComponent>;
 
