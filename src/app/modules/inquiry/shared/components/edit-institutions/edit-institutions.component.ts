@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { MatAutocompleteSelectedEvent, MatSelectChange } from '@angular/material';
 import { Observable, Subject } from 'rxjs';
 import { flatMap, map, startWith, takeUntil } from 'rxjs/operators';
-import { CommonService, Group, GroupService, Inquiry, inquiryType, InquiryType, Institution, InstitutionService, SchoolClass, SettingsService, Theme } from '../../../../../shared';
+import { CommonService, Group, GroupService, inquiryType, InquiryType, Institution, InstitutionService, SchoolClass, SettingsService, Theme } from '../../../../../shared';
 
 @Component({
   selector: 'app-edit-institutions',
