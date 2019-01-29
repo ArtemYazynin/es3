@@ -34,6 +34,6 @@ export class EditFileAttachmentsDialogComponent implements OnInit {
   }
 
   isValid() {
-    this.fileAttachmentsEditComponent && this.fileAttachmentsEditComponent.isValid()
+    return this.fileAttachmentsEditComponent && this.fileAttachmentsEditComponent.isValid()
   }
 }
