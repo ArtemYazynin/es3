@@ -9,7 +9,7 @@ import { DialogButtonsComponent } from '../dialog-buttons/dialog-buttons.compone
 import { InquiryModule } from '../inquiry.module';
 import { EditFileAttachmentsDialogComponent } from './edit-file-attachments-dialog.component';
 
-fdescribe('EditFileAttachmentsDialogComponent', () => {
+describe('EditFileAttachmentsDialogComponent', () => {
   let component: EditFileAttachmentsDialogComponent;
   let fixture: ComponentFixture<EditFileAttachmentsDialogComponent>;
   const mockDialogRef = { close: jasmine.createSpy('close') };
