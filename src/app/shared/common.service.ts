@@ -87,7 +87,7 @@ export class CommonService {
     let component = components.find(x => x.type == type);
     if (!component) return undefined
 
-    let document = ConfirmationDocument.construct(component.confirmationDocumentForm);
+    let document = ConfirmationDocument.construct(component.form);
     document.id = component.model ? component.model.id : Guid.newGuid();
     return document;
   }

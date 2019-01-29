@@ -1,13 +1,13 @@
-import { Component, OnInit, Input, ChangeDetectionStrategy, ViewChild, OnDestroy } from '@angular/core';
-import { AttachmentType, Parent, Applicant, Child, CitizenshipService, ApplicantType, Country, ConfirmationDocument, PersonWithAddress } from '../../../../../shared';
-import { CitizenshipSelectComponent } from '../../../../../shared/components/citizenship-select/citizenship-select.component';
-import { takeUntil } from 'rxjs/operators';
+import { ChangeDetectionStrategy, Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Subject } from 'rxjs';
-import { RfCitizensAddressesComponent } from '../../../../../shared/components/rf-citizens-addresses/rf-citizens-addresses.component';
-import { ForeignCitizensAddressesComponent } from '../../../../../shared/components/foreign-citizens-addresses/foreign-citizens-addresses.component';
+import { takeUntil } from 'rxjs/operators';
+import { Applicant, ApplicantType, AttachmentType, Child, CitizenshipService, ConfirmationDocument, Country, Parent, PersonWithAddress } from '../../../../../shared';
+import { CitizenshipSelectComponent } from '../../../../../shared/components/citizenship-select/citizenship-select.component';
 import { EditConfirmationDocumentComponent } from '../../../../../shared/components/edit-confirmation-document/edit-confirmation-document.component';
+import { ForeignCitizensAddressesComponent } from '../../../../../shared/components/foreign-citizens-addresses/foreign-citizens-addresses.component';
+import { RfCitizensAddressesComponent } from '../../../../../shared/components/rf-citizens-addresses/rf-citizens-addresses.component';
 import { PersonType } from '../../../../../shared/person-type.enum';
-import { isNullOrUndefined } from 'util';
+import { FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-edit-citizenships',
@@ -29,30 +29,6 @@ export class EditCitizenshipsComponent implements OnInit, OnDestroy {
   countries: Array<Country>
   documentConfig: any;
   personTypes = PersonType;
-  constructor(private citizenshipService: CitizenshipService) { }
-
-  ngOnInit() {
-    this.citizenshipService.getCountries()
-      .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe(countries => {
-        this.countries = countries;
-      });
-    if (this.personType == PersonType.Child) return;
-    this.documentConfig = {
-      title: this.personType == PersonType.Parent
-        ? "Документ, подтверждающий право пребывания законного представителя на территории РФ"
-        : "Документ, подтверждающий право пребывания доверенного лица законного представителя на территории РФ",
-      type: this.personType == PersonType.Parent ? AttachmentType.CountryStateDocument : AttachmentType.CountryStateApplicantDocument,
-      model: this.personType == PersonType.Parent
-        ? this.model ? this.model["countryStateDocument"] : undefined
-        : this.model ? this.model["countryStateApplicantDocument"] : undefined
-    }
-  }
-  //"Документ, подтверждающий полномочие доверенного лица представлять интересы законного представителя ребенка"
-  ngOnDestroy(): void {
-    this.ngUnsubscribe.next();
-    this.ngUnsubscribe.complete();
-  }
   isAvailable = {
     hasForeignCitizenship: () => {
       return this.citizenshipSelectComponent && this.citizenshipSelectComponent.hasForeignCitizenship();
@@ -68,25 +44,61 @@ export class EditCitizenshipsComponent implements OnInit, OnDestroy {
       return this.citizenshipSelectComponent && this.citizenshipSelectComponent.citizenships.length > 0;
     }
   }
+  constructor(private citizenshipService: CitizenshipService) { }
+
+  ngOnInit() {
+    this.citizenshipService.getCountries()
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe(countries => {
+        this.countries = countries;
+      });
+    if (this.personType == PersonType.Child) return;
+    this.documentConfig = this.getConfig();
+  }
+
+  private getConfig() {
+    return {
+      title: this.personType == PersonType.Parent
+        ? "Документ, подтверждающий право пребывания законного представителя на территории РФ"
+        : "Документ, подтверждающий право пребывания доверенного лица законного представителя на территории РФ",
+      type: this.personType == PersonType.Parent ? AttachmentType.CountryStateDocument : AttachmentType.CountryStateApplicantDocument,
+      model: this.personType == PersonType.Parent
+        ? this.model ? this.model["countryStateDocument"] : undefined
+        : this.model ? this.model["countryStateApplicantDocument"] : undefined
+    };
+  }
+
+  ngOnDestroy(): void {
+    this.ngUnsubscribe.next();
+    this.ngUnsubscribe.complete();
+  }
+
 
   isValid(): boolean {
     const hasCitizenships = this.citizenshipSelectComponent.citizenships.length > 0;
-    const editChildren = this.personType == PersonType.Child && isNullOrUndefined(this.applicantType);
-    if (editChildren) {
-      return hasCitizenships;
+    switch (this.personType) {
+      case PersonType.Child:
+        return hasCitizenships;
+      default:
+        const isParent = this.applicantType == ApplicantType.Applicant && this.personType == PersonType.Parent;
+        if (this.isAvailable.hasRfCitizenship()) {
+          return isParent
+            ? hasCitizenships
+            : this.isValidForm(this.rfCitizensAddressesComponent);
+        }
+        if (this.isAvailable.hasForeignCitizenship()) {
+          const isValidDocument = this.isValidForm(this.editConfirmationDocumentComponent);
+          const isValidAddress = this.isValidForm(this.foreignCitizensAddressesComponent);
+          return isParent
+            ? hasCitizenships && isValidDocument
+            : isValidAddress && isValidDocument;
+        }
+        return false;
     }
-    const editParent = this.applicantType == ApplicantType.Applicant && this.personType == PersonType.Parent;
-    if (this.isAvailable.hasRfCitizenship()) {
-      return editParent
-        ? hasCitizenships
-        : this.rfCitizensAddressesComponent && this.rfCitizensAddressesComponent.checkboxesForm.valid;
-    } else if (this.isAvailable.hasForeignCitizenship()) {
-      const isValidDocument = this.editConfirmationDocumentComponent && this.editConfirmationDocumentComponent.confirmationDocumentForm.valid;
-      return editParent
-        ? hasCitizenships && isValidDocument
-        : this.foreignCitizensAddressesComponent && this.foreignCitizensAddressesComponent.form.valid && isValidDocument
-    }
-    return false;
+  }
+
+  private isValidForm(component: { form: FormGroup }) {
+    return component && component.form.valid;
   }
 
   getResult(): { citizenships: number[], document: ConfirmationDocument, addresses: PersonWithAddress } {
@@ -102,6 +114,5 @@ export class EditCitizenshipsComponent implements OnInit, OnDestroy {
       ? this.rfCitizensAddressesComponent.getResult()
       : this.foreignCitizensAddressesComponent.getResult()
     return result;
-
   }
 }

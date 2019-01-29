@@ -73,7 +73,7 @@ describe('EditConfirmationDocumentDialogComponent', () => {
   it("isValid. Should return true and call editContactInfoComponent.isValid.", () => {
     prepare(defaultMatDialogData);
     spyOn(component.confirmationProofDocumentComponent, "isValid").and.callThrough();
-    component.confirmationProofDocumentComponent.confirmationDocumentForm.markAsDirty();
+    component.confirmationProofDocumentComponent.form.markAsDirty();
     const isValid = component.isValid();
 
     expect(isValid).toBe(true);

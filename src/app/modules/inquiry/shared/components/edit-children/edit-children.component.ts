@@ -71,7 +71,7 @@ export class EditChildrenComponent implements OnInit, AfterViewInit {
           return this.specHealthComponent
             && this.specHealthComponent.documentComponents
             && this.specHealthComponent.documentComponents.length == this.components.length
-            && isNullOrUndefined(this.specHealthComponent.documentComponents.find(x => !x.confirmationDocumentForm.valid));
+            && isNullOrUndefined(this.specHealthComponent.documentComponents.find(x => !x.form.valid));
         }
         if (this.specHealthComponent && this.specHealthComponent.specHealth && this.specHealthComponent.specHealth.code == 101) {
           return true;

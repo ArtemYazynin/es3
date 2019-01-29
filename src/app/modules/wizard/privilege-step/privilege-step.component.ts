@@ -34,7 +34,7 @@ export class PrivilegeStepComponent implements OnInit {
       : !!this.privilegeEditComponent.privilegeForm.controls.privilegeOrder.value
       && !!this.privilegeEditComponent.privilegeForm.controls.privilege.value
       && !!this.privilegeEditComponent.confirmationProofDocumentComponent
-      && !!this.privilegeEditComponent.confirmationProofDocumentComponent.confirmationDocumentForm.valid;
+      && !!this.privilegeEditComponent.confirmationProofDocumentComponent.form.valid;
     return result;
   }
 }

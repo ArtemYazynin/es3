@@ -10,7 +10,7 @@ import { DialogButtonsComponent } from '../dialog-buttons/dialog-buttons.compone
 import { InquiryModule } from '../inquiry.module';
 import { EditCitizenshipsDialogComponent } from './edit-citizenships-dialog.component';
 
-describe('EditCitizenshipsDialogComponent', () => {
+fdescribe('EditCitizenshipsDialogComponent', () => {
   let component: EditCitizenshipsDialogComponent;
   let fixture: ComponentFixture<EditCitizenshipsDialogComponent>;
   const mockDialogRef = { close: jasmine.createSpy('close') };

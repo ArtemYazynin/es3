@@ -67,49 +67,6 @@ export class ActionsButtonsService {
         }
     }
 
-    primaryActionParentStep(editCitizenshipsComponent: EditCitizenshipsComponent, editPersonComponent: EditPersonComponent, relationTypeComponent: RelationTypeComponent, inquiry: Inquiry) {
-        return () => {
-            const fullnameResult = editPersonComponent.fullnameComponent.getResult();
-            const parent = new Parent(fullnameResult.lastname, fullnameResult.firstname, fullnameResult.middlename, editPersonComponent.snilsComponent.snils,
-                fullnameResult.noMiddlename, undefined, undefined, undefined);
-            parent.identityCard = editPersonComponent.identityCardComponent.getResult();
-
-            const citizenshipsWithAddresses = editCitizenshipsComponent.getResult();
-            parent.countryStateDocument = citizenshipsWithAddresses.document;
-            parent.citizenships = citizenshipsWithAddresses.citizenships;
-            parent.relationType = relationTypeComponent.owner.relationType;
-            parent.parentRepresentChildrenDocument = relationTypeComponent.editConfirmationDocumentComponent
-                ? relationTypeComponent.editConfirmationDocumentComponent.getResult()
-                : undefined;
-            Object.assign(parent, citizenshipsWithAddresses.addresses);
-            if (inquiry.applicantType == ApplicantType.Parent && DublicatesFinder.betweenParentChildren(parent, inquiry.children)) {
-                return;
-            } else if (inquiry.applicantType == ApplicantType.Applicant
-                && (DublicatesFinder.betweenApplicantParent(inquiry.applicant, parent)
-                    || DublicatesFinder.betweenApplicantChildren(inquiry.applicant, inquiry.children)
-                    || DublicatesFinder.betweenParentChildren(parent, inquiry.children))) {
-                return;
-            }
-            if (inquiry.parent) {
-                Object.assign(inquiry.parent, parent);
-            } else {
-                inquiry.parent = parent;
-            }
-
-            this.storageService.set(inquiry.type, inquiry);
-            this.router.navigate(["../contactInfoStep"], { relativeTo: this.route });
-        }
-    }
-    inverseActionParentStep(applicantType: ApplicantType) {
-        return () => {
-            if (applicantType == ApplicantType.Applicant) {
-                this.router.navigate(["../applicantStep"], { relativeTo: this.route });
-            } else {
-                this.router.navigate(["../applicantTypeStep"], { relativeTo: this.route });
-            }
-        }
-    }
-
     primaryActionCurrentEducationPlaceStep(editCurrentEducationPlaceComponent: EditCurrentEducationPlaceComponent, inquiryType: any, router: Router, route: ActivatedRoute) {
         return () => {
             this.inquiryService.saveCurrentEducationPlace(editCurrentEducationPlaceComponent, (patch) => {

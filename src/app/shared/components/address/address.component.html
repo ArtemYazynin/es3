@@ -1,6 +1,6 @@
 <ng-container *ngIf="mode == modes.read">
   <b>{{drawnAddress}}</b>
-  <a class="btn" id="chooseFile" (click)="mode=modes.edit"><i class="mdi mdi-lead-pencil"></i></a>
+  <a class="btn" id="chooseFile" (click)="mode = this.modes.edit"><i class="mdi mdi-lead-pencil"></i></a>
 </ng-container>
 <form [formGroup]="addressForm" (ngSubmit)="onSubmit()" *ngIf="mode == modes.edit">
   <mat-form-field>
@@ -39,7 +39,8 @@
   </mat-form-field>
   <ng-container *ngIf="selected.city()">
     <mat-form-field>
-      <input type="text" [placeholder]="placeHolder.street()" matInput formControlName="street" [matAutocomplete]="streetAuto">
+      <input type="text" id="street" [placeholder]="placeHolder.street()" matInput formControlName="street"
+        [matAutocomplete]="streetAuto">
       <mat-autocomplete #streetAuto="matAutocomplete" [displayWith]="display.other" (optionSelected)="onChange.street(this)">
         <mat-option>Не выбрано</mat-option>
         <mat-option *ngFor="let option of streets | async" [value]="option">
@@ -47,10 +48,7 @@
         </mat-option>
       </mat-autocomplete>
     </mat-form-field>
-    <button type="button" mat-icon-button color="primary" id="cityToggle" matTooltip="{{customStreet ? 'Выбор' : 'Ручной ввод'}}">
-      <i class="mdi mdi-view-list" *ngIf="customStreet"></i>
-      <i class="mdi mdi-playlist-edit" *ngIf="!customStreet"></i>
-    </button>
+
   </ng-container>
   <mat-form-field *ngIf="selected.street()">
     <input type="text" [placeholder]="placeHolder.building()" matInput formControlName="building" [matAutocomplete]="buildingAuto">
@@ -68,7 +66,7 @@
     <textarea matInput placeholder="Доп. информация" formControlName="additionalInfo"></textarea>
   </mat-form-field>
   <div class="form-actions" style="text-align: center;">
-      <button type="submit" class="btn btn-primary">Принять</button>
-      <button type="button" class="btn btn-inverse" (click)="mode = modes.read">Отмена</button>
-    </div>
+    <button type="submit" class="btn btn-primary">Принять</button>
+    <button type="button" class="btn btn-inverse" (click)="mode = modes.read">Отмена</button>
+  </div>
 </form>

@@ -32,13 +32,10 @@ export class DrawService {
   }
 
   address(address: Address) {
-    const addressToString = (address: Address): string => {
+    if (address) {
       const builder = new AddressBuilder(address);
       new AddressBuilderDirector().construct(builder);
       return builder.getResult();
-    }
-    if (address) {
-      return addressToString(address)
     } else {
       return "-";
     }

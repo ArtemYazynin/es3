@@ -62,8 +62,8 @@ export class EditPrivilegeComponent implements OnInit, AfterViewInit {
   }
   ngAfterViewInit(): void {
     if (this.privilege && this.privilege.privilegeProofDocument
-      && this.confirmationProofDocumentComponent && this.confirmationProofDocumentComponent.confirmationDocumentForm) {
-      this.confirmationProofDocumentComponent.confirmationDocumentForm.patchValue(this.privilege.privilegeProofDocument);
+      && this.confirmationProofDocumentComponent && this.confirmationProofDocumentComponent.form) {
+      this.confirmationProofDocumentComponent.form.patchValue(this.privilege.privilegeProofDocument);
       this.cdr.detectChanges();
     }
   }
@@ -74,7 +74,7 @@ export class EditPrivilegeComponent implements OnInit, AfterViewInit {
       : !!this.privilegeForm.controls.privilegeOrder.value
       && !!this.privilegeForm.controls.privilege.value
       && !!this.confirmationProofDocumentComponent
-      && !!this.confirmationProofDocumentComponent.confirmationDocumentForm.valid;
+      && !!this.confirmationProofDocumentComponent.form.valid;
     return isValid;
   }
 

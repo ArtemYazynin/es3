@@ -27,7 +27,7 @@ export class EditConfirmationDocumentDialogComponent implements OnInit, AfterVie
   ngAfterViewInit(): void {
     this.config.primaryAction = () => {
       const oldDocument = this.data.$document.getValue();
-      let document = ConfirmationDocument.construct(this.confirmationProofDocumentComponent.confirmationDocumentForm, oldDocument ? oldDocument.id : Guid.newGuid());
+      let document = ConfirmationDocument.construct(this.confirmationProofDocumentComponent.form, oldDocument ? oldDocument.id : Guid.newGuid());
       this.data.$document.next(document);
       this.dialogRef.close();
     };
@@ -37,7 +37,7 @@ export class EditConfirmationDocumentDialogComponent implements OnInit, AfterVie
   }
 
   isValid() {
-    return this.confirmationProofDocumentComponent && this.confirmationProofDocumentComponent.confirmationDocumentForm.dirty
+    return this.confirmationProofDocumentComponent && this.confirmationProofDocumentComponent.form.dirty
       && this.confirmationProofDocumentComponent.isValid();
   }
 }

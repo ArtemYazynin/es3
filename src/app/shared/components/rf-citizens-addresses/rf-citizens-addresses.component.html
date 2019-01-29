@@ -1,14 +1,14 @@
 <div class="row">
   <div class="col">
-    <form [formGroup]="checkboxesForm" novalidate>
+    <form [formGroup]="form" novalidate>
       <app-inquiry-info-edit title="Адрес регистрации" [theme]="themes.Gray">
         <app-address [type]="addressTypes.register" [owner]="owner"></app-address>
         <mat-checkbox id="temporaryRegistration" (change)="temporaryRegistrationChange($event)" formControlName="temporaryRegistration">
           Является адресом временной регистрации</mat-checkbox>
-        <ng-container *ngIf="checkboxesForm.controls.temporaryRegistration.value">
+        <ng-container *ngIf="form.controls.temporaryRegistration.value">
           <mat-form-field (click)="tempRegistrationExpired.open()">
             <input matInput [matDatepicker]="tempRegistrationExpired" placeholder="Дата окончания временной регистрации"
-              [min]="currentDate" formControlName="tempRegistrationExpiredDate" required>
+              [min]="currentDate" formControlName="tempRegistrationExpiredDate">
             <mat-datepicker-toggle matSuffix [for]="tempRegistrationExpired"></mat-datepicker-toggle>
             <mat-datepicker disabled="false" #tempRegistrationExpired></mat-datepicker>
           </mat-form-field>
