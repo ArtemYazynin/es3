@@ -33,24 +33,19 @@ export class AddressBuilder implements AbstractAddressBuilder {
     buildStreet() {
         if (!this.address || !this.address.street) return;
         this.prepare();
-        const hasStreetObj = this.address.street instanceof Location && (typeof this.address.street) === "object" && (this.address.street as Location).id;
+        const hasStreetObj = typeof this.address.street === "object" && (this.address.street as Location).id;
+        const streetName = (this.address.street as Location).name;
         if (hasStreetObj) {
             const street = this.address.street as Location;
-            this.result += street.typeShort + "." + street.name;
+            this.result += street.typeShort + "." + streetName;
         } else {
-            this.result += this.address.street;
+            this.result += streetName;
         }
     }
     buildBuilding() {
-        if (!this.address || !this.address.building) return;
+        if (!this.address || !this.address.building || !(this.address.building as Location).name) return;
         this.prepare();
-        const hasBuildingObj = this.address.building instanceof Location && (typeof this.address.building) === "object" && (this.address.building as Location).id;
-        if (hasBuildingObj) {
-            const building = this.address.building as Location;
-            this.result += building.name;
-        } else {
-            this.result += this.address.building;
-        }
+        this.result += (this.address.building as Location).name;
     }
     buildFlat() {
         if (this.address && this.address.flat && this.address.flat != "") {
@@ -60,11 +55,11 @@ export class AddressBuilder implements AbstractAddressBuilder {
     }
 
     buildAdditionalInfo() {
-        if (this.address && this.address.additionalInfo){
+        if (this.address && this.address.additionalInfo) {
             this.prepare();
             this.result += `${this.addInfoLabel}${this.address.additionalInfo}`;
         }
-            
+
     }
     getResult(): string {
         if (this.result && (typeof this.result) === "string") {

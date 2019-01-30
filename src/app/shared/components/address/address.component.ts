@@ -11,7 +11,7 @@ import { addressTypes } from "../../models/address-type";
   templateUrl: './address.component.html',
   styleUrls: ['./address.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  host:{ 'class': 'host'}
+  host: { 'class': 'host' }
 })
 export class AddressComponent implements OnInit, OnDestroy {
   @Input() type: number;
@@ -33,14 +33,13 @@ export class AddressComponent implements OnInit, OnDestroy {
   streets: Observable<Array<Location>>;
   buildings: Observable<Array<Location>>;
   customStreet = false;
+  drawnAddress: string;
 
   constructor(private addressService: AddressService, private fb: FormBuilder, private drawService: DrawService, private cdr: ChangeDetectorRef) { }
 
-  drawManager = this.drawService;
-  drawnAddress: string;
 
-  drawAddress() {
-    this.drawnAddress = this.drawManager.address(this.$address.getValue());
+  drawAddress(address?: Address) {
+    this.drawnAddress = this.drawService.address(address ? address : this.$address.getValue());
     this.cdr.markForCheck();
   }
 
@@ -160,11 +159,32 @@ export class AddressComponent implements OnInit, OnDestroy {
         }
       }
     })();
-    if (this.owner) this.$address.next(this.owner[this.addressType]);
-    if (this.$address.getValue()) {
-      this.updateForm();
-      this.drawAddress();
+    (() => {
+      if (this.owner && this.owner[this.addressType]) {
+        const address = this.owner[this.addressType];
+        this.updateForm(address);
+        this.drawAddress(address);
+        this.$address.next(address);
+      }
+    })();
+
+  }
+
+  clearForm(form: FormGroup, except: Array<string>) {
+    const getDifference = (a: Array<string>, b: Array<string>) => {
+      let result = [];
+      for (let index = 0, len = a.length; index < len; index++) {
+        const element = a[index];
+        if (b.indexOf(a[index]) >= 0) continue;
+        result.push(element);
+      }
+      return result;
     }
+    if (isNullOrUndefined(form) || isNullOrUndefined(except)) return;
+    const difference = getDifference(Object.keys(form.controls), except)
+    difference.forEach(key => {
+      if (!!form.controls[key].value) form.controls[key].patchValue("");
+    });
   }
 
   onSubmit = () => {
@@ -174,20 +194,32 @@ export class AddressComponent implements OnInit, OnDestroy {
       this.drawAddress();
     }
     else {
-      let street: Location = this.addressForm.controls.street.value;
+      let street: Location = (() => {
+        if (!this.addressForm.controls.street.value) return undefined;
+        switch (typeof this.addressForm.controls.street.value) {
+          case "string":
+            const location = new Location();
+            location.name = this.addressForm.controls.street.value.trim();
+            location.typeShort = "";
+            this.addressForm.controls.street.setValue(location);
+            return location;
+          case "object":
+            if (!this.addressForm.controls.street.value.name) {
+              return undefined;
+            } else {
+              return this.addressForm.controls.street.value;
+            }
+          default:
+            break;
+        }
+
+      })();
       let building: Location = this.addressForm.controls.building.value;
-      if (typeof street == "string") {
-        street = new Location();
-        street.name = this.addressForm.controls.street.value;
-        street.typeShort = "";
-        this.addressForm.controls.street.setValue(street);
-      }
       if (typeof building == "string") {
         building = new Location();
         building.name = this.addressForm.controls.building.value;
         this.addressForm.controls.building.setValue(building);
       }
-      //if (!this.addressForm.controls.region.value) return;
       this.$address.next(new Address(<Location>this.addressForm.controls.region.value, this.addressForm.controls.district.value, this.addressForm.controls.city.value,
         street, building, this.addressForm.controls.flat.value, this.addressForm.controls.additionalInfo.value, false));
 
@@ -206,48 +238,24 @@ export class AddressComponent implements OnInit, OnDestroy {
     }
   }
   onChange = (() => {
-    const clearForm = (form: FormGroup, except: Array<string>) => {
-      if (isNullOrUndefined(form) || isNullOrUndefined(except)) return;
-      const difference = getDifference(Object.keys(form.controls), except)
-      difference.forEach(key => {
-        if (!!form.controls[key].value) form.controls[key].patchValue("");
-      });
-    }
-    const getDifference = (a: Array<string>, b: Array<string>) => {
-      let result = [];
-      for (let index = 0, len = a.length; index < len; index++) {
-        const element = a[index];
-        if (b.indexOf(a[index]) >= 0) continue;
-        result.push(element);
-      }
-      return result;
-    }
     const region = (context: AddressComponent) => {
-      clearForm(context.addressForm, [locationTypes.region]);
+      this.clearForm(context.addressForm, [locationTypes.region]);
     }
     const regionChildType = (context: AddressComponent) => {
-      clearForm(context.addressForm, [locationTypes.region, "regionChildType"]);
+      this.clearForm(context.addressForm, [locationTypes.region, "regionChildType"]);
     }
     const city = (context: AddressComponent) => {
-      clearForm(context.addressForm, [locationTypes.region, "regionChildType", locationTypes.district, locationTypes.city]);
-      setTimeout(() => {
-        fromEvent(document.getElementById("cityToggle"), "click")
-          .pipe(takeUntil(this.ngUnsubscribe))
-          .subscribe(x => {
-            this.customStreet = !this.customStreet;
-            clearForm(context.addressForm, [locationTypes.region, "regionChildType", locationTypes.district, locationTypes.city]);
-          });
-      }, 0);
+      this.clearForm(context.addressForm, [locationTypes.region, "regionChildType", locationTypes.district, locationTypes.city]);
     }
     const district = (context: AddressComponent) => {
-      clearForm(context.addressForm, [locationTypes.region, "regionChildType", locationTypes.district]);
+      this.clearForm(context.addressForm, [locationTypes.region, "regionChildType", locationTypes.district]);
     }
 
     const street = (context: AddressComponent) => {
-      clearForm(context.addressForm, [locationTypes.region, "regionChildType", locationTypes.district, locationTypes.city, locationTypes.street]);
+      this.clearForm(context.addressForm, [locationTypes.region, "regionChildType", locationTypes.district, locationTypes.city, locationTypes.street]);
     }
     const building = (context: AddressComponent) => {
-      clearForm(context.addressForm, [locationTypes.region, "regionChildType", locationTypes.district, locationTypes.city, locationTypes.street, locationTypes.building]);
+      this.clearForm(context.addressForm, [locationTypes.region, "regionChildType", locationTypes.district, locationTypes.city, locationTypes.street, locationTypes.building]);
     }
 
     return {
@@ -296,8 +304,7 @@ export class AddressComponent implements OnInit, OnDestroy {
     })
   }
 
-  private updateForm() {
-    let address = this.$address.getValue();
+  private updateForm(address: Address) {
     this.addressForm.patchValue({
       region: address.region ? address.region : undefined,
       regionChildType: address.city ? this.regionChildTypes.city : (address.district ? this.regionChildTypes.district : undefined),

@@ -100,10 +100,10 @@ describe('RelationTypeDialogComponent', () => {
     defaultMatDialogData.$owner.next(parent);
     prepare(defaultMatDialogData);
 
-    component.relationTypeComponent.editConfirmationDocumentComponent.confirmationDocumentForm.controls.series.setValue(defaultDocument.series);
-    component.relationTypeComponent.editConfirmationDocumentComponent.confirmationDocumentForm.controls.number.setValue(defaultDocument.number);
-    component.relationTypeComponent.editConfirmationDocumentComponent.confirmationDocumentForm.controls.dateIssue.setValue(defaultDocument.dateIssue);
-    component.relationTypeComponent.editConfirmationDocumentComponent.confirmationDocumentForm.controls.dateExpired.setValue(defaultDocument.dateExpired);
+    component.relationTypeComponent.editConfirmationDocumentComponent.form.controls.series.setValue(defaultDocument.series);
+    component.relationTypeComponent.editConfirmationDocumentComponent.form.controls.number.setValue(defaultDocument.number);
+    component.relationTypeComponent.editConfirmationDocumentComponent.form.controls.dateIssue.setValue(defaultDocument.dateIssue);
+    component.relationTypeComponent.editConfirmationDocumentComponent.form.controls.dateExpired.setValue(defaultDocument.dateExpired);
 
     component.config.primaryAction();
     expect(component.parent.parentRepresentChildrenDocument).toBeDefined();
@@ -127,14 +127,14 @@ describe('RelationTypeDialogComponent', () => {
     prepare(defaultMatDialogData);
     spyOn(component.relationTypeComponent, "isValid").and.callThrough();
 
-    component.relationTypeComponent.editConfirmationDocumentComponent.confirmationDocumentForm.controls.name.setValue(defaultDocument.name);
-    component.relationTypeComponent.editConfirmationDocumentComponent.confirmationDocumentForm.controls.series.setValue(defaultDocument.series);
-    component.relationTypeComponent.editConfirmationDocumentComponent.confirmationDocumentForm.controls.number.setValue(defaultDocument.number);
-    component.relationTypeComponent.editConfirmationDocumentComponent.confirmationDocumentForm.controls.dateIssue.setValue(new Date(1990, 5, 11));
-    component.relationTypeComponent.editConfirmationDocumentComponent.confirmationDocumentForm.controls.dateExpired.setValue(new Date(2020, 0, 23));
+    component.relationTypeComponent.editConfirmationDocumentComponent.form.controls.name.setValue(defaultDocument.name);
+    component.relationTypeComponent.editConfirmationDocumentComponent.form.controls.series.setValue(defaultDocument.series);
+    component.relationTypeComponent.editConfirmationDocumentComponent.form.controls.number.setValue(defaultDocument.number);
+    component.relationTypeComponent.editConfirmationDocumentComponent.form.controls.dateIssue.setValue(new Date(1990, 5, 11));
+    component.relationTypeComponent.editConfirmationDocumentComponent.form.controls.dateExpired.setValue(new Date(2020, 0, 23));
 
     component.relationTypeComponent.relationForm.markAsDirty();
-    component.relationTypeComponent.editConfirmationDocumentComponent.confirmationDocumentForm.markAsDirty();
+    component.relationTypeComponent.editConfirmationDocumentComponent.form.markAsDirty();
 
     const isValid = component.isValid();
     expect(isValid).toBe(true);

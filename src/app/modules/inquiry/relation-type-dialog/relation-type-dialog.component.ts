@@ -43,7 +43,7 @@ export class RelationTypeDialogComponent implements OnInit {
   isValid() {
     var isDirtyRelType = this.relationTypeComponent && this.relationTypeComponent.relationForm.dirty;
     var isDirtyConfDoc = this.relationTypeComponent.editConfirmationDocumentComponent
-      && this.relationTypeComponent.editConfirmationDocumentComponent.confirmationDocumentForm.dirty;
+      && this.relationTypeComponent.editConfirmationDocumentComponent.form.dirty;
     const isValidRelType = this.relationTypeComponent.isValid();
     return this.relationTypeComponent && isValidRelType && (isDirtyRelType || isDirtyConfDoc);
   }

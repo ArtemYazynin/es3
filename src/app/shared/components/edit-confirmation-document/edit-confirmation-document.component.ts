@@ -10,7 +10,7 @@ import { AttachmentType, ConfirmationDocument, FormService, Theme } from '../../
 })
 export class EditConfirmationDocumentComponent implements OnInit {
   currentDate = new Date();
-  confirmationDocumentForm: FormGroup;
+  form: FormGroup;
   formErrors = ConfirmationDocument.formErrorsTemplate;
   validationMessages = ConfirmationDocument.validationMessages;
   themes = Theme;
@@ -24,7 +24,7 @@ export class EditConfirmationDocumentComponent implements OnInit {
   ngOnInit() {
     this.buildForm();
     if (this.model) {
-      this.confirmationDocumentForm.patchValue({
+      this.form.patchValue({
         name: this.model.name,
         series: this.model.series,
         number: this.model.number,
@@ -35,26 +35,26 @@ export class EditConfirmationDocumentComponent implements OnInit {
   }
 
   getResult() {
-    return ConfirmationDocument.construct(this.confirmationDocumentForm, this.model ? this.model.id : undefined);
+    return ConfirmationDocument.construct(this.form, this.model ? this.model.id : undefined);
   }
 
   private buildForm(): any {
-    this.confirmationDocumentForm = this.fb.group({
+    this.form = this.fb.group({
       "name": ["", [Validators.required, Validators.maxLength(250)]],
       "series": ["", [Validators.maxLength(250)]],
       "number": ["", [Validators.required, Validators.maxLength(250)]],
       "dateIssue": ["", [Validators.required]],
       "dateExpired": ["", []]
     });
-    this.confirmationDocumentForm.valueChanges
+    this.form.valueChanges
       .subscribe(data => this.onValueChange(data));
 
     this.onValueChange();
   }
   private onValueChange(data?: any) {
-    this.formService.onValueChange(this.confirmationDocumentForm, this.formErrors, this.validationMessages);
+    this.formService.onValueChange(this.form, this.formErrors, this.validationMessages);
   }
   isValid() {
-    return this.confirmationDocumentForm && this.confirmationDocumentForm.valid;
+    return this.form && this.form.valid;
   }
 }

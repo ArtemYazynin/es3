@@ -30,7 +30,7 @@ export class EditPersonComponent implements OnInit, OnDestroy {
   constructor(private citizenshipService: CitizenshipService) { }
 
   ngOnInit() {
-    this.subscription = this.citizenshipService.getCountries().subscribe(result => this.countries = result);
+    this.subscription = this.citizenshipService.getCountries().subscribe(countries => this.countries = countries);
     switch (this.personType) {
       case PersonType.Child:
         this.groupOfIdentityCardTypeId = [

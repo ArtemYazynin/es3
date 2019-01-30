@@ -28,7 +28,7 @@ export class PrivilegeDialogComponent implements OnInit {
           ? undefined
           : (() => {
             let newPrivilege = Privilege.construct(form);
-            newPrivilege.privilegeProofDocument = ConfirmationDocument.construct(this.privilegeEditComponent.confirmationProofDocumentComponent.confirmationDocumentForm,
+            newPrivilege.privilegeProofDocument = ConfirmationDocument.construct(this.privilegeEditComponent.confirmationProofDocumentComponent.form,
               this.privilege && this.privilege.privilegeProofDocument ? this.privilege.privilegeProofDocument.id : undefined);
             return newPrivilege;
           })()

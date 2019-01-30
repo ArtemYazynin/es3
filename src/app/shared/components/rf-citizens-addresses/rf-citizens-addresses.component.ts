@@ -23,7 +23,7 @@ export class RfCitizensAddressesComponent implements OnInit, OnDestroy, AfterVie
   tempRegistrationExpiredDate: Date;
   registerAddressLikeAsResidentialAddress: boolean = false;
   private residentialAddressBackup: Address;
-  checkboxesForm: FormGroup;
+  form: FormGroup;
   registerAddress: Address;
   residentialAddress: Address;
   themes = Theme;
@@ -33,18 +33,18 @@ export class RfCitizensAddressesComponent implements OnInit, OnDestroy, AfterVie
 
   ngOnInit() {
     this.buildForm();
-    this.checkboxesForm.controls.registerAddressLikeAsResidentialAddress.setValue(this.owner && this.owner.registerAddressLikeAsResidentialAddress);
+    this.form.controls.registerAddressLikeAsResidentialAddress.setValue(this.owner && this.owner.registerAddressLikeAsResidentialAddress);
 
     this.citizenshipService.getCountries()
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(countries => {
         if (this.owner && this.owner.citizenships && this.citizenshipService.hasRfCitizenship(this.owner.citizenships, countries)) {
-          this.checkboxesForm.controls.temporaryRegistration.setValue(!!this.owner.tempRegistrationExpiredDate);
-          this.checkboxesForm.controls.tempRegistrationExpiredDate.setValue(this.owner.tempRegistrationExpiredDate);
-          this.checkboxesForm.updateValueAndValidity();
+          this.form.controls.temporaryRegistration.setValue(!!this.owner.tempRegistrationExpiredDate);
+          this.form.controls.tempRegistrationExpiredDate.setValue(this.owner.tempRegistrationExpiredDate);
+          this.form.updateValueAndValidity();
         }
       });
-    this.checkboxesForm.updateValueAndValidity();
+    this.form.updateValueAndValidity();
   }
 
   ngAfterViewInit() {
@@ -54,19 +54,25 @@ export class RfCitizensAddressesComponent implements OnInit, OnDestroy, AfterVie
       .subscribe(address => {
         if (!address) {
           this.registerAddress = undefined;
-          this.checkboxesForm.patchValue({ temporaryRegistration: false, registerAddressLikeAsResidentialAddress: false, tempRegistrationExpiredDate: undefined });
-          this.checkboxesForm.controls.temporaryRegistration.disable();
-          this.checkboxesForm.controls.registerAddressLikeAsResidentialAddress.disable();
-          this.checkboxesForm.updateValueAndValidity();
+          this.form.patchValue({ temporaryRegistration: false, registerAddressLikeAsResidentialAddress: false});
+          this.form.controls.temporaryRegistration.disable();
+          this.form.controls.registerAddressLikeAsResidentialAddress.disable();
+
+          this.temporaryRegistrationChange((()=>{
+            let change = new MatCheckboxChange();
+            change.checked = false;
+            return change;
+          })());
+          
+          //this.form.updateValueAndValidity();
         } else {
           this.registerAddress = address;
-          this.checkboxesForm.controls.temporaryRegistration.enable();
-          this.checkboxesForm.controls.registerAddressLikeAsResidentialAddress.enable();
+          this.form.controls.temporaryRegistration.enable();
+          this.form.controls.registerAddressLikeAsResidentialAddress.enable();
         }
         setTimeout(() => {
           this.cdr.markForCheck();
         });
-
       });
 
     this.addressesComponents
@@ -90,7 +96,7 @@ export class RfCitizensAddressesComponent implements OnInit, OnDestroy, AfterVie
   getResult(): PersonWithAddress {
     let result: any = {};
 
-    result.registerAddressLikeAsResidentialAddress = this.checkboxesForm.controls.registerAddressLikeAsResidentialAddress.value;
+    result.registerAddressLikeAsResidentialAddress = this.form.controls.registerAddressLikeAsResidentialAddress.value;
     this.addressesComponents.forEach(component => {
       switch (component.type) {
         case addressTypes.register:
@@ -106,17 +112,17 @@ export class RfCitizensAddressesComponent implements OnInit, OnDestroy, AfterVie
       }
     });
 
-    result.tempRegistrationExpiredDate = this.checkboxesForm.controls.tempRegistrationExpiredDate.value;
+    result.tempRegistrationExpiredDate = this.form.controls.tempRegistrationExpiredDate.value;
 
     return result;
   }
 
   temporaryRegistrationChange = (change: MatCheckboxChange) => {
-    if (!change.checked) {
-      this.checkboxesForm.controls.tempRegistrationExpiredDate.setValue(undefined);
-      this.formService.updateValidators(this.checkboxesForm, [new ControlInfo("tempRegistrationExpiredDate", [])])
+    if (change.checked) {
+      this.formService.updateValidators(this.form, [new ControlInfo("tempRegistrationExpiredDate", [Validators.required])]);
     } else {
-      this.formService.updateValidators(this.checkboxesForm, [new ControlInfo("tempRegistrationExpiredDate", [Validators.required])])
+      this.form.controls.tempRegistrationExpiredDate.setValue(undefined);
+      this.formService.updateValidators(this.form, [new ControlInfo("tempRegistrationExpiredDate", [])])
     }
   }
 
@@ -148,9 +154,10 @@ export class RfCitizensAddressesComponent implements OnInit, OnDestroy, AfterVie
   }
 
   private buildForm() {
-    this.checkboxesForm = this.fb.group({
+    let dateValidators = this.owner.tempRegistrationExpiredDate ? [Validators.required] : [];
+    this.form = this.fb.group({
       "temporaryRegistration": [false, []],
-      "tempRegistrationExpiredDate": [null, []],
+      "tempRegistrationExpiredDate": [null, dateValidators],
       "registerAddressLikeAsResidentialAddress": [false, []]
     });
   }

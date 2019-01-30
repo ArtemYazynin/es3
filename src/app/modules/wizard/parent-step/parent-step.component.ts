@@ -1,15 +1,13 @@
 import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { ApplicantType, ButtonsTitles, ConfigsOfRoutingButtons, Inquiry, inquiryType } from '../../../shared';
-import { ActionsButtonsService } from '../../../shared/actions-buttons.service';
+import { ActivatedRoute, Router } from '@angular/router';
+import { ApplicantType, ButtonsTitles, ConfigsOfRoutingButtons, DublicatesFinder, Inquiry, inquiryType, Parent } from '../../../shared';
 import { RelationTypeComponent } from '../../../shared/components/relation-type/relation-type.component';
 import { PersonType } from '../../../shared/person-type.enum';
 import { EditCitizenshipsComponent } from '../../inquiry/shared/components/edit-citizenships/edit-citizenships.component';
 import { EditPersonComponent } from '../../inquiry/shared/components/edit-person/edit-person.component';
-import { StepBase, WizardStorageService } from '../shared';
+import { WizardStorageService } from '../shared';
 
 @Component({
-  providers: [ActionsButtonsService],
   selector: 'app-parent-step',
   templateUrl: './parent-step.component.html',
   styleUrls: ['./parent-step.component.css'],
@@ -27,19 +25,76 @@ export class ParentStepComponent implements OnInit, AfterViewInit {
   applicantTypes = ApplicantType;
   config: ConfigsOfRoutingButtons;
 
-  constructor(private storageService: WizardStorageService, private cdr: ChangeDetectorRef,
-    private route: ActivatedRoute, private actionsButtonsService: ActionsButtonsService) { }
+  constructor(private cdr: ChangeDetectorRef, private route: ActivatedRoute, private router: Router, private storageService: WizardStorageService) { }
+
+  ngAfterViewInit(): void {
+    this.cdr.markForCheck();
+  }
 
   ngOnInit() {
-    this.config = new ConfigsOfRoutingButtons(ButtonsTitles.Next, ButtonsTitles.Back,
-      this.actionsButtonsService.primaryActionParentStep(this.editCitizenshipsComponent, this.editPersonComponent, this.relationTypeComponent, this.inquiry),
-      this.actionsButtonsService.inverseActionParentStep(this.inquiry.applicantType)
-    );
+    this.config = this.getConfig();
     if (this.inquiry.parent) this.agree = true;
   }
 
-  ngAfterViewInit(): void {
-    this.cdr.detectChanges();
+  private getConfig() {
+    return new ConfigsOfRoutingButtons(ButtonsTitles.Next, ButtonsTitles.Back,
+      () => {
+        let parent = this.getParent();
+        if (this.hasDublicates(parent)) return;
+        this.updateInquiry(parent);
+        this.router.navigate(["../contactInfoStep"], { relativeTo: this.route });
+      },
+      () => {
+        if (this.inquiry.applicantType == ApplicantType.Applicant) {
+          this.router.navigate(["../applicantStep"], { relativeTo: this.route });
+        } else {
+          this.router.navigate(["../applicantTypeStep"], { relativeTo: this.route });
+        }
+      }
+    );
+  }
+
+  private getParent() {
+    const citizenshipsWithAddresses = this.editCitizenshipsComponent.getResult();
+    const fullnameResult = this.editPersonComponent.fullnameComponent.getResult();
+    const parentRepresentChildrenDocument = this.relationTypeComponent.editConfirmationDocumentComponent
+      ? this.relationTypeComponent.editConfirmationDocumentComponent.getResult()
+      : undefined;
+    const parent = (() => {
+      let person = new Parent(fullnameResult.lastname, fullnameResult.firstname, fullnameResult.middlename, this.editPersonComponent.snilsComponent.snils,
+        fullnameResult.noMiddlename);
+      person.identityCard = this.editPersonComponent.identityCardComponent.getResult();
+      person.countryStateDocument = citizenshipsWithAddresses.document;
+      person.citizenships = citizenshipsWithAddresses.citizenships;
+      person.relationType = this.relationTypeComponent.owner.relationType;
+      person.parentRepresentChildrenDocument = parentRepresentChildrenDocument;
+      Object.assign(person, citizenshipsWithAddresses.addresses);
+      return person;
+    })();
+    return parent;
+  }
+
+  private hasDublicates(parent: Parent) {
+    if (this.inquiry.applicantType == ApplicantType.Parent && DublicatesFinder.betweenParentChildren(parent, this.inquiry.children)) {
+      return true;
+    }
+    if (this.inquiry.applicantType == ApplicantType.Applicant
+      && (DublicatesFinder.betweenApplicantParent(this.inquiry.applicant, parent)
+        || DublicatesFinder.betweenApplicantChildren(this.inquiry.applicant, this.inquiry.children)
+        || DublicatesFinder.betweenParentChildren(parent, this.inquiry.children))) {
+      return true;
+    }
+    return false;
+  }
+
+  private updateInquiry(parent) {
+    if (this.inquiry.parent) {
+      Object.assign(this.inquiry.parent, parent);
+    } else {
+      this.inquiry.parent = Object.assign({}, parent);
+    }
+
+    this.storageService.set(this.inquiry.type, this.inquiry);
   }
 
   isValid() {
@@ -51,4 +106,5 @@ export class ParentStepComponent implements OnInit, AfterViewInit {
       && relationTypeIsValid
       && this.agree;
   }
+
 }
