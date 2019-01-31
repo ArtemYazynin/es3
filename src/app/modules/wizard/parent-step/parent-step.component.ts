@@ -1,4 +1,4 @@
-import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ApplicantType, ButtonsTitles, ConfigsOfRoutingButtons, DublicatesFinder, Inquiry, inquiryType, Parent } from '../../../shared';
 import { RelationTypeComponent } from '../../../shared/components/relation-type/relation-type.component';
@@ -13,7 +13,7 @@ import { WizardStorageService } from '../shared';
   styleUrls: ['./parent-step.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ParentStepComponent implements OnInit, AfterViewInit {
+export class ParentStepComponent implements OnInit {
   @ViewChild(EditPersonComponent) editPersonComponent: EditPersonComponent;
   @ViewChild(EditCitizenshipsComponent) editCitizenshipsComponent: EditCitizenshipsComponent;
   @ViewChild(RelationTypeComponent) relationTypeComponent: RelationTypeComponent;
@@ -25,11 +25,7 @@ export class ParentStepComponent implements OnInit, AfterViewInit {
   applicantTypes = ApplicantType;
   config: ConfigsOfRoutingButtons;
 
-  constructor(private cdr: ChangeDetectorRef, private route: ActivatedRoute, private router: Router, private storageService: WizardStorageService) { }
-
-  ngAfterViewInit(): void {
-    this.cdr.markForCheck();
-  }
+  constructor(private route: ActivatedRoute, private router: Router, private storageService: WizardStorageService) { }
 
   ngOnInit() {
     this.config = this.getConfig();
@@ -37,19 +33,24 @@ export class ParentStepComponent implements OnInit, AfterViewInit {
   }
 
   private getConfig() {
+    const navExtras = { relativeTo: this.route };
+    const getUrl = () => {
+      const prev = "../";
+      if (this.inquiry.applicantType == ApplicantType.Applicant) {
+        return `${prev}applicantStep`;
+      } else {
+        return `${prev}applicantTypeStep`;
+      }
+    }
     return new ConfigsOfRoutingButtons(ButtonsTitles.Next, ButtonsTitles.Back,
       () => {
         let parent = this.getParent();
         if (this.hasDublicates(parent)) return;
         this.updateInquiry(parent);
-        this.router.navigate(["../contactInfoStep"], { relativeTo: this.route });
+        this.router.navigate(["../contactInfoStep"], navExtras);
       },
       () => {
-        if (this.inquiry.applicantType == ApplicantType.Applicant) {
-          this.router.navigate(["../applicantStep"], { relativeTo: this.route });
-        } else {
-          this.router.navigate(["../applicantTypeStep"], { relativeTo: this.route });
-        }
+        this.router.navigate([getUrl()], navExtras);
       }
     );
   }

@@ -32,19 +32,19 @@ export class RfCitizensAddressesComponent implements OnInit, OnDestroy, AfterVie
     private formService: FormService) { }
 
   ngOnInit() {
-    this.buildForm();
+    this.buildForm(this.owner.tempRegistrationExpiredDate ? [Validators.required] : []);
     this.form.controls.registerAddressLikeAsResidentialAddress.setValue(this.owner && this.owner.registerAddressLikeAsResidentialAddress);
 
     this.citizenshipService.getCountries()
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(countries => {
         if (this.owner && this.owner.citizenships && this.citizenshipService.hasRfCitizenship(this.owner.citizenships, countries)) {
-          this.form.controls.temporaryRegistration.setValue(!!this.owner.tempRegistrationExpiredDate);
-          this.form.controls.tempRegistrationExpiredDate.setValue(this.owner.tempRegistrationExpiredDate);
-          this.form.updateValueAndValidity();
+          this.form.patchValue({
+            temporaryRegistration: !!this.owner.tempRegistrationExpiredDate,
+            tempRegistrationExpiredDate: this.owner.tempRegistrationExpiredDate
+          });
         }
       });
-    this.form.updateValueAndValidity();
   }
 
   ngAfterViewInit() {
@@ -54,17 +54,15 @@ export class RfCitizensAddressesComponent implements OnInit, OnDestroy, AfterVie
       .subscribe(address => {
         if (!address) {
           this.registerAddress = undefined;
-          this.form.patchValue({ temporaryRegistration: false, registerAddressLikeAsResidentialAddress: false});
+          this.form.patchValue({ temporaryRegistration: false, registerAddressLikeAsResidentialAddress: false });
           this.form.controls.temporaryRegistration.disable();
           this.form.controls.registerAddressLikeAsResidentialAddress.disable();
 
-          this.temporaryRegistrationChange((()=>{
+          this.temporaryRegistrationChange((() => {
             let change = new MatCheckboxChange();
             change.checked = false;
             return change;
           })());
-          
-          //this.form.updateValueAndValidity();
         } else {
           this.registerAddress = address;
           this.form.controls.temporaryRegistration.enable();
@@ -78,14 +76,7 @@ export class RfCitizensAddressesComponent implements OnInit, OnDestroy, AfterVie
     this.addressesComponents
       .find(comp => comp.type == addressTypes.residential).$address
       .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe(address => {
-        if (!address) {
-          this.residentialAddress = undefined;
-        }
-        else {
-          this.residentialAddress = address;
-        }
-      });
+      .subscribe(address => this.residentialAddress = address);
   }
 
   ngOnDestroy(): void {
@@ -95,40 +86,30 @@ export class RfCitizensAddressesComponent implements OnInit, OnDestroy, AfterVie
 
   getResult(): PersonWithAddress {
     let result: any = {};
-
-    result.registerAddressLikeAsResidentialAddress = this.form.controls.registerAddressLikeAsResidentialAddress.value;
-    this.addressesComponents.forEach(component => {
-      switch (component.type) {
-        case addressTypes.register:
-          result.register = this.commonService.getAddressFromComponents(component);
-          break;
-        case addressTypes.residential:
-          result.residential = result.registerAddressLikeAsResidentialAddress
-            ? result.register
-            : this.commonService.getAddressFromComponents(component)
-          break;
-        default:
-          break;
-      }
-    });
-
     result.tempRegistrationExpiredDate = this.form.controls.tempRegistrationExpiredDate.value;
+    result.registerAddressLikeAsResidentialAddress = this.form.controls.registerAddressLikeAsResidentialAddress.value;
 
+    result.register = this.commonService.getAddressFromComponents(this.addressesComponents.find(c => c.type === addressTypes.register));
+    result.residential = result.registerAddressLikeAsResidentialAddress
+      ? result.register
+      : this.commonService.getAddressFromComponents(this.addressesComponents.find(c => c.type === addressTypes.residential))
     return result;
   }
 
   temporaryRegistrationChange = (change: MatCheckboxChange) => {
+    const tempRegistrationExpiredDate = "tempRegistrationExpiredDate";
     if (change.checked) {
-      this.formService.updateValidators(this.form, [new ControlInfo("tempRegistrationExpiredDate", [Validators.required])]);
+      this.formService.updateValidators(this.form, [new ControlInfo(tempRegistrationExpiredDate, [Validators.required])]);
     } else {
       this.form.controls.tempRegistrationExpiredDate.setValue(undefined);
-      this.formService.updateValidators(this.form, [new ControlInfo("tempRegistrationExpiredDate", [])])
+      this.formService.updateValidators(this.form, [new ControlInfo(tempRegistrationExpiredDate, [])])
     }
   }
 
   singleAddress = (change: MatCheckboxChange) => {
     let component = this.addressesComponents.find(x => x.type == addressTypes.residential);
     if (change.checked) {
+      component.mode = component.modes.read;
       this.residentialAddressBackup = (() => {
         return this.clone(this.residentialAddress
           ? this.residentialAddress
@@ -139,22 +120,22 @@ export class RfCitizensAddressesComponent implements OnInit, OnDestroy, AfterVie
           ? this.registerAddress
           : this.owner ? this.owner.register : undefined);
       })());
-      component.drawAddress();
-      component.mode = component.modes.read;
       document.getElementById("residentialAddressContainer").classList.add("disabledDiv");
     } else {
-      component.$address.next(this.clone(this.residentialAddressBackup));
+      component.$address.next(this.residentialAddressBackup);
       delete this.residentialAddressBackup;
       document.getElementById("residentialAddressContainer").classList.remove("disabledDiv");
     }
+    component.drawAddress();
   }
 
   private clone(obj: any) {
+    if (!obj) return undefined;
     return Object.assign({}, obj);
   }
 
-  private buildForm() {
-    let dateValidators = this.owner.tempRegistrationExpiredDate ? [Validators.required] : [];
+  private buildForm(dateValidators) {
+
     this.form = this.fb.group({
       "temporaryRegistration": [false, []],
       "tempRegistrationExpiredDate": [null, dateValidators],
