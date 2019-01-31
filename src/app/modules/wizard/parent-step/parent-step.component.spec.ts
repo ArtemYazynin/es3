@@ -12,7 +12,7 @@ import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { Inquiry, ConfigsOfRoutingButtons, ButtonsTitles, Parent, IdentityCard, RelationType, DublicatesFinder, ApplicantType, ConfirmationDocument } from '../../../shared';
 import { Guid } from '../../../shared/models/guid';
 
-fdescribe('ParentStepComponent', () => {
+describe('ParentStepComponent', () => {
   let component: ParentStepComponent;
   let fixture: ComponentFixture<ParentStepComponent>;
   const defaultParent = new Parent("", "", "", "", false, new Date(), "", 1);
