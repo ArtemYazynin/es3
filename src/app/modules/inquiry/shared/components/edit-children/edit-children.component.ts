@@ -159,7 +159,7 @@ export class EditChildrenComponent implements OnInit, AfterViewInit {
       const specHealthDocument = this.specHealthComponent.specHealth.code == 101
         ? null
         : (() => {
-          const form = this.specHealthComponent.documentComponents["_results"][i].confirmationDocumentForm;
+          const form = this.specHealthComponent.documentComponents["_results"][i].form;
           return ConfirmationDocument.construct(form);
         })();
       const person = buildPerson(x);

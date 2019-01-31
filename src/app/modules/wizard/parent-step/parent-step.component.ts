@@ -34,14 +34,6 @@ export class ParentStepComponent implements OnInit {
 
   private getConfig() {
     const navExtras = { relativeTo: this.route };
-    const getUrl = () => {
-      const prev = "../";
-      if (this.inquiry.applicantType == ApplicantType.Applicant) {
-        return `${prev}applicantStep`;
-      } else {
-        return `${prev}applicantTypeStep`;
-      }
-    }
     return new ConfigsOfRoutingButtons(ButtonsTitles.Next, ButtonsTitles.Back,
       () => {
         let parent = this.getParent();
@@ -50,9 +42,18 @@ export class ParentStepComponent implements OnInit {
         this.router.navigate(["../contactInfoStep"], navExtras);
       },
       () => {
-        this.router.navigate([getUrl()], navExtras);
+        this.router.navigate([this.getUrl()], navExtras);
       }
     );
+  }
+
+  private getUrl(){
+    const prev = "../";
+    if (this.inquiry.applicantType == ApplicantType.Applicant) {
+      return `${prev}applicantStep`;
+    } else {
+      return `${prev}applicantTypeStep`;
+    }
   }
 
   private getParent() {
@@ -65,17 +66,21 @@ export class ParentStepComponent implements OnInit {
       let person = new Parent(fullnameResult.lastname, fullnameResult.firstname, fullnameResult.middlename, this.editPersonComponent.snilsComponent.snils,
         fullnameResult.noMiddlename);
       person.identityCard = this.editPersonComponent.identityCardComponent.getResult();
-      person.countryStateDocument = citizenshipsWithAddresses.document;
-      person.citizenships = citizenshipsWithAddresses.citizenships;
+      if (citizenshipsWithAddresses) {
+        person.countryStateDocument = citizenshipsWithAddresses.document;
+        person.citizenships = citizenshipsWithAddresses.citizenships;
+        Object.assign(person, citizenshipsWithAddresses.addresses);
+      }
       person.relationType = this.relationTypeComponent.owner.relationType;
       person.parentRepresentChildrenDocument = parentRepresentChildrenDocument;
-      Object.assign(person, citizenshipsWithAddresses.addresses);
+     
       return person;
     })();
     return parent;
   }
 
   private hasDublicates(parent: Parent) {
+    if(!parent || !this.inquiry || !this.inquiry.children) return true;
     if (this.inquiry.applicantType == ApplicantType.Parent && DublicatesFinder.betweenParentChildren(parent, this.inquiry.children)) {
       return true;
     }
@@ -89,10 +94,11 @@ export class ParentStepComponent implements OnInit {
   }
 
   private updateInquiry(parent) {
+    if (!parent) return;
     if (this.inquiry.parent) {
       Object.assign(this.inquiry.parent, parent);
     } else {
-      this.inquiry.parent = Object.assign({}, parent);
+      this.inquiry.parent = Object.assign(new Parent("","","","",false), parent);
     }
 
     this.storageService.set(this.inquiry.type, this.inquiry);

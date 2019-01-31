@@ -18,19 +18,21 @@ export class IdentityCard {
     actRecordPlace: string;
     checkSum: string;
 
-    constructor(fg: FormGroup) {
-        this.identityCardType = fg.value["identityCardType"];
-        this.series = fg.value["series"];
-        this.number = fg.value["number"];
-        this.issued = fg.value["issued"];
-        this.dateIssue = fg.value["dateIssue"];
-        this.dateExpired = fg.value["dateExpired"];
-        this.actRecordNumber = fg.value["actRecordNumber"];
-        this.name = fg.value["name"];
-        this.issueDepartmentCode = fg.value["issueDepartmentCode"];
-        this.actRecordDate = fg.value["actRecordDate"];
-        this.actRecordPlace = fg.value["actRecordPlace"];
+    constructor(fg?: FormGroup) {
         this.hashCode = this.getHashCode();
+        if (fg) {
+            this.identityCardType = fg.value["identityCardType"];
+            this.series = fg.value["series"];
+            this.number = fg.value["number"];
+            this.issued = fg.value["issued"];
+            this.dateIssue = fg.value["dateIssue"];
+            this.dateExpired = fg.value["dateExpired"];
+            this.actRecordNumber = fg.value["actRecordNumber"];
+            this.name = fg.value["name"];
+            this.issueDepartmentCode = fg.value["issueDepartmentCode"];
+            this.actRecordDate = fg.value["actRecordDate"];
+            this.actRecordPlace = fg.value["actRecordPlace"];
+        }
     }
     static getFields() {
         return [
