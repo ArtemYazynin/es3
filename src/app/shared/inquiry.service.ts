@@ -48,33 +48,6 @@ export class InquiryService {
     this.dataSource = new DataSourceService<Inquiry>(http, injector, "inquiries");
   }
 
-  saveApplicant(inquiry: Inquiry, editPersonComponent: EditPersonComponent, editCitizenshipsComponent: EditCitizenshipsComponent,
-    editConfirmationDocumentComponent: EditConfirmationDocumentComponent): Inquiry {
-    const fullnameResult = editPersonComponent.fullnameComponent.getResult();
-    const applicant = new Applicant(fullnameResult.lastname, fullnameResult.firstname, fullnameResult.middlename,
-      editPersonComponent.snilsComponent.snils, fullnameResult.noMiddlename, undefined, undefined, undefined);
-    applicant.identityCard = editPersonComponent.identityCardComponent.getResult();
-    applicant.applicantRepresentParentDocument = editConfirmationDocumentComponent.getResult();
-
-
-    const citizenshipsWithAddresses = editCitizenshipsComponent.getResult();
-    applicant.countryStateApplicantDocument = citizenshipsWithAddresses.document;
-    applicant.citizenships = citizenshipsWithAddresses.citizenships;
-    Object.assign(applicant, citizenshipsWithAddresses.addresses);
-
-    if (DublicatesFinder.betweenApplicantParent(inquiry.applicant, inquiry.parent)
-      || DublicatesFinder.betweenApplicantChildren(applicant, inquiry.children)
-      || DublicatesFinder.betweenChildren(inquiry.children))
-      return;
-
-    if (inquiry.applicant) {
-      Object.assign(inquiry.applicant, applicant);
-    } else {
-      inquiry.applicant = applicant;
-    }
-    return inquiry;
-  }
-
   saveChildren(editChildrenComponent: EditChildrenComponent, update: (patch: { children: Array<Child>, specHealth: SpecHealth }) => void): void {
     let result = editChildrenComponent.getResult();
     if (editChildrenComponent.owner) {
@@ -137,13 +110,6 @@ export class InquiryService {
   saveContactInfo(editContactInfoComponent: EditContactInfoComponent, update: (patch: object) => void) {
     const contactInfo = ContactInfo.buildByForm(editContactInfoComponent.contactsForm);
     update({ contactInfo: contactInfo });
-  }
-
-  saveCurrentEducationPlace(editCurrentEducationPlaceComponent: EditCurrentEducationPlaceComponent, update: (patch: object) => void): void {
-    const currentEducationPlace = CurrentEducationPlace.buildByForm(editCurrentEducationPlaceComponent.currentPlaceForm, editCurrentEducationPlaceComponent.groups)
-    if (!editCurrentEducationPlaceComponent.currentEducationPlace || !editCurrentEducationPlaceComponent.currentEducationPlace.id)
-      currentEducationPlace.id = Guid.newGuid();
-    update({ currentEducationPlace: currentEducationPlace });
   }
 
   saveSchoolInquiryInfo(editSchoolInquiryInfoComponent: EditSchoolInquiryInfoComponent, update: (patch: object) => void): void {

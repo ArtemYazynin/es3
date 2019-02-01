@@ -1,10 +1,10 @@
 import { ChangeDetectionStrategy, Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ButtonsTitles, ConfigsOfRoutingButtons, Inquiry, Theme } from '../../../shared';
-import { ActionsButtonsService } from '../../../shared/actions-buttons.service';
+import { environment } from '../../../../environments/environment';
+import { ButtonsTitles, ConfigsOfRoutingButtons, Inquiry, InquiryService, Theme } from '../../../shared';
+import { Guid } from '../../../shared/models/guid';
 import { EditCurrentEducationPlaceComponent } from '../../inquiry/shared/components/edit-current-education-place/edit-current-education-place.component';
-import { StepBase, WizardStorageService } from '../shared';
-import { BreadsCrumbsService } from '../../../shared/breads-crumbs.service';
+import { CurrentEducationPlace, WizardStorageService } from '../shared';
 
 @Component({
   selector: 'app-curren-education-place-step',
@@ -18,14 +18,30 @@ export class CurrentEducationPlaceStepComponent implements OnInit {
   config: ConfigsOfRoutingButtons;
   themes = Theme;
 
-  constructor(private route: ActivatedRoute, private router: Router, private storageService: WizardStorageService, private actionsButtonsService: ActionsButtonsService) { }
+  constructor(private route: ActivatedRoute, private router: Router, private storageService: WizardStorageService, private inquiryService: InquiryService) { }
 
   ngOnInit() {
-    this.inquiry = <Inquiry>this.storageService.get(this.inquiry.type);
     this.config = new ConfigsOfRoutingButtons(ButtonsTitles.Next, ButtonsTitles.Back,
-      this.actionsButtonsService.primaryActionCurrentEducationPlaceStep(this.editCurrentEducationPlaceComponent, this.inquiry.type, this.router, this.route),
-      this.actionsButtonsService.inverseActionCurrentEducationPlaceStep(this.router, this.route)
+      () => {
+        const currentEducationPlace = CurrentEducationPlace.buildByForm(this.editCurrentEducationPlaceComponent.currentPlaceForm,
+          this.editCurrentEducationPlaceComponent.groups);
+        this.initId(currentEducationPlace);
+        this.storageService.set(this.inquiry.type, { currentEducationPlace: currentEducationPlace });
+
+        this.router.navigate(["../applicantTypeStep"], { relativeTo: this.route });
+      },
+      () => {
+        this.router.navigate(["../childrenStep"], { relativeTo: this.route });
+      }
     );
+  }
+
+  //only dev mode
+  private initId(currentEducationPlace: CurrentEducationPlace) {
+    const hasData = this.editCurrentEducationPlaceComponent.currentEducationPlace && this.editCurrentEducationPlaceComponent.currentEducationPlace.id;
+    if (!environment.production && !hasData) {
+      currentEducationPlace.id = Guid.newGuid();
+    }
   }
 
   isValid() {

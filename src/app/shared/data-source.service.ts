@@ -16,13 +16,14 @@ export class DataSourceService<T>{
     return this.http.get<Array<T>>(url);
   }
 
-  get(id: string): Observable<T> {
+  get(id: string | number): Observable<T> {
+    if (!id) return empty();
     const url = `${this._api}/${id}`;
     return this.http.get<T>(url);
 
   }
 
-  put(id: string, entity: T): Observable<T> {
+  put(id: string | number, entity: T): Observable<T> {
     if (!id || !entity) return empty();
     let url = `${this._api}/${id}`;
     return this.http.put<T>(url, entity);

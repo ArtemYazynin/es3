@@ -67,20 +67,6 @@ export class ActionsButtonsService {
         }
     }
 
-    primaryActionCurrentEducationPlaceStep(editCurrentEducationPlaceComponent: EditCurrentEducationPlaceComponent, inquiryType: any, router: Router, route: ActivatedRoute) {
-        return () => {
-            this.inquiryService.saveCurrentEducationPlace(editCurrentEducationPlaceComponent, (patch) => {
-                this.storageService.set(inquiryType, patch);
-            })
-            router.navigate(["../applicantTypeStep"], { relativeTo: route });
-        }
-    }
-    inverseActionCurrentEducationPlaceStep(router: Router, route: ActivatedRoute) {
-        return () => {
-            router.navigate(["../childrenStep"], { relativeTo: route });
-        }
-    }
-
     primaryActionContactInfoStep(editContactInfoComponent: EditContactInfoComponent, inquiryType: any, router: Router, route: ActivatedRoute) {
         return () => {
             this.inquiryService.saveContactInfo(editContactInfoComponent, (patch) => {

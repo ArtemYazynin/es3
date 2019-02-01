@@ -19,7 +19,7 @@ export class IdentityCard {
     checkSum: string;
 
     constructor(fg?: FormGroup) {
-        this.hashCode = this.getHashCode();
+        
         if (fg) {
             this.identityCardType = fg.value["identityCardType"];
             this.series = fg.value["series"];
@@ -33,6 +33,7 @@ export class IdentityCard {
             this.actRecordDate = fg.value["actRecordDate"];
             this.actRecordPlace = fg.value["actRecordPlace"];
         }
+        this.hashCode = this.getHashCode();
     }
     static getFields() {
         return [

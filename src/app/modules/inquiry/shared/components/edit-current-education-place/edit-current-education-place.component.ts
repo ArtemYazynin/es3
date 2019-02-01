@@ -2,17 +2,15 @@ import { ChangeDetectionStrategy, Component, Input, OnDestroy, OnInit } from '@a
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatAutocompleteSelectedEvent, MatCheckboxChange, MatSelectChange } from '@angular/material';
 import { Observable, Subject } from 'rxjs';
-import { map, startWith, takeUntil } from 'rxjs/operators';
-import { Area, AreaService, AreaType, CommonService, Entity, FormService, Group, GroupService, inquiryType, Institution, InstitutionService, InquiryType, Theme } from '../../../../../shared';
-import { CurrentEducationPlaceService } from '../../../../../shared/current-place.service';
-import { CurrentEducationPlace } from './../../../../../shared/models/current-education-place.model';
+import { map, startWith, takeUntil, filter } from 'rxjs/operators';
+import { Area, AreaService, AreaType, CommonService, Entity, FormService, Group, GroupService, inquiryType, Institution, InstitutionService, InquiryType, Theme, CurrentEducationPlace, CurrentEducationPlaceService, InstitutionTypeService } from '../../../../../shared/index';
 
 @Component({
   selector: 'app-edit-current-education-place',
   templateUrl: './edit-current-education-place.component.html',
   styleUrls: ['./edit-current-education-place.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  host:{ 'class': 'host'},
+  host: { 'class': 'host' },
 
 })
 export class EditCurrentEducationPlaceComponent implements OnInit, OnDestroy {
@@ -33,13 +31,15 @@ export class EditCurrentEducationPlaceComponent implements OnInit, OnDestroy {
   validationMessages = CurrentEducationPlace.getValidationMessages();
   displayFn = this.commonService.displayFn;
   themes = Theme;
-  
+
   constructor(private areaService: AreaService, private institutionService: InstitutionService, private fb: FormBuilder,
-    private formService: FormService, private commonService: CommonService, private service: CurrentEducationPlaceService,
-    private groupService: GroupService) { }
+    private formService: FormService, private commonService: CommonService,
+    private groupService: GroupService, private institutionTypeService: InstitutionTypeService) { }
 
   ngOnInit() {
     this.buildForm();
+    this.subscribeFormChanges();
+
     this.init.institutionTypes();
     this.init.municipalities();
     this.init.fromSessionStorage();
@@ -77,7 +77,15 @@ export class EditCurrentEducationPlaceComponent implements OnInit, OnDestroy {
         []
       ]
     });
-    this.currentPlaceForm.valueChanges.pipe(takeUntil(this.ngUnsubscribe)).subscribe(() => this.formService.onValueChange(this.currentPlaceForm, this.formErrors, this.validationMessages));
+
+  }
+
+  private subscribeFormChanges() {
+    this.currentPlaceForm.valueChanges
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe(() => {
+        this.formService.onValueChange(this.currentPlaceForm, this.formErrors, this.validationMessages)
+      });
     this.formService.onValueChange(this.currentPlaceForm, this.formErrors, this.validationMessages);
   }
 
@@ -102,6 +110,8 @@ export class EditCurrentEducationPlaceComponent implements OnInit, OnDestroy {
         );
       });
     }
+
+
     return {
       municipalities: () => {
         let municipalities = () => {
@@ -138,21 +148,24 @@ export class EditCurrentEducationPlaceComponent implements OnInit, OnDestroy {
           });
       },
       institutionTypes: () => {
-        this.institutionService.getTypes().pipe(takeUntil(this.ngUnsubscribe)).subscribe(result => {
-          switch (this.inquiryType) {
-            case inquiryType.preschool:
-              this.institutionsTypes.push(result.find(x => x.id == InquiryType.preschool));
-              break;
-            case inquiryType.school:
-              this.institutionsTypes.push(result.find(x => x.id == InquiryType.school));
-              break;
-            case inquiryType.healthCamp:
-              this.institutionsTypes.push(result.find(x => x.id == InquiryType.preschool || x.id == InquiryType.school));
-              break;
-            default:
-              break;
-          }
-        });
+        this.inquiryType = inquiryType.healthCamp;
+        this.institutionTypeService.gets()
+          .pipe(takeUntil(this.ngUnsubscribe),
+            map(types => {
+              switch (this.inquiryType) {
+                case inquiryType.preschool:
+                  return types.find(x => x.id == InquiryType.preschool);
+                case inquiryType.school:
+                  return types.find(x => x.id == InquiryType.school);
+                case inquiryType.healthCamp:
+                  return types.filter(x => x.id == InquiryType.preschool || x.id == InquiryType.school);
+                default:
+                  break;
+              }
+            }))
+          .subscribe(types => {
+            this.institutionsTypes = this.institutionsTypes.concat(types);
+          });
       },
       institutions: institutions,
       groups: groups,

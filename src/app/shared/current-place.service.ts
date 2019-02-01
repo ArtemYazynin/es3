@@ -2,8 +2,9 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable, Injector } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { CurrentEducationPlace, InquiryService } from '.';
 import { DataSourceService } from './data-source.service';
+import { CurrentEducationPlace } from './models/current-education-place.model';
+import { InquiryService } from './inquiry.service';
  
 @Injectable()
 export class CurrentEducationPlaceService {

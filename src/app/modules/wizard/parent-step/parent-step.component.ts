@@ -73,14 +73,14 @@ export class ParentStepComponent implements OnInit {
       }
       person.relationType = this.relationTypeComponent.owner.relationType;
       person.parentRepresentChildrenDocument = parentRepresentChildrenDocument;
-     
+
       return person;
     })();
     return parent;
   }
 
   private hasDublicates(parent: Parent) {
-    if(!parent || !this.inquiry || !this.inquiry.children) return true;
+    if (!parent || !this.inquiry || !this.inquiry.children) return true;
     if (this.inquiry.applicantType == ApplicantType.Parent && DublicatesFinder.betweenParentChildren(parent, this.inquiry.children)) {
       return true;
     }
@@ -98,7 +98,7 @@ export class ParentStepComponent implements OnInit {
     if (this.inquiry.parent) {
       Object.assign(this.inquiry.parent, parent);
     } else {
-      this.inquiry.parent = Object.assign(new Parent("","","","",false), parent);
+      this.inquiry.parent = Object.assign(new Parent("", "", "", "", false), parent);
     }
 
     this.storageService.set(this.inquiry.type, this.inquiry);
