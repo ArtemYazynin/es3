@@ -36,37 +36,6 @@ export class ActionsButtonsService {
         }
     }
 
-    primaryActionApplicantTypeStep(inquiry: Inquiry, applicantType: ApplicantType, route: ActivatedRoute) {
-        Object.assign(inquiry, { applicantType: applicantType });
-        const clearAddressInfo = () => {
-            if (inquiry.parent) {
-                inquiry.parent.register = undefined;
-                inquiry.parent.residential = undefined;
-                inquiry.parent.tempRegistrationExpiredDate = undefined;
-                inquiry.parent.registerAddressLikeAsResidentialAddress = undefined;
-            }
-        }
-        switch (applicantType) {
-            case ApplicantType.Applicant:
-                clearAddressInfo();
-                this.storageService.set(inquiry.type, inquiry)
-                this.router.navigate(["../applicantStep"], { relativeTo: route });
-                break;
-            case ApplicantType.Parent:
-                inquiry.applicant = undefined;
-                this.storageService.set(inquiry.type, inquiry)
-                this.router.navigate(["../parentStep"], { relativeTo: route });
-                break;
-            case ApplicantType.Child:
-                inquiry.applicant = undefined;
-                inquiry.parent = undefined;
-                this.storageService.set(inquiry.type, inquiry);
-                this.router.navigate(["../contactInfoStep"], { relativeTo: route });
-            default:
-                break;
-        }
-    }
-
     primaryActionContactInfoStep(editContactInfoComponent: EditContactInfoComponent, inquiryType: any, router: Router, route: ActivatedRoute) {
         return () => {
             this.inquiryService.saveContactInfo(editContactInfoComponent, (patch) => {
