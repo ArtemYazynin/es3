@@ -36,19 +36,6 @@ export class ActionsButtonsService {
         }
     }
 
-    primaryActionContactInfoStep(editContactInfoComponent: EditContactInfoComponent, inquiryType: any, router: Router, route: ActivatedRoute) {
-        return () => {
-            this.inquiryService.saveContactInfo(editContactInfoComponent, (patch) => {
-                this.storageService.set(inquiryType, patch);
-            })
-            if (inquiryType == inquiryType.healthCamp) {
-                router.navigate(["../jobInfoStep"], { relativeTo: route });
-            } else {
-                router.navigate(["../privilegeStep"], { relativeTo: route });
-            }
-        }
-    }
-
     primaryActionPrivilegeStep(privilegeEditComponent: EditPrivilegeComponent, inquiry: Inquiry, route: ActivatedRoute) {
         return () => {
             this.inquiryService.savePrivilege(privilegeEditComponent, (patch) => {

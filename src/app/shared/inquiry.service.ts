@@ -107,11 +107,6 @@ export class InquiryService {
     }
   }
 
-  saveContactInfo(editContactInfoComponent: EditContactInfoComponent, update: (patch: object) => void) {
-    const contactInfo = ContactInfo.buildByForm(editContactInfoComponent.contactsForm);
-    update({ contactInfo: contactInfo });
-  }
-
   saveSchoolInquiryInfo(editSchoolInquiryInfoComponent: EditSchoolInquiryInfoComponent, update: (patch: object) => void): void {
     const schoolInquiryInfo = new SchoolInquiryInfo(editSchoolInquiryInfoComponent.form.controls.educYear.value,
       editSchoolInquiryInfoComponent.form.controls.grade.value, editSchoolInquiryInfoComponent.form.controls.specialization.value,

@@ -4,6 +4,7 @@ import { MatCheckboxChange } from '@angular/material';
 import { FormService, Theme } from '../../../../../shared';
 import { ControlInfo } from '../../../../../shared/models/controlInfo.model';
 import { ContactInfo } from '../../../../wizard/shared';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-edit-contact-info',
@@ -14,6 +15,8 @@ import { ContactInfo } from '../../../../wizard/shared';
 export class EditContactInfoComponent implements OnInit {
   @Input() contactInfo: ContactInfo;
   private emailValidators: ValidatorFn[] = [Validators.required, Validators.email];
+  themes = Theme;
+  masks = { smsPhone: ["+", /\d/, "(", /\d/, /\d/, /\d/, ")", /\d/, /\d/, /\d/, "-", /\d/, /\d/, "-", /\d/, /\d/] }
 
   constructor(private formService: FormService, private fb: FormBuilder) { }
 
@@ -25,8 +28,7 @@ export class EditContactInfoComponent implements OnInit {
   isValid() {
     return this.contactsForm && this.contactsForm.valid;
   }
-  themes = Theme;
-  masks = { smsPhone: ["+", /\d/, "(", /\d/, /\d/, /\d/, ")", /\d/, /\d/, /\d/, "-", /\d/, /\d/, "-", /\d/, /\d/] }
+
   onChange = (() => {
     const smsPhonePattern = "^\\+\\d\\(\\d\\d\\d\\)\\d\\d\\d-\\d\\d-\\d\\d$";
     return {
@@ -92,37 +94,32 @@ export class EditContactInfoComponent implements OnInit {
   }
 
   private buildForm() {
-    this.contactsForm = this.fb.group({
-      "byEmail": [
-        true,
-        []
-      ],
-      "bySms": [
-        false,
-        []
-      ],
-      "dontNotify": [
-        false,
-        []
-      ],
-      "email": [
-        "",
-        this.emailValidators
-      ],
-      "smsPhone": [
-        "",
-        []
-      ],
-      "phones": [
-        "",
-        [
-          Validators.pattern("^(\\d{10}\\s*\,?\\s*)*"),
-          Validators.maxLength(250)
+    Observable.create((observer) => {
+      return this.contactsForm = this.fb.group({
+        "byEmail": [ true, [] ],
+        "bySms": [ false, [] ],
+        "dontNotify": [ false, [] ],
+        "email": [
+          "",
+          this.emailValidators
+        ],
+        "smsPhone": [
+          "",
+          []
+        ],
+        "phones": [
+          "",
+          [
+            Validators.pattern("^(\\d{10}\\s*\,?\\s*)*"),
+            Validators.maxLength(250)
+          ]
         ]
-      ]
-    })
-    this.contactsForm.valueChanges.subscribe(() => this.formService.onValueChange(this.contactsForm, this.formErrors, this.validationMessages, false));
-    this.formService.onValueChange(this.contactsForm, this.formErrors, this.validationMessages, false);
+      });
+    }).subscribe(form => {
+      this.contactsForm = form;
+      this.contactsForm.valueChanges.subscribe(() => this.formService.onValueChange(this.contactsForm, this.formErrors, this.validationMessages, false));
+      this.formService.onValueChange(this.contactsForm, this.formErrors, this.validationMessages, false);
+    });;
   }
 
   private updateForm() {
@@ -141,7 +138,7 @@ export class EditContactInfoComponent implements OnInit {
     }
   }
 
-  getResult(){
+  getResult() {
     let newData = ContactInfo.buildByForm(this.contactsForm);
     Object.assign(this.contactInfo, newData);
     return this.contactInfo;

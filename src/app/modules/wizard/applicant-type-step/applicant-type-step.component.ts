@@ -45,46 +45,42 @@ export class ApplicantTypeStepComponent implements OnInit, OnDestroy {
   }
 
   getConfig() {
-    return new ConfigsOfRoutingButtons(ButtonsTitles.Next, ButtonsTitles.Back, this.next, this.back);
-  }
+    return new ConfigsOfRoutingButtons(ButtonsTitles.Next, ButtonsTitles.Back,
+      () => {
+        let step;
+        const updateInquiry = () => this.storageService.set(this.inquiry.type, this.inquiry)
+        const clearApplicant = () => delete this.inquiry.applicant;
+        const clearAddresses = () => {
+          if (this.inquiry.parent) {
+            this.inquiry.parent.register = undefined;
+            this.inquiry.parent.residential = undefined;
+            this.inquiry.parent.tempRegistrationExpiredDate = undefined;
+            this.inquiry.parent.registerAddressLikeAsResidentialAddress = undefined;
+          }
+        }
+        Object.assign(this.inquiry, { applicantType: this.applicantType });
+        switch (this.applicantType) {
+          case ApplicantType.Applicant:
+            step = "applicantStep";
+            clearAddresses();
+            updateInquiry();
+            break;
+          case ApplicantType.Parent:
+            step = "parentStep";
+            clearApplicant();
+            updateInquiry();
+            break;
+          case ApplicantType.Child:
+            step = "contactInfoStep";
+            clearApplicant();
+            delete this.inquiry.parent;
+            updateInquiry();
 
-  private back() {
-    this.router.navigate(["../currentEducationPlaceStep"], this.extras);
-  }
-
-  private next() {
-    let step;
-    const updateInquiry = () => this.storageService.set(this.inquiry.type, this.inquiry)
-    const clearApplicant = () => delete this.inquiry.applicant;
-    const clearAddresses = () => {
-      if (this.inquiry.parent) {
-        this.inquiry.parent.register = undefined;
-        this.inquiry.parent.residential = undefined;
-        this.inquiry.parent.tempRegistrationExpiredDate = undefined;
-        this.inquiry.parent.registerAddressLikeAsResidentialAddress = undefined;
+          default:
+            break;
+        }
+        this.router.navigate([`../${step}`], this.extras);
       }
-    }
-    Object.assign(this.inquiry, { applicantType: this.applicantType });
-    switch (this.applicantType) {
-      case ApplicantType.Applicant:
-        step = "applicantStep";
-        clearAddresses();
-        updateInquiry();
-        break;
-      case ApplicantType.Parent:
-        step = "parentStep";
-        clearApplicant();
-        updateInquiry();
-        break;
-      case ApplicantType.Child:
-        step = "contactInfoStep";
-        clearApplicant();
-        delete this.inquiry.parent;
-        updateInquiry();
-
-      default:
-        break;
-    }
-    this.router.navigate([`../${step}`], this.extras);
+      , ()=> this.router.navigate(["../currentEducationPlaceStep"], this.extras));
   }
 }
