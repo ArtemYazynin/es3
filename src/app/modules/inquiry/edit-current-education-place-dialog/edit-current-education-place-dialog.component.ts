@@ -22,7 +22,11 @@ export class EditCurrentEducationPlaceDialogComponent implements OnInit {
   config: ConfigsOfRoutingButtons;
 
   ngOnInit() {
-    this.config = new ConfigsOfRoutingButtons(undefined, undefined,
+    this.config = this.getConfig();
+  }
+
+  getConfig(){
+    return new ConfigsOfRoutingButtons(undefined, undefined,
       () => {
         let currentEducationPlace = this.currentEducationPlaceEditComponent.getResult();
         this.data.$currentEducationPlace.next(currentEducationPlace);
@@ -30,7 +34,7 @@ export class EditCurrentEducationPlaceDialogComponent implements OnInit {
       },
       () => {
         this.dialogRef.close();
-      })
+      });
   }
 
   isValid() {

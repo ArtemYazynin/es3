@@ -20,10 +20,14 @@ export class CurrentEducationPlace {
     }
 
     static buildByForm(form?: FormGroup, groups?: Group[]): CurrentEducationPlace {
-        if (!form) return this.buildEmpty();
-        return new CurrentEducationPlace(form.controls.municipality.value, form.controls.institutionType.value, form.controls.institution.value,
-            form.controls.isOther.value,
-            form.controls.other ? form.controls.other.value : undefined, groups ? groups.find(group => group.id == form.controls.group.value) : undefined);
+        if (!form) return;
+        if (form.controls.isOther.value) {
+            return CurrentEducationPlace.getOther(form.controls.other ? form.controls.other.value : undefined)
+        } else {
+            const group = groups ? groups.find(group => group.id == form.controls.group.value) : undefined;
+            return new CurrentEducationPlace(form.controls.municipality.value, form.controls.institutionType.value, form.controls.institution.value, false, undefined, group);
+        }
+
     }
 
     static cast(currentEducationPlace?: CurrentEducationPlace): CurrentEducationPlace {
@@ -58,5 +62,13 @@ export class CurrentEducationPlace {
 
     private static buildEmpty(): CurrentEducationPlace {
         return new CurrentEducationPlace(undefined, undefined, undefined, false, undefined);
+    }
+
+    private static getOther(customName) {
+        if(!customName) return;
+        const place = CurrentEducationPlace.buildEmpty();
+        place.isOther = true;
+        place.other = customName;
+        return place;
     }
 }

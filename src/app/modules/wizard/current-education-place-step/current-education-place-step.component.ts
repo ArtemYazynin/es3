@@ -1,8 +1,6 @@
 import { ChangeDetectionStrategy, Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { environment } from '../../../../environments/environment';
 import { ButtonsTitles, ConfigsOfRoutingButtons, Inquiry, InquiryService, Theme } from '../../../shared';
-import { Guid } from '../../../shared/models/guid';
 import { EditCurrentEducationPlaceComponent } from '../../inquiry/shared/components/edit-current-education-place/edit-current-education-place.component';
 import { CurrentEducationPlace, WizardStorageService } from '../shared';
 
@@ -17,31 +15,31 @@ export class CurrentEducationPlaceStepComponent implements OnInit {
   inquiry: Inquiry = this.route.snapshot.data.resolved.inquiry;
   config: ConfigsOfRoutingButtons;
   themes = Theme;
+  private url = (() => {
+    const prev = "../";
+    return {
+      back: `${prev}childrenStep`,
+      next: `${prev}applicantTypeStep`
+    }
+  })();
 
   constructor(private route: ActivatedRoute, private router: Router, private storageService: WizardStorageService, private inquiryService: InquiryService) { }
 
   ngOnInit() {
-    this.config = new ConfigsOfRoutingButtons(ButtonsTitles.Next, ButtonsTitles.Back,
-      () => {
-        const currentEducationPlace = CurrentEducationPlace.buildByForm(this.editCurrentEducationPlaceComponent.currentPlaceForm,
-          this.editCurrentEducationPlaceComponent.groups);
-        this.initId(currentEducationPlace);
-        this.storageService.set(this.inquiry.type, { currentEducationPlace: currentEducationPlace });
-
-        this.router.navigate(["../applicantTypeStep"], { relativeTo: this.route });
-      },
-      () => {
-        this.router.navigate(["../childrenStep"], { relativeTo: this.route });
-      }
-    );
+    this.config = this.getConfig();
   }
 
-  //only dev mode
-  private initId(currentEducationPlace: CurrentEducationPlace) {
-    const hasData = this.editCurrentEducationPlaceComponent.currentEducationPlace && this.editCurrentEducationPlaceComponent.currentEducationPlace.id;
-    if (!environment.production && !hasData) {
-      currentEducationPlace.id = Guid.newGuid();
-    }
+  private getConfig() {
+    return new ConfigsOfRoutingButtons(ButtonsTitles.Next, ButtonsTitles.Back,
+      () => {
+        const currentEducationPlace = CurrentEducationPlace.buildByForm(this.editCurrentEducationPlaceComponent.currentPlaceForm, this.editCurrentEducationPlaceComponent.groups);
+        this.storageService.set(this.inquiry.type, { currentEducationPlace: currentEducationPlace });
+        this.router.navigate([this.url.next], { relativeTo: this.route });
+      },
+      () => {
+        this.router.navigate([this.url.back], { relativeTo: this.route });
+      }
+    );
   }
 
   isValid() {

@@ -1,5 +1,5 @@
 import { Component, OnInit, ChangeDetectionStrategy, OnDestroy, ChangeDetectorRef } from '@angular/core';
-import { BehaviorSubject, Subject } from 'rxjs';
+import { BehaviorSubject, Subject, timer } from 'rxjs';
 import { Inquiry, inquiryType, Status, Theme, BehaviorMode, ConfirmationDocument, Applicant, Parent, InquiryService, StatusService, ConfigsOfRoutingButtons, ButtonsTitles } from '../..';
 import { PersonType } from '../../person-type.enum';
 import { FormGroup, FormBuilder } from '@angular/forms';
@@ -7,6 +7,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { MatDialog } from '@angular/material';
 import { takeUntil, skip } from 'rxjs/operators';
 import { ActionsButtonsService } from '../../actions-buttons.service';
+import { Guid } from '../../models/guid';
+import { environment } from '../../../../environments/environment';
 
 @Component({
   selector: 'app-inquiry-view',
@@ -32,8 +34,7 @@ export class InquiryViewComponent implements OnInit, OnDestroy {
   modes = BehaviorMode;
 
   constructor(private route: ActivatedRoute, private inquiryService: InquiryService, private statusService: StatusService,
-    private fb: FormBuilder, public dialog: MatDialog, private cdr: ChangeDetectorRef, private router: Router,
-    private actionsButtonsService: ActionsButtonsService) {
+    private fb: FormBuilder, public dialog: MatDialog, private cdr: ChangeDetectorRef, private router: Router) {
   }
 
   ngOnInit() {
@@ -53,11 +54,22 @@ export class InquiryViewComponent implements OnInit, OnDestroy {
             this.statusForm.controls.status.patchValue(this.statuses[0].id);
         });
     } else {
-      let inquiry = this.route.snapshot.data.resolved.inquiry;
+      let inquiry = this.route.snapshot.data.resolved.inquiry as Inquiry;
       this.initCommonBehaviorObjects(inquiry);
       this.config = new ConfigsOfRoutingButtons(ButtonsTitles.Register, ButtonsTitles.Back,
-        this.actionsButtonsService.primaryActionPreviewStep(inquiry, inquiry.type, this.router, this.route),
-        this.actionsButtonsService.inverseActionPreviewStep(this.router, this.route)
+        () => {
+          timer(1000).pipe().subscribe(() => {
+            if (!environment.production && !inquiry.currentEducationPlace.id) {
+              inquiry.currentEducationPlace.id = Guid.newGuid();
+            }
+            this.inquiryService.create(inquiry).subscribe(inquiry => {
+              this.router.navigate([`../registerComplete/${inquiry.id}`], { relativeTo: this.route });
+            });
+          })
+        },
+        () => {
+          this.router.navigate(["../fileAttachmentStep"], { relativeTo: this.route });
+        }
       );
     }
     this.buildForm();

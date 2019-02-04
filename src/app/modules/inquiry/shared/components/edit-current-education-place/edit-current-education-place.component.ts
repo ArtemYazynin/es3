@@ -1,9 +1,10 @@
 import { ChangeDetectionStrategy, Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { MatAutocompleteSelectedEvent, MatCheckboxChange, MatSelectChange } from '@angular/material';
+import { MatAutocompleteSelectedEvent, MatSelectChange, MatCheckboxChange } from '@angular/material';
 import { Observable, Subject } from 'rxjs';
-import { map, startWith, takeUntil, filter } from 'rxjs/operators';
-import { Area, AreaService, AreaType, CommonService, Entity, FormService, Group, GroupService, inquiryType, Institution, InstitutionService, InquiryType, Theme, CurrentEducationPlace, CurrentEducationPlaceService, InstitutionTypeService } from '../../../../../shared/index';
+import { map, startWith, takeUntil } from 'rxjs/operators';
+import { Area, AreaService, CommonService, CurrentEducationPlace, Entity, FormService, Group, GroupService, inquiryType as inquiryTypes, InquiryType, Institution, InstitutionService, InstitutionTypeService, Theme } from '../../../../../shared/index';
+import { MunicipalityService } from '../../../../../shared/municipality.service';
 
 @Component({
   selector: 'app-edit-current-education-place',
@@ -26,13 +27,13 @@ export class EditCurrentEducationPlaceComponent implements OnInit, OnDestroy {
   filteredInstitutions: Observable<Array<Institution>>;
   groups: Array<Group> = [];
   currentPlaceForm: FormGroup;
-  inquiryTypes = inquiryType;
+  inquiryTypes = inquiryTypes;
   formErrors = CurrentEducationPlace.getFormErrors();
   validationMessages = CurrentEducationPlace.getValidationMessages();
   displayFn = this.commonService.displayFn;
   themes = Theme;
 
-  constructor(private areaService: AreaService, private institutionService: InstitutionService, private fb: FormBuilder,
+  constructor(private areaService: AreaService, private municipalityService: MunicipalityService, private institutionService: InstitutionService, private fb: FormBuilder,
     private formService: FormService, private commonService: CommonService,
     private groupService: GroupService, private institutionTypeService: InstitutionTypeService) { }
 
@@ -42,7 +43,7 @@ export class EditCurrentEducationPlaceComponent implements OnInit, OnDestroy {
 
     this.init.institutionTypes();
     this.init.municipalities();
-    this.init.fromSessionStorage();
+    this.init.patchForm();
   }
 
   ngOnDestroy(): void {
@@ -90,11 +91,16 @@ export class EditCurrentEducationPlaceComponent implements OnInit, OnDestroy {
   }
 
   private init = (() => {
+    const getSafeValue = (value) => {
+      return typeof value === 'string' ? value : value.name;
+    }
     const groups = (institutionId: string) => {
-      this.groupService.getGroups(institutionId).pipe(takeUntil(this.ngUnsubscribe)).subscribe(groups => {
-        this.groups = groups;
-        this.checkGroups();
-      });
+      this.groupService.getGroups(institutionId)
+        .pipe(takeUntil(this.ngUnsubscribe))
+        .subscribe(groups => {
+          this.groups = groups;
+          this.checkGroups();
+        });
     }
     const institutions = (institutionType?: number) => {
       this.institutionService.getInstitutions(institutionType).pipe(takeUntil(this.ngUnsubscribe)).subscribe(result => {
@@ -102,29 +108,53 @@ export class EditCurrentEducationPlaceComponent implements OnInit, OnDestroy {
         this.filteredInstitutions = this.currentPlaceForm.controls.institution.valueChanges.pipe(
           startWith<string | Institution>(''),
           map((value: Institution) => {
-            return typeof value === 'string' ? value : value.name;
-          }),
-          map((name: string) => {
+            const name = getSafeValue(value);
             return name ? this.commonService.autoCompliteFilter(this.institutions, name) : this.institutions.slice();
           })
         );
       });
     }
 
+    const getPatch = () => {
+      if (this.currentEducationPlace.isOther) {
+        return getShortPatch();
+      } else {
+        return getFullPatch();
+      }
+    }
+
+    const getShortPatch = () => {
+      this.onChange.addOtherCheckbox(true)
+      return {
+        isOther: this.currentEducationPlace.isOther,
+        other: this.currentEducationPlace.other
+      }
+    }
+    const getFullPatch = () => {
+      institutions(this.currentEducationPlace.institutionType);
+      groups(this.currentEducationPlace.institution["id"]);
+      this.checkGroups();
+      return {
+        municipality: this.currentEducationPlace.municipality,
+        institutionType: this.currentEducationPlace.institutionType,
+        institution: this.currentEducationPlace.institution,
+        group: this.currentEducationPlace.group ? this.currentEducationPlace.group.id : "",
+        isOther: this.currentEducationPlace.isOther
+      };
+    }
+
 
     return {
       municipalities: () => {
-        let municipalities = () => {
-          this.areaService.getAreas(AreaType.Municipality)
+        const municipalities = () => {
+          this.municipalityService.gets()
             .pipe(takeUntil(this.ngUnsubscribe))
             .subscribe(result => {
               this.municipalities = result;
               this.filteredMunicipalities = this.currentPlaceForm.controls.municipality.valueChanges.pipe(
                 startWith<string | Area>(''),
                 map((value: Area) => {
-                  return typeof value === 'string' ? value : value.name;
-                }),
-                map((name: string) => {
+                  const name = getSafeValue(value);
                   return name ? this.commonService.autoCompliteFilter(this.municipalities, name) : this.municipalities.slice();
                 })
               );
@@ -148,16 +178,15 @@ export class EditCurrentEducationPlaceComponent implements OnInit, OnDestroy {
           });
       },
       institutionTypes: () => {
-        this.inquiryType = inquiryType.healthCamp;
         this.institutionTypeService.gets()
           .pipe(takeUntil(this.ngUnsubscribe),
             map(types => {
               switch (this.inquiryType) {
-                case inquiryType.preschool:
+                case inquiryTypes.preschool:
                   return types.find(x => x.id == InquiryType.preschool);
-                case inquiryType.school:
+                case inquiryTypes.school:
                   return types.find(x => x.id == InquiryType.school);
-                case inquiryType.healthCamp:
+                case inquiryTypes.healthCamp:
                   return types.filter(x => x.id == InquiryType.preschool || x.id == InquiryType.school);
                 default:
                   break;
@@ -169,33 +198,9 @@ export class EditCurrentEducationPlaceComponent implements OnInit, OnDestroy {
       },
       institutions: institutions,
       groups: groups,
-      fromSessionStorage: () => {
+      patchForm: () => {
         if (!this.currentEducationPlace) return;
-        const patch = (() => {
-          if (this.currentEducationPlace.isOther) {
-            let control = (() => {
-              let result = new MatCheckboxChange();
-              result.checked = true;
-              return result;
-            })();
-            this.onChange.isOther(control)
-            return {
-              isOther: this.currentEducationPlace.isOther,
-              other: this.currentEducationPlace.other
-            }
-          } else {
-            institutions(this.currentEducationPlace.institutionType);
-            groups(this.currentEducationPlace.institution["id"]);
-            this.checkGroups();
-            return {
-              municipality: this.currentEducationPlace.municipality,
-              institutionType: this.currentEducationPlace.institutionType,
-              institution: this.currentEducationPlace.institution,
-              group: this.currentEducationPlace.group ? this.currentEducationPlace.group.id : "",
-              isOther: this.currentEducationPlace.isOther
-            }
-          }
-        })();
+        const patch = getPatch();
         this.currentPlaceForm.patchValue(patch);
       }
     }
@@ -241,6 +246,10 @@ export class EditCurrentEducationPlaceComponent implements OnInit, OnDestroy {
         }
       }
     }
+    const addOtherCheckbox = (checked: boolean) => {
+      addOrRemoveControl(checked);
+      enableOrDisableControls(checked);
+    }
     return {
       municipality: () => {
         reset.institutionsTypes();
@@ -258,10 +267,9 @@ export class EditCurrentEducationPlaceComponent implements OnInit, OnDestroy {
         reset.groups();
         this.init.groups((<Institution>change.option.value).id)
       },
-      group: () => { },
+      addOtherCheckbox: addOtherCheckbox,
       isOther: (change: MatCheckboxChange) => {
-        addOrRemoveControl(change.checked);
-        enableOrDisableControls(change.checked);
+        addOtherCheckbox(change.checked);
       }
     }
   })();
@@ -270,7 +278,6 @@ export class EditCurrentEducationPlaceComponent implements OnInit, OnDestroy {
       this.currentPlaceForm.controls.group.clearValidators();
       this.currentPlaceForm.controls.group.updateValueAndValidity();
     }
-
     else if (this.currentPlaceForm.controls.group.validator == null || this.currentPlaceForm.controls.group.validator.length == 0) {
       this.currentPlaceForm.controls.group.setValidators([Validators.required]);
       this.currentPlaceForm.controls.group.updateValueAndValidity();

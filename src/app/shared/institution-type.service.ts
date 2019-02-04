@@ -9,7 +9,7 @@ import { HttpClient } from '@angular/common/http';
 export class InstitutionTypeService {
   private dataSource: DataSourceService<InstitutionType>;
 
-  constructor(http: HttpClient, private injector: Injector) {
+  constructor(http: HttpClient, injector: Injector) {
     this.dataSource = new DataSourceService<InstitutionType>(http, injector, "institutionsTypes");
   }
 

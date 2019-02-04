@@ -172,23 +172,6 @@ export class ActionsButtonsService {
             }
         }
     }
-
-    primaryActionPreviewStep(inquiry: Inquiry, inquiryType: any, router: Router, route: ActivatedRoute) {
-        return () => {
-            timer(1000).pipe().subscribe((response) => {
-                inquiry.type = inquiryType;
-                this.inquiryService.create(inquiry).subscribe(inquiry => {
-                    router.navigate([`../registerComplete/${inquiry.id}`], { relativeTo: route });
-                });
-            })
-        }
-    }
-    inverseActionPreviewStep(router: Router, route: ActivatedRoute) {
-        return () => {
-            router.navigate(["../fileAttachmentStep"], { relativeTo: route });
-        }
-    }
-
     primaryActionRegisterComplete(router: Router, route: ActivatedRoute) {
         return () => {
             router.navigate(["../../childrenStep"], { relativeTo: route });
