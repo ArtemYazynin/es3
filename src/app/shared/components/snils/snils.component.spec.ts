@@ -1,16 +1,21 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatInputModule, MatSelectModule } from '@angular/material';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { TextMaskModule } from 'angular2-text-mask';
 import { SnilsComponent } from './snils.component';
 
-describe('SnilsComponent', () => {
+
+fdescribe('SnilsComponent', () => {
   let component: SnilsComponent;
   let fixture: ComponentFixture<SnilsComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ SnilsComponent ]
+      imports: [FormsModule, ReactiveFormsModule, MatInputModule, NoopAnimationsModule, MatSelectModule, TextMaskModule],
+      declarations: [SnilsComponent]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {
