@@ -8,7 +8,7 @@ import { DisabilityService } from '../..';
 import { esConstant, SERVER_URL } from '../../../app.module';
 import { DisabilityComponent } from './disability.component';
 
-fdescribe('DisabilityComponent', () => {
+describe('DisabilityComponent', () => {
   let component: DisabilityComponent;
   let fixture: ComponentFixture<DisabilityComponent>;
   const mockDisabilityService = jasmine.createSpyObj("DisabilityService", {

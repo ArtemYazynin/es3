@@ -1,5 +1,7 @@
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
+import { FormBuilder } from '@angular/forms';
+import { FormService } from '../..';
 import { BirthInfoComponent } from './birth-info.component';
 
 describe('BirthInfoComponent', () => {
@@ -8,9 +10,14 @@ describe('BirthInfoComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ BirthInfoComponent ]
+      schemas: [NO_ERRORS_SCHEMA],
+      declarations: [BirthInfoComponent],
+      providers: [
+        FormBuilder,
+        FormService
+      ]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {
