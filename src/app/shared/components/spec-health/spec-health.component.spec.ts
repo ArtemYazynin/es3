@@ -10,7 +10,7 @@ import { esConstant, SERVER_URL } from '../../../app.module';
 import { MaterialModule } from '../../../material.module';
 import { SpecHealthComponent } from './spec-health.component';
 
-fdescribe('SpecHealthComponent', () => {
+describe('SpecHealthComponent', () => {
   let component: SpecHealthComponent;
   let fixture: ComponentFixture<SpecHealthComponent>;
   let specHealthServiceStub = jasmine.createSpyObj("SpecHealthService", {
