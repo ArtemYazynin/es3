@@ -5,11 +5,12 @@ import { map } from 'rxjs/operators';
 import { DataSourceService } from './data-source.service';
 import { InquiryService } from './inquiry.service';
 import { Privilege } from './models/privilege.model';
+import { Es3HttpClient } from './es3-http-client';
 
 @Injectable()
 export class PrivilegeService {
   private dataSource: DataSourceService<Privilege>;
-  constructor(http: HttpClient, injector:Injector, private inquiryService: InquiryService) { 
+  constructor(http: Es3HttpClient, injector:Injector, private inquiryService: InquiryService) { 
     this.dataSource = new DataSourceService<Privilege>(http, injector, "privileges");
   }
 

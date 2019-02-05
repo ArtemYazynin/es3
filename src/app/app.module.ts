@@ -19,8 +19,9 @@ import { BreadsCrumbsService } from './shared/breads-crumbs.service';
 import { BreadsCrumbsComponent } from './modules/wizard/breads-crumbs/breads-crumbs.component';
 import { HeaderComponent } from './header/header.component';
 import { InquiryViewResolver } from './shared/inquiry-view-resolver';
-import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule, HttpClient, HttpHandler } from '@angular/common/http';
 import { Es3Interceptor } from './shared/Es3Interceptor';
+import { Es3HttpClient, es3HttpClientCreator } from './shared/es3-http-client';
 
 export const esConstant = new InjectionToken<any>("esConstant");
 export const SERVER_URL = new InjectionToken<string>("SERVER_URL");
@@ -39,7 +40,7 @@ const constants = {
     BrowserAnimationsModule,
     MyDatePickerModule,
     JsonpModule,
-    HttpClientModule 
+    HttpClientModule
   ],
   exports: [],
   providers: [
@@ -60,8 +61,11 @@ const constants = {
       provide: HTTP_INTERCEPTORS,
       useClass: Es3Interceptor,
       multi: true,
+    },
+    {
+      provide: HttpClient,
+      useClass: Es3HttpClient
     }
-
   ],
   entryComponents: [],//динамически добавляемые компоненты ViewContainerRef.createComponent()
   bootstrap: [AppComponent, ScopeSelectorComponent, MenuComponent, BreadsCrumbsComponent, HeaderComponent]

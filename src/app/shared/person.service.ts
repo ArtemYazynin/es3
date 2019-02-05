@@ -3,6 +3,7 @@ import { Observable } from 'rxjs';
 import { Person } from './models/person.model';
 import { DataSourceService } from './data-source.service';
 import { HttpClient } from '@angular/common/http';
+import { Es3HttpClient } from './es3-http-client';
 
 
 @Injectable()
@@ -12,7 +13,7 @@ export class PersonService {
     return this._dataSource;
   }
 
-  constructor(http: HttpClient, injector:Injector) { 
+  constructor(http: Es3HttpClient, injector:Injector) { 
     this._dataSource = new DataSourceService<Person>(http, injector, "persons");
   }
 

@@ -6,11 +6,12 @@ import { DataSourceService } from './data-source.service';
 import { InquiryService } from './inquiry.service';
 import { FileAttachment } from './models/file-attachment.model';
 import { FilesInfo } from './models/files-info.model';
+import { Es3HttpClient } from './es3-http-client';
 
 @Injectable()
 export class FileAttachmentService {
   private dataSource: DataSourceService<FileAttachment>;
-  constructor(http: HttpClient, injector: Injector, private inquiryService: InquiryService) {
+  constructor(http: Es3HttpClient, injector: Injector, private inquiryService: InquiryService) {
     this.dataSource = new DataSourceService<FileAttachment>(http, injector, "fileAttachments");
   }
 

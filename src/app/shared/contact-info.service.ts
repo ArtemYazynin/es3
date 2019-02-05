@@ -4,11 +4,12 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { ContactInfo, InquiryService } from '.';
 import { DataSourceService } from './data-source.service';
+import { Es3HttpClient } from './es3-http-client';
 
 @Injectable()
 export class ContactInfoService {
   private dataSource: DataSourceService<ContactInfo>;
-  constructor(http: HttpClient, injector: Injector, private inquiryService: InquiryService) {
+  constructor(http: Es3HttpClient, injector: Injector, private inquiryService: InquiryService) {
     this.dataSource = new DataSourceService<ContactInfo>(http, injector, "conctactInfos");
   }
 

@@ -5,11 +5,12 @@ import { InquiryService } from './inquiry.service';
 import { Child } from './models/child.model';
 import { DataSourceService } from './data-source.service';
 import { HttpClient } from '@angular/common/http';
+import { Es3HttpClient } from './es3-http-client';
 
 @Injectable()
 export class ChildService {
   private dataSource: DataSourceService<Child>;
-  constructor(http: HttpClient, injector: Injector, private inquiryService: InquiryService) {
+  constructor(http: Es3HttpClient, injector: Injector, private inquiryService: InquiryService) {
     this.dataSource = new DataSourceService<Child>(http, injector, "children");
   }
 

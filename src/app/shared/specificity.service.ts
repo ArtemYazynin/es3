@@ -5,18 +5,19 @@ import { Specificity } from './models/specificity.model';
 import { map } from 'rxjs/operators';
 import { isNullOrUndefined } from 'util';
 import { SERVER_URL } from '../app.module';
+import { Es3HttpClient } from './es3-http-client';
 
 @Injectable()
 export class SpecificityService {
 
-  constructor(private http:HttpClient, @Inject(SERVER_URL) private serverUrl) { }
+  constructor(private http:Es3HttpClient, @Inject(SERVER_URL) private serverUrl) { }
 
   private api = `${this.serverUrl}/specificities`;
   get(id?: string): Observable<Array<Specificity>> {
     const url = isNullOrUndefined(id) || id == ""
       ? this.api
       : this.api + "/" + id.trim();
-    return this.http.get(url).pipe(map(result => {
+    return this.http.Get(url).pipe(map(result => {
       return <Array<Specificity>>result;
     }));
   }

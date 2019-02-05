@@ -5,11 +5,12 @@ import { map } from 'rxjs/operators';
 import { DataSourceService } from './data-source.service';
 import { CurrentEducationPlace } from './models/current-education-place.model';
 import { InquiryService } from './inquiry.service';
+import { Es3HttpClient } from './es3-http-client';
  
 @Injectable()
 export class CurrentEducationPlaceService {
   private dataSource: DataSourceService<CurrentEducationPlace>;
-  constructor(http: HttpClient, injector:Injector, private inquiryService: InquiryService) { 
+  constructor(http: Es3HttpClient, injector:Injector, private inquiryService: InquiryService) { 
     this.dataSource = new DataSourceService<CurrentEducationPlace>(http, injector, "currentEducationPlaces");
   }
 

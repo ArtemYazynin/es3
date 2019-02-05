@@ -8,11 +8,12 @@ import { InquiryService } from './inquiry.service';
 import { Entity } from './models/entity.model';
 import { SchoolClass } from './models/school-class.model';
 import { SERVER_URL } from '../app.module';
+import { Es3HttpClient } from './es3-http-client';
 
 @Injectable()
 export class SchoolClassService {
   private dataSource: DataSourceService<SchoolClass>;
-  constructor(private http: HttpClient, private injector: Injector, private inquiryService: InquiryService) {
+  constructor(private http: Es3HttpClient, private injector: Injector, private inquiryService: InquiryService) {
     this.dataSource = new DataSourceService<SchoolClass>(http, injector, "schoolClasses");
   }
 
@@ -23,7 +24,7 @@ export class SchoolClassService {
     const url = isNullOrUndefined(id)
       ? this.api.institutionsTypes
       : this.api.institutionsTypes + "/" + id
-    return this.http.get(url).pipe(map(result => {
+    return this.http.Get(url).pipe(map(result => {
       return <Array<Entity<number>>>result;
     }));
   }

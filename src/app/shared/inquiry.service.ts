@@ -40,11 +40,12 @@ import { SpecHealth } from './models/spec-health.model';
 import { Status } from './models/status.model';
 import { StayMode } from './models/stay-mode.model';
 import { PetitionType } from './petition-type.enum';
+import { Es3HttpClient } from './es3-http-client';
 
 @Injectable()
 export class InquiryService {
   private dataSource: DataSourceService<Inquiry>;
-  constructor(http: HttpClient, injector: Injector, private commonService: CommonService) {
+  constructor(http: Es3HttpClient, injector: Injector, private commonService: CommonService) {
     this.dataSource = new DataSourceService<Inquiry>(http, injector, "inquiries");
   }
 
