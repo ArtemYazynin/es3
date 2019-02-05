@@ -1,27 +1,15 @@
-import { Injectable, Inject } from '@angular/core';
-import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
+import { Inject, Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { AreaType } from './models/area-type.enum';
-import { Area } from './models/area.model';
 import { SERVER_URL } from '../app.module';
+import { Area } from './models/area.model';
 
 @Injectable()
 export class AreaService {
 
-  constructor(private http:HttpClient, @Inject(SERVER_URL) private serverUrl) { }
+  constructor(private http: HttpClient, @Inject(SERVER_URL) private serverUrl) { }
 
-  getAreas(type: AreaType): Observable<Array<Area>> {
-    switch (type) {
-      case AreaType.Municipality:
-        return this.http.get(`${this.serverUrl}/municipalities`).pipe(map(result => {
-          return <Array<Area>>result;
-        }));
-
-      default:
-        break;
-    }
-  }
   getCurrentMunicipality(): Observable<Area> {
     return this.http.get(`${this.serverUrl}/currentMunicipality`).pipe(map(result => {
       return <Area>result;

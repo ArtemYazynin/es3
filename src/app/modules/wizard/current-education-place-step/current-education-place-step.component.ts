@@ -1,10 +1,8 @@
 import { ChangeDetectionStrategy, Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ButtonsTitles, ConfigsOfRoutingButtons, Inquiry, Theme } from '../../../shared';
-import { ActionsButtonsService } from '../../../shared/actions-buttons.service';
+import { ButtonsTitles, ConfigsOfRoutingButtons, Inquiry, InquiryService, Theme } from '../../../shared';
 import { EditCurrentEducationPlaceComponent } from '../../inquiry/shared/components/edit-current-education-place/edit-current-education-place.component';
-import { StepBase, WizardStorageService } from '../shared';
-import { BreadsCrumbsService } from '../../../shared/breads-crumbs.service';
+import { CurrentEducationPlace, WizardStorageService } from '../shared';
 
 @Component({
   selector: 'app-curren-education-place-step',
@@ -17,14 +15,30 @@ export class CurrentEducationPlaceStepComponent implements OnInit {
   inquiry: Inquiry = this.route.snapshot.data.resolved.inquiry;
   config: ConfigsOfRoutingButtons;
   themes = Theme;
+  private url = (() => {
+    const prev = "../";
+    return {
+      back: `${prev}childrenStep`,
+      next: `${prev}applicantTypeStep`
+    }
+  })();
 
-  constructor(private route: ActivatedRoute, private router: Router, private storageService: WizardStorageService, private actionsButtonsService: ActionsButtonsService) { }
+  constructor(private route: ActivatedRoute, private router: Router, private storageService: WizardStorageService, private inquiryService: InquiryService) { }
 
   ngOnInit() {
-    this.inquiry = <Inquiry>this.storageService.get(this.inquiry.type);
-    this.config = new ConfigsOfRoutingButtons(ButtonsTitles.Next, ButtonsTitles.Back,
-      this.actionsButtonsService.primaryActionCurrentEducationPlaceStep(this.editCurrentEducationPlaceComponent, this.inquiry.type, this.router, this.route),
-      this.actionsButtonsService.inverseActionCurrentEducationPlaceStep(this.router, this.route)
+    this.config = this.getConfig();
+  }
+
+  private getConfig() {
+    return new ConfigsOfRoutingButtons(ButtonsTitles.Next, ButtonsTitles.Back,
+      () => {
+        const currentEducationPlace = CurrentEducationPlace.buildByForm(this.editCurrentEducationPlaceComponent.currentPlaceForm, this.editCurrentEducationPlaceComponent.groups);
+        this.storageService.set(this.inquiry.type, { currentEducationPlace: currentEducationPlace });
+        this.router.navigate([this.url.next], { relativeTo: this.route });
+      },
+      () => {
+        this.router.navigate([this.url.back], { relativeTo: this.route });
+      }
     );
   }
 

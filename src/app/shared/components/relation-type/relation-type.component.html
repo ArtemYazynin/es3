@@ -1,17 +1,17 @@
-<div class="row">
+<div class="row" *ngIf="relationForm">
   <div class="col-md-6">
     <app-inquiry-info-edit [theme]="themes.Gray" title="Родственная связь">
-      <form [formGroup]="relationForm">
+      <div [formGroup]="relationForm">
         <mat-form-field>
           <mat-select formControlName="relationType" placeholder="Родственная связь" (selectionChange)="onChange(this)">
             <mat-option *ngFor="let item of relationTypes" [value]="item">{{item.name}}</mat-option>
           </mat-select>
         </mat-form-field>
-      </form>
+      </div>
     </app-inquiry-info-edit>
   </div>
 
-  <div class="col-md-6" *ngIf="owner.relationType?.confirmationDocument">
+  <div class="col-md-6" *ngIf="owner?.relationType?.confirmationDocument">
     <app-edit-confirmation-document title="Документ, подтверждающий право законного представителя представлять интересы ребенка"
       [model]="owner.parentRepresentChildrenDocument" [type]="attachmentTypes.ParentRepresentChildren">
     </app-edit-confirmation-document>

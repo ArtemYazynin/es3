@@ -56,6 +56,6 @@ export class RelationTypeComponent implements OnInit, OnDestroy {
   isValid() {
     if (!this.owner.relationType) return false;
     if (!this.owner.relationType.confirmationDocument) return true
-    return this.editConfirmationDocumentComponent && this.editConfirmationDocumentComponent.form.valid;
+    return !!this.editConfirmationDocumentComponent && !!this.editConfirmationDocumentComponent.form.valid;
   }
 }

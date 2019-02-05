@@ -36,64 +36,6 @@ export class ActionsButtonsService {
         }
     }
 
-    primaryActionApplicantTypeStep(inquiry: Inquiry, applicantType: ApplicantType, route: ActivatedRoute) {
-        Object.assign(inquiry, { applicantType: applicantType });
-        const clearAddressInfo = () => {
-            if (inquiry.parent) {
-                inquiry.parent.register = undefined;
-                inquiry.parent.residential = undefined;
-                inquiry.parent.tempRegistrationExpiredDate = undefined;
-                inquiry.parent.registerAddressLikeAsResidentialAddress = undefined;
-            }
-        }
-        switch (applicantType) {
-            case ApplicantType.Applicant:
-                clearAddressInfo();
-                this.storageService.set(inquiry.type, inquiry)
-                this.router.navigate(["../applicantStep"], { relativeTo: route });
-                break;
-            case ApplicantType.Parent:
-                inquiry.applicant = undefined;
-                this.storageService.set(inquiry.type, inquiry)
-                this.router.navigate(["../parentStep"], { relativeTo: route });
-                break;
-            case ApplicantType.Child:
-                inquiry.applicant = undefined;
-                inquiry.parent = undefined;
-                this.storageService.set(inquiry.type, inquiry);
-                this.router.navigate(["../contactInfoStep"], { relativeTo: route });
-            default:
-                break;
-        }
-    }
-
-    primaryActionCurrentEducationPlaceStep(editCurrentEducationPlaceComponent: EditCurrentEducationPlaceComponent, inquiryType: any, router: Router, route: ActivatedRoute) {
-        return () => {
-            this.inquiryService.saveCurrentEducationPlace(editCurrentEducationPlaceComponent, (patch) => {
-                this.storageService.set(inquiryType, patch);
-            })
-            router.navigate(["../applicantTypeStep"], { relativeTo: route });
-        }
-    }
-    inverseActionCurrentEducationPlaceStep(router: Router, route: ActivatedRoute) {
-        return () => {
-            router.navigate(["../childrenStep"], { relativeTo: route });
-        }
-    }
-
-    primaryActionContactInfoStep(editContactInfoComponent: EditContactInfoComponent, inquiryType: any, router: Router, route: ActivatedRoute) {
-        return () => {
-            this.inquiryService.saveContactInfo(editContactInfoComponent, (patch) => {
-                this.storageService.set(inquiryType, patch);
-            })
-            if (inquiryType == inquiryType.healthCamp) {
-                router.navigate(["../jobInfoStep"], { relativeTo: route });
-            } else {
-                router.navigate(["../privilegeStep"], { relativeTo: route });
-            }
-        }
-    }
-
     primaryActionPrivilegeStep(privilegeEditComponent: EditPrivilegeComponent, inquiry: Inquiry, route: ActivatedRoute) {
         return () => {
             this.inquiryService.savePrivilege(privilegeEditComponent, (patch) => {
@@ -186,23 +128,6 @@ export class ActionsButtonsService {
             }
         }
     }
-
-    primaryActionPreviewStep(inquiry: Inquiry, inquiryType: any, router: Router, route: ActivatedRoute) {
-        return () => {
-            timer(1000).pipe().subscribe((response) => {
-                inquiry.type = inquiryType;
-                this.inquiryService.create(inquiry).subscribe(inquiry => {
-                    router.navigate([`../registerComplete/${inquiry.id}`], { relativeTo: route });
-                });
-            })
-        }
-    }
-    inverseActionPreviewStep(router: Router, route: ActivatedRoute) {
-        return () => {
-            router.navigate(["../fileAttachmentStep"], { relativeTo: route });
-        }
-    }
-
     primaryActionRegisterComplete(router: Router, route: ActivatedRoute) {
         return () => {
             router.navigate(["../../childrenStep"], { relativeTo: route });

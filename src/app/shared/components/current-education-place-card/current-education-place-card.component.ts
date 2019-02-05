@@ -3,10 +3,9 @@ import { MatDialog } from '@angular/material';
 import { ActivatedRoute } from '@angular/router';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { skip, takeUntil } from 'rxjs/operators';
-import { BehaviorMode, CommonService, Entity, InquiryService, InstitutionService, Theme } from '../..';
 import { EditCurrentEducationPlaceDialogComponent } from '../../../modules/inquiry/edit-current-education-place-dialog/edit-current-education-place-dialog.component';
-import { CurrentEducationPlace, WizardStorageService } from '../../../modules/wizard/shared';
-import { CurrentEducationPlaceService } from '../../current-place.service';
+import { WizardStorageService } from '../../../modules/wizard/shared/index';
+import { BehaviorMode, CommonService, CurrentEducationPlace, CurrentEducationPlaceService, InquiryService, InstitutionType, Theme, InstitutionTypeService } from '../../index';
 
 @Component({
   selector: 'app-current-education-place-card',
@@ -21,14 +20,14 @@ export class CurrentEducationPlaceCardComponent implements OnInit, OnDestroy {
   private ngUnsubscribe: Subject<any> = new Subject();
   currentEducationPlace: CurrentEducationPlace;
   modes = BehaviorMode;
-  theme:Theme;
+  theme: Theme;
   themes = Theme;
 
   title = "Текущее место обучения ребенка";
-  $institutionType: Observable<Entity<number>[]>
+  $institutionType: Observable<InstitutionType>
 
-  constructor(private institutionService: InstitutionService, private route: ActivatedRoute, private dialog: MatDialog,
-    private currentEducationPlaceService: CurrentEducationPlaceService, private cdr: ChangeDetectorRef,
+  constructor(private route: ActivatedRoute, private dialog: MatDialog,
+    private currentEducationPlaceService: CurrentEducationPlaceService, private cdr: ChangeDetectorRef, private institutionTypeService: InstitutionTypeService,
     private storageService: WizardStorageService, private inquiryService: InquiryService, private commonService: CommonService) { }
 
   ngOnInit() {
@@ -38,12 +37,12 @@ export class CurrentEducationPlaceCardComponent implements OnInit, OnDestroy {
         .pipe(takeUntil(this.ngUnsubscribe))
         .subscribe(currentEducationPlace => {
           this.currentEducationPlace = currentEducationPlace;
-          this.$institutionType = this.institutionService.getTypes(this.currentEducationPlace.institutionType);
+          this.$institutionType = this.institutionTypeService.get(this.currentEducationPlace.institutionType);
           this.cdr.markForCheck();
         });
     } else {
       this.currentEducationPlace = this.storageService.get(this.inquiryType).currentEducationPlace;
-      this.$institutionType = this.institutionService.getTypes(this.currentEducationPlace.institutionType);
+      this.$institutionType = this.institutionTypeService.get(this.currentEducationPlace.institutionType);
     }
   }
 

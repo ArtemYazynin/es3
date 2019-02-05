@@ -36,7 +36,7 @@
     </ng-container>
     <ng-container *ngIf="currentPlaceForm.get('institution').value">
       <mat-form-field>
-        <mat-select formControlName="group" placeholder="Группа/Класс" (selectionChange)="onChange.group($event)">
+        <mat-select formControlName="group" placeholder="Группа/Класс">
           <mat-option value="" selected>Не выбрано</mat-option>
           <mat-option *ngFor="let item of groups" [value]="item.id">{{item.name}}</mat-option>
         </mat-select>
@@ -57,3 +57,12 @@
       образовательной организации нет в списке</mat-checkbox>
   </form>
 </app-inquiry-info-edit>
+<div class="alert-info">
+  <span>
+    <b>{{currentPlaceForm.value | json}}</b>
+  </span>
+  <span>currentPlaceForm.status:
+    <b>{{currentPlaceForm.status | json}}</b>
+  </span>
+</div>
+

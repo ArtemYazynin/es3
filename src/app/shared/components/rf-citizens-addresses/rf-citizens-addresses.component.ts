@@ -32,7 +32,7 @@ export class RfCitizensAddressesComponent implements OnInit, OnDestroy, AfterVie
     private formService: FormService) { }
 
   ngOnInit() {
-    this.buildForm(this.owner.tempRegistrationExpiredDate ? [Validators.required] : []);
+    this.buildForm(this.getDateValidators());
     this.form.controls.registerAddressLikeAsResidentialAddress.setValue(this.owner && this.owner.registerAddressLikeAsResidentialAddress);
 
     this.citizenshipService.getCountries()
@@ -45,6 +45,10 @@ export class RfCitizensAddressesComponent implements OnInit, OnDestroy, AfterVie
           });
         }
       });
+  }
+
+  private getDateValidators(): Array<Validators> {
+    return this.owner && this.owner.tempRegistrationExpiredDate ? [Validators.required] : [];
   }
 
   ngAfterViewInit() {
