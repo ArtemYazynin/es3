@@ -4,6 +4,7 @@ import { Observable, Subscription } from 'rxjs';
 import { ChildComponent } from '../../../modules/wizard/children-step/child/child.component';
 import { AttachmentType, SpecHealth, SpecHealthService } from '../../index';
 import { esConstant } from '../../../app.module';
+import { delay } from 'rxjs/operators';
 
 @Component({
   selector: 'app-spec-health',
@@ -24,7 +25,7 @@ export class SpecHealthComponent implements OnInit, AfterViewInit, OnDestroy {
     @Inject(esConstant) private esConstant) { }
 
   ngOnInit() {
-    this.subscription = this.specHealthService.gets().subscribe(specHealths => {
+    this.subscription = this.specHealthService.gets().pipe(delay(3000)).subscribe(specHealths => {
       this.specHealths = specHealths;
       this.specHealth = this.specHealth
         ? this.specHealths.find(x => x.code == this.specHealth.code)

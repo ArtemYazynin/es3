@@ -27,7 +27,6 @@ export * from "./addressBuilder/address-builder-director";
 
 
 export * from "./models/entity.model";
-export * from "./models/loader-state";
 export * from "./models/ibreadcrumb";
 export * from "./models/disability-type.model";
 export * from "./models/preschool-inquiry.model";
@@ -94,7 +93,6 @@ export * from "./common.service";
 export * from "./disability.service";
 export * from "./specificity.service";
 export * from "./privilege-order.service";
-export * from "./loader.service";
 
 export * from "./enum-to-array-pipe";
 export * from "./attachment-type.pipe";

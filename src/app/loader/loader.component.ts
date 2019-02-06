@@ -1,12 +1,12 @@
 import { Component, OnInit, OnDestroy, ChangeDetectionStrategy } from '@angular/core';
-import { LoaderService, LoaderState } from '../../index';
 import { Subscription } from 'rxjs';
+import { LoaderService } from '../shared/loader.service';
+import { LoaderState } from '../shared/models/loader-state';
 
 @Component({
   selector: 'app-loader',
   templateUrl: './loader.component.html',
-  styleUrls: ['./loader.component.css'],
-  //changeDetection: ChangeDetectionStrategy.OnPush
+  styleUrls: ['./loader.component.css']
 })
 export class LoaderComponent implements OnInit, OnDestroy {
   private subscription: Subscription;
