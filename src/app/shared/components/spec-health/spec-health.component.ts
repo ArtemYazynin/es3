@@ -25,6 +25,14 @@ export class SpecHealthComponent implements OnInit, AfterViewInit, OnDestroy {
     @Inject(esConstant) private esConstant) { }
 
   ngOnInit() {
+    
+  }
+
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
+  }
+
+  ngAfterViewInit(): void {
     this.subscription = this.specHealthService.gets().pipe(delay(3000)).subscribe(specHealths => {
       this.specHealths = specHealths;
       this.specHealth = this.specHealth
@@ -34,13 +42,5 @@ export class SpecHealthComponent implements OnInit, AfterViewInit, OnDestroy {
         this.cdr.markForCheck();
       });
     });
-  }
-
-  ngOnDestroy(): void {
-    this.subscription.unsubscribe();
-  }
-
-  ngAfterViewInit(): void {
-
   }
 }

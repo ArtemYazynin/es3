@@ -1,3 +1,6 @@
 <ng-container *ngIf="show">
   <mat-spinner></mat-spinner>
 </ng-container>
+<ng-container *ngIf="!show">
+  <ng-content></ng-content>
+</ng-container>

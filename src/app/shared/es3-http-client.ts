@@ -1,6 +1,8 @@
 import { HttpHeaders, HttpParams, HttpClient, HttpHandler } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
+import { finalize, tap, flatMap } from 'rxjs/operators';
+import { LoaderService } from './loader.service';
 
 export interface IRequestOptions {
   headers?: HttpHeaders;
@@ -12,18 +14,16 @@ export interface IRequestOptions {
   body?: any;
 }
 
-export function es3HttpClientCreator(httpHandler: HttpHandler) {
-  return new Es3HttpClient(httpHandler);
-}
-
-@Injectable({providedIn:"root"})
+@Injectable({ providedIn: "root" })
 export class Es3HttpClient extends HttpClient {
-  public constructor(handler: HttpHandler) {
+  public constructor(handler: HttpHandler, private loaderService: LoaderService) {
     super(handler)
   }
 
   Get<T>(endPoint: string, options?: IRequestOptions): Observable<T> {
-    return this.get<T>(endPoint, options);
+    return this.get<T>(endPoint, options).pipe(finalize(()=>{
+      this.loaderService.hide();
+    }));
   }
 
   public Post<T>(endPoint: string, params: Object, options?: IRequestOptions): Observable<T> {

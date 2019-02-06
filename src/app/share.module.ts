@@ -70,6 +70,7 @@ import { SchoolClassService } from "./shared/school-classes.service";
 import { FormGroupComponent } from './shared/components/form-group/form-group.component';
 import { InquiryViewComponent } from './shared/components/inquiry-view/inquiry-view.component';
 import { PetitionCardComponent } from './shared/components/petition-card/petition-card.component';
+import { LoaderComponent } from './loader/loader.component';
 
 
 @NgModule({
@@ -91,7 +92,7 @@ import { PetitionCardComponent } from './shared/components/petition-card/petitio
         EditCitizenshipsComponent, RelationTypeCardComponent, DisabilityComponent, SpecHealthCardComponent, EditSpecHealthComponent, FormGroupComponent,
         RoutingButtonsComponent,
         PetitionCardComponent,
-        InquiryViewComponent
+        InquiryViewComponent,LoaderComponent
     ],
     imports: [
         CommonModule,
