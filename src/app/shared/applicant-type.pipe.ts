@@ -19,7 +19,7 @@ export class ApplicantTypePipe implements PipeTransform {
       case ApplicantType.Applicant:
         return "Доверенное лицо законного представителя ребенка";
       case ApplicantType.Child:
-        return "Ребенок-заявитель";
+        return "Ребёнок-заявитель";
       default:
         return "-";
     }

@@ -7,7 +7,7 @@ export class DublicatesFinder {
             collection.push(child.identityCard)
         });
         if (this.hasDublicates(collection)) {
-            alert("Законный представитель и ребенок/дети имеют одинаковые персональные данные")
+            alert("Законный представитель и ребёнок/дети имеют одинаковые персональные данные")
             return true;
         }
         return false;
@@ -19,7 +19,7 @@ export class DublicatesFinder {
             collection.push(child.identityCard)
         });
         if (this.hasDublicates(collection)) {
-            alert("Доверенное лицо законного представителя и ребенок/дети имеют одинаковые персональные данные")
+            alert("Доверенное лицо законного представителя и ребёнок/дети имеют одинаковые персональные данные")
             return true;
         }
         return false;
