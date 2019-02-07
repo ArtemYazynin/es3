@@ -23,8 +23,6 @@ export class ChangeToBirthCertificate extends IdentityCardChangeTemplate {
                 Validators.minLength(1),
                 Validators.pattern("^[а-яА-ЯёЁ0-9]{1,22}$")
             ]);
-        this.updateValidators("actRecordDate", [Validators.required]);
-        this.updateValidators("actRecordPlace", [Validators.required]);
     }
     setValidationMessages() {
         this.validationMessages["series"].pattern = "Поле должно содержать римское число, дефис, две прописные русские буквы";
