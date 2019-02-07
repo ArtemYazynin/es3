@@ -1,5 +1,5 @@
+import { FormGroup, Validators } from "@angular/forms";
 import { IdentityCardChangeTemplate } from "./identity-card-change-template";
-import { Validators, FormGroup } from "@angular/forms";
 
 export class ChangeToBirthCertificate extends IdentityCardChangeTemplate {
     constructor(identityCardForm: FormGroup, isAvailable: any, private validationMessages: any) {
@@ -19,9 +19,9 @@ export class ChangeToBirthCertificate extends IdentityCardChangeTemplate {
         this.updateValidators("actRecordNumber",
             [
                 Validators.required,
-                Validators.maxLength(6),
-                Validators.minLength(6),
-                Validators.pattern("^\\d{1,6}$")
+                Validators.maxLength(22),
+                Validators.minLength(1),
+                Validators.pattern("^[а-яА-ЯёЁ0-9]{1,22}$")
             ]);
         this.updateValidators("actRecordDate", [Validators.required]);
         this.updateValidators("actRecordPlace", [Validators.required]);

@@ -1,5 +1,5 @@
-import { IdentityCardType } from "./identityCardType";
 import { FormGroup } from "@angular/forms";
+import { IdentityCardType } from "./identityCardType";
 
 export class IdentityCard {
     hashCode: number;
@@ -19,7 +19,7 @@ export class IdentityCard {
     checkSum: string;
 
     constructor(fg?: FormGroup) {
-        
+
         if (fg) {
             this.identityCardType = fg.value["identityCardType"];
             this.series = fg.value["series"];
@@ -98,8 +98,8 @@ export class IdentityCard {
             },
             actRecordNumber: {
                 "required": "Обязательное поле.",
-                "maxlength": "Максимальная длина 6 цифр.",
-                "pattern": "Формат 6 цифр"
+                "maxlength": "Максимальная длина 22 символа.",
+                "pattern": "Поле должно содержать только буквы русского алфавита и цифры"
             }
         }
     }
