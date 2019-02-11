@@ -1,6 +1,6 @@
-<ng-container *ngIf="show">
-  <mat-spinner></mat-spinner>
-</ng-container>
+<div *ngIf="show" style="padding-left: 45%; padding-top: 5%;">
+  <mat-spinner [diameter]="diameter"></mat-spinner>
+</div>
 <ng-container *ngIf="!show">
   <ng-content></ng-content>
 </ng-container>

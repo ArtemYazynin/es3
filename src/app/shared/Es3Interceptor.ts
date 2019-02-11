@@ -10,7 +10,7 @@ export class Es3Interceptor implements HttpInterceptor {
         
     }
     intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-        this.loaderService.show();
+        //this.loaderService.show();
         if (!(req.body instanceof Inquiry) && (req.method === "PUT" || req.method === "POST")) {
             return of(new HttpResponse({
                 body: req.body

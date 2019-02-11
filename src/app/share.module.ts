@@ -115,7 +115,7 @@ import { LoaderComponent } from './loader/loader.component';
         DisabilityComponent, SpecHealthCardComponent, EditSpecHealthComponent, FormGroupComponent,
         RoutingButtonsComponent,
 
-        InquiryViewComponent
+        InquiryViewComponent,LoaderComponent
     ],
     providers: [
         StatusService, SpecializationService, ConfirmationDocumentService, FamilyInfoService,
