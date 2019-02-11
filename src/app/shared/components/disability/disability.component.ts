@@ -21,7 +21,7 @@ export class DisabilityComponent implements OnInit, OnDestroy {
   constructor(private disabilityService: DisabilityService, private cdr: ChangeDetectorRef) { }
 
   ngOnInit() {
-    this.subscription = this.disabilityService.get().subscribe(data => {
+    this.subscription = this.disabilityService.gets().subscribe(data => {
       this.disabilities = data;
       if (this.model) {
         this.disabledChild = this.model.disabledChild;
