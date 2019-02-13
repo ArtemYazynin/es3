@@ -1,5 +1,5 @@
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { StayModeComponent } from './stay-mode.component';
 
 describe('StayModeComponent', () => {
@@ -8,9 +8,11 @@ describe('StayModeComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ StayModeComponent ]
+      schemas: [NO_ERRORS_SCHEMA],
+      //imports: [FormsModule, MaterialModule],
+      declarations: [StayModeComponent]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {

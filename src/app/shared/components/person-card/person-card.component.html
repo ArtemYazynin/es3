@@ -6,7 +6,7 @@
     <ng-container *ngIf="personType == personTypes.Child">
       <app-form-group label="Дата рождения" [name]="person.birthDate | date: 'dd.MM.yyyy'"></app-form-group>
       <app-form-group label="Место рождения" [name]="person.birthPlace"></app-form-group>
-      <app-form-group label="Ребенок-инвалид" [name]="person.disabledChild | yesNo" *ngIf="!person.disabilityType"></app-form-group>
+      <app-form-group label="Ребёнок-инвалид" [name]="person.disabledChild | yesNo" *ngIf="!person.disabilityType"></app-form-group>
       <app-form-group label="Группа инвалидности" [name]="person.disabilityType.name" *ngIf="person.disabilityType"></app-form-group>
     </ng-container>
     <ng-content></ng-content>
