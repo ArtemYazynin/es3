@@ -22,7 +22,8 @@ export class Es3HttpClient extends HttpClient {
 
   Get<T>(endPoint: string, options?: IRequestOptions): Observable<T> {
     return this.get<T>(endPoint, options).pipe(finalize(()=>{
-      //this.loaderService.hide();
+      this.loaderService.hide();
+      
     }));
   }
 

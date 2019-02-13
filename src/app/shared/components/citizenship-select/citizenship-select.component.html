@@ -3,11 +3,13 @@
     <label for="citizenship">Гражданство
       <b style="color: red;">*</b>
     </label>
-    <ng-select class="citizenship-select" [(ngModel)]="citizenships" (change)="onChange($event)" [clearable]="false"
-      [multiple]="true" placeholder="Не выбрано">
-      <ng-option *ngFor="let item of countries" [value]="item.id">
-        {{item.name}}
-      </ng-option>
-    </ng-select>
+    <app-loader>
+      <ng-select class="citizenship-select" [(ngModel)]="citizenships" (change)="onChange($event)" [clearable]="false"
+        [multiple]="true" placeholder="Не выбрано">
+        <ng-option *ngFor="let item of countries" [value]="item.id">
+          {{item.name}}
+        </ng-option>
+      </ng-select>
+    </app-loader>
   </div>
 </app-inquiry-info-edit>

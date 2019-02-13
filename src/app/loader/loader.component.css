@@ -9,3 +9,9 @@
     opacity: 1;
     z-index: 500000;
 }
+
+.loading {
+    position: relative;
+    padding: 15px;
+  }
+  

@@ -11,6 +11,7 @@ import { Applicant, CitizenshipService, BehaviorMode, Country, InquiryService, P
 import { Child } from '../../models/child.model';
 import { ConfirmationDocument } from '../../models/confirmation-document.model';
 import { PersonType } from '../../person-type.enum';
+import { CountryService } from '../../country.service';
 
 @Component({
   selector: 'app-citizenships-card',
@@ -35,7 +36,7 @@ export class CitizenshipsCardComponent implements OnInit, OnDestroy {
   themes = Theme;
   theme: Theme;
 
-  constructor(public drawService: DrawService, private citizenshipService: CitizenshipService, private dialog: MatDialog,
+  constructor(public drawService: DrawService, private countryService: CountryService, private dialog: MatDialog,
     private commonService: CommonService, private inquiryService: InquiryService, private route: ActivatedRoute,
     private cdr: ChangeDetectorRef) { }
 
@@ -72,7 +73,7 @@ export class CitizenshipsCardComponent implements OnInit, OnDestroy {
         });
     }
 
-    this.citizenshipService.getCountries()
+    this.countryService.gets()
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(data => {
         this.countries = data;

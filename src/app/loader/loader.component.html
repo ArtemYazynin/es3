@@ -1,5 +1,5 @@
-<div *ngIf="show" style="padding-left: 45%; padding-top: 5%;">
-  <mat-spinner [diameter]="diameter"></mat-spinner>
+<div class="loading" *ngIf="show" style="padding-left: 45%; padding-top: 5%;">
+  <ngx-loading [show]="show" [config]="{ backdropBackgroundColour: 'rgba(255,255,255,0)', primaryColour: '#6E6E6E', secondaryColour: '#585858', tertiaryColour: '#424242' }"></ngx-loading>
 </div>
 <ng-container *ngIf="!show">
   <ng-content></ng-content>

@@ -1,11 +1,13 @@
-import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CitizenshipService, Country, Theme } from '../../index';
+import { CountryService } from '../../country.service';
 
 @Component({
   selector: 'app-citizenship-select',
   templateUrl: './citizenship-select.component.html',
   styleUrls: ['./citizenship-select.component.css'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
+ 
 })
 export class CitizenshipSelectComponent implements OnInit {
   private _citizenships: Array<number> = [];
@@ -21,10 +23,13 @@ export class CitizenshipSelectComponent implements OnInit {
   }
   countries: Array<Country> = [];
 
-  constructor(private citizenshipService: CitizenshipService) { }
+  constructor(private countryService: CountryService, private citizenshipService: CitizenshipService, private cdr: ChangeDetectorRef) { }
 
   ngOnInit() {
-    this.citizenshipService.getCountries().subscribe(result => { this.countries = result; });
+    this.countryService.gets().subscribe(result => { 
+      this.countries = result; 
+      this.cdr.markForCheck();
+    });
   }
   onChange(citienships) {
     const withoutCitizenships = 0;
@@ -36,15 +41,15 @@ export class CitizenshipSelectComponent implements OnInit {
     }
   }
 
-  hasRfCitizenship(){
+  hasRfCitizenship() {
     return this.hasCitizenships() && this.citizenships.indexOf(643) >= 0;
   }
 
-  hasForeignCitizenship(){
+  hasForeignCitizenship() {
     return this.hasCitizenships() && this.citizenshipService.hasForeignCitizenship(this.citizenships, this.countries);
   }
 
-  private hasCitizenships(){
+  private hasCitizenships() {
     return this.citizenships.length > 0;
   }
 }

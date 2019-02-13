@@ -1,7 +1,4 @@
-import { Component, OnInit, Input, ChangeDetectionStrategy, AfterViewInit, AfterContentInit, ChangeDetectorRef } from '@angular/core';
-import { LoaderService } from '../../../shared/loader.service';
-import { Router, NavigationEnd } from '@angular/router';
-import { timeout } from 'rxjs/operators';
+import { AfterViewInit, ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-step',
@@ -12,13 +9,11 @@ import { timeout } from 'rxjs/operators';
 export class StepComponent implements OnInit, AfterViewInit {
 
   @Input() title: string;
-  constructor(private loaderService: LoaderService, private cdr: ChangeDetectorRef) { }
+  constructor() { }
 
   ngOnInit() {
   }
 
   ngAfterViewInit(): void {
-    // this.loaderService.hide();
-    // this.cdr.markForCheck();
   }
 }

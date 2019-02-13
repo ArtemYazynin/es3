@@ -6,6 +6,7 @@ import { takeUntil } from 'rxjs/operators';
 import { Address, addressTypes, Applicant, Child, CitizenshipService, Parent, PersonWithAddress, CommonService, FormService, Theme } from '../../index';
 import { AddressComponent } from '../address/address.component';
 import { ControlInfo } from '../../models/controlInfo.model';
+import { CountryService } from '../../country.service';
 
 @Component({
   selector: 'app-rf-citizens-addresses',
@@ -28,23 +29,18 @@ export class RfCitizensAddressesComponent implements OnInit, OnDestroy, AfterVie
   residentialAddress: Address;
   themes = Theme;
 
-  constructor(private citizenshipService: CitizenshipService, private fb: FormBuilder, private cdr: ChangeDetectorRef, private commonService: CommonService,
+  constructor(private fb: FormBuilder, private cdr: ChangeDetectorRef, private commonService: CommonService,
     private formService: FormService) { }
 
   ngOnInit() {
     this.buildForm(this.getDateValidators());
     this.form.controls.registerAddressLikeAsResidentialAddress.setValue(this.owner && this.owner.registerAddressLikeAsResidentialAddress);
-
-    this.citizenshipService.getCountries()
-      .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe(countries => {
-        if (this.owner && this.owner.citizenships && this.citizenshipService.hasRfCitizenship(this.owner.citizenships, countries)) {
-          this.form.patchValue({
-            temporaryRegistration: !!this.owner.tempRegistrationExpiredDate,
-            tempRegistrationExpiredDate: this.owner.tempRegistrationExpiredDate
-          });
-        }
+    if (this.owner && this.owner.citizenships && this.owner.citizenships.includes(643)) {
+      this.form.patchValue({
+        temporaryRegistration: !!this.owner.tempRegistrationExpiredDate,
+        tempRegistrationExpiredDate: this.owner.tempRegistrationExpiredDate
       });
+    }
   }
 
   private getDateValidators(): Array<Validators> {

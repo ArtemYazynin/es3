@@ -1,16 +1,17 @@
-import { Component, Input, OnInit, QueryList, ViewChildren, ChangeDetectionStrategy, AfterViewInit, OnDestroy, ChangeDetectorRef, Inject } from '@angular/core';
-import { EditConfirmationDocumentComponent } from '../edit-confirmation-document/edit-confirmation-document.component';
-import { Observable, Subscription } from 'rxjs';
+import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, Inject, Input, OnDestroy, OnInit, QueryList, ViewChildren } from '@angular/core';
+import { Subscription } from 'rxjs';
+import { delay } from 'rxjs/operators';
+import { esConstant } from '../../../app.module';
 import { ChildComponent } from '../../../modules/wizard/children-step/child/child.component';
 import { AttachmentType, SpecHealth, SpecHealthService } from '../../index';
-import { esConstant } from '../../../app.module';
-import { delay } from 'rxjs/operators';
+import { EditConfirmationDocumentComponent } from '../edit-confirmation-document/edit-confirmation-document.component';
 
 @Component({
   selector: 'app-spec-health',
   templateUrl: './spec-health.component.html',
   styleUrls: ['./spec-health.component.css'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  host: { 'class': 'host' }
 })
 export class SpecHealthComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChildren(EditConfirmationDocumentComponent) documentComponents: QueryList<EditConfirmationDocumentComponent>;
@@ -20,20 +21,11 @@ export class SpecHealthComponent implements OnInit, AfterViewInit, OnDestroy {
   attachmentType = AttachmentType;
   specHealths: Array<SpecHealth>;
   subscription: Subscription;
-
-  constructor(private specHealthService: SpecHealthService, private cdr: ChangeDetectorRef,
-    @Inject(esConstant) private esConstant) { }
+  //isSpinnerVisibile: boolean;
+  constructor(private specHealthService: SpecHealthService, private cdr: ChangeDetectorRef, @Inject(esConstant) private esConstant) { }
 
   ngOnInit() {
-    
-  }
-
-  ngOnDestroy(): void {
-    this.subscription.unsubscribe();
-  }
-
-  ngAfterViewInit(): void {
-    this.subscription = this.specHealthService.gets().pipe(delay(3000)).subscribe(specHealths => {
+    this.subscription = this.specHealthService.gets().subscribe(specHealths => {
       this.specHealths = specHealths;
       this.specHealth = this.specHealth
         ? this.specHealths.find(x => x.code == this.specHealth.code)
@@ -42,5 +34,13 @@ export class SpecHealthComponent implements OnInit, AfterViewInit, OnDestroy {
         this.cdr.markForCheck();
       });
     });
+  }
+
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
+  }
+
+  ngAfterViewInit(): void {
+    
   }
 }

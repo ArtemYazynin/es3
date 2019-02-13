@@ -1,19 +1,17 @@
-import { HttpClient } from '@angular/common/http';
-import { Inject, Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-import { map } from "rxjs/operators";
-import { SERVER_URL } from '../app.module';
-import { RelationType } from './models/relation-type.model';
+import { Injectable, Injector } from '@angular/core';
+import { DataSourceService } from './data-source.service';
 import { Es3HttpClient } from './es3-http-client';
+import { RelationType } from './models/relation-type.model';
 
 @Injectable()
 export class RelationTypeService {
 
-  constructor(private http:Es3HttpClient, @Inject(SERVER_URL) private serverUrl) { }
+  private dataSource: DataSourceService<RelationType>;
+  constructor(http: Es3HttpClient, injector: Injector) {
+    this.dataSource = new DataSourceService<RelationType>(http, injector, "relationTypes");
+  }
 
-  get(): Observable<Array<RelationType>> {
-    return this.http.Get(`${this.serverUrl}/relationTypes`).pipe(map(result => {
-      return <Array<RelationType>>result;
-    }));
+  gets() {
+    return this.dataSource.gets();
   }
 }

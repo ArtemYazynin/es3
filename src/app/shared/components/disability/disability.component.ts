@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { Child, DisabilityService, DisabilityType, inquiryType } from '../../index';
+import { delay } from 'rxjs/operators';
 
 @Component({
   selector: 'app-disability',

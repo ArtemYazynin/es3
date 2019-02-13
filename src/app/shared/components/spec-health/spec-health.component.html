@@ -1,18 +1,16 @@
 <app-loader>
-  <ng-container>
-    <mat-form-field class="citizenship-select">
-      <mat-select [(ngModel)]="specHealth" placeholder="Наличие ОВЗ">
-        <mat-option *ngFor="let item of specHealths" [value]="item">{{item.name}}</mat-option>
-      </mat-select>
-    </mat-form-field>
-    <ng-container class="row" *ngIf="specHealth && specHealth.code != 101">
-      <div *ngFor="let childComponent of childrenComponents">
-        <div [hidden]="!(childComponent.instance.show | async)">
-          <app-edit-confirmation-document type="attachmentType.SpecHealthDocument" title="Документ, подтверждающий потребность в группе с ОВЗ"
-            [model]="childComponent.instance.child?.specHealthDocument">
-          </app-edit-confirmation-document>
-        </div>
+  <mat-form-field class="citizenship-select">
+    <mat-select [(ngModel)]="specHealth" placeholder="Наличие ОВЗ">
+      <mat-option *ngFor="let item of specHealths" [value]="item">{{item.name}}</mat-option>
+    </mat-select>
+  </mat-form-field>
+  <ng-container class="row" *ngIf="specHealth && specHealth.code != 101">
+    <div *ngFor="let childComponent of childrenComponents">
+      <div [hidden]="!(childComponent.instance.show | async)">
+        <app-edit-confirmation-document type="attachmentType.SpecHealthDocument" title="Документ, подтверждающий потребность в группе с ОВЗ"
+          [model]="childComponent.instance.child?.specHealthDocument">
+        </app-edit-confirmation-document>
       </div>
-    </ng-container>
+    </div>
   </ng-container>
 </app-loader>

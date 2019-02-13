@@ -71,7 +71,7 @@ import { FormGroupComponent } from './shared/components/form-group/form-group.co
 import { InquiryViewComponent } from './shared/components/inquiry-view/inquiry-view.component';
 import { PetitionCardComponent } from './shared/components/petition-card/petition-card.component';
 import { LoaderComponent } from './loader/loader.component';
-
+import { NgxLoadingModule } from 'ngx-loading';
 
 @NgModule({
     declarations: [
@@ -101,7 +101,7 @@ import { LoaderComponent } from './loader/loader.component';
         ReactiveFormsModule,
         TextMaskModule,
         NgSelectModule,
-
+        NgxLoadingModule.forRoot({})
     ],
     exports: [
         EditPrivilegeComponent, EditConfirmationDocumentComponent, ApplicantTypePipe, AttachmentTypePipe, InquiryTypeFriendlyNamePipe, EditFullNameComponent, GenderComponent,

@@ -6,17 +6,14 @@ import { LoaderState } from '../shared/models/loader-state';
 @Component({
   selector: 'app-loader',
   templateUrl: './loader.component.html',
-  styleUrls: ['./loader.component.css'],
-  //changeDetection:ChangeDetectionStrategy.OnPush
+  styleUrls: ['./loader.component.css']
 })
 export class LoaderComponent implements OnInit, OnDestroy {
-  @Input() diameter?:number;
   private subscription: Subscription;
   show = false;
-  constructor(private loaderService: LoaderService, private cdr:ChangeDetectorRef) { }
+  constructor(private loaderService: LoaderService) { }
 
   ngOnInit() {
-    this.diameter = this.diameter || 100;
     this.subscription = this.loaderService.loaderState
       .subscribe((state: LoaderState) => {
         this.show = state.show;

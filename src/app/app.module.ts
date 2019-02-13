@@ -22,6 +22,7 @@ import { InquiryViewResolver } from './shared/inquiry-view-resolver';
 import { HTTP_INTERCEPTORS, HttpClientModule, HttpClient, HttpHandler } from '@angular/common/http';
 import { Es3Interceptor } from './shared/Es3Interceptor';
 import { Es3HttpClient } from './shared/es3-http-client';
+import { NgxLoadingModule } from 'ngx-loading';
 
 export const esConstant = new InjectionToken<any>("esConstant");
 export const SERVER_URL = new InjectionToken<string>("SERVER_URL");
@@ -40,7 +41,8 @@ const constants = {
     BrowserAnimationsModule,
     MyDatePickerModule,
     JsonpModule,
-    HttpClientModule
+    HttpClientModule,
+    NgxLoadingModule.forRoot({})
   ],
   exports: [],
   providers: [

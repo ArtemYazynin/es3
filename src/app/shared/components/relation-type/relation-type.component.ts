@@ -26,7 +26,7 @@ export class RelationTypeComponent implements OnInit, OnDestroy {
     this.buildForm();
 
     if (!this.owner) this.owner = new Parent(undefined, undefined, undefined, undefined, false, undefined, undefined, undefined);
-    this.subscription = this.relationTypeService.get().subscribe(result => {
+    this.subscription = this.relationTypeService.gets().subscribe(result => {
       this.relationTypes = result;
       if (this.owner.relationType) {
         this.owner.relationType = this.relationTypes.find(x => x.id == this.owner.relationType.id);

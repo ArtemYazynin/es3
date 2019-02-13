@@ -6,6 +6,7 @@ import { IdentityCardComponent } from '../../../../../shared/components/identity
 import { SnilsComponent } from '../../../../../shared/components/snils/snils.component';
 import { Applicant, CitizenshipService, Country, IdentityCard, IdentityCardType, Parent, Person } from '../../../../../shared/index';
 import { PersonType } from '../../../../../shared/person-type.enum';
+import { CountryService } from '../../../../../shared/country.service';
 
 @Component({
   selector: 'app-edit-person',
@@ -27,10 +28,10 @@ export class EditPersonComponent implements OnInit, OnDestroy {
   groupOfIdentityCardTypeId: Array<number> = [];
   countries: Array<Country> = [];
 
-  constructor(private citizenshipService: CitizenshipService) { }
+  constructor(private countryService: CountryService) { }
 
   ngOnInit() {
-    this.subscription = this.citizenshipService.getCountries().subscribe(countries => this.countries = countries);
+    this.subscription = this.countryService.gets().subscribe(countries => this.countries = countries);
     switch (this.personType) {
       case PersonType.Child:
         this.groupOfIdentityCardTypeId = [

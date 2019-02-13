@@ -10,20 +10,7 @@ import { Es3HttpClient } from './es3-http-client';
 @Injectable()
 export class CitizenshipService {
 
-  constructor(private http:Es3HttpClient, @Inject(SERVER_URL) private serverUrl) { }
-
-  getCountries(): Observable<Array<Country>> {
-    const key = "countries";
-    const data = localStorage.getItem(key);
-    if (isNullOrUndefined(data)) {
-      return this.http.Get(`${this.serverUrl}/${key}`).pipe(map(result => {
-        let countries = <Array<Country>>result;
-        localStorage.setItem(key, JSON.stringify(countries));
-        return countries;
-      }));
-    }
-    return of(JSON.parse(data));
-  }
+  constructor() { }
 
   hasForeignCitizenship(citizenships: Array<number>, countries: Array<Country>) {
     if (!citizenships || !countries || countries.length == 0) return false;
